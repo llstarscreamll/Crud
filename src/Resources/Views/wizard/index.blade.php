@@ -2,7 +2,7 @@
 
 @section('title') Galerías @stop
 
-@section('style-after')
+@section('style')
 
 @endsection
 
