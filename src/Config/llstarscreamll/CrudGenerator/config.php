@@ -37,6 +37,15 @@ return $config = [
         'create',
     ],
 
+    'tests' => [
+        'Base',
+        'Index',
+        'Create',
+        'Edit',
+        'Show',
+        'Delete'
+    ],
+
     /*
      * El direcotrio que contiene las plantillas.
      */
@@ -53,5 +62,8 @@ return $config = [
     'layout'    => 'CoreModule::app',
 
     // tipos de datos de tablas numéricos
-    'numeric-input-types'   => ['int','unsigned_int','float','double'], 
+    'numeric-input-types'   => ['int','unsigned_int','float','double'],
+
+    // campos de control del sistema, para imprimir en vista show
+    'system-fields' => ['created_at', 'updated_at', 'deleted_at'],
 ];
