@@ -9,9 +9,9 @@
 namespace {{$gen->studlyCasePlural()}};
 
 use \FunctionalTester;
-use Page\Functional\{{$gen->studlyCasePlural()}}\Edit as Page;
+use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
-class EditCest
+class {{$test}}Cest
 {
     public function _before(FunctionalTester $I)
     {

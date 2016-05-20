@@ -58,16 +58,6 @@ class TestsGenerator extends BaseGenerator
             // entonces la creo
             mkdir($this->langDir(), 0777, true);
         }
-        
-        // los ficheros a crear
-        $tests = [
-            'Create',
-            'Base',
-            //'Index',
-            //'Show',
-            'Edit',
-            //'Delete'
-        ];
 
         ///////////////////////////////////
         // genero los archivos de idioma //
@@ -97,7 +87,7 @@ class TestsGenerator extends BaseGenerator
         $this->msg_success[] = "composer dumpautoload exitoso: ".$command;
 
         // recorro el array de tests que debo crear
-        foreach ($tests as $test) {
+        foreach (config('llstarscreamll.CrudGenerator.config.tests') as $test) {
 
             // genero los page objects
             if (! $this->generatePageObject($test)) {

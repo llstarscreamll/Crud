@@ -51,11 +51,6 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
 	@endif
 
     /**
-     * @var \FunctionalTester;
-     */
-    protected $functionalTester;
-
-    /**
      * Los campos del formulario de creación.
      * @var array
      */
@@ -74,6 +69,18 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
     static $updateFormFields = [
         @foreach($fields as $field)
             @if($field->on_update_form_field)
+                '{{$field->name}}',
+            @endif
+        @endforeach
+    ];
+
+    /**
+     * Los campos a ocultar.
+     * @var array
+     */
+    static $hiddenFields = [
+        @foreach($fields as $field)
+            @if($field->hidden)
                 '{{$field->name}}',
             @endif
         @endforeach
@@ -100,6 +107,11 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
      */
     static $date;
     @endif
+
+    /**
+     * @var \FunctionalTester;
+     */
+    protected $functionalTester;
 
     /**
      * Instancia de la clase Base.

@@ -9,7 +9,7 @@
 namespace {{$gen->studlyCasePlural()}};
 
 use \FunctionalTester;
-use Page\Functional\{{$gen->studlyCasePlural()}}\Create as Page;
+use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
 class {{$test}}Cest
 {

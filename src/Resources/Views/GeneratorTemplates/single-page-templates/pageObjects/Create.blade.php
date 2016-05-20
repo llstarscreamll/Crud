@@ -48,11 +48,6 @@ class {{$test}} extends Base
      */
     static $msgSuccess = array();
 
-    /**
-     * @var \FunctionalTester;
-     */
-    protected $functionalTester;
-
     public function __construct(\FunctionalTester $I)
     {
         $this->functionalTester = $I;
