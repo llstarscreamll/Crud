@@ -176,7 +176,7 @@ class {{$gen->controllerClassName()}} extends Controller
     public function destroy(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
     {
         ${{$gen->modelVariableName()}}->delete();
-        $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.destroy{{$gen->snakeCaseSingular()}}_success'));
+        $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_success'));
         
         return redirect()->route('{{$gen->route().'.index'}}');
     }
