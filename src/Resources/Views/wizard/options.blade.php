@@ -95,6 +95,11 @@
                         {!! Form::text('single_entity_name', null, ['class' => 'form-control']) !!}
                     </div>
 
+                    <div class="form-group col-sm-4 col-md-3">
+                        {!! Form::label('id_for_user', 'Id para usuario') !!}
+                        {!! Form::select('id_for_user', ($names_list = collect($fields)->lists('name', 'name')), isset($names_list['name']) ? $names_list['name'] : null, ['class' => 'form-control']) !!}
+                    </div>
+
                     <div class="clearfix"></div>
 
                     <div class="col-xs-12">
@@ -108,6 +113,7 @@
                                 <th>Key</th>
                                 <th>MaxLen.</th>
                                 <th>Fillable?</th>
+                                <th>Hidden?</th>
                                 <th>Form Field?</th>
                                 <th>On Update Form?</th>
                                 <th>TestData</th>
@@ -150,6 +156,14 @@
                                         ]) !!}
                                     </td>
                                     <td>
+                                        {!! Form::checkbox("field[$i][hidden]", true, null, [
+                                            'class' => 'bootstrap_switch',
+                                            'data-size' => 'small',
+                                            'data-on-text' => 'SI',
+                                            'data-off-text' => 'NO',
+                                        ]) !!}
+                                    </td>
+                                    <td>
                                         {!! Form::checkbox("field[$i][in_form_field]", true, null, [
                                             'class' => 'bootstrap_switch',
                                             'data-size' => 'small',
@@ -172,10 +186,10 @@
                                         {!! Form::text("field[$i][testDataUpdate]", null, ['class' => 'form-control', 'placeholder' => 'null']) !!}
                                     </td>
                                     <td>
-                                        {!! Form::text("field[$i][label]", null, ['class' => 'form-control', 'required']) !!}
+                                        {!! Form::text("field[$i][label]", null, ['class' => 'form-control', 'required', 'placeholder' => $fields[$i]->name.' label']) !!}
                                     </td>
                                     <td>
-                                        {!! Form::text("field[$i][validation_rules]", null, ['class' => 'form-control']) !!}
+                                        {!! Form::text("field[$i][validation_rules]", null, ['class' => 'form-control', 'placeholder' => $fields[$i]->name.' rules']) !!}
                                     </td>
                                 </tr>
                                 @endfor
@@ -189,7 +203,8 @@
                     <div class="clearfix"></div>
                     <div class="form-group col-xs-12">
                         <button type="submit" class="btn btn-primary">
-                            Generar
+                            <span class="fa fa-magic"></span>
+                            <span>Generar</span>
                         </button>
                     </div>
 

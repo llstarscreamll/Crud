@@ -76,6 +76,7 @@ class BaseGenerator
             $field->key = $field_data['key'];
             $field->maxLength = $field_data['maxLength'];
             $field->fillable = isset($field_data['fillable']);
+            $field->hidden = isset($field_data['hidden']);
             $field->in_form_field = isset($field_data['in_form_field']);
             $field->on_update_form_field = isset($field_data['on_update_form_field']);
             $field->testData = empty($field_data['testData']) ? 'null' : $field_data['testData'];
