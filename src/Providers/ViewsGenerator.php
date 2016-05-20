@@ -195,16 +195,16 @@ class ViewsGenerator extends BaseGenerator
     }
 
     /**
-     * [getFormInputMarkup description]
+     * Devuelve string del código de los elementos de formulario.
      * @param  StdClass $field
      * @param  string $modelName
-     * @return string
+     * @return string|bool
      */
-    public function getFormInputMarkup($field, $table_name)
+    public function getFormInputMarkup($field, $table_name, $checkSkippedFields = false)
     {
         // $field es un campo de los que debo omitir?
-        if (in_array($field->name, $this->skippedFields())) {
-            return "";
+        if (in_array($field->name, $this->skippedFields()) && $checkSkippedFields === false) {
+            return false;
         }
 
         // ****************************************************************************

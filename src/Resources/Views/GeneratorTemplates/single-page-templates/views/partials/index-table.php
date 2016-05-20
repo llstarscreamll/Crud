@@ -5,7 +5,7 @@
 ?>
 
 <div class="table-responsive">
-					<table class="table table-striped">
+					<table class="table table-striped table-hover">
 		    
 					    <thead>
 					    	{{-- Nombres de columnas de tabla --}}
@@ -56,12 +56,11 @@
 
 					    <tbody>
 					    	@forelse ( $records as $record )
-						    	<tr>
-<?php foreach ($fields as $field) {
-    ?>
+						    	<tr class="item-{{$record->id}}">
+							<?php foreach ($fields as $field) { ?>
 									<td>
-<?php if (!$gen->isGuarded($field->name)) {
-    ?>
+								<?php if (! $gen->isGuarded($field->name)) { ?>
+
 										<span class="editable"
 											  data-type="<?=$gen->getInputType($field)?>"
 											  data-name="<?=$field->name?>"
@@ -72,17 +71,15 @@
 											  <?=$gen->getSourceForEnum($field)?>>
 												{{ $record-><?=$field->name?> }}
 											  </span>
-<?php 
-} else {
-    ?>
+
+								<?php } else { ?>
+
 										{{-- Los campos protejidos no son editables --}}
 										{{ $record-><?=$field->name?> }}
-<?php 
-}
-    ?>
+
+								<?php } // end if ?>
 									</td>
-<?php 
-} ?>
+							<?php } // endforeach ?>
 									{{-- Los botones de acción para cada registro --}}
 									<td class="actions-cell">
 										{!! Form::open(['route' => ['<?=$gen->route()?>.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline']) !!}
