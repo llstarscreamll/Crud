@@ -50,14 +50,14 @@ return [
 
     // vista show
     'show'    => [
-        'name'          => 'Detalles',
-        'long-name'     => 'Detalles de {!!$request->get('single_entity_name')!!}',
-        'btn-trash'     => 'Mover a Papelera',
-        'btn-edit'      => 'Editar',
-        'modal-confirm-trash-title'   => 'Está Seguro?',
-        'modal-confirm-trash-body'    => 'No volvera a ver la información de <strong>:user</strong>',
-        'modal-confirm-trash-btn-confirm'   => 'Confirmar',
-        'modal-confirm-trash-btn-cancel'    => 'Cancelar',
+        'name'                                      => 'Detalles',
+        'long-name'                                 => 'Detalles de {!!$request->get('single_entity_name')!!}',
+        'btn-trash'                                 => 'Mover a Papelera',
+        'btn-edit'                                  => 'Editar',
+        'modal-confirm-trash-title'                 => 'Está Seguro?',
+        'modal-confirm-trash-body'                  => 'La información de <strong>:item</strong> será movida a la papelera, sus datos no estarán disponibles...',
+        'modal-confirm-trash-btn-confirm'           => 'Confirmar',
+        'modal-confirm-trash-btn-cancel'            => 'Cancelar',
     ],
     
     // nombres de los elementos del formulario de creación/edición
@@ -82,7 +82,6 @@ return [
     ],
 
     // otros mensajes
-    'no-users-found'        => 'No se encontraron {!!$request->get('plural_entity_name')!!}...',
     'inputs-required-help'  => 'Los campos marcados con <strong>*</strong> son requeridos.'
 
 ];
