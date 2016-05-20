@@ -19,12 +19,18 @@ return $config = [
         'enabled'   =>  true,
     ],
 
+    'position-model-namespace' => 'llstarscreamll\CoreModule\app\Models\\',
+    'sub-cost-center-model-namespace' => 'llstarscreamll\CoreModule\app\Models\\',
+    'cost-center-model-namespace' => 'llstarscreamll\CoreModule\app\Models\\',
+    'user-model-namespace' => 'llstarscreamll\CoreModule\app\Models\\',
+
     /*
      * Las vistas que serán generadas.
      */
     'views' => [
-        'partials/create-form',
+        'partials/form-fields',
         'partials/index-create-form',
+        'partials/index-table',
         'index',
         'edit',
         'show',
@@ -44,5 +50,8 @@ return $config = [
     /**
      * La plantilla que las vistas generadas extenderán
      */
-    'layout'    => 'CoreModule::app'
+    'layout'    => 'CoreModule::app',
+
+    // tipos de datos de tablas numéricos
+    'numeric-input-types'   => ['int','unsigned_int','float','double'], 
 ];

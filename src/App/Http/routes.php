@@ -20,3 +20,8 @@ Route::post('crudGenerator/', [
     'as'    => 'crudGenerator.generate',
     'uses'    => 'llstarscreamll\CrudGenerator\App\Http\Controllers\GeneratorController@generate'
     ]);
+
+Route::get('showOptions/', [
+    'as'    => 'crudGenerator.showOptions',
+    'uses'    => 'llstarscreamll\CrudGenerator\App\Http\Controllers\GeneratorController@showOptions'
+    ]);

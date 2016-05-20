@@ -5,7 +5,7 @@
 
 namespace App\Http\Controllers;
 
-use App\{{$gen->modelClassName()}};
+use App\Models\{{$gen->modelClassName()}};
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -89,7 +89,7 @@ class {{$gen->controllerClassName()}} extends Controller
         $this->validate($request, {{$gen->modelClassName()}}::validationRules());
 
         {{$gen->modelClassName()}}::create($request->all());
-        $request->session()->flash('success', trans('{{$gen->modelClassName()}}::messages.store.success'));
+        $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.create_{{$gen->snakeCaseSingular()}}_success'));
         
         return redirect()->route('{{$gen->route().'.index'}}');
     }
@@ -164,7 +164,7 @@ class {{$gen->controllerClassName()}} extends Controller
         $this->validate($request, {{$gen->modelClassName()}}::validationRules());
 
         ${{$gen->modelVariableName()}}->update($request->all());
-        $request->session()->flash('success', trans('{{$gen->modelClassName()}}::messages.update.success'));
+        $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success'));
 
         return redirect()->route('{{$gen->route().'.index'}}');
     }
@@ -176,7 +176,7 @@ class {{$gen->controllerClassName()}} extends Controller
     public function destroy(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
     {
         ${{$gen->modelVariableName()}}->delete();
-        $request->session()->flash('success', trans('{{$gen->modelClassName()}}::messages.destroy.success'));
+        $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.destroy{{$gen->snakeCaseSingular()}}_success'));
         
         return redirect()->route('{{$gen->route().'.index'}}');
     }

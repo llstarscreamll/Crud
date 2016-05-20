@@ -14,13 +14,20 @@ class ModelGenerator extends BaseGenerator
      * @var string
      */
     public $table_name;
-
+    
+    /**
+     * La iformación dada por el usuario.
+     * @var Object
+     */
+    public $request;
+    
     /**
      * 
      */
-    public function __construct($table_name)
+    public function __construct($request)
     {
-        $this->table_name = $table_name;
+        $this->table_name = $request->get('table_name');
+        $this->request = $request;
     }
 
     /**
@@ -29,11 +36,18 @@ class ModelGenerator extends BaseGenerator
      */
     public function generate()
     {
+        // no se ha creado la carpeta para los modelos?
+        if (! file_exists($this->modelsDir())) {
+            // entonces la creo
+            mkdir($this->modelsDir(), 0777, true);
+        }
+
         $modelFile = $this->modelsDir().'/'.$this->modelClassName().".php";
 
         $content = view($this->templatesDir().'.model', [
             'gen' => $this,
-            'fields' => $this->fields($this->table_name)
+            'fields' => $this->advanceFields($this->request),
+            'request' => $this->request
         ]);
 
         return file_put_contents($modelFile, $content);

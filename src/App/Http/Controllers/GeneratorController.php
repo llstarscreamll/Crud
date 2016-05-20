@@ -9,6 +9,7 @@ use llstarscreamll\CrudGenerator\Providers\ModelGenerator;
 use llstarscreamll\CrudGenerator\Providers\RouteGenerator;
 use llstarscreamll\CrudGenerator\Providers\ControllerGenerator;
 use llstarscreamll\CrudGenerator\Providers\ViewsGenerator;
+use llstarscreamll\CrudGenerator\Providers\TestsGenerator;
 
 class GeneratorController extends Controller
 {
@@ -53,10 +54,20 @@ class GeneratorController extends Controller
         }
 
         // el generador de los archivos de modelos
-        $modelGenerator = new ModelGenerator($request->get('table_name'));
-        $controllerGenerator = new ControllerGenerator($request->get('table_name'));
-        $routeGenerator = new RouteGenerator($request->get('table_name'));
-        $viewsGenerator = new ViewsGenerator($request->get('table_name'));
+        $modelGenerator = new ModelGenerator($request);
+        $controllerGenerator = new ControllerGenerator($request);
+        $routeGenerator = new RouteGenerator($request);
+        $viewsGenerator = new ViewsGenerator($request);
+        $testsGenerator = new TestsGenerator($request);
+
+        ////////////////////////////////////
+        // genero las pruebas funcionales //
+        ////////////////////////////////////
+        if ($testsGenerator->generate() === false) {
+            return redirect()->back()->with('error', "Ocurrió un error generando los tests funcionales.");
+        }
+        // el modelo se generó correctamente
+        $msg_success[] = 'Los tests se han generado correctamente.';
 
         //////////////////////
         // genero el modelo //
@@ -116,6 +127,8 @@ class GeneratorController extends Controller
         $request->session()->flash('info', $msg_info);
         $request->session()->flash('warning', $msg_warning);
 
+        dd($request->session()->get('success'), $request->session()->get('error'), $request->all(), $routeGenerator->advanceFields($request));
+
         return redirect()->back();
     }
 
@@ -126,5 +139,24 @@ class GeneratorController extends Controller
     private function tableExists($table)
     {
         return \Schema::hasTable($table);
+    }
+
+    /**
+     * [showOptions description]
+     * @return view
+     */
+    public function showOptions(Request $request)
+    {
+        // verifico que la tabla especificada existe en la base de datos
+        if (! $this->tableExists($request->get('table_name', 'null'))) {
+            return redirect()->back()->with('error', "La tabla ".$request->get('table_name')." no existe en la base de datos.");
+        }
+
+        $modelGenerator = new ModelGenerator($request);
+
+        $data['fields'] = array_values($modelGenerator->fields($request->get('table_name')));
+        $data['table_name'] = $request->get('table_name');
+
+        return view('CrudGenerator::wizard.options', $data);
     }
 }

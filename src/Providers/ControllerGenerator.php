@@ -30,9 +30,9 @@ class ControllerGenerator extends BaseGenerator
     /**
      * 
      */
-    public function __construct($table_name)
+    public function __construct($request)
     {
-        $this->table_name = $table_name;
+        $this->table_name = $request->get('table_name');
     }
 
     /**

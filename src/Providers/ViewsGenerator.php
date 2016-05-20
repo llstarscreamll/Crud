@@ -28,11 +28,18 @@ class ViewsGenerator extends BaseGenerator
     public $msg_success = array();
 
     /**
+     * La iformación dada por el usuario.
+     * @var Object
+     */
+    public $request;
+
+    /**
      * 
      */
-    public function __construct($table_name)
+    public function __construct($request)
     {
-        $this->table_name = $table_name;
+        $this->table_name = $request->get('table_name');
+        $this->request = $request;
     }
 
     /**
@@ -65,7 +72,8 @@ class ViewsGenerator extends BaseGenerator
 
             $content = view($this->templatesDir().'.views.'.$view, [
                 'gen' => $this,
-                'fields' => $this->fields($this->table_name)
+                'fields' => $this->advanceFields($this->request),
+                'request' => $this->request
             ]);
 
             if (file_put_contents($viewFile, $content) === false) {
@@ -80,10 +88,10 @@ class ViewsGenerator extends BaseGenerator
     }
 
     /**
-     * [getSearchInputStr description]
-     * @param  [type] $field     [description]
+     * Devuelve un string para la construcción de elemento de formulario HTML.
+     * @param  stdClass $field
      * @param  string $table_name
-     * @return [type]            [description]
+     * @return string
      */
     public function getSearchInputStr($field, $table_name = null)
     {
@@ -106,11 +114,22 @@ class ViewsGenerator extends BaseGenerator
             }
         }
 
-        // input type:
         $type = 'text';
+
+        // para inputs de tipo date
         if ($field->type == 'date') {
             $type = $field->type;
         }
+        // para inputs de tipo date
+        if ($field->type == 'timestamp') {
+            $type = 'datetime-local';
+        }
+
+        // para inputs de tipo numérico
+        if (in_array($field->type, config('llstarscreamll.CrudGenerator.config.numeric-input-types'))) {
+            $type = 'number';
+        }
+
         $output = '<input type="'.$type.'" class="form-control input-sm" name="'.$field->name.'" value="{{Request::input("'.$field->name.'")}}">';
         return $output;
     }
@@ -192,7 +211,7 @@ class ViewsGenerator extends BaseGenerator
         // abro el contenedor
         $output = "<div class='form-group col-sm-6 {{\$errors->has('{$field->name}') ? 'has-error' : ''}}'>\n";
         // el label
-        $output .= "{!! Form::label('{$field->name}', '{$field->name}') !!}\n";
+        $output .= "{!! Form::label('{$field->name}', trans('".$this->getLangAccess()."/views.form-fields.".$field->name."')) !!}\n";
         // ****************************************************************************
 
         // para selects
@@ -223,11 +242,18 @@ class ViewsGenerator extends BaseGenerator
             return $output;
         }
 
-        // para inputs de tipo:
         $type = 'text';
+
+        // para inputs de tipo date
         if ($field->type == 'date') {
             $type = $field->type;
         }
+
+        // para inputs de tipo numérico
+        if ($field->type == 'int' || $field->type == 'unsigned_int' || $field->type == 'float' || $field->type == 'double') {
+            $type = 'number';
+        }
+
         // el campo
         $output .= "{!! Form::input('{$type}', '{$field->name}', null, ['class' => 'form-control', isset(\$show) ? 'disabled' : '']) !!}\n";
         $output .= $this->endFormGroup($field);

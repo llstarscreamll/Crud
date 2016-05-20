@@ -1,6 +1,6 @@
 @extends('CoreModule::app')
 
-@section('title') Galerías @stop
+@section('title') Generar CRUD @stop
 
 @section('style')
 
@@ -28,7 +28,7 @@
 
             <div class="panel-body">
 				
-                {!! Form::open(['route' => 'crudGenerator.generate', 'method' => 'POST']) !!}
+                {!! Form::open(['route' => 'crudGenerator.showOptions', 'method' => 'GET']) !!}
                     
                     <div class="col-md-8 col-md-offset-2">    
                     @include('CrudGenerator::wizard.partials.create-edit-form')

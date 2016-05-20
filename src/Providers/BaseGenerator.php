@@ -57,6 +57,38 @@ class BaseGenerator
     }
 
     /**
+     * Devuelve los campos de la entidad con datos mas específicos sobre cada una.
+     * @param Request $request
+     * @return array
+     */
+    public function advanceFields($request)
+    {
+        $fields = array();
+
+        foreach ($request->get('field') as $field_data) {
+
+            $field = new \stdClass();
+            $field->name = $field_data['name'];
+            $field->label = $field_data['label'];
+            $field->type = $field_data['type'];
+            $field->required = isset($field_data['required']);
+            $field->defValue = $field_data['defValue'];
+            $field->key = $field_data['key'];
+            $field->maxLength = $field_data['maxLength'];
+            $field->fillable = isset($field_data['fillable']);
+            $field->in_form_field = isset($field_data['in_form_field']);
+            $field->on_update_form_field = isset($field_data['on_update_form_field']);
+            $field->testData = empty($field_data['testData']) ? 'null' : $field_data['testData'];
+            $field->testDataUpdate = empty($field_data['testDataUpdate']) ? 'null' : $field_data['testDataUpdate'];
+
+            // everything decided for the field, add it to the array
+            $fields[$field->name] = $field;
+        }
+
+        return $fields;
+    }
+
+    /**
      * Devuelve array con los campos que son feraneos (foreign key) de la tabla en questión
      * y a que tabla apunta la llave foranea.
      * @param  string $tableName El nombre de la tabla.
@@ -105,6 +137,22 @@ class BaseGenerator
     }
 
     /**
+     * Revisa si está presente la columna 'deleted_at' en los campos dados en el parámetro.
+     * @param  stdClass  $fields
+     * @return boolean
+     */
+    public function hasDeletedAtColumn($fields)
+    {
+        foreach ($fields as $key => $field) {
+            if ($field->name == 'deleted_at'){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Devuelve string con el prefijo de nombre de ruta para la app, por ejemplo:
      * - books = book
      * - book_author = book-author
@@ -112,7 +160,8 @@ class BaseGenerator
      */
     public function route()
     {
-        return str_slug(str_replace("_", " ", str_singular($this->table_name)));
+        //return str_slug(str_replace("_", " ", str_singular($this->table_name)));
+        return str_slug(str_replace("_", " ", $this->table_name));
     }
 
     /**
@@ -157,7 +206,7 @@ class BaseGenerator
      */
     public function modelsDir()
     {
-        return app_path();
+        return app_path().'/Models';
     }
 
     /**
@@ -199,12 +248,73 @@ class BaseGenerator
     }
 
     /**
-     * Devulve el valor del archivo de configuración a donde se debe hacer referencia para usar
-     * los templates para generar los respectivos archivos.
+     * Devuelve el path a donde hay que buscar las plantillas para generar los archivos.
      * @return string
      */
     public function templatesDir()
     {
         return config('llstarscreamll.CrudGenerator.config.templates');
+    }
+
+    /**
+     * Devuelve el nombre de la entidad en camelCase y en plural.
+     * @return string
+     */
+    public function camelCasePlural()
+    {
+        return str_replace(" ", "", camel_case(str_replace("_", " ", $this->table_name)));
+    }
+
+    /**
+     * Devuelve el nombre de la entidad en StudlyCase y en plural.
+     * @return string
+     */
+    public function studlyCasePlural()
+    {
+        return studly_case(str_replace("_", " ", $this->table_name));
+    }
+
+    /**
+     * Devuelve el nombre de la entidad en snake_case y en singular.
+     * @return string
+     */
+    public function snakeCaseSingular()
+    {
+        return snake_case(str_singular($this->table_name));
+    }
+
+    /**
+     * Devuelve string para acceder a los ficheros de lengauje con la función translate().
+     * @return string
+     */
+    public function getLangAccess()
+    {
+        return lcfirst($this->modelClassName());
+    }
+
+    /**
+     * Obtiene el nombre del modelo separados por guiones (-) en minúscula.
+     * @return string
+     */
+    public function getDashedModelName()
+    {
+        return lcfirst(str_replace("_", "-", $this->table_name));
+    }
+
+    /**
+     * Devuelve el nombre para un campo de formulario modificando el string dado en el parámetro
+     * para las validaciones, así:
+     * parametro = 'El nombre', devolverá  'Nombre'
+     * @param  $label
+     * @return string
+     */
+    public function getFormFieldName($label)
+    {
+        $string = ucwords(str_replace("el ", "", strtolower($label)));
+        $string = ucwords(str_replace("los ", "", strtolower($string)));
+        $string = ucwords(str_replace("la ", "", strtolower($string)));
+        $string = ucwords(str_replace("las ", "", strtolower($string)));
+
+        return $string;
     }
 }

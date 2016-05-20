@@ -4,14 +4,17 @@
 ?>
 <?='<?php'?>
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+@if(($hasSoftDelete = $gen->hasDeletedAtColumn($fields)))
 use Illuminate\Database\Eloquent\SoftDeletes;
-
+@endif
 class {{$gen->modelClassName()}} extends Model
 {
+    @if($hasSoftDelete)
     use SoftDeletes;
+    @endif
     
     /**
      * La tabla asociada al modelo.
@@ -23,7 +26,7 @@ class {{$gen->modelClassName()}} extends Model
      * Los atributos que no son asignables.
      * @var array
      */
-    public $guarded = ["id","created_at","updated_at", "deleted_at"];
+    public $guarded = ['id','created_at','updated_at'@if($hasSoftDelete), 'deleted_at'@endif];
 
     /**
      * Indica si Eloquent debe gestionar los timestamps del modelo.
@@ -35,7 +38,7 @@ class {{$gen->modelClassName()}} extends Model
      * Los atributos que deben ser convertidos a fechas.
      * @var array
      */
-    public $dates = ['deleted_at', 'created_at', 'updated_at'];
+    public $dates = ['created_at', 'updated_at'@if($hasSoftDelete), "deleted_at"@endif];
 
     /**
      * El formato de almacenamiento de las columnas fechas del modelo.

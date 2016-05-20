@@ -30,9 +30,9 @@ class RouteGenerator extends BaseGenerator
     /**
      * 
      */
-    public function __construct($table_name)
+    public function __construct($request)
     {
-        $this->table_name = $table_name;
+        $this->table_name = $request->get('table_name');
     }
 
     /**
@@ -42,7 +42,7 @@ class RouteGenerator extends BaseGenerator
      */
     public function generateRouteModelBinding()
     {
-        $declaration = "\$router->model('".$this->route()."', 'App\\".$this->modelClassName()."');";
+        $declaration = "\$router->model('".$this->route()."', 'App\\Models\\".$this->modelClassName()."');";
         $providerFile = app_path('Providers/RouteServiceProvider.php');
         $fileContent = file_get_contents($providerFile);
 
