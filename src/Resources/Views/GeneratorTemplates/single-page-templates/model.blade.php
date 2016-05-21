@@ -1,10 +1,11 @@
 <?php
-/* @var $gen \Nvd\Crud\Commands\Crud */
+/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
 /* @var $fields [] */
+/* @var $request Request */
 ?>
 <?='<?php'?>
 
-namespace App\Models;
+namespace {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models;
 
 use Illuminate\Database\Eloquent\Model;
 @if(($hasSoftDelete = $gen->hasDeletedAtColumn($fields)))

@@ -1,4 +1,4 @@
-@extends('CoreModule::app')
+@extends(config('llstarscreamll.CrudGenerator.config.layout'))
 
 @section('title') Opciones CRUD @stop
 
@@ -22,7 +22,7 @@
 
                 </div>
 
-                @include ('CoreModule::layout.notifications')
+                @include (config('llstarscreamll.CrudGenerator.config.layout-namespace').'layout.notifications')
 
             </div>
 

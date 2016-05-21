@@ -49,7 +49,7 @@
 					
 					</div>
 
-					@include('CoreModule::layout.notifications')
+					@include('<?=config('llstarscreamll.CrudGenerator.config.layout-namespace')?>layout.notifications')
 
 				</div>
 				

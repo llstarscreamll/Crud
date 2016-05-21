@@ -4,7 +4,7 @@ namespace llstarscreamll\CrudGenerator\App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use grapas\Http\Controllers\Controller;
 use llstarscreamll\CrudGenerator\Providers\ModelGenerator;
 use llstarscreamll\CrudGenerator\Providers\RouteGenerator;
 use llstarscreamll\CrudGenerator\Providers\ControllerGenerator;
@@ -126,8 +126,6 @@ class GeneratorController extends Controller
         $request->session()->flash('error', $msg_error);
         $request->session()->flash('info', $msg_info);
         $request->session()->flash('warning', $msg_warning);
-
-        dd($request->session()->get('success'), $request->session()->get('error'), $request->all(), $routeGenerator->advanceFields($request));
 
         return redirect()->back();
     }

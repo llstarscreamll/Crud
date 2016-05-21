@@ -59,7 +59,11 @@ return $config = [
     /**
      * La plantilla que las vistas generadas extenderán
      */
-    'layout'    => 'CoreModule::app',
+    'layout'    => 'app',
+    'layout-namespace'    => '',
+
+    // el namespace de las clases a generar
+    'parent-app-namespace'  => 'grapas',
 
     // tipos de datos de tablas numéricos
     'numeric-input-types'   => ['int','unsigned_int','float','double'],

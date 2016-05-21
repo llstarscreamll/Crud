@@ -23,5 +23,8 @@ CrudGenerator es un paquete de laravel para la generación de aplicaciones CRUD 
 	- Configurar si el campo es llaveforánea de otra tabla en la base de datos.
 - Dar opción para crear el CRUD con estructura modular, como si fuera un paquete de Laravel.
 - Crear habilidad para que el usuario elija que campos desea mostrar en la tabla del index.
+- Crear función de restablecimiento de registros en la papelera en la tabla del index y show.
 - Crear habilidad para dejar decirdir al usuario si quiere o no las ediciones inline en la tabla con el componente x-edit de javascript.
 - Las búsquedas por fechas en el formulario de búsqueda avanzado debe ser por rangos de fecha y no sólo por una fecha específica.
+- Añadir opción para habilidad protección de datos de registros al crear los ficheros.
+- Añadir colores a la filas de la tabla del index dependiendo del estado del registro, rojo para registros eliminados, amarillos para registros protegidos, etc... y añadir notas de estos colores al final de la vista.

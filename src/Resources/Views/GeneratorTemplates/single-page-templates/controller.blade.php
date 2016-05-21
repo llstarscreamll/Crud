@@ -1,15 +1,17 @@
 <?php
-/* @var $gen \Nvd\Crud\Commands\Crud */
+/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $fields [] */
+/* @var $request Request */
 ?>
 <?='<?php'?>
 
-namespace App\Http\Controllers;
+namespace {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers;
 
-use App\Models\{{$gen->modelClassName()}};
+use {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}};
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Http\Requests;
+use {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers\Controller;
 
 class {{$gen->controllerClassName()}} extends Controller
 {
@@ -175,9 +177,12 @@ class {{$gen->controllerClassName()}} extends Controller
      */
     public function destroy(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
     {
-        ${{$gen->modelVariableName()}}->delete();
-        $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_success'));
-        
+        $id = $request->has('id') ? $request->get('id') : ${{$gen->modelVariableName()}}->id;
+
+        {{$gen->modelClassName()}}::destroy($id)
+            ? $request->session()->flash('success', trans_choice('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_success', count($id)))
+            : $request->session()->flash('error', trans_choice('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_error', count($id)));
+
         return redirect()->route('{{$gen->route().'.index'}}');
     }
     

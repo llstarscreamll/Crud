@@ -21,10 +21,11 @@
 
                     <div class="form-group col-sm-6">
                         <button type="submit" class="btn btn-primary">
-                            <span class=""></span>
+                            <span class="glyphicon glyphicon-floppy-disk"></span>
                             <span class="">{{trans('<?=$gen->getLangAccess()?>/views.create.btn-create')}}</span>
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            <span class="glyphicon glyphicon-remove"></span>
                             <span>Cerrar</span>
                         </button>
                     </div>

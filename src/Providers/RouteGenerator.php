@@ -42,7 +42,7 @@ class RouteGenerator extends BaseGenerator
      */
     public function generateRouteModelBinding()
     {
-        $declaration = "\$router->model('".$this->route()."', 'App\\Models\\".$this->modelClassName()."');";
+        $declaration = "\$router->model('".$this->route()."', '".config('llstarscreamll.CrudGenerator.config.parent-app-namespace')."\\Models\\".$this->modelClassName()."');";
         $providerFile = app_path('Providers/RouteServiceProvider.php');
         $fileContent = file_get_contents($providerFile);
 

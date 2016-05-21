@@ -14,7 +14,7 @@ class BaseGenerator
      */
     public static function fields($table)
     {
-        $columns = \DB::select('show fields from '.$table);
+        $columns = \DB::select('show fields from '.config('database.connections.mysql.prefix').$table);
         $tableFields = array(); // el valor a devolver
 
         foreach ($columns as $column) {
@@ -189,7 +189,7 @@ class BaseGenerator
      */
     public function viewsDirName()
     {
-        return str_singular($this->table_name);
+        return $this->camelCasePlural();
     }
 
     /**
@@ -263,7 +263,7 @@ class BaseGenerator
      */
     public function camelCasePlural()
     {
-        return str_replace(" ", "", camel_case(str_replace("_", " ", $this->table_name)));
+        return camel_case(str_replace("_", " ", str_plural($this->table_name)));
     }
 
     /**
@@ -272,7 +272,7 @@ class BaseGenerator
      */
     public function studlyCasePlural()
     {
-        return studly_case(str_replace("_", " ", $this->table_name));
+        return studly_case(str_plural($this->table_name));
     }
 
     /**

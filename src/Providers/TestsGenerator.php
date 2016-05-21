@@ -130,7 +130,7 @@ class TestsGenerator extends BaseGenerator
      */
     public function pageObjectsDirName()
     {
-        return ucwords(str_plural($this->table_name));
+        return ucwords(camel_case(str_plural($this->table_name)));
     }
 
     /**
