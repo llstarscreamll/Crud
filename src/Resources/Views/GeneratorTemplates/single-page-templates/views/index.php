@@ -6,7 +6,11 @@
 
 @extends('<?=config('llstarscreamll.CrudGenerator.config.layout')?>')
 
-@section('title') {{trans('<?=$gen->getLangAccess()?>/views.module.name')}} @stop
+@section('title') {{trans('<?=$gen->getLangAccess()?>/views.module.name')}} @endsection
+
+@section('style')
+
+@endsection
 
 @section('content')
 	
@@ -84,5 +88,9 @@
             }
         });
 		$(".editable").editable({ajaxOptions:{method:'PUT'}});
+		<?php if ($gen->hasTinyintTypeField($fields)) { ?>
+		{{-- Inicializa el componente SwitchBootstrap --}}
+        $(".bootstrap_switch").bootstrapSwitch();
+        <?php } ?>
 	</script>
 @endsection

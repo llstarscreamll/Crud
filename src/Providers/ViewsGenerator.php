@@ -101,6 +101,13 @@ class ViewsGenerator extends BaseGenerator
             return $output;
         }
 
+        // para checkbox
+        if ($field->type == 'tinyint') {
+            $output = $this->getCheckBoxSwitchHtlm($field, $data_size = 'small');
+            $output .= $this->endFormGroup($field);
+            return $output;
+        }
+
         // recorro las llaves foraneas
         foreach ($this->getForeignKeys($table_name) as $key => $foreign) {
             $child_table = explode(".", $foreign->foreign_key);
@@ -222,6 +229,13 @@ class ViewsGenerator extends BaseGenerator
             return $output;
         }
 
+        // para checkbox
+        if ($field->type == 'tinyint') {
+            $output .= "<br>{!! Form::hidden('{$field->name}', false) !!}".$this->getCheckBoxSwitchHtlm($field);
+            $output .= $this->endFormGroup($field);
+            return $output;
+        }
+
         // recorro las llaves foraneas
         foreach ($this->getForeignKeys($table_name) as $key => $foreign) {
             $child_table = explode(".", $foreign->foreign_key);
@@ -259,6 +273,31 @@ class ViewsGenerator extends BaseGenerator
         $output .= $this->endFormGroup($field);
         
         return $output;
+    }
+
+    /**
+     * Devuelve string html de un checkbox con las propiedades para el componente SwitchBootstrap,
+     * así:
+     * {!! Form::checkbox('use_faker', true, null, [
+     *      'class' => 'bootstrap_switch',
+     *      data-size' => 'medium',
+     *      'data-on-text' => 'SI',
+     *      'data-off-text' => 'NO',
+     *      isset(\$show) ? 'disabled' : ''
+     *  ]) !!}
+     * @param stdClass $field
+     * @param string $data_size El atributo data-size para SwitchBootstrap
+     * @return string
+     */
+    public function getCheckBoxSwitchHtlm($field, $data_size = 'medium')
+    {
+        return "{!! Form::checkbox('{$field->name}', true, null, [
+                'class' => 'bootstrap_switch',
+                'data-size' => '$data_size',
+                'data-on-text' => 'SI',
+                'data-off-text' => 'NO',
+                isset(\$show) ? 'disabled' : ''
+            ]) !!}\n";
     }
 
     /**

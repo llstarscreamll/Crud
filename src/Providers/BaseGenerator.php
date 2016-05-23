@@ -154,6 +154,22 @@ class BaseGenerator
     }
 
     /**
+     * Revisa si hay algún campo de tipo 'tinyint' en los campos dados en el parámetro.
+     * @param  stdClass  $fields
+     * @return boolean
+     */
+    public function hasTinyintTypeField($fields)
+    {
+        foreach ($fields as $key => $field) {
+            if ($field->type == 'tinyint'){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Devuelve string con el prefijo de nombre de ruta para la app, por ejemplo:
      * - books = book
      * - book_author = book-author

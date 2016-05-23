@@ -5,7 +5,11 @@
 ?>
 @extends('<?=config('llstarscreamll.CrudGenerator.config.layout')?>')
 
-@section('title') {{trans('<?=$gen->getLangAccess()?>/views.edit.name').trans('<?=$gen->getLangAccess()?>/views.module.name-singular')}} @stop
+@section('title') {{trans('<?=$gen->getLangAccess()?>/views.edit.name').trans('<?=$gen->getLangAccess()?>/views.module.name-singular')}} @endsection
+
+@section('style')
+
+@endsection
 
 @section('content')
 
@@ -45,3 +49,16 @@
         </div>
     </div>
 @endsection
+
+@section('script')
+
+    <script type="text/javascript">
+        
+        <?php if ($gen->hasTinyintTypeField($fields)) { ?>
+        {{-- Inicializa el componente SwitchBootstrap --}}
+        $(".bootstrap_switch").bootstrapSwitch();
+        <?php } ?>
+        
+    </script>
+
+@endsection()

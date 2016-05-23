@@ -31,6 +31,7 @@
 } ?>
 								<th>{{trans('<?=$gen->getLangAccess()?>/views.index.table-actions-column')}}</th>
 							</tr>
+							
 							{{-- Formulario de búqueda de tabla --}}
 							<tr class="search-row">
 								<form class="search-form">

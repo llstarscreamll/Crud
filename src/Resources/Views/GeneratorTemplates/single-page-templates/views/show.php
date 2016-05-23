@@ -7,6 +7,10 @@
 
 @section('title') {{trans('<?=$gen->getLangAccess()?>/views.show.name').trans('<?=$gen->getLangAccess()?>/views.module.name-singular')}} @stop
 
+@section('style')
+
+@endsection
+
 @section('content')
 
     <div class="content-header">
@@ -89,3 +93,16 @@
     </div>
 
 @endsection
+
+@section('script')
+
+    <script type="text/javascript">
+        
+        <?php if ($gen->hasTinyintTypeField($fields)) { ?>
+        {{-- Inicializa el componente SwitchBootstrap --}}
+        $(".bootstrap_switch").bootstrapSwitch();
+        <?php } ?>
+        
+    </script>
+
+@endsection()
