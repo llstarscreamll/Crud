@@ -309,13 +309,21 @@ class TestsGenerator extends BaseGenerator
      */
     public function executeComposerDumpAutoload()
     {
-        $process = new Process('cd '.base_path().' && composer dumpautoload');
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // la variable COMPOSER_HOME=".composer" es asignada en la ejecución para prevenir el error:                        //
+        // HOME or COMPOSER_HOME environment variable must be set for composer to run correctly                             //
+        // Leer mas sobr este error aquí:                                                                                   //
+        // https://github.com/composer/packagist/issues/393                                                                 //
+        // https://github.com/composer/composer/issues/4789                                                                 //
+        // Leer mas sobre la solución que implementé, aquí:                                                                 //
+        // http://askubuntu.com/questions/344687/how-to-set-environment-variable-before-running-script-inside-hooks-install //
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        $process = new Process('cd '.base_path().' && COMPOSER_HOME=".composer" composer dumpautoload');
         $process->run();
 
         // executes after the command finishes
         if (!$process->isSuccessful()) {
-            //throw new ProcessFailedException($process);
-            return false;
+            throw new ProcessFailedException($process);
         }
 
         return $process->getOutput();
