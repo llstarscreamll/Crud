@@ -5,24 +5,26 @@ namespace llstarscreamll\CrudGenerator\Providers;
 use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
 
 /**
-* 
+*
 */
 class ModelGenerator extends BaseGenerator
 {
     /**
      * El nombre de la tabla en la base de datos.
+     *
      * @var string
      */
     public $table_name;
     
     /**
      * La iformación dada por el usuario.
+     *
      * @var Object
      */
     public $request;
     
     /**
-     * 
+     *
      */
     public function __construct($request)
     {
@@ -32,6 +34,7 @@ class ModelGenerator extends BaseGenerator
 
     /**
      * Genera el archivo para el Modelo de la tabla.
+     *
      * @return integer|bool
      */
     public function generate()
@@ -44,11 +47,14 @@ class ModelGenerator extends BaseGenerator
 
         $modelFile = $this->modelsDir().'/'.$this->modelClassName().".php";
 
-        $content = view($this->templatesDir().'.model', [
+        $content = view(
+            $this->templatesDir().'.model',
+            [
             'gen' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request
-        ]);
+            ]
+        );
 
         return file_put_contents($modelFile, $content);
     }
@@ -56,6 +62,7 @@ class ModelGenerator extends BaseGenerator
     /**
      * Devuelve string de validación de datos de un campo de la base de datos
      * para el modelo.
+     *
      * @param  Object $field
      * @return string
      */
@@ -105,6 +112,7 @@ class ModelGenerator extends BaseGenerator
 
     /**
      * Verifica si hay campos de tipo enum en el array dado.
+     *
      * @param  array $fields
      * @return bool
      */
@@ -121,6 +129,7 @@ class ModelGenerator extends BaseGenerator
 
     /**
      * Devuelve string con clausula para el Query Builder de Eloquent
+     *
      * @param  [type] $field [description]
      * @return [type]        [description]
      */
@@ -134,6 +143,7 @@ class ModelGenerator extends BaseGenerator
 
     /**
      * Los campos a omitir.
+     *
      * @return array
      */
     public function skippedFields()

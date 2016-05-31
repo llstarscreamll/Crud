@@ -12,7 +12,7 @@ use Page\Functional\{{$gen->studlyCasePlural()}}\Base;
 
 class {{$test}} extends Base
 {
-	// include url of current page
+    // include url of current page
     public static $URL = '/{{$gen->route()}}';
 
     /**
@@ -39,9 +39,9 @@ class {{$test}} extends Base
         parent::__construct($I);
 
         self::$title = [
-	        'txt'       => trans('{{$gen->getLangAccess()}}/views.show.name'),
-	        'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.show-title-selector')}}'
-	    ];
+            'txt'       => trans('{{$gen->getLangAccess()}}/views.show.name'),
+            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.show-title-selector')}}'
+        ];
     }
 
     /**
@@ -50,13 +50,13 @@ class {{$test}} extends Base
      */
     public static function getReadOnlyFormData()
     {
-    	$data = self::${{$gen->modelVariableName()}}Data;
+        $data = self::${{$gen->modelVariableName()}}Data;
 
-    	// los siguientes campos no se han de mostrar en la vista de sólo lectura
-    	foreach (self::$hiddenFields as $key => $value) {
-	        unset($data[$value]);
-	    }
+        // los siguientes campos no se han de mostrar en la vista de sólo lectura
+        foreach (self::$hiddenFields as $key => $value) {
+            unset($data[$value]);
+        }
 
-    	return $data;
+        return $data;
     }
 }

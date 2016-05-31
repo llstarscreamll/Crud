@@ -5,36 +5,40 @@ namespace llstarscreamll\CrudGenerator\Providers;
 use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
 
 /**
-* 
+*
 */
 class ViewsGenerator extends BaseGenerator
 {
     /**
      * El nombre de la tabla en la base de datos.
+     *
      * @var string
      */
     public $table_name;
 
     /**
      * Los mensajes de alerta en la operación.
+     *
      * @var array
      */
     public $msg_error = array();
 
     /**
      * Los mensajes de info en la operación.
+     *
      * @var array
      */
     public $msg_success = array();
 
     /**
      * La iformación dada por el usuario.
+     *
      * @var Object
      */
     public $request;
 
     /**
-     * 
+     *
      */
     public function __construct($request)
     {
@@ -44,6 +48,7 @@ class ViewsGenerator extends BaseGenerator
 
     /**
      * Genera los ficheros para las vistas.
+     *
      * @return bool
      */
     public function generate()
@@ -62,7 +67,6 @@ class ViewsGenerator extends BaseGenerator
 
         // recorro el array de vistas que debo crear
         foreach (config('llstarscreamll.CrudGenerator.config.views') as $view) {
-
             // TODO:
             // - Crear vista separada para la tabla del index
             // - Pasar todos los strings de las vistas a variables leidas de el
@@ -70,11 +74,14 @@ class ViewsGenerator extends BaseGenerator
 
             $viewFile = $this->viewsDir()."/".$view.".blade.php";
 
-            $content = view($this->templatesDir().'.views.'.$view, [
+            $content = view(
+                $this->templatesDir().'.views.'.$view,
+                [
                 'gen' => $this,
                 'fields' => $this->advanceFields($this->request),
                 'request' => $this->request
-            ]);
+                ]
+            );
 
             if (file_put_contents($viewFile, $content) === false) {
                 $this->msg_error[] = "Ocurrió un error generando la vista ".$view.".";
@@ -89,8 +96,9 @@ class ViewsGenerator extends BaseGenerator
 
     /**
      * Devuelve un string para la construcción de elemento de formulario HTML.
+     *
      * @param  stdClass $field
-     * @param  string $table_name
+     * @param  string   $table_name
      * @return string
      */
     public function getSearchInputStr($field, $table_name = null)
@@ -143,6 +151,7 @@ class ViewsGenerator extends BaseGenerator
 
     /**
      * Devuelve un string con el tipo de campo para el formulario html.
+     *
      * @param  Object $field
      * @return string
      */
@@ -184,6 +193,7 @@ class ViewsGenerator extends BaseGenerator
 
     /**
      * [getSourceForEnum description]
+     *
      * @param  [type] $field [description]
      * @return string
      */
@@ -203,8 +213,9 @@ class ViewsGenerator extends BaseGenerator
 
     /**
      * Devuelve string del código de los elementos de formulario.
+     *
      * @param  StdClass $field
-     * @param  string $modelName
+     * @param  string   $modelName
      * @return string|bool
      */
     public function getFormInputMarkup($field, $table_name, $checkSkippedFields = false)
@@ -285,8 +296,9 @@ class ViewsGenerator extends BaseGenerator
      *      'data-off-text' => 'NO',
      *      isset(\$show) ? 'disabled' : ''
      *  ]) !!}
-     * @param stdClass $field
-     * @param string $data_size El atributo data-size para SwitchBootstrap
+     *
+     * @param  stdClass $field
+     * @param  string   $data_size El atributo data-size para SwitchBootstrap
      * @return string
      */
     public function getCheckBoxSwitchHtlm($field, $data_size = 'medium')
@@ -302,6 +314,7 @@ class ViewsGenerator extends BaseGenerator
 
     /**
      * Cierra el los tags iniciados en getFormInputMarkup($field, $table_name).
+     *
      * @param  [type] $field [description]
      * @return string
      */

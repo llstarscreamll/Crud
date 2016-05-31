@@ -26,6 +26,7 @@ class GeneratorController extends Controller
 
     /**
      * [index description]
+     *
      * @return [type] [description]
      */
     public function index()
@@ -35,6 +36,7 @@ class GeneratorController extends Controller
 
     /**
      * [generate description]
+     *
      * @return [type] [description]
      */
     public function generate(Request $request)
@@ -132,6 +134,7 @@ class GeneratorController extends Controller
 
     /**
      * [tableExists description]
+     *
      * @return [type] [description]
      */
     private function tableExists($table)
@@ -141,6 +144,7 @@ class GeneratorController extends Controller
 
     /**
      * [showOptions description]
+     *
      * @return view
      */
     public function showOptions(Request $request)

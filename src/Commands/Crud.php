@@ -8,24 +8,28 @@ class Crud extends Command
 {
     /**
      * El nombre de la tabla.
+     *
      * @var string
      */
     public $tableName;
 
     /**
      * La variable que guarda la decisión de generar o no un paquete o Package
+     *
      * @var bool
      */
     public $generate_package = false;
 
     /**
      * El nombre y descripción de uso del comando.
+     *
      * @var string
      */
     protected $signature = 'llstarscreamll:crud {tableName : The name of the table you want to generate crud for.}';
 
     /**
      * La descripción del comando.
+     *
      * @var string
      */
     protected $description = 'Genera una CRUD App de la tabla especificda en la base de datos';
@@ -40,6 +44,7 @@ class Crud extends Command
 
     /**
      * Execute the console command.
+     *
      * @return mixed
      */
     public function handle()
@@ -73,6 +78,7 @@ class Crud extends Command
 
     /**
      * Genera el CRUD como un paquete de Laravel.
+     *
      * @return void
      */
     public function generatePackage()
@@ -82,6 +88,7 @@ class Crud extends Command
     /**
      * Añade el "Route Model Binding" al archivo RouteServiceProvider.php dentro del método
      * boot, inyecta el una instancia del modelo a la ruta.
+     *
      * @return bool
      */
     public function generateRouteModelBinding()
@@ -114,6 +121,7 @@ class Crud extends Command
 
     /**
      * Añade la ruta al fichero de rutas.
+     *
      * @return bool
      */
     public function generateRoute()
@@ -137,6 +145,7 @@ class Crud extends Command
 
     /**
      * Obtiene el contenido a actualizar para el fichero de rutas.
+     *
      * @param  string $existingContent
      * @param  string $route
      * @return string
@@ -161,6 +170,7 @@ class Crud extends Command
 
     /**
      * Genera el controlador.
+     *
      * @return void
      */
     public function generateController()
@@ -168,11 +178,14 @@ class Crud extends Command
         $controllerFile = $this->controllersDir().'/'.$this->controllerClassName().".php";
 
         if ($this->confirmOverwrite($controllerFile)) {
-            $content = view($this->templatesDir().'.controller', [
+            $content = view(
+                $this->templatesDir().'.controller',
+                [
                 'gen' => $this,
                 'fields' => Db::fields($this->tableName),
                 'foreign_keys'  => Db::getForeignKeys($this->tableName)
-            ]);
+                ]
+            );
             file_put_contents($controllerFile, $content);
             $this->info($this->controllerClassName()." generated successfully.");
         }
@@ -180,6 +193,7 @@ class Crud extends Command
 
     /**
      * Genera el archivo para el Modelo de la tabla.
+     *
      * @return void
      */
     public function generateModel()
@@ -187,10 +201,13 @@ class Crud extends Command
         $modelFile = $this->modelsDir().'/'.$this->modelClassName().".php";
 
         if ($this->confirmOverwrite($modelFile)) {
-            $content = view($this->templatesDir().'.model', [
+            $content = view(
+                $this->templatesDir().'.model',
+                [
                 'gen' => $this,
                 'fields' => Db::fields($this->tableName)
-            ]);
+                ]
+            );
             file_put_contents($modelFile, $content);
             $this->info("Model class ".$this->modelClassName()." generated successfully.");
         }
@@ -198,6 +215,7 @@ class Crud extends Command
 
     /**
      * Genera los ficheros para las vistas.
+     *
      * @return void
      */
     public function generateViews()
@@ -216,7 +234,6 @@ class Crud extends Command
 
         // recorro el array de vistas que debo crear
         foreach (config('llstarscreamll.CrudGenerator.config.views') as $view) {
-
             // TODO:
             // - Crear vista separada para la tabla del index
             // - Pasar todos los strings de las vistas a variables leidas de el
@@ -225,10 +242,13 @@ class Crud extends Command
             $viewFile = $this->viewsDir()."/".$view.".blade.php";
 
             if ($this->confirmOverwrite($viewFile)) {
-                $content = view($this->templatesDir().'.views.'.$view, [
+                $content = view(
+                    $this->templatesDir().'.views.'.$view,
+                    [
                     'gen' => $this,
                     'fields' => Db::fields($this->tableName)
-                ]);
+                    ]
+                );
 
                 file_put_contents($viewFile, $content);
                 $this->info("View file ".$view." generated successfully.");
@@ -265,6 +285,7 @@ class Crud extends Command
 
     /**
      * Devuelve el path completo a la carpeta de las vistas.
+     *
      * @return string
      */
     public function viewsDir()
@@ -274,6 +295,7 @@ class Crud extends Command
 
     /**
      * Devuelve el nombre de la carpeta donde serán guardadas las vistas.
+     *
      * @return string
      */
     public function viewsDirName()

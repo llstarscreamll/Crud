@@ -31,7 +31,7 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
      */
     public static $moduleURL = '/{{$gen->route()}}';
 
-	/**
+    /**
      * Nombre del módulo.
      * @var array
      */
@@ -47,19 +47,19 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
     /**
      * @var Faker\Factory
      */
-	static $faker;
-	@endif
+    static $faker;
+    @endif
 
     /**
      * Los campos del formulario de creación.
      * @var array
      */
     static $formFields = [
-    	@foreach($fields as $field)
-    		@if($field->in_form_field)
-    			'{{$field->name}}',
-    		@endif
-    	@endforeach
+        @foreach($fields as $field)
+            @if($field->in_form_field)
+                '{{$field->name}}',
+            @endif
+        @endforeach
     ];
 
     /**
@@ -123,7 +123,7 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
         $this->functionalTester = $I;
         @if($request->has('use_faker'))
         self::$faker = Faker::create();
-		@endif
+        @endif
         // crea los permisos de acceso al módulo
         \Artisan::call('db:seed', ['--class' => '{{$gen->modelClassName()}}PermissionsSeeder']);
         @if(!$request->has('use_base_class'))
@@ -141,7 +141,7 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
         // damos valores a las variables para creación de un registro para el módulo
         self::${{$gen->modelVariableName()}}Data = [
             @foreach($fields as $field)
-            	'{{$field->name}}' => {!!$field->testData!!},
+                '{{$field->name}}' => {!!$field->testData!!},
             @endforeach
         ];
 
@@ -322,7 +322,7 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
      */
     public static function have{{$gen->modelClassName()}}(\FunctionalTester $I)
     {
-    	$I->haveRecord('{{$gen->table_name}}', self::${{$gen->modelVariableName()}}Data);
+        $I->haveRecord('{{$gen->table_name}}', self::${{$gen->modelVariableName()}}Data);
     }
 
     /**

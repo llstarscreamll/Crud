@@ -12,7 +12,7 @@ use Page\Functional\{{$gen->studlyCasePlural()}}\Base;
 
 class {{$test}} extends Base
 {
-	// include url of current page
+    // include url of current page
     public static $URL = '/{{$gen->route()}}';
 
     /**
@@ -51,16 +51,16 @@ class {{$test}} extends Base
         parent::__construct($I);
 
         self::$deleteBtn = [
-	        'txt'       => trans('{{$gen->getLangAccess()}}/views.show.btn-trash'),
-	        'selector'  => 'button.btn.btn-danger'
-	    ];
+            'txt'       => trans('{{$gen->getLangAccess()}}/views.show.btn-trash'),
+            'selector'  => 'button.btn.btn-danger'
+        ];
 
-	    self::$deleteBtnConfirm = [
-	        'txt'       => trans('{{$gen->getLangAccess()}}/views.show.modal-confirm-trash-btn-confirm'),
-	        'selector'  => 'form[name=delete-{{$gen->getDashedModelName()}}-form] .btn.btn-danger'
-	    ];
+        self::$deleteBtnConfirm = [
+            'txt'       => trans('{{$gen->getLangAccess()}}/views.show.modal-confirm-trash-btn-confirm'),
+            'selector'  => 'form[name=delete-{{$gen->getDashedModelName()}}-form] .btn.btn-danger'
+        ];
 
-	    self::$msgSuccess = [
+        self::$msgSuccess = [
             'txt'       => trans_choice('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_success', 1),
             'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.delete-message-success-selector')}}'
         ];

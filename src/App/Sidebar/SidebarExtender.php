@@ -16,20 +16,26 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
      */
     public function extendWith(Menu $menu)
     {
-        $menu->group('', function (Group $group) {
-            $group->item('Crud Generator', function (Item $item) {
-                $item->icon('fa fa-magic');
-                $item->weight(0);
-                $item->route('crudGenerator.index');
-                $item->authorize(
-                    // TODO:
-                    // - Crear seed con permisos para este módulo
+        $menu->group(
+            '',
+            function (Group $group) {
+                $group->item(
+                    'Crud Generator',
+                    function (Item $item) {
+                        $item->icon('fa fa-magic');
+                        $item->weight(0);
+                        $item->route('crudGenerator.index');
+                        $item->authorize(
+                            // TODO:
+                            // - Crear seed con permisos para este módulo
                     
-                    //\Auth::user()->can('imageGallery.index')
-                    true
+                            //\Auth::user()->can('imageGallery.index')
+                            true
+                        );
+                    }
                 );
-            });
-        });
+            }
+        );
 
         return $menu;
     }

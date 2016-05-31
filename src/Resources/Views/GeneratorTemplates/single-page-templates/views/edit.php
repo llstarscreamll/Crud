@@ -13,7 +13,7 @@
 
 @section('content')
 
-	<div class="content-header">
+    <div class="content-header">
         <h1>
             <a href="{{route('<?=$gen->route()?>.index')}}">{{trans('<?=$gen->getLangAccess()?>/views.module.name')}}</a>
             <small>{{trans('<?=$gen->getLangAccess()?>/views.edit.name')}}</small>
@@ -30,22 +30,22 @@
 
             <div class="panel-body">
 
-	    		{!! Form::model($<?=$gen->modelVariableName()?>, ['route' => ['<?=$gen->route()?>.update', $<?=$gen->modelVariableName()?>->id], 'method' => 'PUT', 'name' => 'edit-<?=$gen->getDashedModelName()?>-form']) !!}
+                {!! Form::model($<?=$gen->modelVariableName()?>, ['route' => ['<?=$gen->route()?>.update', $<?=$gen->modelVariableName()?>->id], 'method' => 'PUT', 'name' => 'edit-<?=$gen->getDashedModelName()?>-form']) !!}
 
-					@include('<?=$gen->viewsDirName()?>.partials.form-fields')
+                    @include('<?=$gen->viewsDirName()?>.partials.form-fields')
 
-					<div class="clearfix"></div>
+                    <div class="clearfix"></div>
 
-					<div class="form-group col-sm-6">
-			        	<button type="submit" class="btn btn-warning">
+                    <div class="form-group col-sm-6">
+                        <button type="submit" class="btn btn-warning">
                             <span class="glyphicon glyphicon-pencil"></span>
                             <span class="">{{trans('<?=$gen->getLangAccess()?>/views.edit.btn-edit')}}</span> 
                         </button>
-					</div>
+                    </div>
 
-			    {!! Form::close() !!}
+                {!! Form::close() !!}
 
-			</div>
+            </div>
         </div>
     </div>
 @endsection

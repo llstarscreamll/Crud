@@ -13,7 +13,7 @@ use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
 class {{$test}}Cest
 {
-	public function _before(FunctionalTester $I)
+    public function _before(FunctionalTester $I)
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
@@ -41,7 +41,7 @@ class {{$test}}Cest
 
         // veo los respectivos datos en la tabla
         foreach (\Page\Functional\{{$gen->studlyCasePlural()}}\Show::getReadOnlyFormData() as $key => $field) {
-			$I->see($field, Page::$table.' tbody tr.item-1 td');
-		}
+            $I->see($field, Page::$table.' tbody tr.item-1 td');
+        }
     }
 }

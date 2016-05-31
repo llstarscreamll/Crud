@@ -51,19 +51,19 @@ class {{$test}} extends Base
         parent::__construct($I);
 
         self::$linkToEdit = [
-	        'txt'       => trans('{{$gen->getLangAccess()}}/views.edit.link-access'),
-	        'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.edit-link-access-selector')}}'
-    	];
+            'txt'       => trans('{{$gen->getLangAccess()}}/views.edit.link-access'),
+            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.edit-link-access-selector')}}'
+        ];
 
-    	self::$title = [
-	        'txt'       => trans('{{$gen->getLangAccess()}}/views.edit.name'),
-	        'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.edit-title-selector')}}'
-	    ];
+        self::$title = [
+            'txt'       => trans('{{$gen->getLangAccess()}}/views.edit.name'),
+            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.edit-title-selector')}}'
+        ];
 
-	    self::$msgSuccess = [
-	        'txt'       => trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success'),
-	        'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.edit-message-success-selector')}}'
-	    ];
+        self::$msgSuccess = [
+            'txt'       => trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success'),
+            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.edit-message-success-selector')}}'
+        ];
     }
 
     /**
@@ -73,9 +73,9 @@ class {{$test}} extends Base
      */
     public static function getUpdateFormData()
     {
-    	$data = self::getCreateData();
+        $data = self::getCreateData();
 
-    	foreach (self::getCreateData() as $key => $create_field) {
+        foreach (self::getCreateData() as $key => $create_field) {
             
             if (! isset(self::$updateFormFields[$key])) {
                 unset($data[$key]);
@@ -92,10 +92,10 @@ class {{$test}} extends Base
      */
     public static function getDataToUpdateForm()
     {
-    	$data = array();
+        $data = array();
 
-    	$data = [
-    	@foreach($fields as $field)
+        $data = [
+        @foreach($fields as $field)
         @if($field->on_update_form_field)
             '{{$field->name}}' => {!!$field->testDataUpdate!!},
         @endif

@@ -15,7 +15,7 @@ use Page\Functional\{{$gen->studlyCasePlural()}}\Base;
 
 class {{$test}} extends Base
 {
-	/**
+    /**
      * Declare UI map for this page here. CSS or XPath allowed.
      * public static $usernameField = '#username';
      * public static $formSubmitButton = "#mainForm input[type=submit]";
@@ -39,8 +39,8 @@ class {{$test}} extends Base
         parent::__construct($I);
 
         self::$title = [
-	        'txt'       => trans('{{$gen->getLangAccess()}}/views.module.name'),
-	        'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.module-title-selector')}}'
-	    ];
+            'txt'       => trans('{{$gen->getLangAccess()}}/views.module.name'),
+            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.module-title-selector')}}'
+        ];
     }
 }

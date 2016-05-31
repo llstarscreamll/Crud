@@ -15,7 +15,7 @@ use Page\Functional\{{$gen->studlyCasePlural()}}\Base;
 
 class {{$test}} extends Base
 {
-	// include url of current page
+    // include url of current page
     public static $URL = '/{{$gen->route()}}/create';
 
     /**
@@ -62,18 +62,18 @@ class {{$test}} extends Base
      */
     public function initUIMap()
     {
-    	self::$title = [
-    		'txt' => trans('{{$gen->getLangAccess()}}/views.create.name'),
-    		'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.title-selector')}}'
-    	];
-		self::$form = 'form[name=create-{{$gen->getDashedModelName()}}-form]';
-		self::$formButton = [
-			'txt' => trans('{{$gen->getLangAccess()}}/views.create.form-button'),
-			'selector' => '{{config('llstarscreamll.CrudGenerator.uimap.create-form-button-selector')}}',
-		];
-		self::$msgSuccess = [
-			'txt' => trans('{{$gen->getLangAccess()}}/messages.create_{{$gen->snakeCaseSingular()}}_success'),
-			'selector' => '{{config('llstarscreamll.CrudGenerator.uimap.msg-success-selector')}}'
-		];
+        self::$title = [
+            'txt' => trans('{{$gen->getLangAccess()}}/views.create.name'),
+            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.title-selector')}}'
+        ];
+        self::$form = 'form[name=create-{{$gen->getDashedModelName()}}-form]';
+        self::$formButton = [
+            'txt' => trans('{{$gen->getLangAccess()}}/views.create.form-button'),
+            'selector' => '{{config('llstarscreamll.CrudGenerator.uimap.create-form-button-selector')}}',
+        ];
+        self::$msgSuccess = [
+            'txt' => trans('{{$gen->getLangAccess()}}/messages.create_{{$gen->snakeCaseSingular()}}_success'),
+            'selector' => '{{config('llstarscreamll.CrudGenerator.uimap.msg-success-selector')}}'
+        ];
     }
 }

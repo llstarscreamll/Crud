@@ -13,22 +13,22 @@ use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
 class {{$test}}Cest
 {
-	/**
-	 * Las acciones a realizar antes de cada test.
-	 * @param  FunctionalTester $I
-	 * @return void
-	 */
-	public function _before(FunctionalTester $I)
+    /**
+     * Las acciones a realizar antes de cada test.
+     * @param  FunctionalTester $I
+     * @return void
+     */
+    public function _before(FunctionalTester $I)
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
     }
-	
-	/**
-	 * Las acciones a realizar despúes de cada test.
-	 * @param  FunctionalTester $I
-	 * @return void
-	 */
+    
+    /**
+     * Las acciones a realizar despúes de cada test.
+     * @param  FunctionalTester $I
+     * @return void
+     */
     public function _after(FunctionalTester $I)
     {
     }
@@ -36,7 +36,7 @@ class {{$test}}Cest
     /**
      * Prueba la funcionalidad de crear un nuevo modelo.
      * @param  FunctionalTester $I
-	 * @return void
+     * @return void
      */
     public function create(FunctionalTester $I)
     {

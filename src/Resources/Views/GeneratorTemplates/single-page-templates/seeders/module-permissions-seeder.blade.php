@@ -13,10 +13,10 @@ class {{$gen->modelClassName()}}PermissionsSeeder extends Seeder
 {
     public function run()
     {
-    	$date = Carbon::now();
-    	$data = array();
+        $date = Carbon::now();
+        $data = array();
 
-    	$data[] = [
+        $data[] = [
             'name'           => '{{$gen->camelCasePlural()}}.index',
             'display_name'   => 'Listar {{$request->get('plural_entity_name')}}',
             'description'    => 'Ver en una lista todos los {{$request->get('plural_entity_name')}} del sistema',

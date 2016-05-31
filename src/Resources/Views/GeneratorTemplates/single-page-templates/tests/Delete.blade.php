@@ -13,7 +13,7 @@ use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
 class {{$test}}Cest
 {
-	public function _before(FunctionalTester $I)
+    public function _before(FunctionalTester $I)
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);

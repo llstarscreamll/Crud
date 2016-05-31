@@ -5,30 +5,33 @@ namespace llstarscreamll\CrudGenerator\Providers;
 use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
 
 /**
-* 
+*
 */
 class RouteGenerator extends BaseGenerator
 {
     /**
      * El nombre de la tabla en la base de datos.
+     *
      * @var string
      */
     public $table_name;
 
     /**
      * Los mensajes de alerta en la operación.
+     *
      * @var string
      */
     public $msg_warning;
 
     /**
      * Los mensajes de info en la operación.
+     *
      * @var string
      */
     public $msg_info;
 
     /**
-     * 
+     *
      */
     public function __construct($request)
     {
@@ -38,6 +41,7 @@ class RouteGenerator extends BaseGenerator
     /**
      * Añade el "Route Model Binding" al archivo RouteServiceProvider.php dentro del método
      * boot, inyecta el una instancia del modelo a la ruta.
+     *
      * @return bool
      */
     public function generateRouteModelBinding()
@@ -69,6 +73,7 @@ class RouteGenerator extends BaseGenerator
 
     /**
      * Añade la ruta al fichero de rutas.
+     *
      * @return bool
      */
     public function generateRoute()
@@ -95,6 +100,7 @@ class RouteGenerator extends BaseGenerator
 
     /**
      * Obtiene el contenido a actualizar para el fichero de rutas.
+     *
      * @param  string $existingContent
      * @param  string $route
      * @return string

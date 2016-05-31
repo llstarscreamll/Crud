@@ -3,12 +3,13 @@
 namespace llstarscreamll\CrudGenerator\Providers;
 
 /**
-* 
+*
 */
 class BaseGenerator
 {
     /**
      * Devuelve los campos o columnas de la tabla especificada.
+     *
      * @param  string $table El nombre de la tabla en la base de datos.
      * @return array
      */
@@ -58,7 +59,8 @@ class BaseGenerator
 
     /**
      * Devuelve los campos de la entidad con datos mas específicos sobre cada una.
-     * @param Request $request
+     *
+     * @param  Request $request
      * @return array
      */
     public function advanceFields($request)
@@ -66,7 +68,6 @@ class BaseGenerator
         $fields = array();
 
         foreach ($request->get('field') as $field_data) {
-
             $field = new \stdClass();
             $field->name = $field_data['name'];
             $field->label = $field_data['label'];
@@ -92,12 +93,14 @@ class BaseGenerator
     /**
      * Devuelve array con los campos que son feraneos (foreign key) de la tabla en questión
      * y a que tabla apunta la llave foranea.
+     *
      * @param  string $tableName El nombre de la tabla.
      * @return array
      */
     public function getForeignKeys($tableName)
     {
-        $results = \DB::select("select
+        $results = \DB::select(
+            "select
             concat(table_name, '.', column_name) as 'foreign_key',  
             concat(referenced_table_name, '.', referenced_column_name) as 'references'
             from
@@ -120,6 +123,7 @@ class BaseGenerator
 
     /**
      * Los campos a omitir.
+     *
      * @return array
      */
     public function skippedFields()
@@ -129,7 +133,8 @@ class BaseGenerator
 
     /**
      * Verifica si el campo dado está dentro de los campos a omitir.
-     * @param  string  $fieldName
+     *
+     * @param  string $fieldName
      * @return bool
      */
     public function isGuarded($fieldName)
@@ -139,13 +144,14 @@ class BaseGenerator
 
     /**
      * Revisa si está presente la columna 'deleted_at' en los campos dados en el parámetro.
-     * @param  stdClass  $fields
+     *
+     * @param  stdClass $fields
      * @return boolean
      */
     public function hasDeletedAtColumn($fields)
     {
         foreach ($fields as $key => $field) {
-            if ($field->name == 'deleted_at'){
+            if ($field->name == 'deleted_at') {
                 return true;
             }
         }
@@ -155,13 +161,14 @@ class BaseGenerator
 
     /**
      * Revisa si hay algún campo de tipo 'tinyint' en los campos dados en el parámetro.
-     * @param  stdClass  $fields
+     *
+     * @param  stdClass $fields
      * @return boolean
      */
     public function hasTinyintTypeField($fields)
     {
         foreach ($fields as $key => $field) {
-            if ($field->type == 'tinyint'){
+            if ($field->type == 'tinyint') {
                 return true;
             }
         }
@@ -173,6 +180,7 @@ class BaseGenerator
      * Devuelve string con el prefijo de nombre de ruta para la app, por ejemplo:
      * - books = book
      * - book_author = book-author
+     *
      * @return string
      */
     public function route()
@@ -183,6 +191,7 @@ class BaseGenerator
 
     /**
      * Devuelve el nombre de la clase del controlador.
+     *
      * @return string
      */
     public function controllerClassName()
@@ -192,6 +201,7 @@ class BaseGenerator
 
     /**
      * Devuelve el path completo a la carpeta de las vistas.
+     *
      * @return string
      */
     public function viewsDir()
@@ -201,6 +211,7 @@ class BaseGenerator
 
     /**
      * Devuelve el nombre de la carpeta donde serán guardadas las vistas.
+     *
      * @return string
      */
     public function viewsDirName()
@@ -210,6 +221,7 @@ class BaseGenerator
 
     /**
      * Devuelve el path donde guardará el controllador.
+     *
      * @return string
      */
     public function controllersDir()
@@ -219,6 +231,7 @@ class BaseGenerator
 
     /**
      * Devuelve el path donde se guardará el modelo.
+     *
      * @return string
      */
     public function modelsDir()
@@ -228,6 +241,7 @@ class BaseGenerator
 
     /**
      * Devuelve el nombre que tendrá la clase del modelo.
+     *
      * @return string
      */
     public function modelClassName()
@@ -237,6 +251,7 @@ class BaseGenerator
 
     /**
      * Devulve el nombre de la variable del modelo generado.
+     *
      * @return string
      */
     public function modelVariableName()
@@ -247,6 +262,7 @@ class BaseGenerator
     /**
      * Devuelve el nombre de la entidad en singular iniciando las primeras letras de cada palabra
      * con mayúscula, aplica sólo al inglés.
+     *
      * @return string
      */
     public function titleSingular()
@@ -257,6 +273,7 @@ class BaseGenerator
     /**
      * Devuelve el nombre de la entidad en plural iniciando las primeras letras de cada palabra
      * con mayúscula, aplica sólo al inglés.
+     *
      * @return string
      */
     public function titlePlural()
@@ -266,6 +283,7 @@ class BaseGenerator
 
     /**
      * Devuelve el path a donde hay que buscar las plantillas para generar los archivos.
+     *
      * @return string
      */
     public function templatesDir()
@@ -275,6 +293,7 @@ class BaseGenerator
 
     /**
      * Devuelve el nombre de la entidad en camelCase y en plural.
+     *
      * @return string
      */
     public function camelCasePlural()
@@ -284,6 +303,7 @@ class BaseGenerator
 
     /**
      * Devuelve el nombre de la entidad en StudlyCase y en plural.
+     *
      * @return string
      */
     public function studlyCasePlural()
@@ -293,6 +313,7 @@ class BaseGenerator
 
     /**
      * Devuelve el nombre de la entidad en snake_case y en singular.
+     *
      * @return string
      */
     public function snakeCaseSingular()
@@ -302,6 +323,7 @@ class BaseGenerator
 
     /**
      * Devuelve string para acceder a los ficheros de lengauje con la función translate().
+     *
      * @return string
      */
     public function getLangAccess()
@@ -311,6 +333,7 @@ class BaseGenerator
 
     /**
      * Obtiene el nombre del modelo separados por guiones (-) en minúscula.
+     *
      * @return string
      */
     public function getDashedModelName()
@@ -322,6 +345,7 @@ class BaseGenerator
      * Devuelve el nombre para un campo de formulario modificando el string dado en el parámetro
      * para las validaciones, así:
      * parametro = 'El nombre', devolverá  'Nombre'
+     *
      * @param  $label
      * @return string
      */

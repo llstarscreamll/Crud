@@ -14,10 +14,9 @@ if ($i % 2 == 0) {
     ?>
 <div class="clearfix"></div>
 <?php
-
 }
     ?>
-<?php 
+<?php
 }
     ?>
 <?php $i++;
