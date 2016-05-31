@@ -47,9 +47,9 @@ return $config = [
     ],
 
     /*
-     * El direcotrio que contiene las plantillas.
+     * El direcotrio que contiene las plantillas para generar vistas y clases.
      */
-    'templates' => 'vendor.CrudGenerator.single-page-templates',
+    'templates' => 'CrudGenerator::GeneratorTemplates.single-page-templates',
 
     /**
      * Aquí indicas si quieres que el formulario decreación de registro esté incluido en el index
@@ -59,11 +59,11 @@ return $config = [
     /**
      * La plantilla que las vistas generadas extenderán
      */
-    'layout'    => 'app',
-    'layout-namespace'    => '',
+    'layout'    => 'CoreModule::app',
+    'layout-namespace'    => 'CoreModule::',
 
     // el namespace de las clases a generar
-    'parent-app-namespace'  => 'grapas',
+    'parent-app-namespace'  => 'App',
 
     // tipos de datos de tablas numéricos
     'numeric-input-types'   => ['int','unsigned_int','float','double'],

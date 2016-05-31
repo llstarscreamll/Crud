@@ -21,7 +21,7 @@ class CrudGeneratorServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../Resources/Views', 'CrudGenerator');
 
         // publica las vistas para generar los archivos
-        $this->publishes([__DIR__.'/../Resources/Views/GeneratorTemplates/single-page-templates' => base_path('resources/views/vendor/CrudGenerator/single-page-templates')], 'views');
+        // $this->publishes([__DIR__.'/../Resources/Views/GeneratorTemplates/single-page-templates' => base_path('resources/views/vendor/CrudGenerator/single-page-templates')], 'views');
 
         // publica los archivos de configuración
         $this->publishes([__DIR__.'/../Config' => config_path('')], 'config');
