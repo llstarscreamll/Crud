@@ -8,7 +8,7 @@
 <?php if ($str = $gen->getFormInputMarkup($field, $gen->table_name)) { ?>
 <?=$str?>
 <?php if ($i % 2 == 1) {
-?> <div class="clearfix"></div> <?php
+?><?="\n<div class=\"clearfix\"></div>\n"?><?php
 } ?>
 <?php if (strpos($field->validation_rules, 'confirmed') !== false) { $i++; ?>
 <?=$gen->getFormInputConfirmationMarkup($field)?>

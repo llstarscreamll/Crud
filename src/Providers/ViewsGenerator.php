@@ -227,7 +227,7 @@ class ViewsGenerator extends BaseGenerator
 
         // ****************************************************************************
         // abro el contenedor
-        $output = "<div class='form-group col-sm-6 {{\$errors->has('{$field->name}') ? 'has-error' : ''}}'>\n";
+        $output = "\n<div class='form-group col-sm-6 {{\$errors->has('{$field->name}') ? 'has-error' : ''}}'>\n";
         // el label
         $output .= "{!! Form::label('{$field->name}', trans('".$this->getLangAccess()."/views.form-fields.".$field->name."')) !!}\n";
         // ****************************************************************************
@@ -292,16 +292,17 @@ class ViewsGenerator extends BaseGenerator
      */
     public function getFormInputConfirmationMarkup($field)
     {
-        // ****************************************************************************
+        // core condición para que no sea mostrado en formulario de sólo lectura
+        $output = "\n@if(!isset(\$show))\n";
         // abro el contenedor
-        $output = "<div class='form-group col-sm-6 {{\$errors->has('{$field->name}') ? 'has-error' : ''}}'>\n";
+        $output .= "<div class='form-group col-sm-6 {{\$errors->has('{$field->name}') ? 'has-error' : ''}}'>\n";
         // el label
         $output .= "{!! Form::label('{$field->name}_confirmation', trans('".$this->getLangAccess()."/views.form-fields.".$field->name."_confirmation')) !!}\n";
-        // ****************************************************************************
         
-        $output .= "{!! Form::input('text', '{$field->name}_confirmation', null, ['class' => 'form-control', isset(\$show) ? 'disabled' : '']) !!}\n";
+        $output .= "{!! Form::input('text', '{$field->name}_confirmation', null, ['class' => 'form-control']) !!}\n";
         $output .= $this->endFormGroup($field);
-        
+        $output .= "@endif\n";
+
         return $output;
     }
 
@@ -323,12 +324,12 @@ class ViewsGenerator extends BaseGenerator
     public function getCheckBoxSwitchHtlm($field, $data_size = 'medium')
     {
         return "{!! Form::checkbox('{$field->name}', true, null, [
-                'class' => 'bootstrap_switch',
-                'data-size' => '$data_size',
-                'data-on-text' => 'SI',
-                'data-off-text' => 'NO',
-                isset(\$show) ? 'disabled' : ''
-            ]) !!}\n";
+            'class' => 'bootstrap_switch',
+            'data-size' => '$data_size',
+            'data-on-text' => 'SI',
+            'data-off-text' => 'NO',
+            isset(\$show) ? 'disabled' : ''
+        ]) !!}\n";
     }
 
     /**
@@ -340,9 +341,9 @@ class ViewsGenerator extends BaseGenerator
     public function endFormGroup($field)
     {
         // los mensajes de error
-        $output = "{!!\$errors->first('{$field->name}', '<span class=\"text-danger\">:message</span>')!!}";
+        $output = "{!!\$errors->first('{$field->name}', '<span class=\"text-danger\">:message</span>')!!}\n";
         // cierro el contenedor
-        $output .= "\n</div>";
+        $output .= "</div>\n";
 
         return $output;
     }
