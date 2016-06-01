@@ -13,9 +13,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
 class {{$gen->modelClassName()}} extends Model
 {
-    @if($hasSoftDelete)
+@if($hasSoftDelete)
     use SoftDeletes;
-    @endif
+@endif
     
     /**
      * La tabla asociada al modelo.
@@ -24,7 +24,19 @@ class {{$gen->modelClassName()}} extends Model
     public $table = '{{$gen->table_name}}';
 
     /**
-     * Los atributos que no son asignables.
+     * Los atributos que SI son asignables.
+     * @var array
+     */
+    public $fillable = [
+@foreach($fields as $field)
+@if($field->fillable)
+        '{{$field->name}}',
+@endif
+@endforeach
+    ];
+
+    /**
+     * Los atributos que NO son asignables.
      * @var array
      */
     public $guarded = ['id','created_at','updated_at'@if($hasSoftDelete), 'deleted_at'@endif];
@@ -49,7 +61,7 @@ class {{$gen->modelClassName()}} extends Model
     
     /**
      * Realiza la consulta de los datos del modelo según lo que el usuario especifique.
-     * @param  Request $request
+     * @param  \Illuminate\Http\Request $request
      * @return Illuminate\Support\Collection
      */
     public static function findRequested($request)
