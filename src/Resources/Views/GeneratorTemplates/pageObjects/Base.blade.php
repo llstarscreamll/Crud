@@ -56,7 +56,7 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
      */
     static $formFields = [
         @foreach($fields as $field)
-            @if($field->in_form_field)
+            @if($field->on_create_form)
                 '{{$field->name}}',
             @endif
         @endforeach
@@ -68,7 +68,7 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
      */
     static $updateFormFields = [
         @foreach($fields as $field)
-            @if($field->on_update_form_field)
+            @if($field->on_update_form)
                 '{{$field->name}}',
             @endif
         @endforeach

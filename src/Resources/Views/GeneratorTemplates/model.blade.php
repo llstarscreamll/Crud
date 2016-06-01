@@ -49,19 +49,20 @@ class {{$gen->modelClassName()}} extends Model
     
     /**
      * Realiza la consulta de los datos del modelo según lo que el usuario especifique.
+     * @param  Request $request
      * @return Illuminate\Support\Collection
      */
-    public static function findRequested()
+    public static function findRequested($request)
     {
         $query = {{$gen->modelClassName()}}::query();
 
         // buscamos basados en los datos que señale el usuario
 @foreach ( $fields as $field )
-        \Request::input('{{$field->name}}') and $query->where({!! $gen->getConditionStr($field) !!});
+        $request->input('{{$field->name}}') and $query->where({!! $gen->getConditionStr($field) !!});
 @endforeach
 
         // ordenamos los resultados
-        \Request::input("sort") and $query->orderBy(\Request::input("sort"),\Request::input("sortType","asc"));
+        $request->input('sort') and $query->orderBy($request->input('sort'), $request->input('sortType', 'asc'));
 
         // paginamos los resultados
         return $query->paginate(15);
@@ -76,9 +77,7 @@ class {{$gen->modelClassName()}} extends Model
     {
         $rules = [
 @foreach ( $fields as $field )
-@if($rule = $gen->getValidationRule($field))
-            {!! $rule !!}
-@endif
+        '{{$field->name}}' => '{!!$field->validation_rules!!}',
 @endforeach
         ];
 
@@ -103,12 +102,12 @@ class {{$gen->modelClassName()}} extends Model
 
 @if($gen->areEnumFields($fields))
     /**
-     * Devuelve las valores de una columna de tipo "enum" de la base de datos.
+     * Devuelve array con los posibles valores de una columna de tipo "enum" de la base de datos.
      * @param  string $table
      * @param  string $column
      * @return array
      */
-    public static function getEnumValues($table, $column)
+    public static function getEnumValuesArray($table, $column)
     {
          $type = \DB::select( \DB::raw("SHOW COLUMNS FROM $table WHERE Field = '$column'") )[0]->Type;
 
@@ -124,6 +123,28 @@ class {{$gen->modelClassName()}} extends Model
          return $enum;
     }
 
+    /**
+     * Devuelve string con los posibles valores de una columna de tipo "enum" de la base de datos
+     * separados por coma.
+     * @param  string $table
+     * @param  string $column
+     * @return array
+     */
+    public static function getEnumValuesString($table, $column)
+    {
+         $type = \DB::select( \DB::raw("SHOW COLUMNS FROM $table WHERE Field = '$column'") )[0]->Type;
+
+         preg_match('/^enum\((.*)\)$/', $type, $matches);
+
+         $enum = '';
+
+         foreach( explode(',', $matches[1]) as $value ){
+           $v = trim( $value, "'" );
+           $enum .= $v.',';
+         }
+
+         return $enum;
+    }
 @endif
 
 }

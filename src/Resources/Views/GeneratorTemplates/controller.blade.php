@@ -2,6 +2,7 @@
 /* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
+/* @var $foreign_keys [] */
 ?>
 <?='<?php'?>
 
@@ -12,6 +13,11 @@ use Illuminate\Http\Request;
 
 use {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Http\Requests;
 use {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers\Controller;
+@foreach($foreign_keys as $foreign)
+@if(($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false)
+    use {{$class}};
+@endif
+@endforeach
 
 class {{$gen->controllerClassName()}} extends Controller
 {
@@ -36,23 +42,23 @@ class {{$gen->controllerClassName()}} extends Controller
      * Display a listing of the resource.
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // los datos de la vista
         $data = array();
 
-        @foreach($foreign_keys as $foreign)
-            @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
-                $data['{{$child_table[1]}}_list'] = \App\{{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
-            @endif
-        @endforeach
+@foreach($foreign_keys as $foreign)
+@if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
+        $data['{{$child_table[1]}}_list'] = {{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
+@endif
+@endforeach
 
-        @foreach($fields as $field)
-        @if($field->type == 'enum')
-        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValues('{{$gen->table_name}}', '{{$field->name}}');
-        @endif
-        @endforeach
-        $data['records'] = {{$gen->modelClassName()}}::findRequested();
+@foreach($fields as $field)
+@if($field->type == 'enum')
+        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
+@endif
+@endforeach
+        $data['records'] = {{$gen->modelClassName()}}::findRequested($request);
         
         return $this->view( "index", $data );
     }
@@ -74,7 +80,7 @@ class {{$gen->controllerClassName()}} extends Controller
 
         @foreach($fields as $field)
         @if($field->type == 'enum')
-        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValues('{{$gen->table_name}}', '{{$field->name}}');
+        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
         @endif
         @endforeach
 
@@ -113,7 +119,7 @@ class {{$gen->controllerClassName()}} extends Controller
 
         @foreach($fields as $field)
         @if($field->type == 'enum')
-        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValues('{{$gen->table_name}}', '{{$field->name}}');
+        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
         @endif
         @endforeach
         $data['{{$gen->modelVariableName()}}'] = ${{$gen->modelVariableName()}};
@@ -138,7 +144,7 @@ class {{$gen->controllerClassName()}} extends Controller
 
         @foreach($fields as $field)
         @if($field->type == 'enum')
-        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValues('{{$gen->table_name}}', '{{$field->name}}');
+        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
         @endif
         @endforeach
         $data['{{$gen->modelVariableName()}}'] = ${{$gen->modelVariableName()}};

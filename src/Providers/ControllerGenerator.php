@@ -31,11 +31,19 @@ class ControllerGenerator extends BaseGenerator
     public $msg_info;
 
     /**
+     * Los datos del usuario.
+     *
+     * @var Object
+     */
+    public $request;
+
+    /**
      *
      */
     public function __construct($request)
     {
         $this->table_name = $request->get('table_name');
+        $this->request = $request;
     }
 
     /**
@@ -52,7 +60,7 @@ class ControllerGenerator extends BaseGenerator
             $this->templatesDir().'.controller',
             [
             'gen' => $this,
-            'fields' => $this->fields($this->table_name),
+            'fields' => $this->advanceFields($this->request),
             'foreign_keys'  => $this->getForeignKeys($this->table_name)
             ]
         );

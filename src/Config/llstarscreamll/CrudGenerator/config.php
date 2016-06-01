@@ -49,7 +49,7 @@ return $config = [
     /*
      * El direcotrio que contiene las plantillas para generar vistas y clases.
      */
-    'templates' => 'CrudGenerator::GeneratorTemplates.single-page-templates',
+    'templates' => 'CrudGenerator::GeneratorTemplates',
 
     /**
      * Aquí indicas si quieres que el formulario decreación de registro esté incluido en el index

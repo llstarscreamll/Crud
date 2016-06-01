@@ -21,7 +21,7 @@ class GeneratorController extends Controller
         // el usuario debe estar autenticado para acceder al controlador
         $this->middleware('auth');
         // el usuario debe tener permisos para acceder al controlador
-        //$this->middleware('checkPermissions', ['except' => ['store', 'update']]);
+        // $this->middleware('checkPermissions', ['except' => ['store', 'update']]);
     }
 
     /**
@@ -68,7 +68,7 @@ class GeneratorController extends Controller
         if ($testsGenerator->generate() === false) {
             return redirect()->back()->with('error', "Ocurrió un error generando los tests funcionales.");
         }
-        // el modelo se generó correctamente
+        // los modelos han sido generados correctamente
         $msg_success[] = 'Los tests se han generado correctamente.';
 
         //////////////////////

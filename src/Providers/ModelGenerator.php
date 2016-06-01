@@ -104,7 +104,7 @@ class ModelGenerator extends BaseGenerator
 
         // enums
         if ($field->type == 'enum') {
-            $rules [] = "in:".join(",", $field->enumValues);
+            $rules [] = "in:'.self::getEnumValuesString(".$this->table_name.", $field->type).'";
         }
 
         return "'".$field->name."' => '".join("|", $rules)."',";
@@ -135,10 +135,12 @@ class ModelGenerator extends BaseGenerator
      */
     public function getConditionStr($field)
     {
+        // para búsquedas de tipo texto
         if (in_array($field->type, ['varchar', 'text'])) {
-            return "'{$field->name}','like','%'.\Request::input('{$field->name}').'%'";
+            return "'{$field->name}', 'like', '%'.\$request->input('{$field->name}').'%'";
         }
-        return "'{$field->name}',\Request::input('{$field->name}')";
+        
+        return "'{$field->name}', \$request->input('{$field->name}')";
     }
 
     /**

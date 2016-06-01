@@ -96,7 +96,7 @@ class {{$test}} extends Base
 
         $data = [
         @foreach($fields as $field)
-        @if($field->on_update_form_field)
+        @if($field->on_update_form)
             '{{$field->name}}' => {!!$field->testDataUpdate!!},
         @endif
         @endforeach

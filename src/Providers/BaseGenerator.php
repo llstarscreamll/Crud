@@ -15,7 +15,7 @@ class BaseGenerator
      */
     public static function fields($table)
     {
-        $columns = \DB::select('show fields from '.config('database.connections.mysql.prefix').$table);
+        $columns = \DB::select('desc '.config('database.connections.mysql.prefix').$table);
         $tableFields = array(); // el valor a devolver
 
         foreach ($columns as $column) {
@@ -76,12 +76,14 @@ class BaseGenerator
             $field->defValue = $field_data['defValue'];
             $field->key = $field_data['key'];
             $field->maxLength = $field_data['maxLength'];
+            $field->namespace = $field_data['namespace'];
             $field->fillable = isset($field_data['fillable']);
             $field->hidden = isset($field_data['hidden']);
-            $field->in_form_field = isset($field_data['in_form_field']);
-            $field->on_update_form_field = isset($field_data['on_update_form_field']);
+            $field->on_create_form = isset($field_data['on_create_form']);
+            $field->on_update_form = isset($field_data['on_update_form']);
             $field->testData = empty($field_data['testData']) ? 'null' : $field_data['testData'];
             $field->testDataUpdate = empty($field_data['testDataUpdate']) ? 'null' : $field_data['testDataUpdate'];
+            $field->validation_rules = $field_data['validation_rules'];
 
             // everything decided for the field, add it to the array
             $fields[$field->name] = $field;
@@ -119,6 +121,24 @@ class BaseGenerator
         }
 
         return $data;
+    }
+
+    /**
+     * Obtiene string con la clase con el namespace digitado por el usuario de un campo con
+     * una llave foránea.
+     * @param  array    $foreign
+     * @param  stdClass $fields
+     * @return string|bool
+     */
+    public function getForeignKeyModelNamespace($foreign, $fields)
+    {
+        foreach ($fields as $key => $field) {
+            if ($field->name == explode(".", $foreign->foreign_key)[1]) {
+                return $field->namespace;
+            }
+        }
+
+        return false;
     }
 
     /**

@@ -203,10 +203,10 @@ class ViewsGenerator extends BaseGenerator
             // "[{'Male':'Male'},{'Female':'Female'}]"
 
             $items = [];
-            foreach ($field->enumValues as $value) {
+            /*foreach ($field->enumValues as $value) {
                 $items[] = "{'$value':'$value'}";
-            }
-            return 'data-source="['.join(',', $items).']"';
+            }*/
+            return 'data-source="$'.$field->name.'_list->toJson()"';
         }
         return "";
     }

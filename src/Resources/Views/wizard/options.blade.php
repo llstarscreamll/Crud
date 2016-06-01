@@ -3,6 +3,21 @@
 @section('title') Opciones CRUD @stop
 
 @section('style')
+<style type="text/css">
+    
+    .input-text-extra-short{
+        width: 4em;
+    }
+    
+    .input-text-short{
+        width: 6em;
+    }
+
+    .input-text-medium{
+        width: 8em;
+    }
+
+</style>
 
 @endsection
 
@@ -28,7 +43,7 @@
 
             <div class="panel-body">
                 
-                {!! Form::open(['route' => 'crudGenerator.generate', 'method' => 'POST']) !!}
+                {!! Form::open(['route' => 'crudGenerator.generate', 'method' => 'POST', 'name' => 'CRUD-form']) !!}
                 <div class="row">
                     
                     {!! Form::hidden('table_name', $table_name) !!}
@@ -104,22 +119,32 @@
 
                     <div class="col-xs-12">
                         <div class="table-responsive">
-                        <table class="table">
+                        <table class="table table-hover table-bordered">
                             <thead>
-                                <th>DB Column</th>
-                                <th>Type</th>
-                                <th>Required?</th>
-                                <th>DefaultValue</th>
-                                <th>Key</th>
-                                <th>MaxLen.</th>
-                                <th>Fillable?</th>
-                                <th>Hidden?</th>
-                                <th>Form Field?</th>
-                                <th>On Update Form?</th>
-                                <th>TestData</th>
-                                <th>TestData(Update)</th>
-                                <th>Label</th>
-                                <th>Validation</th>
+                                <tr>
+                                    <th colspan="6" class="text-center">DB</th>
+                                    <th colspan="2" class="text-center">Model</th>
+                                    <th colspan="3" class="text-center">HTML</th>
+                                    <th colspan="2" class="text-center">Test</th>
+                                    <th colspan="1" class="text-center">Validation</th>
+                                </tr>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Required?</th>
+                                    <th>DefaultValue</th>
+                                    <th>Key</th>
+                                    <th>MaxLen.</th>
+                                    <th>Namespace</th>
+                                    <th>Fillable?</th>
+                                    <th>Hidden?</th>
+                                    <th>OnCreateForm?</th>
+                                    <th>OnUpdateForm?</th>
+                                    <th>Label</th>
+                                    <th>TestData</th>
+                                    <th>TestData(Update)</th>
+                                    <th>Validation</th>
+                                </tr>
                             </thead>
                             <tbody>
                                 @for($i = 0; $i < count($fields); $i++)
@@ -128,7 +153,7 @@
                                         {!! Form::text("field[$i][name]", $fields[$i]->name, ['class' => 'form-control']) !!}
                                     </td>
                                     <td>
-                                        {!! Form::text("field[$i][type]", $fields[$i]->type, ['class' => 'form-control']) !!}
+                                        {!! Form::text("field[$i][type]", $fields[$i]->type, ['class' => 'form-control input-text-medium']) !!}
                                     </td>
                                     <td>
                                         {!! Form::checkbox("field[$i][required]", $fields[$i]->required, $fields[$i]->required, [
@@ -139,13 +164,16 @@
                                         ]) !!}
                                     </td>
                                     <td>
-                                        {!! Form::text("field[$i][defValue]", $fields[$i]->defValue, ['class' => 'form-control']) !!}
+                                        {!! Form::text("field[$i][defValue]", $fields[$i]->defValue, ['class' => 'form-control input-text-short']) !!}
                                     </td>
                                     <td>
-                                        {!! Form::text("field[$i][key]", $fields[$i]->key, ['class' => 'form-control']) !!}
+                                        {!! Form::text("field[$i][key]", $fields[$i]->key, ['class' => 'form-control input-text-extra-short', 'maxlength' => 3]) !!}
                                     </td>
                                     <td>
                                         {!! Form::number("field[$i][maxLength]", $fields[$i]->maxLength, ['class' => 'form-control']) !!}
+                                    </td>
+                                    <td>
+                                        {!! Form::text("field[$i][namespace]", null, ['class' => 'form-control']) !!}
                                     </td>
                                     <td>
                                         {!! Form::checkbox("field[$i][fillable]", true, null, [
@@ -164,7 +192,7 @@
                                         ]) !!}
                                     </td>
                                     <td>
-                                        {!! Form::checkbox("field[$i][in_form_field]", true, null, [
+                                        {!! Form::checkbox("field[$i][on_create_form]", true, null, [
                                             'class' => 'bootstrap_switch',
                                             'data-size' => 'small',
                                             'data-on-text' => 'SI',
@@ -172,21 +200,21 @@
                                         ]) !!}
                                     </td>
                                     <td>
-                                        {!! Form::checkbox("field[$i][on_update_form_field]", true, null, [
+                                        {!! Form::checkbox("field[$i][on_update_form]", true, null, [
                                             'class' => 'bootstrap_switch',
                                             'data-size' => 'small',
                                             'data-on-text' => 'SI',
                                             'data-off-text' => 'NO',
                                         ]) !!}
+                                    </td>
+                                    <td>
+                                        {!! Form::text("field[$i][label]", null, ['class' => 'form-control', 'required', 'placeholder' => $fields[$i]->name.' label']) !!}
                                     </td>
                                     <td>
                                         {!! Form::text("field[$i][testData]", null, ['class' => 'form-control', 'placeholder' => 'null']) !!}
                                     </td>
                                     <td>
                                         {!! Form::text("field[$i][testDataUpdate]", null, ['class' => 'form-control', 'placeholder' => 'null']) !!}
-                                    </td>
-                                    <td>
-                                        {!! Form::text("field[$i][label]", null, ['class' => 'form-control', 'required', 'placeholder' => $fields[$i]->name.' label']) !!}
                                     </td>
                                     <td>
                                         {!! Form::text("field[$i][validation_rules]", null, ['class' => 'form-control', 'placeholder' => $fields[$i]->name.' rules']) !!}
