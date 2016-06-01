@@ -221,7 +221,7 @@ class ViewsGenerator extends BaseGenerator
     public function getFormInputMarkup($field, $table_name, $checkSkippedFields = false)
     {
         // $field es un campo de los que debo omitir?
-        if (in_array($field->name, $this->skippedFields()) && $checkSkippedFields === false) {
+        if (($field->on_create_form === false && $field->on_update_form === false) && $checkSkippedFields === false) {
             return false;
         }
 
@@ -234,7 +234,6 @@ class ViewsGenerator extends BaseGenerator
 
         // para selects
         if ($field->type == 'enum') {
-            //return "{!! \llstarscreamll\CrudGenerator\Form::select( '{$field->name}', [ '".join("', '",$field->enumValues)."' ] ){$modelStr}->show() !!}";
             $output .= "{!! Form::select('{$field->name}', \${$field->name}_list, null, ['class' => 'form-control', isset(\$show) ? 'disabled' : '']) !!}\n";
             $output .= $this->endFormGroup($field);
             return $output;
@@ -281,6 +280,26 @@ class ViewsGenerator extends BaseGenerator
 
         // el campo
         $output .= "{!! Form::input('{$type}', '{$field->name}', null, ['class' => 'form-control', isset(\$show) ? 'disabled' : '']) !!}\n";
+        $output .= $this->endFormGroup($field);
+        
+        return $output;
+    }
+
+    /**
+     * Genera código HTML para un elemento de formulario que requiere confirmación
+     * @param  stdClas $field
+     * @return string      
+     */
+    public function getFormInputConfirmationMarkup($field)
+    {
+        // ****************************************************************************
+        // abro el contenedor
+        $output = "<div class='form-group col-sm-6 {{\$errors->has('{$field->name}') ? 'has-error' : ''}}'>\n";
+        // el label
+        $output .= "{!! Form::label('{$field->name}_confirmation', trans('".$this->getLangAccess()."/views.form-fields.".$field->name."_confirmation')) !!}\n";
+        // ****************************************************************************
+        
+        $output .= "{!! Form::input('text', '{$field->name}_confirmation', null, ['class' => 'form-control', isset(\$show) ? 'disabled' : '']) !!}\n";
         $output .= $this->endFormGroup($field);
         
         return $output;

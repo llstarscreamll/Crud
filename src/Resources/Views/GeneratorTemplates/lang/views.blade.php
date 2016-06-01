@@ -62,16 +62,19 @@ return [
     
     // nombres de los elementos del formulario de creación/edición
     'form-fields' => [
-        @foreach($fields as $field)
+@foreach($fields as $field)
         '{{$field->name}}' => '{!!$gen->getFormFieldName($field->label)!!}',
-        @endforeach
+@if(strpos($field->validation_rules, 'confirmed'))
+        '{{$field->name}}_confirmation' => '{!!$gen->getFormFieldName("Confirmar ".$field->label)!!}',
+@endif
+@endforeach
     ],
 
     // nombres cortos de los elementos del formulario, para la tabla del index
     'form-fields-short-name' => [
-        @foreach($fields as $field)
+@foreach($fields as $field)
         '{{$field->name}}' => '{!!$gen->getFormFieldName($field->label)!!}',
-        @endforeach
+@endforeach
     ],
 
     // el formulario de búsqueda

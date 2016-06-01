@@ -16,9 +16,12 @@ return [
      * Los atributos del módulo.
      */
     'attributes' => [
-        @foreach($fields as $field)
+@foreach($fields as $field)
         '{{$field->name}}' => '{!!$field->label!!}',
-        @endforeach
+@if(strpos($field->validation_rules, 'confirmed'))
+        '{{$field->name}}_confirmation' => 'Confirmar {!!$field->label!!}',
+@endif
+@endforeach
     ],
 
 ];
