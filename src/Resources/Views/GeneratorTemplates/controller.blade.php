@@ -72,17 +72,17 @@ class {{$gen->controllerClassName()}} extends Controller
         // los datos de la vista
         $data = array();
 
-        @foreach($foreign_keys as $foreign)
-            @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
-                $data['{{$child_table[1]}}_list'] = \App\{{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
-            @endif
-        @endforeach
+@foreach($foreign_keys as $foreign)
+    @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
+                $data['{{$child_table[1]}}_list'] = {{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
+    @endif
+@endforeach
 
-        @foreach($fields as $field)
-        @if($field->type == 'enum')
+@foreach($fields as $field)
+@if($field->type == 'enum')
         $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
-        @endif
-        @endforeach
+@endif
+@endforeach
 
         return $this->view("create", $data);
     }
@@ -94,7 +94,7 @@ class {{$gen->controllerClassName()}} extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, {{$gen->modelClassName()}}::validationRules());
+        $this->validate($request, {{$gen->modelClassName()}}::validationRules(), [], trans('{{$gen->getLangAccess()}}/validation.attributes'));
 
         {{$gen->modelClassName()}}::create($request->all());
         $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.create_{{$gen->snakeCaseSingular()}}_success'));
@@ -111,17 +111,17 @@ class {{$gen->controllerClassName()}} extends Controller
         // los datos de la vista
         $data = array();
 
-        @foreach($foreign_keys as $foreign)
-            @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
-                $data['{{$child_table[1]}}_list'] = \App\{{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
-            @endif
-        @endforeach
+@foreach($foreign_keys as $foreign)
+    @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
+                $data['{{$child_table[1]}}_list'] = {{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
+    @endif
+@endforeach
 
-        @foreach($fields as $field)
-        @if($field->type == 'enum')
+@foreach($fields as $field)
+@if($field->type == 'enum')
         $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
-        @endif
-        @endforeach
+@endif
+@endforeach
         $data['{{$gen->modelVariableName()}}'] = ${{$gen->modelVariableName()}};
 
         return $this->view("show", $data);
@@ -136,17 +136,17 @@ class {{$gen->controllerClassName()}} extends Controller
         // los datos de la vista
         $data = array();
 
-        @foreach($foreign_keys as $foreign)
-            @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
-                $data['{{$child_table[1]}}_list'] = \App\{{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
-            @endif
-        @endforeach
+@foreach($foreign_keys as $foreign)
+    @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
+                $data['{{$child_table[1]}}_list'] = {{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
+    @endif
+@endforeach
 
-        @foreach($fields as $field)
-        @if($field->type == 'enum')
+@foreach($fields as $field)
+@if($field->type == 'enum')
         $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
-        @endif
-        @endforeach
+@endif
+@endforeach
         $data['{{$gen->modelVariableName()}}'] = ${{$gen->modelVariableName()}};
 
         return $this->view( "edit", $data );
