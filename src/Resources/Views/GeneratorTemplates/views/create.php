@@ -55,10 +55,10 @@
 
     <script type="text/javascript">
         
-        <?php if ($gen->hasTinyintTypeField($fields)) { ?>
+<?php if ($gen->hasTinyintTypeField($fields)) { ?>
         {{-- Inicializa el componente SwitchBootstrap --}}
         $(".bootstrap_switch").bootstrapSwitch();
-        <?php } ?>
+<?php } ?>
         
     </script>
 

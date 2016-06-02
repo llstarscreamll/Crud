@@ -150,7 +150,7 @@ class ViewsGenerator extends BaseGenerator
     }
 
     /**
-     * Devuelve un string con el tipo de campo para el formulario html.
+     * Devuelve un string con el tipo de campo (data-type) para el componente x-editable.
      *
      * @param  Object $field
      * @return string
@@ -173,8 +173,13 @@ class ViewsGenerator extends BaseGenerator
         }
 
         // numbers
-        if (in_array($field->type, ['int', 'unsigned_int'])) {
+        if (in_array($field->type, ['int', 'unsigned_int']) && $field->key != 'MUL') {
             return "number";
+        }
+
+        // numbers
+        if (in_array($field->type, ['int', 'unsigned_int']) && $field->key == 'MUL') {
+            return "select";
         }
 
         // emails
@@ -199,14 +204,8 @@ class ViewsGenerator extends BaseGenerator
      */
     public function getSourceForEnum($field)
     {
-        if ($field->type == 'enum') {
-            // "[{'Male':'Male'},{'Female':'Female'}]"
-
-            $items = [];
-            /*foreach ($field->enumValues as $value) {
-                $items[] = "{'$value':'$value'}";
-            }*/
-            return 'data-source="$'.$field->name.'_list->toJson()"';
+        if ($field->type == 'enum' || (in_array($field->type, ['int', 'unsigned_int']) && $field->key == 'MUL')) {
+            return "data-source='{!! $".$field->name."_list_json !!}'";
         }
         return "";
     }
@@ -241,7 +240,7 @@ class ViewsGenerator extends BaseGenerator
 
         // para checkbox
         if ($field->type == 'tinyint') {
-            $output .= "<br>{!! Form::hidden('{$field->name}', false) !!}".$this->getCheckBoxSwitchHtlm($field);
+            $output .= "{!! Form::hidden('{$field->name}', false) !!}\n".$this->getCheckBoxSwitchHtlm($field);
             $output .= $this->endFormGroup($field);
             return $output;
         }
@@ -323,13 +322,15 @@ class ViewsGenerator extends BaseGenerator
      */
     public function getCheckBoxSwitchHtlm($field, $data_size = 'medium')
     {
-        return "{!! Form::checkbox('{$field->name}', true, null, [
-            'class' => 'bootstrap_switch',
-            'data-size' => '$data_size',
-            'data-on-text' => 'SI',
-            'data-off-text' => 'NO',
-            isset(\$show) ? 'disabled' : ''
-        ]) !!}\n";
+        return "{!! Form::checkbox('{$field->name}', true, null,
+                    [
+                    'class' => 'bootstrap_switch',
+                    'data-size' => '$data_size',
+                    'data-on-text' => 'SI',
+                    'data-off-text' => 'NO',
+                    isset(\$show) ? 'disabled' : ''
+                    ]
+                ) !!}\n\t\t\t\t";
     }
 
     /**
@@ -346,5 +347,28 @@ class ViewsGenerator extends BaseGenerator
         $output .= "</div>\n";
 
         return $output;
+    }
+
+    /**
+     * Devuelve string de la clase CSS a asociar a un input para uso del componete
+     * x-editable, de momento las posibles clases son .editable, .editable-date y
+     * .editable-datetime; son devueltos según el tipo de campo que tenga $field;
+     * @param  stdClass $field
+     * @return string
+     */
+    public function getInputXEditableClass($field)
+    {
+        // el valor por defecto
+        $class = 'editable';
+
+        if ($field->type == 'datetime') {
+            $class = 'editable-datetime';
+        }
+
+        if ($field->type == 'date') {
+            $class = 'editable-date';
+        }
+
+        return $class;
     }
 }

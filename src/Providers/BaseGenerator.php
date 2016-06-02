@@ -378,4 +378,36 @@ class BaseGenerator
 
         return $string;
     }
+
+    /**
+     * Revisa si hay algún campo de tipo "date" en $fields
+     * @param  stdClass  $fields
+     * @return boolean
+     */
+    public function hasDateFields($fields)
+    {
+        foreach ($fields as $key => $field) {
+            if ($field->type == 'date') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Revisa si hay algún campo de tipo "datetime" en $fields
+     * @param  stdClass  $fields
+     * @return boolean
+     */
+    public function hasDateTimeFields($fields)
+    {
+        foreach ($fields as $key => $field) {
+            if ($field->type == 'datetime') {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
