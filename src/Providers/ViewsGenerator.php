@@ -240,7 +240,7 @@ class ViewsGenerator extends BaseGenerator
 
         // para checkbox
         if ($field->type == 'tinyint') {
-            $output .= "{!! Form::hidden('{$field->name}', false) !!}\n".$this->getCheckBoxSwitchHtlm($field);
+            $output .= "{!! Form::hidden('{$field->name}', false) !!}\n<br>".$this->getCheckBoxSwitchHtlm($field);
             $output .= $this->endFormGroup($field);
             return $output;
         }
