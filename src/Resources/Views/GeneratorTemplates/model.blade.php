@@ -67,7 +67,7 @@ class {{$gen->modelClassName()}} extends Model
      */
     public function {{ $gen->getFunctionNameRelationFromField($field) }}()
     {
-        return $this->belongsTo('{{$gen->getRelationClassFromNamespace($field)}}', '{{$field->name}}');
+        return $this->belongsTo('{{$field->namespace}}', '{{$field->name}}');
     }
 @endif
 @endforeach

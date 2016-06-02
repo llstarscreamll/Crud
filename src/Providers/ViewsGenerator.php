@@ -371,4 +371,28 @@ class ViewsGenerator extends BaseGenerator
 
         return $class;
     }
+
+    /**
+     * Obtiene el nombre del atributo a mostrar de un modelo, si la columna no
+     * tiene relación con otra tabla, devolverá sólo el nombre de la columna,
+     * si tiene dicha relación devolverá el dato de la relación, esto para no
+     * mostrar números que hacen referencia a registros de otra tabla, mejor
+     * mostrar algo que el usuario pueda leer y entender claramente, ejemplo:
+     * relation_id = ralation->name
+     * deleted_by = deletedBy->name
+     * @param  stdClass $field
+     * @param  string $modelName
+     * @return string
+     */
+    public function getRecordFieldData($field, $modelName)
+    {
+        $attr = "{$modelName}->{$field->name}";
+
+        if ($field->relation) {
+            $relation = $this->getFunctionNameRelationFromField($field);
+            $attr = "{$modelName}->{$relation} ? {$modelName}->{$relation}"."->name : ''";
+        }
+
+        return $attr;
+    }
 }
