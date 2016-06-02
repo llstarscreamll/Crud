@@ -77,6 +77,7 @@ class BaseGenerator
             $field->key = $field_data['key'];
             $field->maxLength = $field_data['maxLength'];
             $field->namespace = $field_data['namespace'];
+            $field->relation = $field_data['relation'];
             $field->fillable = isset($field_data['fillable']);
             $field->hidden = isset($field_data['hidden']);
             $field->on_create_form = isset($field_data['on_create_form']);
@@ -409,5 +410,66 @@ class BaseGenerator
         }
 
         return false;
+    }
+
+    /**
+     * Obtiene el nombre de la función para la relación del modelo a partir
+     * del nombre del campo que tiene es llave foránea y teniendo en cuenta
+     * el tipo de relación, por ejemplo:
+     * relation_id = relation|relations
+     * deleted_by = deletedBy
+     * @param  stdClass $field
+     * @return string
+     */
+    public function getFunctionNameRelationFromField($field)
+    {
+        $function = camel_case(str_replace('_id', '', $field->name));
+
+        // nombre en singular
+        if (in_array($function, ['belongsTo', 'hasOne'])) {
+            $function = str_singular($function);
+        }
+
+        // nombre en plural
+        if (in_array($function, ['hasMany', 'belongsToMany'])) {
+            $function = str_plural($function);
+        }
+
+        return $function;
+    }
+
+    /**
+     * Obtiene el nombre de la función para la relación del modelo a partir
+     * del namespace de la clase con la que se va a relacionar y dependiendo
+     * también del tipo de relación, por ejemplo:
+     * App\Models\Relations = relation || relations
+     * @param  stdClass $field
+     * @return string
+     */
+    public function getFunctionNameRelationFromNamespace($field)
+    {
+        $function = camel_case(substr($field->namespace, (strrpos($field->namespace, '\\')+1)));
+
+        // nombre en singular
+        if (in_array($function, ['belongsTo', 'hasOne'])) {
+            $function = str_singular($function);
+        }
+
+        // nombre en plural
+        if (in_array($function, ['hasMany', 'belongsToMany'])) {
+            $function = str_plural($function);
+        }
+
+        return $function;
+    }
+
+    /**
+     * Devuelve string con el nombre de la clase sin el namespace.
+     * @param  stdClass $field
+     * @return string
+     */
+    public function getRelationClassFromNamespace($field)
+    {
+        return substr($field->namespace, (strrpos($field->namespace, '\\')+1));
     }
 }

@@ -123,7 +123,7 @@
                             <thead>
                                 <tr>
                                     <th colspan="6" class="text-center">DB</th>
-                                    <th colspan="2" class="text-center">Model</th>
+                                    <th colspan="4" class="text-center">Model</th>
                                     <th colspan="3" class="text-center">HTML</th>
                                     <th colspan="2" class="text-center">Test</th>
                                     <th colspan="1" class="text-center">Validation</th>
@@ -136,6 +136,7 @@
                                     <th>Key</th>
                                     <th>MaxLen.</th>
                                     <th>Namespace</th>
+                                    <th>Relation</th>
                                     <th>Fillable?</th>
                                     <th>Hidden?</th>
                                     <th>OnCreateForm?</th>
@@ -174,6 +175,19 @@
                                     </td>
                                     <td>
                                         {!! Form::text("field[$i][namespace]", null, ['class' => 'form-control']) !!}
+                                    </td>
+                                    <td>
+                                        {!! Form::select("field[$i][relation]",
+                                            [
+                                            '' => '---',
+                                            'hasOne' => 'hasOne',
+                                            'belongsTo' => 'belongsTo',
+                                            'hasMany' => 'hasMany',
+                                            'belongsToMany' => 'belongsToMany',
+                                            ],
+                                            null,
+                                            ['class' => 'form-control']
+                                        ) !!}
                                     </td>
                                     <td>
                                         {!! Form::checkbox("field[$i][fillable]", true, null, [

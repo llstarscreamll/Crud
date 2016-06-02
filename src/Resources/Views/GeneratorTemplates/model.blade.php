@@ -39,7 +39,7 @@ class {{$gen->modelClassName()}} extends Model
      * Los atributos que NO son asignables.
      * @var array
      */
-    public $guarded = ['id','created_at','updated_at'@if($hasSoftDelete), 'deleted_at'@endif];
+    public $guarded = ['id', 'created_at', 'updated_at'@if($hasSoftDelete), 'deleted_at'@endif];
 
     /**
      * Indica si Eloquent debe gestionar los timestamps del modelo.
@@ -54,14 +54,27 @@ class {{$gen->modelClassName()}} extends Model
     public $dates = ['created_at', 'updated_at'@if($hasSoftDelete), "deleted_at"@endif];
 
     /**
-     * El formato de almacenamiento de las columnas fechas del modelo.
+     * El formato de almacenamiento de las columnas de tipo fecha del modelo.
      * @var string
      */
     public $dateFormat = 'Y-m-d H:i:s';
+
+@foreach ($fields as $field)
+@if (!empty($field->relation))
+    /**
+     * La relación con {{$field->namespace}}
+     * @return object
+     */
+    public function {{ $gen->getFunctionNameRelationFromField($field) }}()
+    {
+        return $this->belongsTo('{{$gen->getRelationClassFromNamespace($field)}}', '{{$field->name}}');
+    }
+@endif
+@endforeach
     
     /**
      * Realiza la consulta de los datos del modelo según lo que el usuario especifique.
-     * @param  \Illuminate\Http\Request $request
+     * @param  Illuminate\Http\Request $request
      * @return Illuminate\Support\Collection
      */
     public static function findRequested($request)
