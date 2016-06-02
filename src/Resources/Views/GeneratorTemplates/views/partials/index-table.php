@@ -84,15 +84,13 @@
                           data-value="{{ $record-><?=$field->name?> }}"
                           data-pk="{{ $record->{$record->getKeyName()} }}"
                           data-url="/<?=$gen->route()?>/{{ $record->{$record->getKeyName()} }}"
-                          <?=$gen->getSourceForEnum($field)?>>
-                        {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
-                    </span>
+                          <?=$gen->getSourceForEnum($field)?>>{{ <?=$gen->getRecordFieldData($field, '$record')?> }}</span>
 <?php } else { ?>
                     {{-- Los campos protejidos no son editables --}}
                     {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
 <?php } // end if ?>
                 </td>
-<?php } ?>
+<?php } // end if ?>
 <?php } // endforeach ?>
                 
                 {{-- Los botones de acción para cada registro --}}
