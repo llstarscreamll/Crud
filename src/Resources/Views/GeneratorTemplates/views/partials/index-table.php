@@ -10,6 +10,7 @@
             {{-- Nombres de columnas de tabla --}}
             <tr class="header-row">
 <?php foreach ($fields as $field) { ?>
+<?php if (!$field->hidden) { ?>
                 <th>
                     <a href="{{route('<?=$gen->route()?>.index',
                         array_merge(
@@ -25,6 +26,7 @@
                     </a>
                 </th>
 <?php } ?>
+<?php } ?>
                 <th>{{trans('<?=$gen->getLangAccess()?>/views.index.table-actions-column')}}</th>
             </tr>
             
@@ -33,7 +35,9 @@
             {!! Form::open(['route' => '<?=$gen->route()?>.index', 'method' => 'GET']) !!}
 
 <?php foreach ($fields as $field) { ?>
+<?php if (!$field->hidden) { ?>
                 <td><?=$gen->getSearchInputStr($field, $gen->table_name)?></td>
+<?php } ?>
 <?php } ?>
 
                 {{-- Los botones de búsqueda y limpieza del formulario --}}
@@ -69,6 +73,7 @@
             @forelse ( $records as $record )
             <tr class="item-{{$record->id}}">
 <?php foreach ($fields as $field) { ?>
+<?php if (!$field->hidden) { ?>
                 <td>
 <?php if (! $gen->isGuarded($field->name)) { ?>
                     {{-- Campo editable --}}
@@ -87,6 +92,7 @@
                     {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
 <?php } // end if ?>
                 </td>
+<?php } ?>
 <?php } // endforeach ?>
                 
                 {{-- Los botones de acción para cada registro --}}
