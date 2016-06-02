@@ -24,6 +24,12 @@ class {{$gen->modelClassName()}} extends Model
     public $table = '{{$gen->table_name}}';
 
     /**
+     * La llave primaria del modelo.
+     * @var string
+     */
+    public $primaryKey = '{{$gen->getPrimaryKey($fields)}}';
+
+    /**
      * Los atributos que SI son asignables.
      * @var array
      */

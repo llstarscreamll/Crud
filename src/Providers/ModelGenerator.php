@@ -130,8 +130,8 @@ class ModelGenerator extends BaseGenerator
     /**
      * Devuelve string con clausula para el Query Builder de Eloquent
      *
-     * @param  [type] $field [description]
-     * @return [type]        [description]
+     * @param  stdClass $field
+     * @return string
      */
     public function getConditionStr($field)
     {
@@ -141,6 +141,25 @@ class ModelGenerator extends BaseGenerator
         }
         
         return "'{$field->name}', \$request->input('{$field->name}')";
+    }
+
+    /**
+     * Devuelve la llave primaria para el modelo.
+     * @param  stdClass $field
+     * @return string
+     */
+    public function getPrimaryKey($fields)
+    {
+        // el valor por defecto de la llave primaria
+        $primary_key = 'id';
+
+        foreach ($fields as $field) {
+            if ($field->key == 'PRI') {
+                $primary_key = $field->name;
+            }
+        }
+
+        return $primary_key;
     }
 
     /**
