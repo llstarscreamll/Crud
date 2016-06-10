@@ -293,14 +293,7 @@ class ViewsGenerator extends BaseGenerator
 
         // para selects
         if ($field->type == 'enum') {
-            $output .= "{!! Form::select('{$field->name}', \${$field->name}_list, null, ['class' => 'form-control', isset(\$show) ? 'disabled' : '']) !!}\n";
-            $output .= $this->endFormGroup($field);
-            return $output;
-        }
-
-        // para checkbox
-        if ($field->type == 'tinyint') {
-            $output .= "{!! Form::hidden('{$field->name}', false) !!}\n<br>".$this->generateCheckBoxBootstrapSwitchHtlm($field);
+            $output .= "{!! Form::select('{$field->name}', ['' => '---']+\${$field->name}_list, null, ['class' => 'form-control selectpicker', isset(\$show) ? 'disabled' : null]) !!}\n";
             $output .= $this->endFormGroup($field);
             return $output;
         }
@@ -312,10 +305,17 @@ class ViewsGenerator extends BaseGenerator
 
             // si el campo actual es una llave foránea
             if (strpos($child_table[1], $field->name) !== false) {
-                $output .= "{!! Form::select('{$field->name}', \${$field->name}_list, null, ['class' => 'form-control', isset(\$show) ? 'disabled' : '']) !!}\n";
+                $output .= "{!! Form::select('{$field->name}', ['' => '---']+\${$field->name}_list, null, ['class' => 'form-control selectpicker', isset(\$show) ? 'disabled' : null]) !!}\n";
                 $output .= $this->endFormGroup($field);
                 return $output;
             }
+        }
+
+        // para checkbox
+        if ($field->type == 'tinyint') {
+            $output .= "{!! Form::hidden('{$field->name}', false) !!}\n<br>".$this->generateCheckBoxBootstrapSwitchHtlm($field);
+            $output .= $this->endFormGroup($field);
+            return $output;
         }
 
         // para textarea

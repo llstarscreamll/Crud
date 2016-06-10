@@ -86,7 +86,7 @@
 <?php } ?>
 
 <?php if ($gen->hasSelectFields($fields)) { ?>
-    {{-- Componente Bootstrap-Select --}}
+    {{-- Componente Bootstrap-Select, este componente se inicializa automáticamente --}}
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/css/bootstrap-select.min.css') }}"></script>
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
@@ -143,11 +143,6 @@
             checkboxClass: 'icheckbox_square-red',
             radioClass: 'iradio_square-red'
         });
-<?php } ?>
-
-<?php if ($gen->hasSelectFields($fields)) { ?>
-        {{-- Inicializa el componente Bootstrap-Select --}}
-        $(".select2").select2();
 <?php } ?>
     </script>
 @endsection

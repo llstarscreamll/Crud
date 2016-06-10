@@ -53,6 +53,12 @@
 @endsection
 
 @section('script')
+<?php if ($gen->hasSelectFields($fields)) { ?>
+    {{-- Componente Bootstrap-Select, este componente se inicializa automáticamente --}}
+    <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/css/bootstrap-select.min.css') }}"></script>
+    <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
+<?php } ?>
 
     <script type="text/javascript">
         
