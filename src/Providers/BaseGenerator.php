@@ -499,4 +499,14 @@ class BaseGenerator
     {
         return str_plural($this->getRelationClassFromNamespace($field)).'TableSeeder';
     }
+
+    /**
+     * Determina si un campo es obligatorio o no según las reglas de validación dadas en el mismo.
+     * @param  stdClass  $field
+     * @return boolean
+     */
+    public function isTheFieldRequired($field)
+    {
+        return strpos($field->validation_rules, 'required') !== false;
+    }
 }

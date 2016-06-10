@@ -63,9 +63,9 @@ return [
     // nombres de los elementos del formulario de creación/edición
     'form-fields' => [
 @foreach($fields as $field)
-        '{{$field->name}}' => '{!!$gen->getFormFieldName($field->label)!!}',
+        '{{$field->name}}' => '{!!$gen->getFormFieldName($field->label).($gen->isTheFieldRequired($field) ? ' *' : '')!!}',
 @if(strpos($field->validation_rules, 'confirmed'))
-        '{{$field->name}}_confirmation' => '{!!$gen->getFormFieldName("Confirmar ".$field->label)!!}',
+        '{{$field->name}}_confirmation' => '{!!$gen->getFormFieldName("Confirmar ".$field->label).($gen->isTheFieldRequired($field) ? ' *' : '')!!}',
 @endif
 @endforeach
     ],
