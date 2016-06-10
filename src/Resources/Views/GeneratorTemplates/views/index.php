@@ -73,9 +73,11 @@
 @endsection
 
 @section('script')
+    {{-- Componente Bootstrap 3 Editable --}}
     <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
     {{-- Dependencias de datetimepicker para componente x-editable --}}
     <link href="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css"></link> 
@@ -89,6 +91,11 @@
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
 <?php } ?>
+
+    <!-- Componente iCheck -->
+    <link href="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/square/red.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
 
     <script>
         {{-- Configuración del componente x-editable --}}
@@ -124,8 +131,18 @@
 <?php } ?>
 
 <?php if ($gen->hasTinyintTypeField($fields)) { ?>
-        {{-- Inicializa el componente SwitchBootstrap --}}
+        {{-- Inicializa el componente BootstrapSwitch --}}
         $(".bootstrap_switch").bootstrapSwitch();
+
+        {{-- Inicializa el componente iCheck --}}
+        $('.icheckbox_square-blue').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue'
+        });
+        $('.icheckbox_square-red').iCheck({
+            checkboxClass: 'icheckbox_square-red',
+            radioClass: 'iradio_square-red'
+        });
 <?php } ?>
 
 <?php if ($gen->hasSelectFields($fields)) { ?>

@@ -109,7 +109,7 @@ class ViewsGenerator extends BaseGenerator
                 '$field->name[]',
                 \$".$field->name."_list,
                 Request::input('$field->name'),
-                ['class' => 'form-control input-sm selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm'])
+                ['class' => 'form-control selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm'])
             !!}\n";
             return $output;
         }
@@ -126,7 +126,7 @@ class ViewsGenerator extends BaseGenerator
                     '$field->name[]',
                     \$".$field->name."_list,
                     Request::input('$field->name'),
-                    ['class' => 'form-control input-sm selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm'])
+                    ['class' => 'form-control selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm'])
                 !!}\n";
                 return $output;
             }
@@ -134,25 +134,14 @@ class ViewsGenerator extends BaseGenerator
 
         // para checkbox
         if ($field->type == 'tinyint') {
-            $output = '<div>'
-                      .$this->getCheckBoxSwitchHtlm(
-                            $field,
-                            $name = $field->name.'_true',
-                            $value = 'true',
-                            $data_size = 'mini',
-                            $data_text = ['Si', '-'],
-                            $data_color = [],
-                            $form = 'searchForm'
-                        )
-                      .$this->getCheckBoxSwitchHtlm(
-                            $field,
-                            $name = $field->name.'_false',
-                            $value = 'true',
-                            $data_size = 'mini',
-                            $data_text = ['No', '-'],
-                            $data_color = ['danger', 'default'],
-                            $form = 'searchForm'
-                        );
+
+            // genero el checkbox con base al componente elegido por el usuario
+            if ($this->request->get("checkbox_component_on_index_table") == 'BootstrapSwitch') {
+                $output = $this->generateSearchCheckBoxesBootstrapSwitch($field);
+            } elseif ($this->request->get("checkbox_component_on_index_table") == 'iCheck') {
+                $output = $this->generateSearchCheckBoxesiCheck($field);
+            }
+
             $output .= $this->endFormGroup($field);
             return $output;
         }
@@ -173,9 +162,52 @@ class ViewsGenerator extends BaseGenerator
             $type = 'number';
         }
 
-        $output = '<input type="'.$type.'" class="form-control input-sm" name="'.$field->name.'" value="{{Request::input("'.$field->name.'")}}" form="searchForm">';
+        $output = '<input type="'.$type.'" class="form-control" name="'.$field->name.'" value="{{Request::input("'.$field->name.'")}}" form="searchForm">';
         return $output;
     }
+
+    /**
+     * Genera el html de los checkbox para el formulario de búsqueda en la tabla del index
+     * con base al componente BootstrapSwitch.
+     * @param  stdClass $field
+     * @return string
+     */
+    public function generateSearchCheckBoxesBootstrapSwitch($field)
+    {
+        return '<div>'
+            .$this->generateCheckBoxBootstrapSwitchHtlm(
+                $field,
+                $name = $field->name.'_true',
+                $value = 'true',
+                $data_size = 'mini',
+                $data_text = ['Si', '-'],
+                $data_color = [],
+                $form = 'searchForm'
+            )
+            .$this->generateCheckBoxBootstrapSwitchHtlm(
+                $field,
+                $name = $field->name.'_false',
+                $value = 'true',
+                $data_size = 'mini',
+                $data_text = ['No', '-'],
+                $data_color = ['danger', 'default'],
+                $form = 'searchForm'
+            );
+    }
+
+    /**
+     * Genera el html de los checkbox para el formulario de búsqueda en la tabla del index
+     * con base al componente iCheck.
+     * @param  stdClass $field
+     * @return string
+     */
+    public function generateSearchCheckBoxesiCheck($field)
+    {
+        return '<div>'
+            .$this->generateCheckBoxiCheckHtlm($field, $name = $field->name.'_true', $value = 'true', $class = "icheckbox_square-blue", $form = 'searchForm')
+            .$this->generateCheckBoxiCheckHtlm($field, $name = $field->name.'_false', $value = 'true', $class = "icheckbox_square-red", $form = 'searchForm');
+    }
+
 
     /**
      * Devuelve un string con el tipo de campo (data-type) para el componente x-editable.
@@ -268,7 +300,7 @@ class ViewsGenerator extends BaseGenerator
 
         // para checkbox
         if ($field->type == 'tinyint') {
-            $output .= "{!! Form::hidden('{$field->name}', false) !!}\n<br>".$this->getCheckBoxSwitchHtlm($field);
+            $output .= "{!! Form::hidden('{$field->name}', false) !!}\n<br>".$this->generateCheckBoxBootstrapSwitchHtlm($field);
             $output .= $this->endFormGroup($field);
             return $output;
         }
@@ -334,15 +366,9 @@ class ViewsGenerator extends BaseGenerator
     }
 
     /**
-     * Devuelve string html de un checkbox con las propiedades para el componente SwitchBootstrap,
-     * así:
-     * {!! Form::checkbox('use_faker', true, null, [
-     *      'class' => 'bootstrap_switch',
-     *      data-size' => 'medium',
-     *      'data-on-text' => 'SI',
-     *      'data-off-text' => 'NO',
-     *      isset(\$show) ? 'disabled' : ''
-     *  ]) !!}
+     * Genera el html de un checkbox con algunas propiedades para user el componente SwitchBootstrap,
+     * aquí el sitio web de SwitchBootstrap:
+     * http://www.bootstrap-switch.org/
      *
      * @param  stdClass $field
      * @param  string   $name      El nombre del elemento
@@ -352,7 +378,7 @@ class ViewsGenerator extends BaseGenerator
      * @param  string   $form      El nombre del formulario al que pertenece el elemento
      * @return string
      */
-    public function getCheckBoxSwitchHtlm($field, $name = null, $value = 'true', $data_size = 'medium', $data_text = [], $data_color = [], $form = null)
+    public function generateCheckBoxBootstrapSwitchHtlm($field, $name = null, $value = 'true', $data_size = 'medium', $data_text = [], $data_color = [], $form = null)
     {
         // el formulario al que pertenece el elemento
         if ($form) {
@@ -394,6 +420,37 @@ class ViewsGenerator extends BaseGenerator
                     $form
                     ]
                 ) !!}\n\t\t\t\t";
+    }
+
+    /**
+     * Genera el html para generar un checkbox que haga uso del componente iCheck,
+     * aquí el sitio web de iCheck:
+     * http://icheck.fronteed.com/
+     * 
+     * @param  stdClass $field
+     * @param  string   $name      El nombre del elemento
+     * @param  string   $value     El valor del atributo value
+     * @param  string   $form      El nombre del formulario al que pertenece el elemento
+     * @return string
+     */
+    public function generateCheckBoxiCheckHtlm($field, $name = null, $value = true, $class = null, $form = null)
+    {
+        // el formulario al que pertenece el elemento
+        if ($form) {
+            $form = "'form' => '$form'";
+        }
+
+        // el nombre del checkbox
+        if (! $name) {
+            $name = $field->name;
+        }
+
+        $checkbox = "
+            <label>
+                {!! Form::checkbox('$name', $value, Request::input('$name'), ['class' => '$class', $form]) !!}
+            </label>";
+
+        return $checkbox;
     }
 
     /**

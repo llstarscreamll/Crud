@@ -101,6 +101,24 @@
                     </div>
 
                     <div class="form-group col-sm-4 col-md-2">
+                            <label>
+                                CheckboxComponent on Table<br>
+                            </label>
+                            <br>
+                            <label>
+                            {!! Form::radio('checkbox_component_on_index_table', 'iCheck', null, ['class' => 'icheckbox_square-blue']) !!}
+                            iCheck
+                            </label>
+                            <br>
+                            <label>
+                            {!! Form::radio('checkbox_component_on_index_table', 'BootstrapSwitch', null, ['class' => 'icheckbox_square-blue']) !!}
+                            BootstrapSwitch
+                            </label>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="form-group col-sm-4 col-md-2">
                         {!! Form::label('plural_entity_name', 'Nombre plural') !!}
                         {!! Form::text('plural_entity_name', null, ['class' => 'form-control']) !!}
                     </div>
@@ -260,11 +278,26 @@
 @endsection
 
 @section('script')
+    <!-- Componente iCheck -->
+    <link href="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/square/red.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript">
-    
+        {{-- Inicializa el componente BootstrapSwitch --}}
         $(".bootstrap_switch").bootstrapSwitch();
-        
+
+        {{-- Inicializa el componente iCheck --}}
+        $('.icheckbox_square-blue').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+        $('.icheckbox_square-red').iCheck({
+            checkboxClass: 'icheckbox_square-red',
+            radioClass: 'iradio_square-red',
+            increaseArea: '20%' // optional
+        });
     </script>
 
 @stop()
