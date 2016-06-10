@@ -16,24 +16,31 @@ class {{$gen->modelClassName()}} extends Model
 @if($hasSoftDelete)
     use SoftDeletes;
 @endif
+
+    /**
+     * El nombre de la conexión a la base de datos del modelo.
+     *
+     * @var string
+     */
+    //protected $connection = 'connection-name';
     
     /**
      * La tabla asociada al modelo.
      * @var string
      */
-    public $table = '{{$gen->table_name}}';
+    protected $table = '{{$gen->table_name}}';
 
     /**
      * La llave primaria del modelo.
      * @var string
      */
-    public $primaryKey = '{{$gen->getPrimaryKey($fields)}}';
+    protected $primaryKey = '{{$gen->getPrimaryKey($fields)}}';
 
     /**
      * Los atributos que SI son asignables.
      * @var array
      */
-    public $fillable = [
+    protected $fillable = [
 @foreach($fields as $field)
 @if($field->fillable)
         '{{$field->name}}',
@@ -45,7 +52,19 @@ class {{$gen->modelClassName()}} extends Model
      * Los atributos que NO son asignables.
      * @var array
      */
-    public $guarded = ['id', 'created_at', 'updated_at'@if($hasSoftDelete), 'deleted_at'@endif];
+    protected $guarded = ['id', 'created_at', 'updated_at'@if($hasSoftDelete), 'deleted_at'@endif];
+
+    /**
+     * Los atributos ocultos al usuario.
+     * @var array
+     */
+    protected $hidden = [
+@foreach($fields as $field)
+@if($field->hidden)
+        '{{$field->name}}',
+@endif
+@endforeach
+    ];
 
     /**
      * Indica si Eloquent debe gestionar los timestamps del modelo.
@@ -57,13 +76,25 @@ class {{$gen->modelClassName()}} extends Model
      * Los atributos que deben ser convertidos a fechas.
      * @var array
      */
-    public $dates = ['created_at', 'updated_at'@if($hasSoftDelete), "deleted_at"@endif];
+    protected $dates = ['created_at', 'updated_at'@if($hasSoftDelete), "deleted_at"@endif];
 
     /**
      * El formato de almacenamiento de las columnas de tipo fecha del modelo.
      * @var string
      */
-    public $dateFormat = 'Y-m-d H:i:s';
+    protected $dateFormat = 'Y-m-d H:i:s';
+
+@foreach ($fields as $field)
+@if($field->type == 'enum')
+    /**
+     * Los valores de la columna {{$field->name}} que es de tipo enum, esto para los casos
+     * en que sea utilizada una base de datos sqlite, pues sqlite no soporta campos de
+     * tipo enum.
+     * @var string
+     */
+    static ${{$field->name}}ColumnEnumValues = "{!!$gen->getMysqlTableColumnEnumValues($field->name)!!}";
+@endif
+@endforeach
 
 @foreach ($fields as $field)
 @if (!empty($field->relation))
@@ -89,7 +120,15 @@ class {{$gen->modelClassName()}} extends Model
 
         // buscamos basados en los datos que señale el usuario
 @foreach ( $fields as $field )
+@if($field->type == 'tinyint')
+        // cláusulas para atributo de tipo boolean
+        $request->input('{{$field->name}}_true') and $query->where({!! $gen->getConditionStr($field, 'true') !!});
+        $request->input('{{$field->name}}_false') and $query->orWhere({!! $gen->getConditionStr($field, 'false') !!});
+@elseif($field->type == 'enum' || $field->key == 'MUL')
+        $request->input('{{$field->name}}') and $query->whereIn({!! $gen->getConditionStr($field) !!});
+@else
         $request->input('{{$field->name}}') and $query->where({!! $gen->getConditionStr($field) !!});
+@endif
 @endforeach
 
         // ordenamos los resultados
@@ -140,18 +179,18 @@ class {{$gen->modelClassName()}} extends Model
      */
     public static function getEnumValuesArray($table, $column)
     {
-         $type = \DB::select( \DB::raw("SHOW COLUMNS FROM $table WHERE Field = '$column'") )[0]->Type;
+        $type = self::getColumnEnumValuesFromDescQuery($table, $column);
 
-         preg_match('/^enum\((.*)\)$/', $type, $matches);
+        preg_match('/^enum\((.*)\)$/', $type, $matches);
 
-         $enum = array();
+        $enum = array();
 
-         foreach( explode(',', $matches[1]) as $value ){
-           $v = trim( $value, "'" );
-           $enum = array_add($enum, $v, $v);
-         }
+        foreach( explode(',', $matches[1]) as $value ){
+            $v = trim( $value, "'" );
+            $enum = array_add($enum, $v, $v);
+        }
 
-         return $enum;
+        return $enum;
     }
 
     /**
@@ -163,18 +202,45 @@ class {{$gen->modelClassName()}} extends Model
      */
     public static function getEnumValuesString($table, $column)
     {
-         $type = \DB::select( \DB::raw("SHOW COLUMNS FROM $table WHERE Field = '$column'") )[0]->Type;
+        $type = self::getColumnEnumValuesFromDescQuery($table, $column);
 
-         preg_match('/^enum\((.*)\)$/', $type, $matches);
+        preg_match('/^enum\((.*)\)$/', $type, $matches);
 
-         $enum = '';
+        $enum = '';
 
-         foreach( explode(',', $matches[1]) as $value ){
-           $v = trim( $value, "'" );
-           $enum .= $v.',';
-         }
+        foreach( explode(',', $matches[1]) as $value ){
+            $v = trim( $value, "'" );
+            $enum .= $v.',';
+        }
 
-         return $enum;
+        return $enum;
+    }
+
+    /**
+     * Obtiene los valores de una columna de tipo enum si la base de datos es mysql, si no,
+     * devuelve los valores enum staticos dados en la creación del modelo.
+     * @return string
+     */
+    public static function getColumnEnumValuesFromDescQuery($table, $column)
+    {
+        $type = '';
+
+        if (self::getDatabaseConnectionDriver() == 'mysql') {
+            $type = \DB::select( \DB::raw("SHOW COLUMNS FROM $table WHERE Field = '$column'") )[0]->Type;
+        } else {
+            $type = self::${$column.'ColumnEnumValues'};
+        }
+
+        return $type;
+    }
+
+    /**
+     * Devuelve string del driver de la conexión a la base de datos.
+     * @return string El nombre del driver de la conexión a la base de datos.
+     */
+    public static function getDatabaseConnectionDriver()
+    {
+        return config('database.connections.'.config('database.default').'.driver');
     }
 @endif
 

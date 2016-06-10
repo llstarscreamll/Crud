@@ -73,14 +73,15 @@ class {{$test}} extends Base
      */
     public static function getUpdateFormData()
     {
-        $data = self::getCreateData();
+        $data = array();
 
-        foreach (self::getCreateData() as $key => $create_field) {
-            
-            if (! isset(self::$updateFormFields[$key])) {
-                unset($data[$key]);
+        foreach (self::$bookData as $key => $value) {
+            if (in_array($key, self::$updateFormFields)) {
+                $data[$key] = $value;
             }
-
+            if (in_array($key, self::$fieldsThatRequieresConfirmation)){
+                $data[$key.'_confirmation'] = '';
+            }
         }
 
         return $data;
@@ -95,12 +96,34 @@ class {{$test}} extends Base
         $data = array();
 
         $data = [
-        @foreach($fields as $field)
-        @if($field->on_update_form)
+@foreach($fields as $field)
+@if($field->on_update_form)
             '{{$field->name}}' => {!!$field->testDataUpdate!!},
-        @endif
-        @endforeach
+@endif
+@if(strpos($field->validation_rules, 'confirmed'))
+            '{{$field->name}}_confirmation' => {!!$field->testDataUpdate!!},
+@endif
+@endforeach
         ];
+
+        return $data;
+    }
+
+    /**
+     * Obtine los datos ya actualizados para comprobarlos en la vista de sólo lectura (show).
+     * @return  array
+     */
+    public static function getUpdatedDataToShowForm()
+    {
+        $data = self::getDataToUpdateForm();
+
+        // los siguientes campos no se han de mostrar en la vista de sólo lectura
+        foreach (self::$hiddenFields as $key => $value) {
+            unset($data[$value]);
+            if (in_array($key, self::$fieldsThatRequieresConfirmation)) {
+                unset($data[$value.'_confirmation']);
+            }
+        }
 
         return $data;
     }

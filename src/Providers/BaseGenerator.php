@@ -413,6 +413,22 @@ class BaseGenerator
     }
 
     /**
+     * Revisa si hay campos de tipo select con base a el objeto $fields dado.
+     * @param  stdClass  $fields
+     * @return boolean
+     */
+    public function hasSelectFields($fields)
+    {
+        foreach ($fields as $key => $field) {
+            if ($field->type == 'enum' || $field->key == 'MUL') {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Obtiene el nombre de la función para la relación del modelo a partir
      * del nombre del campo que tiene es llave foránea y teniendo en cuenta
      * el tipo de relación, por ejemplo:
@@ -471,5 +487,16 @@ class BaseGenerator
     public function getRelationClassFromNamespace($field)
     {
         return substr($field->namespace, (strrpos($field->namespace, '\\')+1));
+    }
+
+    /**
+     * Obtiene el nombre de la clase que hace de seeder de un tabla con base al namespace
+     * de un modelo, por ejemplo:
+     * App\Models\User = UsersTableSeeder
+     * @return string
+     */
+    public function getTableSeederClassName($field)
+    {
+        return str_plural($this->getRelationClassFromNamespace($field)).'TableSeeder';
     }
 }

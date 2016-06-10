@@ -43,23 +43,23 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
      */
     static ${{$gen->modelVariableName()}}Data = array();
 
-    @if($request->has('use_faker'))
+@if($request->has('use_faker'))
     /**
      * @var Faker\Factory
      */
     static $faker;
-    @endif
+@endif
 
     /**
      * Los campos del formulario de creación.
      * @var array
      */
     static $formFields = [
-        @foreach($fields as $field)
-            @if($field->on_create_form)
-                '{{$field->name}}',
-            @endif
-        @endforeach
+@foreach($fields as $field)
+@if($field->on_create_form)
+        '{{$field->name}}',
+@endif
+@endforeach
     ];
 
     /**
@@ -67,11 +67,23 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
      * @var array
      */
     static $updateFormFields = [
-        @foreach($fields as $field)
-            @if($field->on_update_form)
-                '{{$field->name}}',
-            @endif
-        @endforeach
+@foreach($fields as $field)
+@if($field->on_update_form)
+        '{{$field->name}}',
+@endif
+@endforeach
+    ];
+
+    /**
+     * Los campos que requieren confirmación.
+     * @var array
+     */
+    static $fieldsThatRequieresConfirmation = [
+@foreach($fields as $field)
+@if(strpos($field->validation_rules, 'confirmed'))
+        '{{$field->name}}'
+@endif
+@endforeach
     ];
 
     /**
@@ -79,14 +91,14 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
      * @var array
      */
     static $hiddenFields = [
-        @foreach($fields as $field)
-            @if($field->hidden)
-                '{{$field->name}}',
-            @endif
-        @endforeach
+@foreach($fields as $field)
+@if($field->hidden)
+        '{{$field->name}}',
+@endif
+@endforeach
     ];
 
-    @if(!$request->has('use_base_class'))
+@if(!$request->has('use_base_class'))
     /**
      * The user admin data, this user is the actor
      * in all scenarios in admin role contexts.
@@ -106,7 +118,7 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
      * @var Carbon\Carbon
      */
     static $date;
-    @endif
+@endif
 
     /**
      * @var \FunctionalTester;
@@ -121,37 +133,44 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
     public function __construct(\FunctionalTester $I)
     {
         $this->functionalTester = $I;
-        @if($request->has('use_faker'))
+@if($request->has('use_faker'))
         self::$faker = Faker::create();
-        @endif
-        // crea los permisos de acceso al módulo
-        \Artisan::call('db:seed', ['--class' => '{{$gen->modelClassName()}}PermissionsSeeder']);
-        @if(!$request->has('use_base_class'))
+@endif
+
+@if(!$request->has('use_base_class'))
         self::$date = Carbon::now();
         $this->createUserRoles();
         $this->createAdminUser();
-        @endif
+@endif
 
-        @if($request->has('use_base_class'))
+        // crea los permisos de acceso al módulo
+        \Artisan::call('db:seed', ['--class' => '{{$gen->modelClassName()}}PermissionsSeeder']);
+@foreach($fields as $field)
+@if($field->namespace)
+        \Artisan::call('db:seed', ['--class' => '{{$gen->getTableSeederClassName($field)}}']);
+@endif
+@endforeach
+
+@if($request->has('use_base_class'))
         // inicializamos los datos base de la aplicación como permisos,
         // roles, usuario admin, etc...
         parent::__construct($I);
-        @endif
+@endif
 
         // damos valores a las variables para creación de un registro para el módulo
         self::${{$gen->modelVariableName()}}Data = [
-            @foreach($fields as $field)
-                '{{$field->name}}' => {!!$field->testData!!},
-            @endforeach
+@foreach($fields as $field)
+            '{{$field->name}}' => {!!$field->testData!!},
+@endforeach
         ];
 
-        @if($request->has('create_employees_data'))
+@if($request->has('create_employees_data'))
         // crea empleados de prueba, para crear empleados necesito centros
         // y subcentros de costo
         $this->createCostCenters();
         $this->createSubCostCenters();
         $this->createEmployees();
-        @endif
+@endif
 
         self::$moduleName = [
             'txt' => trans('{{$gen->getLangAccess()}}/views.module.name'),
@@ -169,7 +188,7 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
         return static::$URL.$param;
     }
 
-    @if(!$request->has('use_base_class'))
+@if(!$request->has('use_base_class'))
     /**
      * Crea los roles de usuario del sistema
      * @return void
@@ -192,14 +211,16 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
             )
         );
 
+        $admin_role = \{{config('llstarscreamll.CrudGenerator.config.role-model-namespace')}}Role::where('name', 'admin')->first()->id;
+
         // añado rol admin al usuario
-        $user->attachRole(2);
+        $user->attachRole($admin_role);
 
         return $user;
     }    
-    @endif
+@endif
 
-    @if(!$request->has('use_base_class') && $request->has('create_employees_data'))
+@if(!$request->has('use_base_class') && $request->has('create_employees_data'))
     /**
      * Crea los centros de costo.
      * @return void
@@ -314,7 +335,7 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
         
         \DB::table('employees')->insert($data);
     }
-    @endif
+@endif
 
     /**
      * Crea un registro del modelo en la base de datos.
@@ -336,6 +357,9 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
         foreach (self::${{$gen->modelVariableName()}}Data as $key => $value) {
             if (in_array($key, self::$formFields)) {
                 $data[$key] = $value;
+            }
+            if (in_array($key, self::$fieldsThatRequieresConfirmation)){
+                $data[$key.'_confirmation'] = $value;
             }
         }
 

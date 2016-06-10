@@ -131,16 +131,30 @@ class ModelGenerator extends BaseGenerator
      * Devuelve string con clausula para el Query Builder de Eloquent
      *
      * @param  stdClass $field
+     * @param  string   $value
      * @return string
      */
-    public function getConditionStr($field)
+    public function getConditionStr($field, $value = null)
     {
+        // cláusula por defecto
+        $string = "'{$field->name}', \$request->input('{$field->name}')";
+
         // para búsquedas de tipo texto
         if (in_array($field->type, ['varchar', 'text'])) {
-            return "'{$field->name}', 'like', '%'.\$request->input('{$field->name}').'%'";
+            $string = "'{$field->name}', 'like', '%'.\$request->input('{$field->name}').'%'";
+        }
+
+        // para búsquedas en campos de tipo enum
+        if ($field->type == 'enum') {
+            $string = "'{$field->name}', \$request->get('$field->name')";
+        }
+
+        // para búsqueda en campos de tipo boolean
+        if ($field->type == 'tinyint') {
+            $string = "'{$field->name}', $value";
         }
         
-        return "'{$field->name}', \$request->input('{$field->name}')";
+        return $string;
     }
 
     /**
@@ -170,5 +184,15 @@ class ModelGenerator extends BaseGenerator
     public function skippedFields()
     {
         return ['id','created_at','updated_at', 'deleted_at'];
+    }
+
+    /**
+     * Obtiene los valores enum de la columna indicada en el parámetro $column.
+     * @param  string $column El nombre de la columna
+     * @return string
+     */
+    public function getMysqlTableColumnEnumValues($column)
+    {
+        return \DB::select( \DB::raw("SHOW COLUMNS FROM $this->table_name WHERE Field = '$column'") )[0]->Type;
     }
 }

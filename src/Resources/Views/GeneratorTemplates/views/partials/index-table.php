@@ -4,6 +4,9 @@
 /* @var $request Request */
 ?>
 
+{!! Form::open(['route' => '<?=$gen->route()?>.index', 'method' => 'GET', 'id' => 'searchForm']) !!}
+{!! Form::close() !!}
+
 <div class="table-responsive">
     <table class="table table-striped table-hover">
         <thead>
@@ -30,9 +33,8 @@
                 <th>{{trans('<?=$gen->getLangAccess()?>/views.index.table-actions-column')}}</th>
             </tr>
             
-            {{-- Formulario de búqueda de tabla --}}
+            {{-- Elementos de Formulario de búqueda de tabla --}}
             <tr class="search-row">
-            {!! Form::open(['route' => '<?=$gen->route()?>.index', 'method' => 'GET']) !!}
 
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
@@ -44,6 +46,7 @@
                 <td style="min-width: 8em;">
                     
                     <button type="submit"
+                            form="searchForm"
                             class="btn btn-primary btn-sm"
                             data-toggle="tooltip"
                             data-placement="top"
@@ -64,7 +67,6 @@
 
                 </td>
 
-            {!! Form::close() !!}
             </tr>
         </thead>
 

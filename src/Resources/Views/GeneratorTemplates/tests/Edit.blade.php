@@ -60,6 +60,6 @@ class {{$test}}Cest
         $I->amOnPage(Page::route('/1'));
         
         // veo los datos actualizados en el formulario de sólo lectura
-        $I->seeInFormFields('form', Page::getDataToUpdateForm());
+        $I->seeInFormFields('form', Page::getUpdatedDataToShowForm());
     }
 }

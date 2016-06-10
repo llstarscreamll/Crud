@@ -43,6 +43,5 @@ class {{$test}}Cest
 
         // veo los datos en el formulario de sólo lectura
         $I->seeInFormFields(Page::$form, Page::getReadOnlyFormData());
-        // veo la seccion de sesiones asociadas a la capacitación
     }
 }

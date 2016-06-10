@@ -105,18 +105,16 @@ class ViewsGenerator extends BaseGenerator
     {
         // selects
         if ($field->type == 'enum') {
-            $output = "{!! Form::select('".$field->name."', array_merge(['' => '---'], \$".$field->name."_list), null, ['class' => 'form-control input-sm']) !!}";
+            $output = "{!! Form::select(
+                '$field->name[]',
+                \$".$field->name."_list,
+                Request::input('$field->name'),
+                ['class' => 'form-control input-sm selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm'])
+            !!}\n";
             return $output;
         }
 
-        // para checkbox
-        if ($field->type == 'tinyint') {
-            $output = $this->getCheckBoxSwitchHtlm($field, $data_size = 'small');
-            $output .= $this->endFormGroup($field);
-            return $output;
-        }
-
-        // recorro las llaves foraneas
+        // recorro los campos que son llave foránea
         foreach ($this->getForeignKeys($table_name) as $key => $foreign) {
             $child_table = explode(".", $foreign->foreign_key);
             $parent_table = explode(".", $foreign->references);
@@ -124,9 +122,39 @@ class ViewsGenerator extends BaseGenerator
             
             // si el campo actual es una llave foránea
             if (strpos($child_table[1], $field->name) !== false && $field->name != 'id') {
-                $output = "{!! Form::select('{$field->name}', array_merge(['' => '---'], \$".$field->name."_list), null, ['class' => 'form-control input-sm']) !!}";
+                $output = "{!! Form::select(
+                    '$field->name[]',
+                    \$".$field->name."_list,
+                    Request::input('$field->name'),
+                    ['class' => 'form-control input-sm selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm'])
+                !!}\n";
                 return $output;
             }
+        }
+
+        // para checkbox
+        if ($field->type == 'tinyint') {
+            $output = '<div>'
+                      .$this->getCheckBoxSwitchHtlm(
+                            $field,
+                            $name = $field->name.'_true',
+                            $value = 'true',
+                            $data_size = 'mini',
+                            $data_text = ['Si', '-'],
+                            $data_color = [],
+                            $form = 'searchForm'
+                        )
+                      .$this->getCheckBoxSwitchHtlm(
+                            $field,
+                            $name = $field->name.'_false',
+                            $value = 'true',
+                            $data_size = 'mini',
+                            $data_text = ['No', '-'],
+                            $data_color = ['danger', 'default'],
+                            $form = 'searchForm'
+                        );
+            $output .= $this->endFormGroup($field);
+            return $output;
         }
 
         $type = 'text';
@@ -145,7 +173,7 @@ class ViewsGenerator extends BaseGenerator
             $type = 'number';
         }
 
-        $output = '<input type="'.$type.'" class="form-control input-sm" name="'.$field->name.'" value="{{Request::input("'.$field->name.'")}}">';
+        $output = '<input type="'.$type.'" class="form-control input-sm" name="'.$field->name.'" value="{{Request::input("'.$field->name.'")}}" form="searchForm">';
         return $output;
     }
 
@@ -317,18 +345,53 @@ class ViewsGenerator extends BaseGenerator
      *  ]) !!}
      *
      * @param  stdClass $field
+     * @param  string   $name      El nombre del elemento
+     * @param  string   $value     El valor del atributo value
      * @param  string   $data_size El atributo data-size para SwitchBootstrap
+     * @param  array    $data_text Los valores en el estado on y off
+     * @param  string   $form      El nombre del formulario al que pertenece el elemento
      * @return string
      */
-    public function getCheckBoxSwitchHtlm($field, $data_size = 'medium')
+    public function getCheckBoxSwitchHtlm($field, $name = null, $value = 'true', $data_size = 'medium', $data_text = [], $data_color = [], $form = null)
     {
-        return "{!! Form::checkbox('{$field->name}', true, null,
+        // el formulario al que pertenece el elemento
+        if ($form) {
+            $form = "'form' => '$form'";
+        }
+
+        // el nombre del checkbox
+        if (! $name) {
+            $name = $field->name;
+        }
+
+        // los valores en el estado on y off
+        $data_on_text = 'Si';
+        $data_off_text = 'No';
+
+        if (count($data_text) > 1) {
+            $data_on_text = $data_text[0];
+            $data_off_text = $data_text[1];
+        }
+
+        // las opciones de color en estado on y off
+        $data_on_color = 'primary';
+        $data_off_color = 'default';
+
+        if (count($data_color) > 1) {
+            $data_on_color = $data_color[0];
+            $data_off_color = $data_color[1];
+        }
+
+        return "{!! Form::checkbox('{$name}', $value, Request::input('$name'),
                     [
                     'class' => 'bootstrap_switch',
                     'data-size' => '$data_size',
-                    'data-on-text' => 'SI',
-                    'data-off-text' => 'NO',
-                    isset(\$show) ? 'disabled' : ''
+                    'data-on-text' => '$data_on_text',
+                    'data-off-text' => '$data_off_text',
+                    'data-on-color' => '$data_on_color',
+                    'data-off-color' => '$data_off_color',
+                    isset(\$show) ? 'disabled' : '',
+                    $form
                     ]
                 ) !!}\n\t\t\t\t";
     }
@@ -394,5 +457,23 @@ class ViewsGenerator extends BaseGenerator
         }
 
         return $attr;
+    }
+
+    /**
+     * Devuelve array de los campos presentes en el formulario de creación.
+     * @return array
+     */
+    public function getCreateFormFields()
+    {
+        $fields = $this->advanceFields($this->request);
+        $createFormFields = [];
+
+        foreach ($fields as $key => $field) {
+            if ($field->on_create_form) {
+                $createFormFields[] = $field->name;
+            }
+        }
+
+        return $createFormFields;
     }
 }

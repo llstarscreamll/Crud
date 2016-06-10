@@ -82,7 +82,14 @@
     <script src="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js') }}"></script>
     <script src="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.es.js') }}"></script>
 <?php } ?>
-    
+
+<?php if ($gen->hasSelectFields($fields)) { ?>
+    {{-- Componente Bootstrap-Select --}}
+    <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/css/bootstrap-select.min.css') }}"></script>
+    <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
+<?php } ?>
+
     <script>
         {{-- Configuración del componente x-editable --}}
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
@@ -121,5 +128,9 @@
         $(".bootstrap_switch").bootstrapSwitch();
 <?php } ?>
 
+<?php if ($gen->hasSelectFields($fields)) { ?>
+        {{-- Inicializa el componente Bootstrap-Select --}}
+        $(".select2").select2();
+<?php } ?>
     </script>
 @endsection
