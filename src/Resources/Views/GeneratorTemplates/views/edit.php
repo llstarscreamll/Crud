@@ -41,6 +41,7 @@
                             <span class="glyphicon glyphicon-pencil"></span>
                             <span class="">{{trans('<?=$gen->getLangAccess()?>/views.edit.btn-edit')}}</span> 
                         </button>
+                        <span id="helpBlock" class="help-block">{!!trans('<?=$gen->getLangAccess()?>/views.inputs-required-help')!!}</span>
                     </div>
 
                 {!! Form::close() !!}

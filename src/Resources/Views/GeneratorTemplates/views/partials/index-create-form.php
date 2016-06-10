@@ -28,6 +28,7 @@
                             <span class="glyphicon glyphicon-remove"></span>
                             <span>Cerrar</span>
                         </button>
+                        <span id="helpBlock" class="help-block">{!!trans('<?=$gen->getLangAccess()?>/views.inputs-required-help')!!}</span>
                     </div>
                     <div class="clearfix"></div>
                     
