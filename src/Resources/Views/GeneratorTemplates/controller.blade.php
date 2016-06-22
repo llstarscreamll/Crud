@@ -10,12 +10,11 @@ namespace {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}
 
 use {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}};
 use Illuminate\Http\Request;
-
 use {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Http\Requests;
 use {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers\Controller;
 @foreach($foreign_keys as $foreign)
 @if(($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false)
-    use {{$class}};
+use {{$class}};
 @endif
 @endforeach
 
@@ -40,11 +39,12 @@ class {{$gen->controllerClassName()}} extends Controller
 
     /**
      * Display a listing of the resource.
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        // los datos de la vista
+        // los datos para la vista
         $data = array();
 
 @foreach($foreign_keys as $foreign)
@@ -54,9 +54,9 @@ class {{$gen->controllerClassName()}} extends Controller
             ->map(function ($item, $key) { return [$key => $item];})
             ->values()
             ->toJson();
+
 @endif
 @endforeach
-
 @foreach($fields as $field)
 @if($field->type == 'enum')
         $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
@@ -64,11 +64,12 @@ class {{$gen->controllerClassName()}} extends Controller
             ->map(function ($item, $key) { return [$key => $item];})
             ->values()
             ->toJson();
+
 @endif
 @endforeach
         $data['records'] = {{$gen->modelClassName()}}::findRequested($request);
         
-        return $this->view( "index", $data );
+        return $this->view("index", $data);
     }
 
     /**
@@ -77,13 +78,13 @@ class {{$gen->controllerClassName()}} extends Controller
      */
     public function create()
     {
-        // los datos de la vista
+        // los datos para la vista
         $data = array();
 
 @foreach($foreign_keys as $foreign)
-    @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
-                $data['{{$child_table[1]}}_list'] = {{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
-    @endif
+@if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
+        $data['{{$child_table[1]}}_list'] = {{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
+@endif
 @endforeach
 
 @foreach($fields as $field)
@@ -112,17 +113,18 @@ class {{$gen->controllerClassName()}} extends Controller
 
     /**
      * Display the specified resource.
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
     {
-        // los datos de la vista
+        // los datos para la vista
         $data = array();
 
 @foreach($foreign_keys as $foreign)
-    @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
+@if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
         $data['{{$child_table[1]}}_list'] = {{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
-    @endif
+@endif
 @endforeach
 
 @foreach($fields as $field)
@@ -137,17 +139,18 @@ class {{$gen->controllerClassName()}} extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
     {
-        // los datos de la vista
+        // los datos para la vista
         $data = array();
 
 @foreach($foreign_keys as $foreign)
-    @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
+@if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
         $data['{{$child_table[1]}}_list'] = {{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
-    @endif
+@endif
 @endforeach
 
 @foreach($fields as $field)
@@ -157,12 +160,12 @@ class {{$gen->controllerClassName()}} extends Controller
 @endforeach
         $data['{{$gen->modelVariableName()}}'] = ${{$gen->modelVariableName()}};
 
-        return $this->view( "edit", $data );
+        return $this->view("edit", $data);
     }
 
     /**
      * Update the specified resource in storage.
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
@@ -187,6 +190,7 @@ class {{$gen->controllerClassName()}} extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
