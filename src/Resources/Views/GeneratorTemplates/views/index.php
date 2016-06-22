@@ -97,7 +97,134 @@
     <link href="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/square/red.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
 
+<?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
+    {{-- Componente Bootbox --}}
+    <script src="{{ asset('resources/CoreModule/bootbox/bootbox.js') }}" type="text/javascript"></script>
+<?php } ?>
+
     <script>
+
+<?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
+        {{-- Configuración Bootbox, ver mas opciones para el método dialog aquí: https://gist.github.com/makeusabrew/6339780  --}}
+        $(document).on("click", ".bootbox-dialog", function(e) {
+
+            // el botón clickeado
+            buttonTarget = $(e.currentTarget);
+            // el título de la ventana modal
+            title = $(e.currentTarget).attr('data-modalTitle');
+            // el mensaje a mostrar dentro de la ventana modal
+            message = $(e.currentTarget).attr('data-modalMessage');
+            // el label del botón de confirmación
+            btnLabel = $(e.currentTarget).attr('data-btnLabel');
+            // la clase del botón de confirmación
+            btnClassName = $(e.currentTarget).attr('data-btnClassName');
+            // la clase adicional para la ventana modal
+            modalClassName = $(e.currentTarget).attr('data-modalClassName');
+
+            // título por defecto
+            if (!title) {
+                title = '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-title')}}';
+            }
+
+            // label del botón de confirmación por defecto
+            if (!btnLabel) {
+                btnLabel = '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-confirmation-label')}}';
+            }
+
+            // clase del botón de confirmación por defecto
+            if (!btnClassName) {
+                btnClassName = '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-confirmation-className')}}';
+            }
+            
+            bootbox.dialog({
+              /**
+               * @required String|Element
+               */
+              message: message,
+              
+              /**
+               * @optional String|Element
+               * adds a header to the dialog and places this text in an h4
+               */
+              title: title,
+              
+              /**
+               * @optional String
+               * @default: null
+               * an additional class to apply to the dialog wrapper
+               */
+              className: modalClassName,
+              
+              /**
+               * @optional Object
+               * @default: {}
+               * any buttons shown in the dialog's footer
+               */
+              buttons: {
+                // For each key inside the buttons object...
+                
+                /**
+                 * @required Object|Function
+                 * 
+                 * this first usage will ignore the `cancel` key
+                 * provided and take all button options from the given object
+                 */
+                cancel: {
+                    /**
+                   * @required String
+                   * this button's label
+                   */
+                  label: '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-cancel-label')}}',
+                  
+                  /**
+                   * @optional String
+                   * an additional class to apply to the button
+                   */
+                  className: '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-cancel-className')}}',
+                  
+                  /**
+                   * @optional Function
+                   * the callback to invoke when this button is clicked
+                   */
+                  callback: function() {}
+                },
+
+                /**
+                 * @required Object|Function
+                 * 
+                 * this first usage will ignore the `success` key
+                 * provided and take all button options from the given object
+                 */
+                success: {
+                  /**
+                   * @required String
+                   * this button's label
+                   */
+                  label: btnLabel,
+                  
+                  /**
+                   * @optional String
+                   * an additional class to apply to the button
+                   */
+                  className: btnClassName,
+                  
+                  /**
+                   * @optional Function
+                   * the callback to invoke when this button is clicked
+                   */
+                  callback: function() {
+                    
+                    // envíamos el formulario relacionado al botón
+                    buttonTarget.closest('form').submit();
+
+                  }
+                }
+              }
+            });
+
+        });
+<?php } ?>
+
         {{-- Configuración del componente x-editable --}}
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         $(".editable").editable({ajaxOptions:{method:'PUT'}});

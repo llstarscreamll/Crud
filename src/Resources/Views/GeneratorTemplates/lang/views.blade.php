@@ -33,6 +33,19 @@ return [
         'delete-item-button'    => 'Borrar registro',
         'no-records-found'      => 'No se encontraron registros...',
         'create-form-modal-title'   => 'Crear Nuevo {!!$request->get('single_entity_name')!!}',
+@if ($request->has('use_modal_confirmation_on_delete'))
+        // valores para la ventana modal de confirmación de acción del botón de eliminar registro
+        'modal-delete-title'        => 'Está seguro?',
+        'modal-delete-message'       => 'La información de <strong>:item</strong> será <strong>:action</strong>...',
+        'modal-delete-btn-confirm-label' => 'Borrar',
+        'modal-delete-btn-confirm-class-name' => 'btn-danger',
+        // los valores por defecto de las ventanas modales generadas con el componente Bootbox
+        'modal-default-title' => 'Está Seguro?',
+        'modal-default-btn-confirmation-label' => 'Confirmar',
+        'modal-default-btn-confirmation-className' => 'btn-primary',
+        'modal-default-btn-cancel-label' => 'Cancelar',
+        'modal-default-btn-cancel-className' => 'btn-default',
+@endif
     ],
 
     // vista create

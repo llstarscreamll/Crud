@@ -121,12 +121,20 @@
                         </a>
                         
                         {{-- Botón que realiza el envío del formulario para eliminar el registro --}}
-                        <button onclick="return confirm('Estás seguro? Toda la información será eliminada...')"
-                                type="submit"
-                                class="btn btn-danger btn-xs"
+                        <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
+                                class="btn btn-danger btn-xs <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
                                 role="button"
                                 data-toggle="tooltip"
                                 data-placement="top"
+<?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
+                                {{-- Setup de ventana modal de confirmación --}}
+                                data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-message', ['item' => $record->name, 'action' => 'borrada'])}}"
+                                data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-title')}}"
+                                data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-label')}}"
+                                data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-class-name')}}"
+<?php } else { ?>
+                                onclick="return confirm('Estás seguro? Toda la información será eliminada...')"
+<?php } ?>
                                 title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button')}}">
                             <span class="fa fa-trash"></span>
                             <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button')}}</span>
