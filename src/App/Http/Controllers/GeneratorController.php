@@ -4,7 +4,7 @@ namespace llstarscreamll\CrudGenerator\App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use grapas\Http\Controllers\Controller;
 use llstarscreamll\CrudGenerator\Providers\ModelGenerator;
 use llstarscreamll\CrudGenerator\Providers\RouteGenerator;
 use llstarscreamll\CrudGenerator\Providers\ControllerGenerator;
@@ -49,6 +49,11 @@ class GeneratorController extends Controller
         $msg_error = array();
         $msg_warning = array();
         $msg_info = array();
+
+        // hago que las opciones dadas por el usuario persistan en un archivo de configuración
+        // que luego se cargará automaticamente en caso de que se repita el proceso con la
+        // misma tabla.
+        $this->generateOptionsArray($request);
         
         // verifico que la tabla especificada existe en la base de datos
         if (! $this->tableExists($request->get('table_name'))) {
@@ -143,6 +148,30 @@ class GeneratorController extends Controller
     }
 
     /**
+     * Genera un archivo con las opciones dadas para generar una CRUD aplicación
+     * @return integer|bool
+     */
+    private function generateOptionsArray($request)
+    {
+        // no se ha creado la carpeta donde guardo las opciones de los CRUD generados?
+        if (! file_exists($path = base_path().'/config/llstarscreamll/CrudGenerator/generated')) {
+            // entonces la creo
+            mkdir($path, 0777, true);
+        }
+
+        $modelFile = $path.'/'.$request->get('table_name').".php";
+
+        $content = view(
+            with(new \llstarscreamll\CrudGenerator\Providers\BaseGenerator)->templatesDir().'.options',
+            [
+            'request' => $request
+            ]
+        );
+
+        return file_put_contents($modelFile, $content);
+    }
+
+    /**
      * [showOptions description]
      *
      * @return view
@@ -152,6 +181,14 @@ class GeneratorController extends Controller
         // verifico que la tabla especificada existe en la base de datos
         if (! $this->tableExists($request->get('table_name', 'null'))) {
             return redirect()->back()->with('error', "La tabla ".$request->get('table_name')." no existe en la base de datos.");
+        }
+
+        // si ya he trabajado con la tabla en cuestion, cargo las opciones
+        // de la última ves en que se genero el CRUD para esa taba
+        if (file_exists(base_path().'/config/llstarscreamll/CrudGenerator/generated/'.$request->get('table_name').'.php')) {
+            $data['options'] = config('llstarscreamll.CrudGenerator.generated.'.$request->get('table_name'));
+        } else {
+            $data['options'] = [];
         }
 
         $modelGenerator = new ModelGenerator($request);
