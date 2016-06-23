@@ -43,7 +43,7 @@
 
             <div class="panel-body">
                 
-                {!! Form::open(['route' => 'crudGenerator.generate', 'method' => 'POST', 'name' => 'CRUD-form']) !!}
+                {!! Form::model($options, ['route' => 'crudGenerator.generate', 'method' => 'POST', 'name' => 'CRUD-form']) !!}
                 <div class="row">
                     
                     {!! Form::hidden('table_name', $table_name) !!}
