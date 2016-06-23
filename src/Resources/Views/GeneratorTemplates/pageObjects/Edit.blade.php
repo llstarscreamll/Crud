@@ -75,7 +75,7 @@ class {{$test}} extends Base
     {
         $data = array();
 
-        foreach (self::$bookData as $key => $value) {
+        foreach (self::${{$gen->modelVariableName()}}Data as $key => $value) {
             if (in_array($key, self::$updateFormFields)) {
                 $data[$key] = $value;
             }
