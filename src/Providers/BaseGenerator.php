@@ -404,7 +404,7 @@ class BaseGenerator
     public function hasDateTimeFields($fields)
     {
         foreach ($fields as $key => $field) {
-            if ($field->type == 'datetime') {
+            if ($field->type == 'datetime' || $field->type == 'timestamp') {
                 return true;
             }
         }

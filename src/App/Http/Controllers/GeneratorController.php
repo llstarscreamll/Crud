@@ -4,7 +4,7 @@ namespace llstarscreamll\CrudGenerator\App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use grapas\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use llstarscreamll\CrudGenerator\Providers\ModelGenerator;
 use llstarscreamll\CrudGenerator\Providers\RouteGenerator;
 use llstarscreamll\CrudGenerator\Providers\ControllerGenerator;

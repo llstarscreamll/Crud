@@ -102,7 +102,57 @@
     <script src="{{ asset('resources/CoreModule/bootbox/bootbox.js') }}" type="text/javascript"></script>
 <?php } ?>
 
+<?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
+    {{-- Componente Bootstrap DateRangePicker --}}
+    <link href="{{ asset('resources/CoreModule/admin-lte/plugins/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet" type="text/css"/>
+    <script src="{{ asset('resources/CoreModule/admin-lte/plugins/daterangepicker/moment.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('resources/CoreModule/admin-lte/plugins/daterangepicker/daterangepicker.js') }}" type="text/javascript"></script>
+<?php } ?>
+
     <script>
+
+<?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
+        {{-- Configuración regional para Bootstrap DateRangePicker --}}
+        dateRangePickerLocaleSettings = {
+            applyLabel: 'Aplicar',
+            cancelLabel: 'Cancelar',
+            fromLabel: 'Desde',
+            toLabel: 'Hasta',
+            separator: ' - ',
+            weekLabel: 'S',
+            customRangeLabel: 'Personalizado',
+            daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi','Sa'],
+            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+            firstDay: 1
+        };
+
+        {{-- Configuración de Bootstrap DateRangePicker --}}
+<?php } ?>
+<?php if ($gen->hasDateFields($fields)) { ?>
+<?php foreach ($fields as $key => $field) { ?>
+<?php if ($field->type == 'date') { ?>
+        $('input[name="<?= $field->name ?>[informative]"]').daterangepicker({
+            opens: 'center',
+            locale: dateRangePickerLocaleSettings
+        }, function(start, end, label) {
+            $('input[name="<?= $field->name ?>[from]"]').val(start.format('YYYY-MM-DD'));
+            $('input[name="<?= $field->name ?>[to]"]').val(end.format('YYYY-MM-DD'));
+        });
+<?php } elseif ($field->type == 'timestamp' || $field->type == 'datetime') { ?>
+        $('input[name="<?= $field->name ?>[informative]"]').daterangepicker({
+            format: 'MM/DD/YYYY HH:mm:ss',
+            timePicker: true,
+            timePickerIncrement: 1,
+            opens: 'left',
+            locale: dateRangePickerLocaleSettings
+        }, function(start, end, label) {
+            $('input[name="<?= $field->name ?>[from]"]').val(start.format('YYYY-MM-DD HH:mm:ss'));
+            $('input[name="<?= $field->name ?>[to]"]').val(end.format('YYYY-MM-DD HH:mm:ss'));
+        });
+<?php } // end if ?>
+<?php } // end foreach ?>
+<?php } // end if ?>
+
 
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
         {{-- Configuración Bootbox, ver mas opciones para el método dialog aquí: https://gist.github.com/makeusabrew/6339780  --}}

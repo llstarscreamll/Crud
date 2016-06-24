@@ -149,12 +149,8 @@ class ViewsGenerator extends BaseGenerator
         $type = 'text';
 
         // para inputs de tipo date
-        if ($field->type == 'date') {
-            $type = $field->type;
-        }
-        // para inputs de tipo date
-        if ($field->type == 'timestamp') {
-            $type = 'datetime-local';
+        if ($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime') {
+            return $this->generateDatesSearchFields($field);
         }
 
         // para inputs de tipo numérico
@@ -162,7 +158,27 @@ class ViewsGenerator extends BaseGenerator
             $type = 'number';
         }
 
-        $output = '<input type="'.$type.'" class="form-control" name="'.$field->name.'" value="{{Request::input("'.$field->name.'")}}" form="searchForm">';
+        $output = "{!! Form::input('$type', '$field->name', Request::input('.$field->name.'), ['form' => 'searchForm', 'class' => 'form-control']) !!}";
+
+        return $output;
+    }
+
+    /**
+     * Genera los campos de búsqueda de fechas, hace uso de un componente frontend, por ejemplo
+     * Bootstrap DateRangePicker, un campo informativo, otro con la fecha inicial y otro con la
+     * fecha final de búsqueda.
+     * @param  stdClass $field
+     * @return string
+     */
+    public function generateDatesSearchFields($field)
+    {
+        // campo informativo donde se concatena la fecha de inicio y fin para la búsqueda
+        $output = "\n\t\t\t\t{!! Form::input('text', '$field->name[informative]', Request::input('$field->name')['informative'], ['form' => 'searchForm', 'class' => 'form-control']) !!}";
+        // campo donde se guarda la fecha de inicio de la búsqueda
+        $output .= "\n\t\t\t\t{!! Form::input('hidden', '$field->name[from]', Request::input('$field->name')['from'], ['form' => 'searchForm']) !!}";
+        // campo donde se guarda la fecha de final de la búsqueda
+        $output .= "\n\t\t\t\t{!! Form::input('hidden', '$field->name[to]', Request::input('$field->name')['to'], ['form' => 'searchForm']) !!}\n";
+
         return $output;
     }
 

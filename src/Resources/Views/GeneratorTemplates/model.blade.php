@@ -126,6 +126,11 @@ class {{$gen->modelClassName()}} extends Model
         $request->input('{{$field->name}}_false') and $query->orWhere({!! $gen->getConditionStr($field, 'false') !!});
 @elseif($field->type == 'enum' || $field->key == 'MUL')
         $request->input('{{$field->name}}') and $query->whereIn({!! $gen->getConditionStr($field) !!});
+@elseif($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime')
+        $request->input('{{$field->name}}') and $query->whereBetween('{{$field->name}}', [
+            $request->input('{{$field->name}}')['from'],
+            $request->input('{{$field->name}}')['to']
+        ]);
 @else
         $request->input('{{$field->name}}') and $query->where({!! $gen->getConditionStr($field) !!});
 @endif
