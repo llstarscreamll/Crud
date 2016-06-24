@@ -137,11 +137,11 @@ class ModelGenerator extends BaseGenerator
     public function getConditionStr($field, $value = null)
     {
         // cláusula por defecto
-        $string = "'{$field->name}', \$request->input('{$field->name}')";
+        $string = "'{$field->name}', \$request->get('{$field->name}')";
 
         // para búsquedas de tipo texto
         if (in_array($field->type, ['varchar', 'text'])) {
-            $string = "'{$field->name}', 'like', '%'.\$request->input('{$field->name}').'%'";
+            $string = "'{$field->name}', 'like', '%'.\$request->get('{$field->name}').'%'";
         }
 
         // para búsquedas en campos de tipo enum

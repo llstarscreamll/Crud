@@ -304,12 +304,12 @@ class ViewsGenerator extends BaseGenerator
         // abro el contenedor
         $output = "\n<div class='form-group col-sm-6 {{\$errors->has('{$field->name}') ? 'has-error' : ''}}'>\n";
         // el label
-        $output .= "{!! Form::label('{$field->name}', trans('".$this->getLangAccess()."/views.form-fields.".$field->name."')) !!}\n";
+        $output .= "\t{!! Form::label('{$field->name}', trans('".$this->getLangAccess()."/views.form-fields.".$field->name."')) !!}\n";
         // ****************************************************************************
 
         // para selects
         if ($field->type == 'enum') {
-            $output .= "{!! Form::select('{$field->name}', ['' => '---']+\${$field->name}_list, null, ['class' => 'form-control selectpicker', isset(\$show) ? 'disabled' : null]) !!}\n";
+            $output .= "\t{!! Form::select('{$field->name}', ['' => '---']+\${$field->name}_list, null, ['class' => 'form-control selectpicker', isset(\$show) ? 'disabled' : null]) !!}\n";
             $output .= $this->endFormGroup($field);
             return $output;
         }
@@ -321,7 +321,7 @@ class ViewsGenerator extends BaseGenerator
 
             // si el campo actual es una llave foránea
             if (strpos($child_table[1], $field->name) !== false) {
-                $output .= "{!! Form::select('{$field->name}', ['' => '---']+\${$field->name}_list, null, ['class' => 'form-control selectpicker', isset(\$show) ? 'disabled' : null]) !!}\n";
+                $output .= "\t{!! Form::select('{$field->name}', ['' => '---']+\${$field->name}_list, null, ['class' => 'form-control selectpicker', isset(\$show) ? 'disabled' : null]) !!}\n";
                 $output .= $this->endFormGroup($field);
                 return $output;
             }
@@ -329,14 +329,14 @@ class ViewsGenerator extends BaseGenerator
 
         // para checkbox
         if ($field->type == 'tinyint') {
-            $output .= "{!! Form::hidden('{$field->name}', false) !!}\n<br>".$this->generateCheckBoxBootstrapSwitchHtlm($field);
+            $output .= "\t{!! Form::hidden('{$field->name}', false) !!}\n\t<br>\n\t".$this->generateCheckBoxBootstrapSwitchHtlm($field);
             $output .= $this->endFormGroup($field);
             return $output;
         }
 
         // para textarea
         if ($field->type == 'text') {
-            $output .= "{!! Form::textarea('{$field->name}', null, ['class' => 'form-control', isset(\$show) ? 'disabled' : '']) !!}\n";
+            $output .= "\t{!! Form::textarea('{$field->name}', null, ['class' => 'form-control', isset(\$show) ? 'disabled' : '']) !!}\n";
             $output .= $this->endFormGroup($field);
             return $output;
         }
@@ -365,7 +365,7 @@ class ViewsGenerator extends BaseGenerator
         }
 
         // el campo
-        $output .= "{!! Form::input('{$type}', '{$field->name}', null, ['class' => 'form-control', isset(\$show) ? 'disabled' : '']) !!}\n";
+        $output .= "\t{!! Form::input('{$type}', '{$field->name}', null, ['class' => 'form-control', isset(\$show) ? 'disabled' : '']) !!}\n";
         $output .= $this->endFormGroup($field);
         
         return $output;
@@ -383,9 +383,9 @@ class ViewsGenerator extends BaseGenerator
         // abro el contenedor
         $output .= "<div class='form-group col-sm-6 {{\$errors->has('{$field->name}') ? 'has-error' : ''}}'>\n";
         // el label
-        $output .= "{!! Form::label('{$field->name}_confirmation', trans('".$this->getLangAccess()."/views.form-fields.".$field->name."_confirmation')) !!}\n";
+        $output .= "\t{!! Form::label('{$field->name}_confirmation', trans('".$this->getLangAccess()."/views.form-fields.".$field->name."_confirmation')) !!}\n";
         
-        $output .= "{!! Form::input('text', '{$field->name}_confirmation', null, ['class' => 'form-control']) !!}\n";
+        $output .= "\t{!! Form::input('text', '{$field->name}_confirmation', null, ['class' => 'form-control']) !!}\n";
         $output .= $this->endFormGroup($field);
         $output .= "@endif\n";
 
@@ -435,18 +435,21 @@ class ViewsGenerator extends BaseGenerator
             $data_off_color = $data_color[1];
         }
 
-        return "{!! Form::checkbox('{$name}', $value, Request::input('$name'),
-                    [
-                    'class' => 'bootstrap_switch',
-                    'data-size' => '$data_size',
-                    'data-on-text' => '$data_on_text',
-                    'data-off-text' => '$data_off_text',
-                    'data-on-color' => '$data_on_color',
-                    'data-off-color' => '$data_off_color',
-                    isset(\$show) ? 'disabled' : '',
-                    $form
-                    ]
-                ) !!}\n\t\t\t\t";
+        $output = "{!! Form::checkbox('{$name}', $value, Request::input('$name'),";
+        $output .= "\n\t\t[";
+        $output .= "\n\t\t'class' => 'bootstrap_switch',";
+        $output .= "\n\t\t'data-size' => '$data_size',";
+        $output .= "\n\t\t'data-on-text' => '$data_on_text',";
+        $output .= "\n\t\t'data-off-text' => '$data_off_text',";
+        $output .= "\n\t\t'data-on-color' => '$data_on_color',";
+        $output .= "\n\t\t'data-off-color' => '$data_off_color',";
+        $output .= "\n\t\tisset(\$show) ? 'disabled' : '',";
+
+        $output .= $form ? "\n\t\t$form" : null;
+        $output .= "\n\t\t]";
+        $output .= ")\n\t!!}\n";
+
+        return $output;
     }
 
     /**
@@ -489,7 +492,7 @@ class ViewsGenerator extends BaseGenerator
     public function endFormGroup($field)
     {
         // los mensajes de error
-        $output = "{!!\$errors->first('{$field->name}', '<span class=\"text-danger\">:message</span>')!!}\n";
+        $output = "\t{!!\$errors->first('{$field->name}', '<span class=\"text-danger\">:message</span>')!!}\n";
         // cierro el contenedor
         $output .= "</div>\n";
 

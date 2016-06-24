@@ -121,23 +121,25 @@ class {{$gen->modelClassName()}} extends Model
         // buscamos basados en los datos que señale el usuario
 @foreach ( $fields as $field )
 @if($field->type == 'tinyint')
-        // cláusulas para atributo de tipo boolean
-        $request->input('{{$field->name}}_true') and $query->where({!! $gen->getConditionStr($field, 'true') !!});
-        $request->input('{{$field->name}}_false') and $query->orWhere({!! $gen->getConditionStr($field, 'false') !!});
+        $request->get('{{$field->name}}_true') and $query->where({!! $gen->getConditionStr($field, 'true') !!});
+        $request->get('{{$field->name}}_false') and $query->orWhere({!! $gen->getConditionStr($field, 'false') !!});
+
 @elseif($field->type == 'enum' || $field->key == 'MUL')
-        $request->input('{{$field->name}}') and $query->whereIn({!! $gen->getConditionStr($field) !!});
+        $request->get('{{$field->name}}') and $query->whereIn({!! $gen->getConditionStr($field) !!});
+
 @elseif($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime')
-        $request->input('{{$field->name}}') and $query->whereBetween('{{$field->name}}', [
-            $request->input('{{$field->name}}')['from'],
-            $request->input('{{$field->name}}')['to']
+        $request->get('{{$field->name}}')['informative'] and $query->whereBetween('{{$field->name}}', [
+            $request->get('{{$field->name}}')['from'],
+            $request->get('{{$field->name}}')['to']
         ]);
+
 @else
-        $request->input('{{$field->name}}') and $query->where({!! $gen->getConditionStr($field) !!});
+        $request->get('{{$field->name}}') and $query->where({!! $gen->getConditionStr($field) !!});
+
 @endif
 @endforeach
-
         // ordenamos los resultados
-        $request->input('sort') and $query->orderBy($request->input('sort'), $request->input('sortType', 'asc'));
+        $request->get('sort') and $query->orderBy($request->get('sort'), $request->get('sortType', 'asc'));
 
         // paginamos los resultados
         return $query->paginate(15);
