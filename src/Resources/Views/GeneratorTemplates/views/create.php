@@ -58,9 +58,33 @@
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/css/bootstrap-select.min.css') }}"></script>
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
-<?php } ?>
 
+<?php } ?>
+<?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
+    {{-- Componente Bootstrap DateTimePicker --}}
+    <link rel="stylesheet" href="{{ asset('resources/CoreModule/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}"/>
+    <script src="{{ asset('resources/CoreModule/moment/min/moment-with-locales.min.js') }}"></script>
+    <script src="{{ asset('resources/CoreModule/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+<?php } ?>
     <script type="text/javascript">
+
+<?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
+        {{-- Configuración de Bootstrap DateRangePicker --}}
+<?php foreach ($fields as $key => $field) { ?>
+<?php if ($field->type == 'date' && $field->on_create_form) { ?>
+        $('input[name=<?= $field->name ?>]').datetimepicker({
+            locale: '{{ Lang::locale() }}',
+            format: 'YYYY-MM-DD'
+        });
+<?php } elseif (($field->type == 'timestamp' || $field->type == 'datetime') && $field->on_create_form) { ?>
+        $('input[name=<?= $field->name ?>]').datetimepicker({
+            locale: '{{Lang::locale()}}',
+            format: 'YYYY-MM-DD HH:mm:ss'
+        });
+<?php } // end if ?>
+<?php } // end foreach ?>
+<?php } // end if ?>
         
 <?php if ($gen->hasTinyintTypeField($fields)) { ?>
         {{-- Inicializa el componente SwitchBootstrap --}}

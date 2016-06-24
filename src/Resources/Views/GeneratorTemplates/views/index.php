@@ -92,7 +92,7 @@
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
 <?php } ?>
 
-    <!-- Componente iCheck -->
+    {{-- Componente iCheck --}}
     <link href="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/square/red.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
@@ -127,8 +127,6 @@
         };
 
         {{-- Configuración de Bootstrap DateRangePicker --}}
-<?php } ?>
-<?php if ($gen->hasDateFields($fields)) { ?>
 <?php foreach ($fields as $key => $field) { ?>
 <?php if ($field->type == 'date') { ?>
         $('input[name="<?= $field->name ?>[informative]"]').daterangepicker({
@@ -322,4 +320,35 @@
         });
 <?php } ?>
     </script>
+
+<?php /* Muy importante dejar este componente aquí pues hace colición con Bootstrap 3 Editable */ ?>
+<?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
+    {{-- Componente Bootstrap DateTimePicker --}}
+    <link rel="stylesheet" href="{{ asset('resources/CoreModule/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}"/>
+    <script src="{{ asset('resources/CoreModule/moment/min/moment-with-locales.min.js') }}"></script>
+    <script src="{{ asset('resources/CoreModule/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+<?php } ?>
+
+<?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
+<script>
+
+        {{-- Configuración de Bootstrap DateRangePicker --}}
+<?php foreach ($fields as $key => $field) { ?>
+<?php if ($field->type == 'date' && $field->on_create_form) { ?>
+        $('input[name=<?= $field->name ?>]').datetimepicker({
+            locale: '{{ Lang::locale() }}',
+            format: 'YYYY-MM-DD'
+        });
+<?php } elseif (($field->type == 'timestamp' || $field->type == 'datetime') && $field->on_create_form) { ?>
+        $('input[name=<?= $field->name ?>]').datetimepicker({
+            locale: '{{Lang::locale()}}',
+            format: 'YYYY-MM-DD HH:mm:ss'
+        });
+<?php } // end if ?>
+<?php } // end foreach ?>
+
+</script>
+<?php } // end if ?>
+
 @endsection

@@ -343,14 +343,25 @@ class ViewsGenerator extends BaseGenerator
 
         $type = 'text';
 
-        // para inputs de tipo date
+        // para campos de tipo fecha
         if ($field->type == 'date') {
-            $type = $field->type;
+            $type = 'date';
+        }
+
+        // para campos de tipo fecha y hora
+        if ($field->type == 'datetime' || $field->type == 'timestamp') {
+            $type = 'datetime-local';
         }
 
         // para inputs de tipo numérico
         if ($field->type == 'int' || $field->type == 'unsigned_int' || $field->type == 'float' || $field->type == 'double') {
             $type = 'number';
+        }
+
+        // si el usuario desea usar el componente Bootstrap DateTimePicker en los campos
+        // de fecha, cambio el campo a tipo text
+        if (($type == 'datetime-local' || $type == 'date') && $this->request->has('use_DateTimePicker_on_form_fields')) {
+            $type = 'text';
         }
 
         // el campo
