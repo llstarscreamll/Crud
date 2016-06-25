@@ -46,6 +46,28 @@ return [
         'modal-default-btn-cancel-label' => 'Cancelar',
         'modal-default-btn-cancel-className' => 'btn-default',
 @endif
+@if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields))
+        // para el componente Bootstrap dateRangePicker
+        'dateRangePicker' => [
+            'applyLabel' => 'Aplicar',
+            'cancelLabel' => 'Cancelar',
+            'fromLabel' => 'Desde',
+            'toLabel' => 'Hasta',
+            'separator' => ' - ',
+            'weekLabel' => 'S',
+            'customRangeLabel' => 'Personalizado',
+            'daysOfWeek' => "['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi','Sa']",
+            'monthNames' => "['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']",
+            'firstDay' => '1',
+            // rangos predeterminados
+            'range_today' => 'Hoy',
+            'range_yesterday' => 'Ayer',
+            'range_last_7_days' => 'Últimos 7 días',
+            'range_last_30_days' => 'Últimos 30 días',
+            'range_this_month' => 'Este mes',
+            'range_last_month' => 'Mes pasado',
+        ],
+@endif
     ],
 
     // vista create

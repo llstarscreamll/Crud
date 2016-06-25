@@ -114,16 +114,25 @@
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
         {{-- Configuración regional para Bootstrap DateRangePicker --}}
         dateRangePickerLocaleSettings = {
-            applyLabel: 'Aplicar',
-            cancelLabel: 'Cancelar',
-            fromLabel: 'Desde',
-            toLabel: 'Hasta',
-            separator: ' - ',
-            weekLabel: 'S',
-            customRangeLabel: 'Personalizado',
-            daysOfWeek: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi','Sa'],
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            firstDay: 1
+            applyLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.applyLabel') !!}',
+            cancelLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.cancelLabel') !!}',
+            fromLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.fromLabel') !!}',
+            toLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.toLabel') !!}',
+            separator: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.separator') !!}',
+            weekLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.weekLabel') !!}',
+            customRangeLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.customRangeLabel') !!}',
+            daysOfWeek: {!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.daysOfWeek') !!},
+            monthNames: {!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.monthNames') !!},
+            firstDay: {!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.firstDay') !!}
+        };
+
+        dateRangePickerRangesSettings = {
+            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_today') !!}': [moment(), moment()],
+            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_yesterday') !!}': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_last_7_days') !!}': [moment().subtract(6, 'days'), moment()],
+            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_last_30_days') !!}': [moment().subtract(29, 'days'), moment()],
+            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_this_month') !!}': [moment().startOf('month'), moment().endOf('month')],
+            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_last_month') !!}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         };
 
         {{-- Configuración de Bootstrap DateRangePicker --}}
@@ -131,7 +140,8 @@
 <?php if ($field->type == 'date') { ?>
         $('input[name="<?= $field->name ?>[informative]"]').daterangepicker({
             opens: 'center',
-            locale: dateRangePickerLocaleSettings
+            locale: dateRangePickerLocaleSettings,
+            ranges: dateRangePickerRangesSettings
         }, function(start, end, label) {
             $('input[name="<?= $field->name ?>[from]"]').val(start.format('YYYY-MM-DD'));
             $('input[name="<?= $field->name ?>[to]"]').val(end.format('YYYY-MM-DD'));
@@ -142,7 +152,8 @@
             timePicker: true,
             timePickerIncrement: 1,
             opens: 'left',
-            locale: dateRangePickerLocaleSettings
+            locale: dateRangePickerLocaleSettings,
+            ranges: dateRangePickerRangesSettings
         }, function(start, end, label) {
             $('input[name="<?= $field->name ?>[from]"]').val(start.format('YYYY-MM-DD HH:mm:ss'));
             $('input[name="<?= $field->name ?>[to]"]').val(end.format('YYYY-MM-DD HH:mm:ss'));
