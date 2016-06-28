@@ -36,6 +36,7 @@ class RouteGenerator extends BaseGenerator
     public function __construct($request)
     {
         $this->table_name = $request->get('table_name');
+        $this->request = $request;
     }
 
     /**
@@ -80,6 +81,16 @@ class RouteGenerator extends BaseGenerator
     {
         // el nombre del recurso
         $route = "Route::resource('{$this->route()}','{$this->controllerClassName()}');";
+        
+        // si la tabla tienen la columna deleted_at, genero la ruta para
+        // restaurar archivos de papelera
+        if ($this->hasDeletedAtColumn($this->advanceFields($this->request))) {
+
+            $restore_route = "Route::put(\n\t'/{$this->route()}/restore',\n\t[\n\t'as'    =>  '{$this->route()}.restore',\n\t'uses'  =>  '{$this->controllerClassName()}@restore'\n\t]\n);\n";
+            $route = $restore_route.$route;
+
+        }
+
         // el fichero de las rutas
         $routesFile = app_path('Http/routes.php');
         // obtengo el contenido del fichero de rutas
@@ -87,6 +98,7 @@ class RouteGenerator extends BaseGenerator
 
         // no está el nombre del recurso ($route) puesto en el fichero?
         if (strpos($routesFileContent, $route) == false) {
+            
             $routesFileContent = $this->getUpdatedContent($routesFileContent, $route);
             file_put_contents($routesFile, $routesFileContent);
 
@@ -108,7 +120,7 @@ class RouteGenerator extends BaseGenerator
     public function getUpdatedContent($existingContent, $route)
     {
         // check if the user has directed to add routes
-        $str = "nvd-crud routes go here";
+        $str = "generated routes go here";
         if (strpos($existingContent, $str) !== false) {
             return str_replace($str, "{$str}\n\t".$route, $existingContent);
         }

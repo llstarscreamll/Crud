@@ -114,6 +114,7 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Display the specified resource.
      * @param \Illuminate\Http\Request $request
+     * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
@@ -140,6 +141,7 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Show the form for editing the specified resource.
      * @param \Illuminate\Http\Request $request
+     * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
@@ -166,6 +168,7 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Update the specified resource in storage.
      * @param \Illuminate\Http\Request $request
+     * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
@@ -191,6 +194,7 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Remove the specified resource from storage.
      * @param \Illuminate\Http\Request $request
+     * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
@@ -203,11 +207,29 @@ class {{$gen->controllerClassName()}} extends Controller
 
         return redirect()->route('{{$gen->route().'.index'}}');
     }
+
+@if(($hasSoftDelete = $gen->hasDeletedAtColumn($fields)))
+    /**
+     * Restore the specified resource from storage.
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function restore(Request $request)
+    {
+        $id = $request->get('id');
+
+        {{$gen->modelClassName()}}::onlyTrashed()->whereIn('id', $id)->restore()
+            ? $request->session()->flash('success', trans_choice('{{$gen->getLangAccess()}}/messages.restore_{{$gen->snakeCaseSingular()}}_success', count($id)))
+            : $request->session()->flash('error', trans_choice('{{$gen->getLangAccess()}}/messages.restore_{{$gen->snakeCaseSingular()}}_error', count($id)));
+
+        return redirect()->route('{{$gen->route().'.index'}}');
+    }
+@endif
     
     /**
      * Devuelve la vista con los respectivos datos.
-     * @param  string $view
-     * @param  string $data
+     * @param string $view
+     * @param string $data
      * @return \Illuminate\Http\Response
      */
     protected function view($view, $data = [])

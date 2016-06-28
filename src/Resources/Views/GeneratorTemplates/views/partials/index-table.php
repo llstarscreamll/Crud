@@ -131,9 +131,11 @@
                 @if ($record->trashed())
 
                     {{-- Formulario para restablecer el registro --}}
-                    {!! Form::open(['route' => ['<?=$gen->route()?>.index'], 'method' => 'PUT', 'class' => 'form-inline']) !!}
+                    {!! Form::open(['route' => ['<?=$gen->route()?>.restore'], 'method' => 'PUT', 'class' => 'form-inline display-inline']) !!}
+
+                        {!! Form::hidden('id[]', $record->id) !!}
                         
-                        {{-- Botón que realiza el envío del formulario para restablecer el registro --}}
+                        {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para restablecer el registro --}}
                         <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
                                 class="btn btn-success btn-xs <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
                                 role="button"
@@ -179,7 +181,7 @@
 
                     {!! Form::open(['route' => ['<?=$gen->route()?>.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
                         
-                        {{-- Botón que realiza el envío del formulario para eliminar el registro --}}
+                        {{-- Botón muestra ventana modal de confirmación para el envío de formulario para eliminar el registro --}}
                         <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
                                 class="btn btn-danger btn-xs <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
                                 role="button"
