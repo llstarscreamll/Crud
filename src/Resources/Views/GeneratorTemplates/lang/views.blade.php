@@ -25,7 +25,22 @@ return [
         'name'          => 'Index',
         'btn-trash'     => 'Mover {!!$request->get('plural_entity_name')!!} a Papelera',
         'btn-create'    => 'Crear {!!$request->get('single_entity_name')!!}',
-        'table-actions-column' => 'Acciones',
+        'table-actions-column'  => 'Acciones',
+        'filters-button'        => 'Más Filtros',
+@if ($gen->hasDeletedAtColumn($fields))
+        'filter-with-trashed-label' => 'Con Reg. Borrados',
+        'filter-only-trashed-label' => 'Sólo Reg. Borrados',
+        'restore-row-button-label' => 'Restaurar',
+@if ($request->has('use_modal_confirmation_on_delete'))
+        // valores para la ventana modal de confirmación de acción de botón restaurar registro
+        'modal-restore-title' => 'Está seguro?',
+        'modal-restore-message' => 'La información de <strong>:item</strong> será <strong>Restaurada</strong>...',
+        'modal-restore-btn-confirm-label' => 'Restaurar',
+        'modal-restore-btn-confirm-class-name' => 'btn-success',
+@else
+        'restore-confirm-message' => 'Está seguro? El resgistro será RESTAURADO...',
+@endif
+@endif
         'search-button'         => 'Buscar',
         'clean-filter'          => 'Limpiar filtros',
         'see-details-button'    => 'Ver detalles',
@@ -34,7 +49,7 @@ return [
         'no-records-found'      => 'No se encontraron registros...',
         'create-form-modal-title'   => 'Crear Nuevo {!!$request->get('single_entity_name')!!}',
 @if ($request->has('use_modal_confirmation_on_delete'))
-        // valores para la ventana modal de confirmación de acción del botón de eliminar registro
+        // valores para la ventana modal de confirmación de acción del botón eliminar registro
         'modal-delete-title'        => 'Está seguro?',
         'modal-delete-message'       => 'La información de <strong>:item</strong> será <strong>:action</strong>...',
         'modal-delete-btn-confirm-label' => 'Borrar',
@@ -45,6 +60,8 @@ return [
         'modal-default-btn-confirmation-className' => 'btn-primary',
         'modal-default-btn-cancel-label' => 'Cancelar',
         'modal-default-btn-cancel-className' => 'btn-default',
+@else
+        'delete-confirm-message' => 'Está seguro? Toda la información será ELIMINADA...',
 @endif
 @if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields))
         // para el componente Bootstrap dateRangePicker

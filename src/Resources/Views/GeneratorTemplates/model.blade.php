@@ -138,6 +138,10 @@ class {{$gen->modelClassName()}} extends Model
 
 @endif
 @endforeach
+@if($hasSoftDelete)
+        // registros en papelera
+        $request->has('trashed_records') and $query->{$request->get('trashed_records')}();
+@endif
         // ordenamos los resultados
         $request->get('sort') and $query->orderBy($request->get('sort'), $request->get('sortType', 'asc'));
 

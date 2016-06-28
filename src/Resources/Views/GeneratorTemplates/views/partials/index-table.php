@@ -44,10 +44,41 @@
 
                 {{-- Los botones de búsqueda y limpieza del formulario --}}
                 <td style="min-width: 8em;">
+
+                    {{-- Más opciones de filtros --}}
+                    <div id="filters" class="dropdown display-inline"
+                         data-toggle="tooltip"
+                         data-placement="top"
+                         title="{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button') }}">
+                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <span class="sr-only">{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button') }}</span>
+                            <span class="glyphicon glyphicon-filter"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li class="dropdown-header">{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button') }}</li>
+                            <li role="separator" class="divider"></li>
+<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+                            <li>
+                                <div class="checkbox">
+                                    <label>
+                                        {!! Form::radio('trashed_records', 'withTrashed', Request::input('trashed_records') == 'withTrashed' ? true : false, ['form' => 'searchForm']) !!} {{ trans('<?=$gen->getLangAccess()?>/views.index.filter-with-trashed-label') }}
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="checkbox">
+                                    <label>
+                                        {!! Form::radio('trashed_records', 'onlyTrashed', Request::input('trashed_records') == 'onlyTrashed' ? true : false, ['form' => 'searchForm']) !!} {{ trans('<?=$gen->getLangAccess()?>/views.index.filter-only-trashed-label') }}
+                                    </label>
+                                </div>
+                            </li>
+<?php } ?>
+                        </ul>
+                    </div>
                     
                     <button type="submit"
                             form="searchForm"
-                            class="btn btn-primary btn-sm"
+                            class="btn btn-primary btn-xs"
                             data-toggle="tooltip"
                             data-placement="top"
                             title="{{trans('<?=$gen->getLangAccess()?>/views.index.search-button')}}">
@@ -56,7 +87,7 @@
                     </button>
 
                     <a  href="{{route('<?=$gen->route()?>.index')}}"
-                        class="btn btn-danger btn-sm"
+                        class="btn btn-danger btn-xs"
                         role="button"
                         data-toggle="tooltip"
                         data-placement="top"
@@ -73,20 +104,20 @@
         <tbody>
 
             @forelse ( $records as $record )
-            <tr class="item-{{$record->id}}">
+            <tr class="item-{{ $record->id }} {{ $record->trashed() ? 'danger' : null }}">
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
                 <td>
 <?php if (! $gen->isGuarded($field->name)) { ?>
                     {{-- Campo editable --}}
-                    <span class="<?=$gen->getInputXEditableClass($field)?>"
+                    <span @if (! $record->trashed()) class="<?=$gen->getInputXEditableClass($field)?>"
                           data-type="<?=$gen->getInputType($field)?>"
                           data-name="<?=$field->name?>"
                           data-placement="bottom"
                           data-value="{{ $record-><?=$field->name?> }}"
                           data-pk="{{ $record->{$record->getKeyName()} }}"
                           data-url="/<?=$gen->route()?>/{{ $record->{$record->getKeyName()} }}"
-                          <?=$gen->getSourceForEnum($field)?>>{{ <?=$gen->getRecordFieldData($field, '$record')?> }}</span>
+                          <?=$gen->getSourceForEnum($field)?> @endif>{{ <?=$gen->getRecordFieldData($field, '$record')?> }}</span>
 <?php } else { ?>
                     {{-- Los campos protejidos no son editables --}}
                     {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
@@ -97,28 +128,56 @@
                 
                 {{-- Los botones de acción para cada registro --}}
                 <td class="actions-cell">
-                    {!! Form::open(['route' => ['<?=$gen->route()?>.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline']) !!}
+                @if ($record->trashed())
 
-                        {{-- Botón para ir a los detalles del registro --}}
-                        <a  href="{{route('<?=$gen->route()?>.show', $record->id)}}"
-                            class="btn btn-primary btn-xs"
-                            role="button"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button')}}">
-                            <span class="fa fa-eye"></span>
-                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button')}}</span>
-                        </a>
+                    {{-- Formulario para restablecer el registro --}}
+                    {!! Form::open(['route' => ['<?=$gen->route()?>.index'], 'method' => 'PUT', 'class' => 'form-inline']) !!}
+                        
+                        {{-- Botón que realiza el envío del formulario para restablecer el registro --}}
+                        <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
+                                class="btn btn-success btn-xs <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
+                                role="button"
+                                data-toggle="tooltip"
+                                data-placement="top"
+<?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
+                                {{-- Setup de ventana modal de confirmación --}}
+                                data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-title')}}"
+                                data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-message', ['item' => $record->name])}}"
+                                data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-btn-confirm-label')}}"
+                                data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-btn-confirm-class-name')}}"
+<?php } else { ?>
+                                onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>/views.index.restore-confirm-message')}}')"
+<?php } ?>
+                                title="{{trans('<?=$gen->getLangAccess()?>/views.index.restore-row-button-label')}}">
+                            <span class="fa fa-mail-reply"></span>
+                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button')}}</span>
+                        </button>
+                    
+                    {!! Form::close() !!}
 
-                        {{-- Botón para ir a formulario de actualización del registro --}}
-                        <a  href="{{route('<?=$gen->route()?>.edit', $record->id)}}"
-                            class="btn btn-warning btn-xs" role="button"
-                            data-toggle="tooltip"
-                            data-placement="top"
-                            title="{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button')}}">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button')}}</span>
-                        </a>
+                @else
+                    {{-- Botón para ir a los detalles del registro --}}
+                    <a  href="{{route('<?=$gen->route()?>.show', $record->id)}}"
+                        class="btn btn-primary btn-xs"
+                        role="button"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button')}}">
+                        <span class="fa fa-eye"></span>
+                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button')}}</span>
+                    </a>
+
+                    {{-- Botón para ir a formulario de actualización del registro --}}
+                    <a  href="{{route('<?=$gen->route()?>.edit', $record->id)}}"
+                        class="btn btn-warning btn-xs" role="button"
+                        data-toggle="tooltip"
+                        data-placement="top"
+                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button')}}">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button')}}</span>
+                    </a>
+
+                    {!! Form::open(['route' => ['<?=$gen->route()?>.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
                         
                         {{-- Botón que realiza el envío del formulario para eliminar el registro --}}
                         <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
@@ -133,7 +192,7 @@
                                 data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-label')}}"
                                 data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-class-name')}}"
 <?php } else { ?>
-                                onclick="return confirm('Estás seguro? Toda la información será eliminada...')"
+                                onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>/views.index.delete-confirm-message') }}')"
 <?php } ?>
                                 title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button')}}">
                             <span class="fa fa-trash"></span>
@@ -141,6 +200,7 @@
                         </button>
                     
                     {!! Form::close() !!}
+                @endif
                 </td>
                     
             </tr>
@@ -163,3 +223,10 @@
 </div>
 
 {!! $records->appends(Request::query())->render() !!}
+
+<div>
+    <strong>Notas:</strong>
+    <ul>
+        <li>Los registros que están en la "Papelera", se muestran con <span class="bg-danger">Fondo Rojo</span>.</li>
+    </ul>
+</div>

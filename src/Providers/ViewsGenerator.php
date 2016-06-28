@@ -158,7 +158,7 @@ class ViewsGenerator extends BaseGenerator
             $type = 'number';
         }
 
-        $output = "{!! Form::input('$type', '$field->name', Request::input('.$field->name.'), ['form' => 'searchForm', 'class' => 'form-control']) !!}";
+        $output = "{!! Form::input('$type', '$field->name', Request::input('$field->name'), ['form' => 'searchForm', 'class' => 'form-control']) !!}";
 
         return $output;
     }

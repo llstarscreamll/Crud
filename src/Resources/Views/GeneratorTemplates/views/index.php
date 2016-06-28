@@ -73,21 +73,10 @@
 @endsection
 
 @section('script')
-    {{-- Componente Bootstrap 3 Editable --}}
-    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
-
-<?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
-    {{-- Dependencias de datetimepicker para componente x-editable --}}
-    <link href="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css"></link> 
-    <script src="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js') }}"></script>
-    <script src="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.es.js') }}"></script>
-<?php } ?>
-
+    
 <?php if ($gen->hasSelectFields($fields)) { ?>
     {{-- Componente Bootstrap-Select, este componente se inicializa automáticamente --}}
-    <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/css/bootstrap-select.min.css') }}"></script>
+    <link href="{{ asset('resources/CoreModule/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
 <?php } ?>
@@ -110,6 +99,11 @@
 <?php } ?>
 
     <script>
+
+        {{-- Previene que se esconda el menú del dropdown al hacer clic a sus elementos hijos --}}
+        $('#filters .dropdown-menu input, #filters .dropdown-menu label').click(function(e) {
+            e.stopPropagation();
+        });
 
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
         {{-- Configuración regional para Bootstrap DateRangePicker --}}
@@ -284,38 +278,6 @@
         });
 <?php } ?>
 
-        {{-- Configuración del componente x-editable --}}
-        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
-        $(".editable").editable({ajaxOptions:{method:'PUT'}});
-
-<?php if ($gen->hasDateFields($fields)) { ?>
-        {{-- Configuración del componente x-editable para el caso de campos de tipo "date" --}}
-        $('.editable-date').editable({
-            ajaxOptions:{method:'PUT'},
-            format: 'yyyy-mm-dd',
-            viewformat: 'dd/mm/yyyy',
-            datetimepicker: {
-                todayBtn: 'linked',
-                weekStart: 1,
-                language: 'es'
-            }
-        });
-<?php } ?>
-
-<?php if ($gen->hasDateTimeFields($fields)) { ?>
-        {{-- Configuración del componente x-editable para el caso de campos de tipo "datetime" --}}
-        $('.editable-datetime').editable({
-            ajaxOptions:{method:'PUT'},
-            format: 'yyyy-mm-dd hh:ii:ss',
-            viewformat: 'dd/mm/yyyy hh:ii:ss',
-            datetimepicker: {
-                todayBtn: 'linked',
-                weekStart: 1,
-                language: 'es'
-            }
-        });
-<?php } ?>
-
 <?php if ($gen->hasTinyintTypeField($fields)) { ?>
         {{-- Inicializa el componente BootstrapSwitch --}}
         $(".bootstrap_switch").bootstrapSwitch();
@@ -344,7 +306,7 @@
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
 <script>
 
-        {{-- Configuración de Bootstrap DateRangePicker --}}
+        {{-- Configuración de Bootstrap DateTimePicker --}}
 <?php foreach ($fields as $key => $field) { ?>
 <?php if ($field->type == 'date' && $field->on_create_form) { ?>
         $('input[name=<?= $field->name ?>]').datetimepicker({
@@ -361,5 +323,51 @@
 
 </script>
 <?php } // end if ?>
+
+{{-- Componente Bootstrap 3 Editable --}}
+    <link href="{{ asset('resources/CoreModule/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('resources/CoreModule/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+
+<?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
+    {{-- Dependencias de datetimepicker para componente x-editable --}}
+    <link href="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js') }}"></script>
+    <script src="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.es.js') }}"></script>
+<?php } ?>
+  
+    <script>
+        {{-- Configuración del componente x-editable --}}
+        $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
+        $(".editable").editable({ajaxOptions:{method:'PUT'}});
+
+<?php if ($gen->hasDateFields($fields)) { ?>
+        {{-- Configuración del componente x-editable para el caso de campos de tipo "date" --}}
+        $('.editable-date').editable({
+            ajaxOptions:{method:'PUT'},
+            format: 'yyyy-mm-dd',
+            viewformat: 'dd/mm/yyyy',
+            datetimepicker: {
+                todayBtn: 'linked',
+                weekStart: 1,
+                language: 'es'
+            }
+        });
+<?php } ?>
+
+<?php if ($gen->hasDateTimeFields($fields)) { ?>
+        {{-- Configuración del componente x-editable para el caso de campos de tipo "datetime" --}}
+        $('.editable-datetime').editable({
+            ajaxOptions:{method:'PUT'},
+            format: 'yyyy-mm-dd hh:ii:ss',
+            viewformat: 'yyyy-mm-dd hh:ii:ss',
+            datetimepicker: {
+                todayBtn: 'linked',
+                weekStart: 1,
+                language: 'es'
+            }
+        });
+<?php } ?>
+    </script>
 
 @endsection
