@@ -51,13 +51,13 @@
                     <div id="filters" class="dropdown display-inline"
                          data-toggle="tooltip"
                          data-placement="top"
-                         title="{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button') }}">
+                         title="{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button-label') }}">
                         <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="sr-only">{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button') }}</span>
+                            <span class="sr-only">{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button-label') }}</span>
                             <span class="glyphicon glyphicon-filter"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                            <li class="dropdown-header">{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button') }}</li>
+                            <li class="dropdown-header">{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button-label') }}</li>
                             <li role="separator" class="divider"></li>
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
                             <li>
@@ -83,9 +83,9 @@
                             class="btn btn-primary btn-xs"
                             data-toggle="tooltip"
                             data-placement="top"
-                            title="{{trans('<?=$gen->getLangAccess()?>/views.index.search-button')}}">
+                            title="{{trans('<?=$gen->getLangAccess()?>/views.index.search-button-label')}}">
                         <span class="fa fa-search"></span>
-                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.search-button')}}</span>
+                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.search-button-label')}}</span>
                     </button>
 
                     <a  href="{{route('<?=$gen->route()?>.index')}}"
@@ -93,9 +93,9 @@
                         role="button"
                         data-toggle="tooltip"
                         data-placement="top"
-                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.clean-filter')}}">
+                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.clean-filter-button-label')}}">
                         <span class="glyphicon glyphicon-remove"></span>
-                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.clean-filter')}}</span>
+                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.clean-filter-button-label')}}</span>
                     </a>
 
                 </td>
@@ -107,7 +107,7 @@
 
             @forelse ( $records as $record )
             <tr class="item-{{ $record->id }} {{ $record->trashed() ? 'danger' : null }}">
-            <td>{!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item', 'form' => 'restoreMassivelyForm']) !!}</td>
+            <td>{!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item']) !!}</td>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
                 <td>
@@ -156,7 +156,7 @@
 <?php } ?>
                                 title="{{trans('<?=$gen->getLangAccess()?>/views.index.restore-row-button-label')}}">
                             <span class="fa fa-mail-reply"></span>
-                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button')}}</span>
+                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.restore-item-button')}}</span>
                         </button>
                     
                     {!! Form::close() !!}
@@ -169,9 +169,9 @@
                         role="button"
                         data-toggle="tooltip"
                         data-placement="top"
-                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button')}}">
+                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button-label')}}">
                         <span class="fa fa-eye"></span>
-                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button')}}</span>
+                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button-label')}}</span>
                     </a>
 
                     {{-- Botón para ir a formulario de actualización del registro --}}
@@ -179,9 +179,9 @@
                         class="btn btn-warning btn-xs" role="button"
                         data-toggle="tooltip"
                         data-placement="top"
-                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button')}}">
+                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button-label')}}">
                         <span class="glyphicon glyphicon-pencil"></span>
-                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button')}}</span>
+                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button-label')}}</span>
                     </a>
 
                     {{-- Formulario para eliminar registro --}}
@@ -195,16 +195,16 @@
                                 data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                                 {{-- Setup de ventana modal de confirmación --}}
-                                data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-message', ['item' => $record->name, 'action' => 'borrada'])}}"
+                                data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-message', ['item' => $record->name])}}"
                                 data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-title')}}"
                                 data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-label')}}"
                                 data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-class-name')}}"
 <?php } else { ?>
                                 onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>/views.index.delete-confirm-message') }}')"
 <?php } ?>
-                                title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button')}}">
+                                title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}">
                             <span class="fa fa-trash"></span>
-                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button')}}</span>
+                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}</span>
                         </button>
                     
                     {!! Form::close() !!}
