@@ -37,6 +37,7 @@ class RouteGenerator extends BaseGenerator
     {
         $this->table_name = $request->get('table_name');
         $this->request = $request;
+        $this->fields = $this->advanceFields($this->request);
     }
 
     /**
@@ -47,6 +48,12 @@ class RouteGenerator extends BaseGenerator
      */
     public function generateRouteModelBinding()
     {
+        // si la entidad tiene softDeletes no creo el Model Binding
+        if ($this->hasDeletedAtColumn($this->fields)) {
+            $this->msg_info = "La entidad posee atributo SoftDeleted, Model Binding para la ruta: '".$this->route()."' no creado, tarea omitida.";
+            return false;
+        }
+
         $declaration = "\$router->model('".$this->route()."', '".config('llstarscreamll.CrudGenerator.config.parent-app-namespace')."\\Models\\".$this->modelClassName()."');";
         $providerFile = app_path('Providers/RouteServiceProvider.php');
         $fileContent = file_get_contents($providerFile);
@@ -84,9 +91,9 @@ class RouteGenerator extends BaseGenerator
         
         // si la tabla tienen la columna deleted_at, genero la ruta para
         // restaurar archivos de papelera
-        if ($this->hasDeletedAtColumn($this->advanceFields($this->request))) {
+        if ($this->hasDeletedAtColumn($this->fields)) {
 
-            $restore_route = "Route::put(\n\t'/{$this->route()}/restore',\n\t[\n\t'as'    =>  '{$this->route()}.restore',\n\t'uses'  =>  '{$this->controllerClassName()}@restore'\n\t]\n);\n";
+            $restore_route = "Route::put(\n\t'/{$this->route()}/restore/{{$this->route()}}',\n\t[\n\t'as'    =>  '{$this->route()}.restore',\n\t'uses'  =>  '{$this->controllerClassName()}@restore'\n\t]\n);\n";
             $route = $restore_route.$route;
 
         }

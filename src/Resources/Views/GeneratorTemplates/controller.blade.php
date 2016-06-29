@@ -114,13 +114,18 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Display the specified resource.
      * @param \Illuminate\Http\Request $request
+@if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
+     * @param string $id
+@else
      * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
+@endif
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
+    public function show(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
         // los datos para la vista
         $data = array();
+        $data['{{$gen->modelVariableName()}}'] = {{ $hasSoftDelete ? $gen->modelClassName().'::findOrFail($id)' : '$'.$gen->modelVariableName() }};
 
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
@@ -133,7 +138,6 @@ class {{$gen->controllerClassName()}} extends Controller
         $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
 @endif
 @endforeach
-        $data['{{$gen->modelVariableName()}}'] = ${{$gen->modelVariableName()}};
 
         return $this->view("show", $data);
     }
@@ -141,13 +145,18 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Show the form for editing the specified resource.
      * @param \Illuminate\Http\Request $request
+@if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
+     * @param string $id
+@else
      * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
+@endif
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
+    public function edit(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
         // los datos para la vista
         $data = array();
+        $data['{{$gen->modelVariableName()}}'] = {{ $hasSoftDelete ? $gen->modelClassName().'::findOrFail($id)' : '$'.$gen->modelVariableName() }};
 
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
@@ -160,7 +169,6 @@ class {{$gen->controllerClassName()}} extends Controller
         $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
 @endif
 @endforeach
-        $data['{{$gen->modelVariableName()}}'] = ${{$gen->modelVariableName()}};
 
         return $this->view("edit", $data);
     }
@@ -168,18 +176,30 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Update the specified resource in storage.
      * @param \Illuminate\Http\Request $request
+@if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
+     * @param string $id
+@else
      * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
+@endif
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
+    public function update(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
+@if ($hasSoftDelete)
+        ${{ $gen->modelVariableName() }} = {{ $gen->modelClassName() }}::findOrFail($id);
+
+@endif
         if( $request->isXmlHttpRequest() )
         {
             $data = [$request->name  => $request->value];
             $validator = \Validator::make( $data, {{$gen->modelClassName()}}::validationRules( $request->name ) );
-            if($validator->fails())
+            
+            if($validator->fails()) {
                 return response($validator->errors()->first( $request->name),403);
+            }
+
             ${{$gen->modelVariableName()}}->update($data);
+
             return "Record updated";
         }
 
@@ -194,12 +214,16 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Remove the specified resource from storage.
      * @param \Illuminate\Http\Request $request
+@if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
+     * @param string $id
+@else
      * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
+@endif
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, {{$gen->modelClassName()}} ${{$gen->modelVariableName()}})
+    public function destroy(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
-        $id = $request->has('id') ? $request->get('id') : ${{$gen->modelVariableName()}}->id;
+        $id = $request->has('id') ? $request->get('id') : {{ $hasSoftDelete ? '$id' : '$'.$gen->modelVariableName().'->id' }};
 
         {{$gen->modelClassName()}}::destroy($id)
             ? $request->session()->flash('success', trans_choice('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_success', count($id)))
@@ -208,15 +232,16 @@ class {{$gen->controllerClassName()}} extends Controller
         return redirect()->route('{{$gen->route().'.index'}}');
     }
 
-@if(($hasSoftDelete = $gen->hasDeletedAtColumn($fields)))
+@if($hasSoftDelete)
     /**
      * Restore the specified resource from storage.
      * @param \Illuminate\Http\Request $request
+     * @param string $id
      * @return \Illuminate\Http\Response
      */
-    public function restore(Request $request)
+    public function restore(Request $request, $id)
     {
-        $id = $request->get('id');
+        $id = $request->has('id') ? $request->get('id') : $id;
 
         {{$gen->modelClassName()}}::onlyTrashed()->whereIn('id', $id)->restore()
             ? $request->session()->flash('success', trans_choice('{{$gen->getLangAccess()}}/messages.restore_{{$gen->snakeCaseSingular()}}_success', count($id)))
