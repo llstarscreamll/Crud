@@ -62,6 +62,7 @@ return $config = [
      */
     'layout'    => 'CoreModule::app',
     'layout-namespace'    => 'CoreModule::',
+    'core-assets-namespase' => 'CoreModule/', // no olvidar el "/" si es que hay namespace
 
     // el namespace de las clases a generar
     'parent-app-namespace'  => 'App',
