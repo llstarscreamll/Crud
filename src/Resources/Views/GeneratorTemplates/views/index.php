@@ -34,7 +34,9 @@
 // creamos formulario para eliminar registros masivamete //
 ///////////////////////////////////////////////////////////
 ?>
-                    {{-- Formulario para restablecer resgistros masivamente --}}
+                    @if (Request::get('trashed_records') != 'onlyTrashed')
+
+                    {{-- Formulario para borrar resgistros masivamente --}}
                     {!! Form::open(['route' => ['<?=$gen->route()?>.destroy'], 'method' => 'DELETE', 'id' => 'deleteMassivelyForm', 'class' => 'form-inline display-inline']) !!}
                         
                         {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para "eliminar" varios registro a la vez --}}
@@ -59,6 +61,8 @@
                         </button>
                     
                     {!! Form::close() !!}
+
+                    @endif
 
 <?php
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
