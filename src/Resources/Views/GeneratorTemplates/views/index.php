@@ -104,31 +104,36 @@
 <?php } ?>
 
 <?php
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// si se desea que el formulario para crear un nuevo registro esté incluido en la vista del index a través de una ventana modal, //
-// el botón de crear disparará la ventana modal                                                                                  //
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// el formulario de creación en el index a través de una ventana modal puede ser habilitado o    //
+// deshabilitado por el desarrollado comentando las lineas correspondientes, si se quiere que    //
+// el formulario de creación quede en el index, dejar el siguiente bloque y comentar el link,    //
+// viceversa para quitar el formulario del index y habilitar link para redirección a ruta create //
+///////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
-<?php if (config('llstarscreamll.CrudGenerator.config.show-create-form-on-index') === true) { ?>
                         {{-- El boton que dispara la ventana modal con formulario de creación de registro --}}
+                        {{--*******************************************************************************************************************************
+                            Descomentar este bloque y comentar el bloque siguiente si se desea que el formulario de creación SI quede en la vista del index
+                            *******************************************************************************************************************************--}}
                         <div class="display-inline-block" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}">
                             <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#create-form-modal">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}</span>
                             </button>
                         </div>
-<?php } else { ?>
-<?php
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-// de lo contrario será un link que lleve a las vista de create.blade.php con el formulario de creación //
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-?>
+
+                        {{-- Formulario de creación de registro --}}
+                        @include('<?=$gen->viewsDirName()?>.partials.index-create-form')
+
                         {{-- Link que lleva a la página con el formulario de creación de registro --}}
+                        {{--******************************************************************************************************************************
+                            Descomentar este bloque y comentar el bloque anterior si se desea que el formulario de creación NO quede en la vista del index
                         <a id="create-<?=$gen->route()?>-link" class="btn btn-default btn-sm" href="{!! route('<?=$gen->route()?>.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}">
                             <span class="glyphicon glyphicon-plus"></span>
                             <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}</span>
                         </a>
-<?php } ?>
+                            ******************************************************************************************************************************--}}
+
                     
                     </div>
 
@@ -154,11 +159,6 @@
 // incluimos el partial con la ventana modal que contiene el fomulario de creación de registro si es el caso //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
-<?php if (config('llstarscreamll.CrudGenerator.config.show-create-form-on-index') === true) { ?>
-    {{-- Formulario de creación de registro --}}
-    @include('<?=$gen->viewsDirName()?>.partials.index-create-form')
-<?php } ?>
-
 @endsection
 
 @section('script')
