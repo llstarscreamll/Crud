@@ -29,6 +29,7 @@ return $config = [
      */
     'views' => [
         'partials/form-fields',
+        'partials/hidden-form-fields',
         'partials/index-create-form',
         'partials/index-table',
         'index',

@@ -98,7 +98,7 @@ return [
         'restore-row-button-label' => 'Restaurar',
 @endif  
         'table-actions-column' => 'Acciones',
-        'no-records-found'      => 'No se encontraron registros...',
+        'no-records-found' => 'No se encontraron registros...',
 
 @if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields))
         // para el componente Bootstrap dateRangePicker
@@ -138,7 +138,7 @@ return [
     ],
 
     // vista show
-    'show'    => [
+    'show' => [
         'name' => 'Detalles',
         'long-name' => 'Detalles de {!!$request->get('single_entity_name')!!}',
         'btn-trash' => 'Mover a Papelera',
@@ -167,7 +167,7 @@ return [
     ],
 
     // el formulario de búsqueda
-    'search_form'   => [
+    'search_form' => [
         'find' => 'Buscar...',
         'btn-search' => 'Buscar',
         'btn-clean' => 'Quitar Filtros',

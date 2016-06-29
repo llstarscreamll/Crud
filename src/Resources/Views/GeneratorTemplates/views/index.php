@@ -205,12 +205,14 @@
 <?php } ?>
 
     <script>
+
 <?php
 /////////////////////////////////////////////////////////////////////////////////////
 // lineas para mejorar el comportamiento de selección de los elementos de la tabla //
 /////////////////////////////////////////////////////////////////////////////////////
 ?>
         $(document).ready(function(){
+
             {{-- searching if there are checkboxes checked to toggle enable action buttons --}}
             scanCheckedCheckboxes('.checkbox-table-item');
             
@@ -225,7 +227,9 @@
                 scanCheckedCheckboxes('.'+$(this).attr('class'));
                 event.stopPropagation();
             });
+
         });
+
 <?php
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // lineas para prevenir comportamiento por defecto de los dropdowns de Bootstrap al seleccionar uno de los elementos //
@@ -259,6 +263,7 @@
             firstDay: {!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.firstDay') !!}
         };
 
+        {{-- Algunos rangos de fecha predeterminados para Bootstrap DateRangePicker --}}
         dateRangePickerRangesSettings = {
             '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_today') !!}': [moment(), moment()],
             '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_yesterday') !!}': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -284,6 +289,7 @@
             $('input[name="<?= $field->name ?>[from]"]').val(start.format('YYYY-MM-DD'));
             $('input[name="<?= $field->name ?>[to]"]').val(end.format('YYYY-MM-DD'));
         });
+
 <?php } elseif ($field->type == 'timestamp' || $field->type == 'datetime') { ?>
         $('input[name="<?= $field->name ?>[informative]"]').daterangepicker({
             format: 'MM/DD/YYYY HH:mm:ss',
@@ -296,10 +302,10 @@
             $('input[name="<?= $field->name ?>[from]"]').val(start.format('YYYY-MM-DD HH:mm:ss'));
             $('input[name="<?= $field->name ?>[to]"]').val(end.format('YYYY-MM-DD HH:mm:ss'));
         });
+
 <?php } // end if ?>
 <?php } // end foreach ?>
 <?php } // end if ?>
-
 <?php
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // el setup del componente Bootbox para las ventanas modales de confirmación y demás, si es que se especificó su uso //
@@ -340,100 +346,99 @@
             }
             
             bootbox.dialog({
-              /**
-               * @required String|Element
-               */
-              message: message,
-              
-              /**
-               * @optional String|Element
-               * adds a header to the dialog and places this text in an h4
-               */
-              title: title,
-              
-              /**
-               * @optional String
-               * @default: null
-               * an additional class to apply to the dialog wrapper
-               */
-              className: modalClassName,
-              
-              /**
-               * @optional Object
-               * @default: {}
-               * any buttons shown in the dialog's footer
-               */
-              buttons: {
-                // For each key inside the buttons object...
+                /**
+                 * @required String|Element
+                 */
+                message: message,
                 
                 /**
-                 * @required Object|Function
-                 * 
-                 * this first usage will ignore the `cancel` key
-                 * provided and take all button options from the given object
+                 * @optional String|Element
+                 * adds a header to the dialog and places this text in an h4
                  */
-                cancel: {
-                    /**
-                   * @required String
-                   * this button's label
-                   */
-                  label: '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-cancel-label')}}',
-                  
-                  /**
-                   * @optional String
-                   * an additional class to apply to the button
-                   */
-                  className: '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-cancel-className')}}',
-                  
-                  /**
-                   * @optional Function
-                   * the callback to invoke when this button is clicked
-                   */
-                  callback: function() {}
-                },
-
+                title: title,
+                
                 /**
-                 * @required Object|Function
-                 * 
-                 * this first usage will ignore the `success` key
-                 * provided and take all button options from the given object
+                 * @optional String
+                 * @default: null
+                 * an additional class to apply to the dialog wrapper
                  */
-                success: {
-                  /**
-                   * @required String
-                   * this button's label
-                   */
-                  label: btnLabel,
-                  
-                  /**
-                   * @optional String
-                   * an additional class to apply to the button
-                   */
-                  className: btnClassName,
-                  
-                  /**
-                   * @optional Function
-                   * the callback to invoke when this button is clicked
-                   */
-                  callback: function() {
+                className: modalClassName,
+                
+                /**
+                 * @optional Object
+                 * @default: {}
+                 * any buttons shown in the dialog's footer
+                 */
+                buttons: {
+                    // For each key inside the buttons object...
                     
-                    // si se ha dado algún id de formulario al que deban estar asociados los
-                    // checkboxes de la tabla, los asocio a dicho formulario
-                    if (targetFormId) {
-                        $('.checkbox-table-item').attr('form', targetFormId);
+                    /**
+                     * @required Object|Function
+                     * 
+                     * this first usage will ignore the `cancel` key
+                     * provided and take all button options from the given object
+                     */
+                    cancel: {
+                        /**
+                         * @required String
+                         * this button's label
+                         */
+                        label: '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-cancel-label')}}',
+                        
+                        /**
+                         * @optional String
+                         * an additional class to apply to the button
+                         */
+                        className: '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-cancel-className')}}',
+                        
+                        /**
+                         * @optional Function
+                         * the callback to invoke when this button is clicked
+                         */
+                        callback: function() {}
+                    },
+
+                    /**
+                     * @required Object|Function
+                     * 
+                     * this first usage will ignore the `success` key
+                     * provided and take all button options from the given object
+                     */
+                    success: {
+                        /**
+                         * @required String
+                         * this button's label
+                         */
+                        label: btnLabel,
+                        
+                        /**
+                         * @optional String
+                         * an additional class to apply to the button
+                         */
+                        className: btnClassName,
+                        
+                        /**
+                         * @optional Function
+                         * the callback to invoke when this button is clicked
+                         */
+                        callback: function() {
+                        
+                            // si se ha dado algún id de formulario al que deban estar asociados los
+                            // checkboxes de la tabla, los asocio a dicho formulario
+                            if (targetFormId) {
+                                $('.checkbox-table-item').attr('form', targetFormId);
+                            }
+
+                            // envíamos el formulario relacionado al botón
+                            buttonTarget.closest('form').submit();
+
+                        }
                     }
-
-                    // envíamos el formulario relacionado al botón
-                    buttonTarget.closest('form').submit();
-
-                  }
                 }
-              }
             });
-
         });
-<?php } ?>
 
+<?php } ?>
 <?php
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // si hay campos de tipo booleano inicializamos el componente BootstrapSwitch y iCheck los cualales son usados en el formulario de //
@@ -453,6 +458,7 @@
             checkboxClass: 'icheckbox_square-red',
             radioClass: 'iradio_square-red'
         });
+
 <?php } ?>
     </script>
 
@@ -468,9 +474,8 @@
     <script src="{{ asset('resources/CoreModule/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
 
 <?php } ?>
-
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
-<script>
+    <script>
 
         {{-- Configuración de Bootstrap DateTimePicker --}}
 <?php foreach ($fields as $key => $field) { ?>
@@ -479,17 +484,18 @@
             locale: '{{ Lang::locale() }}',
             format: 'YYYY-MM-DD'
         });
+
 <?php } elseif (($field->type == 'timestamp' || $field->type == 'datetime') && $field->on_create_form) { ?>
         $('input[name=<?= $field->name ?>]').datetimepicker({
             locale: '{{Lang::locale()}}',
             format: 'YYYY-MM-DD HH:mm:ss'
         });
+
 <?php } // end if ?>
 <?php } // end foreach ?>
+    </script>
 
-</script>
 <?php } // end if ?>
-
 <?php
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Inclusión y setup de componente Bootstrap 3 Editable, el setup comprende también algunos parámetros para los campos //
@@ -499,7 +505,7 @@
 //   colición con el compoente Bootstrap DateTimePicker, ambos usan los mismos nombres...                              //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
-{{-- Componente Bootstrap 3 Editable --}}
+    {{-- Componente Bootstrap 3 Editable --}}
     <link href="{{ asset('resources/CoreModule/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('resources/CoreModule/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
@@ -509,9 +515,10 @@
     <link href="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js') }}"></script>
     <script src="{{ asset('resources/CoreModule/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.es.js') }}"></script>
+
 <?php } ?>
-  
     <script>
+
         {{-- Configuración del componente x-editable --}}
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         $(".editable").editable({ajaxOptions:{method:'PUT'}});
@@ -531,8 +538,8 @@
                 language: 'es'
             }
         });
-<?php } ?>
 
+<?php } ?>
 <?php if ($gen->hasDateTimeFields($fields)) { ?>
         {{-- Configuración del componente x-editable para el caso de campos de tipo "datetime" --}}
         $('.editable-datetime').editable({
@@ -545,6 +552,7 @@
                 language: 'es'
             }
         });
+
 <?php } ?>
     </script>
 

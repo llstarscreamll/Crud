@@ -13,7 +13,7 @@ return [
      */
 
     /**
-     * Los atributos del módulo.
+     * Los atributos del modelo.
      */
     'attributes' => [
 @foreach($fields as $field)

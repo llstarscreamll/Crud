@@ -3,14 +3,17 @@
 /* @var $fields [] */
 /* @var $request Request */
 ?>
-<!-- Modal -->
+{{-- Ventana Modal con Formulario de Creación de Registro --}}
 <div class="modal fade" id="create-form-modal" tabindex="-1" role="dialog" aria-labelledby="{{trans('<?=$gen->getLangAccess()?>/views.index.create-form-modal-title')}}">
     <div class="modal-dialog modal-lg" role="document">
+
         <div class="modal-content">
+
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">{{trans('<?=$gen->getLangAccess()?>/views.index.create-form-modal-title')}}</h4>
             </div>
+
             <div class="modal-body">
 
                 {!! Form::open(['route' => '<?=$gen->route()?>.store', 'method' => 'POST']) !!}
@@ -35,6 +38,8 @@
                 {!! Form::close() !!}
 
             </div>
+            
         </div>
+
     </div>
 </div>

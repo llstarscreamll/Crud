@@ -10,7 +10,7 @@ return [
 
     /**
      * Los mensajes de notificación cuando el usuario hace algún tipo de
-     * transacción en el sistema, como crear/editar/borrar un modelo.
+     * transacción en el sistema, como crear/editar/borrar un registro.
      */
     
     // mesajes del método store() del controlador

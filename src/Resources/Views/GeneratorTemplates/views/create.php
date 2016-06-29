@@ -8,7 +8,6 @@
 @section('title') {{trans('<?=$gen->getLangAccess()?>/views.create.name').trans('<?=$gen->getLangAccess()?>/views.module.name-singular')}} @stop
 
 @section('style')
-
 @endsection
 
 @section('content')
@@ -47,12 +46,15 @@
                 {!! Form::close() !!}
                 
             </div>
+
         </div>
+
     </div>
 
 @endsection
 
 @section('script')
+
 <?php if ($gen->hasSelectFields($fields)) { ?>
     {{-- Componente Bootstrap-Select, este componente se inicializa automáticamente --}}
     <script src="{{ asset('resources/CoreModule/bootstrap-select/dist/css/bootstrap-select.min.css') }}"></script>

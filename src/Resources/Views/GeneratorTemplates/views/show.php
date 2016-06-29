@@ -8,7 +8,6 @@
 @section('title') {{trans('<?=$gen->getLangAccess()?>/views.show.name').trans('<?=$gen->getLangAccess()?>/views.module.name-singular')}} @stop
 
 @section('style')
-
 @endsection
 
 @section('content')
@@ -33,9 +32,8 @@
                 {!! Form::model($<?=$gen->modelVariableName()?>, ['name' => 'show-<?=$gen->getDashedModelName()?>-form', 'data-show' => ($show = true)]) !!}
 
                     <div class='form-group col-sm-6 {{$errors->has('id') ? 'has-error' : ''}}'>
-                    {!! Form::label('id', trans('<?=$gen->getLangAccess()?>/views.form-fields.id')) !!}
-                    {!! Form::input('text', 'id', null, ['class' => 'form-control', isset($show) ? 'disabled' : '']) !!}
-                    {!!$errors->first('id', '<span class="text-danger">:message</span>')!!}
+                        {!! Form::label('id', trans('<?=$gen->getLangAccess()?>/views.form-fields.id')) !!}
+                        {!! Form::input('text', 'id', null, ['class' => 'form-control', isset($show) ? 'disabled' : '']) !!}
                     </div>
 
                     <div class="clearfix"></div>
@@ -43,18 +41,8 @@
                     @include('<?=$gen->viewsDirName()?>.partials.form-fields', ['show' => ($show = true)])
 
                     <div class="clearfix"></div>
-                    
-<?php $i = 0; foreach ($fields as $key => $field) { ?>
-<?php // los campos a imprimir en esta zona son los que no están presentes en el formulario de creación ?>
-<?php if (!in_array($field->name, $gen->getCreateFormFields()) && ! $field->hidden && $field->name != 'id') { ?>
-<?php if ($str = $gen->getFormInputMarkup($field, $gen->table_name, $checkSkippedFields = true)) { ?>
-                    <?=$str?>
-<?php if ($i % 2 == 1) { ?>
-                    <div class="clearfix"></div>
-<?php } ?>
-<?php $i++; } ?>
-<?php } ?>
-<?php } ?>
+
+                    @include('<?=$gen->viewsDirName()?>.partials.hidden-form-fields', ['show' => ($show = true)])
 
                     <div class="clearfix"></div>
 

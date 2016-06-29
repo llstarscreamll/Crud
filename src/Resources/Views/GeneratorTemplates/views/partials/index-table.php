@@ -45,14 +45,14 @@
 <?php } ?>
 
                 {{-- Los botones de búsqueda y limpieza del formulario --}}
-                <td style="min-width: 8em;">
+                <td style="min-width: 10em;">
 
                     {{-- Más opciones de filtros --}}
                     <div id="filters" class="dropdown display-inline"
                          data-toggle="tooltip"
                          data-placement="top"
                          title="{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button-label') }}">
-                        <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <span class="sr-only">{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button-label') }}</span>
                             <span class="glyphicon glyphicon-filter"></span>
                         </button>
@@ -80,7 +80,7 @@
                     
                     <button type="submit"
                             form="searchForm"
-                            class="btn btn-primary btn-xs"
+                            class="btn btn-primary btn-sm"
                             data-toggle="tooltip"
                             data-placement="top"
                             title="{{trans('<?=$gen->getLangAccess()?>/views.index.search-button-label')}}">
@@ -89,7 +89,7 @@
                     </button>
 
                     <a  href="{{route('<?=$gen->route()?>.index')}}"
-                        class="btn btn-danger btn-xs"
+                        class="btn btn-danger btn-sm"
                         role="button"
                         data-toggle="tooltip"
                         data-placement="top"
@@ -112,7 +112,7 @@
 <?php if (!$field->hidden) { ?>
                 <td>
 <?php if (! $gen->isGuarded($field->name)) { ?>
-                    {{-- Campo editable --}}
+                    {{-- Campo <?= $field->name ?> es editable --}}
                     <span @if (! $record->trashed()) class="<?=$gen->getInputXEditableClass($field)?>"
                           data-type="<?=$gen->getInputType($field)?>"
                           data-name="<?=$field->name?>"
@@ -120,9 +120,14 @@
                           data-value="{{ $record-><?=$field->name?> }}"
                           data-pk="{{ $record->{$record->getKeyName()} }}"
                           data-url="/<?=$gen->route()?>/{{ $record->{$record->getKeyName()} }}"
-                          <?=$gen->getSourceForEnum($field)?> @endif>{{ <?=$gen->getRecordFieldData($field, '$record')?> }}</span>
+<?php if ($enum_source = $gen->getSourceForEnum($field)) { ?>
+                          <?= $enum_source ?>
+<?php }  ?>
+                          @endif>
+                        {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
+                    </span>
 <?php } else { ?>
-                    {{-- Los campos protejidos no son editables --}}
+                    {{-- El campo <?= $field->name ?> no es editable --}}
                     {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
 <?php } // end if ?>
                 </td>
@@ -220,7 +225,7 @@
                 <tr>
                     <td colspan="<?=count($fields)+2?>">
                         <div  class="alert alert-warning">
-                        {{trans('<?=$gen->getLangAccess()?>/views.index.no-records-found')}}
+                            {{trans('<?=$gen->getLangAccess()?>/views.index.no-records-found')}}
                         </div>
                     </td>
                 </tr>
@@ -237,6 +242,8 @@
 <div>
     <strong>Notas:</strong>
     <ul>
+<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
         <li>Los registros que están "Eliminados", se muestran con <span class="bg-danger">Fondo Rojo</span>.</li>
+<?php } ?>
     </ul>
 </div>

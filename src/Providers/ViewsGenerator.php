@@ -105,12 +105,12 @@ class ViewsGenerator extends BaseGenerator
     {
         // selects
         if ($field->type == 'enum') {
-            $output = "{!! Form::select(
-                '$field->name[]',
-                \$".$field->name."_list,
-                Request::input('$field->name'),
-                ['class' => 'form-control selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm'])
-            !!}\n";
+            $output = "\n\t\t\t\t\t{!! Form::select(
+                        '$field->name[]',
+                        \$".$field->name."_list,
+                        Request::input('$field->name'),
+                        ['class' => 'form-control selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm']
+                    ) !!}\n\t\t\t\t";
             return $output;
         }
 
@@ -122,12 +122,12 @@ class ViewsGenerator extends BaseGenerator
             
             // si el campo actual es una llave foránea
             if (strpos($child_table[1], $field->name) !== false && $field->name != 'id') {
-                $output = "{!! Form::select(
-                    '$field->name[]',
-                    \$".$field->name."_list,
-                    Request::input('$field->name'),
-                    ['class' => 'form-control selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm'])
-                !!}\n";
+                $output = "\n\t\t\t\t\t{!! Form::select(
+                        '$field->name[]',
+                        \$".$field->name."_list,
+                        Request::input('$field->name'),
+                        ['class' => 'form-control selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm']
+                    ) !!}\n\t\t\t\t";
                 return $output;
             }
         }
@@ -142,7 +142,7 @@ class ViewsGenerator extends BaseGenerator
                 $output = $this->generateSearchCheckBoxesiCheck($field);
             }
 
-            $output .= $this->endFormGroup($field);
+            $output .= "\n\t\t\t\t";
             return $output;
         }
 
@@ -173,11 +173,11 @@ class ViewsGenerator extends BaseGenerator
     public function generateDatesSearchFields($field)
     {
         // campo informativo donde se concatena la fecha de inicio y fin para la búsqueda
-        $output = "\n\t\t\t\t{!! Form::input('text', '$field->name[informative]', Request::input('$field->name')['informative'], ['form' => 'searchForm', 'class' => 'form-control']) !!}";
+        $output = "\n\t\t\t\t\t{!! Form::input('text', '$field->name[informative]', Request::input('$field->name')['informative'], ['form' => 'searchForm', 'class' => 'form-control']) !!}";
         // campo donde se guarda la fecha de inicio de la búsqueda
-        $output .= "\n\t\t\t\t{!! Form::input('hidden', '$field->name[from]', Request::input('$field->name')['from'], ['form' => 'searchForm']) !!}";
+        $output .= "\n\t\t\t\t\t{!! Form::input('hidden', '$field->name[from]', Request::input('$field->name')['from'], ['form' => 'searchForm']) !!}";
         // campo donde se guarda la fecha de final de la búsqueda
-        $output .= "\n\t\t\t\t{!! Form::input('hidden', '$field->name[to]', Request::input('$field->name')['to'], ['form' => 'searchForm']) !!}\n";
+        $output .= "\n\t\t\t\t\t{!! Form::input('hidden', '$field->name[to]', Request::input('$field->name')['to'], ['form' => 'searchForm']) !!}\n\t\t\t\t";
 
         return $output;
     }
@@ -219,9 +219,8 @@ class ViewsGenerator extends BaseGenerator
      */
     public function generateSearchCheckBoxesiCheck($field)
     {
-        return '<div>'
-            .$this->generateCheckBoxiCheckHtlm($field, $name = $field->name.'_true', $value = 'true', $class = "icheckbox_square-blue", $form = 'searchForm')
-            .$this->generateCheckBoxiCheckHtlm($field, $name = $field->name.'_false', $value = 'true', $class = "icheckbox_square-red", $form = 'searchForm');
+        return $this->generateCheckBoxiCheckHtlm($field, $name = $field->name.'_true', $value = 'true', $class = "icheckbox_square-blue", $form = 'searchForm').
+               $this->generateCheckBoxiCheckHtlm($field, $name = $field->name.'_false', $value = 'true', $class = "icheckbox_square-red", $form = 'searchForm');
     }
 
 
@@ -281,7 +280,7 @@ class ViewsGenerator extends BaseGenerator
     public function getSourceForEnum($field)
     {
         if ($field->type == 'enum' || (in_array($field->type, ['int', 'unsigned_int']) && $field->key == 'MUL')) {
-            return "data-source='{!! $".$field->name."_list_json !!}'";
+            return "data-source='{!! $".$field->name."_list_json !!}'\n";
         }
         return "";
     }
@@ -476,9 +475,9 @@ class ViewsGenerator extends BaseGenerator
         }
 
         $checkbox = "
-            <label>
-                {!! Form::checkbox('$name', $value, Request::input('$name'), ['class' => '$class', $form]) !!}
-            </label>";
+                    <label>
+                        {!! Form::checkbox('$name', $value, Request::input('$name'), ['class' => '$class', $form]) !!}
+                    </label>";
 
         return $checkbox;
     }
