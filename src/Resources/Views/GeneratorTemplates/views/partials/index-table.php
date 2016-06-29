@@ -8,10 +8,11 @@
 {!! Form::close() !!}
 
 <div class="table-responsive">
-    <table class="table table-striped table-hover">
+    <table class="table table-hover">
         <thead>
             {{-- Nombres de columnas de tabla --}}
             <tr class="header-row">
+                <td></td>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
                 <th>
@@ -36,6 +37,7 @@
             {{-- Elementos de Formulario de búqueda de tabla --}}
             <tr class="search-row">
 
+                <td>{!! Form::checkbox('check_all', 'check_all', null, ['id' => 'check_all']) !!}</td>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
                 <td><?=$gen->getSearchInputStr($field, $gen->table_name)?></td>
@@ -105,6 +107,7 @@
 
             @forelse ( $records as $record )
             <tr class="item-{{ $record->id }} {{ $record->trashed() ? 'danger' : null }}">
+            <td>{!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item', 'form' => 'restoreMassivelyForm']) !!}</td>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
                 <td>
@@ -128,6 +131,7 @@
                 
                 {{-- Los botones de acción para cada registro --}}
                 <td class="actions-cell">
+<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
                 @if ($record->trashed())
 
                     {{-- Formulario para restablecer el registro --}}
@@ -135,7 +139,7 @@
 
                         {!! Form::hidden('id[]', $record->id) !!}
                         
-                        {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para restablecer el registro --}}
+                        {{-- Botón que muestra ventana modal de confirmación para el envío del formulario de restablecer el registro --}}
                         <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
                                 class="btn btn-success btn-xs <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
                                 role="button"
@@ -158,6 +162,7 @@
                     {!! Form::close() !!}
 
                 @else
+<?php } ?>
                     {{-- Botón para ir a los detalles del registro --}}
                     <a  href="{{route('<?=$gen->route()?>.show', $record->id)}}"
                         class="btn btn-primary btn-xs"
@@ -179,9 +184,10 @@
                         <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button')}}</span>
                     </a>
 
+                    {{-- Formulario para eliminar registro --}}
                     {!! Form::open(['route' => ['<?=$gen->route()?>.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
                         
-                        {{-- Botón muestra ventana modal de confirmación para el envío de formulario para eliminar el registro --}}
+                        {{-- Botón muestra ventana modal de confirmación para el envío de formulario de eliminar el registro --}}
                         <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
                                 class="btn btn-danger btn-xs <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
                                 role="button"
@@ -202,7 +208,9 @@
                         </button>
                     
                     {!! Form::close() !!}
+<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
                 @endif
+<?php } ?>
                 </td>
                     
             </tr>
@@ -210,7 +218,7 @@
             @empty
 
                 <tr>
-                    <td colspan="<?=count($fields)+1?>">
+                    <td colspan="<?=count($fields)+2?>">
                         <div  class="alert alert-warning">
                         {{trans('<?=$gen->getLangAccess()?>/views.index.no-records-found')}}
                         </div>
@@ -229,6 +237,6 @@
 <div>
     <strong>Notas:</strong>
     <ul>
-        <li>Los registros que están en la "Papelera", se muestran con <span class="bg-danger">Fondo Rojo</span>.</li>
+        <li>Los registros que están "Eliminados", se muestran con <span class="bg-danger">Fondo Rojo</span>.</li>
     </ul>
 </div>

@@ -29,7 +29,38 @@
 
                     {{-- Action Buttons --}}
                     <div class="col-md-6 action-buttons">
+
+<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+                    @if (Request::has('trashed_records'))
+
+                    {{-- Formulario para restablecer resgistros masivamente --}}
+                    {!! Form::open(['route' => ['<?=$gen->route()?>.restore'], 'method' => 'PUT', 'id' => 'restoreMassivelyForm', 'class' => 'form-inline display-inline']) !!}
                         
+                        {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para restablecer el registro --}}
+                        <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
+                                class="btn btn-default btn-sm massively-action <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
+                                role="button"
+                                data-toggle="tooltip"
+                                data-placement="top"
+<?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
+                                {{-- Setup de ventana modal de confirmación --}}
+                                data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-title')}}"
+                                data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-message')}}"
+                                data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-btn-confirm-label')}}"
+                                data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-btn-confirm-class-name')}}"
+<?php } else { ?>
+                                onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-confirm-message')}}')"
+<?php } ?>
+                                title="{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-button-label')}}">
+                            <span class="fa fa-mail-reply"></span>
+                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-button-label')}}</span>
+                        </button>
+                    
+                    {!! Form::close() !!}
+
+                    @endif
+<?php } ?>
+
 <?php if (config('llstarscreamll.CrudGenerator.config.show-create-form-on-index') === true) { ?>
                         {{-- El boton que dispara la ventana modal con formulario de creación de registro --}}
                         <div class="display-inline-block" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.btn-create')}}">
@@ -99,6 +130,23 @@
 <?php } ?>
 
     <script>
+
+        $(document).ready(function(){
+            {{-- searching if there are checkboxes checked to toggle enable action buttons --}}
+            scanCheckedCheckboxes('.checkbox-table-item');
+            
+            {{-- toggle the checkbox checked state from row click --}}
+            toggleCheckboxFromRowClick();
+            
+            {{-- toggle select all checkboxes --}}
+            toggleCheckboxes();
+            
+            {{-- listen click on checkboxes to change row class and count the ones checked --}}
+            $('.checkbox-table-item').click(function(event) {
+                scanCheckedCheckboxes('.'+$(this).attr('class'));
+                event.stopPropagation();
+            });
+        });
 
         {{-- Previene que se esconda el menú del dropdown al hacer clic a sus elementos hijos --}}
         $('#filters .dropdown-menu input, #filters .dropdown-menu label').click(function(e) {

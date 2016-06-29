@@ -31,14 +31,23 @@ return [
         'filter-with-trashed-label' => 'Con Reg. Borrados',
         'filter-only-trashed-label' => 'Sólo Reg. Borrados',
         'restore-row-button-label' => 'Restaurar',
+        'restore-massively-button-label' => 'Restaurar Seleccionados',
 @if ($request->has('use_modal_confirmation_on_delete'))
-        // valores para la ventana modal de confirmación de acción de botón restaurar registro
+        // valores para la ventana modal de confirmación de acción del botón restaurar registro
         'modal-restore-title' => 'Está seguro?',
         'modal-restore-message' => 'La información de <strong>:item</strong> será <strong>Restaurada</strong>...',
         'modal-restore-btn-confirm-label' => 'Restaurar',
         'modal-restore-btn-confirm-class-name' => 'btn-success',
+
+        // valores para la ventana modal de confirmación para acción del botón restaurar muchos registros
+        'modal-restore-massively-title' => 'Está seguro?',
+        'modal-restore-massively-message' => 'La información de los elementos seleccionados será <strong>Restaurada</strong>...',
+        'modal-restore-massively-btn-confirm-label' => 'Restaurar Todos',
+        'modal-restore-massively-btn-confirm-class-name' => 'btn-success',
 @else
         'restore-confirm-message' => 'Está seguro? El resgistro será RESTAURADO...',
+        'restore-massively-confirm-message' => 'Está seguro? Todos los registros seleccionados serán RESTAURADOS...',
+
 @endif
 @endif
         'search-button'         => 'Buscar',
