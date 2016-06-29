@@ -29,15 +29,21 @@
 
                     {{-- Action Buttons --}}
                     <div class="col-md-6 action-buttons">
-
+<?php
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Si la entidad tiene softDeletes podemos añadir la opción de restaurar los registros "borrados" masivamente //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+
+                    {{-- Esta opción sólo es mostrada si el usuario decidió consultar los registros "borrados" --}}
                     @if (Request::has('trashed_records'))
 
                     {{-- Formulario para restablecer resgistros masivamente --}}
                     {!! Form::open(['route' => ['<?=$gen->route()?>.restore'], 'method' => 'PUT', 'id' => 'restoreMassivelyForm', 'class' => 'form-inline display-inline']) !!}
                         
                         {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para restablecer el registro --}}
-                        <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
+                        <button title="{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-button-label')}}"
                                 class="btn btn-default btn-sm massively-action <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
                                 role="button"
                                 data-toggle="tooltip"
@@ -51,7 +57,7 @@
 <?php } else { ?>
                                 onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-confirm-message')}}')"
 <?php } ?>
-                                title="{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-button-label')}}">
+                                type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>">
                             <span class="fa fa-mail-reply"></span>
                             <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-button-label')}}</span>
                         </button>
@@ -61,6 +67,12 @@
                     @endif
 <?php } ?>
 
+<?php
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// si se desea que el formulario para crear un nuevo registro esté incluido en la vista del index a través de una ventana modal, //
+// el botón de crear disparará la ventana modal                                                                                  //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php if (config('llstarscreamll.CrudGenerator.config.show-create-form-on-index') === true) { ?>
                         {{-- El boton que dispara la ventana modal con formulario de creación de registro --}}
                         <div class="display-inline-block" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.btn-create')}}">
@@ -70,6 +82,11 @@
                             </button>
                         </div>
 <?php } else { ?>
+<?php
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+// de lo contrario será un link que lleve a las vista de create.blade.php con el formulario de creación //
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
                         {{-- Link que lleva a la página con el formulario de creación de registro --}}
                         <a id="create-<?=$gen->route()?>-link" class="btn btn-default btn-sm" href="{!! route('<?=$gen->route()?>.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.btn-create')}}">
                             <span class="glyphicon glyphicon-plus"></span>
@@ -96,6 +113,11 @@
     
     </section>
 
+<?php
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// incluimos el partial con la ventana modal que contiene el fomulario de creación de registro si es el caso //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php if (config('llstarscreamll.CrudGenerator.config.show-create-form-on-index') === true) { ?>
     {{-- Formulario de creación de registro --}}
     @include('<?=$gen->viewsDirName()?>.partials.index-create-form')
@@ -104,7 +126,12 @@
 @endsection
 
 @section('script')
-    
+
+<?php
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// si la entidad tiene campos que tengan que usar un select, incluimos los assets del componente Bootstrap-Select //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php if ($gen->hasSelectFields($fields)) { ?>
     {{-- Componente Bootstrap-Select, este componente se inicializa automáticamente --}}
     <link href="{{ asset('resources/CoreModule/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
@@ -117,11 +144,23 @@
     <link href="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/square/red.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
 
+<?php
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// si se quiere usar ventanas modales de confirmación para acciones como eliminar registros u otras, incluimos //
+// el componente Bootbox para generarles fácilmente y con un setup mínimo                                      //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
     {{-- Componente Bootbox --}}
     <script src="{{ asset('resources/CoreModule/bootbox/bootbox.js') }}" type="text/javascript"></script>
 <?php } ?>
 
+<?php
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// si la entidad tiene campos de fecha incluimos el componente Bootstrap DateRangePicker para lograr de forma //
+// sencilla hacer las búsquedas por rangos de fecha                                                           //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
     {{-- Componente Bootstrap DateRangePicker --}}
     <link href="{{ asset('resources/CoreModule/admin-lte/plugins/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet" type="text/css"/>
@@ -130,7 +169,11 @@
 <?php } ?>
 
     <script>
-
+<?php
+/////////////////////////////////////////////////////////////////////////////////////
+// lineas para mejorar el comportamiento de selección de los elementos de la tabla //
+/////////////////////////////////////////////////////////////////////////////////////
+?>
         $(document).ready(function(){
             {{-- searching if there are checkboxes checked to toggle enable action buttons --}}
             scanCheckedCheckboxes('.checkbox-table-item');
@@ -147,12 +190,24 @@
                 event.stopPropagation();
             });
         });
-
+<?php
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// lineas para prevenir comportamiento por defecto de los dropdowns de Bootstrap al seleccionar uno de los elementos //
+// que contiene, esto sólo para el caso del botón #filter donde se puede seleccionar opciones de filtros para las    //
+// búsquedas                                                                                                         //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
         {{-- Previene que se esconda el menú del dropdown al hacer clic a sus elementos hijos --}}
         $('#filters .dropdown-menu input, #filters .dropdown-menu label').click(function(e) {
             e.stopPropagation();
         });
 
+<?php
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// creamos las variables regionales y algunos rango de fechas pedeterminados para el componente Bootstrap //
+// DateRangePicker si es que hay campos de fecha                                                          //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
         {{-- Configuración regional para Bootstrap DateRangePicker --}}
         dateRangePickerLocaleSettings = {
@@ -178,6 +233,11 @@
         };
 
         {{-- Configuración de Bootstrap DateRangePicker --}}
+<?php
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// creamos el setup de Bootstrap DateRangePicker para cada campo de tipo fecha y fecha y hora que haya en la entidad //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php foreach ($fields as $key => $field) { ?>
 <?php if ($field->type == 'date') { ?>
         $('input[name="<?= $field->name ?>[informative]"]').daterangepicker({
@@ -204,7 +264,11 @@
 <?php } // end foreach ?>
 <?php } // end if ?>
 
-
+<?php
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// el setup del componente Bootbox para las ventanas modales de confirmación y demás, si es que se especificó su uso //
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
         {{-- Configuración Bootbox, ver mas opciones para el método dialog aquí: https://gist.github.com/makeusabrew/6339780  --}}
         $(document).on("click", ".bootbox-dialog", function(e) {
@@ -326,6 +390,12 @@
         });
 <?php } ?>
 
+<?php
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// si hay campos de tipo booleano inicializamos el componente BootstrapSwitch y iCheck los cualales son usados en el formulario de //
+// creación de un registro de ĺa entidad y en los campos del formulario de búsqueda avanzada en la tabla                           //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php if ($gen->hasTinyintTypeField($fields)) { ?>
         {{-- Inicializa el componente BootstrapSwitch --}}
         $(".bootstrap_switch").bootstrapSwitch();
@@ -342,7 +412,11 @@
 <?php } ?>
     </script>
 
-<?php /* Muy importante dejar este componente aquí pues hace colición con Bootstrap 3 Editable */ ?>
+<?php
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Inclusión y Setup del componente Bootstrap DateTimePicker si es que hay campos de tipo fecha/fecha y hora en la entidad //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
     {{-- Componente Bootstrap DateTimePicker --}}
     <link rel="stylesheet" href="{{ asset('resources/CoreModule/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}"/>
@@ -372,6 +446,15 @@
 </script>
 <?php } // end if ?>
 
+<?php
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Inclusión y setup de componente Bootstrap 3 Editable, el setup comprende también algunos parámetros para los campos //
+// de tipo fecha/fecha y hora si es que los hay                                                                        //
+// NOTA:                                                                                                               //
+// - Muy importante dejar este componente aquí pues el compoente que usa Bootstrap 3 Editable para las fechas hace     //
+//   colición con el compoente Bootstrap DateTimePicker, ambos usan los mismos nombres...                              //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 {{-- Componente Bootstrap 3 Editable --}}
     <link href="{{ asset('resources/CoreModule/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('resources/CoreModule/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
@@ -389,6 +472,9 @@
         $.ajaxSetup({headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}});
         $(".editable").editable({ajaxOptions:{method:'PUT'}});
 
+<?php
+// setup Bootstrap 3 Editable para campos de tipo fecha y fecha y hora
+?>
 <?php if ($gen->hasDateFields($fields)) { ?>
         {{-- Configuración del componente x-editable para el caso de campos de tipo "date" --}}
         $('.editable-date').editable({
