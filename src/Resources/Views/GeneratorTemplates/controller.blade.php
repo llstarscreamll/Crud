@@ -129,10 +129,12 @@ class {{$gen->controllerClassName()}} extends Controller
 
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
-        $data['{{$child_table[1]}}_list'] = {{ucwords(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
+        $data['{{$child_table[1]}}_list'] = (${{strtolower(str_singular($parent_table[0]))}} = {{ucwords(str_singular($parent_table[0]))}}::where('id', $data['{{$gen->modelVariableName()}}']->{{$child_table[1]}})->first())
+            ? ${{strtolower(str_singular($parent_table[0]))}}->lists('name', 'id')->all()
+            : [];
+
 @endif
 @endforeach
-
 @foreach($fields as $field)
 @if($field->type == 'enum')
         $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
