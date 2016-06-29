@@ -113,6 +113,12 @@
                 <td>
 <?php if (! $gen->isGuarded($field->name)) { ?>
                     {{-- Campo <?= $field->name ?> es editable --}}
+<?php
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// importante dejar el span de del componenten x-editable de la forma en que está <span ...>$record</span> //
+// para que no resalte espacios vacíos cuando esté ejecutandose...                                         //
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
                     <span @if (! $record->trashed()) class="<?=$gen->getInputXEditableClass($field)?>"
                           data-type="<?=$gen->getInputType($field)?>"
                           data-name="<?=$field->name?>"
@@ -123,9 +129,7 @@
 <?php if ($enum_source = $gen->getSourceForEnum($field)) { ?>
                           <?= $enum_source ?>
 <?php }  ?>
-                          @endif>
-                        {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
-                    </span>
+                          @endif>{{ <?=$gen->getRecordFieldData($field, '$record')?> }}</span>
 <?php } else { ?>
                     {{-- El campo <?= $field->name ?> no es editable --}}
                     {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
