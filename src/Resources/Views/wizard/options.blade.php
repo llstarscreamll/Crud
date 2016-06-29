@@ -130,10 +130,23 @@
 
                             <div class="form-group col-sm-4 col-md-2">
                                 <label>
-                                    User DateTimePicker en Formularios?<br>
+                                    Usar DateTimePicker en Formularios?<br>
                                 </label>
                                 <br>
                                 {!! Form::checkbox('use_DateTimePicker_on_form_fields', true, null, [
+                                    'class' => 'bootstrap_switch',
+                                    'data-size' => 'medium',
+                                    'data-on-text' => 'SI',
+                                    'data-off-text' => 'NO',
+                                ]) !!}
+                            </div>
+
+                            <div class="form-group col-sm-4 col-md-2">
+                                <label>
+                                    Usar Bootbox para acciones de confirmación?<br>
+                                </label>
+                                <br>
+                                {!! Form::checkbox('use_modal_confirmation_on_delete', true, null, [
                                     'class' => 'bootstrap_switch',
                                     'data-size' => 'medium',
                                     'data-on-text' => 'SI',
