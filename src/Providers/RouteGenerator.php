@@ -63,8 +63,7 @@ class RouteGenerator extends BaseGenerator
 
             if (preg_match($regex, $fileContent)) {
                 $fileContent = preg_replace($regex, "$1\n\t\t".$declaration, $fileContent);
-                file_put_contents($providerFile, $fileContent);
-                return true;
+                return file_put_contents($providerFile, $fileContent)  && chmod($providerFile, 664);
             }
 
             // no se encontró la linea en donde se debe añadir al Route Model Binding
@@ -107,9 +106,7 @@ class RouteGenerator extends BaseGenerator
         if (strpos($routesFileContent, $route) == false) {
             
             $routesFileContent = $this->getUpdatedContent($routesFileContent, $route);
-            file_put_contents($routesFile, $routesFileContent);
-
-            return true;
+            return file_put_contents($routesFile, $routesFileContent)  && chmod($routesFile, 664);
         }
 
         $this->msg_info = "La ruta: '".$route."' ya existe, tarea omitida.";

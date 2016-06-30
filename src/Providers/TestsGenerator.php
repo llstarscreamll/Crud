@@ -47,19 +47,19 @@ class TestsGenerator extends BaseGenerator
         // no se ha creado la carpeta para los pageObjects?
         if (! file_exists($this->pageObjectsDir())) {
             // entonces la creo
-            mkdir($this->pageObjectsDir(), 0777, true);
+            mkdir($this->pageObjectsDir(), 755, true);
         }
 
         // no se ha creado la carpeta para los tests funcionales?
         if (! file_exists($this->testsDir())) {
             // entonces la creo
-            mkdir($this->testsDir(), 0777, true);
+            mkdir($this->testsDir(), 755, true);
         }
 
         // no se ha creado la carpeta para los archivos de idioma?
         if (! file_exists($this->langDir())) {
             // entonces la creo
-            mkdir($this->langDir(), 0777, true);
+            mkdir($this->langDir(), 755, true);
         }
 
         ///////////////////////////////////
@@ -186,11 +186,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($pageObjectFile, $content) === false) {
-            return false;
-        }
-
-        return true;
+        return file_put_contents($pageObjectFile, $content) && chmod($pageObjectFile, 664);
     }
 
     /**
@@ -212,11 +208,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($testFile, $content) === false) {
-            return false;
-        }
-
-        return true;
+        return file_put_contents($testFile, $content) && chmod($testFile, 664);
     }
 
     /**
@@ -238,7 +230,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($langFile, $content) === false) {
+        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 664) === false) {
             return false;
         }
 
@@ -254,7 +246,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($langFile, $content) === false) {
+        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 664) === false) {
             return false;
         }
 
@@ -270,7 +262,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($langFile, $content) === false) {
+        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 664) === false) {
             return false;
         }
 
@@ -295,7 +287,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($seederFile, $content) === false) {
+        if (file_put_contents($seederFile, $content) === false && chmod($controllerFile, 664) === false) {
             return false;
         }
 

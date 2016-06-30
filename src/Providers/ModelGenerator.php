@@ -42,7 +42,7 @@ class ModelGenerator extends BaseGenerator
         // no se ha creado la carpeta para los modelos?
         if (! file_exists($this->modelsDir())) {
             // entonces la creo
-            mkdir($this->modelsDir(), 0777, true);
+            mkdir($this->modelsDir(), 755, true);
         }
 
         $modelFile = $this->modelsDir().'/'.$this->modelClassName().".php";
@@ -56,7 +56,7 @@ class ModelGenerator extends BaseGenerator
             ]
         );
 
-        return file_put_contents($modelFile, $content);
+        return file_put_contents($modelFile, $content)  && chmod($modelFile, 755);
     }
 
     /**

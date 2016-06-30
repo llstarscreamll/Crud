@@ -156,7 +156,7 @@ class GeneratorController extends Controller
         // no se ha creado la carpeta donde guardo las opciones de los CRUD generados?
         if (! file_exists($path = base_path().'/config/llstarscreamll/CrudGenerator/generated')) {
             // entonces la creo
-            mkdir($path, 0777, true);
+            mkdir($path, 0664, true);
         }
 
         $modelFile = $path.'/'.$request->get('table_name').".php";

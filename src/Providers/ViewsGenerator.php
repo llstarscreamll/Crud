@@ -56,13 +56,13 @@ class ViewsGenerator extends BaseGenerator
         // no se ha creado la carpeta de las vistas?
         if (! file_exists($this->viewsDir())) {
             // entonces la creo
-            mkdir($this->viewsDir());
+            mkdir($this->viewsDir(), 755, true);
         }
 
         // no se ha creado la carpeta partials de las vistas?
         if (! file_exists($this->viewsDir().'/partials')) {
             // entonces la creo
-            mkdir($this->viewsDir().'/partials');
+            mkdir($this->viewsDir().'/partials', 755, true);
         }
 
         // recorro el array de vistas que debo crear
@@ -83,7 +83,7 @@ class ViewsGenerator extends BaseGenerator
                 ]
             );
 
-            if (file_put_contents($viewFile, $content) === false) {
+            if (file_put_contents($viewFile, $content) === false && chmod($controllerFile, 664) === false) {
                 $this->msg_error[] = "Ocurrió un error generando la vista ".$view.".";
                 return false;
             }
