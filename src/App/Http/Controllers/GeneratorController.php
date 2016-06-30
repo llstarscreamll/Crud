@@ -22,6 +22,8 @@ class GeneratorController extends Controller
         $this->middleware('auth');
         // el usuario debe tener permisos para acceder al controlador
         // $this->middleware('checkPermissions', ['except' => ['store', 'update']]);
+        
+        umask(0); // para evitar problemas con los permisos de ficheros y directorios
     }
 
     /**
@@ -156,7 +158,7 @@ class GeneratorController extends Controller
         // no se ha creado la carpeta donde guardo las opciones de los CRUD generados?
         if (! file_exists($path = base_path().'/config/llstarscreamll/CrudGenerator/generated')) {
             // entonces la creo
-            mkdir($path, 0664, true);
+            mkdir($path, 0755, true);
         }
 
         $modelFile = $path.'/'.$request->get('table_name').".php";
