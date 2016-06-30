@@ -3,4 +3,4 @@
 ?>
 <?='<?php'?>
 
-return {!! var_export($request->all()) !!};
+return {!! var_export($request) !!};

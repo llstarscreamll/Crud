@@ -31,7 +31,7 @@ class {{$test}}Cest
     public function show(FunctionalTester $I)
     {
         $I->am('admin de '.trans('{{$gen->getLangAccess()}}/views.module.name'));
-        $I->wantTo('editar un registro en modulo de '.trans('{{$gen->getLangAccess()}}/views.module.name'));
+        $I->wantTo('ver detalles de un registro en modulo de '.trans('{{$gen->getLangAccess()}}/views.module.name'));
 
         // creo el registro de prueba
         Page::have{{$gen->modelClassName()}}($I);

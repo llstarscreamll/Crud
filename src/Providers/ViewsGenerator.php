@@ -328,7 +328,7 @@ class ViewsGenerator extends BaseGenerator
 
         // para checkbox
         if ($field->type == 'tinyint') {
-            $output .= "\t{!! Form::hidden('{$field->name}', false) !!}\n\t<br>\n\t".$this->generateCheckBoxBootstrapSwitchHtlm($field);
+            $output .= "\t{!! Form::hidden('{$field->name}', '0') !!}\n\t<br>\n\t".$this->generateCheckBoxBootstrapSwitchHtlm($field);
             $output .= $this->endFormGroup($field);
             return $output;
         }
@@ -404,7 +404,7 @@ class ViewsGenerator extends BaseGenerator
      * @param  string   $form      El nombre del formulario al que pertenece el elemento
      * @return string
      */
-    public function generateCheckBoxBootstrapSwitchHtlm($field, $name = null, $value = 'true', $data_size = 'medium', $data_text = [], $data_color = [], $form = null)
+    public function generateCheckBoxBootstrapSwitchHtlm($field, $name = null, $value = '1', $data_size = 'medium', $data_text = [], $data_color = [], $form = null)
     {
         // el formulario al que pertenece el elemento
         if ($form) {
@@ -434,7 +434,7 @@ class ViewsGenerator extends BaseGenerator
             $data_off_color = $data_color[1];
         }
 
-        $output = "{!! Form::checkbox('{$name}', $value, Request::input('$name'),";
+        $output = "{!! Form::checkbox('{$name}', $value, null,";
         $output .= "\n\t\t[";
         $output .= "\n\t\t'class' => 'bootstrap_switch',";
         $output .= "\n\t\t'data-size' => '$data_size',";
@@ -442,7 +442,7 @@ class ViewsGenerator extends BaseGenerator
         $output .= "\n\t\t'data-off-text' => '$data_off_text',";
         $output .= "\n\t\t'data-on-color' => '$data_on_color',";
         $output .= "\n\t\t'data-off-color' => '$data_off_color',";
-        $output .= "\n\t\tisset(\$show) ? 'disabled' : '',";
+        $output .= "\n\t\tisset(\$show) ? 'disabled' : null,";
 
         $output .= $form ? "\n\t\t$form" : null;
         $output .= "\n\t\t]";
@@ -491,7 +491,7 @@ class ViewsGenerator extends BaseGenerator
     public function endFormGroup($field)
     {
         // los mensajes de error
-        $output = "\t{!!\$errors->first('{$field->name}', '<span class=\"text-danger\">:message</span>')!!}\n";
+        $output = "\t<br>\n\t{!!\$errors->first('{$field->name}', '<span class=\"text-danger\">:message</span>')!!}\n";
         // cierro el contenedor
         $output .= "</div>\n";
 

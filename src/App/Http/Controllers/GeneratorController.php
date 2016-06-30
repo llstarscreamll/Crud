@@ -160,11 +160,11 @@ class GeneratorController extends Controller
         }
 
         $modelFile = $path.'/'.$request->get('table_name').".php";
-
+        
         $content = view(
             with(new \llstarscreamll\CrudGenerator\Providers\BaseGenerator)->templatesDir().'.options',
             [
-            'request' => $request
+            'request' => $request->except(['_token'])
             ]
         );
 
