@@ -8,6 +8,14 @@ namespace llstarscreamll\CrudGenerator\Providers;
 class BaseGenerator
 {
     /**
+     * El comodín para marcar el inicio y final de los nombres de las tablas
+     * cuando se consulta cuales son las llaves foréneas que hay en toda la
+     * base de datos.
+     * @var string
+     */
+    private $query_wildcard = '#';
+
+    /**
      * Devuelve los campos o columnas de la tabla especificada.
      *
      * @param  string $table El nombre de la tabla en la base de datos.
@@ -104,24 +112,68 @@ class BaseGenerator
     {
         $results = \DB::select(
             "select
-            concat(table_name, '.', column_name) as 'foreign_key',  
+            concat('$this->query_wildcard', table_name, '$this->query_wildcard.', column_name) as 'foreign_key',  
             concat(referenced_table_name, '.', referenced_column_name) as 'references'
             from
                 information_schema.key_column_usage
             where
                 referenced_table_name is not null
-            and table_schema = 'test'"
+            and table_schema = '".config('database.connections.'.env('DB_CONNECTION', 'mysql').'.database')."'"
         );
 
         $data = [];
+        
+        $prefix = config('database.connections.'.env('DB_CONNECTION', 'mysql').'.prefix');
+        $full_table_name = "";
 
         foreach ($results as $key => $result) {
-            if (strpos($result->foreign_key, $tableName.'.') !== false) {
-                $data[] = $result;
+
+            $full_table_name = $this->query_wildcard;
+            $full_table_name .= $prefix;
+            $full_table_name .= $tableName;
+            $full_table_name .= $this->query_wildcard.'.';
+
+            if (strpos($result->foreign_key, $full_table_name) !== false) {
+                $data[] = $this->cleanTablePrefix($result);
             }
+
         }
 
         return $data;
+    }
+
+    /**
+     * Limpia el prefijo de los nombres de las tablas de la base de datos, se espera el resultado de la consulta
+     * ejecutada en la función getForeignKeys($tableName), así que para el array:
+     * ["foreign_key": "#prefix_table_employee_session#.employee_id", "references": "prefix_table_employees.id"]
+     *
+     * Se debe devolver lo siguiente:
+     * ["foreign_key": "employee_session.employee_id", "references": "employees.id"]
+     * @param  array
+     * @return array
+     */
+    public function cleanTablePrefix($data)
+    {
+        $prefix = config('database.connections.'.env('DB_CONNECTION', 'mysql').'.prefix');
+        $data_clean = new \stdClass();
+
+        foreach ($data as $key => $item) {
+            
+            // realizamos la limpieza de las tablas
+            if (strpos($item, $prefix) !== false) {
+
+                // quitamos el prefijo de la base de datos
+                $str = str_replace($prefix, '', $item);
+                // quitamos los comodines que delimitan el nombre de la tabla
+                $data_clean->{$key} = str_replace($this->query_wildcard, '', $str);
+                
+            } else {
+                $data_clean->{$key} = $item;
+            }
+
+        }
+
+        return $data_clean;
     }
 
     /**
