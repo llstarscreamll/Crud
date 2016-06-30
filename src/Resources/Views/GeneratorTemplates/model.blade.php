@@ -152,15 +152,27 @@ class {{$gen->modelClassName()}} extends Model
     /**
      * Las reglas de validación para el modelo.
      * @param  string|array $attributes Las reglas de los atributos que se quiere devolver
+     * @param  \Illuminate\Http\Request $request
+     * @param  string $route La ruta desde donde se quiere obtener las reglas
      * @return array
      */
-    public static function validationRules( $attributes = null )
+    public static function validationRules($attributes = null, $request, $route = null)
     {
         $rules = [
 @foreach ( $fields as $field )
         '{{$field->name}}' => '{!!$field->validation_rules!!}',
 @endforeach
         ];
+
+        // hacemos los cambios necesarios a las reglas cuando la ruta sea update
+        if ($route == 'update') {
+@foreach ( $fields as $field )
+@if (strpos($field->validation_rules, 'unique') !== false)
+{{-- Se espera que la regla unique sea la última --}}
+            $rules['{{$field->name}}'] = '{!! $field->validation_rules.',\'.$request->'.$gen->modelVariableName() !!};
+@endif
+@endforeach
+        }
 
         // no se dieron atributos
         if (! $attributes) {

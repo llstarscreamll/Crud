@@ -103,7 +103,7 @@ class {{$gen->controllerClassName()}} extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, {{$gen->modelClassName()}}::validationRules(), [], trans('{{$gen->getLangAccess()}}/validation.attributes'));
+        $this->validate($request, {{$gen->modelClassName()}}::validationRules(null, $request), [], trans('{{$gen->getLangAccess()}}/validation.attributes'));
 
         {{$gen->modelClassName()}}::create($request->all());
         $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.create_{{$gen->snakeCaseSingular()}}_success'));
@@ -193,7 +193,7 @@ class {{$gen->controllerClassName()}} extends Controller
         if( $request->isXmlHttpRequest() )
         {
             $data = [$request->name  => $request->value];
-            $validator = \Validator::make( $data, {{$gen->modelClassName()}}::validationRules( $request->name ) );
+            $validator = \Validator::make($data, {{$gen->modelClassName()}}::validationRules($request->name, $request, 'update'));
             
             if($validator->fails()) {
                 return response($validator->errors()->first( $request->name),403);
@@ -204,7 +204,7 @@ class {{$gen->controllerClassName()}} extends Controller
             return "Record updated";
         }
 
-        $this->validate($request, {{$gen->modelClassName()}}::validationRules());
+        $this->validate($request, {{$gen->modelClassName()}}::validationRules(null, $request));
 
         ${{$gen->modelVariableName()}}->update($request->all());
         $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success'));
