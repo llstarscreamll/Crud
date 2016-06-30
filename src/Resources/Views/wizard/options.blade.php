@@ -329,9 +329,9 @@
 
 @section('script')
     <!-- Componente iCheck -->
-    <link href="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/square/red.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('resources/CoreModule/admin-lte/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
+    <link href="{{ asset('resources/'.config("llstarscreamll.CrudGenerator.config.core-assets-namespase").'admin-lte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/'.config("llstarscreamll.CrudGenerator.config.core-assets-namespase").'admin-lte/plugins/iCheck/square/red.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('resources/'.config("llstarscreamll.CrudGenerator.config.core-assets-namespase").'admin-lte/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript">
         {{-- Inicializa el componente BootstrapSwitch --}}
