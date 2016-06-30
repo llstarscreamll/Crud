@@ -186,7 +186,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        return file_put_contents($pageObjectFile, $content) && chmod($pageObjectFile, 0644);
+        return file_put_contents($pageObjectFile, $content) && chmod($pageObjectFile, 0664);
     }
 
     /**
@@ -208,7 +208,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        return file_put_contents($testFile, $content) && chmod($testFile, 0644);
+        return file_put_contents($testFile, $content) && chmod($testFile, 0664);
     }
 
     /**
@@ -230,7 +230,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 0644) === false) {
+        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 0664) === false) {
             return false;
         }
 
@@ -246,7 +246,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 0644) === false) {
+        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 0664) === false) {
             return false;
         }
 
@@ -262,7 +262,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 0644) === false) {
+        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 0664) === false) {
             return false;
         }
 
@@ -287,7 +287,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($seederFile, $content) === false && chmod($controllerFile, 0644) === false) {
+        if (file_put_contents($seederFile, $content) === false && chmod($controllerFile, 0664) === false) {
             return false;
         }
 

@@ -65,6 +65,6 @@ class ControllerGenerator extends BaseGenerator
             ]
         );
 
-        return file_put_contents($controllerFile, $content) && chmod($controllerFile, 0644);
+        return file_put_contents($controllerFile, $content) && chmod($controllerFile, 0664);
     }
 }

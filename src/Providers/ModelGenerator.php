@@ -56,7 +56,7 @@ class ModelGenerator extends BaseGenerator
             ]
         );
 
-        return file_put_contents($modelFile, $content)  && chmod($modelFile, 0644);
+        return file_put_contents($modelFile, $content)  && chmod($modelFile, 0664);
     }
 
     /**

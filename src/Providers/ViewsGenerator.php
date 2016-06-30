@@ -83,7 +83,7 @@ class ViewsGenerator extends BaseGenerator
                 ]
             );
 
-            if (file_put_contents($viewFile, $content) === false && chmod($controllerFile, 0644) === false) {
+            if (file_put_contents($viewFile, $content) === false && chmod($controllerFile, 0664) === false) {
                 $this->msg_error[] = "Ocurrió un error generando la vista ".$view.".";
                 return false;
             }
