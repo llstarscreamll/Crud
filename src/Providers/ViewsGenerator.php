@@ -109,7 +109,7 @@ class ViewsGenerator extends BaseGenerator
                         '$field->name[]',
                         \$".$field->name."_list,
                         Request::input('$field->name'),
-                        ['class' => 'form-control selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm']
+                        ['class' => 'form-control selectpicker', 'data-live-search' => 'false', 'data-size' => '5', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm']
                     ) !!}\n\t\t\t\t";
             return $output;
         }
@@ -126,7 +126,7 @@ class ViewsGenerator extends BaseGenerator
                         '$field->name[]',
                         \$".$field->name."_list,
                         Request::input('$field->name'),
-                        ['class' => 'form-control selectpicker', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm']
+                        ['class' => 'form-control selectpicker', 'data-live-search' => 'false', 'data-size' => '5', 'title' => '---', 'data-selected-text-format' => 'count > 0', 'multiple', 'form' => 'searchForm']
                     ) !!}\n\t\t\t\t";
                 return $output;
             }
@@ -280,7 +280,7 @@ class ViewsGenerator extends BaseGenerator
     public function getSourceForEnum($field)
     {
         if ($field->type == 'enum' || (in_array($field->type, ['int', 'unsigned_int']) && $field->key == 'MUL')) {
-            return "data-source='{!! $".$field->name."_list_json !!}'\n";
+            return "data-source='{{ $".$field->name."_list_json }}'\n";
         }
         return "";
     }
