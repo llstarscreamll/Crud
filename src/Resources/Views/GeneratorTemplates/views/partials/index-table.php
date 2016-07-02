@@ -12,7 +12,7 @@
         <thead>
             {{-- Nombres de columnas de tabla --}}
             <tr class="header-row">
-                <td></td>
+                <th></th>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
                 <th>
@@ -119,7 +119,7 @@
 // para que no resalte espacios vacíos cuando esté ejecutandose...                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
-                    <span <?= $gen->hasDeletedAtColumn($fields) ? '@if (! $record->trashed())' : null ?> class="<?=$gen->getInputXEditableClass($field)?>"
+                    <span <?= $gen->hasDeletedAtColumn($fields) ? '@if (! $record->trashed()) ' : null ?>class="<?=$gen->getInputXEditableClass($field)?>"
                           data-type="<?=$gen->getInputType($field)?>"
                           data-name="<?=$field->name?>"
                           data-placement="bottom"

@@ -204,7 +204,7 @@ class {{$gen->controllerClassName()}} extends Controller
             return "Record updated";
         }
 
-        $this->validate($request, {{$gen->modelClassName()}}::validationRules(null, $request));
+        $this->validate($request, {{$gen->modelClassName()}}::validationRules(null, $request, 'update'));
 
         ${{$gen->modelVariableName()}}->update($request->all());
         $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success'));
