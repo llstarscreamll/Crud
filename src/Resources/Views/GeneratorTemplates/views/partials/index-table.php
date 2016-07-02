@@ -106,7 +106,7 @@
         <tbody>
 
             @forelse ( $records as $record )
-            <tr class="item-{{ $record->id }} {{ $record->trashed() ? 'danger' : null }}">
+            <tr class="item-{{ $record->id }} <?= $gen->hasDeletedAtColumn($fields) ? '{{ $record->trashed() ? \'danger\' : null }}': null ?> ">
             <td>{!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item']) !!}</td>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
@@ -119,7 +119,7 @@
 // para que no resalte espacios vacíos cuando esté ejecutandose...                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
-                    <span @if (! $record->trashed()) class="<?=$gen->getInputXEditableClass($field)?>"
+                    <span <?= $gen->hasDeletedAtColumn($fields) ? '@if (! $record->trashed())' : null ?> class="<?=$gen->getInputXEditableClass($field)?>"
                           data-type="<?=$gen->getInputType($field)?>"
                           data-name="<?=$field->name?>"
                           data-placement="bottom"
@@ -129,7 +129,7 @@
 <?php if ($enum_source = $gen->getSourceForEnum($field)) { ?>
                           <?= $enum_source ?>
 <?php }  ?>
-                          @endif>{{ <?=$gen->getRecordFieldData($field, '$record')?> }}</span>
+                          <?= $gen->hasDeletedAtColumn($fields) ? '@endif' : null ?>>{{ <?=$gen->getRecordFieldData($field, '$record')?> }}</span>
 <?php } else { ?>
                     {{-- El campo <?= $field->name ?> no es editable --}}
                     {{ <?=$gen->getRecordFieldData($field, '$record')?> }}

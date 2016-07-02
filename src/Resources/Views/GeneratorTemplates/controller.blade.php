@@ -224,7 +224,7 @@ class {{$gen->controllerClassName()}} extends Controller
      */
     public function destroy(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
-        $id = $request->has('id') ? $request->get('id') : {{ $hasSoftDelete ? '$id' : '$'.$gen->modelVariableName().'->id' }};
+        $id = $request->has('id') ? $request->get('id') : {!! $hasSoftDelete ? '$id' : '$'.$gen->modelVariableName().'->id' !!};
 
         {{$gen->modelClassName()}}::destroy($id)
             ? $request->session()->flash('success', trans_choice('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_success', count($id)))

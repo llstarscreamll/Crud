@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 @if(($hasSoftDelete = $gen->hasDeletedAtColumn($fields)))
 use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
+
 class {{$gen->modelClassName()}} extends Model
 {
 @if($hasSoftDelete)
