@@ -323,13 +323,23 @@ class BaseGenerator
     }
 
     /**
-     * Devulve el nombre de la variable del modelo generado.
+     * Devulve el nombre de la variable del modelo generado en singular.
      *
      * @return string
      */
     public function modelVariableName()
     {
         return camel_case(str_singular($this->table_name));
+    }
+
+    /**
+     * Devulve el nombre de la variable del modelo generado en plural.
+     *
+     * @return string
+     */
+    public function modelSingularVariableName()
+    {
+        return camel_case($this->table_name);
     }
 
     /**
