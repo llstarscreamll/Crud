@@ -104,7 +104,7 @@ return [
         // para el componente Bootstrap dateRangePicker
         'dateRangePicker' => [
             'applyLabel' => 'Aplicar',
-            'cancelLabel' => 'Cancelar',
+            'cancelLabel' => 'Limpiar',
             'fromLabel' => 'Desde',
             'toLabel' => 'Hasta',
             'separator' => ' - ',

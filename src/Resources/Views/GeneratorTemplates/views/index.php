@@ -281,6 +281,7 @@
 ?>
 <?php foreach ($fields as $key => $field) { ?>
 <?php if ($field->type == 'date') { ?>
+        dateRangePickerLocaleSettings.format = 'YYYY-MM-DD';
         $('input[name="<?= $field->name ?>[informative]"]').daterangepicker({
             linkedCalendars: false,
             autoUpdateInput: false,
@@ -288,12 +289,10 @@
             opens: 'center',
             locale: dateRangePickerLocaleSettings,
             ranges: dateRangePickerRangesSettings
-        }, function(start, end, label) {
-            $('input[name="<?= $field->name ?>[from]"]').val(start.format('YYYY-MM-DD'));
-            $('input[name="<?= $field->name ?>[to]"]').val(end.format('YYYY-MM-DD'));
         });
 
 <?php } elseif ($field->type == 'timestamp' || $field->type == 'datetime') { ?>
+        dateRangePickerLocaleSettings.format = 'YYYY-MM-DD HH:mm:ss';
         $('input[name="<?= $field->name ?>[informative]"]').daterangepicker({
             linkedCalendars: false,
             format: 'YYYY-MM-DD HH:mm:ss',
@@ -303,13 +302,46 @@
             opens: 'left',
             locale: dateRangePickerLocaleSettings,
             ranges: dateRangePickerRangesSettings
-        }, function(start, end, label) {
-            $('input[name="<?= $field->name ?>[from]"]').val(start.format('YYYY-MM-DD HH:mm:ss'));
-            $('input[name="<?= $field->name ?>[to]"]').val(end.format('YYYY-MM-DD HH:mm:ss'));
         });
 
 <?php } // end if ?>
+<?php
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// los eventos para llenar los respectivos inputs de DateRangePicker o limpiarlos, lo hacemos de esta     //
+// forma dado que necesitamos tener la opción de dejar los campos vacíos inicialmente si es que ningúna   //
+// fecha es dada por el usuario y si ya se ha dado una, pues dar la opción de limpiar lo que ya se ha     //
+// seleccionado. Ver mas ejemplos de uso del componente aquí:                                             //
+// http://www.daterangepicker.com                                                                         //
+//                                                                                                        //
+// Para este caso seguimos la siguiente convención para el nombre de los inputs que usen DateRangePicker: //
+// input[name="created_at[informative]"]                                                                  //
+// input[name="created_at[from]"]                                                                         //
+// input[name="created_at[to]"]                                                                           //
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+?>
 <?php } // end foreach ?>
+        $('input[name$="[informative]"]').on('apply.daterangepicker', function(e, picker) {
+            var informativeInputName = $(e.target).attr('name');
+            var fromInputName = informativeInputName.replace('informative', 'from');
+            var toInputName = informativeInputName.replace('informative', 'to');
+            var startDate = picker.startDate.format(picker.locale.format);
+            var endDate = picker.endDate.format(picker.locale.format);
+
+            $('input[name="'+fromInputName+'"]').val(startDate);
+            $('input[name="'+toInputName+'"]').val(endDate);
+            $('input[name="'+informativeInputName+'"]').val(startDate + ' - ' + endDate);
+        });
+
+        $('input[name$="[informative]"]').on('cancel.daterangepicker', function(e, picker) {
+            var informativeInputName = $(e.target).attr('name');
+            var fromInputName = informativeInputName.replace('informative', 'from');
+            var toInputName = informativeInputName.replace('informative', 'to');
+
+            $('input[name="'+fromInputName+'"]').val('');
+            $('input[name="'+toInputName+'"]').val('');
+            $('input[name="'+informativeInputName+'"]').val('');
+        });
+        
 <?php } // end if ?>
 <?php
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
