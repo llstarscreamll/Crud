@@ -170,7 +170,7 @@ class {{$gen->modelClassName()}} extends Model
 @foreach ( $fields as $field )
 @if (strpos($field->validation_rules, 'unique') !== false)
 {{-- Se espera que la regla unique sea la última --}}
-            $rules['{{$field->name}}'] = '{!! $field->validation_rules.',\'.$request->'.$gen->modelVariableName() !!};
+            $rules['{{$field->name}}'] = '{!! $field->validation_rules.',\'.$request->'.$gen->modelSingularVariableName() !!};
 @endif
 @endforeach
         }

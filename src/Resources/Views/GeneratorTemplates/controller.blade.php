@@ -193,7 +193,7 @@ class {{$gen->controllerClassName()}} extends Controller
         if( $request->isXmlHttpRequest() )
         {
             $data = [$request->name  => $request->value];
-            $validator = \Validator::make($data, {{$gen->modelClassName()}}::validationRules($request->name, $request, 'update'));
+            $validator = \Validator::make($data, {{$gen->modelClassName()}}::validationRules($request->name, $request, 'update'), [], trans('{{$gen->getLangAccess()}}/validation.attributes'));
             
             if($validator->fails()) {
                 return response($validator->errors()->first( $request->name),403);
@@ -204,7 +204,7 @@ class {{$gen->controllerClassName()}} extends Controller
             return "Record updated";
         }
 
-        $this->validate($request, {{$gen->modelClassName()}}::validationRules(null, $request, 'update'));
+        $this->validate($request, {{$gen->modelClassName()}}::validationRules(null, $request, 'update'), [], trans('{{$gen->getLangAccess()}}/validation.attributes'));
 
         ${{$gen->modelVariableName()}}->update($request->all());
         $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success'));
