@@ -72,7 +72,7 @@
     <script type="text/javascript">
 
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
-        {{-- Configuración de Bootstrap DateRangePicker --}}
+        {{-- Configuración de Bootstrap DateTimePicker --}}
 <?php foreach ($fields as $key => $field) { ?>
 <?php if ($field->type == 'date' && $field->on_create_form) { ?>
         $('input[name=<?= $field->name ?>]').datetimepicker({

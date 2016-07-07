@@ -282,6 +282,9 @@
 <?php foreach ($fields as $key => $field) { ?>
 <?php if ($field->type == 'date') { ?>
         $('input[name="<?= $field->name ?>[informative]"]').daterangepicker({
+            linkedCalendars: false,
+            autoUpdateInput: false,
+            autoApply: false,
             opens: 'center',
             locale: dateRangePickerLocaleSettings,
             ranges: dateRangePickerRangesSettings
@@ -292,7 +295,9 @@
 
 <?php } elseif ($field->type == 'timestamp' || $field->type == 'datetime') { ?>
         $('input[name="<?= $field->name ?>[informative]"]').daterangepicker({
-            format: 'MM/DD/YYYY HH:mm:ss',
+            linkedCalendars: false,
+            format: 'YYYY-MM-DD HH:mm:ss',
+            autoUpdateInput: false,
             timePicker: true,
             timePickerIncrement: 1,
             opens: 'left',
