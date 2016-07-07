@@ -320,6 +320,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 <?php } // end foreach ?>
+
+        {{-- Las acciones de los eventos apply y cancel de DateRangePicker --}}
         $('input[name$="[informative]"]').on('apply.daterangepicker', function(e, picker) {
             var informativeInputName = $(e.target).attr('name');
             var fromInputName = informativeInputName.replace('informative', 'from');
