@@ -199,7 +199,7 @@
 ?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
     {{-- Componente Bootstrap DateRangePicker --}}
-    <link href="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/daterangepicker-bs3.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css"/>
     <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/moment.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/daterangepicker.js') }}" type="text/javascript"></script>
 <?php } ?>

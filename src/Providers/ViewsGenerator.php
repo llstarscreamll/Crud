@@ -308,7 +308,7 @@ class ViewsGenerator extends BaseGenerator
 
         // para selects
         if ($field->type == 'enum') {
-            $output .= "\t{!! Form::select('{$field->name}', ['' => '---']+\${$field->name}_list, null, ['class' => 'form-control selectpicker', isset(\$show) ? 'disabled' : null]) !!}\n";
+            $output .= "\t{!! Form::select('{$field->name}', ['' => '---']+\${$field->name}_list, null, ['class' => 'form-control selectpicker', 'data-live-search' => 'true',  'data-size' => '10', isset(\$show) ? 'disabled' : null]) !!}\n";
             $output .= $this->endFormGroup($field);
             return $output;
         }
@@ -320,7 +320,7 @@ class ViewsGenerator extends BaseGenerator
 
             // si el campo actual es una llave foránea
             if (strpos($child_table[1], $field->name) !== false) {
-                $output .= "\t{!! Form::select('{$field->name}', ['' => '---']+\${$field->name}_list, null, ['class' => 'form-control selectpicker', isset(\$show) ? 'disabled' : null]) !!}\n";
+                $output .= "\t{!! Form::select('{$field->name}', ['' => '---']+\${$field->name}_list, null, ['class' => 'form-control selectpicker', 'data-live-search' => 'true',  'data-size' => '10', isset(\$show) ? 'disabled' : null]) !!}\n";
                 $output .= $this->endFormGroup($field);
                 return $output;
             }
