@@ -123,7 +123,8 @@ class {{$gen->modelClassName()}} extends Model
 @foreach ( $fields as $field )
 @if($field->type == 'tinyint')
         $request->get('{{$field->name}}_true') and $query->where({!! $gen->getConditionStr($field, 'true') !!});
-        $request->get('{{$field->name}}_false') and $query->orWhere({!! $gen->getConditionStr($field, 'false') !!});
+        ($request->get('{{$field->name}}_false') && !$request->has('{{$field->name}}_true')) and $query->where({!! $gen->getConditionStr($field, 'false') !!});
+        ($request->get('{{$field->name}}_false') && $request->has('{{$field->name}}_true')) and $query->orWhere({!! $gen->getConditionStr($field, 'false') !!});
 
 @elseif($field->type == 'enum' || $field->key == 'MUL')
         $request->get('{{$field->name}}') and $query->whereIn({!! $gen->getConditionStr($field) !!});
