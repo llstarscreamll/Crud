@@ -37,12 +37,12 @@ class {{$test}}Cest
         Page::have{{$gen->modelClassName()}}($I);
 
         // voy a la página de detalles del registro
-        $I->amOnPage(Page::route('/1'));
+        $I->amOnPage(Page::route('/'.${{$gen->modelVariableName()}}Data['id']));
         // doy clic al enlace para ir al formulario de edición
         $I->click(Page::$linkToEdit['txt'], Page::$linkToEdit['selector']);
 
         // estoy en la página de edición
-        $I->seeCurrentUrlEquals(Page::route('/1/edit'));
+        $I->seeCurrentUrlEquals(Page::route('/'.${{$gen->modelVariableName()}}Data['id'].'/edit'));
         $I->see(Page::$title['txt'], Page::$title['selector']);
 
         // veo los datos en el formulario
@@ -57,7 +57,7 @@ class {{$test}}Cest
         $I->see(Page::$msgSuccess['txt'], Page::$msgSuccess['selector']);
         
         // voy a la página de detalles del registro
-        $I->amOnPage(Page::route('/1'));
+        $I->amOnPage(Page::route('/'.${{$gen->modelVariableName()}}Data['id']));
         
         // veo los datos actualizados en el formulario de sólo lectura
         $I->seeInFormFields('form', Page::getUpdatedDataToShowForm());

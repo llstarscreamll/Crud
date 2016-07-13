@@ -123,6 +123,7 @@
                           data-type="<?=$gen->getInputType($field)?>"
                           data-name="<?=$field->name?>"
                           data-placement="bottom"
+                          data-emptytext="{{ trans('<?=$gen->getLangAccess()?>/views.index.x-editable.dafaultValue') }}"
                           data-value="{{ $record-><?=$field->name?> }}"
                           data-pk="{{ $record->{$record->getKeyName()} }}"
                           data-url="/<?=$gen->route()?>/{{ $record->{$record->getKeyName()} }}"

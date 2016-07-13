@@ -569,6 +569,7 @@
         {{-- Configuración del componente x-editable para el caso de campos de tipo "date" --}}
         $('.editable-date').editable({
             ajaxOptions:{method:'PUT'},
+            emptytext: '{{trans('<?=$gen->getLangAccess()?>/views.index.x-editable.dafaultValue')}}',
             format: 'yyyy-mm-dd',
             viewformat: 'dd/mm/yyyy',
             datetimepicker: {
@@ -583,6 +584,7 @@
         {{-- Configuración del componente x-editable para el caso de campos de tipo "datetime" --}}
         $('.editable-datetime').editable({
             ajaxOptions:{method:'PUT'},
+            emptytext: '{{trans('<?=$gen->getLangAccess()?>/views.index.x-editable.dafaultValue')}}',
             format: 'yyyy-mm-dd hh:ii:ss',
             viewformat: 'yyyy-mm-dd hh:ii:ss',
             datetimepicker: {

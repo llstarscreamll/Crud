@@ -193,14 +193,14 @@ class ModelGenerator extends BaseGenerator
      */
     public function getMysqlTableColumnEnumValues($column)
     {
-        return \DB::select( \DB::raw("SHOW COLUMNS FROM {$this->getDatabaseConnectionDriver()}$this->table_name WHERE Field = '$column'") )[0]->Type;
+        return \DB::select( \DB::raw("SHOW COLUMNS FROM {$this->getDatabaseTablesPrefix()}$this->table_name WHERE Field = '$column'") )[0]->Type;
     }
 
     /**
-     * Devuelve string del driver de la conexión a la base de datos.
+     * Devuelve string del prefijo de las tablas de la base de datos.
      * @return string El nombre del driver de la conexión a la base de datos.
      */
-    public static function getDatabaseConnectionDriver()
+    public static function getDatabaseTablesPrefix()
     {
         return config('database.connections.'.config('database.default').'.prefix');
     }

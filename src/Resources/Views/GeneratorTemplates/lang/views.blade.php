@@ -121,6 +121,10 @@ return [
             'range_this_month' => 'Este mes',
             'range_last_month' => 'Mes pasado',
         ],
+
+        'x-editable' => [
+            'dafaultValue' => '---'
+        ],
 @endif
     ],
 

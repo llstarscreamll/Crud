@@ -251,7 +251,7 @@ class {{$gen->modelClassName()}} extends Model
         $type = '';
 
         if (self::getDatabaseConnectionDriver() == 'mysql') {
-            $type = \DB::select( \DB::raw("SHOW COLUMNS FROM $table WHERE Field = '$column'") )[0]->Type;
+            $type = \DB::select( \DB::raw("SHOW COLUMNS FROM ".self::getDatabaseTablesPrefix()."$table WHERE Field = '$column'") )[0]->Type;
         } else {
             $type = self::${$column.'ColumnEnumValues'};
         }
@@ -266,6 +266,15 @@ class {{$gen->modelClassName()}} extends Model
     public static function getDatabaseConnectionDriver()
     {
         return config('database.connections.'.config('database.default').'.driver');
+    }
+
+    /**
+     * Devuelve string del prefijo de las tablas de la base de datos.
+     * @return string El nombre del driver de la conexión a la base de datos.
+     */
+    public static function getDatabaseTablesPrefix()
+    {
+        return config('database.connections.'.config('database.default').'.prefix');
     }
 @endif
 
