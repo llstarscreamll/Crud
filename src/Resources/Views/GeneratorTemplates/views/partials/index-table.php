@@ -110,15 +110,15 @@
             <td>{!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item']) !!}</td>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
-                <td>
+                <td class="<?= $field->name ?>">
 <?php if (! $gen->isGuarded($field->name)) { ?>
-                    {{-- Campo <?= $field->name ?> es editable --}}
 <?php
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // importante dejar el span de del componenten x-editable de la forma en que está <span ...>$record</span> //
 // para que no resalte espacios vacíos cuando esté ejecutandose...                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
+                    {{-- Campo <?= $field->name ?> es editable --}}
                     <span <?= $gen->hasDeletedAtColumn($fields) ? '@if (! $record->trashed()) ' : null ?>class="<?=$gen->getInputXEditableClass($field)?>"
                           data-type="<?=$gen->getInputType($field)?>"
                           data-name="<?=$field->name?>"
