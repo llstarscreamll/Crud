@@ -40,7 +40,7 @@ class {{$test}}Cest
         $I->see(Page::$title['txt'], Page::$title['selector']);
 
         // veo los respectivos datos en la tabla
-        foreach (\Page\Functional\{{$gen->studlyCasePlural()}}\Show::getReadOnlyFormData() as $field => $value) {
+        foreach (Page::getIndexTableData() as $field => $value) {
             $I->see($value, Page::$table.' tbody tr.item-1 td.'.$field);
         }
     }

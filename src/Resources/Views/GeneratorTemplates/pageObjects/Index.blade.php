@@ -43,4 +43,23 @@ class {{$test}} extends Base
             'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.module-title-selector')}}'
         ];
     }
+
+    /**
+     * Obtiene los datos que deben estar en la tabla del index, es decir que tenemos que extraer
+     * los datos legibles para usuario de las llaves foráneas de la entidad.
+     * @return array
+     */
+    public static function getIndexTableData()
+    {
+        $data = self::${{$gen->modelVariableName()}}Data;
+
+@foreach($fields as $field)
+        // los datos de las llaves foráneas
+@if($field->namespace)
+        $data['{{ $field->name }}'] = \{{ $field->namespace }}::find($data['{{ $field->name }}'])->name;
+@endif
+@endforeach
+
+        return $data;
+    }
 }
