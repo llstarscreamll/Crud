@@ -37,7 +37,7 @@ class {{$test}}Cest
         Page::have{{$gen->modelClassName()}}($I);
 
         // voy a la página de detalles del registro
-        $I->amOnPage(Page::route('/'.${{$gen->modelVariableName()}}Data['id']));
+        $I->amOnPage(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id']));
         // veo el botón que abre la ventana modal para la confirmación de eliminación
         $I->see(Page::$deleteBtn['txt'], Page::$deleteBtn['selector']);
         // doy click al botón de confirmación de ventana modal para borrar el registro

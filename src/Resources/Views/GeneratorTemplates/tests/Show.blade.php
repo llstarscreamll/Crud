@@ -37,7 +37,7 @@ class {{$test}}Cest
         Page::have{{$gen->modelClassName()}}($I);
 
         // voy a la página de detalles del registro
-        $I->amOnPage(Page::route('/'.${{$gen->modelVariableName()}}Data['id']));
+        $I->amOnPage(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id']));
         // veo el título de la página
         $I->see(Page::$title['txt'], Page::$title['selector']);
 
