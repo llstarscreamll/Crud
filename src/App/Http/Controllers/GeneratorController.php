@@ -136,7 +136,7 @@ class GeneratorController extends Controller
         $request->session()->flash('info', $msg_info);
         $request->session()->flash('warning', $msg_warning);
 
-        return redirect()->back();
+        return redirect()->route('crudGenerator.showOptions', ['table_name' => $request->get('table_name')]);
     }
 
     /**

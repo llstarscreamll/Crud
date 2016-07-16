@@ -106,7 +106,7 @@ class RouteGenerator extends BaseGenerator
         if (strpos($routesFileContent, $route) == false) {
             
             $routesFileContent = $this->getUpdatedContent($routesFileContent, $route);
-            return file_put_contents($routesFile, $routesFileContent)  && chmod($routesFile, 664);
+            return file_put_contents($routesFile, $routesFileContent);
         }
 
         $this->msg_info = "La ruta: '".$route."' ya existe, tarea omitida.";

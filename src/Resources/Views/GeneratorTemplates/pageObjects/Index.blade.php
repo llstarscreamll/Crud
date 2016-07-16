@@ -53,8 +53,8 @@ class {{$test}} extends Base
     {
         $data = self::${{$gen->modelVariableName()}}Data;
 
-@foreach($fields as $field)
         // los datos de las llaves foráneas
+@foreach($fields as $field)
 @if($field->namespace)
         $data['{{ $field->name }}'] = \{{ $field->namespace }}::find($data['{{ $field->name }}'])->name;
 @endif
