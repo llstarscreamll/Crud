@@ -12,10 +12,10 @@
         <thead>
             {{-- Nombres de columnas de tabla --}}
             <tr class="header-row">
-                <th></th>
+                <th class="checkbox-column"></th>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
-                <th>
+                <th class="<?= $field->name ?>">
                     <a href="{{route('<?=$gen->route()?>.index',
                         array_merge(
                             Request::query(),
@@ -31,21 +31,21 @@
                 </th>
 <?php } ?>
 <?php } ?>
-                <th>{{trans('<?=$gen->getLangAccess()?>/views.index.table-actions-column')}}</th>
+                <th class="actions-column">{{trans('<?=$gen->getLangAccess()?>/views.index.table-actions-column')}}</th>
             </tr>
             
             {{-- Elementos de Formulario de búqueda de tabla --}}
             <tr class="search-row">
 
-                <td>{!! Form::checkbox('check_all', 'check_all', null, ['id' => 'check_all']) !!}</td>
+                <td class="checkbox-column">{!! Form::checkbox('check_all', 'check_all', null, ['id' => 'check_all']) !!}</td>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
-                <td><?=$gen->getSearchInputStr($field, $gen->table_name)?></td>
+                <td class="<?= $field->name ?>"><?=$gen->getSearchInputStr($field, $gen->table_name)?></td>
 <?php } ?>
 <?php } ?>
 
                 {{-- Los botones de búsqueda y limpieza del formulario --}}
-                <td style="min-width: 10em;">
+                <td class="actions-column" style="min-width: 10em;">
 
                     {{-- Más opciones de filtros --}}
                     <div id="filters" class="dropdown display-inline"
@@ -107,7 +107,7 @@
 
             @forelse ( $records as $record )
             <tr class="item-{{ $record->id }} <?= $gen->hasDeletedAtColumn($fields) ? '{{ $record->trashed() ? \'danger\' : null }}': null ?> ">
-            <td>{!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item']) !!}</td>
+            <td class="checkbox-column">{!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item']) !!}</td>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
                 <td class="<?= $field->name ?>">
@@ -140,7 +140,7 @@
 <?php } // endforeach ?>
                 
                 {{-- Los botones de acción para cada registro --}}
-                <td class="actions-cell">
+                <td class="actions-column">
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
                 @if ($record->trashed())
 
@@ -228,7 +228,7 @@
             @empty
 
                 <tr>
-                    <td colspan="<?=count($fields)+2?>">
+                    <td class="empty-table" colspan="<?=count($fields)+2?>">
                         <div  class="alert alert-warning">
                             {{trans('<?=$gen->getLangAccess()?>/views.index.no-records-found')}}
                         </div>
