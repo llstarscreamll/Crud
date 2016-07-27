@@ -28,3 +28,72 @@ CrudGenerator es un paquete de laravel para la generación de aplicaciones CRUD 
 - Las búsquedas por fechas en el formulario de búsqueda avanzado debe ser por rangos de fecha y no sólo por una fecha específica.
 - Añadir opción para habilidad protección de datos de registros al crear los ficheros.
 - Añadir colores a la filas de la tabla del index dependiendo del estado del registro, rojo para registros eliminados, amarillos para registros protegidos, etc... y añadir notas de estos colores al final de la vista.
+
+## Configuraciones óptimas para Laravel en servidor Nginx
+
+Cuando se crea un host virtual en Nginx, es recomendable dejar estas configuraciones para un mejor desempeño del servidor, eso si teniendo en cuenta que deben ser ajustadas a las necesidades de cada proyecto, muy importante correr el script que arregla los permisos de los ficheros y carpetas luego de correr estas configuraciones; el código acontinuaciòn mostrado está pensado para para un servidor local y con un host virtual llamado *testing.dev* con PHP7, se debe ajustar el `root` que apunte a la instalación de Laravel:
+
+```nginx
+
+server {
+	listen 80; # poner aquí 'default_server' si es necesario
+	listen [::]:80 ipv6only=on; # poner aquí 'default_server' si es necesario
+
+	root /var/www/testing/public;
+	index index.php index.html index.htm;
+
+	server_name testing.dev www.testing.dev;
+	charset   utf-8;
+
+	gzip on;
+	gzip_vary on;
+	gzip_disable "msie6";
+	gzip_comp_level 6;
+	gzip_min_length 1100;
+	gzip_buffers 16 8k;
+	gzip_proxied any;
+	gzip_types
+		text/plain
+		text/css
+		text/js
+		text/xml
+		text/javascript
+		application/javascript
+		application/x-javascript
+		application/json
+		application/xml
+		application/xml+rss;
+
+	location / {
+		try_files $uri $uri/ /index.php?$query_string;
+	}
+
+	location ~ \.php$ {
+		try_files $uri /index.php =404;
+		fastcgi_split_path_info ^(.+\.php)(/.+)$;
+		#fastcgi_pass unix:/var/run/php5-fpm.sock; # Descomentar esta lìnea y comentar la siguiente si usas PHP5
+		fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+		fastcgi_index index.php;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		include fastcgi_params;
+	}
+
+	location ~ /\.ht {
+		deny all;
+	}
+
+	location ~* \.(?:jpg|jpeg|gif|png|ico|cur|gz|svg|svgz|mp4|ogg|ogv|webm|htc|svg|woff|woff2|ttf)$ {
+		expires 1M;
+		access_log off;
+		add_header Cache-Control "public";
+	}
+
+	location ~* \.(?:css|js)$ {
+		expires 7d;
+		access_log off;
+		add_header Cache-Control "public";
+	}
+
+}
+
+```
