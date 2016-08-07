@@ -785,11 +785,11 @@ Aquí algunas capturas de pantalla de la CRUD app generada para el ejemplo de la
 
 ![Vista index mostrando registros en papelera y gidwet de selector de fechas](https://cloud.githubusercontent.com/assets/2442445/17460640/a3bbd97a-5c35-11e6-8b1e-a6f75f3eb371.png)
 
-![Tabla en vista index con paginación](https://cloud.githubusercontent.com/assets/2442445/17460636/a3a73718-5c35-11e6-8ce5-3174d489a394.png]
+![Tabla en vista index con paginación](https://cloud.githubusercontent.com/assets/2442445/17460636/a3a73718-5c35-11e6-8ce5-3174d489a394.png)
 
 ![Formulario de creación de registro en ventana modal](https://cloud.githubusercontent.com/assets/2442445/17460637/a3a8f44a-5c35-11e6-88e5-80ed14ac2b60.png)
 
-![Confirmación para eliminar registro](https://cloud.githubusercontent.com/assets/2442445/17460638/a3a9edc8-5c35-11e6-9bfd-23008959e6e6.png]
+![Confirmación para eliminar registro](https://cloud.githubusercontent.com/assets/2442445/17460638/a3a9edc8-5c35-11e6-9bfd-23008959e6e6.png)
 
 ![Confirmación para restaurar registro de papelera](https://cloud.githubusercontent.com/assets/2442445/17460633/a3a64d8a-5c35-11e6-9a10-0bb5c7955adc.png)
 
