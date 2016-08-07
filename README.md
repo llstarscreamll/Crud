@@ -7,8 +7,35 @@ CrudGenerator es un paquete de laravel para la generación de aplicaciones CRUD 
 Clonar el repositorio donde se desee:
 
 ```bash
-git clone 
+git clone git@github.com:llstarscreamll/CrudGenerator.git packages/llstarscreamll/CrudGenerator
 ```
+
+Cargar através de composer:
+
+```json
+"autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "llstarscreamll\\CrudGenerator\\": "packages/llstarscreamll/CrudGenerator/src"
+        }
+    }
+```
+
+Añadir el service provider en `config/app.php`:
+
+```php
+'providers' => [
+        llstarscreamll\CrudGenerator\Providers\CrudGeneratorServiceProvider::class,
+    ],
+```
+
+Publicar configuraciones, vistas, etc..
+
+```bash
+php artisan publish --vendor=llstarscreamll\CrudGenerator\Providers\CrudGeneratorServiceProvider
+```
+
+Presta mucha atención a los archivos de configuración publicados en la carpeta `config/llstarscreamll/CrudGenerator`, da valores a las variables que allí hay acorde a las necesidades.
 
 ## Clases/Archivos Generados: ##
 
@@ -408,7 +435,37 @@ class ProductController extends Controller
 }
 ```
 
-### Archibos de Idioma ###
+### Model Binding y Rutas ###
+
+El paquete genera el **Model Binding** para cada recurso (sólo si no se hace uso de `SoftDeletes`), en el archivo `app/Providers/RouteServiceProvider.php` de la siguiente forma:
+
+```php
+public function boot(Router $router)
+    {
+        $router->model('preferences', 'grapas\Models\Preference');
+
+        parent::boot($router);
+    }
+```
+
+Para el Model Binding no pudimos seguir el ejemplo de la entidad Producto pues si hacía uso de `SoftDeletes`.
+
+La ruta generada para el recurso queda de la siguiente forma, siguiendo el ejemplo de la entidad Producto, esta vez con una ruta de mas para restaurar los registros que están "en la papelera":
+
+```php
+Route::put(
+    '/machines/restore/{machines}',
+    [
+    'as' => 'machines.restore',
+    'uses' => 'MachineController@restore',
+    ]
+);
+
+Route::resource('products', 'ProductController');
+```
+
+
+### Archivos de Idioma ###
 
 El paquete genera los strings de idioma para la CRUD app, el idioma generado por defecto es el español y parte de lo que se le indique en el formulario de creación de la app. Se genera una carpeta que para el ejemplo de la entidad Productos tendrá el nombre `product`; para el nombre de las carpetas se usa el nombre de la entidad o **tabla en la base de datos**, en **singular** y en **cameCase**, dentro se generan 3 ficheros:
 
@@ -702,6 +759,44 @@ server {
 
 ```
 
+### Vistas ###
+
+Las vistas generadas hacen uso de varias dependencias frontend, que deberian ser agregadas al proyecto a través de Bower por ejemplo:
+
+```json
+  "dependencies": {
+    "admin-lte": "^2",
+    "bootstrap-switch": "^3",
+    "bootstrap": "^3.3.6",
+    "bootstrap-datepicker": "*",
+    "bootstrap-select": "*",
+    "bootbox": "*",
+    "bootstrap-datetimepicker-master": "*",
+    "eonasdan-bootstrap-datetimepicker": "*",
+    "x-editable": "^1.5.1"
+  }
+```
+
+Como se puede ver se usa como template [admin-lte](https://almsaeedstudio.com/themes/AdminLTE/index.html) el cual es un gran admin-template basado en [Bootstrap](http://getbootstrap.com/), todas las vistas están pensadas para usar este tema, aunque si no usas admin-lte nada malo debería pasar, haces unos cambios sencillos a las vistas generadas y ya. Recomiendo que sea revisada la documentación de cada uno de los paquetes frontend usados para conocer su funcionamiento y configuración, pues el código generado les configura de una forma básica.
+
+Aquí algunas capturas de pantalla de la CRUD app generada para el ejemplo de la entidad Productos:
+
+![Vista index con detalles de menú filtros][https://cloud.githubusercontent.com/assets/2442445/17460639/a3bbce3a-5c35-11e6-8d1a-027be443bb79.png]
+
+![Vista index mostrando registros en papelera y gidwet de selector de fechas][https://cloud.githubusercontent.com/assets/2442445/17460640/a3bbd97a-5c35-11e6-8b1e-a6f75f3eb371.png]
+
+![Tabla en vista index con paginación][https://cloud.githubusercontent.com/assets/2442445/17460636/a3a73718-5c35-11e6-8ce5-3174d489a394.png]
+
+![Formulario de creación de registro en ventana modal][https://cloud.githubusercontent.com/assets/2442445/17460637/a3a8f44a-5c35-11e6-88e5-80ed14ac2b60.png]
+
+![Confirmación para eliminar registro][https://cloud.githubusercontent.com/assets/2442445/17460638/a3a9edc8-5c35-11e6-9bfd-23008959e6e6.png]
+
+![Confirmación para restaurar registro de papelera][https://cloud.githubusercontent.com/assets/2442445/17460633/a3a64d8a-5c35-11e6-9a10-0bb5c7955adc.png]
+
+![Vista edit][https://cloud.githubusercontent.com/assets/2442445/17460634/a3a6b09a-5c35-11e6-9305-7f251a8cdcae.png]
+
+![Vista show][https://cloud.githubusercontent.com/assets/2442445/17460635/a3a6c904-5c35-11e6-9808-1d244e1bf739.png]
+
 ## TODO
 
 - Añadir funciones de exportación de información de los modelos en los formatos:
@@ -720,4 +815,4 @@ server {
 - Crear habilidad para que el usuario elija que campos desea mostrar en la tabla del index.
 - Crear habilidad para dejar decirdir al usuario si quiere o no las ediciones inline en la tabla con el componente x-edititable de javascript.
 - Añadir opción para añadir habilidad de protección de datos de registros al crear los ficheros.
-- Añadir colores a la filas de la tabla del index dependiendo del estado del registro, ~~rojo para registros eliminados~~, amarillos para registros protegidos, etc... y añadir notas de estos colores al final de la vista.
+- Añadir colores a la filas de la tabla del index dependiendo del estado del registro, ~~rojo para registros eliminados~~, amarillos para registros protegidos, etc... y añadir notas de estos
