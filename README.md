@@ -633,7 +633,7 @@ return [
 ];
 ```
 
-## Configuraciones óptimas para Laravel en servidor Nginx
+## Extra, configuraciones óptimas para Laravel en servidor Nginx
 
 Cuando se crea un host virtual en Nginx, es recomendable dejar estas configuraciones para un mejor desempeño del servidor, eso si teniendo en cuenta que deben ser ajustadas a las necesidades de cada proyecto, muy importante correr el script que arregla los permisos de los ficheros y carpetas luego de correr estas configuraciones; el código acontinuaciòn mostrado está pensado para para un servidor local y con un host virtual llamado *testing.dev* con PHP7, se debe ajustar el `root` que apunte a la instalación de Laravel:
 
