@@ -38,12 +38,12 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
     static $moduleName = array();
 
      /**
-     * La info de creación del módulo.
+     * La info de creación del registro.
      * @var array
      */
     static ${{$gen->modelVariableName()}}Data = array();
-
 @if($request->has('use_faker'))
+
     /**
      * @var Faker\Factory
      */
@@ -135,43 +135,42 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
         $this->functionalTester = $I;
 @if($request->has('use_faker'))
         self::$faker = Faker::create();
-@endif
 
+@endif
 @if(!$request->has('use_base_class'))
         self::$date = Carbon::now();
         $this->createUserRoles();
         $this->createAdminUser();
-@endif
 
+@endif
         // crea los permisos de acceso al módulo
         \Artisan::call('db:seed', ['--class' => '{{$gen->modelClassName()}}PermissionsSeeder']);
 @foreach($fields as $field)
 @if($field->namespace)
         \Artisan::call('db:seed', ['--class' => '{{$gen->getTableSeederClassName($field)}}']);
+
 @endif
 @endforeach
-
 @if($request->has('use_base_class'))
         // inicializamos los datos base de la aplicación como permisos,
         // roles, usuario admin, etc...
         parent::__construct($I);
-@endif
 
-        // damos valores a las variables para creación de un registro para el módulo
+@endif
+        // damos valores a los atributos para crear un registro
         self::${{$gen->modelVariableName()}}Data = [
 @foreach($fields as $field)
             '{{$field->name}}' => {!!$field->testData!!},
 @endforeach
         ];
-
 @if($request->has('create_employees_data'))
         // crea empleados de prueba, para crear empleados necesito centros
         // y subcentros de costo
         $this->createCostCenters();
         $this->createSubCostCenters();
         $this->createEmployees();
-@endif
 
+@endif
         self::$moduleName = [
             'txt' => trans('{{$gen->getLangAccess()}}/views.module.name'),
             'selector' => '{{config('llstarscreamll.CrudGenerator.uimap.module-title-selector')}}'

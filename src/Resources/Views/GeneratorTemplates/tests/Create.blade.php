@@ -25,7 +25,7 @@ class {{$test}}Cest
     }
     
     /**
-     * Las acciones a realizar despúes de cada test.
+     * Las acciones a realizar después de cada test.
      * @param  FunctionalTester $I
      * @return void
      */
@@ -43,7 +43,7 @@ class {{$test}}Cest
         $I->am('admin de '.trans('{{$gen->getLangAccess()}}/views.module.name'));
         $I->wantTo('crear un registro en modulo de '.trans('{{$gen->getLangAccess()}}/views.module.name'));
         
-        // voy a la paǵina del módulo
+        // voy a la página del módulo
         $I->amOnPage(Page::$URL);
         // veo el título de la página
         $I->see(Page::$moduleName['txt'], Page::$moduleName['selector']);

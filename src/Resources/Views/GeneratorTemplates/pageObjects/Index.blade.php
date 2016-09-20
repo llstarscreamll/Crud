@@ -59,6 +59,11 @@ class {{$test}} extends Base
         $data['{{ $field->name }}'] = \{{ $field->namespace }}::find($data['{{ $field->name }}'])->name;
 @endif
 @endforeach
+        
+        // los atributos ocultos no deben mostrarse en la tabla del index
+        foreach (static::$hiddenFields as $key => $attr) {
+            if (isset($data[$attr]) === true) unset($data[$attr]);
+        }
 
         return $data;
     }

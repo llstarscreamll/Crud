@@ -162,7 +162,7 @@ class {{$gen->modelClassName()}} extends Model
     {
         $rules = [
 @foreach ( $fields as $field )
-        '{{$field->name}}' => '{!!$field->validation_rules!!}',
+            '{{$field->name}}' => '{!!$field->validation_rules!!}',
 @endforeach
         ];
 

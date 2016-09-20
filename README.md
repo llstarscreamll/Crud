@@ -1,5 +1,7 @@
 # CRUD Generator #
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cd0d64c14bab47928962763e62d025e2)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=llstarscreamll/CrudGenerator&amp;utm_campaign=Badge_Grade)
+
 CrudGenerator es un paquete de laravel para la generación de aplicaciones CRUD básicas a partir de una tabla de una base de datos, sevirá como un buen punto de partida para el gestor de una entidad o tabla en la base de datos.
 
 ## Instalación ##

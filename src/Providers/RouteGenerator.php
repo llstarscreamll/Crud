@@ -63,7 +63,7 @@ class RouteGenerator extends BaseGenerator
 
             if (preg_match($regex, $fileContent)) {
                 $fileContent = preg_replace($regex, "$1\n\t\t".$declaration, $fileContent);
-                return file_put_contents($providerFile, $fileContent)  && chmod($providerFile, 0664);
+                return file_put_contents($providerFile, $fileContent); //&& chmod($providerFile, 0664);
             }
 
             // no se encontró la linea en donde se debe añadir al Route Model Binding

@@ -24,7 +24,7 @@ class {{$test}}Cest
     }
 
     /**
-     * Pruea la funcionalidad de eliminar un modelo.
+     * Prueba la funcionalidad de eliminar un modelo.
      * @param  FunctionalTester $I
      * @return void
      */
@@ -40,7 +40,7 @@ class {{$test}}Cest
         $I->amOnPage(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id']));
         // veo el botón que abre la ventana modal para la confirmación de eliminación
         $I->see(Page::$deleteBtn['txt'], Page::$deleteBtn['selector']);
-        // doy click al botón de confirmación de ventana modal para borrar el registro
+        // doy clic al botón de confirmación de ventana modal para borrar el registro
         $I->click(Page::$deleteBtnConfirm['txt'], Page::$deleteBtnConfirm['selector']);
 
         // soy redireccionado al index y veo mensaje de confirmación

@@ -80,16 +80,16 @@ class {{$gen->controllerClassName()}} extends Controller
     {
         // los datos para la vista
         $data = array();
-
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
         $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
+
 @endif
 @endforeach
-
 @foreach($fields as $field)
 @if($field->type == 'enum')
         $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
+
 @endif
 @endforeach
 
@@ -138,6 +138,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @foreach($fields as $field)
 @if($field->type == 'enum')
         $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
+        
 @endif
 @endforeach
         return $this->view("show", $data);
