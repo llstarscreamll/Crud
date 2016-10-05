@@ -27,7 +27,7 @@
                 @include ('<?=config('llstarscreamll.CrudGenerator.config.layout-namespace')?>layout.notifications')
             </div>
 
-            <div class="panel-body">
+            <div class="box-body">
                 
                 {!! Form::open(['route' => '<?=$gen->route()?>.store', 'method' => 'POST', 'name' => 'create-<?=$gen->getDashedModelName()?>-form']) !!}
 

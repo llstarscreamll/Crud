@@ -27,7 +27,7 @@
                 @include ('<?=config('llstarscreamll.CrudGenerator.config.layout-namespace')?>layout.notifications')
             </div>
 
-            <div class="panel-body">
+            <div class="box-body">
 
                 {!! Form::model($<?=$gen->modelVariableName()?>, ['route' => ['<?=$gen->route()?>.update', $<?=$gen->modelVariableName()?>->id], 'method' => 'PUT', 'name' => 'edit-<?=$gen->getDashedModelName()?>-form']) !!}
 

@@ -27,7 +27,7 @@
                 @include ('<?=config('llstarscreamll.CrudGenerator.config.layout-namespace')?>layout.notifications')
             </div>
 
-            <div class="panel-body">
+            <div class="box-body">
 
                 {!! Form::model($<?=$gen->modelVariableName()?>, ['name' => 'show-<?=$gen->getDashedModelName()?>-form', 'data-show' => ($show = true)]) !!}
 

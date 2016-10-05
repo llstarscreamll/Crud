@@ -147,6 +147,8 @@ class {{$gen->modelClassName()}} extends Model
         // ordenamos los resultados
         $request->get('sort') and $query->orderBy($request->get('sort'), $request->get('sortType', 'asc'));
 
+        !$request->has('sort') and $query->orderBy('created_at', 'desc');
+
         // paginamos los resultados
         return $query->paginate(15);
     }

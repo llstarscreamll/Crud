@@ -35,7 +35,6 @@ class {{$test}} extends Base
 
     public function __construct(\FunctionalTester $I)
     {
-        $this->functionalTester = $I;
         parent::__construct($I);
 
         self::$title = [
