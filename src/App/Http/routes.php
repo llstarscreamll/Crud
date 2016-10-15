@@ -11,26 +11,35 @@
 |
 */
 
-Route::get(
-    'crudGenerator/',
+Route::group(
     [
-    'as'    => 'crudGenerator.index',
-    'uses'    => 'llstarscreamll\CrudGenerator\App\Http\Controllers\GeneratorController@index'
-    ]
-);
+        'prefix' => 'crudGenerator',
+        'middleware' => ['web', 'auth'],
+        'namespace' => 'llstarscreamll\CrudGenerator\App\Http\Controllers',
+    ],
+    function () {
+        Route::get(
+            '/',
+            [
+                'as' => 'crudGenerator.index',
+                'uses' => 'GeneratorController@index'
+            ]
+        );
 
-Route::post(
-    'crudGenerator/',
-    [
-    'as'    => 'crudGenerator.generate',
-    'uses'    => 'llstarscreamll\CrudGenerator\App\Http\Controllers\GeneratorController@generate'
-    ]
-);
+        Route::post(
+            '/fire',
+            [
+                'as' => 'crudGenerator.generate',
+                'uses' => 'GeneratorController@generate'
+            ]
+        );
 
-Route::get(
-    'showOptions/',
-    [
-    'as'    => 'crudGenerator.showOptions',
-    'uses'    => 'llstarscreamll\CrudGenerator\App\Http\Controllers\GeneratorController@showOptions'
-    ]
+        Route::get(
+            '/showOptions',
+            [
+                'as' => 'crudGenerator.showOptions',
+                'uses' => 'GeneratorController@showOptions'
+            ]
+        );
+    }
 );

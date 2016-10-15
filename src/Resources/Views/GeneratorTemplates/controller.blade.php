@@ -6,12 +6,12 @@
 ?>
 <?='<?php'?>
 
-namespace {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers;
+namespace {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers;
 
-use {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}};
+use {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}};
 use Illuminate\Http\Request;
-use {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Http\Requests;
-use {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers\Controller;
+use {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Http\Requests;
+use {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers\Controller;
 @foreach($foreign_keys as $foreign)
 @if(($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false)
 use {{$class}};
@@ -117,7 +117,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
-     * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
+     * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
      * @return \Illuminate\Http\Response
      */
@@ -130,7 +130,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
         $data['{{$child_table[1]}}_list'] = (${{strtolower(str_singular($parent_table[0]))}} = {{studly_case(str_singular($parent_table[0]))}}::where('id', $data['{{$gen->modelVariableName()}}']->{{$child_table[1]}})->first())
-            ? ${{strtolower(str_singular($parent_table[0]))}}->lists('name', 'id')->all()
+            ? ${{strtolower(str_singular($parent_table[0]))}}->pluck('name', 'id')->all()
             : [];
 
 @endif
@@ -150,7 +150,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
-     * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
+     * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
      * @return \Illuminate\Http\Response
      */
@@ -181,7 +181,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
-     * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
+     * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
      * @return \Illuminate\Http\Response
      */
@@ -219,7 +219,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
-     * @param \{{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
+     * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
      * @return \Illuminate\Http\Response
      */

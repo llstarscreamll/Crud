@@ -1,4 +1,4 @@
-@extends(config('llstarscreamll.CrudGenerator.config.layout'))
+@extends(config('modules.CrudGenerator.config.layout'))
 
 @section('title') Generar CRUD @stop
 
@@ -6,46 +6,37 @@
 
 @endsection
 
-@section('content')
-    
-    <div class="content-header">
-		<h1><a href="{{route('crudGenerator.index')}}">CrudGenerator</a></h1>
-	</div>
-	
-    <div class="content">
+@section('content')	
+<div class="content col-sm-6">
+    <div class="panel panel-default">
         
-        <div class="box">
-            
-            <div class="box-header">
+        <div class="panel-heading">
+            CrudGenerator
+        </div>
 
-                <div class="row">
+        <div class="panel-body">
+            @include (config('modules.CrudGenerator.config.layout-namespace').'partials.notifications')
+			
+            {!! Form::open(['route' => 'crudGenerator.showOptions', 'method' => 'GET']) !!}
+                
+                <div class="col-sm-8 col-sm-offset-2">    
+                    @include('crud::wizard.partials.create-edit-form')
 
-                </div>
-
-                @include (config('llstarscreamll.CrudGenerator.config.layout-namespace').'layout.notifications')
-
-            </div>
-
-            <div class="panel-body">
-				
-                {!! Form::open(['route' => 'crudGenerator.showOptions', 'method' => 'GET']) !!}
-                    
-                    <div class="col-md-8 col-md-offset-2">    
-                    @include('CrudGenerator::wizard.partials.create-edit-form')
                     <div class="clearfix"></div>
-                    <div class="form-group col-sm-3">
+
+                    <div class="form-group">
                         <button type="submit" class="btn btn-primary">
                             Generar
                         </button>
                     </div>
-                    </div>
+                </div>
 
-				{!! Form::close() !!}
-				
-            </div>
+			{!! Form::close() !!}
+			
         </div>
     </div>
-    
+</div>
+
 @endsection
 
 @section('script')

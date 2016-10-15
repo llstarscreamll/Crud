@@ -4,7 +4,7 @@
 /* @var $request Request */
 ?>
 
-@extends('<?=config('llstarscreamll.CrudGenerator.config.layout')?>')
+@extends('<?=config('modules.CrudGenerator.config.layout')?>')
 
 @section('title') {{trans('<?=$gen->getLangAccess()?>/views.module.name')}} @endsection
 
@@ -137,7 +137,7 @@
                     
                     </div>
 
-                    @include('<?=config('llstarscreamll.CrudGenerator.config.layout-namespace')?>layout.notifications')
+                    @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>layout.notifications')
 
                 </div>
                 
@@ -170,15 +170,15 @@
 ?>
 <?php if ($gen->hasSelectFields($fields)) { ?>
     {{-- Componente Bootstrap-Select, este componente se inicializa automáticamente --}}
-    <link href="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
+    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
 <?php } ?>
 
     {{-- Componente iCheck --}}
-    <link href="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/iCheck/square/red.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
+    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/iCheck/square/red.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
 
 <?php
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -188,7 +188,7 @@
 ?>
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
     {{-- Componente Bootbox --}}
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>bootbox/bootbox.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootbox/bootbox.js') }}" type="text/javascript"></script>
 <?php } ?>
 
 <?php
@@ -199,9 +199,9 @@
 ?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
     {{-- Componente Bootstrap DateRangePicker --}}
-    <link href="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css"/>
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/moment.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/daterangepicker.js') }}" type="text/javascript"></script>
+    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css"/>
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/moment.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/daterangepicker.js') }}" type="text/javascript"></script>
 <?php } ?>
 
     <script>
@@ -508,9 +508,9 @@
 ?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
     {{-- Componente Bootstrap DateTimePicker --}}
-    <link rel="stylesheet" href="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}"/>
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>moment/min/moment-with-locales.min.js') }}"></script>
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}"/>
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>moment/min/moment-with-locales.min.js') }}"></script>
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
 
 <?php } ?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
@@ -545,15 +545,15 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
     {{-- Componente Bootstrap 3 Editable --}}
-    <link href="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
+    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
     {{-- Dependencias de datetimepicker para componente x-editable --}}
-    <link href="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js') }}"></script>
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.es.js') }}"></script>
+    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js') }}"></script>
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.es.js') }}"></script>
 
 <?php } ?>
     <script>

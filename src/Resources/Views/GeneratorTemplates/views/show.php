@@ -3,7 +3,7 @@
 /* @var $fields [] */
 /* @var $request Request */
 ?>
-@extends('<?=config('llstarscreamll.CrudGenerator.config.layout')?>')
+@extends('<?=config('modules.CrudGenerator.config.layout')?>')
 
 @section('title') {{trans('<?=$gen->getLangAccess()?>/views.show.name').trans('<?=$gen->getLangAccess()?>/views.module.name-singular')}} @stop
 
@@ -24,7 +24,7 @@
         <div class="box">
             
             <div class="box-header">
-                @include ('<?=config('llstarscreamll.CrudGenerator.config.layout-namespace')?>layout.notifications')
+                @include ('<?=config('modules.CrudGenerator.config.layout-namespace')?>layout.notifications')
             </div>
 
             <div class="box-body">
@@ -95,9 +95,9 @@
 @section('script')
 <?php if ($gen->hasSelectFields($fields)) { ?>
     {{-- Componente Bootstrap-Select, este componente se inicializa automáticamente --}}
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/css/bootstrap-select.min.css') }}"></script>
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('resources/<?=config('llstarscreamll.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/css/bootstrap-select.min.css') }}"></script>
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
 <?php } ?>
     
     <script type="text/javascript">

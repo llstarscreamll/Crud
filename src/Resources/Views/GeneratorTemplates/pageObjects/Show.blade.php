@@ -39,7 +39,7 @@ class {{$test}} extends Base
 
         self::$title = [
             'txt'       => trans('{{$gen->getLangAccess()}}/views.show.name'),
-            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.show-title-selector')}}'
+            'selector'  => '{{config('modules.CrudGenerator.uimap.show-title-selector')}}'
         ];
     }
 

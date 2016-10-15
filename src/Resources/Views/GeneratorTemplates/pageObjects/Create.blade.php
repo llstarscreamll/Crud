@@ -63,16 +63,16 @@ class {{$test}} extends Base
     {
         self::$title = [
             'txt' => trans('{{$gen->getLangAccess()}}/views.create.name'),
-            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.title-selector')}}'
+            'selector'  => '{{config('modules.CrudGenerator.uimap.title-selector')}}'
         ];
         self::$form = 'form[name=create-{{$gen->getDashedModelName()}}-form]';
         self::$formButton = [
             'txt' => trans('{{$gen->getLangAccess()}}/views.create.form-button'),
-            'selector' => '{{config('llstarscreamll.CrudGenerator.uimap.create-form-button-selector')}}',
+            'selector' => '{{config('modules.CrudGenerator.uimap.create-form-button-selector')}}',
         ];
         self::$msgSuccess = [
             'txt' => trans('{{$gen->getLangAccess()}}/messages.create_{{$gen->snakeCaseSingular()}}_success'),
-            'selector' => '{{config('llstarscreamll.CrudGenerator.uimap.msg-success-selector')}}'
+            'selector' => '{{config('modules.CrudGenerator.uimap.msg-success-selector')}}'
         ];
     }
 }

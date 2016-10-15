@@ -51,17 +51,17 @@ class {{$test}} extends Base
 
         self::$linkToEdit = [
             'txt'       => trans('{{$gen->getLangAccess()}}/views.edit.link-access'),
-            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.edit-link-access-selector')}}'
+            'selector'  => '{{config('modules.CrudGenerator.uimap.edit-link-access-selector')}}'
         ];
 
         self::$title = [
             'txt'       => trans('{{$gen->getLangAccess()}}/views.edit.name'),
-            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.edit-title-selector')}}'
+            'selector'  => '{{config('modules.CrudGenerator.uimap.edit-title-selector')}}'
         ];
 
         self::$msgSuccess = [
             'txt'       => trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success'),
-            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.edit-message-success-selector')}}'
+            'selector'  => '{{config('modules.CrudGenerator.uimap.edit-message-success-selector')}}'
         ];
     }
 

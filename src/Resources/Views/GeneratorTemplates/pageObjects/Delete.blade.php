@@ -61,12 +61,12 @@ class {{$test}} extends Base
 
         self::$msgSuccess = [
             'txt'       => trans_choice('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_success', 1),
-            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.delete-message-success-selector')}}'
+            'selector'  => '{{config('modules.CrudGenerator.uimap.delete-message-success-selector')}}'
         ];
 
         self::$msgNoDataFount = [
             'txt'       => trans('{{$gen->getLangAccess()}}/views.index.no-records-found'),
-            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.no-data-found-selector')}}'
+            'selector'  => '{{config('modules.CrudGenerator.uimap.no-data-found-selector')}}'
         ];
     }
 }

@@ -90,7 +90,7 @@ class TestsGenerator extends BaseGenerator
         $this->msg_success[] = "composer dumpautoload exitoso: ".$command;
 
         // recorro el array de tests que debo crear
-        foreach (config('llstarscreamll.CrudGenerator.config.tests') as $test) {
+        foreach (config('modules.CrudGenerator.config.tests') as $test) {
             // genero los page objects
             if (! $this->generatePageObject($test)) {
                 $this->msg_error[] = "Ocurrió un error generando el PageObject ".$test.".";

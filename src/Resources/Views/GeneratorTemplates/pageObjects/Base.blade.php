@@ -16,11 +16,11 @@ use Page\Functional\Base as BaseTests;
 @else
 use Carbon\Carbon;
 @if($request->has('create_employees_data'))
-use {{config('llstarscreamll.CrudGenerator.config.position-model-namespace')}}Position;
-use {{config('llstarscreamll.CrudGenerator.config.sub-cost-center-model-namespace')}}SubCostCenter;
-use {{config('llstarscreamll.CrudGenerator.config.cost-center-model-namespace')}}CostCenter;
+use {{config('modules.CrudGenerator.config.position-model-namespace')}}Position;
+use {{config('modules.CrudGenerator.config.sub-cost-center-model-namespace')}}SubCostCenter;
+use {{config('modules.CrudGenerator.config.cost-center-model-namespace')}}CostCenter;
 @endif
-use {{config('llstarscreamll.CrudGenerator.config.user-model-namespace')}}User;
+use {{config('modules.CrudGenerator.config.user-model-namespace')}}User;
 @endif
 
 class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
@@ -173,7 +173,7 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
 @endif
         self::$moduleName = [
             'txt' => trans('{{$gen->getLangAccess()}}/views.module.name'),
-            'selector' => '{{config('llstarscreamll.CrudGenerator.uimap.module-title-selector')}}'
+            'selector' => '{{config('modules.CrudGenerator.uimap.module-title-selector')}}'
         ];
     }
 
@@ -210,7 +210,7 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
             )
         );
 
-        $admin_role = \{{config('llstarscreamll.CrudGenerator.config.role-model-namespace')}}Role::where('name', 'admin')->first()->id;
+        $admin_role = \{{config('modules.CrudGenerator.config.role-model-namespace')}}Role::where('name', 'admin')->first()->id;
 
         // añado rol admin al usuario
         $user->attachRole($admin_role);

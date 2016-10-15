@@ -5,7 +5,7 @@
 ?>
 <?='<?php'?>
 
-namespace {{config('llstarscreamll.CrudGenerator.config.parent-app-namespace')}}\Models;
+namespace {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models;
 
 use Illuminate\Database\Eloquent\Model;
 @if(($hasSoftDelete = $gen->hasDeletedAtColumn($fields)))

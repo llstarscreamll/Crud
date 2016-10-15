@@ -54,7 +54,7 @@ class RouteGenerator extends BaseGenerator
             return false;
         }
 
-        $declaration = "\$router->model('".$this->route()."', '".config('llstarscreamll.CrudGenerator.config.parent-app-namespace')."\\Models\\".$this->modelClassName()."');";
+        $declaration = "\$router->model('".$this->route()."', '".config('modules.CrudGenerator.config.parent-app-namespace')."\\Models\\".$this->modelClassName()."');";
         $providerFile = app_path('Providers/RouteServiceProvider.php');
         $fileContent = file_get_contents($providerFile);
 

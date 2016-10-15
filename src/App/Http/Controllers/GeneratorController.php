@@ -3,8 +3,6 @@
 namespace llstarscreamll\CrudGenerator\App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use llstarscreamll\CrudGenerator\App\Http\Controllers\Controller;
 use llstarscreamll\CrudGenerator\Providers\ModelGenerator;
 use llstarscreamll\CrudGenerator\Providers\RouteGenerator;
 use llstarscreamll\CrudGenerator\Providers\ControllerGenerator;
@@ -18,26 +16,25 @@ class GeneratorController extends Controller
      */
     public function __construct()
     {
-        // el usuario debe estar autenticado para acceder al controlador
-        $this->middleware('auth');
         // el usuario debe tener permisos para acceder al controlador
         // $this->middleware('checkPermissions', ['except' => ['store', 'update']]);
-        
-        umask(0); // para evitar problemas con los permisos de ficheros y directorios
+
+        // para evitar problemas con los permisos de ficheros y directorios
+        umask(0);
     }
 
     /**
-     * [index description]
+     * [index description].
      *
      * @return [type] [description]
      */
     public function index()
     {
-        return view('CrudGenerator::wizard.index');
+        return view('crud::wizard.index');
     }
 
     /**
-     * [generate description]
+     * [generate description].
      *
      * @return [type] [description]
      */
@@ -56,10 +53,15 @@ class GeneratorController extends Controller
         // que luego se cargará automaticamente en caso de que se repita el proceso con la
         // misma tabla.
         $this->generateOptionsArray($request);
-        
+
         // verifico que la tabla especificada existe en la base de datos
-        if (! $this->tableExists($request->get('table_name'))) {
-            return redirect()->back()->with('error', "La tabla ".$request->get('table_name')." no existe en la base de datos.");
+        if (!$this->tableExists($request->get('table_name'))) {
+            return redirect()
+                ->back()
+                ->with(
+                    'error',
+                    'La tabla '.$request->get('table_name').' no existe en la base de datos.'
+                );
         }
 
         // el generador de los archivos de modelos
@@ -73,7 +75,9 @@ class GeneratorController extends Controller
         // genero las pruebas funcionales //
         ////////////////////////////////////
         if ($testsGenerator->generate() === false) {
-            return redirect()->back()->with('error', "Ocurrió un error generando los tests funcionales.");
+            return redirect()
+                ->back()
+                ->with('error', 'Ocurrió un error generando los tests funcionales.');
         }
         // los modelos han sido generados correctamente
         $msg_success[] = 'Los tests se han generado correctamente.';
@@ -82,7 +86,9 @@ class GeneratorController extends Controller
         // genero el modelo //
         //////////////////////
         if ($modelGenerator->generate() === false) {
-            return redirect()->back()->with('error', "Ocurrió un error generando el modelo.");
+            return redirect()
+                ->back()
+                ->with('error', 'Ocurrió un error generando el modelo.');
         }
         // el modelo se generó correctamente
         $msg_success[] = 'Modelo generado correctamente.';
@@ -91,7 +97,9 @@ class GeneratorController extends Controller
         // genero el controlador //
         ///////////////////////////
         if ($controllerGenerator->generate() === false) {
-            return redirect()->back()->with('error', "Ocurrió un error generando el controlador.");
+            return redirect()
+                ->back()
+                ->with('error', 'Ocurrió un error generando el controlador.');
         }
         // el modelo se generó correctamente
         $msg_success[] = 'Controlador generado correctamente.';
@@ -121,7 +129,7 @@ class GeneratorController extends Controller
         ///////////////////////
         // genero las vistas //
         ///////////////////////
-        if (! $viewsGenerator->generate()) {
+        if (!$viewsGenerator->generate()) {
             $msg_error = array_merge($msg_error, $viewsGenerator->msg_error);
         } else {
             // el controlador se generó correctamente
@@ -136,11 +144,12 @@ class GeneratorController extends Controller
         $request->session()->flash('info', $msg_info);
         $request->session()->flash('warning', $msg_warning);
 
-        return redirect()->route('crudGenerator.showOptions', ['table_name' => $request->get('table_name')]);
+        return redirect()
+            ->route('crudGenerator.showOptions', ['table_name' => $request->get('table_name')]);
     }
 
     /**
-     * [tableExists description]
+     * [tableExists description].
      *
      * @return [type] [description]
      */
@@ -150,23 +159,24 @@ class GeneratorController extends Controller
     }
 
     /**
-     * Genera un archivo con las opciones dadas para generar una CRUD aplicación
-     * @return integer|bool
+     * Genera un archivo con las opciones dadas para generar una CRUD aplicación.
+     *
+     * @return int|bool
      */
     private function generateOptionsArray($request)
     {
         // no se ha creado la carpeta donde guardo las opciones de los CRUD generados?
-        if (! file_exists($path = base_path().'/config/llstarscreamll/CrudGenerator/generated')) {
+        if (!file_exists($path = base_path().'/config/modules/CrudGenerator/generated')) {
             // entonces la creo
             mkdir($path, 0755, true);
         }
 
-        $modelFile = $path.'/'.$request->get('table_name').".php";
-        
+        $modelFile = $path.'/'.$request->get('table_name').'.php';
+
         $content = view(
-            with(new \llstarscreamll\CrudGenerator\Providers\BaseGenerator)->templatesDir().'.options',
+            with(new \llstarscreamll\CrudGenerator\Providers\BaseGenerator())->templatesDir().'.options',
             [
-            'request' => $request->except(['_token'])
+            'request' => $request->except(['_token']),
             ]
         );
 
@@ -174,21 +184,21 @@ class GeneratorController extends Controller
     }
 
     /**
-     * [showOptions description]
+     * [showOptions description].
      *
      * @return view
      */
     public function showOptions(Request $request)
     {
         // verifico que la tabla especificada existe en la base de datos
-        if (! $this->tableExists($request->get('table_name', 'null'))) {
-            return redirect()->back()->with('error', "La tabla ".$request->get('table_name')." no existe en la base de datos.");
+        if (!$this->tableExists($request->get('table_name', 'null'))) {
+            return redirect()->back()->with('error', 'La tabla '.$request->get('table_name').' no existe en la base de datos.');
         }
 
         // si ya he trabajado con la tabla en cuestion, cargo las opciones
         // de la última ves en que se genero el CRUD para esa taba
-        if (file_exists(base_path().'/config/llstarscreamll/CrudGenerator/generated/'.$request->get('table_name').'.php')) {
-            $data['options'] = config('llstarscreamll.CrudGenerator.generated.'.$request->get('table_name'));
+        if (file_exists(base_path().'/config/modules/CrudGenerator/generated/'.$request->get('table_name').'.php')) {
+            $data['options'] = config('modules.CrudGenerator.generated.'.$request->get('table_name'));
         } else {
             $data['options'] = [];
         }
@@ -198,6 +208,6 @@ class GeneratorController extends Controller
         $data['fields'] = array_values($modelGenerator->fields($request->get('table_name')));
         $data['table_name'] = $request->get('table_name');
 
-        return view('CrudGenerator::wizard.options', $data);
+        return view('crud::wizard.options', $data);
     }
 }

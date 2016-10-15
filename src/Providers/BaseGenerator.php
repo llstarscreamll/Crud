@@ -371,7 +371,7 @@ class BaseGenerator
      */
     public function templatesDir()
     {
-        return config('llstarscreamll.CrudGenerator.config.templates');
+        return config('modules.CrudGenerator.config.templates');
     }
 
     /**

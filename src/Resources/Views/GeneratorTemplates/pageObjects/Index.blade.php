@@ -31,7 +31,7 @@ class {{$test}} extends Base
      * El selector de la tabla donde se listan los registros.
      * @var string
      */
-    static $table = '{{config('llstarscreamll.CrudGenerator.uimap.index-table-selector')}}';
+    static $table = '{{config('modules.CrudGenerator.uimap.index-table-selector')}}';
 
     public function __construct(\FunctionalTester $I)
     {
@@ -39,7 +39,7 @@ class {{$test}} extends Base
 
         self::$title = [
             'txt'       => trans('{{$gen->getLangAccess()}}/views.module.name'),
-            'selector'  => '{{config('llstarscreamll.CrudGenerator.uimap.module-title-selector')}}'
+            'selector'  => '{{config('modules.CrudGenerator.uimap.module-title-selector')}}'
         ];
     }
 

@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Este archivo es parte de llstarscreamll\CrudGenerator, aquí se muestran todas las opciones
- * de configuración del paquete.
+ * Este archivo es parte de llstarscreamll\CrudGenerator, aquí se muestran todas
+ * las opciones de configuración del paquete.
  *
  * @license MIT
  * @package llstarscreamll\CrudGenerator
@@ -15,7 +15,7 @@ return $config = [
      */
     'module-info'   =>  [
         'name'      =>  'CrudGenerator',
-        'version'   =>  '0.1',
+        'version'   =>  '2.0',
         'enabled'   =>  true,
     ],
 
@@ -50,7 +50,7 @@ return $config = [
     /*
      * El direcotrio que contiene las plantillas para generar vistas y clases.
      */
-    'templates' => 'CrudGenerator::GeneratorTemplates',
+    'templates' => 'crud::GeneratorTemplates',
 
     /**
      * Aquí indicas si quieres que el formulario decreación de registro esté incluido en el index
@@ -60,9 +60,9 @@ return $config = [
     /**
      * La plantilla que las vistas generadas extenderán
      */
-    'layout'    => 'CoreModule::app',
-    'layout-namespace'    => 'CoreModule::',
-    'core-assets-namespase' => 'CoreModule/', // no olvidar el "/" si es que hay namespace
+    'layout'    => 'core::layouts.app-sidebar',
+    'layout-namespace'    => 'core::',
+    'core-assets-namespase' => 'core/', // no olvidar el "/" si es que hay namespace
 
     // el namespace de las clases a generar
     'parent-app-namespace'  => 'App',

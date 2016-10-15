@@ -66,7 +66,7 @@ class ViewsGenerator extends BaseGenerator
         }
 
         // recorro el array de vistas que debo crear
-        foreach (config('llstarscreamll.CrudGenerator.config.views') as $view) {
+        foreach (config('modules.CrudGenerator.config.views') as $view) {
             // TODO:
             // - Crear vista separada para la tabla del index
             // - Pasar todos los strings de las vistas a variables leidas de el
@@ -154,7 +154,7 @@ class ViewsGenerator extends BaseGenerator
         }
 
         // para inputs de tipo numérico
-        if (in_array($field->type, config('llstarscreamll.CrudGenerator.config.numeric-input-types'))) {
+        if (in_array($field->type, config('modules.CrudGenerator.config.numeric-input-types'))) {
             $type = 'number';
         }
 
