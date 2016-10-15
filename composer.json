@@ -1,17 +1,31 @@
 {
     "name":    "llstarscreamll/CrudGenerator",
-    "version": "0.1",
+    "version": "2.0",
     "type":    "php-library",
     "license": "MIT",
-    "description": "Generador de aplicaciones CRUD para Laravel 5.x con un mínimos de opciones requeridas",
+    "description": "Generador de aplicaciones CRUD para Laravel 5.3",
     "authors": [
         {
             "name": "Johan Alvarez",
-            "email": "llstarscreamll@hotmail.com"
+            "email": "llstarscreamll@hotmail.com",
+            "role": "Developer"
         }
     ],
-    "require": {
-        "php": ">=5.5.9"
+    "support": {
+        "email": "llstarscreamll@hotmail.com",
+        "issues": "https://github.com/llstarscreamll/CrudGenerator/issues",
+        "source": "https://github.com/llstarscreamll/CrudGenerator"
     },
-    "require-dev": {}
+    "require": {
+        "php": ">=7",
+        "laravel/framework": "5.3.*"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "llstarscreamll\\CrudGenerator\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }
