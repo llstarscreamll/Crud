@@ -3,14 +3,15 @@
 namespace llstarscreamll\CrudGenerator\Providers;
 
 /**
-*
-*/
+ *
+ */
 class BaseGenerator
 {
     /**
      * El comodín para marcar el inicio y final de los nombres de las tablas
      * cuando se consulta cuales son las llaves foréneas que hay en toda la
      * base de datos.
+     *
      * @var string
      */
     private $query_wildcard = '#';
@@ -18,16 +19,18 @@ class BaseGenerator
     /**
      * Devuelve los campos o columnas de la tabla especificada.
      *
-     * @param  string $table El nombre de la tabla en la base de datos.
+     * @param string $table El nombre de la tabla en la base de datos.
+     *
      * @return array
      */
     public static function fields($table)
     {
-        $columns = \DB::select('desc '.config('database.connections.mysql.prefix').$table);
+        $prefix = config(str_replace(':conection', env('DB_CONNECTION'), 'database.connections.:conection.prefix'));
+        $columns = \DB::select('desc '.$prefix.$table);
         $tableFields = array(); // el valor a devolver
 
         foreach ($columns as $column) {
-            $column = (array)$column;
+            $column = (array) $column;
             $field = new \stdClass();
             $field->name = $column['Field'];
             $field->defValue = $column['Default'];
@@ -37,12 +40,12 @@ class BaseGenerator
             // longitud del campo
             $field->maxLength = 0;// get field and type from $res['Type']
             // el tipo del campo
-            $type_length = explode("(", $column['Type']);
+            $type_length = explode('(', $column['Type']);
             $field->type = $type_length[0];
 
             if (count($type_length) > 1) { // en ocaciones no hay "("
 
-                $field->maxLength = (int)$type_length[1];
+                $field->maxLength = (int) $type_length[1];
 
                 if ($field->type == 'enum') { // enum tiene valores como 'Masculino','Femenino')
 
@@ -51,7 +54,7 @@ class BaseGenerator
                     $matches = explode("'", $type_length[1]);
 
                     foreach ($matches as $match) {
-                        if ($match && $match != "," && $match != ")") {
+                        if ($match && $match != ',' && $match != ')') {
                             $field->enumValues[] = $match;
                         }
                     }
@@ -68,7 +71,8 @@ class BaseGenerator
     /**
      * Devuelve los campos de la entidad con datos mas específicos sobre cada una.
      *
-     * @param  Request $request
+     * @param Request $request
+     *
      * @return array
      */
     public function advanceFields($request)
@@ -105,7 +109,8 @@ class BaseGenerator
      * Devuelve array con los campos que son feraneos (foreign key) de la tabla en questión
      * y a que tabla apunta la llave foranea.
      *
-     * @param  string $tableName El nombre de la tabla.
+     * @param string $tableName El nombre de la tabla.
+     *
      * @return array
      */
     public function getForeignKeys($tableName)
@@ -122,12 +127,11 @@ class BaseGenerator
         );
 
         $data = [];
-        
+
         $prefix = config('database.connections.'.env('DB_CONNECTION', 'mysql').'.prefix');
-        $full_table_name = "";
+        $full_table_name = '';
 
         foreach ($results as $key => $result) {
-
             $full_table_name = $this->query_wildcard;
             $full_table_name .= $prefix;
             $full_table_name .= $tableName;
@@ -136,7 +140,6 @@ class BaseGenerator
             if (strpos($result->foreign_key, $full_table_name) !== false) {
                 $data[] = $this->cleanTablePrefix($result);
             }
-
         }
 
         return $data;
@@ -145,32 +148,31 @@ class BaseGenerator
     /**
      * Limpia el prefijo de los nombres de las tablas de la base de datos, se espera el resultado de la consulta
      * ejecutada en la función getForeignKeys($tableName), así que para el array:
-     * ["foreign_key": "#prefix_table_employee_session#.employee_id", "references": "prefix_table_employees.id"]
+     * ["foreign_key": "#prefix_table_employee_session#.employee_id", "references": "prefix_table_employees.id"].
      *
      * Se debe devolver lo siguiente:
      * ["foreign_key": "employee_session.employee_id", "references": "employees.id"]
+     *
      * @param  array
+     *
      * @return array
      */
     public function cleanTablePrefix($data)
     {
+        // TODO: y que pasa si no se ha configurado prefijos para las tablas?
         $prefix = config('database.connections.'.env('DB_CONNECTION', 'mysql').'.prefix');
         $data_clean = new \stdClass();
 
         foreach ($data as $key => $item) {
-            
             // realizamos la limpieza de las tablas
             if (strpos($item, $prefix) !== false) {
-
                 // quitamos el prefijo de la base de datos
                 $str = str_replace($prefix, '', $item);
                 // quitamos los comodines que delimitan el nombre de la tabla
                 $data_clean->{$key} = str_replace($this->query_wildcard, '', $str);
-                
             } else {
                 $data_clean->{$key} = $item;
             }
-
         }
 
         return $data_clean;
@@ -179,14 +181,16 @@ class BaseGenerator
     /**
      * Obtiene string con la clase con el namespace digitado por el usuario de un campo con
      * una llave foránea.
-     * @param  array    $foreign
-     * @param  stdClass $fields
+     *
+     * @param array    $foreign
+     * @param stdClass $fields
+     *
      * @return string|bool
      */
     public function getForeignKeyModelNamespace($foreign, $fields)
     {
         foreach ($fields as $key => $field) {
-            if ($field->name == explode(".", $foreign->foreign_key)[1]) {
+            if ($field->name == explode('.', $foreign->foreign_key)[1]) {
                 return $field->namespace;
             }
         }
@@ -201,13 +205,14 @@ class BaseGenerator
      */
     public function skippedFields()
     {
-        return ['id','created_at','updated_at', 'deleted_at'];
+        return ['id', 'created_at', 'updated_at', 'deleted_at'];
     }
 
     /**
      * Verifica si el campo dado está dentro de los campos a omitir.
      *
-     * @param  string $fieldName
+     * @param string $fieldName
+     *
      * @return bool
      */
     public function isGuarded($fieldName)
@@ -218,8 +223,9 @@ class BaseGenerator
     /**
      * Revisa si está presente la columna 'deleted_at' en los campos dados en el parámetro.
      *
-     * @param  stdClass $fields
-     * @return boolean
+     * @param stdClass $fields
+     *
+     * @return bool
      */
     public function hasDeletedAtColumn($fields)
     {
@@ -235,8 +241,9 @@ class BaseGenerator
     /**
      * Revisa si hay algún campo de tipo 'tinyint' en los campos dados en el parámetro.
      *
-     * @param  stdClass $fields
-     * @return boolean
+     * @param stdClass $fields
+     *
+     * @return bool
      */
     public function hasTinyintTypeField($fields)
     {
@@ -252,14 +259,14 @@ class BaseGenerator
     /**
      * Devuelve string con el prefijo de nombre de ruta para la app, por ejemplo:
      * - books = book
-     * - book_author = book-author
+     * - book_author = book-author.
      *
      * @return string
      */
     public function route()
     {
         //return str_slug(str_replace("_", " ", str_singular($this->table_name)));
-        return str_slug(str_replace("_", " ", $this->table_name));
+        return str_slug(str_replace('_', ' ', $this->table_name));
     }
 
     /**
@@ -269,7 +276,7 @@ class BaseGenerator
      */
     public function controllerClassName()
     {
-        return studly_case(str_singular($this->table_name))."Controller";
+        return studly_case(str_singular($this->table_name)).'Controller';
     }
 
     /**
@@ -350,7 +357,7 @@ class BaseGenerator
      */
     public function titleSingular()
     {
-        return ucwords(str_singular(str_replace("_", " ", $this->table_name)));
+        return ucwords(str_singular(str_replace('_', ' ', $this->table_name)));
     }
 
     /**
@@ -361,7 +368,7 @@ class BaseGenerator
      */
     public function titlePlural()
     {
-        return ucwords(str_replace("_", " ", $this->table_name));
+        return ucwords(str_replace('_', ' ', $this->table_name));
     }
 
     /**
@@ -381,7 +388,7 @@ class BaseGenerator
      */
     public function camelCasePlural()
     {
-        return camel_case(str_replace("_", " ", str_plural($this->table_name)));
+        return camel_case(str_replace('_', ' ', str_plural($this->table_name)));
     }
 
     /**
@@ -421,31 +428,34 @@ class BaseGenerator
      */
     public function getDashedModelName()
     {
-        return lcfirst(str_replace("_", "-", $this->table_name));
+        return lcfirst(str_replace('_', '-', $this->table_name));
     }
 
     /**
      * Devuelve el nombre para un campo de formulario modificando el string dado en el parámetro
      * para las validaciones, así:
-     * parametro = 'El nombre', devolverá  'Nombre'
+     * parametro = 'El nombre', devolverá  'Nombre'.
      *
      * @param  $label
+     *
      * @return string
      */
     public function getFormFieldName($label)
     {
-        $string = ucwords(str_replace("el ", "", strtolower($label)));
-        $string = ucwords(str_replace("los ", "", strtolower($string)));
-        $string = ucwords(str_replace("la ", "", strtolower($string)));
-        $string = ucwords(str_replace("las ", "", strtolower($string)));
+        $string = ucwords(str_replace('el ', '', strtolower($label)));
+        $string = ucwords(str_replace('los ', '', strtolower($string)));
+        $string = ucwords(str_replace('la ', '', strtolower($string)));
+        $string = ucwords(str_replace('las ', '', strtolower($string)));
 
         return $string;
     }
 
     /**
-     * Revisa si hay algún campo de tipo "date" en $fields
-     * @param  stdClass  $fields
-     * @return boolean
+     * Revisa si hay algún campo de tipo "date" en $fields.
+     *
+     * @param stdClass $fields
+     *
+     * @return bool
      */
     public function hasDateFields($fields)
     {
@@ -459,9 +469,11 @@ class BaseGenerator
     }
 
     /**
-     * Revisa si hay algún campo de tipo "datetime" en $fields
-     * @param  stdClass  $fields
-     * @return boolean
+     * Revisa si hay algún campo de tipo "datetime" en $fields.
+     *
+     * @param stdClass $fields
+     *
+     * @return bool
      */
     public function hasDateTimeFields($fields)
     {
@@ -476,8 +488,10 @@ class BaseGenerator
 
     /**
      * Revisa si hay campos de tipo select con base a el objeto $fields dado.
-     * @param  stdClass  $fields
-     * @return boolean
+     *
+     * @param stdClass $fields
+     *
+     * @return bool
      */
     public function hasSelectFields($fields)
     {
@@ -495,8 +509,10 @@ class BaseGenerator
      * del nombre del campo que tiene es llave foránea y teniendo en cuenta
      * el tipo de relación, por ejemplo:
      * relation_id = relation|relations
-     * deleted_by = deletedBy
-     * @param  stdClass $field
+     * deleted_by = deletedBy.
+     *
+     * @param stdClass $field
+     *
      * @return string
      */
     public function getFunctionNameRelationFromField($field)
@@ -520,13 +536,15 @@ class BaseGenerator
      * Obtiene el nombre de la función para la relación del modelo a partir
      * del namespace de la clase con la que se va a relacionar y dependiendo
      * también del tipo de relación, por ejemplo:
-     * App\Models\Relations = relation || relations
-     * @param  stdClass $field
+     * App\Models\Relations = relation || relations.
+     *
+     * @param stdClass $field
+     *
      * @return string
      */
     public function getFunctionNameRelationFromNamespace($field)
     {
-        $function = camel_case(substr($field->namespace, (strrpos($field->namespace, '\\')+1)));
+        $function = camel_case(substr($field->namespace, (strrpos($field->namespace, '\\') + 1)));
 
         // nombre en singular
         if (in_array($function, ['belongsTo', 'hasOne'])) {
@@ -543,18 +561,21 @@ class BaseGenerator
 
     /**
      * Devuelve string con el nombre de la clase sin el namespace.
-     * @param  stdClass $field
+     *
+     * @param stdClass $field
+     *
      * @return string
      */
     public function getRelationClassFromNamespace($field)
     {
-        return substr($field->namespace, (strrpos($field->namespace, '\\')+1));
+        return substr($field->namespace, (strrpos($field->namespace, '\\') + 1));
     }
 
     /**
      * Obtiene el nombre de la clase que hace de seeder de un tabla con base al namespace
      * de un modelo, por ejemplo:
-     * App\Models\User = UsersTableSeeder
+     * App\Models\User = UsersTableSeeder.
+     *
      * @return string
      */
     public function getTableSeederClassName($field)
@@ -564,8 +585,10 @@ class BaseGenerator
 
     /**
      * Determina si un campo es obligatorio o no según las reglas de validación dadas en el mismo.
-     * @param  stdClass  $field
-     * @return boolean
+     *
+     * @param stdClass $field
+     *
+     * @return bool
      */
     public function isTheFieldRequired($field)
     {

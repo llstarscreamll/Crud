@@ -8,6 +8,7 @@ use llstarscreamll\CrudGenerator\Providers\RouteGenerator;
 use llstarscreamll\CrudGenerator\Providers\ControllerGenerator;
 use llstarscreamll\CrudGenerator\Providers\ViewsGenerator;
 use llstarscreamll\CrudGenerator\Providers\TestsGenerator;
+use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
 
 class GeneratorController extends Controller
 {
@@ -174,7 +175,7 @@ class GeneratorController extends Controller
         $modelFile = $path.'/'.$request->get('table_name').'.php';
 
         $content = view(
-            with(new \llstarscreamll\CrudGenerator\Providers\BaseGenerator())->templatesDir().'.options',
+            with(new BaseGenerator())->templatesDir().'.options',
             [
             'request' => $request->except(['_token']),
             ]
@@ -192,6 +193,7 @@ class GeneratorController extends Controller
     {
         // verifico que la tabla especificada existe en la base de datos
         if (!$this->tableExists($request->get('table_name', 'null'))) {
+            dd('WTF', $table = $request->get('table_name'), \Schema::hasTable($table), \DB::select('show tables'));
             return redirect()->back()->with('error', 'La tabla '.$request->get('table_name').' no existe en la base de datos.');
         }
 

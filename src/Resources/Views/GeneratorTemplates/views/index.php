@@ -137,7 +137,7 @@
                     
                     </div>
 
-                    @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>layout.notifications')
+                    @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>partials.notifications')
 
                 </div>
                 

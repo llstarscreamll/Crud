@@ -27,6 +27,9 @@ class CrudGeneratorServiceProvider extends ServiceProvider
     {
         // carga las vistas
         $this->loadViewsFrom(__DIR__.'/../Resources/Views', 'crud');
+
+        // cargamos las migraciones del paquete
+        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
     }
 
     /**

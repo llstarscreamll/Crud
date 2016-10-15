@@ -49,7 +49,7 @@ class {{$gen->controllerClassName()}} extends Controller
 
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
-        $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
+        $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::pluck('name', 'id')->all();
         $data['{{$child_table[1]}}_list_json'] = collect($data['{{$child_table[1]}}_list'])
             ->map(function ($item, $key) { return [$key => $item];})
             ->values()
@@ -82,7 +82,7 @@ class {{$gen->controllerClassName()}} extends Controller
         $data = array();
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
-        $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
+        $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::pluck('name', 'id')->all();
 
 @endif
 @endforeach
@@ -162,7 +162,7 @@ class {{$gen->controllerClassName()}} extends Controller
 
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
-        $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::lists('name', 'id')->all();
+        $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::pluck('name', 'id')->all();
 
 @endif
 @endforeach

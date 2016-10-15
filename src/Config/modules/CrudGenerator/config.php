@@ -19,10 +19,10 @@ return $config = [
         'enabled'   =>  true,
     ],
 
-    'position-model-namespace' => 'llstarscreamll\CoreModule\app\Models\\',
-    'sub-cost-center-model-namespace' => 'llstarscreamll\CoreModule\app\Models\\',
-    'cost-center-model-namespace' => 'llstarscreamll\CoreModule\app\Models\\',
-    'user-model-namespace' => 'llstarscreamll\CoreModule\app\Models\\',
+    'position-model-namespace' => 'llstarscreamll\Core\src\Models\\',
+    'sub-cost-center-model-namespace' => 'llstarscreamll\Core\src\Models\\',
+    'cost-center-model-namespace' => 'llstarscreamll\Core\src\Models\\',
+    'user-model-namespace' => 'llstarscreamll\Core\src\Models\\',
 
     /*
      * Las vistas que serán generadas.

@@ -98,7 +98,7 @@ class RouteGenerator extends BaseGenerator
         }
 
         // el fichero de las rutas
-        $routesFile = app_path('Http/routes.php');
+        $routesFile = base_path('routes/web.php');
         // obtengo el contenido del fichero de rutas
         $routesFileContent = file_get_contents($routesFile);
 
