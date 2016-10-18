@@ -2,10 +2,60 @@
 
 namespace llstarscreamll\CrudGenerator\Providers;
 
+use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
 class CrudGeneratorServiceProvider extends ServiceProvider
 {
+    /**
+     * La versión del paquete.
+     *
+     * @var string
+     */
+    const CRUD_VERSION = "2.0";
+
+    /**
+     * The policy mappings for the application.
+     *
+     * @var array
+     */
+    protected $policies = [];
+
+    /**
+     * Package Service Providers.
+     *
+     * @var array
+     */
+    protected $providers = [];
+
+    /**
+     * Package Aliases.
+     *
+     * @var array
+     */
+    protected $aliases = [];
+
+    /**
+     * Package Services.
+     *
+     * @var array
+     */
+    protected $services = [];
+
+    /**
+     * Package interfaces implementations.
+     *
+     * @var array
+     */
+    protected $interfacesImplementations = [];
+
+    /**
+     * Package Middlewares.
+     *
+     * @var array
+     */
+    protected $middleware = [];
+
     /**
      * Bootstrap the application services.
      */
@@ -56,5 +106,45 @@ class CrudGeneratorServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // constante para el tema de la aplicación
+        if (!defined('THEME')) {
+            define('THEME', config('modules.core.config.theme'));
+        }
+
+        // constante para dirección de instalación del paquete
+        if (!defined('CORE_PATH')) {
+            define('CORE_PATH', realpath(__DIR__.'/../../'));
+        }
+
+        // constante para dirección de instalación del paquete
+        if (!defined('CORE_VERSION')) {
+            define('CORE_VERSION', static::CORE_VERSION);
+        }
+
+        // registramos los servicios
+        foreach ($this->services as $key => $value) {
+            $this->app->bindIf($key, $value);
+        }
+
+        // registramos las implementaciones de los contratos de paquete
+        foreach ($this->interfacesImplementations as $interface => $implementation) {
+            $this->app->bind($interface, $implementation);
+        }
+
+        // registramos los service providers
+        foreach ($this->providers as $key => $value) {
+            $this->app->register($value);
+        }
+
+        // registramos los alias
+        $loader = AliasLoader::getInstance();
+        foreach ($this->aliases as $key => $alias) {
+            $loader->alias($key, $alias);
+        }
+
+        // registramos los middleware
+        foreach ($this->middleware as $key => $value) {
+            $this->app['router']->middleware($key, $value);
+        }
     }
 }
