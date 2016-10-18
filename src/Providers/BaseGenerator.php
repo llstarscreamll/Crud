@@ -161,6 +161,13 @@ class BaseGenerator
     {
         // TODO: y que pasa si no se ha configurado prefijos para las tablas?
         $prefix = config('database.connections.'.env('DB_CONNECTION', 'mysql').'.prefix');
+
+        // si ningún prefijo hay para las tablas, pongo uno sólo porque no haya
+        // problemas dentro del ciclo en la función str_replace()
+        if (empty($prefix)) {
+            $prefix = "!!!";
+        }
+
         $data_clean = new \stdClass();
 
         foreach ($data as $key => $item) {

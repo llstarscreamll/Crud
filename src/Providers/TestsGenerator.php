@@ -87,6 +87,7 @@ class TestsGenerator extends BaseGenerator
             $this->msg_error[] = "Ocurrió un error ejecutando composer dumpautoload.";
             return false;
         }
+
         $this->msg_success[] = "composer dumpautoload exitoso: ".$command;
 
         // recorro el array de tests que debo crear
@@ -186,7 +187,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        return file_put_contents($pageObjectFile, $content) && chmod($pageObjectFile, 0664);
+        return file_put_contents($pageObjectFile, $content);
     }
 
     /**
@@ -208,7 +209,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        return file_put_contents($testFile, $content) && chmod($testFile, 0664);
+        return file_put_contents($testFile, $content);
     }
 
     /**
@@ -230,7 +231,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 0664) === false) {
+        if (file_put_contents($langFile, $content) === false) {
             return false;
         }
 
@@ -246,7 +247,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 0664) === false) {
+        if (file_put_contents($langFile, $content) === false) {
             return false;
         }
 
@@ -262,7 +263,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($langFile, $content) === false && chmod($controllerFile, 0664) === false) {
+        if (file_put_contents($langFile, $content) === false) {
             return false;
         }
 
@@ -287,7 +288,7 @@ class TestsGenerator extends BaseGenerator
             ]
         );
 
-        if (file_put_contents($seederFile, $content) === false && chmod($controllerFile, 0664) === false) {
+        if (file_put_contents($seederFile, $content) === false) {
             return false;
         }
 
