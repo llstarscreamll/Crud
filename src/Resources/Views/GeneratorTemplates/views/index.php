@@ -8,22 +8,19 @@
 
 @section('title') {{trans('<?=$gen->getLangAccess()?>/views.module.name')}} @endsection
 
-@section('style')
+@section('styles')
 @endsection
 
 @section('content')
-    
-    <section class="content-header">
-        <h1>
-            <a href="{{route('<?=$gen->route()?>.index')}}">{{trans('<?=$gen->getLangAccess()?>/views.module.name')}}</a>
-        </h1>
-    </section>
-
     <section class="content">
     
-        <div class="box">
+        <div class="panel panel-default">
             
-            <div class="box-header">
+            <div class="panel-heading">
+                <a href="{{route('<?=$gen->route()?>.index')}}">{{trans('<?=$gen->getLangAccess()?>/views.module.name')}}</a>
+            </div>
+
+            <div class="panel-body">
                 
                 <div class="row tools">
 
@@ -37,7 +34,7 @@
                     @if (Request::get('trashed_records') != 'onlyTrashed')
 
                     {{-- Formulario para borrar resgistros masivamente --}}
-                    {!! Form::open(['route' => ['<?=$gen->route()?>.destroy'], 'method' => 'DELETE', 'id' => 'deleteMassivelyForm', 'class' => 'form-inline display-inline']) !!}
+                    {!! Form::open(['route' => ['<?=$gen->route()?>.destroy', 0], 'method' => 'DELETE', 'id' => 'deleteMassivelyForm', 'class' => 'form-inline display-inline']) !!}
                         
                         {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para "eliminar" varios registro a la vez --}}
                         <button title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-massively-button-label')}}"
@@ -56,7 +53,7 @@
                                 onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>/views.index.delete-massively-confirm-message')}}')"
 <?php } ?>
                                 type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>">
-                            <span class="fa fa-trash"></span>
+                            <span class="glyphicon glyphicon-trash"></span>
                             <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-massively-button-label')}}</span>
                         </button>
                     
@@ -140,10 +137,6 @@
                     @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>partials.notifications')
 
                 </div>
-                
-            </div>
-            
-            <div class="box-body">
 
                 {{-- La tabla de datos --}}
                 @include('<?=$gen->viewsDirName()?>.partials.index-table')
@@ -161,7 +154,7 @@
 ?>
 @endsection
 
-@section('script')
+@section('scripts')
 
 <?php
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -170,15 +163,15 @@
 ?>
 <?php if ($gen->hasSelectFields($fields)) { ?>
     {{-- Componente Bootstrap-Select, este componente se inicializa automáticamente --}}
-    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
-    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
+    <link href="{{ asset('plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('plugins/bootstrap-select/dist/js/i18n/defaults-es_CL.min.js') }}"></script>
 <?php } ?>
 
     {{-- Componente iCheck --}}
-    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/iCheck/square/blue.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/iCheck/square/red.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/iCheck/icheck.min.js') }}" type="text/javascript"></script>
+    <link href="{{ asset('plugins/icheck2/square/blue.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('plugins/icheck2/square/red.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('plugins/icheck2/icheck.min.js') }}" type="text/javascript"></script>
 
 <?php
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -188,7 +181,7 @@
 ?>
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
     {{-- Componente Bootbox --}}
-    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootbox/bootbox.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('plugins/bootbox/bootbox.js') }}" type="text/javascript"></script>
 <?php } ?>
 
 <?php
@@ -199,9 +192,9 @@
 ?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
     {{-- Componente Bootstrap DateRangePicker --}}
-    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css"/>
-    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/moment.min.js') }}" type="text/javascript"></script>
-    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>admin-lte/plugins/daterangepicker/daterangepicker.js') }}" type="text/javascript"></script>
+    <link href="{{ asset('plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css"/>
+    <script src="{{ asset('plugins/moment/min/moment.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('plugins/bootstrap-daterangepicker/daterangepicker.js') }}" type="text/javascript"></script>
 <?php } ?>
 
     <script>
@@ -489,11 +482,11 @@
         $(".bootstrap_switch").bootstrapSwitch();
 
         {{-- Inicializa el componente iCheck --}}
-        $('.icheckbox_square-blue').iCheck({
+        $('.icheckbox_square-blue').icheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue'
         });
-        $('.icheckbox_square-red').iCheck({
+        $('.icheckbox_square-red').icheck({
             checkboxClass: 'icheckbox_square-red',
             radioClass: 'iradio_square-red'
         });
@@ -508,9 +501,9 @@
 ?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
     {{-- Componente Bootstrap DateTimePicker --}}
-    <link rel="stylesheet" href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}"/>
-    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>moment/min/moment-with-locales.min.js') }}"></script>
-    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('plugins/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}"/>
+    <script src="{{ asset('plugins/moment/min/moment-with-locales.min.js') }}"></script>
+    <script src="{{ asset('plugins/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
 
 <?php } ?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
@@ -545,15 +538,15 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
     {{-- Componente Bootstrap 3 Editable --}}
-    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
+    <link href="{{ asset('plugins/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('plugins/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js') }}"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
     {{-- Dependencias de datetimepicker para componente x-editable --}}
-    <link href="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" />
-    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js') }}"></script>
-    <script src="{{ asset('resources/<?=config('modules.CrudGenerator.config.core-assets-namespase')?>bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.es.js') }}"></script>
+    <link href="{{ asset('plugins/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ asset('plugins/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js') }}"></script>
+    <script src="{{ asset('plugins/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.es.js') }}"></script>
 
 <?php } ?>
     <script>
