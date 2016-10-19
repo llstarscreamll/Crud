@@ -1,6 +1,6 @@
 <?php
 
-namespace llstarscreamll\CrudGenerator\App\Sidebar;
+namespace llstarscreamll\CrudGenerator\Sidebar;
 
 use Maatwebsite\Sidebar\Badge;
 use Maatwebsite\Sidebar\Group;
@@ -28,8 +28,6 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
                         $item->authorize(
                             // TODO:
                             // - Crear seed con permisos para este módulo
-                    
-                            //\Auth::user()->can('imageGallery.index')
                             true
                         );
                     }
