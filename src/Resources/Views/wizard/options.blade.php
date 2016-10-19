@@ -78,9 +78,9 @@
     <link href="{{ asset('plugins/icheck2/square/blue.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('plugins/icheck2/square/red.css') }}" rel="stylesheet" type="text/css" />
     {{-- BootstrapSwitch --}}
-    {{--
+    @if(env('APP_THEME', '') !== "Limitless")
     <link href="{{ asset('plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css') }}" rel="stylesheet" type="text/css" />
-    --}}
+    @endif
     <script src="{{ asset('plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
 
     <script type="text/javascript">

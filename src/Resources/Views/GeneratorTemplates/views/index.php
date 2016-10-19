@@ -199,6 +199,16 @@
 
     <script>
 
+        {{-- Inicializa el componente iCheck --}}
+        $('.icheckbox_square-blue').icheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue'
+        });
+        $('.icheckbox_square-red').icheck({
+            checkboxClass: 'icheckbox_square-red',
+            radioClass: 'iradio_square-red'
+        });
+
 <?php
 /////////////////////////////////////////////////////////////////////////////////////
 // lineas para mejorar el comportamiento de selección de los elementos de la tabla //
@@ -480,16 +490,6 @@
 <?php if ($gen->hasTinyintTypeField($fields)) { ?>
         {{-- Inicializa el componente BootstrapSwitch --}}
         $(".bootstrap_switch").bootstrapSwitch();
-
-        {{-- Inicializa el componente iCheck --}}
-        $('.icheckbox_square-blue').icheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue'
-        });
-        $('.icheckbox_square-red').icheck({
-            checkboxClass: 'icheckbox_square-red',
-            radioClass: 'iradio_square-red'
-        });
 
 <?php } ?>
     </script>

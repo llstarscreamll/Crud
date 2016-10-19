@@ -63,7 +63,7 @@ class CrudGeneratorServiceProvider extends ServiceProvider
     {
         // registramos las rutas
         if (!$this->app->routesAreCached()) {
-            include __DIR__.'/../App/Http/routes.php';
+            include __DIR__.'/../Routes/web.php';
         }
 
         $this->loadResources();
