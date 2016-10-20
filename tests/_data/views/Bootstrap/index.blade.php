@@ -78,7 +78,7 @@
                         {{--*******************************************************************************************************************************
                             Descomentar este bloque y comentar el bloque siguiente si se desea que el formulario de creación SI quede en la vista del index
                             *******************************************************************************************************************************--}}
-                        <div class="display-inline-block" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('book/views.index.create-button-label')}}">
+                        <div class="display-inline" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('book/views.index.create-button-label')}}">
                             <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#create-form-modal">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 <span class="sr-only">{{trans('book/views.index.create-button-label')}}</span>

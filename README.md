@@ -34,7 +34,8 @@ Añadir el service provider en `config/app.php`:
 Publicar configuraciones, vistas, etc..
 
 ```bash
-php artisan publish --vendor=llstarscreamll\CrudGenerator\Providers\CrudGeneratorServiceProvider
+php artisan vendor:publish --provider="llstarscreamll\CrudGenerator\Providers\CrudGeneratorServiceProvider" --force
+
 ```
 
 Presta mucha atención a los archivos de configuración publicados en la carpeta `config/llstarscreamll/CrudGenerator`, da valores a las variables que allí hay acorde a las necesidades.
@@ -133,7 +134,7 @@ class Product extends Model
 
     /**
      * Devuelve un "nombre personalizado" del modelo.
-     * 
+     *
      * @return string
      */
     public function getCustomNameAttribute()
@@ -243,7 +244,7 @@ class Product extends Model
 
 ### Controladores ###
 
-Los controladores tienen en el constructor los middlewares de acceso al recurso, comprobando que el usuario esté logeado y que tenga los permisos necesarios para acceder a la ruta que indicada, los middleware son `auth` y 
+Los controladores tienen en el constructor los middlewares de acceso al recurso, comprobando que el usuario esté logeado y que tenga los permisos necesarios para acceder a la ruta que indicada, los middleware son `auth` y
 `checkPermissions`, si no se cuenta con un sistema ACL puede borrar la línea del segundo middleware. El controlador tiene los métodos comunes, pero si se ha detectado que la entidad tiene la columna `deleted_at`, entonces será añadido otro método para restablecer los registros que estén "en la papelera". Aquí un ejemplo de un controlador generado para una entidad Producto:
 
 ```php

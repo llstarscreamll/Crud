@@ -14,6 +14,7 @@ class Generate
      * @var array
      */
     public static $formData = [
+        'UI_theme' => 'Bootstrap',
         'table_name' => 'books',
         'use_faker' => false,
         'use_base_class' => false,
@@ -78,7 +79,7 @@ class Generate
         'field[2][label]' => 'El nombre',
         'field[2][testData]' => '"Cien Años de Soledad"',
         'field[2][testDataUpdate]' => '"El Coronel No Tiene Quien Le Escriba"',
-        'field[2][validation_rules]' => 'required|alpha_spaces',
+        'field[2][validation_rules]' => 'required|string',
 
         // para la columna author
         'field[3][name]' => 'author',
@@ -96,7 +97,7 @@ class Generate
         'field[3][label]' => 'El autor',
         'field[3][testData]' => '"Gabo Marquez"',
         'field[3][testDataUpdate]' => '"Gabriel García Márquez"',
-        'field[3][validation_rules]' => 'required|alpha_spaces',
+        'field[3][validation_rules]' => 'required|string',
 
         // para la columna genre
         'field[4][name]' => 'genre',
@@ -114,7 +115,7 @@ class Generate
         'field[4][label]' => 'El género',
         'field[4][testData]' => '"Ficción"',
         'field[4][testDataUpdate]' => '"Thriller"',
-        'field[4][validation_rules]' => 'required|alpha_spaces',
+        'field[4][validation_rules]' => 'required|string',
 
         // para la columna stars
         'field[5][name]' => 'stars',
@@ -222,7 +223,7 @@ class Generate
         'field[10][label]' => 'La sinopsis',
         'field[10][testData]' => '"Esta es una prueba de sinopsis..."',
         'field[10][testDataUpdate]' => '"Esta es una prueba de actualización de sinopsis..."',
-        'field[10][validation_rules]' => 'text',
+        'field[10][validation_rules]' => 'string',
 
         // para la columna approved_at
         'field[11][name]' => 'approved_at',

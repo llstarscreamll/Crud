@@ -69,13 +69,11 @@ class ViewsGenerator extends BaseGenerator
         foreach (config('modules.CrudGenerator.config.views') as $view) {
             // TODO:
             // - Crear vista separada para la tabla del index
-            // - Pasar todos los strings de las vistas a variables leidas de el
-            //   archivo de idioma del paquete
 
             $viewFile = $this->viewsDir()."/".$view.".blade.php";
 
             $content = view(
-                $this->templatesDir().'.views.'.$view,
+                $this->templatesDir().'.views.'.$this->request->get('UI_theme').'.'.$view,
                 [
                 'gen' => $this,
                 'fields' => $this->advanceFields($this->request),

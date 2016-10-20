@@ -15,19 +15,19 @@ return $config = [
      */
     'module-info'   =>  [
         'name'      =>  'CrudGenerator',
-        'version'   =>  '2.0',
-        'enabled'   =>  true,
     ],
 
-    'position-model-namespace' => 'llstarscreamll\Core\src\Models\\',
-    'sub-cost-center-model-namespace' => 'llstarscreamll\Core\src\Models\\',
-    'cost-center-model-namespace' => 'llstarscreamll\Core\src\Models\\',
-    'user-model-namespace' => 'llstarscreamll\Core\src\Models\\',
+    'supported_ui_themes' => ['Bootstrap', 'Inspinia'],
 
     /*
      * Las vistas que serán generadas.
      */
     'views' => [
+        'partials/form-scripts',
+        'partials/form-assets',
+        'partials/heading',
+        'partials/index-assets',
+        'partials/index-buttons',
         'partials/form-fields',
         'partials/hidden-form-fields',
         'partials/index-create-form',
