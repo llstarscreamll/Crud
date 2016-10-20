@@ -1,5 +1,5 @@
 <?php
-namespace CRUD;
+namespace CrudGenerator;
 
 use CrudGenerator\FunctionalTester;
 use CrudGenerator\Page\Functional\Generate as Page;
@@ -10,6 +10,15 @@ class GenerateRoutesCest
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
+
+        $I->am('Developer');
+        $I->wantTo('revisar las lineas de codigo del controlador');
+
+        $I->amOnPage(Page::route('?table_name='.Page::$tableName));
+        $I->see(Page::$title, Page::$titleElem);
+
+        // envío el formulario de creación del CRUD
+        $I->submitForm('form[name=CRUD-form]', Page::$formData);
     }
 
     public function _after(FunctionalTester $I)
@@ -23,23 +32,10 @@ class GenerateRoutesCest
      */
     public function checkRoutesCode(FunctionalTester $I)
     {
-        $I->am('Developer');
-        $I->wantTo('revisar las lineas de codigo del controlador');
+        $I->wantTo('comprobar las rutas generadas');
 
-        $I->amOnPage(Page::route('?table_name='.Page::$tableName));
-        $I->see(Page::$title, Page::$titleElem);
-
-        // envío el formulario de creación del CRUD
-        $I->submitForm('form[name=CRUD-form]', Page::$formData);
-
-        // reviso que se esté llamando a las clases de los modelos de las que
-        // depende el controlador correctamente
-        $I->openFile('app/Http/routes.php');
-
-        // veo el recurso generado
-        $I->seeInThisFile("Route::resource('books','BookController');");
-        // como tiene la columna deleted_at para softedeletes, debe tener ruta para
-        // restablecer los registros en papelera
-        $I->seeInThisFile("Route::put(\n\t'/books/restore/{books}',\n\t[\n\t'as'    =>  'books.restore',\n\t'uses'  =>  'BookController@restore'\n\t]\n);");
+        $I->openFile(base_path().'/routes/web.php');
+        $routes = file_get_contents(__DIR__.'/../_data/routes/bookRoutes.php');
+        $I->seeInThisFile($routes);
     }
 }

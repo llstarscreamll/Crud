@@ -1,5 +1,6 @@
 <?php
-namespace CRUD;
+
+namespace CrudGenerator;
 
 use CrudGenerator\FunctionalTester;
 use CrudGenerator\Page\Functional\Generate as Page;
@@ -10,40 +11,51 @@ class GeneratePageObjectsTestsCest
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
-    }
-
-    public function _after(FunctionalTester $I)
-    {
-    }
-
-    /**
-     * Comprueba las líneas de código generadas en las vistas del CRUD.
-     * @param  FunctionalTester $I
-     * @return void
-     */
-    public function checkTestsCode(FunctionalTester $I)
-    {
-    	$I->am('Developer');
-        $I->wantTo('revisar las lineas de codigo de los pageObjects de los test');
 
         $I->amOnPage(Page::route('?table_name='.Page::$tableName));
         $I->see(Page::$title, Page::$titleElem);
 
         // envío el formulario de creación del CRUD
         $I->submitForm('form[name=CRUD-form]', Page::$formData);
+    }
 
-        // abro el archivo pageObject Base
-        $I->openFile('tests/_support/Page/Functional/Books/Base.php');
+    /**
+     * Comprueba las líneas de código generadas en las vistas del CRUD.
+     *
+     * @param FunctionalTester $I
+     */
+    public function checkTestsCode(FunctionalTester $I)
+    {
+        $I->wantTo('revisar los pageObjects generados');
 
-        // veo el namespace del archivo
-        $I->seeInThisFile("namespace Page\Functional\Books;");
+        // abro el pageObject Base
+        $I->openFile(base_path().'/tests/_support/Page/Functional/Books/Base.php');
+        $pageObject = file_get_contents(__DIR__.'/../_data/pageObjects/Base.php');
+        $I->seeInThisFile($pageObject);
 
-        // es llamado el seeder de la tabla permissions con los permiso de acceso al módulo
-        $I->seeInThisFile("\Artisan::call('db:seed', ['--class' => 'BookPermissionsSeeder']);");
+        // abro el pageObject Create
+        $I->openFile(base_path().'/tests/_support/Page/Functional/Books/Create.php');
+        $pageObject = file_get_contents(__DIR__.'/../_data/pageObjects/Create.php');
+        $I->seeInThisFile($pageObject);
 
-        // son llamados los seeders de las tablas de las que depende el modelo, en este caso
-        // la tabla reasons y users
-        $I->seeInThisFile("\Artisan::call('db:seed', ['--class' => 'ReasonsTableSeeder']);");
-        $I->seeInThisFile("\Artisan::call('db:seed', ['--class' => 'UsersTableSeeder']);");
+        // abro el pageObject Delete
+        $I->openFile(base_path().'/tests/_support/Page/Functional/Books/Delete.php');
+        $pageObject = file_get_contents(__DIR__.'/../_data/pageObjects/Delete.php');
+        $I->seeInThisFile($pageObject);
+
+        // abro el pageObject Edit
+        $I->openFile(base_path().'/tests/_support/Page/Functional/Books/Edit.php');
+        $pageObject = file_get_contents(__DIR__.'/../_data/pageObjects/Edit.php');
+        $I->seeInThisFile($pageObject);
+
+        // abro el pageObject Index
+        $I->openFile(base_path().'/tests/_support/Page/Functional/Books/Index.php');
+        $pageObject = file_get_contents(__DIR__.'/../_data/pageObjects/Index.php');
+        $I->seeInThisFile($pageObject);
+
+        // abro el pageObject Show
+        $I->openFile(base_path().'/tests/_support/Page/Functional/Books/Show.php');
+        $pageObject = file_get_contents(__DIR__.'/../_data/pageObjects/Show.php');
+        $I->seeInThisFile($pageObject);
     }
 }

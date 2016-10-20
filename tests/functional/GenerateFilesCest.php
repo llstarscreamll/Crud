@@ -1,5 +1,6 @@
 <?php
-namespace CRUD;
+
+namespace CrudGenerator;
 
 use CrudGenerator\FunctionalTester;
 use CrudGenerator\Page\Functional\Generate as Page;
@@ -10,6 +11,10 @@ class GenerateFilesCest
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
+
+        $I->amOnPage(Page::route('?table_name='.Page::$tableName));
+        $I->see(Page::$title, Page::$titleElem);
+        $I->submitForm('form[name=CRUD-form]', Page::$formData);
     }
 
     public function _after(FunctionalTester $I)
@@ -18,63 +23,47 @@ class GenerateFilesCest
 
     /**
      * Comprueba la funcionalidad de crear los ficheros requeridos para la CRUD app.
-     * @param  FunctionalTester $I
-     * @return void
+     *
+     * @param FunctionalTester $I
      */
     public function checkFilesGeneration(FunctionalTester $I)
     {
         $I->am('Developer');
         $I->wantTo('crear aplicacion CRUD');
 
-        $I->amOnPage(Page::route('?table_name='.Page::$tableName));
-        $I->see(Page::$title, Page::$titleElem);
-
-        // envío el formulario de creación del CRUD
-        $I->submitForm('form[name=CRUD-form]', Page::$formData);
-
         // veo los mensajes de operación exitosa
         $I->see('Los tests se han generado correctamente.', '.alert-success');
         $I->see('Modelo generado correctamente.', '.alert-success');
         $I->see('Controlador generado correctamente.', '.alert-success');
-        // los sigientes mensajes no aparecen si se corre mas de una vez el test
-        //$I->see('Model Binding para el Controlador generado correctamente.', '.alert-success');
-        //$I->see('La ruta se ha generado correctamente.', '.alert-success');
-        
-        // compruebo la existencia de los archivos
-        // el modelo
-        $I->seeFileFound('Book.php','app/Models');
 
-        // el controlador
-        $I->seeFileFound('BookController.php','app/Http/Controllers');
-
-        // los tests funcionales y pageObjects
-        foreach (config('llstarscreamll.CrudGenerator.config.tests') as $test) {
-            
-            if ($test != 'Base'){
-                $I->seeFileFound($test.'Cest.php','tests/functional/Books');
+        // compruebo que los archivos hayan sido generados
+        $I->seeFileFound('Book.php', base_path().'/app/Models');
+        $I->seeFileFound('BookController.php', base_path().'/app/Http/Controllers');
+        // los tests
+        foreach (config('modules.CrudGenerator.config.tests') as $test) {
+            if ($test != 'Base') {
+                $I->seeFileFound($test.'Cest.php', base_path().'/tests/functional/Books');
             }
 
-            $I->seeFileFound($test.'.php','tests/_support/Page/Functional/Books');
+            $I->seeFileFound($test.'.php', base_path().'/tests/_support/Page/Functional/Books');
         }
-
         // las vistas
-        foreach (config('llstarscreamll.CrudGenerator.config.views') as $view) {
-            
-            if (strpos($view, 'partials/') === false){
-                $I->seeFileFound($view.'.blade.php','resources/views/books');
+        foreach (config('modules.CrudGenerator.config.views') as $view) {
+            if (strpos($view, 'partials/') === false) {
+                $I->seeFileFound($view.'.blade.php', base_path().'/resources/views/books');
                 continue;
-            }else{
-                $I->seeFileFound(str_replace('partials/', '', $view).'.blade.php','resources/views/books/partials');
+            } else {
+                $I->seeFileFound(str_replace('partials/', '', $view).'.blade.php', base_path().'/resources/views/books/partials');
             }
         }
 
         // el model binding sólo puede ser creado si la entidad no hace uso de
         // la propiedad softDeletes, es decir si no tiene la columna deleted_at
-        $I->openFile('app/Providers/RouteServiceProvider.php');
+        $I->openFile(base_path().'/app/Providers/RouteServiceProvider.php');
         $I->dontSeeInThisFile("\$router->model('books', 'App\Models\Book');");
 
         // reviso que se halla añadido el route resource en routes.php
-        $I->openFile('app/Http/routes.php');
+        $I->openFile(base_path().'/routes/web.php');
         $I->seeInThisFile("Route::resource('books','BookController');");
     }
 }
