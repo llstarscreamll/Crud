@@ -1,6 +1,26 @@
-<div class="row tools">
+{{--
+    ****************************************************************************
+    Botones de Index.
+    ____________________________________________________________________________
+    Muestra los botones o enlaces a acciones como eliminar o crear registros en
+    la base dedatos. Esta vista es llamada desde la vista index.
+    ****************************************************************************
 
-    {{-- Action Buttons --}}
+    Este archivo es parte del Módulo Libros.
+	(c) Johan Alvarez <llstarscreamll@hotmail.com>
+	Licensed under The MIT License (MIT).
+
+	@package    Módulo Libros.
+	@version    0.1
+	@author     Johan Alvarez.
+	@license    The MIT License (MIT).
+	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
+	@link       https://github.com/llstarscreamll.
+    
+    ****************************************************************************
+--}}
+
+<div class="row tools">
     <div class="col-md-6 action-buttons">
     @if (Request::get('trashed_records') != 'onlyTrashed')
 

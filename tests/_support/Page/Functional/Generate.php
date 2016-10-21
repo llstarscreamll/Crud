@@ -14,7 +14,7 @@ class Generate
      * @var array
      */
     public static $formData = [
-        'UI_theme' => 'Bootstrap',
+        'UI_theme' => 'Inspinia',
         'table_name' => 'books',
         'use_faker' => false,
         'use_base_class' => false,

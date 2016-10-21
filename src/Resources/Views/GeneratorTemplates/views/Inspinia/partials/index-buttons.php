@@ -1,6 +1,17 @@
-<div class="row tools">
+{{--
+    ****************************************************************************
+    Botones de Index.
+    ____________________________________________________________________________
+    Muestra los botones o enlaces a acciones como eliminar o crear registros en
+    la base dedatos. Esta vista es llamada desde la vista index.
+    ****************************************************************************
 
-    {{-- Action Buttons --}}
+    <?= $gen->getCopyRightDocBlock() ?>
+    
+    ****************************************************************************
+--}}
+
+<div class="row tools">
     <div class="col-md-6 action-buttons">
 <?php
 ///////////////////////////////////////////////////////////

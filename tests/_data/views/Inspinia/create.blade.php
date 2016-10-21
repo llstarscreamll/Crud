@@ -1,3 +1,24 @@
+{{--
+    ****************************************************************************
+    Create.
+    ____________________________________________________________________________
+    Muestra la vista de creación de registros.
+    ****************************************************************************
+
+    Este archivo es parte del Módulo Libros.
+	(c) Johan Alvarez <llstarscreamll@hotmail.com>
+	Licensed under The MIT License (MIT).
+
+	@package    Módulo Libros.
+	@version    0.1
+	@author     Johan Alvarez.
+	@license    The MIT License (MIT).
+	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
+	@link       https://github.com/llstarscreamll.
+    
+    ****************************************************************************
+--}}
+
 @extends('core::layouts.app-sidebar')
 
 {{-- page title --}}

@@ -1,3 +1,15 @@
+{{--
+    ****************************************************************************
+    Scripts de Formulario.
+    ____________________________________________________________________________
+    Contiene el código javascript usado en el formulario.
+    ****************************************************************************
+
+    <?= $gen->getCopyRightDocBlock() ?>
+    
+    ****************************************************************************
+--}}
+
 <script type="text/javascript">
 
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>

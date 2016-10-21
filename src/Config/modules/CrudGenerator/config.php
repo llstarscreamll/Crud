@@ -32,6 +32,9 @@ return $config = [
         'partials/hidden-form-fields',
         'partials/index-create-form',
         'partials/index-table',
+        'partials/index-table-header',
+        'partials/index-table-search',
+        'partials/index-table-body',
         'index',
         'edit',
         'show',
@@ -72,4 +75,12 @@ return $config = [
 
     // campos de control del sistema, para imprimir en vista show
     'system-fields' => ['created_at', 'updated_at', 'deleted_at'],
+
+    // docblock copyright info
+    'author' => 'Johan Alvarez',
+    'author_email' => 'llstarscreamll@hotmail.com',
+    'license' => 'The MIT License (MIT)',
+    'license_small' => 'MIT',
+    'copyright' => '(c) 2015-'.date('Y').', Johan Alvarez <llstarscreamll@hotmail.com>',
+    'link' => 'https://github.com/llstarscreamll',
 ];

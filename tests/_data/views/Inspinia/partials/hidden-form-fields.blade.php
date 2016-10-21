@@ -1,9 +1,25 @@
 {{--
-	Aquí se muestran los campos que no están presentes en la vista de creación o edición,
-	pero que son útiles para la vista de detalles de un registro (show) como fecha de
-	creación, fecha de actualización y demás campos de control...
---}}
+    ****************************************************************************
+    Campos de Formulario Ocultos.
+    ____________________________________________________________________________
+    Aquí se muestran los campos que no están presentes en la vista de creación o
+    edición como los de fecha de creación y de actualizacíón, se usan en la
+    vista de detalles de un registro (show).
+    ****************************************************************************
 
+    Este archivo es parte del Módulo Libros.
+	(c) Johan Alvarez <llstarscreamll@hotmail.com>
+	Licensed under The MIT License (MIT).
+
+	@package    Módulo Libros.
+	@version    0.1
+	@author     Johan Alvarez.
+	@license    The MIT License (MIT).
+	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
+	@link       https://github.com/llstarscreamll.
+    
+    ****************************************************************************
+--}}
 
 <div class='form-group col-sm-6 {{$errors->has('approved_at') ? 'has-error' : ''}}'>
 	{!! Form::label('approved_at', trans('book/views.form-fields.approved_at')) !!}

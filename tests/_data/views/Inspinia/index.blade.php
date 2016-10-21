@@ -1,3 +1,30 @@
+{{--
+    ****************************************************************************
+    Vista Index.
+    ____________________________________________________________________________
+    En esta vista se muestra una tabla con registros de la base de datos (ver
+    partials.index-table), se muestran botones a acciones y/o links de acceso a
+    otras secciones, por ejemplo eliminar o crear registros (revisar
+    partials.index-buttons).
+
+    En el footer del panel se muestra la versión de este paquete, el cual vincula
+    al changelog.
+    ****************************************************************************
+
+    Este archivo es parte del Módulo Libros.
+	(c) Johan Alvarez <llstarscreamll@hotmail.com>
+	Licensed under The MIT License (MIT).
+
+	@package    Módulo Libros.
+	@version    0.1
+	@author     Johan Alvarez.
+	@license    The MIT License (MIT).
+	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
+	@link       https://github.com/llstarscreamll.
+    
+    ****************************************************************************
+--}}
+
 @extends('core::layouts.app-sidebar')
 
 {{-- page title --}}
@@ -39,7 +66,7 @@
             {{-- box footer --}}
             <div class="ibox-footer">
                 <span class="pull-right">
-                    <a href="#">v0.1</a>
+                    <a href="#"><strong>v0.1</strong></a>
                 </span>
                 <div class="clearfix"></div>
             </div>

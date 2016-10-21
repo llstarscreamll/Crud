@@ -601,4 +601,30 @@ class BaseGenerator
     {
         return strpos($field->validation_rules, 'required') !== false;
     }
+
+    /**
+     * Devuelve el DocBlock de CopyRight de el código generado.
+     *
+     * @return string
+     */
+    public function getCopyRightDocBlock()
+    {
+        $link = config('modules.CrudGenerator.config.link');
+        $author = config('modules.CrudGenerator.config.author');
+        $license = config('modules.CrudGenerator.config.license');
+        $copyRight = config('modules.CrudGenerator.config.copyright');
+        $authorEmail = config('modules.CrudGenerator.config.author_email');
+
+        return
+        "Este archivo es parte del Módulo {$this->request->get('plural_entity_name')}.\n".
+        "\t(c) $author <$authorEmail>\n".
+        "\tLicensed under $license.\n\n".
+
+        "\t@package    Módulo {$this->request->get('plural_entity_name')}.\n".
+        "\t@version    0.1\n".
+        "\t@author     $author.\n".
+        "\t@license    $license.\n".
+        "\t@copyright  $copyRight.\n".
+        "\t@link       $link.\n";
+    }
 }

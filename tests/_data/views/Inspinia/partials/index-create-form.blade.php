@@ -1,4 +1,26 @@
-{{-- Ventana Modal con Formulario de Creación de Registro --}}
+{{--
+    ****************************************************************************
+    Ventana Modal con Formulario de Creación.
+    ____________________________________________________________________________
+    Contiene ventana modal con el formulario de creación (partials.form-fields),
+    útil si no se desea cargar otra vista para crear un registro, esta vista es
+    cargada desde la vista index.
+    ****************************************************************************
+
+    Este archivo es parte del Módulo Libros.
+	(c) Johan Alvarez <llstarscreamll@hotmail.com>
+	Licensed under The MIT License (MIT).
+
+	@package    Módulo Libros.
+	@version    0.1
+	@author     Johan Alvarez.
+	@license    The MIT License (MIT).
+	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
+	@link       https://github.com/llstarscreamll.
+    
+    ****************************************************************************
+--}}
+
 <div class="modal fade" id="create-form-modal" tabindex="-1" role="dialog" aria-labelledby="{{trans('book/views.index.create-form-modal-title')}}">
     <div class="modal-dialog modal-lg" role="document">
 

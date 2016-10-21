@@ -3,6 +3,23 @@
 /* @var $fields [] */
 /* @var $request Request */
 ?>
+{{--
+    ****************************************************************************
+    Vista Index.
+    ____________________________________________________________________________
+    En esta vista se muestra una tabla con registros de la base de datos (ver
+    partials.index-table), se muestran botones a acciones y/o links de acceso a
+    otras secciones, por ejemplo eliminar o crear registros (revisar
+    partials.index-buttons).
+
+    En el footer del panel se muestra la versión de este paquete, el cual vincula
+    al changelog.
+    ****************************************************************************
+
+    <?= $gen->getCopyRightDocBlock() ?>
+    
+    ****************************************************************************
+--}}
 
 @extends('<?=config('modules.CrudGenerator.config.layout')?>')
 
@@ -45,7 +62,7 @@
             {{-- box footer --}}
             <div class="ibox-footer">
                 <span class="pull-right">
-                    <a href="#">v0.1</a>
+                    <a href="#"><strong>v0.1</strong></a>
                 </span>
                 <div class="clearfix"></div>
             </div>
