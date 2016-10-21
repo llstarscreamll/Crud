@@ -6,6 +6,10 @@
 ?>
 <?='<?php'?>
 
+
+<?= $gen->getClassCopyRightDocBlock() ?>
+
+
 namespace Page\Functional\{{$gen->studlyCasePlural()}};
 
 @if($request->has('use_faker'))

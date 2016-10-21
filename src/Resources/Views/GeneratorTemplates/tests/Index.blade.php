@@ -6,6 +6,10 @@
 ?>
 <?='<?php'?>
 
+
+<?= $gen->getClassCopyRightDocBlock() ?>
+
+
 namespace {{$gen->studlyCasePlural()}};
 
 use \FunctionalTester;

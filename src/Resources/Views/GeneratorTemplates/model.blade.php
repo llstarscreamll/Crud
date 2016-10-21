@@ -5,6 +5,10 @@
 ?>
 <?='<?php'?>
 
+
+<?= $gen->getClassCopyRightDocBlock() ?>
+
+
 namespace {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models;
 
 use Illuminate\Database\Eloquent\Model;

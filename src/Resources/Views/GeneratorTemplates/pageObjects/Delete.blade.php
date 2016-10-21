@@ -6,6 +6,10 @@
 ?>
 <?='<?php'?>
 
+
+<?= $gen->getClassCopyRightDocBlock() ?>
+
+
 namespace Page\Functional\{{$gen->studlyCasePlural()}};
 
 use Page\Functional\{{$gen->studlyCasePlural()}}\Base;

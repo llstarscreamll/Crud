@@ -6,11 +6,14 @@
 ?>
 <?='<?php'?>
 
+
+<?= $gen->getClassCopyRightDocBlock() ?>
+
+
 namespace {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers;
 
-use {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}};
 use Illuminate\Http\Request;
-use {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Http\Requests;
+use {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}};
 use {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers\Controller;
 @foreach($foreign_keys as $foreign)
 @if(($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false)
@@ -18,11 +21,17 @@ use {{$class}};
 @endif
 @endforeach
 
+/**
+ * Clase {{$gen->controllerClassName()}}
+ *
+ * @author {{ config('modules.CrudGenerator.config.author') }} <{{ config('modules.CrudGenerator.config.author_email') }}>
+ */
 class {{$gen->controllerClassName()}} extends Controller
 {
     /**
      * El directorio donde están las vistas.
-     * @type String
+     *
+     * @var String
      */
     public $viewDir = "{{$gen->viewsDirName()}}";
     
@@ -34,12 +43,14 @@ class {{$gen->controllerClassName()}} extends Controller
         // el usuario debe estar autenticado para acceder al controlador
         $this->middleware('auth');
         // el usuario debe tener permisos para acceder al controlador
-        // $this->middleware('checkPermissions', ['except' => ['store', 'update']]);
+        //$this->middleware('checkPermissions', ['except' => ['store', 'update']]);
     }
 
     /**
      * Display a listing of the resource.
+     *
      * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -74,6 +85,7 @@ class {{$gen->controllerClassName()}} extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return \Illuminate\Http\Response
      */
     public function create()
@@ -98,7 +110,9 @@ class {{$gen->controllerClassName()}} extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param  \Illuminate\Http\Request  $request
+     *
+     * @param  \Illuminate\Http\Request  $reques
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -113,12 +127,14 @@ class {{$gen->controllerClassName()}} extends Controller
 
     /**
      * Display the specified resource.
+     *
      * @param \Illuminate\Http\Request $request
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
      * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
@@ -146,12 +162,14 @@ class {{$gen->controllerClassName()}} extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
      * @param \Illuminate\Http\Request $request
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
      * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
+     *
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
@@ -177,12 +195,14 @@ class {{$gen->controllerClassName()}} extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
      * @param \Illuminate\Http\Request $request
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
      * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
@@ -215,12 +235,14 @@ class {{$gen->controllerClassName()}} extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
      * @param \Illuminate\Http\Request $request
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
      * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
@@ -237,8 +259,10 @@ class {{$gen->controllerClassName()}} extends Controller
 @if($hasSoftDelete)
     /**
      * Restore the specified resource from storage.
+     *
      * @param \Illuminate\Http\Request $request
      * @param string $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function restore(Request $request, $id)
@@ -255,13 +279,14 @@ class {{$gen->controllerClassName()}} extends Controller
     
     /**
      * Devuelve la vista con los respectivos datos.
+     *
      * @param string $view
      * @param string $data
+     *
      * @return \Illuminate\Http\Response
      */
     protected function view($view, $data = [])
     {
         return view($this->viewDir.".".$view, $data);
     }
-
 }

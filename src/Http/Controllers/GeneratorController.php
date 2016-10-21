@@ -174,10 +174,13 @@ class GeneratorController extends Controller
 
         $modelFile = $path.'/'.$request->get('table_name').'.php';
 
+        $generator = new ModelGenerator($request);
+
         $content = view(
-            with(new BaseGenerator())->templatesDir().'.options',
+            $generator->templatesDir().'.options',
             [
             'request' => $request->except(['_token']),
+            'gen' => $generator
             ]
         );
 

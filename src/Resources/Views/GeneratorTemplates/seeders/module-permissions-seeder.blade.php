@@ -6,6 +6,10 @@
 ?>
 <?='<?php'?>
 
+
+<?= $gen->getClassCopyRightDocBlock() ?>
+
+
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 

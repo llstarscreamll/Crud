@@ -627,4 +627,27 @@ class BaseGenerator
         "\t@copyright  $copyRight.\n".
         "\t@link       $link.\n";
     }
+
+    public function getClassCopyRightDocBlock()
+    {
+        $link = config('modules.CrudGenerator.config.link');
+        $author = config('modules.CrudGenerator.config.author');
+        $license = config('modules.CrudGenerator.config.license');
+        $copyRight = config('modules.CrudGenerator.config.copyright');
+        $authorEmail = config('modules.CrudGenerator.config.author_email');
+
+        return
+        "/**\n".
+        " * Este archivo es parte del Módulo {$this->request->get('plural_entity_name')}.\n".
+        " * (c) $author <$authorEmail>\n".
+        " * Licensed under $license.\n\n".
+
+        " * @package    Módulo {$this->request->get('plural_entity_name')}.\n".
+        " * @version    0.1\n".
+        " * @author     $author.\n".
+        " * @license    $license.\n".
+        " * @copyright  $copyRight.\n".
+        " * @link       $link.\n".
+        " */";
+    }
 }

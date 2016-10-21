@@ -1,18 +1,37 @@
 <?php
+
+/**
+ * Este archivo es parte del Módulo Libros.
+ * (c) Johan Alvarez <llstarscreamll@hotmail.com>
+ * Licensed under The MIT License (MIT).
+
+ * @package    Módulo Libros.
+ * @version    0.1
+ * @author     Johan Alvarez.
+ * @license    The MIT License (MIT).
+ * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
+ * @link       https://github.com/llstarscreamll.
+ */
+
 namespace App\Http\Controllers;
 
-use App\Models\Book;
 use Illuminate\Http\Request;
-use App\Http\Requests;
+use App\Models\Book;
 use App\Http\Controllers\Controller;
 use llstarscreamll\Core\Models\User;
 use App\Models\Reason;
 
+/**
+ * Clase BookController
+ *
+ * @author  Johan Alvarez <llstarscreamll@hotmail.com>
+ */
 class BookController extends Controller
 {
     /**
      * El directorio donde están las vistas.
-     * @type  String
+     *
+     * @var  String
      */
     public $viewDir = "books";
     
@@ -24,12 +43,14 @@ class BookController extends Controller
         // el usuario debe estar autenticado para acceder al controlador
         $this->middleware('auth');
         // el usuario debe tener permisos para acceder al controlador
-        // $this->middleware('checkPermissions', ['except' => ['store', 'update']]);
+        //$this->middleware('checkPermissions', ['except' => ['store', 'update']]);
     }
 
     /**
      * Display a listing of the resource.
+     *
      * @param  \Illuminate\Http\Request $request
+     *
      * @return  \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -62,6 +83,7 @@ class BookController extends Controller
 
     /**
      * Show the form for creating a new resource.
+     *
      * @return  \Illuminate\Http\Response
      */
     public function create()
@@ -80,7 +102,9 @@ class BookController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param    \Illuminate\Http\Request  $request
+     *
+     * @param    \Illuminate\Http\Request  $reques
+     *
      * @return  \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -95,8 +119,10 @@ class BookController extends Controller
 
     /**
      * Display the specified resource.
+     *
      * @param  \Illuminate\Http\Request $request
      * @param  string $id
+     *
      * @return  \Illuminate\Http\Response
      */
     public function show(Request $request, $id)
@@ -120,8 +146,10 @@ class BookController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     *
      * @param  \Illuminate\Http\Request $request
      * @param  string $id
+     *
      * @return  \Illuminate\Http\Response
      */
     public function edit(Request $request, $id)
@@ -141,8 +169,10 @@ class BookController extends Controller
 
     /**
      * Update the specified resource in storage.
+     *
      * @param  \Illuminate\Http\Request $request
      * @param  string $id
+     *
      * @return  \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -173,8 +203,10 @@ class BookController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     *
      * @param  \Illuminate\Http\Request $request
      * @param  string $id
+     *
      * @return  \Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
@@ -190,8 +222,10 @@ class BookController extends Controller
 
     /**
      * Restore the specified resource from storage.
+     *
      * @param  \Illuminate\Http\Request $request
      * @param  string $id
+     *
      * @return  \Illuminate\Http\Response
      */
     public function restore(Request $request, $id)
@@ -207,13 +241,14 @@ class BookController extends Controller
     
     /**
      * Devuelve la vista con los respectivos datos.
+     *
      * @param  string $view
      * @param  string $data
+     *
      * @return  \Illuminate\Http\Response
      */
     protected function view($view, $data = [])
     {
         return view($this->viewDir.".".$view, $data);
     }
-
 }

@@ -3,4 +3,8 @@
 ?>
 <?='<?php'?>
 
+
+<?= $gen->getClassCopyRightDocBlock() ?>
+
+
 return {!! var_export($request) !!};
