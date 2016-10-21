@@ -607,7 +607,7 @@ class BaseGenerator
      *
      * @return string
      */
-    public function getCopyRightDocBlock()
+    public function getViewCopyRightDocBlock()
     {
         $link = config('modules.CrudGenerator.config.link');
         $author = config('modules.CrudGenerator.config.author');

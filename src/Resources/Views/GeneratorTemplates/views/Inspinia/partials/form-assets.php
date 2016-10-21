@@ -5,7 +5,7 @@
     Contiene los assets utilizados en el formulario de creación o edición.
     ****************************************************************************
 
-    <?= $gen->getCopyRightDocBlock() ?>
+    <?= $gen->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}

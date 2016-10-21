@@ -6,7 +6,7 @@
     la base dedatos. Esta vista es llamada desde la vista index.
     ****************************************************************************
 
-    <?= $gen->getCopyRightDocBlock() ?>
+    <?= $gen->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}

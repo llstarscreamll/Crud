@@ -10,7 +10,7 @@
     Muestra la vista de detalles de un registro.
     ****************************************************************************
 
-    <?= $gen->getCopyRightDocBlock() ?>
+    <?= $gen->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}

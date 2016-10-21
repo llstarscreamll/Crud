@@ -5,7 +5,7 @@
     Contiene los assets css o javascript usados en la vista index.
     ****************************************************************************
 
-    <?= $gen->getCopyRightDocBlock() ?>
+    <?= $gen->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}

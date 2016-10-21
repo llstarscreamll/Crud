@@ -14,7 +14,7 @@
     quiera visualizar los datos sin riesgo a que se hagan cambios.
     ****************************************************************************
 
-    <?= $gen->getCopyRightDocBlock() ?>
+    <?= $gen->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}
