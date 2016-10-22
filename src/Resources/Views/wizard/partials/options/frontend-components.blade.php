@@ -47,4 +47,16 @@
         </div>
 
     </div>
+
+    <div class="row">
+        <div class="form-group col-sm-4 col-md-3">
+            {!! Form::label('UI_theme', 'UI Theme') !!}
+            {!! Form::select(
+                'UI_theme',
+                $UI_themes,
+                null,
+                ['class' => 'form-control']
+            ) !!}
+        </div>
+    </div>
 </fieldset>

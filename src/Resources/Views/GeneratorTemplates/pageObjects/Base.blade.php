@@ -19,11 +19,6 @@ use Faker\Factory as Faker;
 use Page\Functional\Base as BaseTests;
 @else
 use Carbon\Carbon;
-@if($request->has('create_employees_data'))
-use {{config('modules.CrudGenerator.config.position-model-namespace')}}Position;
-use {{config('modules.CrudGenerator.config.sub-cost-center-model-namespace')}}SubCostCenter;
-use {{config('modules.CrudGenerator.config.cost-center-model-namespace')}}CostCenter;
-@endif
 use {{config('modules.CrudGenerator.config.user-model-namespace')}}User;
 @endif
 
@@ -110,11 +105,9 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
      * @var array
      */
     static $adminUser = [
-        'name'          =>      'Travis',
-        'lastname'      =>      'Orbin',
+        'name'          =>      'Travis Orbin',
         'email'         =>      'travis.orbin@example.com',
         'password'      =>      '123456',
-        'activated'     =>      1,
     ];
 
     /**
@@ -143,12 +136,13 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
 @endif
 @if(!$request->has('use_base_class'))
         self::$date = Carbon::now();
-        $this->createUserRoles();
-        $this->createAdminUser();
 
 @endif
-        // crea los permisos de acceso al módulo
+        // creamos los permisos de acceso al módulo
         \Artisan::call('db:seed', ['--class' => '{{$gen->modelClassName()}}PermissionsSeeder']);
+        // creamos el usuario admin de prueba
+        \Artisan::call('db:seed', ['--class' => '{{config('modules.CrudGenerator.config.test-roles-seeder-class')}}']);
+        \Artisan::call('db:seed', ['--class' => '{{config('modules.CrudGenerator.config.test-users-seeder-class')}}']);
 @foreach($fields as $field)
 @if($field->namespace)
         \Artisan::call('db:seed', ['--class' => '{{$gen->getTableSeederClassName($field)}}']);
@@ -190,38 +184,6 @@ class {{$test}} @if($request->has('use_base_class')) extends BaseTests @endif
     {
         return static::$URL.$param;
     }
-
-@if(!$request->has('use_base_class'))
-    /**
-     * Crea los roles de usuario del sistema
-     * @return void
-     */
-    public function createUserRoles()
-    {
-        \Artisan::call('db:seed', ['--class' => 'RoleTableSeeder']);
-    }
-
-    /**
-     * Crea el usuario administrador.
-     * @return Model El modelo del usuario creado
-     */
-    public function createAdminUser()
-    {
-        $user = User::firstOrCreate(
-            array_merge(
-                self::$adminUser,
-                ['password' => bcrypt(self::$adminUser['password'])]
-            )
-        );
-
-        $admin_role = \{{config('modules.CrudGenerator.config.role-model-namespace')}}Role::where('name', 'admin')->first()->id;
-
-        // añado rol admin al usuario
-        $user->attachRole($admin_role);
-
-        return $user;
-    }    
-@endif
 
 @if(!$request->has('use_base_class') && $request->has('create_employees_data'))
     /**

@@ -74,7 +74,7 @@ class TestsGenerator extends BaseGenerator
         /////////////////////////////////////////////////////////
         // genero los archivos para los seeder de los permisos //
         /////////////////////////////////////////////////////////
-        if (! $this->generatePermissionsSeederFile()) {
+        if (! $this->generateSeeders()) {
             $this->msg_error[] = "Ocurrió un error generando el seeder de permisos.";
             return false;
         }
@@ -275,12 +275,27 @@ class TestsGenerator extends BaseGenerator
      *
      * @return bool
      */
-    public function generatePermissionsSeederFile()
+    public function generateSeeders()
     {
         $seederFile = $this->seedsDir()."/".$this->modelClassName()."PermissionsSeeder.php";
 
         $content = view(
             $this->templatesDir().'.seeders.module-permissions-seeder',
+            [
+            'gen' => $this,
+            'fields' => $this->advanceFields($this->request),
+            'request' => $this->request
+            ]
+        );
+
+        if (file_put_contents($seederFile, $content) === false) {
+            return false;
+        }
+
+        $seederFile = $this->seedsDir()."/".$this->studlyCasePlural()."TableSeeder.php";
+
+        $content = view(
+            $this->templatesDir().'.seeders.module-fake-data-seeder',
             [
             'gen' => $this,
             'fields' => $this->advanceFields($this->request),

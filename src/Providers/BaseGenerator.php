@@ -650,4 +650,68 @@ class BaseGenerator
         " * @link       $link.\n".
         " */";
     }
+
+    /**
+     * TODO: este método debe ser mvido a una clase que se dedique a generar
+     * seeders.
+     *
+     * Devuelve el nombre de la variable con el método o propiedad que debe
+     * generar los datos de prueba para los seeder, por ejemplo:
+     *
+     * - created_at = $date->toDateTimeString()
+     * - slug = $faker->slug
+     * - name = $faker->sentence
+     *
+     * @param  Obejct $field
+     *
+     * @return string
+     */
+    public function getFakeDataGenerator($field)
+    {
+        // null para los campos de fecha de eliminación
+        if ($field->name == "deleted_at") {
+            return 'null';
+        }
+
+        if ($field->type == "timestamp" || $field->type == "datetime") {
+            return '$date->toDateTimeString()';
+        }
+
+        if ($field->type == "date") {
+            return '$date->toDateString()';
+        }
+
+        if ($field->type == "varchar") {
+            return '$faker->sentence';
+        }
+
+        if ($field->type == "text") {
+            return '$faker->text';
+        }
+
+        if ($field->type == "int") {
+            return '$faker->randomNumber()';
+        }
+
+        if ($field->type == "float" || $field->type == "double") {
+            return '$faker->randomFloat()';
+        }
+
+        if ($field->type == "tinyint") {
+            return '$faker->boolean(60)';
+        }
+
+        if ($field->type == "enum") {
+            $modelGenerator = new ModelGenerator($this->request);
+            $enumValues = $modelGenerator->getMysqlTableColumnEnumValues($field->name);
+
+            $enumValues = str_replace('enum(', '[', $enumValues);
+            $enumValues = str_replace(')', ']', $enumValues);
+
+            return "\$faker->randomElement($enumValues)";
+        }
+
+        // default
+        return '$faker->';
+    }
 }

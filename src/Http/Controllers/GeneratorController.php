@@ -196,7 +196,6 @@ class GeneratorController extends Controller
     {
         // verifico que la tabla especificada existe en la base de datos
         if (!$this->tableExists($request->get('table_name', 'null'))) {
-            dd('WTF', $table = $request->get('table_name'), \Schema::hasTable($table), \DB::select('show tables'));
             return redirect()->back()->with('error', 'La tabla '.$request->get('table_name').' no existe en la base de datos.');
         }
 
@@ -212,6 +211,10 @@ class GeneratorController extends Controller
 
         $data['fields'] = array_values($modelGenerator->fields($request->get('table_name')));
         $data['table_name'] = $request->get('table_name');
+        $data['UI_themes'] = array_combine(
+            config('modules.CrudGenerator.config.supported_ui_themes'),
+            config('modules.CrudGenerator.config.supported_ui_themes')
+        );
 
         return view('crud::wizard.options', $data);
     }
