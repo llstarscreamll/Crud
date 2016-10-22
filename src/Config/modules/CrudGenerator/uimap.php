@@ -9,25 +9,18 @@
  */
 
 return $uimap = [
-    // para la vista index
-    'module-title-selector'                => '.content-header h1',
-    'index-table-selector'                => '.table.table-hover',
+    // sección de título
+    'module-title-selector' => 'h2',
+    'module-title-small-selector' => 'h2 small',
 
-    // para la vista create
-    'title-selector'                    => '.content-header h1 small',
-    'create-form-button-selector'        => 'button.btn.btn-primary',
-    'msg-success-selector'                  => '.alert.alert-success',
-    'msg-error-selector'                  => '.alert.alert-danger',
-
-    // para la vista edit
-    'edit-link-access-selector'         => 'a.btn.btn-warning',
-    'edit-title-selector'                 => '.content-header h1 small',
-    'edit-message-success-selector'        => '.alert.alert-success',
-
-    // para la vista show
-    'show-title-selector'                => '.content-header h1 small',
-
-    // para acciones de eliminación
-    'delete-message-success-selector'    => '.alert.alert-success',
-    'no-data-found-selector'            => 'table .alert.alert-warning',
+    'index-table-selector' => '.table.table-hover',
+    
+    // notificaciones de alerta
+    'alert-success-selector' => '.alert.alert-success',
+    'alert-warning-selector' => '.alert.alert-warning',
+    'alert-danger-selector' => '.alert.alert-danger',
+    
+    // botones, links
+    'create-form-button-selector' => 'button.btn.btn-primary',
+    'edit-link-access-selector' => 'a.btn.btn-warning',
 ];

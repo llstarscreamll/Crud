@@ -20,12 +20,6 @@ class {{$test}} extends Base
     public static $URL = '/{{$gen->route()}}';
 
     /**
-     * Declare UI map for this page here. CSS or XPath allowed.
-     * public static $usernameField = '#username';
-     * public static $formSubmitButton = "#mainForm input[type=submit]";
-     */
-    
-    /**
      * Los atributos del botón de mover a la papelera.
      * @var array
      */
@@ -65,12 +59,12 @@ class {{$test}} extends Base
 
         self::$msgSuccess = [
             'txt'       => trans_choice('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_success', 1),
-            'selector'  => '{{config('modules.CrudGenerator.uimap.delete-message-success-selector')}}'
+            'selector'  => '{{config('modules.CrudGenerator.uimap.alert-success-selector')}}'
         ];
 
         self::$msgNoDataFount = [
             'txt'       => trans('{{$gen->getLangAccess()}}/views.index.no-records-found'),
-            'selector'  => '{{config('modules.CrudGenerator.uimap.no-data-found-selector')}}'
+            'selector'  => '{{config('modules.CrudGenerator.uimap.alert-warning-selector')}}'
         ];
     }
 }

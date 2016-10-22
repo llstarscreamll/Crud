@@ -20,12 +20,6 @@ class {{$test}} extends Base
     public static $URL = '/{{$gen->route()}}';
 
     /**
-     * Declare UI map for this page here. CSS or XPath allowed.
-     * public static $usernameField = '#username';
-     * public static $formSubmitButton = "#mainForm input[type=submit]";
-     */
-    
-    /**
      * Los atributos del título de la página.
      * @var array
      */
@@ -43,7 +37,7 @@ class {{$test}} extends Base
 
         self::$title = [
             'txt'       => trans('{{$gen->getLangAccess()}}/views.show.name'),
-            'selector'  => '{{config('modules.CrudGenerator.uimap.show-title-selector')}}'
+            'selector'  => '{{config('modules.CrudGenerator.uimap.module-title-small-selector')}}'
         ];
     }
 
