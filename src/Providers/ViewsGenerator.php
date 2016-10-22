@@ -2,6 +2,8 @@
 
 namespace llstarscreamll\CrudGenerator\Providers;
 
+use stdClass;
+
 /**
  *
  */
@@ -99,7 +101,7 @@ class ViewsGenerator extends BaseGenerator
      *
      * @return string
      */
-    public function getSearchInputStr($field, $table_name = null)
+    public function getSearchInputStr(stdClass $field, $table_name = null)
     {
         // selects
         if ($field->type == 'enum') {
@@ -152,10 +154,12 @@ class ViewsGenerator extends BaseGenerator
      * Contruye un select con atributos para SelectPicker.
      *
      * @param stdClass $field
+     * @param bool     $multiple
+     * @param bool     $withDisabledFeature
      *
      * @return string
      */
-    public function buildSelectPicker($field, bool $multiple = true, bool $withDisabledFeature = false)
+    public function buildSelectPicker(stdClass $field, bool $multiple = true, bool $withDisabledFeature = false)
     {
         $name = $multiple ? $field->name.'[]' : $field->name;
 
@@ -305,7 +309,7 @@ class ViewsGenerator extends BaseGenerator
      *
      * @return string
      */
-    public function getSourceForEnum($field)
+    public function getSourceForEnum(stdClass $field)
     {
         if ($field->type == 'enum' || (in_array($field->type, ['int', 'unsigned_int']) && $field->key == 'MUL')) {
             return "data-source='{{ $".$field->name."_list_json }}'\n";
@@ -319,10 +323,11 @@ class ViewsGenerator extends BaseGenerator
      *
      * @param StdClass $field
      * @param string   $modelName
+     * @param bool     $checkSkippedFields
      *
      * @return string|bool
      */
-    public function getFormInputMarkup($field, $table_name, $checkSkippedFields = false)
+    public function getFormInputMarkup(stdClass $field, string $table_name, bool $checkSkippedFields = false)
     {
         // $field es un campo de los que debo omitir?
         if (($field->on_create_form === false && $field->on_update_form === false) && $checkSkippedFields === false) {
@@ -410,7 +415,7 @@ class ViewsGenerator extends BaseGenerator
      *
      * @return string
      */
-    public function getFormInputConfirmationMarkup($field)
+    public function getFormInputConfirmationMarkup(stdClass $field)
     {
         // core condición para que no sea mostrado en formulario de sólo lectura
         $output = "\n@if(!isset(\$show))\n";
@@ -441,13 +446,13 @@ class ViewsGenerator extends BaseGenerator
      * @return string
      */
     public function generateCheckBoxBootstrapSwitchHtlm(
-        $field,
+        stdClass $field,
         $name = null,
-        $value = '1',
-        $data_size = 'medium',
-        $data_text = [],
-        $data_color = [],
-        $form = null
+        string $value = '1',
+        string $data_size = 'medium',
+        array $data_text = [],
+        array $data_color = [],
+        string $form = null
     ) {
         // el formulario al que pertenece el elemento
         if ($form) {
@@ -509,7 +514,7 @@ class ViewsGenerator extends BaseGenerator
      *
      * @return string
      */
-    public function generateCheckBoxiCheckHtlm($field, $name = null, $value = true, $class = null, $form = null)
+    public function generateCheckBoxiCheckHtlm(stdClass $field, $name = null, $value = true, $class = null, $form = null)
     {
         // el formulario al que pertenece el elemento
         if ($form) {
@@ -535,7 +540,7 @@ class ViewsGenerator extends BaseGenerator
      *
      * @return string
      */
-    public function endFormGroup($field)
+    public function endFormGroup(stdClass $field)
     {
         // los mensajes de error
         $output = "\n\t{!! \$errors->first('{$field->name}', '<span class=\"text-danger\">:message</span>') !!}\n";
@@ -554,7 +559,7 @@ class ViewsGenerator extends BaseGenerator
      *
      * @return string
      */
-    public function getInputXEditableClass($field)
+    public function getInputXEditableClass(stdClass $field)
     {
         // el valor por defecto
         $class = 'editable';
@@ -584,7 +589,7 @@ class ViewsGenerator extends BaseGenerator
      *
      * @return string
      */
-    public function getRecordFieldData($field, $modelName)
+    public function getRecordFieldData(stdClass $field, $modelName)
     {
         $attr = "{$modelName}->{$field->name}";
 
