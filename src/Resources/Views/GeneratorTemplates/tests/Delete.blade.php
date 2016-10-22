@@ -17,25 +17,25 @@ use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
 class {{$test}}Cest
 {
+    /**
+     * Las acciones a realizar antes de cada test.
+     *
+     * @param  FunctionalTester $I
+     */
     public function _before(FunctionalTester $I)
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
     }
 
-    public function _after(FunctionalTester $I)
-    {
-    }
-
     /**
      * Prueba la funcionalidad de eliminar un modelo.
+     *
      * @param  FunctionalTester $I
-     * @return void
      */
     public function delete(FunctionalTester $I)
     {
-        $I->am('admin de '.trans('{{$gen->getLangAccess()}}/views.module.name'));
-        $I->wantTo('eliminar un registro en modulo de '.trans('{{$gen->getLangAccess()}}/views.module.name'));
+        $I->wantTo('eliminar registro en módulo '.Page::$moduleName);
 
         // creo el registro de prueba
         Page::have{{$gen->modelClassName()}}($I);
@@ -43,14 +43,14 @@ class {{$test}}Cest
         // voy a la página de detalles del registro
         $I->amOnPage(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id']));
         // veo el botón que abre la ventana modal para la confirmación de eliminación
-        $I->see(Page::$deleteBtn['txt'], Page::$deleteBtn['selector']);
+        $I->see(Page::$deleteBtn, Page::$deleteBtnElem);
         // doy clic al botón de confirmación de ventana modal para borrar el registro
-        $I->click(Page::$deleteBtnConfirm['txt'], Page::$deleteBtnConfirm['selector']);
+        $I->click(Page::$deleteBtnConfirm, Page::$deleteBtnConfirmElem);
 
         // soy redireccionado al index y veo mensaje de confirmación
-        $I->seeCurrentUrlEquals(Page::$URL);
-        $I->see(Page::$msgSuccess['txt'], Page::$msgSuccess['selector']);
+        $I->seeCurrentUrlEquals(Page::$moduleURL);
+        $I->see(Page::$msgSuccess, Page::$msgSuccessElem);
         // veo mensaje de que no hay datos de capacitaciones
-        $I->see(Page::$msgNoDataFount['txt'], Page::$msgNoDataFount['selector']);
+        $I->see(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
     }
 }

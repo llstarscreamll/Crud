@@ -12,48 +12,26 @@
 
 namespace Page\Functional\{{$gen->studlyCasePlural()}};
 
-use Page\Functional\{{$gen->studlyCasePlural()}}\Base;
+use FunctionalTester;
 
-class {{$test}} extends Base
+class {{$test}} extends Index
 {
-    // include url of current page
-    public static $URL = '/{{$gen->route()}}';
-
     /**
-     * Los atributos del título de la página.
-     * @var array
+     * El título de la página.
+     *
+     * @var string
      */
-    static $title = array();
+    static $title = 'Detalles';
 
     /**
      * El selector del formulario de sólo lectura de los datos.
+     *
      * @var string
      */
     static $form = 'form[name=show-{{$gen->getDashedModelName()}}-form]';
 
-    public function __construct(\FunctionalTester $I)
+    public function __construct(FunctionalTester $I)
     {
         parent::__construct($I);
-
-        self::$title = [
-            'txt'       => trans('{{$gen->getLangAccess()}}/views.show.name'),
-            'selector'  => '{{config('modules.CrudGenerator.uimap.module-title-small-selector')}}'
-        ];
-    }
-
-    /**
-     * Devuelve array con los datos a visualizar en el formulario de sólo lectura.
-     * @return array
-     */
-    public static function getReadOnlyFormData()
-    {
-        $data = self::${{$gen->modelVariableName()}}Data;
-
-        // los siguientes campos no se han de mostrar en la vista de sólo lectura
-        foreach (self::$hiddenFields as $key => $value) {
-            unset($data[$value]);
-        }
-
-        return $data;
     }
 }

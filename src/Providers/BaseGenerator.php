@@ -714,4 +714,124 @@ class BaseGenerator
         // default
         return '$faker->';
     }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getStoreSuccessMsg()
+    {
+        return $this->request->get('single_entity_name').' creado correctamente.';
+    }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getStoreErrorMsg()
+    {
+        return 'Error creando '.strtolower($this->request->get('single_entity_name')).'.';
+    }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getUpdateSuccessMsg()
+    {
+        return $this->request->get('single_entity_name').' actualizado correctamente.';
+    }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getUpdateErrorMsg()
+    {
+        return 'Ocurrió un error actualizando el '.strtolower($this->request->get('single_entity_name')).'.';
+    }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getDestroySuccessMsgSingle()
+    {
+        return "El ".strtolower($this->request->get('single_entity_name'))." ha sido movido a la papelera.";
+    }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getDestroySuccessMsgPlural()
+    {
+        return "Los ".strtolower($this->request->get('plural_entity_name'))." han sido movidos a la papelera correctamente.";
+    }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getDestroyErrorMsgSingle()
+    {
+        return "Ocurrió un problema moviendo el ".strtolower($this->request->get('single_entity_name'))." a la papelera.";
+    }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getDestroyErrorMsgPlural()
+    {
+        return "Ocurrió un error moviendo los ".strtolower($this->request->get('plural_entity_name'))." a la papelera.";
+    }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getRestoreSuccessMsgSingle()
+    {
+        return "El ".strtolower($this->request->get('single_entity_name'))." ha sido restaurado correctamente.";
+    }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getRestoreSuccessMsgPlural()
+    {
+        return "Los ".strtolower($this->request->get('plural_entity_name'))." han sido restaurados correctamente.";
+    }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getRestoreErrorMsgSingle()
+    {
+        return "Ocurrió un problema restaurando el ".strtolower($this->request->get('single_entity_name')).".";
+    }
+
+    /**
+     * TODO: mover este método a una clase que se dedique a construir los
+     * archivos de idioma nada más..
+     * -------------------------------------------------------------------------
+     */
+    public function getRestoreErrorMsgPlural()
+    {
+        return "Ocurrió un error restaurando los ".strtolower($this->request->get('plural_entity_name')).".";
+    }
 }

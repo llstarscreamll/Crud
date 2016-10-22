@@ -163,25 +163,25 @@ class ViewsGenerator extends BaseGenerator
     {
         $name = $multiple ? $field->name.'[]' : $field->name;
 
-        $output = '{!! Form::select(';
-        $output .= "\n\t\t\t'$name',";
-        $output .= "\n\t\t\t\${$field->name}_list,";
-        $output .= "\n\t\t\tRequest::input('$field->name'),";
-        $output .= "\n\t\t\t[";
-        $output .= "\n\t\t\t\t'class' => 'form-control selectpicker',";
-        $output .= "\n\t\t\t\t'data-live-search' => 'false',";
-        $output .= "\n\t\t\t\t'data-size' => '5',";
-        $output .= "\n\t\t\t\t'title' => '---',";
-        $output .= "\n\t\t\t\t'data-selected-text-format' => 'count > 0',";
+        $output = "{!! Form::select(";
+        $output .= "\n\t\t'$name',";
+        $output .= "\n\t\t\${$field->name}_list,";
+        $output .= "\n\t\tRequest::input('$field->name'),";
+        $output .= "\n\t\t[";
+        $output .= "\n\t\t\t'class' => 'form-control selectpicker',";
+        $output .= "\n\t\t\t'data-live-search' => 'false',";
+        $output .= "\n\t\t\t'data-size' => '5',";
+        $output .= "\n\t\t\t'title' => '---',";
+        $output .= "\n\t\t\t'data-selected-text-format' => 'count > 0',";
         if ($multiple) {
-            $output .= "\n\t\t\t\t'multiple',";
+            $output .= "\n\t\t\t'multiple',";
         }
         if ($withDisabledFeature) {
-            $output .= "\t\t\tisset(\$show) ? 'disabled' : null,\n";
+            $output .= "\n\t\t\tisset(\$show) ? 'disabled' : null,";
         }
-        $output .= "\n\t\t\t\t'form' => 'searchForm'";
-        $output .= "\n\t\t\t]";
-        $output .= "\n\t\t) !!}\n";
+        $output .= "\n\t\t\t'form' => 'searchForm'";
+        $output .= "\n\t\t]";
+        $output .= "\n\t) !!}\n";
 
         return $output;
     }
@@ -342,7 +342,7 @@ class ViewsGenerator extends BaseGenerator
 
         // para selects
         if ($field->type == 'enum') {
-            $output .= $this->buildSelectPicker($field, false, true);
+            $output .= "\t".$this->buildSelectPicker($field, false, true);
             $output .= $this->endFormGroup($field);
 
             return $output;
@@ -355,7 +355,7 @@ class ViewsGenerator extends BaseGenerator
 
             // si el campo actual es una llave foránea
             if (strpos($child_table[1], $field->name) !== false) {
-                $output .= $this->buildSelectPicker($field, false, true);
+                $output .= "\t".$this->buildSelectPicker($field, false, true);
                 $output .= $this->endFormGroup($field);
 
                 return $output;

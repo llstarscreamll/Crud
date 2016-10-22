@@ -12,71 +12,65 @@
 
 namespace Page\Functional\{{$gen->studlyCasePlural()}};
 
-use Page\Functional\{{$gen->studlyCasePlural()}}\Base;
+use FunctionalTester;
+@foreach($fields as $field)
+@if($field->namespace !== "" && class_basename($field->namespace) !== 'User')
+use {!! $field->namespace !!};
+@endif
+@endforeach
 
-class {{$test}} extends Base
+class {{$test}} extends Index
 {
-    // include url of current page
-    public static $URL = '/{{$gen->route()}}';
-
     /**
-     * Los atributos del link de acceso a la edición de capacitación.
+     * El link de acceso a la edición del registro.
+     *
      * @var array
      */
-    static $linkToEdit = array();
+    static $linkToEdit = 'Editar';
+    static $linkToEditElem = '{{config('modules.CrudGenerator.uimap.edit-link-access-selector')}}';
     
     /**
-     * Los atributos del título de la página.
-     * @var array
+     * El título de la página.
+     *
+     * @var string
      */
-    static $title = array();
+    static $title = 'Actualizar';
 
     /**
      * El selector del formulario de edición.
+     *
      * @var string
      */
     static $form = 'form[name=edit-{{$gen->getDashedModelName()}}-form]';
 
     /**
-     * Los atributos del mensaje de confirmación de la operación.
+     * Mensaje de éxito al actualizar un registro.
+     *
      * @var array
      */
-    static $msgSuccess = array();
+    static $msgSuccess = '{{ $gen->getUpdateSuccessMsg() }}';
+    static $msgSuccessElem = '{{ config('modules.CrudGenerator.uimap.alert-success-selector') }}';
 
-    public function __construct(\FunctionalTester $I)
+    public function __construct(FunctionalTester $I)
     {
         parent::__construct($I);
-
-        self::$linkToEdit = [
-            'txt'       => trans('{{$gen->getLangAccess()}}/views.edit.link-access'),
-            'selector'  => '{{config('modules.CrudGenerator.uimap.edit-link-access-selector')}}'
-        ];
-
-        self::$title = [
-            'txt'       => trans('{{$gen->getLangAccess()}}/views.edit.name'),
-            'selector'  => '{{config('modules.CrudGenerator.uimap.module-title-small-selector')}}'
-        ];
-
-        self::$msgSuccess = [
-            'txt'       => trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success'),
-            'selector'  => '{{config('modules.CrudGenerator.uimap.alert-success-selector')}}'
-        ];
     }
 
     /**
-     * Devuelve un array con los datos que deben estar presentes en el formulario de edición
-     * del modelo antes de su actualización.
+     * Devuelve array con los datos que deben estar presentes en el formulario
+     * de edición antes de la operación de actualización.
+     *
      * @return array
      */
     public static function getUpdateFormData()
     {
         $data = array();
 
-        foreach (self::${{$gen->modelVariableName()}}Data as $key => $value) {
-            if (in_array($key, self::$updateFormFields)) {
+        foreach (static::${{$gen->modelVariableName()}}Data as $key => $value) {
+            if (in_array($key, static::$editFormFields)) {
                 $data[$key] = $value;
             }
-            if (in_array($key, self::$fieldsThatRequieresConfirmation)){
+            if (in_array($key, static::$fieldsThatRequieresConfirmation)){
                 $data[$key.'_confirmation'] = '';
             }
         }
@@ -85,7 +79,9 @@ class {{$test}} extends Base
     }
 
     /**
-     * Devuelve un array con datos para actualización del formulario de edición del modelo.
+     * Devuelve array con datos para actualización de registro en formulario de
+     * edición.
+     *
      * @return array
      */
     public static function getDataToUpdateForm()
@@ -95,7 +91,7 @@ class {{$test}} extends Base
         $data = [
 @foreach($fields as $field)
 @if($field->on_update_form)
-            '{{$field->name}}' => {!!$field->testDataUpdate!!},
+            '{{$field->name}}' => {!! $field->namespace == '' ? $field->testDataUpdate : class_basename($field->namespace)."::all(['id'])->last()->id" !!},
 @endif
 @if(strpos($field->validation_rules, 'confirmed'))
             '{{$field->name}}_confirmation' => {!!$field->testDataUpdate!!},
@@ -107,22 +103,23 @@ class {{$test}} extends Base
     }
 
     /**
-     * Obtine los datos ya actualizados para comprobarlos en la vista de sólo lectura (show).
+     * Obtiene array de datos del registro actualizado para comprobarlos en la
+     * vista de sólo lectura (show).
+     *
      * @return  array
      */
     public static function getUpdatedDataToShowForm()
     {
-        $data = self::getDataToUpdateForm();
+        $data = static::getDataToUpdateForm();
 
-        // los siguientes campos no se han de mostrar en la vista de sólo lectura
-        foreach (self::$hiddenFields as $key => $value) {
+        // los campos ocultos no deben ser mostrados en la vista de sólo lectura
+        foreach (static::$hiddenFields as $key => $value) {
             unset($data[$value]);
-            if (in_array($key, self::$fieldsThatRequieresConfirmation)) {
+            if (in_array($key, static::$fieldsThatRequieresConfirmation)) {
                 unset($data[$value.'_confirmation']);
             }
         }
 
         return $data;
     }
-
 }

@@ -42,7 +42,6 @@ return $config = [
     ],
 
     'tests' => [
-        'Base',
         'Index',
         'Create',
         'Edit',

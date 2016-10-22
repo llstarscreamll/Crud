@@ -17,25 +17,25 @@ use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
 class {{$test}}Cest
 {
+    /**
+     * Las acciones a realizar antes de cada test.
+     *
+     * @param  FunctionalTester $I
+     */
     public function _before(FunctionalTester $I)
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
     }
 
-    public function _after(FunctionalTester $I)
-    {
-    }
-
     /**
      * Prueba la funcionalidad de consultar la información de un modelo, sólo lectura.
+     *
      * @param  FunctionalTester $I
-     * @return void
      */
     public function show(FunctionalTester $I)
     {
-        $I->am('admin de '.trans('{{$gen->getLangAccess()}}/views.module.name'));
-        $I->wantTo('ver detalles de un registro en modulo de '.trans('{{$gen->getLangAccess()}}/views.module.name'));
+        $I->wantTo('ver detalles de registro en módulo '.Page::$moduleName);
 
         // creo el registro de prueba
         Page::have{{$gen->modelClassName()}}($I);
@@ -43,9 +43,11 @@ class {{$test}}Cest
         // voy a la página de detalles del registro
         $I->amOnPage(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id']));
         // veo el título de la página
-        $I->see(Page::$title['txt'], Page::$title['selector']);
+        $I->see(Page::$moduleName, Page::$titleElem);
+        $I->see(Page::$title, Page::$titleSmallElem);
 
         // veo los datos en el formulario de sólo lectura
-        $I->seeInFormFields(Page::$form, Page::getReadOnlyFormData());
+        $data = Page::${{$gen->modelVariableName()}}Data;
+        $I->seeInFormFields(Page::$form, Page::unsetHiddenFields($data));
     }
 }

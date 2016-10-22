@@ -210,7 +210,7 @@ class {{$gen->modelClassName()}} extends Model
      */
     public static function getEnumValuesArray($table, $column)
     {
-        $type = self::getColumnEnumValuesFromDescQuery($table, $column);
+        $type = static::getColumnEnumValuesFromDescQuery($table, $column);
 
         preg_match('/^enum\((.*)\)$/', $type, $matches);
 
@@ -233,7 +233,7 @@ class {{$gen->modelClassName()}} extends Model
      */
     public static function getEnumValuesString($table, $column)
     {
-        $type = self::getColumnEnumValuesFromDescQuery($table, $column);
+        $type = static::getColumnEnumValuesFromDescQuery($table, $column);
 
         preg_match('/^enum\((.*)\)$/', $type, $matches);
 
@@ -256,10 +256,10 @@ class {{$gen->modelClassName()}} extends Model
     {
         $type = '';
 
-        if (self::getDatabaseConnectionDriver() == 'mysql') {
-            $type = \DB::select( \DB::raw("SHOW COLUMNS FROM ".self::getDatabaseTablesPrefix()."$table WHERE Field = '$column'") )[0]->Type;
+        if (static::getDatabaseConnectionDriver() == 'mysql') {
+            $type = \DB::select( \DB::raw("SHOW COLUMNS FROM ".static::getDatabaseTablesPrefix()."$table WHERE Field = '$column'") )[0]->Type;
         } else {
-            $type = self::${$column.'ColumnEnumValues'};
+            $type = static::${$column.'ColumnEnumValues'};
         }
 
         return $type;

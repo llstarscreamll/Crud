@@ -12,65 +12,51 @@
 
 namespace Page\Functional\{{$gen->studlyCasePlural()}};
 
+use FunctionalTester;
 @if($request->has('use_faker'))
 use Faker\Factory as Faker;
 @endif
-use Page\Functional\{{$gen->studlyCasePlural()}}\Base;
 
-class {{$test}} extends Base
+class {{$test}} extends Index
 {
-    // include url of current page
+    /**
+     * La URL de la página.
+     *
+     * @var string
+     */
     public static $URL = '/{{$gen->route()}}/create';
 
     /**
-     * Los atributos del título de la página.
-     * @var array
+     * El título de la página.
+     *
+     * @var string
      */
-    static $title = array();
+    static $title = 'Crear';
 
     /**
      * El selector del formulario.
+     *
      * @var string
      */
-    static $form;
+    static $form = 'form[name=create-{{$gen->getDashedModelName()}}-form]';
 
     /**
-     * Los atributos del botón del formulario.
+     * El botón submit del formulario.
+     *
      * @var array
      */
-    static $formButton = array();
+    static $formBtnElem = '{{config('modules.CrudGenerator.uimap.create-form-button-selector')}}';
 
     /**
      * Mensaje de éxito al crear un registro.
+     *
      * @var array
      */
-    static $msgSuccess = array();
+    static $msgSuccess = '{{ $gen->getStoreSuccessMsg() }}';
+    static $msgSuccessElem = '{{ config('modules.CrudGenerator.uimap.alert-success-selector') }}';
 
-    public function __construct(\FunctionalTester $I)
+    public function __construct(FunctionalTester $I)
     {
         parent::__construct($I);
-
-        $this->initUIMap();
-    }
-
-    /**
-     * Inicializa las variables del mapeo de la UI.
-     * @return void
-     */
-    public function initUIMap()
-    {
-        self::$title = [
-            'txt' => trans('{{$gen->getLangAccess()}}/views.create.name'),
-            'selector'  => '{{config('modules.CrudGenerator.uimap.module-title-small-selector')}}'
-        ];
-        self::$form = 'form[name=create-{{$gen->getDashedModelName()}}-form]';
-        self::$formButton = [
-            'txt' => trans('{{$gen->getLangAccess()}}/views.create.form-button'),
-            'selector' => '{{config('modules.CrudGenerator.uimap.create-form-button-selector')}}',
-        ];
-        self::$msgSuccess = [
-            'txt' => trans('{{$gen->getLangAccess()}}/messages.create_{{$gen->snakeCaseSingular()}}_success'),
-            'selector' => '{{config('modules.CrudGenerator.uimap.alert-success-selector')}}'
-        ];
     }
 }
