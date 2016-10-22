@@ -34,7 +34,7 @@
 @section('content')
 
 {{-- heading --}}
-@include('books.partials.heading', ['module_section' => trans('book/views.show.name')])
+@include('books.partials.heading', ['small_title' => trans('book/views.show.name')])
     
 {{-- content --}}
 <div class="wrapper wrapper-content">

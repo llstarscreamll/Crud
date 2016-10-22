@@ -30,7 +30,7 @@
 @section('content')
 
 {{-- heading --}}
-@include('<?=$gen->viewsDirName()?>.partials.heading', ['module_section' => trans('<?=$gen->getLangAccess()?>/views.show.name')])
+@include('<?=$gen->viewsDirName()?>.partials.heading', ['small_title' => trans('<?=$gen->getLangAccess()?>/views.show.name')])
     
 {{-- content --}}
 <div class="wrapper wrapper-content">
