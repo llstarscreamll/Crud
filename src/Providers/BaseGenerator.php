@@ -153,7 +153,7 @@ class BaseGenerator
      * Se debe devolver lo siguiente:
      * ["foreign_key": "employee_session.employee_id", "references": "employees.id"]
      *
-     * @param  array
+     * @param array
      *
      * @return array
      */
@@ -165,7 +165,7 @@ class BaseGenerator
         // si ningún prefijo hay para las tablas, pongo uno sólo porque no haya
         // problemas dentro del ciclo en la función str_replace()
         if (empty($prefix)) {
-            $prefix = "!!!";
+            $prefix = '!!!';
         }
 
         $data_clean = new \stdClass();
@@ -347,6 +347,24 @@ class BaseGenerator
     }
 
     /**
+     * Devuelve el variable en singular con base en el nombre de una clase.
+     *
+     * @param string $class El nombre de la clase con namespace
+     *
+     * @return string La variable
+     */
+    public function modelVariableNameFromClass(string $class, string $variant = 'singular')
+    {
+        $name = camel_case(str_singular(class_basename($class)));
+
+        if ($variant == 'plural') {
+            $name = camel_case(str_plural(class_basename($class)));
+        }
+
+        return '$'.$name;
+    }
+
+    /**
      * Devulve el nombre de la variable del modelo generado en plural.
      *
      * @return string
@@ -443,7 +461,7 @@ class BaseGenerator
      * para las validaciones, así:
      * parametro = 'El nombre', devolverá  'Nombre'.
      *
-     * @param  $label
+     * @param $label
      *
      * @return string
      */
@@ -620,12 +638,12 @@ class BaseGenerator
         "    (c) $author <$authorEmail>\n".
         "    Licensed under $license.\n\n".
 
-        "    @package    Módulo {$this->request->get('plural_entity_name')}.\n".
+        "    @package    Módulo {$this->request->get('plural_entity_name')}\n".
         "    @version    0.1\n".
-        "    @author     $author.\n".
-        "    @license    $license.\n".
-        "    @copyright  $copyRight.\n".
-        "    @link       $link.\n";
+        "    @author     $author\n".
+        "    @license    $license\n".
+        "    @copyright  $copyRight\n".
+        "    @link       $link\n";
     }
 
     public function getClassCopyRightDocBlock()
@@ -642,13 +660,13 @@ class BaseGenerator
         " * (c) $author <$authorEmail>\n".
         " * Licensed under $license.\n\n".
 
-        " * @package    Módulo {$this->request->get('plural_entity_name')}.\n".
+        " * @package    Módulo {$this->request->get('plural_entity_name')}\n".
         " * @version    0.1\n".
-        " * @author     $author.\n".
-        " * @license    $license.\n".
-        " * @copyright  $copyRight.\n".
-        " * @link       $link.\n".
-        " */";
+        " * @author     $author\n".
+        " * @license    $license\n".
+        " * @copyright  $copyRight\n".
+        " * @link       $link\n".
+        ' */';
     }
 
     /**
@@ -662,46 +680,52 @@ class BaseGenerator
      * - slug = $faker->slug
      * - name = $faker->sentence
      *
-     * @param  Obejct $field
+     * @param Obejct $field
      *
      * @return string
      */
-    public function getFakeDataGenerator($field)
+    public function getFakeDataGenerator($field, $onlyFaker = false)
     {
         // null para los campos de fecha de eliminación
-        if ($field->name == "deleted_at") {
+        if ($field->name == 'deleted_at') {
             return 'null';
         }
 
-        if ($field->type == "timestamp" || $field->type == "datetime") {
-            return '$date->toDateTimeString()';
+        if ($field->type == 'timestamp' || $field->type == 'datetime') {
+            return $onlyFaker ? '$faker->date(\'Y-m-d H:i:s\')' : '$date->toDateTimeString()';
         }
 
-        if ($field->type == "date") {
-            return '$date->toDateString()';
+        if ($field->type == 'date') {
+            return $onlyFaker ? '$faker->date(\'Y-m-d\')' : '$date->toDateString()';
         }
 
-        if ($field->type == "varchar") {
+        if ($field->type == 'varchar') {
             return '$faker->sentence';
         }
 
-        if ($field->type == "text") {
+        if ($field->type == 'text') {
             return '$faker->text';
         }
 
-        if ($field->type == "int") {
+        if ($field->type == 'int' && $field->namespace) {
+            $modelVariableName = $this->modelVariableNameFromClass($field->namespace, 'plural');
+
+            return '$faker->randomElement('.$modelVariableName.')';
+        }
+
+        if ($field->type == 'int' && !$field->namespace) {
             return '$faker->randomNumber()';
         }
 
-        if ($field->type == "float" || $field->type == "double") {
+        if ($field->type == 'float' || $field->type == 'double') {
             return '$faker->randomFloat()';
         }
 
-        if ($field->type == "tinyint") {
+        if ($field->type == 'tinyint') {
             return '$faker->boolean(60)';
         }
 
-        if ($field->type == "enum") {
+        if ($field->type == 'enum') {
             $modelGenerator = new ModelGenerator($this->request);
             $enumValues = $modelGenerator->getMysqlTableColumnEnumValues($field->name);
 
@@ -718,7 +742,7 @@ class BaseGenerator
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getStoreSuccessMsg()
     {
@@ -728,7 +752,7 @@ class BaseGenerator
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getStoreErrorMsg()
     {
@@ -738,7 +762,7 @@ class BaseGenerator
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getUpdateSuccessMsg()
     {
@@ -748,7 +772,7 @@ class BaseGenerator
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getUpdateErrorMsg()
     {
@@ -758,80 +782,80 @@ class BaseGenerator
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getDestroySuccessMsgSingle()
     {
-        return "El ".strtolower($this->request->get('single_entity_name'))." ha sido movido a la papelera.";
+        return 'El '.strtolower($this->request->get('single_entity_name')).' ha sido movido a la papelera.';
     }
 
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getDestroySuccessMsgPlural()
     {
-        return "Los ".strtolower($this->request->get('plural_entity_name'))." han sido movidos a la papelera correctamente.";
+        return 'Los '.strtolower($this->request->get('plural_entity_name')).' han sido movidos a la papelera correctamente.';
     }
 
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getDestroyErrorMsgSingle()
     {
-        return "Ocurrió un problema moviendo el ".strtolower($this->request->get('single_entity_name'))." a la papelera.";
+        return 'Ocurrió un problema moviendo el '.strtolower($this->request->get('single_entity_name')).' a la papelera.';
     }
 
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getDestroyErrorMsgPlural()
     {
-        return "Ocurrió un error moviendo los ".strtolower($this->request->get('plural_entity_name'))." a la papelera.";
+        return 'Ocurrió un error moviendo los '.strtolower($this->request->get('plural_entity_name')).' a la papelera.';
     }
 
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getRestoreSuccessMsgSingle()
     {
-        return "El ".strtolower($this->request->get('single_entity_name'))." ha sido restaurado correctamente.";
+        return 'El '.strtolower($this->request->get('single_entity_name')).' ha sido restaurado correctamente.';
     }
 
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getRestoreSuccessMsgPlural()
     {
-        return "Los ".strtolower($this->request->get('plural_entity_name'))." han sido restaurados correctamente.";
+        return 'Los '.strtolower($this->request->get('plural_entity_name')).' han sido restaurados correctamente.';
     }
 
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getRestoreErrorMsgSingle()
     {
-        return "Ocurrió un problema restaurando el ".strtolower($this->request->get('single_entity_name')).".";
+        return 'Ocurrió un problema restaurando el '.strtolower($this->request->get('single_entity_name')).'.';
     }
 
     /**
      * TODO: mover este método a una clase que se dedique a construir los
      * archivos de idioma nada más..
-     * -------------------------------------------------------------------------
+     * -------------------------------------------------------------------------.
      */
     public function getRestoreErrorMsgPlural()
     {
-        return "Ocurrió un error restaurando los ".strtolower($this->request->get('plural_entity_name')).".";
+        return 'Ocurrió un error restaurando los '.strtolower($this->request->get('plural_entity_name')).'.';
     }
 }
