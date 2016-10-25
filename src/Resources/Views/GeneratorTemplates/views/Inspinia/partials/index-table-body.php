@@ -86,7 +86,7 @@
 <?php } ?>
                         title="{{trans('<?=$gen->getLangAccess()?>/views.index.restore-row-button-label')}}">
                     <span class="fa fa-mail-reply"></span>
-                    <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.restore-item-button')}}</span>
+                    <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.restore-row-button-label')}}</span>
                 </button>
             
             {!! Form::close() !!}

@@ -42,10 +42,8 @@ class {{$test}}Cest
 
         // voy a la página de detalles del registro
         $I->amOnPage(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id']));
-        // veo el botón que abre la ventana modal para la confirmación de eliminación
-        $I->see(Page::$deleteBtn, Page::$deleteBtnElem);
-        // doy clic al botón de confirmación de ventana modal para borrar el registro
-        $I->click(Page::$deleteBtnConfirm, Page::$deleteBtnConfirmElem);
+        // doy clic al botón para mover registro a papelera
+        $I->click(Page::$deleteBtn, Page::$deleteBtnElem);
 
         // soy redireccionado al index y veo mensaje de confirmación
         $I->seeCurrentUrlEquals(Page::$moduleURL);

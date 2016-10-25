@@ -22,6 +22,12 @@ class {{$gen->studlyCasePlural()}}TableSeeder extends Seeder
         $date = Carbon::now();
         $faker = Faker::create();
 
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->namespace) { ?>
+        <?= $gen->modelVariableNameFromClass($field->namespace, 'plural') ?> = <?= $field->namespace ?>::all('id')->pluck('id')->toArray();
+<?php } ?>
+<?php } ?>
+
         for ($i=0; $i < 10; $i++) { 
             $data[] = [
 <?php foreach ($fields as $key => $field) { ?>

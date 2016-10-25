@@ -182,11 +182,11 @@ class {{$test}}
      *
      * @param  FunctionalTester $I
      *
-     * @return void
+     * @return int El id del modelo generado
      */
     public static function have{{$gen->modelClassName()}}(FunctionalTester $I)
     {
-        $I->haveRecord('{{$gen->table_name}}', static::${{$gen->modelVariableName()}}Data);
+        return $I->haveRecord('{{$gen->table_name}}', static::${{$gen->modelVariableName()}}Data);
     }
 
     /**

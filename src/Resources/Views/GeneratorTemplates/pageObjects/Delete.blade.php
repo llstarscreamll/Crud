@@ -25,14 +25,6 @@ class {{$test}} extends Index
     static $deleteBtnElem = 'button.btn.btn-danger';
 
     /**
-     * El botón de confirmación para mover a la papelera.
-     *
-     * @var array
-     */
-    static $deleteBtnConfirm = 'Confirmar';
-    static $deleteBtnConfirmElem = 'form[name=delete-{{$gen->getDashedModelName()}}-form] .btn.btn-danger';
-
-    /**
      * Mensaje de éxito al eliminar un registro.
      *
      * @var array

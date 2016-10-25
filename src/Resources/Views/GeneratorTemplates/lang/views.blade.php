@@ -13,7 +13,7 @@
 return [
 
     /**
-     * Los textos de las vistas como por ejemplo los labels de los campos del fomulario,
+     * Los textos de las vistas como por ejemplo los labels de los campos del formulario,
      * cabeceras de tablas, labels de botones, de links, etc...
      */
     
@@ -60,7 +60,7 @@ return [
         'modal-restore-massively-btn-confirm-class-name' => 'btn-success',
 
 @else
-        'restore-confirm-message' => 'Está seguro? El resgistro será RESTAURADO...',
+        'restore-confirm-message' => 'Está seguro? El registro será RESTAURADO...',
         'restore-massively-confirm-message' => 'Está seguro? Todos los registros seleccionados serán RESTAURADOS...',
 
 @endif
@@ -96,7 +96,7 @@ return [
         'clean-filter-button-label' => 'Limpiar filtros',
         'see-details-button-label' => 'Ver detalles',
         'edit-item-button-label' => 'Editar registro',
-        'delete-item-button-label' => 'Borrar registro',
+        'delete-item-button-label' => 'Mover a Papelera',
         'create-form-modal-title' => 'Crear Nuevo {!!$request->get('single_entity_name')!!}',
 @if ($gen->hasDeletedAtColumn($fields))
         'restore-row-button-label' => 'Restaurar',

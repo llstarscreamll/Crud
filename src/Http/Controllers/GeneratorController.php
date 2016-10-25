@@ -9,6 +9,7 @@ use llstarscreamll\CrudGenerator\Providers\ControllerGenerator;
 use llstarscreamll\CrudGenerator\Providers\ViewsGenerator;
 use llstarscreamll\CrudGenerator\Providers\TestsGenerator;
 use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
+use llstarscreamll\CrudGenerator\Providers\ModelFactoryGenerator;
 
 class GeneratorController extends Controller
 {
@@ -71,6 +72,18 @@ class GeneratorController extends Controller
         $routeGenerator = new RouteGenerator($request);
         $viewsGenerator = new ViewsGenerator($request);
         $testsGenerator = new TestsGenerator($request);
+        $modelFactoryGenerator = new ModelFactoryGenerator($request);
+
+        ////////////////////////////////////
+        // genero las pruebas funcionales //
+        ////////////////////////////////////
+        if ($modelFactoryGenerator->generate() === false) {
+            return redirect()
+                ->back()
+                ->with('error', 'Ocurrió un error generando el Model Factory.');
+        }
+        // los modelos han sido generados correctamente
+        $msg_success[] = 'Model Factory generado correctamente.';
 
         ////////////////////////////////////
         // genero las pruebas funcionales //
