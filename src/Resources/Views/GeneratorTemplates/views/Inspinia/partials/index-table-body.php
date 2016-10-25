@@ -66,7 +66,7 @@
         @if ($record->trashed())
 
             {{-- Formulario para restablecer el registro --}}
-            {!! Form::open(['route' => ['<?=$gen->route()?>.restore'], 'method' => 'PUT', 'class' => 'form-inline display-inline']) !!}
+            {!! Form::open(['route' => ['<?=$gen->route()?>.restore', $record->id], 'method' => 'PUT', 'class' => 'form-inline display-inline']) !!}
                 {!! Form::hidden('id[]', $record->id) !!}
                 
                 {{-- Botón que muestra ventana modal de confirmación para el envío del formulario de restablecer el registro --}}

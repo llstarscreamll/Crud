@@ -239,8 +239,8 @@ class {{$test}}
         return $data;
     }
 
-        /**
-     * Resta del parámetro los elementos del array static::$hiddenFields.
+    /**
+     * Resta del parámetro $data los elementos del array static::$hiddenFields.
      *
      * @return array
      */

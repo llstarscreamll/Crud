@@ -28,16 +28,6 @@
 <link href="{{ asset('plugins/icheck2/square/red.css') }}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('plugins/icheck2/icheck.min.js') }}" type="text/javascript"></script>
 <?php
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// si se quiere usar ventanas modales de confirmación para acciones como eliminar registros u otras, incluimos //
-// el componente Bootbox para generarles fácilmente y con un setup mínimo                                      //
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-?>
-<?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
-{{-- Bootbox --}}
-<script src="{{ asset('plugins/bootbox/bootbox.js') }}" type="text/javascript"></script>
-<?php } ?>
-<?php
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // si la entidad tiene campos de fecha incluimos el componente Bootstrap DateRangePicker para lograr de forma //
 // sencilla hacer las búsquedas por rangos de fecha                                                           //

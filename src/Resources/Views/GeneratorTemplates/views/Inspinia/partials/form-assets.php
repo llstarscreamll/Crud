@@ -26,5 +26,15 @@
     <link rel="stylesheet" href="{{ asset('plugins/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}"/>
     <script src="{{ asset('plugins/moment/min/moment-with-locales.min.js') }}"></script>
     <script src="{{ asset('plugins/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
-
+<?php } ?>
+<?php
+/**
+ * si se quiere usar ventanas modales de confirmación para acciones como eliminar
+ * registros u otras, incluimos el componente Bootbox para generarles fácilmente
+ * y con un setup mínimo.
+ */
+?>
+<?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
+{{-- Bootbox --}}
+<script src="{{ asset('plugins/bootbox/bootbox.js') }}" type="text/javascript"></script>
 <?php } ?>

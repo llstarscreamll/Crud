@@ -617,15 +617,15 @@ class BaseGenerator
 
         return
         "Este archivo es parte del Módulo {$this->request->get('plural_entity_name')}.\n".
-        "\t(c) $author <$authorEmail>\n".
-        "\tLicensed under $license.\n\n".
+        "    (c) $author <$authorEmail>\n".
+        "    Licensed under $license.\n\n".
 
-        "\t@package    Módulo {$this->request->get('plural_entity_name')}.\n".
-        "\t@version    0.1\n".
-        "\t@author     $author.\n".
-        "\t@license    $license.\n".
-        "\t@copyright  $copyRight.\n".
-        "\t@link       $link.\n";
+        "    @package    Módulo {$this->request->get('plural_entity_name')}.\n".
+        "    @version    0.1\n".
+        "    @author     $author.\n".
+        "    @license    $license.\n".
+        "    @copyright  $copyRight.\n".
+        "    @link       $link.\n";
     }
 
     public function getClassCopyRightDocBlock()

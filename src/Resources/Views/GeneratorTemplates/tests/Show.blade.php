@@ -29,7 +29,8 @@ class {{$test}}Cest
     }
 
     /**
-     * Prueba la funcionalidad de consultar la información de un modelo, sólo lectura.
+     * Prueba la funcionalidad de consultar la información de un modelo, sólo
+     * lectura.
      *
      * @param  FunctionalTester $I
      */

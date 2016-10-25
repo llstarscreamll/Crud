@@ -65,7 +65,7 @@
 
     {{-- Formulario para restablecer resgistros masivamente --}}
     {!! Form::open([
-        'route' => ['<?=$gen->route()?>.restore'],
+        'route' => ['<?=$gen->route()?>.restore', 0],
         'method' => 'PUT',
         'id' => 'restoreMassivelyForm',
         'class' => 'form-inline display-inline'

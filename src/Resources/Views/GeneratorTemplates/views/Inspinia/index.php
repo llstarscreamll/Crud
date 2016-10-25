@@ -83,37 +83,25 @@
 @include('<?=$gen->viewsDirName()?>.partials.form-assets')
 @include('<?=$gen->viewsDirName()?>.partials.form-scripts')
 
-    <script>
+<script>
 
 <?php
 /////////////////////////////////////////////////////////////////////////////////////
 // lineas para mejorar el comportamiento de selección de los elementos de la tabla //
 /////////////////////////////////////////////////////////////////////////////////////
 ?>
-        $(document).ready(function(){
-            {{-- searching if there are checkboxes checked to toggle enable action buttons --}}
-            scanCheckedCheckboxes('.checkbox-table-item');
-            {{-- toggle select all checkboxes --}}
-            toggleCheckboxes();
-            {{-- Inicializa el componente iCheck --}}
-            initiCheckPlugin();
-            {{-- Previene que se esconda el menú del dropdown al hacer clic a sus elementos hijos --}}
-            preventDropDownHide();
+    $(document).ready(function() {
+        {{-- Inicializa las mejoras de selección en la tabla --}}
+        setupTableSelectionAddons();
+        {{-- Inicializa el componente iCheck --}}
+        initiCheckPlugin();
+        {{-- Previene que se esconda el dropdown al hacer clic en sus elementos hijos --}}
+        preventDropDownHide();
 <?php if ($gen->hasTinyintTypeField($fields)) { ?>
-            {{-- Inicializa el componente BootstrapSwitch --}}
-            $(".bootstrap_switch").bootstrapSwitch();
+        {{-- Inicializa el componente BootstrapSwitch --}}
+        $(".bootstrap_switch").bootstrapSwitch();
 <?php } ?>
-<?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
-            {{-- Configuración de Bootbox --}}
-            initBootBoxComponent(
-                '{{ trans('book/views.index.modal-default-title') }}',
-                '{{ trans('book/views.index.modal-default-btn-confirmation-label') }}',
-                '{{ trans('book/views.index.modal-default-btn-confirmation-className') }}',
-                '{{ trans('book/views.index.modal-default-btn-cancel-label') }}',
-                '{{ trans('book/views.index.modal-default-btn-cancel-className') }}'
-            );
-<?php } ?>
-        });
+    });
 
 <?php
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,34 +110,38 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
-        {{-- Configuración regional para Bootstrap DateRangePicker --}}
-        dateRangePickerLocaleSettings = @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>shared.dateRangePickerLocales')
+    {{-- Configuración regional para Bootstrap DateRangePicker --}}
+    dateRangePickerLocaleSettings = @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>shared.dateRangePickerLocales')
 
-        {{-- Algunos rangos de fecha predeterminados para Bootstrap DateRangePicker --}}
-        dateRangePickerRangesSettings = @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>shared.dateRangePickerRanges')
+    {{-- Algunos rangos de fecha predeterminados para Bootstrap DateRangePicker --}}
+    dateRangePickerRangesSettings = @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>shared.dateRangePickerRanges')
 
-        let dateRangeFields = [
+    let dateRangeFields = [
 <?php foreach ($fields as $key => $field) { ?>
 <?php if ($field->type == 'date') { ?>
-            {
-                field: 'input[name="<?= $field->name ?>[informative]"]',
-                format: 'YYYY-MM-DD',
-                with_time_picker: false,
-                opens: 'center',
-            },
+        {
+            field: 'input[name="<?= $field->name ?>[informative]"]',
+            format: 'YYYY-MM-DD',
+            with_time_picker: false,
+            opens: 'center',
+        },
 <?php } elseif ($field->type == 'timestamp' || $field->type == 'datetime') { ?>
-            {
-                field: 'input[name="<?= $field->name ?>[informative]"]',
-                format: 'YYYY-MM-DD HH:mm:ss',
-                with_time_picker: true,
-                opens: 'left',
-            },
+        {
+            field: 'input[name="<?= $field->name ?>[informative]"]',
+            format: 'YYYY-MM-DD HH:mm:ss',
+            with_time_picker: true,
+            opens: 'left',
+        },
 <?php } // end if ?>
 <?php } // end foreach ?>
-        ];
+    ];
 
-        {{-- Configuración de Bootstrap DateRangePicker --}}
-        setupDateRangePickers(dateRangeFields, dateRangePickerLocaleSettings, dateRangePickerRangesSettings);
+    {{-- Configuración de Bootstrap DateRangePicker --}}
+    setupDateRangePickers(
+        dateRangeFields,
+        dateRangePickerLocaleSettings,
+        dateRangePickerRangesSettings
+    );
 
 <?php } // end if ?>
 <?php
@@ -158,7 +150,7 @@
 // creación de un registro de ĺa entidad y en los campos del formulario de búsqueda avanzada en la tabla                           //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
-    </script>
+</script>
 <?php
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Inclusión y setup de componente Bootstrap 3 Editable, el setup comprende también algunos parámetros para los campos //
@@ -169,7 +161,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 
-    {{-- Inicializa y configura x-editable --}}
-    @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>shared.x-editable')
+{{-- Inicializa y configura x-editable --}}
+@include('<?=config('modules.CrudGenerator.config.layout-namespace')?>shared.x-editable')
 
 @endsection

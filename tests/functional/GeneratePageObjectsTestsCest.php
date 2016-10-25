@@ -28,11 +28,6 @@ class GeneratePageObjectsTestsCest
     {
         $I->wantTo('revisar los pageObjects generados');
 
-        // abro el pageObject Base
-        $I->openFile(base_path().'/tests/_support/Page/Functional/Books/Base.php');
-        $pageObject = file_get_contents(__DIR__.'/../_data/pageObjects/Base.php');
-        $I->seeInThisFile($pageObject);
-
         // abro el pageObject Create
         $I->openFile(base_path().'/tests/_support/Page/Functional/Books/Create.php');
         $pageObject = file_get_contents(__DIR__.'/../_data/pageObjects/Create.php');
