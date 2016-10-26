@@ -12,6 +12,11 @@
             {!! Form::text('single_entity_name', null, ['class' => 'form-control']) !!}
         </div>
 
+        <div class="form-group col-sm-4 col-md-2">
+            {!! Form::label('is_part_of_package', 'Part of package') !!}
+            {!! Form::text('is_part_of_package', null, ['class' => 'form-control']) !!}
+        </div>
+
         <div class="form-group col-sm-4 col-md-3">
             {!! Form::label('id_for_user', 'Id for User') !!}
             {!! Form::select(

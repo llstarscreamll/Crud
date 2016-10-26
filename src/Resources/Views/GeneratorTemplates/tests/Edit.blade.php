@@ -32,7 +32,12 @@ class {{$test}}Cest
      * Prueba la funcionalidad de editar la información de un modelo ya creado.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function edit(FunctionalTester $I)
     {
         $I->wantTo('editar un registro en modulo '.Page::$moduleName);
@@ -50,8 +55,16 @@ class {{$test}}Cest
         $I->see(Page::$moduleName, Page::$titleElem);
         $I->see(Page::$title, Page::$titleSmallElem);
 
+        // los datos del formulario
+        $formData = Page::getUpdateFormData();
+
+        // veo los campos correspondientes en el formulario
+        foreach ($formData as $name => $value) {
+            $I->seeElement("*[name=$name]");
+        }
+
         // veo los datos en el formulario
-        $I->seeInFormFields(Page::$form, Page::getUpdateFormData());
+        $I->seeInFormFields(Page::$form, $formData);
 
         // envío el formulario con los nuevos datos
         $updateData = Page::getDataToUpdateForm();

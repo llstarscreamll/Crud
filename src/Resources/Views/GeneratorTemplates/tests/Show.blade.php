@@ -47,8 +47,16 @@ class {{$test}}Cest
         $I->see(Page::$moduleName, Page::$titleElem);
         $I->see(Page::$title, Page::$titleSmallElem);
 
+        // los datos del formulario
+        $formData = Page::${{$gen->modelVariableName()}}Data;
+        $formData = Page::unsetHiddenFields($formData);
+
+        // veo los campos correspondientes en el formulario
+        foreach ($formData as $name => $value) {
+            $I->seeElement("*[name=$name]");
+        }
+
         // veo los datos del registro en el formulario de sólo lectura
-        $data = Page::${{$gen->modelVariableName()}}Data;
-        $I->seeInFormFields(Page::$form, Page::unsetHiddenFields($data));
+        $I->seeInFormFields(Page::$form, $formData);
     }
 }

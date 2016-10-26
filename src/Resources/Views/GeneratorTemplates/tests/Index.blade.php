@@ -33,7 +33,12 @@ class {{$test}}Cest
      * Crea 10 y mueve a papelera 2 registros de prueba en la base de datos.
      *
      * @return Illuminate\Database\Eloquent\Collection
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     private function createAndSoftDeleteSomeRecords()
     {
         // creo registros de prueba
@@ -49,7 +54,12 @@ class {{$test}}Cest
      * Prueba los datos mostrados en el Index del módulo.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function index(FunctionalTester $I)
     {
         $I->wantTo('probar vista index de módulo '.Page::$moduleName);
@@ -72,7 +82,12 @@ class {{$test}}Cest
      * "normales" junto con los registros en papelera.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function seeTrashedData(FunctionalTester $I)
     {
         $I->wantTo('ver registros en papelera en index de módulo '.Page::$moduleName);
@@ -112,7 +127,12 @@ class {{$test}}Cest
      * mostrados si es que el usuario consulta tales registros.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function seeRestoreButtonIfShownTrashedRecords(FunctionalTester $I)
     {
         $I->wantTo('ver botón restablecer si hay registros en papelera Index de módulo '.Page::$moduleName);
@@ -142,7 +162,12 @@ class {{$test}}Cest
      * innecesario mostrar dicho botón.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function dontSeeTrashButtonIfShownOnlyTrashedData(FunctionalTester $I)
     {
         $I->wantTo('ocultar botón "mover a papelera" si no hay registros que mover en Index de módulo '.Page::$moduleName);
@@ -165,7 +190,12 @@ class {{$test}}Cest
      * a la vez desde el index.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function restoreManyTrashedRecords(FunctionalTester $I)
     {
         $I->wantTo('restaurar varios registros en papelera a la vez en módulo '.Page::$moduleName);

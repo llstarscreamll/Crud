@@ -632,13 +632,16 @@ class BaseGenerator
         $license = config('modules.CrudGenerator.config.license');
         $copyRight = config('modules.CrudGenerator.config.copyright');
         $authorEmail = config('modules.CrudGenerator.config.author_email');
+        $package = !empty($this->request->get('is_part_of_package'))
+            ? $this->request->get('is_part_of_package')
+            : $this->request->get('plural_entity_name');
 
         return
-        "Este archivo es parte del Módulo {$this->request->get('plural_entity_name')}.\n".
+        "Este archivo es parte del {$package}.\n".
         "    (c) $author <$authorEmail>\n".
         "    Licensed under $license.\n\n".
 
-        "    @package    Módulo {$this->request->get('plural_entity_name')}\n".
+        "    @package    {$package}\n".
         "    @version    0.1\n".
         "    @author     $author\n".
         "    @license    $license\n".
@@ -653,14 +656,17 @@ class BaseGenerator
         $license = config('modules.CrudGenerator.config.license');
         $copyRight = config('modules.CrudGenerator.config.copyright');
         $authorEmail = config('modules.CrudGenerator.config.author_email');
+        $package = !empty($this->request->get('is_part_of_package'))
+            ? $this->request->get('is_part_of_package')
+            : $this->request->get('plural_entity_name');
 
         return
         "/**\n".
-        " * Este archivo es parte del Módulo {$this->request->get('plural_entity_name')}.\n".
+        " * Este archivo es parte de {$package}.\n".
         " * (c) $author <$authorEmail>\n".
         " * Licensed under $license.\n *\n".
 
-        " * @package    Módulo {$this->request->get('plural_entity_name')}\n".
+        " * @package    {$package}\n".
         " * @version    0.1\n".
         " * @author     $author\n".
         " * @license    $license\n".

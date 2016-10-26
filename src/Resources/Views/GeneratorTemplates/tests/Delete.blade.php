@@ -33,7 +33,12 @@ class {{$test}}Cest
      * Prueba la funcionalidad de eliminar un registro.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function delete(FunctionalTester $I)
     {
         $I->wantTo('eliminar registro en módulo '.Page::$moduleName);
@@ -57,7 +62,12 @@ class {{$test}}Cest
      * Prueba la funcionalidad de mover a la papelera varios registros a la vez.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function deleteMany(FunctionalTester $I)
     {
         $I->wantTo('eliminar varios registros a la vez en módulo '.Page::$moduleName);

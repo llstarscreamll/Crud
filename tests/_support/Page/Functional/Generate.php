@@ -15,6 +15,7 @@ class Generate
      */
     public static $formData = [
         'UI_theme' => 'Inspinia',
+        'is_part_of_package' => 'Books',
         'table_name' => 'books',
         'use_faker' => false,
         'use_base_class' => false,

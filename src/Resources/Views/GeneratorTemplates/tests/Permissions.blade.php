@@ -61,7 +61,12 @@ class {{$test}}Cest
      * correctamente.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function createPermissions(FunctionalTester $I)
     {
         $I->wantTo('probar permisos de creación en módulo '.Page::$moduleName);
@@ -82,7 +87,12 @@ class {{$test}}Cest
      * correctamente.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function editPermissions(FunctionalTester $I)
     {
         $I->wantTo('probar permisos de edición en módulo '.Page::$moduleName);
@@ -108,7 +118,12 @@ class {{$test}}Cest
      * correctamente.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function deletePermissions(FunctionalTester $I)
     {
         $I->wantTo('probar permisos de eliminación en módulo '.Page::$moduleName);
@@ -128,7 +143,12 @@ class {{$test}}Cest
      * registros en papelera funcionen correctamente.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function restorePermissions(FunctionalTester $I)
     {
         $I->wantTo('probar permisos de restauración en módulo '.Page::$moduleName);

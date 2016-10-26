@@ -32,7 +32,12 @@ class {{$test}}Cest
      * Prueba la funcionalidad de crear un nuevo registro.
      *
      * @param  FunctionalTester $I
+@if(!empty($request->get('is_part_of_package')))
+     * @group  {{$request->get('is_part_of_package')}}
+     */ 
+@else
      */
+@endif
     public function create(FunctionalTester $I)
     {
         $I->wantTo('crear registro en módulo '.Page::$moduleName);
@@ -43,8 +48,16 @@ class {{$test}}Cest
         $I->see(Page::$moduleName, Page::$titleElem);
         $I->see(Page::$title, Page::$titleSmallElem);
 
+        // los datos a enviar en el formulario
+        $formData = Page::getCreateData();
+
+        // veo los campos correspondientes en el formulario
+        foreach ($formData as $name => $value) {
+            $I->seeElement("*[name=$name]");
+        }
+
         // envío el formulario
-        $I->submitForm(Page::$form, Page::getCreateData(), Page::$formBtnElem);
+        $I->submitForm(Page::$form, $formData, Page::$formBtnElem);
 
         // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::$moduleURL);
