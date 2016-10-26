@@ -1,79 +1,42 @@
 <?php
 
 /**
- * Este archivo es parte del Módulo Libros.
+ * Este archivo es parte de Books.
  * (c) Johan Alvarez <llstarscreamll@hotmail.com>
  * Licensed under The MIT License (MIT).
-
- * @package    Módulo Libros.
+ *
+ * @package    Books
  * @version    0.1
- * @author     Johan Alvarez.
- * @license    The MIT License (MIT).
- * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
- * @link       https://github.com/llstarscreamll.
+ * @author     Johan Alvarez
+ * @license    The MIT License (MIT)
+ * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+ * @link       https://github.com/llstarscreamll
  */
 
 namespace Page\Functional\Books;
 
-use Page\Functional\Books\Base;
+use FunctionalTester;
 
-class Delete extends Base
+class Delete extends Index
 {
-    // include url of current page
-    public static $URL = '/books';
-
     /**
-     * Declare UI map for this page here. CSS or XPath allowed.
-     * public static $usernameField = '#username';
-     * public static $formSubmitButton = "#mainForm input[type=submit]";
-     */
-    
-    /**
-     * Los atributos del botón de mover a la papelera.
+     * El botón de mover a la papelera.
+     *
      * @var  array
      */
-    static $deleteBtn = array();
+    static $deleteBtn = 'Mover a papelera';
+    static $deleteBtnElem = 'button.btn.btn-danger';
 
     /**
-     * Los atributos del botón de confirmación de mover a la papelera.
+     * Mensaje de éxito al eliminar un registro.
+     *
      * @var  array
      */
-    static $deleteBtnConfirm = array();
+    static $msgSuccess = 'El libro ha sido movido a la papelera.';
+    static $msgSuccessElem = '.alert.alert-success';
 
-    /**
-     * Los atributos del mensaje de confirmación de la operación.
-     * @var  array
-     */
-    static $msgSuccess = array();
-
-    /**
-     * Los atributos del mensaje cuando no se encontran datos.
-     * @var  array
-     */
-    static $msgNoDataFount = array();
-
-    public function __construct(\FunctionalTester $I)
+    public function __construct(FunctionalTester $I)
     {
         parent::__construct($I);
-
-        self::$deleteBtn = [
-            'txt'       => trans('book/views.show.btn-trash'),
-            'selector'  => 'button.btn.btn-danger'
-        ];
-
-        self::$deleteBtnConfirm = [
-            'txt'       => trans('book/views.show.modal-confirm-trash-btn-confirm'),
-            'selector'  => 'form[name=delete-books-form] .btn.btn-danger'
-        ];
-
-        self::$msgSuccess = [
-            'txt'       => trans_choice('book/messages.destroy_book_success', 1),
-            'selector'  => '.alert.alert-success'
-        ];
-
-        self::$msgNoDataFount = [
-            'txt'       => trans('book/views.index.no-records-found'),
-            'selector'  => 'table .alert.alert-warning'
-        ];
     }
 }

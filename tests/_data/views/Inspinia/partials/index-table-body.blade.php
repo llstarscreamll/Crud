@@ -14,16 +14,16 @@
     $hide_actions_column = true
     ****************************************************************************
 
-    Este archivo es parte del Módulo Libros.
-	(c) Johan Alvarez <llstarscreamll@hotmail.com>
-	Licensed under The MIT License (MIT).
+    Este archivo es parte del Books.
+    (c) Johan Alvarez <llstarscreamll@hotmail.com>
+    Licensed under The MIT License (MIT).
 
-	@package    Módulo Libros.
-	@version    0.1
-	@author     Johan Alvarez.
-	@license    The MIT License (MIT).
-	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
-	@link       https://github.com/llstarscreamll.
+    @package    Books
+    @version    0.1
+    @author     Johan Alvarez
+    @license    The MIT License (MIT)
+    @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+    @link       https://github.com/llstarscreamll
     
     ****************************************************************************
 --}}
@@ -177,10 +177,10 @@
         @if(!isset($hide_actions_column))
         {{-- Los botones de acción para cada registro --}}
         <td class="actions-column">
-        @if ($record->trashed())
+        @if ($record->trashed() && auth()->user()->can('books.restore'))
 
             {{-- Formulario para restablecer el registro --}}
-            {!! Form::open(['route' => ['books.restore'], 'method' => 'PUT', 'class' => 'form-inline display-inline']) !!}
+            {!! Form::open(['route' => ['books.restore', $record->id], 'method' => 'PUT', 'class' => 'form-inline display-inline']) !!}
                 {!! Form::hidden('id[]', $record->id) !!}
                 
                 {{-- Botón que muestra ventana modal de confirmación para el envío del formulario de restablecer el registro --}}
@@ -196,7 +196,7 @@
                         data-btnClassName="{{trans('book/views.index.modal-restore-btn-confirm-class-name')}}"
                         title="{{trans('book/views.index.restore-row-button-label')}}">
                     <span class="fa fa-mail-reply"></span>
-                    <span class="sr-only">{{trans('book/views.index.restore-item-button')}}</span>
+                    <span class="sr-only">{{trans('book/views.index.restore-row-button-label')}}</span>
                 </button>
             
             {!! Form::close() !!}
@@ -213,36 +213,40 @@
                 <span class="sr-only">{{trans('book/views.index.see-details-button-label')}}</span>
             </a>
 
-            {{-- Botón para ir a formulario de actualización del registro --}}
-            <a  href="{{route('books.edit', $record->id)}}"
-                class="btn btn-warning btn-xs" role="button"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="{{trans('book/views.index.edit-item-button-label')}}">
-                <span class="glyphicon glyphicon-pencil"></span>
-                <span class="sr-only">{{trans('book/views.index.edit-item-button-label')}}</span>
-            </a>
+            @if(auth()->user()->can('books.edit'))
+                {{-- Botón para ir a formulario de actualización del registro --}}
+                <a  href="{{route('books.edit', $record->id)}}"
+                    class="btn btn-warning btn-xs" role="button"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="{{trans('book/views.index.edit-item-button-label')}}">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    <span class="sr-only">{{trans('book/views.index.edit-item-button-label')}}</span>
+                </a>
+            @endif
 
-            {{-- Formulario para eliminar registro --}}
-            {!! Form::open(['route' => ['books.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
+            @if(auth()->user()->can('books.destroy'))
+                {{-- Formulario para eliminar registro --}}
+                {!! Form::open(['route' => ['books.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
+                    
+                    {{-- Botón muestra ventana modal de confirmación para el envío de formulario de eliminar el registro --}}
+                    <button type="button"
+                            class="btn btn-danger btn-xs bootbox-dialog"
+                            role="button"
+                            data-toggle="tooltip"
+                            data-placement="top"
+                            {{-- Setup de ventana modal de confirmación --}}
+                            data-modalMessage="{{trans('book/views.index.modal-delete-message', ['item' => $record->name])}}"
+                            data-modalTitle="{{trans('book/views.index.modal-delete-title')}}"
+                            data-btnLabel="{{trans('book/views.index.modal-delete-btn-confirm-label')}}"
+                            data-btnClassName="{{trans('book/views.index.modal-delete-btn-confirm-class-name')}}"
+                            title="{{trans('book/views.index.delete-item-button-label')}}">
+                        <span class="fa fa-trash"></span>
+                        <span class="sr-only">{{trans('book/views.index.delete-item-button-label')}}</span>
+                    </button>
                 
-                {{-- Botón muestra ventana modal de confirmación para el envío de formulario de eliminar el registro --}}
-                <button type="button"
-                        class="btn btn-danger btn-xs bootbox-dialog"
-                        role="button"
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        {{-- Setup de ventana modal de confirmación --}}
-                        data-modalMessage="{{trans('book/views.index.modal-delete-message', ['item' => $record->name])}}"
-                        data-modalTitle="{{trans('book/views.index.modal-delete-title')}}"
-                        data-btnLabel="{{trans('book/views.index.modal-delete-btn-confirm-label')}}"
-                        data-btnClassName="{{trans('book/views.index.modal-delete-btn-confirm-class-name')}}"
-                        title="{{trans('book/views.index.delete-item-button-label')}}">
-                    <span class="fa fa-trash"></span>
-                    <span class="sr-only">{{trans('book/views.index.delete-item-button-label')}}</span>
-                </button>
-            
-            {!! Form::close() !!}
+                {!! Form::close() !!}
+            @endif
         @endif
         </td>
         @endif

@@ -1,22 +1,22 @@
 <?php
 
 /**
- * Este archivo es parte del Módulo Libros.
+ * Este archivo es parte de Books.
  * (c) Johan Alvarez <llstarscreamll@hotmail.com>
  * Licensed under The MIT License (MIT).
-
- * @package    Módulo Libros.
+ *
+ * @package    Books
  * @version    0.1
- * @author     Johan Alvarez.
- * @license    The MIT License (MIT).
- * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
- * @link       https://github.com/llstarscreamll.
+ * @author     Johan Alvarez
+ * @license    The MIT License (MIT)
+ * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+ * @link       https://github.com/llstarscreamll
  */
 
 return [
 
     /**
-     * Los textos de las vistas como por ejemplo los labels de los campos del fomulario,
+     * Los textos de las vistas como por ejemplo los labels de los campos del formulario,
      * cabeceras de tablas, labels de botones, de links, etc...
      */
     
@@ -34,7 +34,7 @@ return [
         // botonera
         'create-button-label' => 'Crear Libro',
         'delete-massively-button-label' => 'Borrar Libros seleccionados',
-        'restore-massively-button-label' => 'Restaurar Seleccionados',
+        'restore-massively-button-label' => 'Restaurar Libros seleccionados',
 
         // lineas de las opciones de filtros del fomulario de búsqueda
         'filter-with-trashed-label' => 'Con Reg. Borrados',
@@ -76,8 +76,8 @@ return [
         'search-button-label' => 'Buscar',
         'clean-filter-button-label' => 'Limpiar filtros',
         'see-details-button-label' => 'Ver detalles',
-        'edit-item-button-label' => 'Editar registro',
-        'delete-item-button-label' => 'Borrar registro',
+        'edit-item-button-label' => 'Editar',
+        'delete-item-button-label' => 'Mover a papelera',
         'create-form-modal-title' => 'Crear Nuevo Libro',
         'restore-row-button-label' => 'Restaurar',
   

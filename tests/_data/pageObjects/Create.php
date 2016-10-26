@@ -1,82 +1,62 @@
 <?php
 
 /**
- * Este archivo es parte del Módulo Libros.
+ * Este archivo es parte de Books.
  * (c) Johan Alvarez <llstarscreamll@hotmail.com>
  * Licensed under The MIT License (MIT).
-
- * @package    Módulo Libros.
+ *
+ * @package    Books
  * @version    0.1
- * @author     Johan Alvarez.
- * @license    The MIT License (MIT).
- * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
- * @link       https://github.com/llstarscreamll.
+ * @author     Johan Alvarez
+ * @license    The MIT License (MIT)
+ * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+ * @link       https://github.com/llstarscreamll
  */
 
 namespace Page\Functional\Books;
 
-use Page\Functional\Books\Base;
+use FunctionalTester;
 
-class Create extends Base
+class Create extends Index
 {
-    // include url of current page
+    /**
+     * La URL de la página.
+     *
+     * @var  string
+     */
     public static $URL = '/books/create';
 
     /**
-     * Declare UI map for this page here. CSS or XPath allowed.
-     * public static $usernameField = '#username';
-     * public static $formSubmitButton = "#mainForm input[type=submit]";
+     * El título de la página.
+     *
+     * @var  string
      */
-
-    /**
-     * Los atributos del título de la página.
-     * @var  array
-     */
-    static $title = array();
+    static $title = 'Crear';
 
     /**
      * El selector del formulario.
+     *
      * @var  string
      */
-    static $form;
+    static $form = 'form[name=create-books-form]';
 
     /**
-     * Los atributos del botón del formulario.
+     * El botón submit del formulario.
+     *
      * @var  array
      */
-    static $formButton = array();
+    static $formBtnElem = 'button.btn.btn-primary';
 
     /**
      * Mensaje de éxito al crear un registro.
+     *
      * @var  array
      */
-    static $msgSuccess = array();
+    static $msgSuccess = 'Libro creado correctamente.';
+    static $msgSuccessElem = '.alert.alert-success';
 
-    public function __construct(\FunctionalTester $I)
+    public function __construct(FunctionalTester $I)
     {
         parent::__construct($I);
-
-        $this->initUIMap();
-    }
-
-    /**
-     * Inicializa las variables del mapeo de la UI.
-     * @return  void
-     */
-    public function initUIMap()
-    {
-        self::$title = [
-            'txt' => trans('book/views.create.name'),
-            'selector'  => '.content-header h1 small'
-        ];
-        self::$form = 'form[name=create-books-form]';
-        self::$formButton = [
-            'txt' => trans('book/views.create.form-button'),
-            'selector' => 'button.btn.btn-primary',
-        ];
-        self::$msgSuccess = [
-            'txt' => trans('book/messages.create_book_success'),
-            'selector' => '.alert.alert-success'
-        ];
     }
 }

@@ -5,16 +5,16 @@
     Contiene los assets css o javascript usados en la vista index.
     ****************************************************************************
 
-    Este archivo es parte del Módulo Libros.
-	(c) Johan Alvarez <llstarscreamll@hotmail.com>
-	Licensed under The MIT License (MIT).
+    Este archivo es parte del Books.
+    (c) Johan Alvarez <llstarscreamll@hotmail.com>
+    Licensed under The MIT License (MIT).
 
-	@package    Módulo Libros.
-	@version    0.1
-	@author     Johan Alvarez.
-	@license    The MIT License (MIT).
-	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
-	@link       https://github.com/llstarscreamll.
+    @package    Books
+    @version    0.1
+    @author     Johan Alvarez
+    @license    The MIT License (MIT)
+    @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+    @link       https://github.com/llstarscreamll
     
     ****************************************************************************
 --}}
@@ -27,8 +27,6 @@
 <link href="{{ asset('plugins/icheck2/square/blue.css') }}" rel="stylesheet" type="text/css" />
 <link href="{{ asset('plugins/icheck2/square/red.css') }}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('plugins/icheck2/icheck.min.js') }}" type="text/javascript"></script>
-{{-- Bootbox --}}
-<script src="{{ asset('plugins/bootbox/bootbox.js') }}" type="text/javascript"></script>
 {{-- Bootstrap DateRangePicker --}}
 <link href="{{ asset('plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" type="text/css"/>
 <script src="{{ asset('plugins/moment/min/moment.min.js') }}" type="text/javascript"></script>

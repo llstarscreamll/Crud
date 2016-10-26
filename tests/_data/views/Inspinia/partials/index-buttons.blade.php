@@ -6,23 +6,23 @@
     la base dedatos. Esta vista es llamada desde la vista index.
     ****************************************************************************
 
-    Este archivo es parte del Módulo Libros.
-	(c) Johan Alvarez <llstarscreamll@hotmail.com>
-	Licensed under The MIT License (MIT).
+    Este archivo es parte del Books.
+    (c) Johan Alvarez <llstarscreamll@hotmail.com>
+    Licensed under The MIT License (MIT).
 
-	@package    Módulo Libros.
-	@version    0.1
-	@author     Johan Alvarez.
-	@license    The MIT License (MIT).
-	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
-	@link       https://github.com/llstarscreamll.
+    @package    Books
+    @version    0.1
+    @author     Johan Alvarez
+    @license    The MIT License (MIT)
+    @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+    @link       https://github.com/llstarscreamll
     
     ****************************************************************************
 --}}
 
 <div class="row tools">
     <div class="col-md-6 action-buttons">
-    @if (Request::get('trashed_records') != 'onlyTrashed')
+    @if (Request::get('trashed_records') != 'onlyTrashed' && auth()->user()->can('books.destroy'))
 
     {{-- Formulario para borrar resgistros masivamente --}}
     {!! Form::open([
@@ -55,11 +55,11 @@
 
 
     {{-- Esta opción sólo es mostrada si el usuario decidió consultar los registros "borrados" --}}
-    @if (Request::has('trashed_records'))
+    @if (Request::has('trashed_records') && auth()->user()->can('books.restore'))
 
     {{-- Formulario para restablecer resgistros masivamente --}}
     {!! Form::open([
-        'route' => ['books.restore'],
+        'route' => ['books.restore', 0],
         'method' => 'PUT',
         'id' => 'restoreMassivelyForm',
         'class' => 'form-inline display-inline'
@@ -86,29 +86,30 @@
 
     @endif
 
-        {{-- El boton que dispara la ventana modal con formulario de creación de registro --}}
-        {{--*******************************************************************************************************************************
-            Descomentar este bloque y comentar el bloque siguiente si se desea que el formulario de creación SI quede en la vista del index
-            *******************************************************************************************************************************--}}
-        <div class="display-inline" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('book/views.index.create-button-label')}}">
-            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#create-form-modal">
+        @if(auth()->user()->can('books.create'))
+            {{-- El boton que dispara la ventana modal con formulario de creación de registro --}}
+            {{--*******************************************************************************************************************************
+                Descomentar este bloque y comentar el bloque siguiente si se desea que el formulario de creación SI quede en la vista del index
+                *******************************************************************************************************************************--}}
+            <div class="display-inline" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('book/views.index.create-button-label')}}">
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#create-form-modal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="sr-only">{{trans('book/views.index.create-button-label')}}</span>
+                </button>
+            </div>
+
+            {{-- Formulario de creación de registro --}}
+            @include('books.partials.index-create-form')
+
+            {{-- Link que lleva a la página con el formulario de creación de registro --}}
+            {{--******************************************************************************************************************************
+                Descomentar este bloque y comentar el bloque anterior si se desea que el formulario de creación NO quede en la vista del index
+            <a id="create-books-link" class="btn btn-default btn-sm" href="{!! route('books.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('book/views.index.create-button-label')}}">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="sr-only">{{trans('book/views.index.create-button-label')}}</span>
-            </button>
-        </div>
-
-        {{-- Formulario de creación de registro --}}
-        @include('books.partials.index-create-form')
-
-        {{-- Link que lleva a la página con el formulario de creación de registro --}}
-        {{--******************************************************************************************************************************
-            Descomentar este bloque y comentar el bloque anterior si se desea que el formulario de creación NO quede en la vista del index
-        <a id="create-books-link" class="btn btn-default btn-sm" href="{!! route('books.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('book/views.index.create-button-label')}}">
-            <span class="glyphicon glyphicon-plus"></span>
-            <span class="sr-only">{{trans('book/views.index.create-button-label')}}</span>
-        </a>
-            ******************************************************************************************************************************--}}
-
+            </a>
+                ******************************************************************************************************************************--}}
+        @endif
     </div>
 
 </div>

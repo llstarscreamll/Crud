@@ -7,16 +7,16 @@
     cargada desde la vista index.
     ****************************************************************************
 
-    Este archivo es parte del Módulo Libros.
-	(c) Johan Alvarez <llstarscreamll@hotmail.com>
-	Licensed under The MIT License (MIT).
+    Este archivo es parte del Books.
+    (c) Johan Alvarez <llstarscreamll@hotmail.com>
+    Licensed under The MIT License (MIT).
 
-	@package    Módulo Libros.
-	@version    0.1
-	@author     Johan Alvarez.
-	@license    The MIT License (MIT).
-	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
-	@link       https://github.com/llstarscreamll.
+    @package    Books
+    @version    0.1
+    @author     Johan Alvarez
+    @license    The MIT License (MIT)
+    @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+    @link       https://github.com/llstarscreamll
     
     ****************************************************************************
 --}}

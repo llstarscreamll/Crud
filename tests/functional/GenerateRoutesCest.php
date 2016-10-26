@@ -27,8 +27,8 @@ class GenerateRoutesCest
 
     /**
      * Comprueba las líneas de código generadas en el controlador del CRUD.
+     *
      * @param  FunctionalTester $I
-     * @return void
      */
     public function checkRoutesCode(FunctionalTester $I)
     {

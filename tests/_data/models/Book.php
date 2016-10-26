@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Este archivo es parte del Módulo Libros.
+ * Este archivo es parte de Books.
  * (c) Johan Alvarez <llstarscreamll@hotmail.com>
  * Licensed under The MIT License (MIT).
-
- * @package    Módulo Libros.
+ *
+ * @package    Books
  * @version    0.1
- * @author     Johan Alvarez.
- * @license    The MIT License (MIT).
- * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
- * @link       https://github.com/llstarscreamll.
+ * @author     Johan Alvarez
+ * @license    The MIT License (MIT)
+ * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+ * @link       https://github.com/llstarscreamll
  */
 
 namespace App\Models;
@@ -251,7 +251,7 @@ class Book extends Model
      */
     public static function getEnumValuesArray($table, $column)
     {
-        $type = self::getColumnEnumValuesFromDescQuery($table, $column);
+        $type = static::getColumnEnumValuesFromDescQuery($table, $column);
 
         preg_match('/^enum\((.*)\)$/', $type, $matches);
 
@@ -274,7 +274,7 @@ class Book extends Model
      */
     public static function getEnumValuesString($table, $column)
     {
-        $type = self::getColumnEnumValuesFromDescQuery($table, $column);
+        $type = static::getColumnEnumValuesFromDescQuery($table, $column);
 
         preg_match('/^enum\((.*)\)$/', $type, $matches);
 
@@ -297,10 +297,10 @@ class Book extends Model
     {
         $type = '';
 
-        if (self::getDatabaseConnectionDriver() == 'mysql') {
-            $type = \DB::select( \DB::raw("SHOW COLUMNS FROM ".self::getDatabaseTablesPrefix()."$table WHERE Field = '$column'") )[0]->Type;
+        if (static::getDatabaseConnectionDriver() == 'mysql') {
+            $type = \DB::select( \DB::raw("SHOW COLUMNS FROM ".static::getDatabaseTablesPrefix()."$table WHERE Field = '$column'") )[0]->Type;
         } else {
-            $type = self::${$column.'ColumnEnumValues'};
+            $type = static::${$column.'ColumnEnumValues'};
         }
 
         return $type;

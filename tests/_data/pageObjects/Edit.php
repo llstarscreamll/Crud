@@ -1,91 +1,75 @@
 <?php
 
 /**
- * Este archivo es parte del Módulo Libros.
+ * Este archivo es parte de Books.
  * (c) Johan Alvarez <llstarscreamll@hotmail.com>
  * Licensed under The MIT License (MIT).
-
- * @package    Módulo Libros.
+ *
+ * @package    Books
  * @version    0.1
- * @author     Johan Alvarez.
- * @license    The MIT License (MIT).
- * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
- * @link       https://github.com/llstarscreamll.
+ * @author     Johan Alvarez
+ * @license    The MIT License (MIT)
+ * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+ * @link       https://github.com/llstarscreamll
  */
 
 namespace Page\Functional\Books;
 
-use Page\Functional\Books\Base;
+use FunctionalTester;
+use App\Models\Reason;
 
-class Edit extends Base
+class Edit extends Index
 {
-    // include url of current page
-    public static $URL = '/books';
-
     /**
-     * Declare UI map for this page here. CSS or XPath allowed.
-     * public static $usernameField = '#username';
-     * public static $formSubmitButton = "#mainForm input[type=submit]";
-     */
-    
-    /**
-     * Los atributos del link de acceso a la edición de capacitación.
+     * El link de acceso a la edición del registro.
+     *
      * @var  array
      */
-    static $linkToEdit = array();
+    static $linkToEdit = 'Editar';
+    static $linkToEditElem = 'a.btn.btn-warning';
     
     /**
-     * Los atributos del título de la página.
-     * @var  array
+     * El título de la página.
+     *
+     * @var  string
      */
-    static $title = array();
+    static $title = 'Actualizar';
 
     /**
      * El selector del formulario de edición.
+     *
      * @var  string
      */
     static $form = 'form[name=edit-books-form]';
 
     /**
-     * Los atributos del mensaje de confirmación de la operación.
+     * Mensaje de éxito al actualizar un registro.
+     *
      * @var  array
      */
-    static $msgSuccess = array();
+    static $msgSuccess = 'Libro actualizado correctamente.';
+    static $msgSuccessElem = '.alert.alert-success';
 
-    public function __construct(\FunctionalTester $I)
+    public function __construct(FunctionalTester $I)
     {
         parent::__construct($I);
-
-        self::$linkToEdit = [
-            'txt'       => trans('book/views.edit.link-access'),
-            'selector'  => 'a.btn.btn-warning'
-        ];
-
-        self::$title = [
-            'txt'       => trans('book/views.edit.name'),
-            'selector'  => '.content-header h1 small'
-        ];
-
-        self::$msgSuccess = [
-            'txt'       => trans('book/messages.update_book_success'),
-            'selector'  => '.alert.alert-success'
-        ];
     }
 
     /**
-     * Devuelve un array con los datos que deben estar presentes en el formulario de edición
-     * del modelo antes de su actualización.
+     * Devuelve array con los datos que deben estar presentes en el formulario
+     * de edición antes de la operación de actualización.
+     *
      * @return  array
      */
     public static function getUpdateFormData()
     {
         $data = array();
 
-        foreach (self::$bookData as $key => $value) {
-            if (in_array($key, self::$updateFormFields)) {
+        foreach (static::$bookData as $key => $value) {
+            if (in_array($key, static::$editFormFields)) {
                 $data[$key] = $value;
             }
-            if (in_array($key, self::$fieldsThatRequieresConfirmation)){
+            if (in_array($key, static::$fieldsThatRequieresConfirmation)){
                 $data[$key.'_confirmation'] = '';
             }
         }
@@ -94,7 +78,9 @@ class Edit extends Base
     }
 
     /**
-     * Devuelve un array con datos para actualización del formulario de edición del modelo.
+     * Devuelve array con datos para actualización de registro en formulario de
+     * edición.
+     *
      * @return  array
      */
     public static function getDataToUpdateForm()
@@ -102,7 +88,7 @@ class Edit extends Base
         $data = array();
 
         $data = [
-            'reason_id' => 2,
+            'reason_id' => Reason::all(['id'])->last()->id,
             'name' => "El Coronel No Tiene Quien Le Escriba",
             'author' => "Gabriel García Márquez",
             'genre' => "Thriller",
@@ -119,22 +105,23 @@ class Edit extends Base
     }
 
     /**
-     * Obtine los datos ya actualizados para comprobarlos en la vista de sólo lectura (show).
+     * Obtiene array de datos del registro actualizado para comprobarlos en la
+     * vista de sólo lectura (show).
+     *
      * @return    array
      */
     public static function getUpdatedDataToShowForm()
     {
-        $data = self::getDataToUpdateForm();
+        $data = static::getDataToUpdateForm();
 
-        // los siguientes campos no se han de mostrar en la vista de sólo lectura
-        foreach (self::$hiddenFields as $key => $value) {
+        // los campos ocultos no deben ser mostrados en la vista de sólo lectura
+        foreach (static::$hiddenFields as $key => $value) {
             unset($data[$value]);
-            if (in_array($key, self::$fieldsThatRequieresConfirmation)) {
+            if (in_array($key, static::$fieldsThatRequieresConfirmation)) {
                 unset($data[$value.'_confirmation']);
             }
         }
 
         return $data;
     }
-
 }

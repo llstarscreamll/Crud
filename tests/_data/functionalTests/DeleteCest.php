@@ -1,59 +1,84 @@
 <?php
 
 /**
- * Este archivo es parte del Módulo Libros.
+ * Este archivo es parte de Books.
  * (c) Johan Alvarez <llstarscreamll@hotmail.com>
  * Licensed under The MIT License (MIT).
-
- * @package    Módulo Libros.
+ *
+ * @package    Books
  * @version    0.1
- * @author     Johan Alvarez.
- * @license    The MIT License (MIT).
- * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
- * @link       https://github.com/llstarscreamll.
+ * @author     Johan Alvarez
+ * @license    The MIT License (MIT)
+ * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+ * @link       https://github.com/llstarscreamll
  */
 
 namespace Books;
 
-use \FunctionalTester;
+use App\Models\Book;
+use FunctionalTester;
 use Page\Functional\Books\Delete as Page;
 
 class DeleteCest
 {
+    /**
+     * Las acciones a realizar antes de cada test.
+     *
+     * @param    FunctionalTester $I
+     */
     public function _before(FunctionalTester $I)
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
     }
 
-    public function _after(FunctionalTester $I)
+    /**
+     * Prueba la funcionalidad de eliminar un registro.
+     *
+     * @param    FunctionalTester $I
+     * @group    Books
+     */ 
+    public function delete(FunctionalTester $I)
     {
+        $I->wantTo('eliminar registro en módulo '.Page::$moduleName);
+
+        // creo registro de prueba
+        Page::haveBook($I);
+
+        // voy a la página de detalles del registro y doy clic al botón "Enviar
+        // a Papelera"
+        $I->amOnPage(Page::route('/'.Page::$bookData['id']));
+        $I->click(Page::$deleteBtn, Page::$deleteBtnElem);
+
+        // soy redirigido al Index y debo ver mensaje de éxito en la operación
+        $I->seeCurrentUrlEquals(Page::$moduleURL);
+        $I->see(Page::$msgSuccess, Page::$msgSuccessElem);
+        // no debe haber datos que mostrar
+        $I->see(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
     }
 
     /**
-     * Prueba la funcionalidad de eliminar un modelo.
+     * Prueba la funcionalidad de mover a la papelera varios registros a la vez.
+     *
      * @param    FunctionalTester $I
-     * @return  void
-     */
-    public function delete(FunctionalTester $I)
+     * @group    Books
+     */ 
+    public function deleteMany(FunctionalTester $I)
     {
-        $I->am('admin de '.trans('book/views.module.name'));
-        $I->wantTo('eliminar un registro en modulo de '.trans('book/views.module.name'));
+        $I->wantTo('eliminar varios registros a la vez en módulo '.Page::$moduleName);
 
-        // creo el registro de prueba
-        Page::haveBook($I);
+        // creo registros de prueba
+        $books = factory(Book::class, 10)->create();
 
-        // voy a la página de detalles del registro
-        $I->amOnPage(Page::route('/'.Page::$bookData['id']));
-        // veo el botón que abre la ventana modal para la confirmación de eliminación
-        $I->see(Page::$deleteBtn['txt'], Page::$deleteBtn['selector']);
-        // doy clic al botón de confirmación de ventana modal para borrar el registro
-        $I->click(Page::$deleteBtnConfirm['txt'], Page::$deleteBtnConfirm['selector']);
-
-        // soy redireccionado al index y veo mensaje de confirmación
-        $I->seeCurrentUrlEquals(Page::$URL);
-        $I->see(Page::$msgSuccess['txt'], Page::$msgSuccess['selector']);
-        // veo mensaje de que no hay datos de capacitaciones
-        $I->see(Page::$msgNoDataFount['txt'], Page::$msgNoDataFount['selector']);
+        // cuando cargo el Index el botón "Mover a la Papelera" debe ser mostrado
+        $I->amOnPage(Page::$moduleURL);
+        $I->see('Borrar Libros seleccionados', 'button.btn.btn-default.btn-sm');
+        
+        // cargo la ruta que "Mueve a Papelera" los registros
+        $I->destroyMany('books.destroy', $books->pluck('id')->toArray());
+        
+        // soy redirigido al Index y no debe haber datos que mostrar
+        $I->seeCurrentUrlEquals(Page::$moduleURL);
+        $I->see('No se encontraron registros...', '.alert.alert-warning');
     }
 }

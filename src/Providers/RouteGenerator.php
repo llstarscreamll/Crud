@@ -92,7 +92,7 @@ class RouteGenerator extends BaseGenerator
         // restaurar archivos de papelera
         if ($this->hasDeletedAtColumn($this->fields)) {
 
-            $restore_route = "Route::put(\n\t'/{$this->route()}/restore/{{$this->table_name}}',\n\t[\n\t'as'    =>  '{$this->route()}.restore',\n\t'uses'  =>  '{$this->controllerClassName()}@restore'\n\t]\n);\n";
+            $restore_route = "Route::put(\n\t'/{$this->route()}/restore/{{$this->table_name}}',\n\t[\n\t'as' => '{$this->route()}.restore',\n\t'uses' => '{$this->controllerClassName()}@restore'\n\t]\n);\n";
             $route = $restore_route.$route;
 
         }

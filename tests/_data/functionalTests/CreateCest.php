@@ -1,69 +1,67 @@
 <?php
 
 /**
- * Este archivo es parte del Módulo Libros.
+ * Este archivo es parte de Books.
  * (c) Johan Alvarez <llstarscreamll@hotmail.com>
  * Licensed under The MIT License (MIT).
-
- * @package    Módulo Libros.
+ *
+ * @package    Books
  * @version    0.1
- * @author     Johan Alvarez.
- * @license    The MIT License (MIT).
- * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
- * @link       https://github.com/llstarscreamll.
+ * @author     Johan Alvarez
+ * @license    The MIT License (MIT)
+ * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+ * @link       https://github.com/llstarscreamll
  */
 
 namespace Books;
 
-use \FunctionalTester;
+use FunctionalTester;
 use Page\Functional\Books\Create as Page;
 
 class CreateCest
 {
     /**
      * Las acciones a realizar antes de cada test.
+     *
      * @param    FunctionalTester $I
-     * @return  void
      */
     public function _before(FunctionalTester $I)
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
     }
-    
-    /**
-     * Las acciones a realizar después de cada test.
-     * @param    FunctionalTester $I
-     * @return  void
-     */
-    public function _after(FunctionalTester $I)
-    {
-    }
 
     /**
-     * Prueba la funcionalidad de crear un nuevo modelo.
+     * Prueba la funcionalidad de crear un nuevo registro.
+     *
      * @param    FunctionalTester $I
-     * @return  void
-     */
+     * @group    Books
+     */ 
     public function create(FunctionalTester $I)
     {
-        $I->am('admin de '.trans('book/views.module.name'));
-        $I->wantTo('crear un registro en modulo de '.trans('book/views.module.name'));
+        $I->wantTo('crear registro en módulo '.Page::$moduleName);
         
-        // voy a la página del módulo
+        // voy a la página de creación
         $I->amOnPage(Page::$URL);
         // veo el título de la página
-        $I->see(Page::$moduleName['txt'], Page::$moduleName['selector']);
-        $I->see(Page::$title['txt'], Page::$title['selector']);
+        $I->see(Page::$moduleName, Page::$titleElem);
+        $I->see(Page::$title, Page::$titleSmallElem);
+
+        // los datos a enviar en el formulario
+        $formData = Page::getCreateData();
+
+        // veo los campos correspondientes en el formulario
+        foreach ($formData as $name => $value) {
+            $I->seeElement("*[name=$name]");
+        }
 
         // envío el formulario
-        $I->submitForm(Page::$form, Page::getCreateData(), Page::$formButton['txt']);
+        $I->submitForm(Page::$form, $formData, Page::$formBtnElem);
 
-        // soy redirigido al index del módulo
+        // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::$moduleURL);
-        
-        // veo mensajes de éxito en la operación
-        $I->see(Page::$msgSuccess['txt'], Page::$msgSuccess['selector']);
+        // veo mensaje de éxito en la operación
+        $I->see(Page::$msgSuccess, Page::$msgSuccessElem);
     }
 
 }

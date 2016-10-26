@@ -28,7 +28,6 @@ class GenerateFilesCest
      */
     public function checkFilesGeneration(FunctionalTester $I)
     {
-        $I->am('Developer');
         $I->wantTo('crear aplicacion CRUD');
 
         // veo los mensajes de operación exitosa
@@ -41,12 +40,13 @@ class GenerateFilesCest
         $I->seeFileFound('BookController.php', base_path().'/app/Http/Controllers');
         // los tests
         foreach (config('modules.CrudGenerator.config.tests') as $test) {
-            if ($test != 'Base') {
-                $I->seeFileFound($test.'Cest.php', base_path().'/tests/functional/Books');
+            if ($test != 'Permissions') {
+                $I->seeFileFound($test.'.php', base_path().'/tests/_support/Page/Functional/Books');
             }
 
-            $I->seeFileFound($test.'.php', base_path().'/tests/_support/Page/Functional/Books');
+            $I->seeFileFound($test.'Cest.php', base_path().'/tests/functional/Books');
         }
+
         // las vistas
         foreach (config('modules.CrudGenerator.config.views') as $view) {
             if (strpos($view, 'partials/') === false) {
@@ -56,6 +56,11 @@ class GenerateFilesCest
                 $I->seeFileFound(str_replace('partials/', '', $view).'.blade.php', base_path().'/resources/views/books/partials');
             }
         }
+
+        // los archivos de idioma
+        $I->seeFileFound('messages.php', base_path('/resources/lang/es/book'));
+        $I->seeFileFound('views.php', base_path('/resources/lang/es/book'));
+        $I->seeFileFound('validation.php', base_path('/resources/lang/es/book'));
 
         // el model binding sólo puede ser creado si la entidad no hace uso de
         // la propiedad softDeletes, es decir si no tiene la columna deleted_at

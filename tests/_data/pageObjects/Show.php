@@ -1,68 +1,40 @@
 <?php
 
 /**
- * Este archivo es parte del Módulo Libros.
+ * Este archivo es parte de Books.
  * (c) Johan Alvarez <llstarscreamll@hotmail.com>
  * Licensed under The MIT License (MIT).
-
- * @package    Módulo Libros.
+ *
+ * @package    Books
  * @version    0.1
- * @author     Johan Alvarez.
- * @license    The MIT License (MIT).
- * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
- * @link       https://github.com/llstarscreamll.
+ * @author     Johan Alvarez
+ * @license    The MIT License (MIT)
+ * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+ * @link       https://github.com/llstarscreamll
  */
 
 namespace Page\Functional\Books;
 
-use Page\Functional\Books\Base;
+use FunctionalTester;
 
-class Show extends Base
+class Show extends Index
 {
-    // include url of current page
-    public static $URL = '/books';
-
     /**
-     * Declare UI map for this page here. CSS or XPath allowed.
-     * public static $usernameField = '#username';
-     * public static $formSubmitButton = "#mainForm input[type=submit]";
+     * El título de la página.
+     *
+     * @var  string
      */
-    
-    /**
-     * Los atributos del título de la página.
-     * @var  array
-     */
-    static $title = array();
+    static $title = 'Detalles';
 
     /**
      * El selector del formulario de sólo lectura de los datos.
+     *
      * @var  string
      */
     static $form = 'form[name=show-books-form]';
 
-    public function __construct(\FunctionalTester $I)
+    public function __construct(FunctionalTester $I)
     {
         parent::__construct($I);
-
-        self::$title = [
-            'txt'       => trans('book/views.show.name'),
-            'selector'  => '.content-header h1 small'
-        ];
-    }
-
-    /**
-     * Devuelve array con los datos a visualizar en el formulario de sólo lectura.
-     * @return  array
-     */
-    public static function getReadOnlyFormData()
-    {
-        $data = self::$bookData;
-
-        // los siguientes campos no se han de mostrar en la vista de sólo lectura
-        foreach (self::$hiddenFields as $key => $value) {
-            unset($data[$value]);
-        }
-
-        return $data;
     }
 }

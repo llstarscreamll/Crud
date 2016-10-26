@@ -11,16 +11,16 @@
     al changelog.
     ****************************************************************************
 
-    Este archivo es parte del Módulo Libros.
-	(c) Johan Alvarez <llstarscreamll@hotmail.com>
-	Licensed under The MIT License (MIT).
+    Este archivo es parte del Books.
+    (c) Johan Alvarez <llstarscreamll@hotmail.com>
+    Licensed under The MIT License (MIT).
 
-	@package    Módulo Libros.
-	@version    0.1
-	@author     Johan Alvarez.
-	@license    The MIT License (MIT).
-	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
-	@link       https://github.com/llstarscreamll.
+    @package    Books
+    @version    0.1
+    @author     Johan Alvarez
+    @license    The MIT License (MIT)
+    @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+    @link       https://github.com/llstarscreamll
     
     ****************************************************************************
 --}}
@@ -87,74 +87,68 @@
 @include('books.partials.form-assets')
 @include('books.partials.form-scripts')
 
-    <script>
+<script>
 
-        $(document).ready(function(){
-            {{-- searching if there are checkboxes checked to toggle enable action buttons --}}
-            scanCheckedCheckboxes('.checkbox-table-item');
-            {{-- toggle select all checkboxes --}}
-            toggleCheckboxes();
-            {{-- Inicializa el componente iCheck --}}
-            initiCheckPlugin();
-            {{-- Previene que se esconda el menú del dropdown al hacer clic a sus elementos hijos --}}
-            preventDropDownHide();
-            {{-- Inicializa el componente BootstrapSwitch --}}
-            $(".bootstrap_switch").bootstrapSwitch();
-            {{-- Configuración de Bootbox --}}
-            initBootBoxComponent(
-                '{{ trans('book/views.index.modal-default-title') }}',
-                '{{ trans('book/views.index.modal-default-btn-confirmation-label') }}',
-                '{{ trans('book/views.index.modal-default-btn-confirmation-className') }}',
-                '{{ trans('book/views.index.modal-default-btn-cancel-label') }}',
-                '{{ trans('book/views.index.modal-default-btn-cancel-className') }}'
-            );
-        });
+    $(document).ready(function() {
+        {{-- Inicializa las mejoras de selección en la tabla --}}
+        setupTableSelectionAddons();
+        {{-- Inicializa el componente iCheck --}}
+        initiCheckPlugin();
+        {{-- Previene que se esconda el dropdown al hacer clic en sus elementos hijos --}}
+        preventDropDownHide();
+        {{-- Inicializa el componente BootstrapSwitch --}}
+        $(".bootstrap_switch").bootstrapSwitch();
+    });
 
-        {{-- Configuración regional para Bootstrap DateRangePicker --}}
-        dateRangePickerLocaleSettings = @include('core::shared.dateRangePickerLocales')
+    {{-- Configuración regional para Bootstrap DateRangePicker --}}
+    dateRangePickerLocaleSettings = @include('core::shared.dateRangePickerLocales')
 
-        {{-- Algunos rangos de fecha predeterminados para Bootstrap DateRangePicker --}}
-        dateRangePickerRangesSettings = @include('core::shared.dateRangePickerRanges')
+    {{-- Algunos rangos de fecha predeterminados para Bootstrap DateRangePicker --}}
+    dateRangePickerRangesSettings = @include('core::shared.dateRangePickerRanges')
 
-        let dateRangeFields = [
-            {
-                field: 'input[name="published_year[informative]"]',
-                format: 'YYYY-MM-DD',
-                with_time_picker: false,
-                opens: 'center',
-            },
-            {
-                field: 'input[name="approved_at[informative]"]',
-                format: 'YYYY-MM-DD HH:mm:ss',
-                with_time_picker: true,
-                opens: 'left',
-            },
-            {
-                field: 'input[name="created_at[informative]"]',
-                format: 'YYYY-MM-DD HH:mm:ss',
-                with_time_picker: true,
-                opens: 'left',
-            },
-            {
-                field: 'input[name="updated_at[informative]"]',
-                format: 'YYYY-MM-DD HH:mm:ss',
-                with_time_picker: true,
-                opens: 'left',
-            },
-            {
-                field: 'input[name="deleted_at[informative]"]',
-                format: 'YYYY-MM-DD HH:mm:ss',
-                with_time_picker: true,
-                opens: 'left',
-            },
-        ];
+    let dateRangeFields = [
+        {
+            field: 'input[name="published_year[informative]"]',
+            format: 'YYYY-MM-DD',
+            with_time_picker: false,
+            opens: 'center',
+        },
+        {
+            field: 'input[name="approved_at[informative]"]',
+            format: 'YYYY-MM-DD HH:mm:ss',
+            with_time_picker: true,
+            opens: 'left',
+        },
+        {
+            field: 'input[name="created_at[informative]"]',
+            format: 'YYYY-MM-DD HH:mm:ss',
+            with_time_picker: true,
+            opens: 'left',
+        },
+        {
+            field: 'input[name="updated_at[informative]"]',
+            format: 'YYYY-MM-DD HH:mm:ss',
+            with_time_picker: true,
+            opens: 'left',
+        },
+        {
+            field: 'input[name="deleted_at[informative]"]',
+            format: 'YYYY-MM-DD HH:mm:ss',
+            with_time_picker: true,
+            opens: 'left',
+        },
+    ];
 
-        {{-- Configuración de Bootstrap DateRangePicker --}}
-        setupDateRangePickers(dateRangeFields, dateRangePickerLocaleSettings, dateRangePickerRangesSettings);
+    {{-- Configuración de Bootstrap DateRangePicker --}}
+    setupDateRangePickers(
+        dateRangeFields,
+        dateRangePickerLocaleSettings,
+        dateRangePickerRangesSettings
+    );
 
-    </script>
+</script>
 
-    {{-- Inicializa y configura x-editable --}}
-    @include('core::shared.x-editable')
+{{-- Inicializa y configura x-editable --}}
+@include('core::shared.x-editable')
 
 @endsection

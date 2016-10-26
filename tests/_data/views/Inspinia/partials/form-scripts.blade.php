@@ -5,16 +5,16 @@
     Contiene el código javascript usado en el formulario.
     ****************************************************************************
 
-    Este archivo es parte del Módulo Libros.
-	(c) Johan Alvarez <llstarscreamll@hotmail.com>
-	Licensed under The MIT License (MIT).
+    Este archivo es parte del Books.
+    (c) Johan Alvarez <llstarscreamll@hotmail.com>
+    Licensed under The MIT License (MIT).
 
-	@package    Módulo Libros.
-	@version    0.1
-	@author     Johan Alvarez.
-	@license    The MIT License (MIT).
-	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
-	@link       https://github.com/llstarscreamll.
+    @package    Books
+    @version    0.1
+    @author     Johan Alvarez
+    @license    The MIT License (MIT)
+    @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+    @link       https://github.com/llstarscreamll
     
     ****************************************************************************
 --}}
@@ -29,5 +29,14 @@
     
     {{-- Inicializa el componente SwitchBootstrap --}}
     $(".bootstrap_switch").bootstrapSwitch();
+
+    {{-- Inicialización y configuración de Bootbox --}}
+    initBootBoxComponent(
+        '{{ trans('book/views.index.modal-default-title') }}',
+        '{{ trans('book/views.index.modal-default-btn-confirmation-label') }}',
+        '{{ trans('book/views.index.modal-default-btn-confirmation-className') }}',
+        '{{ trans('book/views.index.modal-default-btn-cancel-label') }}',
+        '{{ trans('book/views.index.modal-default-btn-cancel-className') }}'
+    );
     
 </script>

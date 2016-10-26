@@ -1,44 +1,45 @@
 <?php
 
 /**
- * Este archivo es parte del Módulo Libros.
+ * Este archivo es parte de Books.
  * (c) Johan Alvarez <llstarscreamll@hotmail.com>
  * Licensed under The MIT License (MIT).
-
- * @package    Módulo Libros.
+ *
+ * @package    Books
  * @version    0.1
- * @author     Johan Alvarez.
- * @license    The MIT License (MIT).
- * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
- * @link       https://github.com/llstarscreamll.
+ * @author     Johan Alvarez
+ * @license    The MIT License (MIT)
+ * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+ * @link       https://github.com/llstarscreamll
  */
 
 namespace Books;
 
-use \FunctionalTester;
+use FunctionalTester;
 use Page\Functional\Books\Show as Page;
 
 class ShowCest
 {
+    /**
+     * Las acciones a realizar antes de cada test.
+     *
+     * @param    FunctionalTester $I
+     */
     public function _before(FunctionalTester $I)
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
     }
 
-    public function _after(FunctionalTester $I)
-    {
-    }
-
     /**
-     * Prueba la funcionalidad de consultar la información de un modelo, sólo lectura.
+     * Prueba la funcionalidad de consultar la información de un modelo, sólo
+     * lectura.
+     *
      * @param    FunctionalTester $I
-     * @return  void
      */
     public function show(FunctionalTester $I)
     {
-        $I->am('admin de '.trans('book/views.module.name'));
-        $I->wantTo('ver detalles de un registro en modulo de '.trans('book/views.module.name'));
+        $I->wantTo('ver detalles de registro en módulo '.Page::$moduleName);
 
         // creo el registro de prueba
         Page::haveBook($I);
@@ -46,9 +47,19 @@ class ShowCest
         // voy a la página de detalles del registro
         $I->amOnPage(Page::route('/'.Page::$bookData['id']));
         // veo el título de la página
-        $I->see(Page::$title['txt'], Page::$title['selector']);
+        $I->see(Page::$moduleName, Page::$titleElem);
+        $I->see(Page::$title, Page::$titleSmallElem);
 
-        // veo los datos en el formulario de sólo lectura
-        $I->seeInFormFields(Page::$form, Page::getReadOnlyFormData());
+        // los datos del formulario
+        $formData = Page::$bookData;
+        $formData = Page::unsetHiddenFields($formData);
+
+        // veo los campos correspondientes en el formulario
+        foreach ($formData as $name => $value) {
+            $I->seeElement("*[name=$name]");
+        }
+
+        // veo los datos del registro en el formulario de sólo lectura
+        $I->seeInFormFields(Page::$form, $formData);
     }
 }

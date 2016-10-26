@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Este archivo es parte del Módulo Libros.
+ * Este archivo es parte de Books.
  * (c) Johan Alvarez <llstarscreamll@hotmail.com>
  * Licensed under The MIT License (MIT).
-
- * @package    Módulo Libros.
+ *
+ * @package    Books
  * @version    0.1
- * @author     Johan Alvarez.
- * @license    The MIT License (MIT).
- * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
- * @link       https://github.com/llstarscreamll.
+ * @author     Johan Alvarez
+ * @license    The MIT License (MIT)
+ * @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+ * @link       https://github.com/llstarscreamll
  */
 
 namespace App\Http\Controllers;
@@ -43,7 +43,7 @@ class BookController extends Controller
         // el usuario debe estar autenticado para acceder al controlador
         $this->middleware('auth');
         // el usuario debe tener permisos para acceder al controlador
-        //$this->middleware('checkPermissions', ['except' => ['store', 'update']]);
+        $this->middleware('permission', ['except' => ['store', 'update']]);
     }
 
     /**

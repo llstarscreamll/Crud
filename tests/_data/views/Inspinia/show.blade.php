@@ -5,16 +5,16 @@
     Muestra la vista de detalles de un registro.
     ****************************************************************************
 
-    Este archivo es parte del Módulo Libros.
-	(c) Johan Alvarez <llstarscreamll@hotmail.com>
-	Licensed under The MIT License (MIT).
+    Este archivo es parte del Books.
+    (c) Johan Alvarez <llstarscreamll@hotmail.com>
+    Licensed under The MIT License (MIT).
 
-	@package    Módulo Libros.
-	@version    0.1
-	@author     Johan Alvarez.
-	@license    The MIT License (MIT).
-	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
-	@link       https://github.com/llstarscreamll.
+    @package    Books
+    @version    0.1
+    @author     Johan Alvarez
+    @license    The MIT License (MIT)
+    @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+    @link       https://github.com/llstarscreamll
     
     ****************************************************************************
 --}}
@@ -71,14 +71,35 @@
                     <div class="clearfix"></div>
 
                     <div class="form-group col-sm-6">
-                        <a href="{{route('books.edit', $book->id)}}" class="btn btn-warning" role="button">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            <span class="">{{trans('book/views.show.btn-edit')}}</span>
-                        </a>
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal_confirm">
-                            <span class="glyphicon glyphicon-trash"></span>
-                            <span class="">{{trans('book/views.show.btn-trash')}}</span>
-                        </button>
+                        @if(auth()->user()->can('books.edit'))
+                            <a href="{{route('books.edit', $book->id)}}" class="btn btn-warning" role="button">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="">{{trans('book/views.show.btn-edit')}}</span>
+                            </a>
+                        @endif
+
+                        @if(auth()->user()->can('books.destroy'))
+                            {{-- Formulario para eliminar registro --}}
+                            {!! Form::open(['route' => ['books.destroy', $book->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
+                                
+                                {{-- Botón muestra ventana modal de confirmación para el envío de formulario de eliminar el registro --}}
+                                <button type="button"
+                                        class="btn btn-danger bootbox-dialog"
+                                        role="button"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+                                        {{-- Setup de ventana modal de confirmación --}}
+                                        data-modalMessage="{{trans('book/views.index.modal-delete-message', ['item' => $book->name])}}"
+                                        data-modalTitle="{{trans('book/views.index.modal-delete-title')}}"
+                                        data-btnLabel="{{trans('book/views.index.modal-delete-btn-confirm-label')}}"
+                                        data-btnClassName="{{trans('book/views.index.modal-delete-btn-confirm-class-name')}}"
+                                        title="{{trans('book/views.index.delete-item-button-label')}}">
+                                    <span class="fa fa-trash"></span>
+                                    <span class="">{{trans('book/views.index.delete-item-button-label')}}</span>
+                                </button>
+                            
+                            {!! Form::close() !!}
+                        @endif
                     </div>
 
                     <div class="clearfix"></div>
@@ -92,40 +113,6 @@
     </div>{{-- /row --}}
 </div>
 {{-- /content --}}
-
-
-{{-- Ventana modal que pide confirmación de eliminación del registro --}}
-<div class="modal fade" id="modal_confirm" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="ModalLabel">{{trans('book/views.show.modal-confirm-trash-title')}}</h4>
-        </div>
-
-        <div class="modal-body">
-            <p>{!!trans('book/views.show.modal-confirm-trash-body', ['item' => $book->name])!!}</p>
-        </div>
-
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('book/views.show.modal-confirm-trash-btn-cancel')}}</button>
-            {!! Form::open([
-                'route' => ['books.destroy',
-                $book->id],
-                'method' => 'DELETE',
-                'class' => 'display-inline',
-                'name' => 'delete-books-form'
-            ]) !!}
-                <button type="submit" class="btn btn-danger">
-                    <span>{{trans('book/views.show.modal-confirm-trash-btn-confirm')}}</span>
-                </button>
-            {!! Form::close() !!}
-        </div>
-
-      </div>
-    </div>
-</div>
 
 @endsection
 {{-- /page content --}}

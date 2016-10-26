@@ -11,16 +11,16 @@
     $hide_actions_column = true
     ****************************************************************************
 
-    Este archivo es parte del Módulo Libros.
-	(c) Johan Alvarez <llstarscreamll@hotmail.com>
-	Licensed under The MIT License (MIT).
+    Este archivo es parte del Books.
+    (c) Johan Alvarez <llstarscreamll@hotmail.com>
+    Licensed under The MIT License (MIT).
 
-	@package    Módulo Libros.
-	@version    0.1
-	@author     Johan Alvarez.
-	@license    The MIT License (MIT).
-	@copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>.
-	@link       https://github.com/llstarscreamll.
+    @package    Books
+    @version    0.1
+    @author     Johan Alvarez
+    @license    The MIT License (MIT)
+    @copyright  (c) 2015-2016, Johan Alvarez <llstarscreamll@hotmail.com>
+    @link       https://github.com/llstarscreamll
     
     ****************************************************************************
 --}}
@@ -36,19 +36,19 @@
     </td>
     <td class="reason_id">
         {!! Form::select(
-			'reason_id[]',
-			$reason_id_list,
-			Request::input('reason_id'),
-			[
-				'class' => 'form-control selectpicker',
-				'data-live-search' => 'false',
-				'data-size' => '5',
-				'title' => '---',
-				'data-selected-text-format' => 'count > 0',
-				'multiple',
-				'form' => 'searchForm'
-			]
-		) !!}
+		'reason_id[]',
+		$reason_id_list,
+		Request::input('reason_id'),
+		[
+			'class' => 'form-control selectpicker',
+			'data-live-search' => 'false',
+			'data-size' => '5',
+			'title' => '---',
+			'data-selected-text-format' => 'count > 0',
+			'multiple',
+			'form' => 'searchForm'
+		]
+	) !!}
     </td>
     <td class="name">
         {!! Form::input('text', 'name', Request::input('name'), ['form' => 'searchForm', 'class' => 'form-control']) !!}
@@ -77,19 +77,19 @@
     </td>
     <td class="status">
         {!! Form::select(
-			'status[]',
-			$status_list,
-			Request::input('status'),
-			[
-				'class' => 'form-control selectpicker',
-				'data-live-search' => 'false',
-				'data-size' => '5',
-				'title' => '---',
-				'data-selected-text-format' => 'count > 0',
-				'multiple',
-				'form' => 'searchForm'
-			]
-		) !!}
+		'status[]',
+		$status_list,
+		Request::input('status'),
+		[
+			'class' => 'form-control selectpicker',
+			'data-live-search' => 'false',
+			'data-size' => '5',
+			'title' => '---',
+			'data-selected-text-format' => 'count > 0',
+			'multiple',
+			'form' => 'searchForm'
+		]
+	) !!}
     </td>
     <td class="synopsis">
         {!! Form::input('text', 'synopsis', Request::input('synopsis'), ['form' => 'searchForm', 'class' => 'form-control']) !!}
@@ -101,19 +101,19 @@
     </td>
     <td class="approved_by">
         {!! Form::select(
-			'approved_by[]',
-			$approved_by_list,
-			Request::input('approved_by'),
-			[
-				'class' => 'form-control selectpicker',
-				'data-live-search' => 'false',
-				'data-size' => '5',
-				'title' => '---',
-				'data-selected-text-format' => 'count > 0',
-				'multiple',
-				'form' => 'searchForm'
-			]
-		) !!}
+		'approved_by[]',
+		$approved_by_list,
+		Request::input('approved_by'),
+		[
+			'class' => 'form-control selectpicker',
+			'data-live-search' => 'false',
+			'data-size' => '5',
+			'title' => '---',
+			'data-selected-text-format' => 'count > 0',
+			'multiple',
+			'form' => 'searchForm'
+		]
+	) !!}
     </td>
     <td class="created_at">
         {!! Form::input('text', 'created_at[informative]', Request::input('created_at')['informative'], ['form' => 'searchForm', 'class' => 'form-control']) !!}
