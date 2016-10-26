@@ -12,7 +12,7 @@
 
 namespace {{$gen->studlyCasePlural()}};
 
-use \FunctionalTester;
+use FunctionalTester;
 use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
 class {{$test}}Cest
@@ -47,7 +47,7 @@ class {{$test}}Cest
         $I->see(Page::$moduleName, Page::$titleElem);
         $I->see(Page::$title, Page::$titleSmallElem);
 
-        // veo los datos en el formulario de sólo lectura
+        // veo los datos del registro en el formulario de sólo lectura
         $data = Page::${{$gen->modelVariableName()}}Data;
         $I->seeInFormFields(Page::$form, Page::unsetHiddenFields($data));
     }

@@ -63,7 +63,7 @@
         {{-- Los botones de acción para cada registro --}}
         <td class="actions-column">
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
-        @if ($record->trashed())
+        @if ($record->trashed() && auth()->user()->can('<?=$gen->route()?>.restore'))
 
             {{-- Formulario para restablecer el registro --}}
             {!! Form::open(['route' => ['<?=$gen->route()?>.restore', $record->id], 'method' => 'PUT', 'class' => 'form-inline display-inline']) !!}
@@ -104,40 +104,44 @@
                 <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button-label')}}</span>
             </a>
 
-            {{-- Botón para ir a formulario de actualización del registro --}}
-            <a  href="{{route('<?=$gen->route()?>.edit', $record->id)}}"
-                class="btn btn-warning btn-xs" role="button"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button-label')}}">
-                <span class="glyphicon glyphicon-pencil"></span>
-                <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button-label')}}</span>
-            </a>
+            @if(auth()->user()->can('<?=$gen->route()?>.edit'))
+                {{-- Botón para ir a formulario de actualización del registro --}}
+                <a  href="{{route('<?=$gen->route()?>.edit', $record->id)}}"
+                    class="btn btn-warning btn-xs" role="button"
+                    data-toggle="tooltip"
+                    data-placement="top"
+                    title="{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button-label')}}">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                    <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button-label')}}</span>
+                </a>
+            @endif
 
-            {{-- Formulario para eliminar registro --}}
-            {!! Form::open(['route' => ['<?=$gen->route()?>.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
-                
-                {{-- Botón muestra ventana modal de confirmación para el envío de formulario de eliminar el registro --}}
-                <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
-                        class="btn btn-danger btn-xs <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
-                        role="button"
-                        data-toggle="tooltip"
-                        data-placement="top"
+            @if(auth()->user()->can('<?=$gen->route()?>.destroy'))
+                {{-- Formulario para eliminar registro --}}
+                {!! Form::open(['route' => ['<?=$gen->route()?>.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
+                    
+                    {{-- Botón muestra ventana modal de confirmación para el envío de formulario de eliminar el registro --}}
+                    <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
+                            class="btn btn-danger btn-xs <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
+                            role="button"
+                            data-toggle="tooltip"
+                            data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
-                        {{-- Setup de ventana modal de confirmación --}}
-                        data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-message', ['item' => $record->name])}}"
-                        data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-title')}}"
-                        data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-label')}}"
-                        data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-class-name')}}"
+                            {{-- Setup de ventana modal de confirmación --}}
+                            data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-message', ['item' => $record->name])}}"
+                            data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-title')}}"
+                            data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-label')}}"
+                            data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-class-name')}}"
 <?php } else { ?>
-                        onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>/views.index.delete-confirm-message') }}')"
+                            onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>/views.index.delete-confirm-message') }}')"
 <?php } ?>
-                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}">
-                    <span class="fa fa-trash"></span>
-                    <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}</span>
-                </button>
-            
-            {!! Form::close() !!}
+                            title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}">
+                        <span class="fa fa-trash"></span>
+                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}</span>
+                    </button>
+                
+                {!! Form::close() !!}
+            @endif
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
         @endif
 <?php } ?>

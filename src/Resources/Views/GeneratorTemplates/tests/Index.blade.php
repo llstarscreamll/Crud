@@ -13,7 +13,7 @@
 namespace {{$gen->studlyCasePlural()}};
 
 use {{$modelNamespace = config('modules.CrudGenerator.config.parent-app-namespace')."\Models\\".$gen->modelClassName()}};
-use \FunctionalTester;
+use FunctionalTester;
 use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
 class {{$test}}Cest
@@ -46,7 +46,7 @@ class {{$test}}Cest
     }
 
     /**
-     * Prueba los datos mostrados en el index del módulo.
+     * Prueba los datos mostrados en el Index del módulo.
      *
      * @param  FunctionalTester $I
      */
@@ -67,8 +67,8 @@ class {{$test}}Cest
     }
 
     /**
-     * Prueba que sean mostrados los registros en papelera en la tabla del index
-     * según le comvenga al usuario, sólo los registros en papelea o registros
+     * Prueba que sean mostrados los registros en papelera en la tabla del Index
+     * según le convenga al usuario, sólo los registros en papelea o registros
      * "normales" junto con los registros en papelera.
      *
      * @param  FunctionalTester $I
@@ -115,7 +115,7 @@ class {{$test}}Cest
      */
     public function seeRestoreButtonIfShownTrashedRecords(FunctionalTester $I)
     {
-        $I->wantTo('ver botón restablecer si hay registros en papelera index de módulo '.Page::$moduleName);
+        $I->wantTo('ver botón restablecer si hay registros en papelera Index de módulo '.Page::$moduleName);
 
         // creo registros de prueba y elimino algunos
         {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed = $this->createAndSoftDeleteSomeRecords();
@@ -128,9 +128,9 @@ class {{$test}}Cest
         // si ha decidido mostrar los registros en papelera, el botón debe ser
         // mostrado
         $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
-        $I->see('Restaurar Seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->see('Restaurar {{ $request->get('plural_entity_name') }} seleccionados', 'button.btn.btn-default.btn-sm');
         $I->amOnPage(Page::$moduleURL.'?trashed_records=onlyTrashed');
-        $I->see('Restaurar Seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->see('Restaurar {{ $request->get('plural_entity_name') }} seleccionados', 'button.btn.btn-default.btn-sm');
         // las filas borradas de la tabla también deben mostrar el botón
         $I->see('Restaurar', 'tbody tr.danger td button.btn.btn-success.btn-xs');
     }
@@ -139,13 +139,13 @@ class {{$test}}Cest
      * Prueba que el botón de mover registros a "papelera" se muestre sólo
      * cuando haya algo que mover, por ejemplo para el caso en que son
      * mostrados sólo los registros de la papelera, en ese caso es
-     * inecesario mostrar dicho botón.
+     * innecesario mostrar dicho botón.
      *
      * @param  FunctionalTester $I
      */
     public function dontSeeTrashButtonIfShownOnlyTrashedData(FunctionalTester $I)
     {
-        $I->wantTo('ocultar botón "mover a papelera" si no hay registros que mover en index de módulo '.Page::$moduleName);
+        $I->wantTo('ocultar botón "mover a papelera" si no hay registros que mover en Index de módulo '.Page::$moduleName);
 
         // creo registros de prueba y elimino algunos
         {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed = $this->createAndSoftDeleteSomeRecords();
@@ -158,5 +158,43 @@ class {{$test}}Cest
         $I->see('Borrar {!!$request->get('plural_entity_name')!!} seleccionados', 'button.btn.btn-default.btn-sm');
         $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
         $I->see('Borrar {!!$request->get('plural_entity_name')!!} seleccionados', 'button.btn.btn-default.btn-sm');
+    }
+
+    /**
+     * Prueba la funcionalidad de restaurar varios registros movidos a papelera
+     * a la vez desde el index.
+     *
+     * @param  FunctionalTester $I
+     */
+    public function restoreManyTrashedRecords(FunctionalTester $I)
+    {
+        $I->wantTo('restaurar varios registros en papelera a la vez en módulo '.Page::$moduleName);
+
+        // creo y muevo a papelera algunos registros
+        $books = factory({{ $gen->modelClassName() }}::class, 10)->create();
+        $books->each(function ($item) {
+            return $item->delete();
+        });
+
+        // si voy al Index no debe haber datos
+        $I->amOnPage(Page::$moduleURL);
+        $I->see('No se encontraron registros...', '.alert.alert-warning');
+
+        // envío parámetros a Index para que cargue los registros en papelera
+        $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
+        $I->dontSee('No se encontraron registros...', '.alert.alert-warning');
+        // los registros en papelera se muestran con clase danger en las filas
+        // de la tabla
+        $I->seeElement('tbody tr.danger');
+        // el botón para restaurar los registros en papelera mostrados debe
+        // aparecer
+        $I->see('Restaurar {{ $request->get('plural_entity_name') }} seleccionados', 'button.btn.btn-default.btn-sm');
+        
+        // cargo la ruta para restaurar todos los registros en papelera
+        $I->restoreMany('{{ $gen->route() }}.restore', $books->pluck('id')->toArray());
+        
+        // soy redirigido al Index del módulo
+        $I->seeCurrentUrlEquals(Page::$moduleURL);
+        $I->dontSee('No se encontraron registros...', '.alert.alert-warning');
     }
 }

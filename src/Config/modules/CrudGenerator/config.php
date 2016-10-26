@@ -46,7 +46,8 @@ return $config = [
         'Create',
         'Edit',
         'Show',
-        'Delete'
+        'Delete',
+        'Permissions'
     ],
 
     /*
@@ -70,13 +71,18 @@ return $config = [
     'parent-app-namespace'  => 'App',
 
     // los namespace del modelo de usuario
-    'user-model-namespace' => 'llstarscreamll\Core\Models\\',
+    'user-model-namespace' => 'llstarscreamll\Core\Models\User',
+    'permission-model-namespace' => 'llstarscreamll\Core\Models\Permission',
+    'role-model-namespace' => 'llstarscreamll\Core\Models\Role',
     // el nombre del seeder del usuario de prueba
     'test-users-seeder-class' => 'DefaultUsersTableSeeder',
     // el nombre del seeder de la tabla roles
     'test-roles-seeder-class' => 'RoleTableSeeder',
     'permission-slug-field-name' => 'slug',
     'permission-name-field-name' => 'name',
+
+    'permissions-middleware' => 'permission',
+    'permissions-middleware-msg' => 'No tienes permisos para realizar esta acción.',
 
     // tipos de datos de tablas numéricos
     'numeric-input-types'   => ['int','unsigned_int','float','double'],

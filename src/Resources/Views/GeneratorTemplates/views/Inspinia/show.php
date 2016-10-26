@@ -67,35 +67,39 @@
                     <div class="clearfix"></div>
 
                     <div class="form-group col-sm-6">
-                        <a href="{{route('<?=$gen->route()?>.edit', $<?=$gen->modelVariableName()?>->id)}}" class="btn btn-warning" role="button">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            <span class="">{{trans('<?=$gen->getLangAccess()?>/views.show.btn-edit')}}</span>
-                        </a>
+                        @if(auth()->user()->can('<?=$gen->route()?>.edit'))
+                            <a href="{{route('<?=$gen->route()?>.edit', $<?=$gen->modelVariableName()?>->id)}}" class="btn btn-warning" role="button">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="">{{trans('<?=$gen->getLangAccess()?>/views.show.btn-edit')}}</span>
+                            </a>
+                        @endif
 
-                        {{-- Formulario para eliminar registro --}}
-                        {!! Form::open(['route' => ['<?=$gen->route()?>.destroy', $<?=$gen->modelVariableName()?>->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
+                        @if(auth()->user()->can('<?=$gen->route()?>.destroy'))
+                            {{-- Formulario para eliminar registro --}}
+                            {!! Form::open(['route' => ['<?=$gen->route()?>.destroy', $<?=$gen->modelVariableName()?>->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
+                                
+                                {{-- Botón muestra ventana modal de confirmación para el envío de formulario de eliminar el registro --}}
+                                <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
+                                        class="btn btn-danger <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
+                                        role="button"
+                                        data-toggle="tooltip"
+                                        data-placement="top"
+<?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
+                                        {{-- Setup de ventana modal de confirmación --}}
+                                        data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-message', ['item' => $<?=$gen->modelVariableName()?>->name])}}"
+                                        data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-title')}}"
+                                        data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-label')}}"
+                                        data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-class-name')}}"
+<?php } else { ?>
+                                        onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>/views.index.delete-confirm-message') }}')"
+<?php } ?>
+                                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}">
+                                    <span class="fa fa-trash"></span>
+                                    <span class="">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}</span>
+                                </button>
                             
-                            {{-- Botón muestra ventana modal de confirmación para el envío de formulario de eliminar el registro --}}
-                            <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
-                                    class="btn btn-danger <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
-                                    role="button"
-                                    data-toggle="tooltip"
-                                    data-placement="top"
-            <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
-                                    {{-- Setup de ventana modal de confirmación --}}
-                                    data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-message', ['item' => $<?=$gen->modelVariableName()?>->name])}}"
-                                    data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-title')}}"
-                                    data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-label')}}"
-                                    data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-class-name')}}"
-            <?php } else { ?>
-                                    onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>/views.index.delete-confirm-message') }}')"
-            <?php } ?>
-                                    title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}">
-                                <span class="fa fa-trash"></span>
-                                <span class="">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}</span>
-                            </button>
-                        
-                        {!! Form::close() !!}
+                            {!! Form::close() !!}
+                        @endif
                     </div>
 
                     <div class="clearfix"></div>

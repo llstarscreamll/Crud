@@ -12,7 +12,7 @@
 
 namespace {{$gen->studlyCasePlural()}};
 
-use \FunctionalTester;
+use FunctionalTester;
 use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
 class {{$test}}Cest
@@ -57,7 +57,7 @@ class {{$test}}Cest
         $updateData = Page::getDataToUpdateForm();
         $I->submitForm(Page::$form, $updateData);
 
-        // soy redireccionado al index del módulo
+        // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::route(''));
         // veo mensaje de confirmación
         $I->see(Page::$msgSuccess, Page::$msgSuccessElem);

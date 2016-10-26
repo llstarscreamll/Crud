@@ -32,7 +32,7 @@ return [
         'create-button-label' => 'Crear {!!$request->get('single_entity_name')!!}',
         'delete-massively-button-label' => 'Borrar {!!$request->get('plural_entity_name')!!} seleccionados',
 @if ($gen->hasDeletedAtColumn($fields))
-        'restore-massively-button-label' => 'Restaurar Seleccionados',
+        'restore-massively-button-label' => 'Restaurar {{ $request->get('plural_entity_name') }} seleccionados',
 @endif
 
 <?php
@@ -95,8 +95,8 @@ return [
         'search-button-label' => 'Buscar',
         'clean-filter-button-label' => 'Limpiar filtros',
         'see-details-button-label' => 'Ver detalles',
-        'edit-item-button-label' => 'Editar registro',
-        'delete-item-button-label' => 'Mover a Papelera',
+        'edit-item-button-label' => 'Editar',
+        'delete-item-button-label' => 'Mover a papelera',
         'create-form-modal-title' => 'Crear Nuevo {!!$request->get('single_entity_name')!!}',
 @if ($gen->hasDeletedAtColumn($fields))
         'restore-row-button-label' => 'Restaurar',

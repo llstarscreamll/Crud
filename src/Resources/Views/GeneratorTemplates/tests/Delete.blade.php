@@ -12,7 +12,8 @@
 
 namespace {{$gen->studlyCasePlural()}};
 
-use \FunctionalTester;
+use {{$modelNamespace = config('modules.CrudGenerator.config.parent-app-namespace')."\Models\\".$gen->modelClassName()}};
+use FunctionalTester;
 use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
 class {{$test}}Cest
@@ -29,7 +30,7 @@ class {{$test}}Cest
     }
 
     /**
-     * Prueba la funcionalidad de eliminar un modelo.
+     * Prueba la funcionalidad de eliminar un registro.
      *
      * @param  FunctionalTester $I
      */
@@ -37,18 +38,42 @@ class {{$test}}Cest
     {
         $I->wantTo('eliminar registro en módulo '.Page::$moduleName);
 
-        // creo el registro de prueba
+        // creo registro de prueba
         Page::have{{$gen->modelClassName()}}($I);
 
-        // voy a la página de detalles del registro
+        // voy a la página de detalles del registro y doy clic al botón "Enviar
+        // a Papelera"
         $I->amOnPage(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id']));
-        // doy clic al botón para mover registro a papelera
         $I->click(Page::$deleteBtn, Page::$deleteBtnElem);
 
-        // soy redireccionado al index y veo mensaje de confirmación
+        // soy redirigido al Index y debo ver mensaje de éxito en la operación
         $I->seeCurrentUrlEquals(Page::$moduleURL);
         $I->see(Page::$msgSuccess, Page::$msgSuccessElem);
-        // veo mensaje de que no hay datos de capacitaciones
+        // no debe haber datos que mostrar
         $I->see(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
+    }
+
+    /**
+     * Prueba la funcionalidad de mover a la papelera varios registros a la vez.
+     *
+     * @param  FunctionalTester $I
+     */
+    public function deleteMany(FunctionalTester $I)
+    {
+        $I->wantTo('eliminar varios registros a la vez en módulo '.Page::$moduleName);
+
+        // creo registros de prueba
+        $books = factory({{ $gen->modelClassName() }}::class, 10)->create();
+
+        // cuando cargo el Index el botón "Mover a la Papelera" debe ser mostrado
+        $I->amOnPage(Page::$moduleURL);
+        $I->see('Borrar {!!$request->get('plural_entity_name')!!} seleccionados', 'button.btn.btn-default.btn-sm');
+        
+        // cargo la ruta que "Mueve a Papelera" los registros
+        $I->destroyMany('{{ $gen->route() }}.destroy', $books->pluck('id')->toArray());
+        
+        // soy redirigido al Index y no debe haber datos que mostrar
+        $I->seeCurrentUrlEquals(Page::$moduleURL);
+        $I->see('No se encontraron registros...', '.alert.alert-warning');
     }
 }

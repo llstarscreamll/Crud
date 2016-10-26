@@ -12,7 +12,7 @@
 
 namespace {{$gen->studlyCasePlural()}};
 
-use \FunctionalTester;
+use FunctionalTester;
 use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
 
 class {{$test}}Cest
@@ -29,7 +29,7 @@ class {{$test}}Cest
     }
 
     /**
-     * Prueba la funcionalidad de crear un nuevo modelo.
+     * Prueba la funcionalidad de crear un nuevo registro.
      *
      * @param  FunctionalTester $I
      */
@@ -37,7 +37,7 @@ class {{$test}}Cest
     {
         $I->wantTo('crear registro en módulo '.Page::$moduleName);
         
-        // voy a la página del módulo
+        // voy a la página de creación
         $I->amOnPage(Page::$URL);
         // veo el título de la página
         $I->see(Page::$moduleName, Page::$titleElem);
@@ -46,10 +46,9 @@ class {{$test}}Cest
         // envío el formulario
         $I->submitForm(Page::$form, Page::getCreateData(), Page::$formBtnElem);
 
-        // soy redirigido al index del módulo
+        // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::$moduleURL);
-        
-        // veo mensajes de éxito en la operación
+        // veo mensaje de éxito en la operación
         $I->see(Page::$msgSuccess, Page::$msgSuccessElem);
     }
 

@@ -658,7 +658,7 @@ class BaseGenerator
         "/**\n".
         " * Este archivo es parte del Módulo {$this->request->get('plural_entity_name')}.\n".
         " * (c) $author <$authorEmail>\n".
-        " * Licensed under $license.\n\n".
+        " * Licensed under $license.\n *\n".
 
         " * @package    Módulo {$this->request->get('plural_entity_name')}\n".
         " * @version    0.1\n".

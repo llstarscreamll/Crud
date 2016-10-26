@@ -21,7 +21,7 @@ class {{$test}} extends Index
      *
      * @var array
      */
-    static $deleteBtn = 'Mover a Papelera';
+    static $deleteBtn = 'Mover a papelera';
     static $deleteBtnElem = 'button.btn.btn-danger';
 
     /**

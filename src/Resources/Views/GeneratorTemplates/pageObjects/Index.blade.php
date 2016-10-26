@@ -13,7 +13,7 @@
 namespace Page\Functional\{{$gen->studlyCasePlural()}};
 
 use FunctionalTester;
-use {{config('modules.CrudGenerator.config.user-model-namespace')}}User;
+use {{config('modules.CrudGenerator.config.user-model-namespace')}};
 @if($request->has('use_faker'))
 use Faker\Factory as Faker;
 @endif

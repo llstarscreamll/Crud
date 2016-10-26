@@ -92,17 +92,6 @@ class TestsGenerator extends BaseGenerator
 
         // recorro el array de tests que debo crear
         foreach (config('modules.CrudGenerator.config.tests') as $test) {
-            // genero los page objects
-            if (! $this->generatePageObject($test)) {
-                $this->msg_error[] = "Ocurrió un error generando el PageObject ".$test.".";
-                return false;
-            }
-            $this->msg_success[] = "PageObject ".$test." generado correctamente.";
-
-            if ($test == 'Base') {
-                continue;
-            }
-            
             // genero los tests
             if (! $this->generateFunctionalTests($test)) {
                 $this->msg_error[] = "Ocurrió un error generando el Test ".$test.".";
@@ -110,9 +99,18 @@ class TestsGenerator extends BaseGenerator
             }
             $this->msg_success[] = "Test ".$test." generado correctamente.";
 
-            // genero los tests
+            // no creamos Page Object Permissions
+            if ($test == 'Permissions') {
+                continue;
+            }
+
+            // genero los page objects
+            if (! $this->generatePageObject($test)) {
+                $this->msg_error[] = "Ocurrió un error generando el PageObject ".$test.".";
+                return false;
+            }
+            $this->msg_success[] = "PageObject ".$test." generado correctamente.";
         }
-        //dd($this->msg_success, $this->msg_error);
         
         return true;
     }

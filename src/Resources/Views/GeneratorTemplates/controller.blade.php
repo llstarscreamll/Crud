@@ -43,7 +43,7 @@ class {{$gen->controllerClassName()}} extends Controller
         // el usuario debe estar autenticado para acceder al controlador
         $this->middleware('auth');
         // el usuario debe tener permisos para acceder al controlador
-        //$this->middleware('checkPermissions', ['except' => ['store', 'update']]);
+        $this->middleware('<?= config("modules.CrudGenerator.config.permissions-middleware") ?>', ['except' => ['store', 'update']]);
     }
 
     /**

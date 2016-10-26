@@ -18,7 +18,7 @@
 // creamos formulario para eliminar registros masivamete //
 ///////////////////////////////////////////////////////////
 ?>
-    @if (Request::get('trashed_records') != 'onlyTrashed')
+    @if (Request::get('trashed_records') != 'onlyTrashed' && auth()->user()->can('<?=$gen->route()?>.destroy'))
 
     {{-- Formulario para borrar resgistros masivamente --}}
     {!! Form::open([
@@ -61,7 +61,7 @@
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
 
     {{-- Esta opción sólo es mostrada si el usuario decidió consultar los registros "borrados" --}}
-    @if (Request::has('trashed_records'))
+    @if (Request::has('trashed_records') && auth()->user()->can('<?=$gen->route()?>.restore'))
 
     {{-- Formulario para restablecer resgistros masivamente --}}
     {!! Form::open([
@@ -105,29 +105,30 @@
 // viceversa para quitar el formulario del index y habilitar link para redirección a ruta create //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
-        {{-- El boton que dispara la ventana modal con formulario de creación de registro --}}
-        {{--*******************************************************************************************************************************
-            Descomentar este bloque y comentar el bloque siguiente si se desea que el formulario de creación SI quede en la vista del index
-            *******************************************************************************************************************************--}}
-        <div class="display-inline" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}">
-            <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#create-form-modal">
+        @if(auth()->user()->can('<?=$gen->route()?>.create'))
+            {{-- El boton que dispara la ventana modal con formulario de creación de registro --}}
+            {{--*******************************************************************************************************************************
+                Descomentar este bloque y comentar el bloque siguiente si se desea que el formulario de creación SI quede en la vista del index
+                *******************************************************************************************************************************--}}
+            <div class="display-inline" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}">
+                <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#create-form-modal">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}</span>
+                </button>
+            </div>
+
+            {{-- Formulario de creación de registro --}}
+            @include('<?=$gen->viewsDirName()?>.partials.index-create-form')
+
+            {{-- Link que lleva a la página con el formulario de creación de registro --}}
+            {{--******************************************************************************************************************************
+                Descomentar este bloque y comentar el bloque anterior si se desea que el formulario de creación NO quede en la vista del index
+            <a id="create-<?=$gen->route()?>-link" class="btn btn-default btn-sm" href="{!! route('<?=$gen->route()?>.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}">
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}</span>
-            </button>
-        </div>
-
-        {{-- Formulario de creación de registro --}}
-        @include('<?=$gen->viewsDirName()?>.partials.index-create-form')
-
-        {{-- Link que lleva a la página con el formulario de creación de registro --}}
-        {{--******************************************************************************************************************************
-            Descomentar este bloque y comentar el bloque anterior si se desea que el formulario de creación NO quede en la vista del index
-        <a id="create-<?=$gen->route()?>-link" class="btn btn-default btn-sm" href="{!! route('<?=$gen->route()?>.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}">
-            <span class="glyphicon glyphicon-plus"></span>
-            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}</span>
-        </a>
-            ******************************************************************************************************************************--}}
-
+            </a>
+                ******************************************************************************************************************************--}}
+        @endif
     </div>
 
 </div>
