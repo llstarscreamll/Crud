@@ -9,7 +9,7 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models;
+namespace <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Models;
 
 use Illuminate\Database\Eloquent\Model;
 @if(($hasSoftDelete = $gen->hasDeletedAtColumn($fields)))
@@ -31,18 +31,21 @@ class {{$gen->modelClassName()}} extends Model
     
     /**
      * La tabla asociada al modelo.
+     *
      * @var string
      */
     protected $table = '{{$gen->table_name}}';
 
     /**
      * La llave primaria del modelo.
+     *
      * @var string
      */
     protected $primaryKey = '{{$gen->getPrimaryKey($fields)}}';
 
     /**
      * Los atributos que SI son asignables.
+     *
      * @var array
      */
     protected $fillable = [
@@ -55,12 +58,14 @@ class {{$gen->modelClassName()}} extends Model
 
     /**
      * Los atributos que NO son asignables.
+     *
      * @var array
      */
     protected $guarded = ['id', 'created_at', 'updated_at'@if($hasSoftDelete), 'deleted_at'@endif];
 
     /**
      * Los atributos ocultos al usuario.
+     *
      * @var array
      */
     protected $hidden = [
@@ -73,18 +78,21 @@ class {{$gen->modelClassName()}} extends Model
 
     /**
      * Indica si Eloquent debe gestionar los timestamps del modelo.
+     *
      * @var bool
      */
     public $timestamps = true;
     
     /**
-     * Los atributos que deben ser convertidos a fechas.
+     * Los atributos que deben ser convertidos a fechas (Carbon).
+     *
      * @var array
      */
     protected $dates = ['created_at', 'updated_at'@if($hasSoftDelete), "deleted_at"@endif];
 
     /**
      * El formato de almacenamiento de las columnas de tipo fecha del modelo.
+     *
      * @var string
      */
     protected $dateFormat = 'Y-m-d H:i:s';
@@ -95,6 +103,7 @@ class {{$gen->modelClassName()}} extends Model
      * Los valores de la columna {{$field->name}} que es de tipo enum, esto para los casos
      * en que sea utilizada una base de datos sqlite, pues sqlite no soporta campos de
      * tipo enum.
+     *
      * @var string
      */
     static ${{$field->name}}ColumnEnumValues = "{!!$gen->getMysqlTableColumnEnumValues($field->name)!!}";
@@ -105,18 +114,21 @@ class {{$gen->modelClassName()}} extends Model
 @if (!empty($field->relation))
     /**
      * La relación con {{$field->namespace}}
+     *
      * @return object
      */
     public function {{ $gen->getFunctionNameRelationFromField($field) }}()
     {
-        return $this->belongsTo('{{$field->namespace}}', '{{$field->name}}');
+        return $this-><?= $field->relation ?>('{{$field->namespace}}', '{{$field->name}}');
     }
+
 @endif
 @endforeach
-    
     /**
-     * Realiza la consulta de los datos del modelo según lo que el usuario especifique.
+     * Realiza consulta de los datos según lo que el usuario especifique.
+     *
      * @param  Illuminate\Http\Request $request
+     *
      * @return Illuminate\Support\Collection
      */
     public static function findRequested($request)
@@ -125,99 +137,62 @@ class {{$gen->modelClassName()}} extends Model
 
         // buscamos basados en los datos que señale el usuario
 @foreach ( $fields as $field )
+@if(!$field->hidden)
 @if($field->type == 'tinyint')
-        $request->get('{{$field->name}}_true') and $query->where({!! $gen->getConditionStr($field, 'true') !!});
-        ($request->get('{{$field->name}}_false') && !$request->has('{{$field->name}}_true')) and $query->where({!! $gen->getConditionStr($field, 'false') !!});
-        ($request->get('{{$field->name}}_false') && $request->has('{{$field->name}}_true')) and $query->orWhere({!! $gen->getConditionStr($field, 'false') !!});
+        $request->get('{{$field->name}}_true') && $query->where({!! $gen->getConditionStr($field, 'true') !!});
+        ($request->get('{{$field->name}}_false') && !$request->has('{{$field->name}}_true')) && $query->where({!! $gen->getConditionStr($field, 'false') !!});
+        ($request->get('{{$field->name}}_false') && $request->has('{{$field->name}}_true')) && $query->orWhere({!! $gen->getConditionStr($field, 'false') !!});
 
-@elseif($field->type == 'enum' || $field->key == 'MUL')
-        $request->get('{{$field->name}}') and $query->whereIn({!! $gen->getConditionStr($field) !!});
+@elseif($field->type == 'enum' || $field->key == 'MUL' || $field->key == 'PRI')
+<?php $name = $field->name == 'id' ? 'ids' : $field->name ?>
+        $request->get('{{$name}}') && $query->whereIn({!! $gen->getConditionStr($field) !!});
 
 @elseif($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime')
-        $request->get('{{$field->name}}')['informative'] and $query->whereBetween('{{$field->name}}', [
+        $request->get('{{$field->name}}')['informative'] && $query->whereBetween('{{$field->name}}', [
             $request->get('{{$field->name}}')['from'],
             $request->get('{{$field->name}}')['to']
         ]);
 
 @else
-        $request->get('{{$field->name}}') and $query->where({!! $gen->getConditionStr($field) !!});
+        $request->get('{{$field->name}}') && $query->where({!! $gen->getConditionStr($field) !!});
 
+@endif
 @endif
 @endforeach
 @if($hasSoftDelete)
         // registros en papelera
-        $request->has('trashed_records') and $query->{$request->get('trashed_records')}();
+        $request->has('trashed_records') && $query->{$request->get('trashed_records')}();
 @endif
         // ordenamos los resultados
-        $request->get('sort') and $query->orderBy($request->get('sort'), $request->get('sortType', 'asc'));
-
-        !$request->has('sort') and $query->orderBy('created_at', 'desc');
+        $request->get('sort') && $query->orderBy($request->get('sort'), $request->get('sortType', 'asc'));
+        // orden predeterminado
+        !$request->has('sort') && $query->orderBy('created_at', 'desc');
 
         // paginamos los resultados
         return $query->paginate(15);
-    }
-    
-    /**
-     * Las reglas de validación para el modelo.
-     * @param  string|array $attributes Las reglas de los atributos que se quiere devolver
-     * @param  \Illuminate\Http\Request $request
-     * @param  string $route La ruta desde donde se quiere obtener las reglas
-     * @return array
-     */
-    public static function validationRules($attributes = null, $request, $route = null)
-    {
-        $rules = [
-@foreach ( $fields as $field )
-            '{{$field->name}}' => '{!!$field->validation_rules!!}',
-@endforeach
-        ];
-
-        // hacemos los cambios necesarios a las reglas cuando la ruta sea update
-        if ($route == 'update') {
-@foreach ( $fields as $field )
-@if (strpos($field->validation_rules, 'unique') !== false)
-{{-- Se espera que la regla unique sea la última --}}
-            $rules['{{$field->name}}'] = '{!! $field->validation_rules.',\'.$request->'.$gen->modelSingularVariableName() !!};
-@endif
-@endforeach
-        }
-
-        // no se dieron atributos
-        if (! $attributes) {
-            return $rules;
-        }
-
-        // se dio un atributo nada mas
-        if (!is_array($attributes)) {
-            return [ $attributes => $rules[$attributes] ];
-        }
-
-        // se dio una lista de atributos
-        $newRules = [];
-        foreach ( $attributes as $attr ) {
-            $newRules[$attr] = $rules[$attr];
-        }
-
-        return $newRules;
     }
 
 @if($gen->areEnumFields($fields))
     /**
      * Devuelve array con los posibles valores de una columna de tipo "enum" de la base de datos.
-     * @param  string $table
+     *
      * @param  string $column
+     * @param  string $table
+     *
      * @return array
      */
-    public static function getEnumValuesArray($table, $column)
+    public function getEnumValuesArray(string $column, string $table = '')
     {
-        $type = static::getColumnEnumValuesFromDescQuery($table, $column);
+        $table = !empty($table) ? $table : $this->table;
+
+        $type = $this->getColumnEnumValuesFromDescQuery($column, $table);
 
         preg_match('/^enum\((.*)\)$/', $type, $matches);
 
         $enum = array();
 
-        foreach( explode(',', $matches[1]) as $value ){
-            $v = trim( $value, "'" );
+        foreach (explode(',', $matches[1]) as $value) {
+            $v = trim($value, "'");
             $enum = array_add($enum, $v, $v);
         }
 
@@ -225,22 +200,26 @@ class {{$gen->modelClassName()}} extends Model
     }
 
     /**
-     * Devuelve string con los posibles valores de una columna de tipo "enum" de la base de datos
-     * separados por coma.
-     * @param  string $table
+     * Devuelve string con los posibles valores de una columna de tipo "enum" de
+     * la base de datos separados por coma.
+     *
      * @param  string $column
+     * @param  string $table
+     *
      * @return array
      */
-    public static function getEnumValuesString($table, $column)
+    public function getEnumValuesString(string $column, string $table = '')
     {
-        $type = static::getColumnEnumValuesFromDescQuery($table, $column);
+        $table = !empty($table) ? $table : $this->table;
+        
+        $type = $this->getColumnEnumValuesFromDescQuery($column, $table);
 
         preg_match('/^enum\((.*)\)$/', $type, $matches);
 
         $enum = '';
 
-        foreach( explode(',', $matches[1]) as $value ){
-            $v = trim( $value, "'" );
+        foreach (explode(',', $matches[1]) as $value) {
+            $v = trim($value, "'");
             $enum .= $v.',';
         }
 
@@ -248,18 +227,26 @@ class {{$gen->modelClassName()}} extends Model
     }
 
     /**
-     * Obtiene los valores de una columna de tipo enum si la base de datos es mysql, si no,
-     * devuelve los valores enum staticos dados en la creación del modelo.
+     * Obtiene los valores de una columna de tipo enum si la base de datos es
+     * mysql, si no, devuelve los valores enum staticos dados en la creación
+     * del modelo.
+     *
      * @return string
      */
-    public static function getColumnEnumValuesFromDescQuery($table, $column)
+    public function getColumnEnumValuesFromDescQuery(string $column, string $table = '')
     {
-        $type = '';
+        $table = !empty($table) ? $table : $this->table;
+        
+        $type = static::${$column.'ColumnEnumValues'};
 
-        if (static::getDatabaseConnectionDriver() == 'mysql') {
-            $type = \DB::select( \DB::raw("SHOW COLUMNS FROM ".static::getDatabaseTablesPrefix()."$table WHERE Field = '$column'") )[0]->Type;
-        } else {
-            $type = static::${$column.'ColumnEnumValues'};
+        if ($this->getDatabaseConnectionDriver() == 'mysql') {
+            $type = \DB::select(
+                \DB::raw(
+                    "SHOW COLUMNS FROM ".
+                    $this->getDatabaseTablesPrefix().
+                    "$table WHERE Field = '$column'"
+                )
+            )[0]->Type;
         }
 
         return $type;
@@ -267,21 +254,22 @@ class {{$gen->modelClassName()}} extends Model
 
     /**
      * Devuelve string del driver de la conexión a la base de datos.
+     *
      * @return string El nombre del driver de la conexión a la base de datos.
      */
-    public static function getDatabaseConnectionDriver()
+    public function getDatabaseConnectionDriver()
     {
         return config('database.connections.'.config('database.default').'.driver');
     }
 
     /**
      * Devuelve string del prefijo de las tablas de la base de datos.
+     *
      * @return string El nombre del driver de la conexión a la base de datos.
      */
-    public static function getDatabaseTablesPrefix()
+    public function getDatabaseTablesPrefix()
     {
         return config('database.connections.'.config('database.default').'.prefix');
     }
 @endif
-
 }

@@ -13,6 +13,7 @@
 namespace {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers;
 
 use Illuminate\Http\Request;
+use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>;
 use {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}};
 use {{config('modules.CrudGenerator.config.parent-app-namespace')}}\Http\Controllers\Controller;
 @foreach($foreign_keys as $foreign)
@@ -33,7 +34,7 @@ class {{$gen->controllerClassName()}} extends Controller
      *
      * @var String
      */
-    public $viewDir = "{{$gen->viewsDirName()}}";
+    private $viewsDir = "{{$gen->viewsDirName()}}";
     
     /**
      * Create a new controller instance.
@@ -49,12 +50,15 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(<?= $gen->modelClassName()."Request" ?> $request)
     {
+<?php if ($gen->areEnumFields($fields)) { ?>
+        $<?= $gen->modelVariableName() ?> = new <?= $gen->modelClassName() ?>;
+<?php } ?>
         // los datos para la vista
         $data = array();
 
@@ -70,7 +74,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @endforeach
 @foreach($fields as $field)
 @if($field->type == 'enum')
-        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
+        $data['{{$field->name}}_list'] = ${{$gen->modelVariableName()}}->getEnumValuesArray('{{$field->name}}');
         $data['{{$field->name}}_list_json'] = collect($data['{{$field->name}}_list'])
             ->map(function ($item, $key) { return [$key => $item];})
             ->values()
@@ -86,10 +90,13 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Http\Response
      */
     public function create()
     {
+<?php if ($gen->areEnumFields($fields)) { ?>
+        $<?= $gen->modelVariableName() ?> = new <?= $gen->modelClassName() ?>;
+<?php } ?>
         // los datos para la vista
         $data = array();
 @foreach($foreign_keys as $foreign)
@@ -100,7 +107,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @endforeach
 @foreach($fields as $field)
 @if($field->type == 'enum')
-        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
+        $data['{{$field->name}}_list'] = ${{$gen->modelVariableName()}}->getEnumValuesArray('{{$field->name}}');
 
 @endif
 @endforeach
@@ -111,14 +118,12 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $reques
+     * @param  <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $reques
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(<?= $gen->modelClassName()."Request" ?> $request)
     {
-        $this->validate($request, {{$gen->modelClassName()}}::validationRules(null, $request), [], trans('{{$gen->getLangAccess()}}/validation.attributes'));
-
         {{$gen->modelClassName()}}::create($request->all());
         $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.create_{{$gen->snakeCaseSingular()}}_success'));
         
@@ -128,17 +133,19 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \Illuminate\Http\Request $request
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
      * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Http\Response
      */
-    public function show(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
+    public function show({{ $hasSoftDelete ? 'int $id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
+<?php if ($gen->areEnumFields($fields)) { ?>
+        $<?= $gen->modelVariableName() ?> = new <?= $gen->modelClassName() ?>;
+<?php } ?>
         // los datos para la vista
         $data = array();
         $data['{{$gen->modelVariableName()}}'] = {{ $hasSoftDelete ? $gen->modelClassName().'::findOrFail($id)' : '$'.$gen->modelVariableName() }};
@@ -153,7 +160,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @endforeach
 @foreach($fields as $field)
 @if($field->type == 'enum')
-        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
+        $data['{{$field->name}}_list'] = ${{$gen->modelVariableName()}}->getEnumValuesArray('{{$field->name}}');
         
 @endif
 @endforeach
@@ -163,17 +170,19 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \Illuminate\Http\Request $request
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
      * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Http\Response
      */
-    public function edit(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
+    public function edit({{ $hasSoftDelete ? 'int $id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
+<?php if ($gen->areEnumFields($fields)) { ?>
+        $<?= $gen->modelVariableName() ?> = new <?= $gen->modelClassName() ?>;
+<?php } ?>
         // los datos para la vista
         $data = array();
         $data['{{$gen->modelVariableName()}}'] = {{ $hasSoftDelete ? $gen->modelClassName().'::findOrFail($id)' : '$'.$gen->modelVariableName() }};
@@ -186,7 +195,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @endforeach
 @foreach($fields as $field)
 @if($field->type == 'enum')
-        $data['{{$field->name}}_list'] = {{$gen->modelClassName()}}::getEnumValuesArray('{{$gen->table_name}}', '{{$field->name}}');
+        $data['{{$field->name}}_list'] = ${{$gen->modelVariableName()}}->getEnumValuesArray('{{$field->name}}');
 
 @endif
 @endforeach
@@ -196,36 +205,27 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
      * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Http\Response
      */
-    public function update(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
+    public function update(<?= $gen->modelClassName()."Request" ?> $request, {{ $hasSoftDelete ? 'int $id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
 @if ($hasSoftDelete)
         ${{ $gen->modelVariableName() }} = {{ $gen->modelClassName() }}::findOrFail($id);
 
 @endif
-        if( $request->isXmlHttpRequest() )
-        {
+        if ($request->isXmlHttpRequest()) {
             $data = [$request->name  => $request->value];
-            $validator = \Validator::make($data, {{$gen->modelClassName()}}::validationRules($request->name, $request, 'update'), [], trans('{{$gen->getLangAccess()}}/validation.attributes'));
-            
-            if($validator->fails()) {
-                return response($validator->errors()->first( $request->name),403);
-            }
-
             ${{$gen->modelVariableName()}}->update($data);
 
             return "Record updated";
         }
-
-        $this->validate($request, {{$gen->modelClassName()}}::validationRules(null, $request, 'update'), [], trans('{{$gen->getLangAccess()}}/validation.attributes'));
 
         ${{$gen->modelVariableName()}}->update($request->all());
         $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success'));
@@ -236,16 +236,16 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
 @if ($hasSoftDelete = $gen->hasDeletedAtColumn($fields))
      * @param string $id
 @else
      * @param \{{config('modules.CrudGenerator.config.parent-app-namespace')}}\Models\{{$gen->modelClassName()}} ${{$gen->modelVariableName()}}
 @endif
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Http\Response
      */
-    public function destroy(Request $request, {{ $hasSoftDelete ? '$id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
+    public function destroy(Request $request, {{ $hasSoftDelete ? 'int $id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
         $id = $request->has('id') ? $request->get('id') : {!! $hasSoftDelete ? '$id' : '$'.$gen->modelVariableName().'->id' !!};
 
@@ -260,12 +260,12 @@ class {{$gen->controllerClassName()}} extends Controller
     /**
      * Restore the specified resource from storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      * @param string $id
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Http\Response
      */
-    public function restore(Request $request, $id)
+    public function restore(Request $request, int $id)
     {
         $id = $request->has('id') ? $request->get('id') : $id;
 
@@ -281,12 +281,12 @@ class {{$gen->controllerClassName()}} extends Controller
      * Devuelve la vista con los respectivos datos.
      *
      * @param string $view
-     * @param string $data
+     * @param array  $data
      *
-     * @return \Illuminate\Http\Response
+     * @return Illuminate\Http\Response
      */
-    protected function view($view, $data = [])
+    protected function view(string $view, array $data = [])
     {
-        return view($this->viewDir.".".$view, $data);
+        return view($this->viewsDir.".".$view, $data);
     }
 }

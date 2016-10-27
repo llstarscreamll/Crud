@@ -60,74 +60,6 @@ class ModelGenerator extends BaseGenerator
     }
 
     /**
-     * Devuelve string de validación de datos de un campo de la base de datos
-     * para el modelo.
-     *
-     * @param  Object $field
-     * @return string
-     */
-    public function getValidationRule($field)
-    {
-        // skip certain fields
-        if (in_array($field->name, $this->skippedFields())) {
-            return "";
-        }
-
-        $rules = [];
-        // required fields
-        if ($field->required) {
-            $rules[] = "required";
-        }
-
-        // strings
-        if (in_array($field->type, ['varchar', 'text'])) {
-            $rules[] = "string";
-            if ($field->maxLength) {
-                $rules[] = "max:".$field->maxLength;
-            }
-        }
-
-        // dates
-        if (in_array($field->type, ['date', 'datetime'])) {
-            $rules[] = "date";
-        }
-
-        // numbers
-        if (in_array($field->type, ['int', 'unsigned_int'])) {
-            $rules [] = "integer";
-        }
-
-        // emails
-        if (preg_match("/email/", $field->name)) {
-            $rules[] = "email";
-        }
-
-        // enums
-        if ($field->type == 'enum') {
-            $rules [] = "in:'.self::getEnumValuesString(".$this->table_name.", $field->type).'";
-        }
-
-        return "'".$field->name."' => '".join("|", $rules)."',";
-    }
-
-    /**
-     * Verifica si hay campos de tipo enum en el array dado.
-     *
-     * @param  array $fields
-     * @return bool
-     */
-    public function areEnumFields($fields)
-    {
-        foreach ($fields as $key => $field) {
-            if ($field->type == 'enum') {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Devuelve string con clausula para el Query Builder de Eloquent
      *
      * @param  stdClass $field
@@ -136,17 +68,19 @@ class ModelGenerator extends BaseGenerator
      */
     public function getConditionStr($field, $value = null)
     {
+        $columnName = $field->name == 'id' ? 'ids' : $field->name;
+
         // cláusula por defecto
-        $string = "'{$field->name}', \$request->get('{$field->name}')";
+        $string = "'{$field->name}', \$request->get('{$columnName}')";
 
         // para búsquedas de tipo texto
         if (in_array($field->type, ['varchar', 'text'])) {
-            $string = "'{$field->name}', 'like', '%'.\$request->get('{$field->name}').'%'";
+            $string = "'{$field->name}', 'like', '%'.\$request->get('{$columnName}').'%'";
         }
 
         // para búsquedas en campos de tipo enum
         if ($field->type == 'enum') {
-            $string = "'{$field->name}', \$request->get('$field->name')";
+            $string = "'{$field->name}', \$request->get('$columnName')";
         }
 
         // para búsqueda en campos de tipo boolean

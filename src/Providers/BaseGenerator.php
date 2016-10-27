@@ -2,6 +2,8 @@
 
 namespace llstarscreamll\CrudGenerator\Providers;
 
+use stdClass;
+
 /**
  *
  */
@@ -863,5 +865,130 @@ class BaseGenerator
     public function getRestoreErrorMsgPlural()
     {
         return 'Ocurrió un error restaurando los '.strtolower($this->request->get('plural_entity_name')).'.';
+    }
+
+    /**
+     * TODO: mover este método a una mejor clase.
+     *
+     * Genera las reglas de validación para el campo.
+     *
+     * @param  stdClass $field
+     * @return string
+     */
+    public function getValidationRules(stdClass $field, string $method = 'create')
+    {
+        $rules = '';
+
+        if ($field->required && $field->name !== "id" && $field->type !== "tinyint" && $method !== "index") {
+            $rules .= "'required', ";
+        }
+
+        if (in_array($field->type, $this->numericTypes()) && ($field->key != 'PRI' && $field->key != 'MUL')) {
+            $rules .= "'numeric', ";
+        }
+
+        if (in_array($field->type, $this->numericTypes())
+            && $method == "index"
+            && ($field->key == 'PRI' || $field->key == 'MUL')
+        ) {
+            $rules .= "'array', ";
+        }
+
+        if (in_array($field->type, $this->stringTypes())) {
+            $rules .= "'string', ";
+        }
+
+        if (in_array($field->type, $this->datetimeTypes())) {
+            $rules .= "'date_format:Y-m-d H:i:s', ";
+        }
+
+        if (in_array($field->type, $this->dateTypes())) {
+            $rules .= "'date_format:Y-m-d', ";
+        }
+
+        if ($field->type == 'tinyint') {
+            $rules .= "'boolean', ";
+        }
+
+        if ($field->type == 'enum') {
+            $rules .= "'in:'.\$this->{$this->modelVariableName()}->getEnumValuesString('{$field->name}'), ";
+        }
+
+        if ($field->key == 'MUL') {
+            $table = with(new $field->namespace)->getTable();
+            $rules .= "'exists:$table,id', ";
+        }
+
+        if ($field->key == 'UNI') {
+            $rules .= "'unique:$this->table_name,$field->name', ";
+        }
+
+        // limpiamos
+        $rules = trim($rules);
+        $rules = trim($rules, ',');
+        $rules = "[$rules]";
+
+        return $rules;
+    }
+
+    /**
+     * Devuelve array con valores de cuales son los posibles tipos de datos de
+     * tipo numérico.
+     *
+     * @return array
+     */
+    public function numericTypes()
+    {
+        return ['int', 'double', 'float', 'bigint'];
+    }
+
+    /**
+     * Devuelve array con valores de los posibles tipos de datos string.
+     *
+     * @return array
+     */
+    public function stringTypes()
+    {
+        return ['varchar', 'text'];
+    }
+
+    /**
+     * Devuelve array con valores de cuales son los posibles tipos de datos de
+     * tipo fecha y hora.
+     *
+     * @return array
+     */
+    public function datetimeTypes()
+    {
+        return ['datetime', 'timestamp'];
+    }
+
+    /**
+     * Devuelve array con valores de cuales son los posibles tipos de datos de
+     * tipo fecha.
+     *
+     * @return array
+     */
+    public function dateTypes()
+    {
+        return ['date'];
+    }
+
+    /**
+     * Verifica si hay campos de tipo enum en el array dado.
+     *
+     * @param array $fields
+     *
+     * @return bool
+     */
+    public function areEnumFields($fields)
+    {
+        foreach ($fields as $key => $field) {
+            if ($field->type == 'enum') {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

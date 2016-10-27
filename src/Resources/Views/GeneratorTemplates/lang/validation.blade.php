@@ -28,4 +28,7 @@ return [
 @endforeach
     ],
 
+    'messages' => [
+        'foo' => 'msg'
+    ],
 ];

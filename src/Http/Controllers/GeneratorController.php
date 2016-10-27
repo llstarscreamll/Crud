@@ -10,6 +10,7 @@ use llstarscreamll\CrudGenerator\Providers\ViewsGenerator;
 use llstarscreamll\CrudGenerator\Providers\TestsGenerator;
 use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
 use llstarscreamll\CrudGenerator\Providers\ModelFactoryGenerator;
+use llstarscreamll\CrudGenerator\Providers\FormRequestGenerator;
 
 class GeneratorController extends Controller
 {
@@ -73,10 +74,18 @@ class GeneratorController extends Controller
         $viewsGenerator = new ViewsGenerator($request);
         $testsGenerator = new TestsGenerator($request);
         $modelFactoryGenerator = new ModelFactoryGenerator($request);
+        $formRequestGenerator = new FormRequestGenerator($request);
 
-        ////////////////////////////////////
-        // genero las pruebas funcionales //
-        ////////////////////////////////////
+        // genero el Model Factory
+        if ($formRequestGenerator->generate() === false) {
+            return redirect()
+                ->back()
+                ->with('error', 'Ocurrió un error generando el Form Request.');
+        }
+        // los modelos han sido generados correctamente
+        $msg_success[] = 'Form Request generado correctamente.';
+
+        // genero el Model Factory
         if ($modelFactoryGenerator->generate() === false) {
             return redirect()
                 ->back()
