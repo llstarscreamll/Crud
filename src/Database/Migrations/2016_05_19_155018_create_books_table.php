@@ -21,14 +21,6 @@ class CreateBooksTable extends Migration
             $table->softDeletes();
         });
 
-        \DB::table('reasons')->insert([
-            'name' => 'test',
-            'code' => 'qr-125',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-            'deleted_at' => null,
-        ]);
-
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('reason_id')->unsigned();

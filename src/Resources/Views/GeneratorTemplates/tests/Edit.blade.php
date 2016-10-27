@@ -79,8 +79,8 @@ class {{$test}}Cest
         $I->amOnPage(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id']));
         
         // veo los datos actualizados en el formulario de sólo lectura
-        $updateData = Page::unsetHiddenFields($updateData);
         $updateData = Page::unsetConfirmationFields($updateData);
         $I->seeInFormFields('form', $updateData);
+        $I->seeRecord('<?= $gen->table_name ?>', $updateData);
     }
 }

@@ -91,6 +91,7 @@
 /////////////////////////////////////////////////////////////////////////////////////
 ?>
     $(document).ready(function() {
+        $(".select2-ids").select2({tags: true, language: "es"});
         {{-- Inicializa las mejoras de selección en la tabla --}}
         setupTableSelectionAddons();
         {{-- Inicializa el componente iCheck --}}

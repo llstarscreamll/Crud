@@ -63,6 +63,8 @@ class {{$test}}Cest
         $I->seeCurrentUrlEquals(Page::$moduleURL);
         // veo mensaje de éxito en la operación
         $I->see(Page::$msgSuccess, Page::$msgSuccessElem);
+        $formData = Page::unsetConfirmationFields($formData);
+        $I->seeRecord('<?= $gen->table_name ?>', $formData);
     }
 
 }

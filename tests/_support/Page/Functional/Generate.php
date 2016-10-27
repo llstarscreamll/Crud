@@ -27,6 +27,7 @@ class Generate
         'checkbox_component_on_index_table' => 'iCheck',
         'use_modal_confirmation_on_delete' => true,
         'use_DateTimePicker_on_form_fields' => true,
+        'use_x_editable' => true,
 
         // para la columna id
         'field[0][name]' => 'id',
@@ -188,7 +189,7 @@ class Generate
         'field[8][label]' => 'El estado',
         'field[8][testData]' => '"waiting_confirmation"',
         'field[8][testDataUpdate]' => '"approved"',
-        'field[8][validation_rules]' => "required|alpha_dash|in:'.self::getEnumValuesString('books', 'status').'",
+        'field[8][validation_rules]' => "required|alpha_dash",
 
         // para la columna unlocking_word
         'field[9][name]' => 'unlocking_word',
@@ -283,7 +284,7 @@ class Generate
         // para la columna created_at
         'field[14][name]' => 'created_at',
         'field[14][type]' => 'timestamp',
-        'field[14][required]' => true,
+        'field[14][required]' => false,
         'field[14][defValue]' => '0000-00-00 00:00:00',
         'field[14][key]' => '',
         'field[14][maxLength]' => '0',
@@ -301,7 +302,7 @@ class Generate
         // para la columna updated_at
         'field[15][name]' => 'updated_at',
         'field[15][type]' => 'timestamp',
-        'field[15][required]' => true,
+        'field[15][required]' => false,
         'field[15][defValue]' => '0000-00-00 00:00:00',
         'field[15][key]' => '',
         'field[15][maxLength]' => '0',
@@ -319,7 +320,7 @@ class Generate
         // para la columna deleted_at
         'field[16][name]' => 'deleted_at',
         'field[16][type]' => 'timestamp',
-        'field[16][required]' => true,
+        'field[16][required]' => false,
         'field[16][defValue]' => '0000-00-00 00:00:00',
         'field[16][key]' => '',
         'field[16][maxLength]' => '0',

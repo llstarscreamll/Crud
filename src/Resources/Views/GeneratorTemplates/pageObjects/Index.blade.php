@@ -150,7 +150,15 @@ class {{$test}}
         // damos valores a los atributos para crear un registro
         static::${{$gen->modelVariableName()}}Data = [
 @foreach($fields as $field)
+<?php if ($field->type == 'tinyint') { ?>
+<?php if ($field->testData == 'false' || $dield->testData == '0') { ?>
+            '{{$field->name}}' => '0',
+<?php } elseif ($field->testData == 'true' || $dield->testData == '1') { ?>
+            '{{$field->name}}' => true,
+<?php } ?>
+<?php } else { ?>
             '{{$field->name}}' => {!! $field->namespace == '' ? $field->testData : class_basename($field->namespace)."::first(['id'])->id" !!},
+<?php } ?>
 @endforeach
         ];
 @if($request->has('create_employees_data'))
@@ -202,7 +210,7 @@ class {{$test}}
             if (in_array($key, static::$createFormFields)) {
                 $data[$key] = $value;
             }
-            if (in_array($key, static::$fieldsThatRequieresConfirmation)){
+            if (in_array($key, static::$fieldsThatRequieresConfirmation)) {
                 $data[$key.'_confirmation'] = $value;
             }
         }
@@ -273,7 +281,7 @@ class {{$test}}
         // los campos ocultos no deben ser mostrados en la vista de sólo lectura
         foreach ($confirmedFields as $key => $value) {
             $requiredField = $value.'_confirmation';
-            if (in_array($requiredField, $data)) {
+            if (array_key_exists($requiredField, $data)) {
                 unset($data[$requiredField]);
             }
         }

@@ -101,7 +101,7 @@ class ViewsGenerator extends BaseGenerator
      *
      * @return string
      */
-    public function getSearchInputStr(stdClass $field, $table_name = null)
+    public function getSearchInputStr(stdClass $field, string $table_name = null)
     {
         // selects
         if ($field->type == 'enum') {
@@ -145,7 +145,26 @@ class ViewsGenerator extends BaseGenerator
             $type = 'number';
         }
 
-        $output = "{!! Form::input('$type', '$field->name', Request::input('$field->name'), ['form' => 'searchForm', 'class' => 'form-control']) !!}\n";
+        $fieldName = $field->name == 'id' ? 'ids[]' : $field->name;
+
+        if ($field->name == 'id') {
+            $output = "
+                {!! Form::select(
+                    '$fieldName',
+                    (\$ids_list = Request::get('ids', null)) ? array_combine(\$ids_list, \$ids_list) : [],
+                    Request::get('ids') ? Request::get('ids') : null,
+                    [
+                        'data-placeholder' => '',
+                        'class' => 'form-control select2-ids',
+                        'style' => 'width: 100px;',
+                        'form' => 'searchForm',
+                        'multiple',
+                    ])
+                !!}\n";
+        } else {
+            $output = "{!! Form::input('$type', '$fieldName', Request::input('$field->name'), ['form' => 'searchForm', 'class' => 'form-control']) !!}\n";
+        }
+
 
         return $output;
     }

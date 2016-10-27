@@ -91,7 +91,15 @@ class {{$test}} extends Index
         $data = [
 @foreach($fields as $field)
 @if($field->on_update_form)
+<?php if ($field->type == 'tinyint') { ?>
+<?php if ($field->testData == 'false' || $dield->testData == '0') { ?>
+            '{{$field->name}}' => '0',
+<?php } elseif ($field->testData == 'true' || $dield->testData == '1') { ?>
+            '{{$field->name}}' => true,
+<?php } ?>
+<?php } else { ?>
             '{{$field->name}}' => {!! $field->namespace == '' ? $field->testDataUpdate : class_basename($field->namespace)."::all(['id'])->last()->id" !!},
+<?php } ?>
 @endif
 @if(strpos($field->validation_rules, 'confirmed'))
             '{{$field->name}}_confirmation' => {!!$field->testDataUpdate!!},
