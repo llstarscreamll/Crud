@@ -156,7 +156,6 @@ class {{$gen->controllerClassName()}} extends Controller
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
         $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::where('id', $data['{{$gen->modelVariableName()}}']->{{$child_table[1]}})
-            ->first()
             ->pluck('name', 'id')
             ->all();
 @endif
