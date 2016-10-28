@@ -46,6 +46,19 @@
             ]) !!}
         </div>
 
+        <div class="form-group col-sm-6 col-md-2">
+            <label>
+                Use x-editable?<br>
+            </label>
+            <br>
+            {!! Form::checkbox('use_x_editable', true, false, [
+                'class' => 'bootstrap_switch',
+                'data-size' => 'mini',
+                'data-on-text' => 'SI',
+                'data-off-text' => 'NO',
+            ]) !!}
+        </div>
+
     </div>
 
     <div class="row">

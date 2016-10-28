@@ -162,7 +162,9 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
 
+<?php if ($request->get('use_x_editable', false)) { ?>
 {{-- Inicializa y configura x-editable --}}
 @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>shared.x-editable')
 
+<?php } ?>
 @endsection

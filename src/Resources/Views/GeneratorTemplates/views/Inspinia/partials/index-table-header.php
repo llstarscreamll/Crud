@@ -26,27 +26,16 @@
 
 <tr class="header-row">
     @if(!isset($hide_checkboxes_column))
-    <th class="checkbox-column"></th>
+        <th class="checkbox-column"></th>
     @endif
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
     <th class="<?= $field->name ?>">
-        <a href="{{route('<?=$gen->route()?>.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => '<?=$field->name?>',
-                'sortType' => (Request::input('sort') == '<?=$field->name?>' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('<?=$gen->getLangAccess()?>/views.form-fields-short-name.<?=$field->name?>')}}
-            {!!Request::input('sort') == '<?=$field->name?>' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('<?=$gen->route()?>.index', trans('<?=$gen->getLangAccess()?>/views.form-fields-short-name.<?=$field->name?>'), '<?=$field->name?>') !!}
     </th>
 <?php } ?>
 <?php } ?>
     @if(!isset($hide_actions_column))
-    <th class="actions-column">{{trans('<?=$gen->getLangAccess()?>/views.index.table-actions-column')}}</th>
+        <th class="actions-column">{{trans('<?=$gen->getLangAccess()?>/views.index.table-actions-column')}}</th>
     @endif
 </tr>

@@ -39,20 +39,22 @@
 // para que no resalte espacios vacíos cuando esté ejecutandose...                                         //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
-            <span <?= $gen->hasDeletedAtColumn($fields) ? '@if (! $record->trashed()) ' : null ?>class="<?=$gen->getInputXEditableClass($field)?>"
-                  data-type="<?=$gen->getInputType($field)?>"
-                  data-name="<?=$field->name?>"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('<?=$gen->getLangAccess()?>/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record-><?=$field->name?> }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/<?=$gen->route()?>/{{ $record->{$record->getKeyName()} }}"
-<?php if ($enum_source = $gen->getSourceForEnum($field)) { ?>
-                  <?= $enum_source ?>
-<?php }  ?>
-                  <?= $gen->hasDeletedAtColumn($fields) ? '@endif' : null ?>>{{ <?=$gen->getRecordFieldData($field, '$record')?> }}</span>
+<?php if ($request->get('use_x_editable', false)) { ?>
+            @if($record->trashed())
+                {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
+            @else
+                {!! UI::xEditableSpan(
+                    '<?=$gen->getInputType($field)?>',
+                    '<?=$field->name?>',
+                    (string) $record-><?=$field->name?>,
+                    (string) <?=$gen->getRecordFieldData($field, '$record')?>,
+                    ['data-url' => '/books/'.$record->{$record->getKeyName()}<?php if ($enum_source = $gen->getSourceForEnum($field)) { ?> <?= ', \'data-source\' => '.$enum_source ?><?php } ?>]
+                ) !!}
+            @endif
 <?php } else { ?>
-            {{-- El campo <?= $field->name ?> no es editable --}}
+            {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
+<?php } ?>
+<?php } else { ?>
             {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
 <?php } // end if ?>
         </td>

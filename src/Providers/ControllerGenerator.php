@@ -61,7 +61,8 @@ class ControllerGenerator extends BaseGenerator
             [
             'gen' => $this,
             'fields' => $this->advanceFields($this->request),
-            'foreign_keys'  => $this->getForeignKeys($this->table_name)
+            'foreign_keys'  => $this->getForeignKeys($this->table_name),
+            'request' => $this->request
             ]
         );
 

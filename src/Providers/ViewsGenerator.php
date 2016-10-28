@@ -331,7 +331,7 @@ class ViewsGenerator extends BaseGenerator
     public function getSourceForEnum(stdClass $field)
     {
         if ($field->type == 'enum' || (in_array($field->type, ['int', 'unsigned_int']) && $field->key == 'MUL')) {
-            return "data-source='{{ $".$field->name."_list_json }}'\n";
+            return "$".$field->name."_list_json";
         }
 
         return '';

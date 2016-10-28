@@ -61,25 +61,30 @@ class {{$gen->controllerClassName()}} extends Controller
 <?php } ?>
         // los datos para la vista
         $data = array();
-
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
         $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::pluck('name', 'id')->all();
+<?php if ($request->get('use_x_editable', false)) { ?>
         $data['{{$child_table[1]}}_list_json'] = collect($data['{{$child_table[1]}}_list'])
-            ->map(function ($item, $key) { return [$key => $item];})
+            ->map(function ($item, $key) {
+                return [$key => $item];
+            })
             ->values()
             ->toJson();
-
+<?php } ?>
 @endif
 @endforeach
 @foreach($fields as $field)
 @if($field->type == 'enum')
         $data['{{$field->name}}_list'] = ${{$gen->modelVariableName()}}->getEnumValuesArray('{{$field->name}}');
+<?php if ($request->get('use_x_editable', false)) { ?>
         $data['{{$field->name}}_list_json'] = collect($data['{{$field->name}}_list'])
-            ->map(function ($item, $key) { return [$key => $item];})
+            ->map(function ($item, $key) {
+                return [$key => $item];
+            })
             ->values()
             ->toJson();
-
+<?php } ?>
 @endif
 @endforeach
         $data['records'] = {{$gen->modelClassName()}}::findRequested($request);
@@ -102,13 +107,11 @@ class {{$gen->controllerClassName()}} extends Controller
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
         $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::pluck('name', 'id')->all();
-
 @endif
 @endforeach
 @foreach($fields as $field)
 @if($field->type == 'enum')
         $data['{{$field->name}}_list'] = ${{$gen->modelVariableName()}}->getEnumValuesArray('{{$field->name}}');
-
 @endif
 @endforeach
 
@@ -125,7 +128,7 @@ class {{$gen->controllerClassName()}} extends Controller
     public function store(<?= $gen->modelClassName()."Request" ?> $request)
     {
         {{$gen->modelClassName()}}::create($request->all());
-        $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.create_{{$gen->snakeCaseSingular()}}_success'));
+        session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.create_{{$gen->snakeCaseSingular()}}_success'));
         
         return redirect()->route('{{$gen->route().'.index'}}');
     }
@@ -144,26 +147,26 @@ class {{$gen->controllerClassName()}} extends Controller
     public function show({{ $hasSoftDelete ? 'int $id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
 <?php if ($gen->areEnumFields($fields)) { ?>
-        $<?= $gen->modelVariableName() ?> = new <?= $gen->modelClassName() ?>;
+        $<?= $gen->modelVariableName() ?> = <?= $gen->modelClassName().'::findOrFail($id)' ?>;
 <?php } ?>
+
         // los datos para la vista
         $data = array();
-        $data['{{$gen->modelVariableName()}}'] = {{ $hasSoftDelete ? $gen->modelClassName().'::findOrFail($id)' : '$'.$gen->modelVariableName() }};
-
+        $data['{{$gen->modelVariableName()}}'] = {{ $hasSoftDelete ? '$'.$gen->modelVariableName() : '$'.$gen->modelVariableName() }};
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
-        $data['{{$child_table[1]}}_list'] = (${{strtolower(str_singular($parent_table[0]))}} = {{studly_case(str_singular($parent_table[0]))}}::where('id', $data['{{$gen->modelVariableName()}}']->{{$child_table[1]}})->first())
-            ? ${{strtolower(str_singular($parent_table[0]))}}->pluck('name', 'id')->all()
-            : [];
-
+        $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::where('id', $data['{{$gen->modelVariableName()}}']->{{$child_table[1]}})
+            ->first()
+            ->pluck('name', 'id')
+            ->all();
 @endif
 @endforeach
 @foreach($fields as $field)
 @if($field->type == 'enum')
         $data['{{$field->name}}_list'] = ${{$gen->modelVariableName()}}->getEnumValuesArray('{{$field->name}}');
-        
 @endif
 @endforeach
+
         return $this->view("show", $data);
     }
 
@@ -186,19 +189,17 @@ class {{$gen->controllerClassName()}} extends Controller
         // los datos para la vista
         $data = array();
         $data['{{$gen->modelVariableName()}}'] = {{ $hasSoftDelete ? $gen->modelClassName().'::findOrFail($id)' : '$'.$gen->modelVariableName() }};
-
 @foreach($foreign_keys as $foreign)
 @if(($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references)))
         $data['{{$child_table[1]}}_list'] = {{studly_case(str_singular($parent_table[0]))}}::pluck('name', 'id')->all();
-
 @endif
 @endforeach
 @foreach($fields as $field)
 @if($field->type == 'enum')
         $data['{{$field->name}}_list'] = ${{$gen->modelVariableName()}}->getEnumValuesArray('{{$field->name}}');
-
 @endif
 @endforeach
+
         return $this->view("edit", $data);
     }
 
@@ -218,8 +219,8 @@ class {{$gen->controllerClassName()}} extends Controller
     {
 @if ($hasSoftDelete)
         ${{ $gen->modelVariableName() }} = {{ $gen->modelClassName() }}::findOrFail($id);
-
 @endif
+<?php if ($request->get('use_x_editable', false)) { ?>
         if ($request->isXmlHttpRequest()) {
             $data = [$request->name  => $request->value];
             ${{$gen->modelVariableName()}}->update($data);
@@ -227,8 +228,12 @@ class {{$gen->controllerClassName()}} extends Controller
             return "Record updated";
         }
 
+<?php } ?>
         ${{$gen->modelVariableName()}}->update($request->all());
-        $request->session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success'));
+        session()->flash(
+            'success',
+            trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success')
+        );
 
         return redirect()->route('{{$gen->route().'.index'}}');
     }
@@ -245,13 +250,15 @@ class {{$gen->controllerClassName()}} extends Controller
      *
      * @return Illuminate\Http\Response
      */
-    public function destroy(Request $request, {{ $hasSoftDelete ? 'int $id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
+    public function destroy(<?= $gen->modelClassName()."Request" ?> $request, {{ $hasSoftDelete ? 'int $id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
         $id = $request->has('id') ? $request->get('id') : {!! $hasSoftDelete ? '$id' : '$'.$gen->modelVariableName().'->id' !!};
 
-        {{$gen->modelClassName()}}::destroy($id)
-            ? $request->session()->flash('success', trans_choice('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_success', count($id)))
-            : $request->session()->flash('error', trans_choice('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_error', count($id)));
+        {{$gen->modelClassName()}}::destroy($id);
+        session()->flash(
+            'success',
+            trans_choice('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_success', count($id))
+        );
 
         return redirect()->route('{{$gen->route().'.index'}}');
     }
@@ -265,13 +272,15 @@ class {{$gen->controllerClassName()}} extends Controller
      *
      * @return Illuminate\Http\Response
      */
-    public function restore(Request $request, int $id)
+    public function restore(<?= $gen->modelClassName()."Request" ?> $request, int $id)
     {
         $id = $request->has('id') ? $request->get('id') : $id;
 
-        {{$gen->modelClassName()}}::onlyTrashed()->whereIn('id', $id)->restore()
-            ? $request->session()->flash('success', trans_choice('{{$gen->getLangAccess()}}/messages.restore_{{$gen->snakeCaseSingular()}}_success', count($id)))
-            : $request->session()->flash('error', trans_choice('{{$gen->getLangAccess()}}/messages.restore_{{$gen->snakeCaseSingular()}}_error', count($id)));
+        {{$gen->modelClassName()}}::onlyTrashed()->whereIn('id', $id)->restore();
+        session()->flash(
+            'success',
+            trans_choice('{{$gen->getLangAccess()}}/messages.restore_{{$gen->snakeCaseSingular()}}_success', count($id))
+        );
 
         return redirect()->route('{{$gen->route().'.index'}}');
     }

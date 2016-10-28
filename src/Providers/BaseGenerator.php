@@ -639,7 +639,7 @@ class BaseGenerator
             : $this->request->get('plural_entity_name');
 
         return
-        "Este archivo es parte del {$package}.\n".
+        "Este archivo es parte de {$package}.\n".
         "    (c) $author <$authorEmail>\n".
         "    Licensed under $license.\n\n".
 
