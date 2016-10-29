@@ -93,6 +93,27 @@ class ViewsGenerator extends BaseGenerator
         return true;
     }
 
+    public function getSearchUISetup(stdClass $field)
+    {
+        $type = empty($field->key) ? $field->type : $field->key;
+        $name = $field->name;
+        $data = "null";
+        $attr = "[]";
+
+        if ($field->key == 'MUL' || $field->type == 'enum') {
+            $data = "\${$field->name}_list";
+        }
+        
+        $output = "{!! UI::searchField(";
+        $output .= "'{$type}', "; // tipo de dato del campo
+        $output .= "'{$name}', "; // nombre del campo
+        $output .= "{$data}, "; // datos del campo, por ejemplo para selects
+        $output .= "{$attr}"; // atributos para el campo
+        $output .= ") !!}\n";
+
+        return $output;
+    }
+
     /**
      * Devuelve un string para la construcción de elemento de formulario HTML.
      *
@@ -105,7 +126,7 @@ class ViewsGenerator extends BaseGenerator
     {
         // selects
         if ($field->type == 'enum') {
-            return $this->buildSelectPicker($field);
+            return $this->buildSelectPicker($field, true, false, true);
         }
 
         // recorro los campos que son llave foránea
@@ -115,7 +136,7 @@ class ViewsGenerator extends BaseGenerator
 
             // si el campo actual es una llave foránea
             if (strpos($child_table[1], $field->name) !== false && $field->name != 'id') {
-                return $this->buildSelectPicker($field);
+                return $this->buildSelectPicker($field, true, false, true);
             }
         }
 
@@ -165,7 +186,6 @@ class ViewsGenerator extends BaseGenerator
             $output = "{!! Form::input('$type', '$fieldName', Request::input('$field->name'), ['form' => 'searchForm', 'class' => 'form-control']) !!}\n";
         }
 
-
         return $output;
     }
 
@@ -178,8 +198,12 @@ class ViewsGenerator extends BaseGenerator
      *
      * @return string
      */
-    public function buildSelectPicker(stdClass $field, bool $multiple = true, bool $withDisabledFeature = false)
-    {
+    public function buildSelectPicker(
+        stdClass $field,
+        bool $multiple = true,
+        bool $withDisabledFeature = false,
+        bool $searchForm = false
+    ) {
         $name = $multiple ? $field->name.'[]' : $field->name;
 
         $output = "{!! Form::select(";
@@ -198,7 +222,9 @@ class ViewsGenerator extends BaseGenerator
         if ($withDisabledFeature) {
             $output .= "\n\t\t\tisset(\$show) ? 'disabled' : null,";
         }
-        $output .= "\n\t\t\t'form' => 'searchForm'";
+        if ($searchForm) {
+            $output .= "\n\t\t\t'form' => 'searchForm'";
+        }
         $output .= "\n\t\t]";
         $output .= "\n\t) !!}\n";
 
@@ -346,8 +372,11 @@ class ViewsGenerator extends BaseGenerator
      *
      * @return string|bool
      */
-    public function getFormInputMarkup(stdClass $field, string $table_name, bool $checkSkippedFields = false)
-    {
+    public function getFormInputMarkup(
+        stdClass $field,
+        string $table_name,
+        bool $checkSkippedFields = false
+    ) {
         // $field es un campo de los que debo omitir?
         if (($field->on_create_form === false && $field->on_update_form === false) && $checkSkippedFields === false) {
             return false;

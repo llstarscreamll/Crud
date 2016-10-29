@@ -30,7 +30,7 @@
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
     <td class="<?= $field->name ?>">
-        <?=$gen->getSearchInputStr($field, $gen->table_name)?>
+        <?=$gen->getSearchUISetup($field, $gen->table_name)?>
     </td>
 <?php } ?>
 <?php } ?>
