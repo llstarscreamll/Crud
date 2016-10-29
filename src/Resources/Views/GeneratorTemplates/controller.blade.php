@@ -59,6 +59,7 @@ class {{$gen->controllerClassName()}} extends Controller
 <?php if ($gen->areEnumFields($fields)) { ?>
         $<?= $gen->modelVariableName() ?> = new <?= $gen->modelClassName() ?>;
 <?php } ?>
+        $request = collect($request->all());
         // los datos para la vista
         $data = array();
 @foreach($foreign_keys as $foreign)
@@ -87,7 +88,7 @@ class {{$gen->controllerClassName()}} extends Controller
 <?php } ?>
 @endif
 @endforeach
-        $data['records'] = {{$gen->modelClassName()}}::findRequested($request);
+        $data['records'] = {{$gen->modelClassName()}}::findRequested($request)->paginate(15);
         
         return $this->view("index", $data);
     }

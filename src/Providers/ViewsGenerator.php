@@ -93,11 +93,18 @@ class ViewsGenerator extends BaseGenerator
         return true;
     }
 
+    /**
+     * Construye el setup de clase helper UI para construir los campos del
+     * formulario de búsqueda.
+     *
+     * @param  stdClass $field
+     * @return string
+     */
     public function getSearchUISetup(stdClass $field)
     {
         $type = empty($field->key) ? $field->type : $field->key;
         $name = $field->name;
-        $data = "null";
+        $data = "[]";
         $attr = "[]";
 
         if ($field->key == 'MUL' || $field->type == 'enum') {

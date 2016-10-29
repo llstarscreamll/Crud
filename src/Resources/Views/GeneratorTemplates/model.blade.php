@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 @if(($hasSoftDelete = $gen->hasDeletedAtColumn($fields)))
 use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
+use Illuminate\Support\Collection;
 
 class {{$gen->modelClassName()}} extends Model
 {
@@ -131,7 +132,7 @@ class {{$gen->modelClassName()}} extends Model
      *
      * @return Illuminate\Support\Collection
      */
-    public static function findRequested($request)
+    public static function findRequested(Collection $request)
     {
         $query = {{$gen->modelClassName()}}::query();
 
@@ -164,12 +165,10 @@ class {{$gen->modelClassName()}} extends Model
         $request->has('trashed_records') && $query->{$request->get('trashed_records')}();
 @endif
         // ordenamos los resultados
-        $request->get('sort') && $query->orderBy($request->get('sort'), $request->get('sortType', 'asc'));
-        // orden predeterminado
-        !$request->has('sort') && $query->orderBy('created_at', 'desc');
+        $query->orderBy($request->get('sort', 'created_at'), $request->get('sortType', 'desc'));
 
         // paginamos los resultados
-        return $query->paginate(15);
+        return $query;
     }
 
 @if($gen->areEnumFields($fields))
