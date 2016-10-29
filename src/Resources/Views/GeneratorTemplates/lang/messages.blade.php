@@ -18,21 +18,17 @@ return [
      */
     
     // mesajes del método store() del controlador
-    'create_{{$gen->snakeCaseSingular()}}_success' => '{{ $gen->getStoreSuccessMsg() }}',
-    'create_{{$gen->snakeCaseSingular()}}_error' => '{{ $gen->getStoreErrorMsg() }}',
+    'store_{{$gen->snakeCaseSingular()}}_success' => '{{ $gen->getStoreSuccessMsg() }}',
 
     // mesajes del método update() del controlador
     'update_{{$gen->snakeCaseSingular()}}_success' => '{{ $gen->getUpdateSuccessMsg() }}',
-    'update_{{$gen->snakeCaseSingular()}}_error' => '{{ $gen->getUpdateErrorMsg() }}',
     
     // mesajes del método destroy() del controlador
     'destroy_{{$gen->snakeCaseSingular()}}_success' => '{{ $gen->getDestroySuccessMsgSingle() }}|{{ $gen->getDestroySuccessMsgPlural() }}',
-    'destroy_{{$gen->snakeCaseSingular()}}_error' => '{{ $gen->getDestroyErrorMsgSingle() }}|{{ $gen->getDestroyErrorMsgPlural() }}',
 
 @if(($hasSoftDelete = $gen->hasDeletedAtColumn($fields)))
     // mesajes del método restore() del controlador
     'restore_{{$gen->snakeCaseSingular()}}_success' => '{{ $gen->getRestoreSuccessMsgSingle() }}|{{ $gen->getRestoreSuccessMsgPlural() }}',
-    'restore_{{$gen->snakeCaseSingular()}}_error' => '{{ $gen->getRestoreErrorMsgSingle() }}|{{ $gen->getRestoreErrorMsgPlural() }}',
 
 @endif
 ];

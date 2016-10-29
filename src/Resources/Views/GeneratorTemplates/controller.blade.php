@@ -128,7 +128,7 @@ class {{$gen->controllerClassName()}} extends Controller
     public function store(<?= $gen->modelClassName()."Request" ?> $request)
     {
         {{$gen->modelClassName()}}::create($request->all());
-        session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.create_{{$gen->snakeCaseSingular()}}_success'));
+        session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.store_{{$gen->snakeCaseSingular()}}_success'));
         
         return redirect()->route('{{$gen->route().'.index'}}');
     }
@@ -146,9 +146,7 @@ class {{$gen->controllerClassName()}} extends Controller
      */
     public function show({{ $hasSoftDelete ? 'int $id' : $gen->modelClassName().'$'.$gen->modelVariableName() }})
     {
-<?php if ($gen->areEnumFields($fields)) { ?>
         $<?= $gen->modelVariableName() ?> = <?= $gen->modelClassName().'::findOrFail($id)' ?>;
-<?php } ?>
 
         // los datos para la vista
         $data = array();

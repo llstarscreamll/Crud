@@ -15,11 +15,11 @@
 // si la entidad tiene campos que tengan que usar un select, incluimos los assets del componente Bootstrap-Select //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
-<?php if ($gen->hasSelectFields($fields)) { ?>
 {{-- Select2 --}}
 <script src="{{ asset('plugins/select2/dist/js/select2.full.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('plugins/select2/dist/js/i18n/es.js') }}" type="text/javascript"></script>
 <link href="{{ asset('plugins/select2/dist/css/select2.min.css') }}" rel="stylesheet" type="text/css" />
+<?php if ($gen->hasSelectFields($fields)) { ?>
 {{-- Bootstrap-Select --}}
 <link href="{{ asset('plugins/bootstrap-select/dist/css/bootstrap-select.min.css') }}" rel="stylesheet" type="text/css" />
 <script src="{{ asset('plugins/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>

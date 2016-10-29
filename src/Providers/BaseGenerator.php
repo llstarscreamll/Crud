@@ -873,6 +873,7 @@ class BaseGenerator
      * Genera las reglas de validación para el campo.
      *
      * @param  stdClass $field
+     *
      * @return string
      */
     public function getValidationRules(stdClass $field, string $method = 'create')
@@ -921,6 +922,10 @@ class BaseGenerator
 
         if ($field->key == 'UNI') {
             $rules .= "'unique:$this->table_name,$field->name', ";
+        }
+
+        if (strpos($field->validation_rules, 'confirmed') && $method != 'index') {
+            $rules .= "'confirmed', ";
         }
 
         // limpiamos
