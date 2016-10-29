@@ -71,16 +71,16 @@ class ModelGenerator extends BaseGenerator
         $columnName = $field->name == 'id' ? 'ids' : $field->name;
 
         // cláusula por defecto
-        $string = "'{$field->name}', \$request->get('{$columnName}')";
+        $string = "'{$field->name}', \$input->get('{$columnName}')";
 
         // para búsquedas de tipo texto
         if (in_array($field->type, ['varchar', 'text'])) {
-            $string = "'{$field->name}', 'like', '%'.\$request->get('{$columnName}').'%'";
+            $string = "'{$field->name}', 'like', '%'.\$input->get('{$columnName}').'%'";
         }
 
         // para búsquedas en campos de tipo enum
         if ($field->type == 'enum') {
-            $string = "'{$field->name}', \$request->get('$columnName')";
+            $string = "'{$field->name}', \$input->get('$columnName')";
         }
 
         // para búsqueda en campos de tipo boolean

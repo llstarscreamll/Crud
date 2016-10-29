@@ -59,7 +59,7 @@ class {{$gen->controllerClassName()}} extends Controller
 <?php if ($gen->areEnumFields($fields)) { ?>
         $<?= $gen->modelVariableName() ?> = new <?= $gen->modelClassName() ?>;
 <?php } ?>
-        $request = collect($request->all());
+        $request = collect($request->get('search'));
         // los datos para la vista
         $data = array();
 @foreach($foreign_keys as $foreign)

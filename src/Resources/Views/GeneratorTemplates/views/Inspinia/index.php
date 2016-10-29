@@ -118,23 +118,18 @@
     dateRangePickerRangesSettings = @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>shared.dateRangePickerRanges')
 
     let dateRangeFields = [
-<?php foreach ($fields as $key => $field) { ?>
-<?php if ($field->type == 'date') { ?>
         {
-            field: 'input[name="<?= $field->name ?>[informative]"]',
+            field: 'input.plugin-date',
             format: 'YYYY-MM-DD',
             with_time_picker: false,
             opens: 'center',
         },
-<?php } elseif ($field->type == 'timestamp' || $field->type == 'datetime') { ?>
         {
-            field: 'input[name="<?= $field->name ?>[informative]"]',
+            field: 'input.plugin-datetime',
             format: 'YYYY-MM-DD HH:mm:ss',
             with_time_picker: true,
             opens: 'left',
-        },
-<?php } // end if ?>
-<?php } // end foreach ?>
+        }
     ];
 
     {{-- Configuración de Bootstrap DateRangePicker --}}

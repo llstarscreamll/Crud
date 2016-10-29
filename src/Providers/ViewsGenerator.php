@@ -102,19 +102,22 @@ class ViewsGenerator extends BaseGenerator
      */
     public function getSearchUISetup(stdClass $field)
     {
-        $type = empty($field->key) ? $field->type : $field->key;
-        $name = $field->name;
-        $data = "[]";
-        $attr = "[]";
+        $type = empty($field->key) ? "'$field->type'" : "'$field->key'";
+        $name = ", '$field->name'";
+        $value = null;
+        $data = null;
+        $attr = null;
 
         if ($field->key == 'MUL' || $field->type == 'enum') {
-            $data = "\${$field->name}_list";
+            $value = ", ''";
+            $data = ", \${$field->name}_list";
         }
         
         $output = "{!! UI::searchField(";
-        $output .= "'{$type}', "; // tipo de dato del campo
-        $output .= "'{$name}', "; // nombre del campo
-        $output .= "{$data}, "; // datos del campo, por ejemplo para selects
+        $output .= "{$type}"; // tipo de dato del campo
+        $output .= "{$name}"; // nombre del campo
+        $output .= "{$value}"; // valor predeterminado del campo
+        $output .= "{$data}"; // datos del campo, por ejemplo para selects
         $output .= "{$attr}"; // atributos para el campo
         $output .= ") !!}\n";
 

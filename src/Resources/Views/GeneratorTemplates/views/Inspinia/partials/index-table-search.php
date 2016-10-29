@@ -58,7 +58,7 @@
                 <li>
                     <div class="checkbox">
                         <label>
-                            {!! Form::radio('trashed_records', 'withTrashed', Request::input('trashed_records') == 'withTrashed' ? true : false, ['form' => 'searchForm']) !!}
+                            {!! UI::searchField('radio', 'trashed_records', 'withTrashed', [], []) !!}
                             {{ trans('<?=$gen->getLangAccess()?>/views.index.filter-with-trashed-label') }}
                         </label>
                     </div>
@@ -67,7 +67,7 @@
                 <li>
                     <div class="checkbox">
                         <label>
-                            {!! Form::radio('trashed_records', 'onlyTrashed', Request::input('trashed_records') == 'onlyTrashed' ? true : false, ['form' => 'searchForm']) !!}
+                            {!! UI::searchField('radio', 'trashed_records', 'onlyTrashed', [], []) !!}
                             {{ trans('<?=$gen->getLangAccess()?>/views.index.filter-only-trashed-label') }}
                         </label>
                     </div>

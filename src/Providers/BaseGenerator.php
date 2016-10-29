@@ -377,6 +377,16 @@ class BaseGenerator
     }
 
     /**
+     * Devulve el nombre de la variable del modelo generado en plural.
+     *
+     * @return string
+     */
+    public function modelPluralVariableName()
+    {
+        return camel_case(str_plural($this->table_name));
+    }
+
+    /**
      * Devuelve el nombre de la entidad en singular iniciando las primeras letras de cada palabra
      * con mayúscula, aplica sólo al inglés.
      *

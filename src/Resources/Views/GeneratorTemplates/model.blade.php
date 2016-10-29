@@ -128,11 +128,11 @@ class {{$gen->modelClassName()}} extends Model
     /**
      * Realiza consulta de los datos según lo que el usuario especifique.
      *
-     * @param  Illuminate\Http\Request $request
+     * @param  Illuminate\Support\Collection $input
      *
      * @return Illuminate\Support\Collection
      */
-    public static function findRequested(Collection $request)
+    public static function findRequested(Collection $input)
     {
         $query = {{$gen->modelClassName()}}::query();
 
@@ -140,32 +140,32 @@ class {{$gen->modelClassName()}} extends Model
 @foreach ( $fields as $field )
 @if(!$field->hidden)
 @if($field->type == 'tinyint')
-        $request->get('{{$field->name}}_true') && $query->where({!! $gen->getConditionStr($field, 'true') !!});
-        ($request->get('{{$field->name}}_false') && !$request->has('{{$field->name}}_true')) && $query->where({!! $gen->getConditionStr($field, 'false') !!});
-        ($request->get('{{$field->name}}_false') && $request->has('{{$field->name}}_true')) && $query->orWhere({!! $gen->getConditionStr($field, 'false') !!});
+        $input->get('{{$field->name}}_true') && $query->where({!! $gen->getConditionStr($field, 'true') !!});
+        ($input->get('{{$field->name}}_false') && !$input->has('{{$field->name}}_true')) && $query->where({!! $gen->getConditionStr($field, 'false') !!});
+        ($input->get('{{$field->name}}_false') && $input->has('{{$field->name}}_true')) && $query->orWhere({!! $gen->getConditionStr($field, 'false') !!});
 
 @elseif($field->type == 'enum' || $field->key == 'MUL' || $field->key == 'PRI')
 <?php $name = $field->name == 'id' ? 'ids' : $field->name ?>
-        $request->get('{{$name}}') && $query->whereIn({!! $gen->getConditionStr($field) !!});
+        $input->get('{{$name}}') && $query->whereIn({!! $gen->getConditionStr($field) !!});
 
 @elseif($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime')
-        $request->get('{{$field->name}}')['informative'] && $query->whereBetween('{{$field->name}}', [
-            $request->get('{{$field->name}}')['from'],
-            $request->get('{{$field->name}}')['to']
+        $input->get('{{$field->name}}')['informative'] && $query->whereBetween('{{$field->name}}', [
+            $input->get('{{$field->name}}')['from'],
+            $input->get('{{$field->name}}')['to']
         ]);
 
 @else
-        $request->get('{{$field->name}}') && $query->where({!! $gen->getConditionStr($field) !!});
+        $input->get('{{$field->name}}') && $query->where({!! $gen->getConditionStr($field) !!});
 
 @endif
 @endif
 @endforeach
 @if($hasSoftDelete)
         // registros en papelera
-        $request->has('trashed_records') && $query->{$request->get('trashed_records')}();
+        $input->has('trashed_records') && $query->{$input->get('trashed_records')}();
 @endif
         // ordenamos los resultados
-        $query->orderBy($request->get('sort', 'created_at'), $request->get('sortType', 'desc'));
+        $query->orderBy($input->get('sort', 'created_at'), $input->get('sortType', 'desc'));
 
         // paginamos los resultados
         return $query;

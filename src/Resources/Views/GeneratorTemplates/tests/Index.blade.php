@@ -98,7 +98,7 @@ class {{$test}}Cest
         {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }} = {{ $gen->modelClassName() }}::all();
 
         // con registros en papelera
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
+        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'withTrashed']]));
 
         // las filas de los registros que están en papelera deben aparecer con
         // la clase danger, es decir con un fondo rojo, las filas que no están
@@ -111,7 +111,7 @@ class {{$test}}Cest
         }
 
         // sólo registros en papelera
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=onlyTrashed');
+        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'onlyTrashed']]));
 
         foreach ({{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed as $item) {
             $I->see($item->id, 'tbody tr.danger td.id');
@@ -147,9 +147,9 @@ class {{$test}}Cest
 
         // si ha decidido mostrar los registros en papelera, el botón debe ser
         // mostrado
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
+        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'withTrashed']]));
         $I->see('Restaurar {{ $request->get('plural_entity_name') }} seleccionados', 'button.btn.btn-default.btn-sm');
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=onlyTrashed');
+        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'onlyTrashed']]));
         $I->see('Restaurar {{ $request->get('plural_entity_name') }} seleccionados', 'button.btn.btn-default.btn-sm');
         // las filas borradas de la tabla también deben mostrar el botón
         $I->see('Restaurar', 'tbody tr.danger td button.btn.btn-success.btn-xs');
@@ -177,11 +177,11 @@ class {{$test}}Cest
 
         // sólo se oculta el botón si lo unico que se desea consultar son los
         // registros en papelera
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=onlyTrashed');
+        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'onlyTrashed']]));
         $I->dontSee('Borrar {!!$request->get('plural_entity_name')!!} seleccionados', 'button.btn.btn-default.btn-sm');
         $I->amOnPage(Page::$moduleURL);
         $I->see('Borrar {!!$request->get('plural_entity_name')!!} seleccionados', 'button.btn.btn-default.btn-sm');
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
+        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'withTrashed']]));
         $I->see('Borrar {!!$request->get('plural_entity_name')!!} seleccionados', 'button.btn.btn-default.btn-sm');
     }
 
@@ -201,8 +201,8 @@ class {{$test}}Cest
         $I->wantTo('restaurar varios registros en papelera a la vez en módulo '.Page::$moduleName);
 
         // creo y muevo a papelera algunos registros
-        $books = factory({{ $gen->modelClassName() }}::class, 10)->create();
-        $books->each(function ($item) {
+        {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }} = factory({{ $gen->modelClassName() }}::class, 10)->create();
+        {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}->each(function ($item) {
             return $item->delete();
         });
 
@@ -211,7 +211,7 @@ class {{$test}}Cest
         $I->see('No se encontraron registros...', '.alert.alert-warning');
 
         // envío parámetros a Index para que cargue los registros en papelera
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
+        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'withTrashed']]));
         $I->dontSee('No se encontraron registros...', '.alert.alert-warning');
         // los registros en papelera se muestran con clase danger en las filas
         // de la tabla
@@ -221,7 +221,7 @@ class {{$test}}Cest
         $I->see('Restaurar {{ $request->get('plural_entity_name') }} seleccionados', 'button.btn.btn-default.btn-sm');
         
         // cargo la ruta para restaurar todos los registros en papelera
-        $I->restoreMany('{{ $gen->route() }}.restore', $books->pluck('id')->toArray());
+        $I->restoreMany('{{ $gen->route() }}.restore', {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}->pluck('id')->toArray());
         
         // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::$moduleURL);

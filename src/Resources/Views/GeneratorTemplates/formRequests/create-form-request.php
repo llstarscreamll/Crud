@@ -108,18 +108,20 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
         return [
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime') { ?>
-            '<?= $field->name ?>[from]' => <?= $gen->getValidationRules($field, 'index') ?>,
-            '<?= $field->name ?>[to]' => <?= $gen->getValidationRules($field, 'index') ?>,
+            'search.<?= $field->name ?>.from' => <?= $gen->getValidationRules($field, 'index') ?>,
+            'search.<?= $field->name ?>.to' => <?= $gen->getValidationRules($field, 'index') ?>,
+<?php } elseif ($field->type == "enum") { ?>
+            'search.<?= $field->name ?>.*' => <?= $gen->getValidationRules($field, 'index') ?>,
 <?php } elseif ($field->type == "tinyint") { ?>
-            '<?= $field->name ?>_true' => <?= $gen->getValidationRules($field, 'index') ?>,
-            '<?= $field->name ?>_false' => <?= $gen->getValidationRules($field, 'index') ?>,
+            'search.<?= $field->name ?>_true' => <?= $gen->getValidationRules($field, 'index') ?>,
+            'search.<?= $field->name ?>_false' => <?= $gen->getValidationRules($field, 'index') ?>,
 <?php } else { ?>
-            '<?= $field->name ?>' => <?= $gen->getValidationRules($field, 'index') ?>,
+            'search.<?= $field->name ?>' => <?= $gen->getValidationRules($field, 'index') ?>,
 <?php } ?>
 <?php } ?>
-            'sort' => ['string'],
+            'search.sort' => ['string'],
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
-            'trashed_records' => ['in:onlyTrashed,withTrashed'],
+            'search.trashed_records' => ['in:onlyTrashed,withTrashed'],
 <?php } ?>
         ];
     }
