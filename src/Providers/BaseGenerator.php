@@ -1105,9 +1105,9 @@ class BaseGenerator
     public function getSearchFieldsPrefixConfigString()
     {
         if ($this->areWeUsingCoreModule()) {
-            return "config('modules.core.app.search-fields-prefix')";
+            return "config('modules.core.app.search-fields-prefix', 'search')";
         }
 
-        return "config('{$this->modelVariableName()}.search-fields-prefix')";
+        return "config('{$this->modelVariableName()}.search-fields-prefix', 'search')";
     }
 }
