@@ -396,7 +396,7 @@ class ViewsGenerator extends BaseGenerator
         $output = "\n<div class='form-group col-sm-6 {{ \$errors->has('{$field->name}') ? 'has-error' : null }}'>\n";
 
         // el label
-        $output .= "\t{!! Form::label('{$field->name}', trans('".$this->getLangAccess().'.form-fields.'.$field->name."')) !!}\n";
+        $output .= "\t{!! Form::label('{$field->name}', trans('".$this->getLangAccess().'.form-labels.'.$field->name."')) !!}\n";
 
         // para selects
         if ($field->type == 'enum') {
@@ -480,7 +480,7 @@ class ViewsGenerator extends BaseGenerator
         // abro el contenedor
         $output .= "<div class='form-group col-sm-6 {{ \$errors->has('{$field->name}') ? 'has-error' : null }}'>\n";
         // el label
-        $output .= "\t{!! Form::label('{$field->name}_confirmation', trans('".$this->getLangAccess().'.form-fields.'.$field->name."_confirmation')) !!}\n";
+        $output .= "\t{!! Form::label('{$field->name}_confirmation', trans('".$this->getLangAccess().'.form-labels.'.$field->name."_confirmation')) !!}\n";
         // el campo
         $output .= "\t{!! Form::input('text', '{$field->name}_confirmation', null, ['class' => 'form-control']) !!}\n";
         $output .= $this->endFormGroup($field);

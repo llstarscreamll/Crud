@@ -481,10 +481,10 @@ class BaseGenerator
      */
     public function getFormFieldName($label)
     {
-        $string = ucwords(str_replace('el ', '', strtolower($label)));
-        $string = ucwords(str_replace('los ', '', strtolower($string)));
-        $string = ucwords(str_replace('la ', '', strtolower($string)));
-        $string = ucwords(str_replace('las ', '', strtolower($string)));
+        $string = ucfirst(str_replace('el ', '', strtolower($label)));
+        $string = ucfirst(str_replace('los ', '', strtolower($string)));
+        $string = ucfirst(str_replace('la ', '', strtolower($string)));
+        $string = ucfirst(str_replace('las ', '', strtolower($string)));
 
         return $string;
     }

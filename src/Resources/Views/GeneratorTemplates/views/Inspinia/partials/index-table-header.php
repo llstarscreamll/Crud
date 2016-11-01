@@ -31,7 +31,7 @@
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
     <th class="<?= $field->name ?>">
-        {!! UI::sortLink('<?=$gen->route()?>.index', trans('<?=$gen->getLangAccess()?>.form-fields-short-name.<?=$field->name?>'), '<?=$field->name?>') !!}
+        {!! UI::sortLink('<?=$gen->route()?>.index', trans('<?=$gen->getLangAccess()?>.fields-labels-short.<?=$field->name?>'), '<?=$field->name?>') !!}
     </th>
 <?php } ?>
 <?php } ?>

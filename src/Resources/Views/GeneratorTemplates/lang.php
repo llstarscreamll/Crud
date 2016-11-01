@@ -28,7 +28,7 @@ return [
     'index-create-form-modal-title' => 'Crear Nuevo <?= $request->get('single_entity_name') ?>',
     
     // nombres de los elementos del formulario
-    'form-fields' => [
+    'form-labels' => [
 <?php foreach ($fields as $field) { ?>
         '<?= $field->name?>' => '<?= $gen->getFormFieldName($field->label).($gen->isTheFieldRequired($field) ? ' *' : '') ?>',
 <?php if (strpos($field->validation_rules, 'confirmed')) { ?>
@@ -38,7 +38,7 @@ return [
     ],
 
     // nombres cortos de los elementos del formulario, para la tabla del index
-    'form-fields-short-name' => [
+    'fields-labels-short' => [
 <?php foreach ($fields as $field) { ?>
         '<?= $field->name?>' => '<?= $gen->getFormFieldName($field->label) ?>',
 <?php } ?>
@@ -47,24 +47,17 @@ return [
     // Los nombres de los atributos de validación en Form Requests.
     'attributes' => [
 <?php foreach ($fields as $field) { ?>
-        '<?= $field->name ?>' => '<?= $field->label ?>',
+        '<?= $field->name ?>' => '<?= $gen->getFormFieldName($field->label) ?>',
 <?php if (strpos($field->validation_rules, 'confirmed')) { ?>
-        '<?= $field->name?>_confirmation' => 'Confirmar <?= $field->label ?>',
-<?php } ?>
-<?php } ?>
-
-<?php foreach ($fields as $field) { ?>
-<?php if ($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime') { ?>
-        '<?= $field->name ?>[from]' => '<?= $field->label ?> inicial',
-        '<?= $field->name ?>[to]' => '<?= $field->label ?> final',
+        '<?= $field->name?>_confirmation' => 'Confirmar <?= $gen->getFormFieldName($field->label) ?>',
+<?php } elseif ($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime') { ?>
+        '<?= $field->name ?>[from]' => '<?= $gen->getFormFieldName($field->label) ?> inicial',
+        '<?= $field->name ?>[to]' => '<?= $gen->getFormFieldName($field->label) ?> final',
 <?php } elseif ($field->type == "tinyint") { ?>
-        '<?= $field->name ?>_true' => '<?= $field->label ?> si',
-        '<?= $field->name ?>_false' => '<?= $field->label ?> no',
-<?php } else { ?>
-        '<?= $field->name ?>' => '<?= $field->label ?>',
+        '<?= $field->name ?>_true' => '<?= $gen->getFormFieldName($field->label) ?> si',
+        '<?= $field->name ?>_false' => '<?= $gen->getFormFieldName($field->label) ?> no',
 <?php } ?>
 <?php } ?>
-
     ],
 
     // Los mensajes personalizados de validación en Form Requests.
