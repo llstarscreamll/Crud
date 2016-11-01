@@ -5,7 +5,7 @@
 ?>
 @extends('<?=config('modules.CrudGenerator.config.layout')?>')
 
-@section('title') {{trans('<?=$gen->getLangAccess()?>/views.edit.name').trans('<?=$gen->getLangAccess()?>/views.module.name-singular')}} @endsection
+@section('title') {{trans('<?= $gen->solveSharedResourcesNamespace() ?>.views.edit').trans('<?=$gen->getLangAccess()?>.module.name-singular')}} @endsection
 
 @section('styles')
 @endsection
@@ -14,8 +14,8 @@
 
     <div class="content-header">
         <h1>
-            <a href="{{route('<?=$gen->route()?>.index')}}">{{trans('<?=$gen->getLangAccess()?>/views.module.name')}}</a>
-            <small>{{trans('<?=$gen->getLangAccess()?>/views.edit.name')}}</small>
+            <a href="{{route('<?=$gen->route()?>.index')}}">{{trans('<?=$gen->getLangAccess()?>.module.name')}}</a>
+            <small>{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.views.edit')}}</small>
         </h1>
     </div>
     
@@ -38,9 +38,9 @@
                     <div class="form-group col-sm-6">
                         <button type="submit" class="btn btn-warning">
                             <span class="glyphicon glyphicon-pencil"></span>
-                            <span class="">{{trans('<?=$gen->getLangAccess()?>/views.edit.btn-edit')}}</span> 
+                            <span class="">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.edit-btn')}}</span> 
                         </button>
-                        <span id="helpBlock" class="help-block">{!!trans('<?=$gen->getLangAccess()?>/views.inputs-required-help')!!}</span>
+                        <span id="helpBlock" class="help-block">{!!trans('<?= $gen->solveSharedResourcesNamespace() ?>.inputs-required-msg')!!}</span>
                     </div>
 
                 {!! Form::close() !!}

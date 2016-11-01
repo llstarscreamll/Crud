@@ -24,7 +24,7 @@
 @extends('<?=config('modules.CrudGenerator.config.layout')?>')
 
 {{-- page title --}}
-@section('title') {{trans('<?=$gen->getLangAccess()?>/views.module.name')}} @endsection
+@section('title') {{trans('<?=$gen->getLangAccess()?>.module.name')}} @endsection
 {{-- /page title --}}
 
 {{-- view styles --}}
@@ -112,10 +112,10 @@
 ?>
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
     {{-- Configuración regional para Bootstrap DateRangePicker --}}
-    dateRangePickerLocaleSettings = @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>shared.dateRangePickerLocales')
+    dateRangePickerLocaleSettings = @include('<?= $gen->solveSharedResourcesNamespace() ?>.dateRangePickerLocales')
 
     {{-- Algunos rangos de fecha predeterminados para Bootstrap DateRangePicker --}}
-    dateRangePickerRangesSettings = @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>shared.dateRangePickerRanges')
+    dateRangePickerRangesSettings = @include('<?= $gen->solveSharedResourcesNamespace() ?>.dateRangePickerRanges')
 
     let dateRangeFields = [
         {
@@ -159,7 +159,7 @@
 
 <?php if ($request->get('use_x_editable', false)) { ?>
 {{-- Inicializa y configura x-editable --}}
-@include('<?=config('modules.CrudGenerator.config.layout-namespace')?>shared.x-editable')
+@include('<?= $gen->solveSharedResourcesNamespace() ?>.x-editable')
 
 <?php } ?>
 @endsection

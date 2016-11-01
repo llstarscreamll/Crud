@@ -1006,4 +1006,34 @@ class BaseGenerator
 
         return false;
     }
+
+    /**
+     * Comprueba si se está usando el paquete Core Module en esta instalación de
+     * Laravel para usar las clases que dicho paquete comparte, sino para
+     * añadirlas a esta instalación y dar el namespace correcto a dichos
+     * ficheros.
+     *
+     * @return bool
+     */
+    public function areWeUsingCoreModule()
+    {
+        return (bool)class_exists(\llstarscreamll\Core\Providers\CoreServiceProvider::class);
+    }
+
+    /**
+     * Devuelve el namespace de los recursos compartidos de vistas y lenguaje
+     * dependiendo de si se está usando o no el paquete Core Module, si se está
+     * usando usaremos los recursos de dicho paquete, si no se usaran los de la
+     * instalación actual de Laravel.
+     *
+     * @return string
+     */
+    public function solveSharedResourcesNamespace()
+    {
+        if ($this->areWeUsingCoreModule()) {
+            return 'core::shared';
+        }
+
+        return 'shared';
+    }
 }

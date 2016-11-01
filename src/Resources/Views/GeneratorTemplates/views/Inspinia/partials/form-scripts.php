@@ -37,11 +37,11 @@
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
     {{-- Inicialización y configuración de Bootbox --}}
     initBootBoxComponent(
-        '{{ trans('book/views.index.modal-default-title') }}',
-        '{{ trans('book/views.index.modal-default-btn-confirmation-label') }}',
-        '{{ trans('book/views.index.modal-default-btn-confirmation-className') }}',
-        '{{ trans('book/views.index.modal-default-btn-cancel-label') }}',
-        '{{ trans('book/views.index.modal-default-btn-cancel-className') }}'
+        '{{ trans('book.index.modal-default-title') }}',
+        '{{ trans('book.index.modal-default-btn-confirmation') }}',
+        'btn-primary',
+        '{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-default-btn-cancel') }}',
+        'btn-default'
     );
 <?php } ?>
     

@@ -31,11 +31,11 @@
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
     <th class="<?= $field->name ?>">
-        {!! UI::sortLink('<?=$gen->route()?>.index', trans('<?=$gen->getLangAccess()?>/views.form-fields-short-name.<?=$field->name?>'), '<?=$field->name?>') !!}
+        {!! UI::sortLink('<?=$gen->route()?>.index', trans('<?=$gen->getLangAccess()?>.form-fields-short-name.<?=$field->name?>'), '<?=$field->name?>') !!}
     </th>
 <?php } ?>
 <?php } ?>
     @if(!isset($hide_actions_column))
-        <th class="actions-column">{{trans('<?=$gen->getLangAccess()?>/views.index.table-actions-column')}}</th>
+        <th class="actions-column">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.table-actions-column')}}</th>
     @endif
 </tr>

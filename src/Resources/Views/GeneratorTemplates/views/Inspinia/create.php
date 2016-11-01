@@ -18,7 +18,7 @@
 @extends('<?=config('modules.CrudGenerator.config.layout')?>')
 
 {{-- page title --}}
-@section('title') {{trans('<?=$gen->getLangAccess()?>/views.create.name').trans('<?=$gen->getLangAccess()?>/views.module.name-singular')}} @stop
+@section('title') {{trans('<?=$gen->getLangAccess()?>.create.name').trans('<?=$gen->getLangAccess()?>.module.name-singular')}} @stop
 {{-- /page title --}}
 
 {{-- view styles --}}
@@ -30,7 +30,7 @@
 @section('content')
 
 {{-- heading --}}
-@include('<?=$gen->viewsDirName()?>.partials.heading', ['small_title' => trans('<?=$gen->getLangAccess()?>/views.create.name')])
+@include('<?=$gen->viewsDirName()?>.partials.heading', ['small_title' => trans('<?=$gen->getLangAccess()?>.create.name')])
     
 {{-- content --}}
 <div class="wrapper wrapper-content">
@@ -56,10 +56,10 @@
                     <div class="form-group col-sm-6">
                         <button type="submit" class="btn btn-primary">
                             <span class="glyphicon glyphicon-floppy-disk"></span>
-                            <span class="">{{trans('<?=$gen->getLangAccess()?>/views.create.btn-create')}}</span>
+                            <span class="">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.create-btn')}}</span>
                         </button>
                         <span id="helpBlock" class="help-block">
-                            {!!trans('<?=$gen->getLangAccess()?>/views.inputs-required-help')!!}
+                            {!!trans('<?= $gen->solveSharedResourcesNamespace() ?>.inputs-required-msg')!!}
                         </span>
                     </div>
 

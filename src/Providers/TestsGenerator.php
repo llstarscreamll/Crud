@@ -153,7 +153,7 @@ class TestsGenerator extends BaseGenerator
      */
     public function langDir()
     {
-        return base_path('resources/lang/es/'.$this->getLangAccess());
+        return base_path('resources/lang/es/');
     }
 
     /**
@@ -217,43 +217,10 @@ class TestsGenerator extends BaseGenerator
      */
     public function generateLangFiles()
     {
-        // genero el archivo views
-        $langFile = $this->langDir()."/views.php";
+        $langFile = $this->langDir()."/{$this->modelVariableName()}.php";
 
         $content = view(
-            $this->templatesDir().'.lang.views',
-            [
-            'gen' => $this,
-            'fields' => $this->advanceFields($this->request),
-            'request' => $this->request
-            ]
-        );
-
-        if (file_put_contents($langFile, $content) === false) {
-            return false;
-        }
-
-        // genero el archivo messages
-        $langFile = $this->langDir()."/messages.php";
-
-        $content = view(
-            $this->templatesDir().'.lang.messages',
-            [
-            'gen' => $this,
-            'fields' => $this->advanceFields($this->request),
-            'request' => $this->request
-            ]
-        );
-
-        if (file_put_contents($langFile, $content) === false) {
-            return false;
-        }
-
-        // genero el archivo validation
-        $langFile = $this->langDir()."/validation.php";
-
-        $content = view(
-            $this->templatesDir().'.lang.validation',
+            $this->templatesDir().'.lang',
             [
             'gen' => $this,
             'fields' => $this->advanceFields($this->request),

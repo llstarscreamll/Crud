@@ -43,15 +43,15 @@
         <div class="dropdown display-inline-table"
              data-toggle="tooltip"
              data-placement="top"
-             title="{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button-label') }}">
+             title="{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-btn') }}">
             
             <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <span class="sr-only">{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button-label') }}</span>
+                <span class="sr-only">{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-btn') }}</span>
                 <span class="glyphicon glyphicon-filter"></span>
             </button>
 
-            <ul class="dropdown-menu dropdown-menu-right prevent-hide" aria-labelledby="dropdownMenu1">
-                <li class="dropdown-header">{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button-label') }}</li>
+            <ul class="dropdown-menu dropdown-menu-right prevent-hide" arialedby="dropdownMenu1">
+                <li class="dropdown-header">{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-btn') }}</li>
                 <li role="separator" class="divider"></li>
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
                 {{-- Con registros en papelera --}}
@@ -59,7 +59,7 @@
                     <div class="checkbox">
                         <label>
                             {!! UI::searchField('radio', 'trashed_records', 'withTrashed', [], []) !!}
-                            {{ trans('<?=$gen->getLangAccess()?>/views.index.filter-with-trashed-label') }}
+                            {{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.filter-with-trashed') }}
                         </label>
                     </div>
                 </li>
@@ -68,7 +68,7 @@
                     <div class="checkbox">
                         <label>
                             {!! UI::searchField('radio', 'trashed_records', 'onlyTrashed', [], []) !!}
-                            {{ trans('<?=$gen->getLangAccess()?>/views.index.filter-only-trashed-label') }}
+                            {{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.filter-only-trashed') }}
                         </label>
                     </div>
                 </li>
@@ -82,9 +82,9 @@
                 class="btn btn-primary btn-sm"
                 data-toggle="tooltip"
                 data-placement="top"
-                title="{{trans('<?=$gen->getLangAccess()?>/views.index.search-button-label')}}">
+                title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.search-btn')}}">
             <span class="fa fa-search"></span>
-            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.search-button-label')}}</span>
+            <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.search-btn')}}</span>
         </button>
 
         {{-- Recarga la página restableciendo los campos de búsqueda --}}
@@ -93,9 +93,9 @@
             role="button"
             data-toggle="tooltip"
             data-placement="top"
-            title="{{trans('<?=$gen->getLangAccess()?>/views.index.clean-filter-button-label')}}">
+            title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.clean-filters-btn')}}">
             <span class="glyphicon glyphicon-remove"></span>
-            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.clean-filter-button-label')}}</span>
+            <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.clean-filters-btn')}}</span>
         </a>
 
     </td>

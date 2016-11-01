@@ -18,7 +18,7 @@
 @extends('<?=config('modules.CrudGenerator.config.layout')?>')
 
 {{-- page title --}}
-@section('title') {{trans('<?=$gen->getLangAccess()?>/views.show.name').trans('<?=$gen->getLangAccess()?>/views.module.name-singular')}} @stop
+@section('title') {{trans('<?= $gen->solveSharedResourcesNamespace() ?>.views.show').trans('<?=$gen->getLangAccess()?>.module.name-singular')}} @stop
 {{-- /page title --}}
 
 {{-- view styles --}}
@@ -30,7 +30,7 @@
 @section('content')
 
 {{-- heading --}}
-@include('<?=$gen->viewsDirName()?>.partials.heading', ['small_title' => trans('<?=$gen->getLangAccess()?>/views.show.name')])
+@include('<?=$gen->viewsDirName()?>.partials.heading', ['small_title' => trans('<?= $gen->solveSharedResourcesNamespace() ?>.views.show')])
     
 {{-- content --}}
 <div class="wrapper wrapper-content">
@@ -52,7 +52,7 @@
                 ) !!}
 
                     <div class='form-group col-sm-6 {{$errors->has('id') ? 'has-error' : ''}}'>
-                        {!! Form::label('id', trans('<?=$gen->getLangAccess()?>/views.form-fields.id')) !!}
+                        {!! Form::label('id', trans('<?=$gen->getLangAccess()?>.form-fields.id')) !!}
                         {!! Form::input('text', 'id', null, ['class' => 'form-control', isset($show) ? 'disabled' : '']) !!}
                     </div>
 
@@ -70,7 +70,7 @@
                         @if(auth()->user()->can('<?=$gen->route()?>.edit'))
                             <a href="{{route('<?=$gen->route()?>.edit', $<?=$gen->modelVariableName()?>->id)}}" class="btn btn-warning" role="button">
                                 <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="">{{trans('<?=$gen->getLangAccess()?>/views.show.btn-edit')}}</span>
+                                <span class="">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.edit-btn')}}</span>
                             </a>
                         @endif
 
@@ -86,16 +86,16 @@
                                         data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                                         {{-- Setup de ventana modal de confirmación --}}
-                                        data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-message', ['item' => $<?=$gen->modelVariableName()?>->name])}}"
-                                        data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-title')}}"
-                                        data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-label')}}"
-                                        data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-class-name')}}"
+                                        data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-message', ['item' => $<?=$gen->modelVariableName()?>->name])}}"
+                                        data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-title')}}"
+                                        data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-btn-confirm')}}"
+                                        data-btnClassName="btn-danger"
 <?php } else { ?>
-                                        onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>/views.index.delete-confirm-message') }}')"
+                                        onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>.index.delete-confirm-message') }}')"
 <?php } ?>
-                                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}">
+                                        title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-btn')}}">
                                     <span class="fa fa-trash"></span>
-                                    <span class="">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}</span>
+                                    <span class="">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-btn')}}</span>
                                 </button>
                             
                             {!! Form::close() !!}

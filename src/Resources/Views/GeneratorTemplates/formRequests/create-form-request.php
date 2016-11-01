@@ -16,13 +16,13 @@ use Illuminate\Http\Response;
 use Illuminate\Foundation\Http\FormRequest;
 use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>;
 <?php if ($request->get('use_x_editable', false)) { ?>
-<?php if (class_exists(llstarscreamll\Core\Providers\CoreServiceProvider::class)) { ?>
+<?php if ($gen->areWeUsingCoreModule()) { ?>
 use llstarscreamll\Core\Traits\FormRequestXEditableSetup;
 <?php } else { ?>
 use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Traits\FormRequestXEditableSetup;<?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Traits\FormRequestXEditableSetup;
 <?php } ?>
 <?php } else { ?>
-<?php if (class_exists(llstarscreamll\Core\Providers\CoreServiceProvider::class)) { ?>
+<?php if ($gen->areWeUsingCoreModule()) { ?>
 use llstarscreamll\Core\Traits\FormRequestBasicSetup;
 <?php } else { ?>
 use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Traits\FormRequestBasicSetup;
@@ -56,14 +56,14 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
      *
      * @var string
      */
-    private $messagesLangPath = '<?= $gen->getLangAccess() ?>/validation.messages';
+    private $messagesLangPath = '<?= $gen->getLangAccess() ?>.messages';
 
     /**
      * Ruta de acceso a ficheros de lengaje de nombres de atributos de validación.
      *
      * @var string
      */
-    private $attributesLangPath = '<?= $gen->getLangAccess() ?>/validation.attributes';
+    private $attributesLangPath = '<?= $gen->getLangAccess() ?>.attributes';
 
     /**
      * Determine if the user is authorized to make this request.

@@ -24,29 +24,29 @@
     {!! Form::open([
         'route' => ['<?=$gen->route()?>.destroy', 0],
         'method' => 'DELETE',
-        'id' => 'deleteMassivelyForm',
+        'id' => 'deletemanyForm',
         'class' => 'form-inline display-inline'
     ]) !!}
         
         {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para "eliminar" varios registro a la vez --}}
-        <button title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-massively-button-label')}}"
-                class="btn btn-default btn-sm massively-action <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
+        <button title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-many-btn')}}"
+                class="btn btn-default btn-sm many-action <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
                 role="button"
                 data-toggle="tooltip"
                 data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                 {{-- Setup de ventana modal de confirmación --}}
-                data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-massively-title')}}"
-                data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-massively-message')}}"
-                data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-massively-btn-confirm-label')}}"
-                data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-massively-btn-confirm-class-name')}}"
-                data-targetFormId="deleteMassivelyForm"
+                data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-btn')}}"
+                data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-many-message')}}"
+                data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-many-btn-confirm')}}"
+                data-btnClassName="btn-danger"
+                data-targetFormId="deletemanyForm"
 <?php } else { ?>
-                onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>/views.index.delete-massively-confirm-message')}}')"
+                onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>.index.delete-many-confirm-message')}}')"
 <?php } ?>
                 type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>">
             <span class="glyphicon glyphicon-trash"></span>
-            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-massively-button-label')}}</span>
+            <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-many-btn')}}</span>
         </button>
     
     {!! Form::close() !!}
@@ -67,29 +67,29 @@
     {!! Form::open([
         'route' => ['<?=$gen->route()?>.restore', 0],
         'method' => 'PUT',
-        'id' => 'restoreMassivelyForm',
+        'id' => 'restoremanyForm',
         'class' => 'form-inline display-inline'
     ]) !!}
         
         {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para restablecer varios registros a la vez --}}
-        <button title="{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-button-label')}}"
-                class="btn btn-default btn-sm massively-action <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
+        <button title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.restore-many-btn')}}"
+                class="btn btn-default btn-sm many-action <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
                 role="button"
                 data-toggle="tooltip"
                 data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                 {{-- Setup de ventana modal de confirmación --}}
-                data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-title')}}"
-                data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-message')}}"
-                data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-btn-confirm-label')}}"
-                data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-btn-confirm-class-name')}}"
-                data-targetFormId="restoreMassivelyForm"
+                data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-many-title')}}"
+                data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-many-message')}}"
+                data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-many-btn-confirm')}}"
+                data-btnClassName="btn-success"
+                data-targetFormId="restoremanyForm"
 <?php } else { ?>
-                onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-confirm-message')}}')"
+                onclick="return confirm('{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.restore-many-confirm-message')}}')"
 <?php } ?>
                 type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>">
             <span class="fa fa-mail-reply"></span>
-            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-button-label')}}</span>
+            <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.restore-many-btn')}}</span>
         </button>
     
     {!! Form::close() !!}
@@ -110,10 +110,10 @@
             {{--*******************************************************************************************************************************
                 Descomentar este bloque y comentar el bloque siguiente si se desea que el formulario de creación SI quede en la vista del index
                 *******************************************************************************************************************************--}}
-            <div class="display-inline" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}">
+            <div class="display-inline" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>.index-create-btn')}}">
                 <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#create-form-modal">
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}</span>
+                    <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>.index-create-btn')}}</span>
                 </button>
             </div>
 
@@ -123,9 +123,9 @@
             {{-- Link que lleva a la página con el formulario de creación de registro --}}
             {{--******************************************************************************************************************************
                 Descomentar este bloque y comentar el bloque anterior si se desea que el formulario de creación NO quede en la vista del index
-            <a id="create-<?=$gen->route()?>-link" class="btn btn-default btn-sm" href="{!! route('<?=$gen->route()?>.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}">
+            <a id="create-<?=$gen->route()?>-link" class="btn btn-default btn-sm" href="{!! route('<?=$gen->route()?>.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>.index-create-btn')}}">
                 <span class="glyphicon glyphicon-plus"></span>
-                <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}</span>
+                <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>.index-create-btn')}}</span>
             </a>
                 ******************************************************************************************************************************--}}
         @endif

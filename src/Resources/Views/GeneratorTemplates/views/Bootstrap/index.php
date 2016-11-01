@@ -6,7 +6,7 @@
 
 @extends('<?=config('modules.CrudGenerator.config.layout')?>')
 
-@section('title') {{trans('<?=$gen->getLangAccess()?>/views.module.name')}} @endsection
+@section('title') {{trans('<?=$gen->getLangAccess()?>.module.name')}} @endsection
 
 @section('styles')
 @endsection
@@ -17,7 +17,7 @@
         <div class="panel panel-default">
             
             <div class="panel-heading">
-                <a href="{{route('<?=$gen->route()?>.index')}}">{{trans('<?=$gen->getLangAccess()?>/views.module.name')}}</a>
+                <a href="{{route('<?=$gen->route()?>.index')}}">{{trans('<?=$gen->getLangAccess()?>.module.name')}}</a>
             </div>
 
             <div class="panel-body">
@@ -37,24 +37,24 @@
                     {!! Form::open(['route' => ['<?=$gen->route()?>.destroy', 0], 'method' => 'DELETE', 'id' => 'deleteMassivelyForm', 'class' => 'form-inline display-inline']) !!}
                         
                         {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para "eliminar" varios registro a la vez --}}
-                        <button title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-massively-button-label')}}"
+                        <button title="{{trans('<?=$gen->getLangAccess()?>.index.delete-massively-button-label')}}"
                                 class="btn btn-default btn-sm massively-action <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
                                 role="button"
                                 data-toggle="tooltip"
                                 data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                                 {{-- Setup de ventana modal de confirmación --}}
-                                data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-massively-title')}}"
-                                data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-massively-message')}}"
-                                data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-massively-btn-confirm-label')}}"
-                                data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-massively-btn-confirm-class-name')}}"
+                                data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-massively-title')}}"
+                                data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-massively-message')}}"
+                                data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-massively-btn-confirm-label')}}"
+                                data-btnClassName="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-massively-btn-confirm-class-name')}}"
                                 data-targetFormId="deleteMassivelyForm"
 <?php } else { ?>
-                                onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>/views.index.delete-massively-confirm-message')}}')"
+                                onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>.index.delete-massively-confirm-message')}}')"
 <?php } ?>
                                 type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>">
                             <span class="glyphicon glyphicon-trash"></span>
-                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-massively-button-label')}}</span>
+                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>.index.delete-massively-button-label')}}</span>
                         </button>
                     
                     {!! Form::close() !!}
@@ -75,24 +75,24 @@
                     {!! Form::open(['route' => ['<?=$gen->route()?>.restore'], 'method' => 'PUT', 'id' => 'restoreMassivelyForm', 'class' => 'form-inline display-inline']) !!}
                         
                         {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para restablecer varios registros a la vez --}}
-                        <button title="{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-button-label')}}"
+                        <button title="{{trans('<?=$gen->getLangAccess()?>.index.restore-massively-button-label')}}"
                                 class="btn btn-default btn-sm massively-action <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
                                 role="button"
                                 data-toggle="tooltip"
                                 data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                                 {{-- Setup de ventana modal de confirmación --}}
-                                data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-title')}}"
-                                data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-message')}}"
-                                data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-btn-confirm-label')}}"
-                                data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-massively-btn-confirm-class-name')}}"
+                                data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-massively-title')}}"
+                                data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-massively-message')}}"
+                                data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-massively-btn-confirm-label')}}"
+                                data-btnClassName="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-massively-btn-confirm-class-name')}}"
                                 data-targetFormId="restoreMassivelyForm"
 <?php } else { ?>
-                                onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-confirm-message')}}')"
+                                onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>.index.restore-massively-confirm-message')}}')"
 <?php } ?>
                                 type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>">
                             <span class="fa fa-mail-reply"></span>
-                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.restore-massively-button-label')}}</span>
+                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>.index.restore-massively-button-label')}}</span>
                         </button>
                     
                     {!! Form::close() !!}
@@ -112,10 +112,10 @@
                         {{--*******************************************************************************************************************************
                             Descomentar este bloque y comentar el bloque siguiente si se desea que el formulario de creación SI quede en la vista del index
                             *******************************************************************************************************************************--}}
-                        <div class="display-inline" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}">
+                        <div class="display-inline" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>.index-create-btn')}}">
                             <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#create-form-modal">
                                 <span class="glyphicon glyphicon-plus"></span>
-                                <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}</span>
+                                <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>.index-create-btn')}}</span>
                             </button>
                         </div>
 
@@ -125,9 +125,9 @@
                         {{-- Link que lleva a la página con el formulario de creación de registro --}}
                         {{--******************************************************************************************************************************
                             Descomentar este bloque y comentar el bloque anterior si se desea que el formulario de creación NO quede en la vista del index
-                        <a id="create-<?=$gen->route()?>-link" class="btn btn-default btn-sm" href="{!! route('<?=$gen->route()?>.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}">
+                        <a id="create-<?=$gen->route()?>-link" class="btn btn-default btn-sm" href="{!! route('<?=$gen->route()?>.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('<?=$gen->getLangAccess()?>.index-create-btn')}}">
                             <span class="glyphicon glyphicon-plus"></span>
-                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.create-button-label')}}</span>
+                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>.index-create-btn')}}</span>
                         </a>
                             ******************************************************************************************************************************--}}
 
@@ -254,26 +254,26 @@
 <?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
         {{-- Configuración regional para Bootstrap DateRangePicker --}}
         dateRangePickerLocaleSettings = {
-            applyLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.applyLabel') !!}',
-            cancelLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.cancelLabel') !!}',
-            fromLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.fromLabel') !!}',
-            toLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.toLabel') !!}',
-            separator: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.separator') !!}',
-            weekLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.weekLabel') !!}',
-            customRangeLabel: '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.customRangeLabel') !!}',
-            daysOfWeek: {!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.daysOfWeek') !!},
-            monthNames: {!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.monthNames') !!},
-            firstDay: {!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.firstDay') !!}
+            applyLabel: '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.applyLabel') !!}',
+            cancelLabel: '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.cancelLabel') !!}',
+            fromLabel: '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.fromLabel') !!}',
+            toLabel: '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.toLabel') !!}',
+            separator: '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.separator') !!}',
+            weekLabel: '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.weekLabel') !!}',
+            customRangeLabel: '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.customRangeLabel') !!}',
+            daysOfWeek: {!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.daysOfWeek') !!},
+            monthNames: {!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.monthNames') !!},
+            firstDay: {!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.firstDay') !!}
         };
 
         {{-- Algunos rangos de fecha predeterminados para Bootstrap DateRangePicker --}}
         dateRangePickerRangesSettings = {
-            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_today') !!}': [moment(), moment()],
-            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_yesterday') !!}': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_last_7_days') !!}': [moment().subtract(6, 'days'), moment()],
-            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_last_30_days') !!}': [moment().subtract(29, 'days'), moment()],
-            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_this_month') !!}': [moment().startOf('month'), moment().endOf('month')],
-            '{!! trans('<?=$gen->getLangAccess()?>/views.index.dateRangePicker.range_last_month') !!}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.range_today') !!}': [moment(), moment()],
+            '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.range_yesterday') !!}': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.range_last_7_days') !!}': [moment().subtract(6, 'days'), moment()],
+            '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.range_last_30_days') !!}': [moment().subtract(29, 'days'), moment()],
+            '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.range_this_month') !!}': [moment().startOf('month'), moment().endOf('month')],
+            '{!! trans('<?=$gen->getLangAccess()?>.index.dateRangePicker.range_last_month') !!}': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
         };
 
         {{-- Configuración de Bootstrap DateRangePicker --}}
@@ -374,17 +374,17 @@
 
             // título por defecto
             if (!title) {
-                title = '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-title')}}';
+                title = '{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-default-title')}}';
             }
 
             // label del botón de confirmación por defecto
             if (!btnLabel) {
-                btnLabel = '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-confirmation-label')}}';
+                btnLabel = '{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-default-btn-confirmation')}}';
             }
 
             // clase del botón de confirmación por defecto
             if (!btnClassName) {
-                btnClassName = '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-confirmation-className')}}';
+                btnClassName = 'btn-primary';
             }
             
             bootbox.dialog({
@@ -425,13 +425,13 @@
                          * @required String
                          * this button's label
                          */
-                        label: '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-cancel-label')}}',
+                        label: '{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-default-btn-cancel-label')}}',
                         
                         /**
                          * @optional String
                          * an additional class to apply to the button
                          */
-                        className: '{{trans('<?=$gen->getLangAccess()?>/views.index.modal-default-btn-cancel-className')}}',
+                        className: '{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-default-btn-cancel-className')}}',
                         
                         /**
                          * @optional Function
@@ -562,7 +562,7 @@
         {{-- Configuración del componente x-editable para el caso de campos de tipo "date" --}}
         $('.editable-date').editable({
             ajaxOptions:{method:'PUT'},
-            emptytext: '{{trans('<?=$gen->getLangAccess()?>/views.index.x-editable.dafaultValue')}}',
+            emptytext: '{{trans('<?=$gen->getLangAccess()?>.index.x-editable.dafaultValue')}}',
             format: 'yyyy-mm-dd',
             viewformat: 'dd/mm/yyyy',
             datetimepicker: {
@@ -577,7 +577,7 @@
         {{-- Configuración del componente x-editable para el caso de campos de tipo "datetime" --}}
         $('.editable-datetime').editable({
             ajaxOptions:{method:'PUT'},
-            emptytext: '{{trans('<?=$gen->getLangAccess()?>/views.index.x-editable.dafaultValue')}}',
+            emptytext: '{{trans('<?=$gen->getLangAccess()?>.index.x-editable.dafaultValue')}}',
             format: 'yyyy-mm-dd hh:ii:ss',
             viewformat: 'yyyy-mm-dd hh:ii:ss',
             datetimepicker: {

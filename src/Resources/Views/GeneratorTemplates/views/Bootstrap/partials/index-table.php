@@ -25,13 +25,13 @@
                             ]
                         )
                     )}}">
-                        {{trans('<?=$gen->getLangAccess()?>/views.form-fields-short-name.<?=$field->name?>')}}
+                        {{trans('<?=$gen->getLangAccess()?>.form-fields-short-name.<?=$field->name?>')}}
                         {!!Request::input('sort') == '<?=$field->name?>' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
                     </a>
                 </th>
 <?php } ?>
 <?php } ?>
-                <th class="actions-column">{{trans('<?=$gen->getLangAccess()?>/views.index.table-actions-column')}}</th>
+                <th class="actions-column">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.table-actions-column')}}</th>
             </tr>
             
             {{-- Elementos de Formulario de búqueda de tabla --}}
@@ -51,26 +51,26 @@
                     <div id="filters" class="dropdown display-inline"
                          data-toggle="tooltip"
                          data-placement="top"
-                         title="{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button-label') }}">
+                         title="{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-btn-label') }}">
                         <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            <span class="sr-only">{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button-label') }}</span>
+                            <span class="sr-only">{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-btn-label') }}</span>
                             <span class="glyphicon glyphicon-filter"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                            <li class="dropdown-header">{{ trans('<?=$gen->getLangAccess()?>/views.index.filters-button-label') }}</li>
+                            <li class="dropdown-header">{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-btn-label') }}</li>
                             <li role="separator" class="divider"></li>
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
                             <li>
                                 <div class="checkbox">
                                     <label>
-                                        {!! Form::radio('trashed_records', 'withTrashed', Request::input('trashed_records') == 'withTrashed' ? true : false, ['form' => 'searchForm']) !!} {{ trans('<?=$gen->getLangAccess()?>/views.index.filter-with-trashed-label') }}
+                                        {!! Form::radio('trashed_records', 'withTrashed', Request::input('trashed_records') == 'withTrashed' ? true : false, ['form' => 'searchForm']) !!} {{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.filter-with-trashed-label') }}
                                     </label>
                                 </div>
                             </li>
                             <li>
                                 <div class="checkbox">
                                     <label>
-                                        {!! Form::radio('trashed_records', 'onlyTrashed', Request::input('trashed_records') == 'onlyTrashed' ? true : false, ['form' => 'searchForm']) !!} {{ trans('<?=$gen->getLangAccess()?>/views.index.filter-only-trashed-label') }}
+                                        {!! Form::radio('trashed_records', 'onlyTrashed', Request::input('trashed_records') == 'onlyTrashed' ? true : false, ['form' => 'searchForm']) !!} {{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.filter-only-trashed-label') }}
                                     </label>
                                 </div>
                             </li>
@@ -83,9 +83,9 @@
                             class="btn btn-primary btn-sm"
                             data-toggle="tooltip"
                             data-placement="top"
-                            title="{{trans('<?=$gen->getLangAccess()?>/views.index.search-button-label')}}">
+                            title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.search-btn-label')}}">
                         <span class="fa fa-search"></span>
-                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.search-button-label')}}</span>
+                        <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.search-btn-label')}}</span>
                     </button>
 
                     <a  href="{{route('<?=$gen->route()?>.index')}}"
@@ -93,9 +93,9 @@
                         role="button"
                         data-toggle="tooltip"
                         data-placement="top"
-                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.clean-filter-button-label')}}">
+                        title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.clean-filters-btn-label')}}">
                         <span class="glyphicon glyphicon-remove"></span>
-                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.clean-filter-button-label')}}</span>
+                        <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.clean-filters-btn-label')}}</span>
                     </a>
 
                 </td>
@@ -123,7 +123,7 @@
                           data-type="<?=$gen->getInputType($field)?>"
                           data-name="<?=$field->name?>"
                           data-placement="bottom"
-                          data-emptytext="{{ trans('<?=$gen->getLangAccess()?>/views.index.x-editable.dafaultValue') }}"
+                          data-emptytext="{{ trans('<?=$gen->getLangAccess()?>.index.x-editable.dafaultValue') }}"
                           data-value="{{ $record-><?=$field->name?> }}"
                           data-pk="{{ $record->{$record->getKeyName()} }}"
                           data-url="/<?=$gen->route()?>/{{ $record->{$record->getKeyName()} }}"
@@ -157,16 +157,16 @@
                                 data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                                 {{-- Setup de ventana modal de confirmación --}}
-                                data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-title')}}"
-                                data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-message', ['item' => $record->name])}}"
-                                data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-btn-confirm-label')}}"
-                                data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-btn-confirm-class-name')}}"
+                                data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-title')}}"
+                                data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-message', ['item' => $record->name])}}"
+                                data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-confirm-btn')}}"
+                                data-btnClassName="btn-success"
 <?php } else { ?>
-                                onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>/views.index.restore-confirm-message')}}')"
+                                onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>.index.restore-confirm-message')}}')"
 <?php } ?>
-                                title="{{trans('<?=$gen->getLangAccess()?>/views.index.restore-row-button-label')}}">
+                                title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.restore-btn')}}">
                             <span class="fa fa-mail-reply"></span>
-                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.restore-item-button')}}</span>
+                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>.index.restore-item-button')}}</span>
                         </button>
                     
                     {!! Form::close() !!}
@@ -179,9 +179,9 @@
                         role="button"
                         data-toggle="tooltip"
                         data-placement="top"
-                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button-label')}}">
+                        title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.show-btn')}}">
                         <span class="fa fa-eye"></span>
-                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button-label')}}</span>
+                        <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.show-btn')}}</span>
                     </a>
 
                     {{-- Botón para ir a formulario de actualización del registro --}}
@@ -189,9 +189,9 @@
                         class="btn btn-warning btn-xs" role="button"
                         data-toggle="tooltip"
                         data-placement="top"
-                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button-label')}}">
+                        title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.edit-btn-label')}}">
                         <span class="glyphicon glyphicon-pencil"></span>
-                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button-label')}}</span>
+                        <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.edit-btn-label')}}</span>
                     </a>
 
                     {{-- Formulario para eliminar registro --}}
@@ -205,16 +205,16 @@
                                 data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                                 {{-- Setup de ventana modal de confirmación --}}
-                                data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-message', ['item' => $record->name])}}"
-                                data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-title')}}"
-                                data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-label')}}"
-                                data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-class-name')}}"
+                                data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-message', ['item' => $record->name])}}"
+                                data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-title')}}"
+                                data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-btn-confirm-label')}}"
+                                data-btnClassName="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-btn-confirm-class-name')}}"
 <?php } else { ?>
-                                onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>/views.index.delete-confirm-message') }}')"
+                                onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>.index.delete-confirm-message') }}')"
 <?php } ?>
-                                title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}">
+                                title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-btn-label')}}">
                             <span class="fa fa-trash"></span>
-                            <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}</span>
+                            <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-btn-label')}}</span>
                         </button>
                     
                     {!! Form::close() !!}
@@ -230,7 +230,7 @@
                 <tr>
                     <td class="empty-table" colspan="<?=count($fields)+2?>">
                         <div  class="alert alert-warning">
-                            {{trans('<?=$gen->getLangAccess()?>/views.index.no-records-found')}}
+                            {{trans('<?=$gen->getLangAccess()?>.index.no-records-found')}}
                         </div>
                     </td>
                 </tr>

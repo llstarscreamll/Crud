@@ -79,16 +79,16 @@
                         data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                         {{-- Setup de ventana modal de confirmación --}}
-                        data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-title')}}"
-                        data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-message', ['item' => $record->name])}}"
-                        data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-btn-confirm-label')}}"
-                        data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-restore-btn-confirm-class-name')}}"
+                        data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-title')}}"
+                        data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-message', ['item' => $record->name])}}"
+                        data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-btn-confirm')}}"
+                        data-btnClassName="btn-success"
 <?php } else { ?>
-                        onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>/views.index.restore-confirm-message')}}')"
+                        onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>.index.restore-confirm-message')}}')"
 <?php } ?>
-                        title="{{trans('<?=$gen->getLangAccess()?>/views.index.restore-row-button-label')}}">
+                        title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.restore-btn')}}">
                     <span class="fa fa-mail-reply"></span>
-                    <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.restore-row-button-label')}}</span>
+                    <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.restore-btn')}}</span>
                 </button>
             
             {!! Form::close() !!}
@@ -101,9 +101,9 @@
                 role="button"
                 data-toggle="tooltip"
                 data-placement="top"
-                title="{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button-label')}}">
+                title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.show-btn')}}">
                 <span class="fa fa-eye"></span>
-                <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.see-details-button-label')}}</span>
+                <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.show-btn')}}</span>
             </a>
 
             @if(auth()->user()->can('<?=$gen->route()?>.edit'))
@@ -112,9 +112,9 @@
                     class="btn btn-warning btn-xs" role="button"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button-label')}}">
+                    title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.edit-btn')}}">
                     <span class="glyphicon glyphicon-pencil"></span>
-                    <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.edit-item-button-label')}}</span>
+                    <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.edit-btn')}}</span>
                 </a>
             @endif
 
@@ -130,16 +130,16 @@
                             data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                             {{-- Setup de ventana modal de confirmación --}}
-                            data-modalMessage="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-message', ['item' => $record->name])}}"
-                            data-modalTitle="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-title')}}"
-                            data-btnLabel="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-label')}}"
-                            data-btnClassName="{{trans('<?=$gen->getLangAccess()?>/views.index.modal-delete-btn-confirm-class-name')}}"
+                            data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-message', ['item' => $record->name])}}"
+                            data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-title')}}"
+                            data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-btn-confirm')}}"
+                            data-btnClassName="btn-danger"
 <?php } else { ?>
-                            onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>/views.index.delete-confirm-message') }}')"
+                            onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>.index.delete-confirm-message') }}')"
 <?php } ?>
-                            title="{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}">
+                            title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-btn')}}">
                         <span class="fa fa-trash"></span>
-                        <span class="sr-only">{{trans('<?=$gen->getLangAccess()?>/views.index.delete-item-button-label')}}</span>
+                        <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-btn')}}</span>
                     </button>
                 
                 {!! Form::close() !!}
@@ -156,7 +156,7 @@
     <tr>
         <td class="empty-table" colspan="<?=count($fields)+2?>">
             <div  class="alert alert-warning">
-                {{trans('<?=$gen->getLangAccess()?>/views.index.no-records-found')}}
+                {{trans('<?=$gen->getLangAccess()?>.index.no-records-found')}}
             </div>
         </td>
     </tr>

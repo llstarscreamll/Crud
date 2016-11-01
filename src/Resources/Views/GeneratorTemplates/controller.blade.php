@@ -129,7 +129,7 @@ class {{$gen->controllerClassName()}} extends Controller
     public function store(<?= $gen->modelClassName()."Request" ?> $request)
     {
         {{$gen->modelClassName()}}::create($request->all());
-        session()->flash('success', trans('{{$gen->getLangAccess()}}/messages.store_{{$gen->snakeCaseSingular()}}_success'));
+        session()->flash('success', trans('{{$gen->getLangAccess()}}.store_{{$gen->snakeCaseSingular()}}_success'));
         
         return redirect()->route('{{$gen->route().'.index'}}');
     }
@@ -230,7 +230,7 @@ class {{$gen->controllerClassName()}} extends Controller
         ${{$gen->modelVariableName()}}->update($request->all());
         session()->flash(
             'success',
-            trans('{{$gen->getLangAccess()}}/messages.update_{{$gen->snakeCaseSingular()}}_success')
+            trans('{{$gen->getLangAccess()}}.update_{{$gen->snakeCaseSingular()}}_success')
         );
 
         return redirect()->route('{{$gen->route().'.index'}}');
@@ -255,7 +255,7 @@ class {{$gen->controllerClassName()}} extends Controller
         {{$gen->modelClassName()}}::destroy($id);
         session()->flash(
             'success',
-            trans_choice('{{$gen->getLangAccess()}}/messages.destroy_{{$gen->snakeCaseSingular()}}_success', count($id))
+            trans_choice('{{$gen->getLangAccess()}}.destroy_{{$gen->snakeCaseSingular()}}_success', count($id))
         );
 
         return redirect()->route('{{$gen->route().'.index'}}');
@@ -277,7 +277,7 @@ class {{$gen->controllerClassName()}} extends Controller
         {{$gen->modelClassName()}}::onlyTrashed()->whereIn('id', $id)->restore();
         session()->flash(
             'success',
-            trans_choice('{{$gen->getLangAccess()}}/messages.restore_{{$gen->snakeCaseSingular()}}_success', count($id))
+            trans_choice('{{$gen->getLangAccess()}}.restore_{{$gen->snakeCaseSingular()}}_success', count($id))
         );
 
         return redirect()->route('{{$gen->route().'.index'}}');
