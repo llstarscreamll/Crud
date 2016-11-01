@@ -34,7 +34,7 @@ class {{$test}} extends Index
      *
      * @var string
      */
-    static $title = 'Actualizar';
+    static $title = 'Editar';
 
     /**
      * El selector del formulario de edición.

@@ -34,6 +34,15 @@ class {{$test}} extends Index
     static $title = 'Crear';
 
     /**
+     * El enlace botón para ir a formulario de creación. El selector puede ser
+     * un link <a> o un botón <button>, pero la clase es la misma en los dos.
+     *
+     * @var string
+     */
+    static $createBtn = 'Crear {!!$request->get('single_entity_name')!!}';
+    static $createBtnElem = '.btn.btn-default.btn-sm';
+
+    /**
      * El selector del formulario.
      *
      * @var string

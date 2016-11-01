@@ -104,6 +104,8 @@ class BaseGenerator
             $fields[$field->name] = $field;
         }
 
+        $this->fields = $fields;
+
         return $fields;
     }
 
@@ -804,7 +806,64 @@ class BaseGenerator
      */
     public function getDestroySuccessMsgSingle()
     {
-        return 'El '.strtolower($this->request->get('single_entity_name')).' ha sido movido a la papelera.';
+        $msg = ucfirst(
+            $this->request->get('single_entity_name')
+        ).' eliminado correctamente.';
+
+        if ($this->hasDeletedAtColumn($this->fields)) {
+            $msg = 'El '.
+                strtolower(
+                    $this->request->get('single_entity_name')
+                ).' ha sido movido a la papelera.';
+        }
+
+        return $msg;
+    }
+
+    /**
+     * Obtiene texto del botón para ejecutar el método destroy del controlador
+     * dependiendo si la tabla tiene la columna deleted_at o no. En singular.
+     *
+     * @return string
+     */
+    public function getDestroyBtnTxt()
+    {
+        $txt = $this->hasDeletedAtColumn($this->fields)
+            ? 'Mover a Papelera'
+            : 'Eliminar';
+
+        return $txt;
+    }
+
+    /**
+     * Obtiene texto del botón para ejecutar el método destroy del controlador
+     * dependiendo si la tabla tiene la columna deleted_at o no. En plural.
+     *
+     * @return string
+     */
+    public function getDestroyManyBtnTxt()
+    {
+        $txt = $this->hasDeletedAtColumn($this->fields)
+            ? 'Mover seleccionados a papelera'
+            : 'Eliminar seleccionados';
+
+        return $txt;
+    }
+
+    /**
+     * Obtiene el nombre de la variable para los test del método destroy del
+     * controlador, delete si la tabla no tiene columna deleted_at y trash si la
+     * tiene.
+     *
+     * @return string.
+     */
+    public function getDestroyVariableName()
+    {
+        $txt = $this->hasDeletedAtColumn($this->fields)
+            ? 'trash'
+            : 'delete';
+
+        return $txt;
     }
 
     /**

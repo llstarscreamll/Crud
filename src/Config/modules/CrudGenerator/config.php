@@ -46,7 +46,7 @@ return $config = [
         'Create',
         'Edit',
         'Show',
-        'Delete',
+        'Destroy',
         'Permissions'
     ],
 

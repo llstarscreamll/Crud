@@ -16,11 +16,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
 use Illuminate\Support\Collection;
+@if($gen->areEnumFields($fields))
+use llstarscreamll\Core\Traits\EnumValues;
+@endif
 
 class {{$gen->modelClassName()}} extends Model
 {
 @if($hasSoftDelete)
     use SoftDeletes;
+@endif
+@if($gen->areEnumFields($fields))
+    use EnumValues;
 @endif
 
     /**
@@ -101,13 +107,13 @@ class {{$gen->modelClassName()}} extends Model
 @foreach ($fields as $field)
 @if($field->type == 'enum')
     /**
-     * Los valores de la columna {{$field->name}} que es de tipo enum, esto para los casos
-     * en que sea utilizada una base de datos sqlite, pues sqlite no soporta campos de
-     * tipo enum.
+     * Los valores de la columna {{$field->name}} que es de tipo enum, esto para
+     * los casos en que sea utilizada una base de datos sqlite, pues sqlite no
+     * soporta campos de tipo enum.
      *
      * @var string
      */
-    static ${{$field->name}}ColumnEnumValues = "{!!$gen->getMysqlTableColumnEnumValues($field->name)!!}";
+    protected static ${{$field->name}}ColumnEnumValues = "{!!$gen->getMysqlTableColumnEnumValues($field->name)!!}";
 @endif
 @endforeach
 
@@ -167,108 +173,6 @@ class {{$gen->modelClassName()}} extends Model
         // ordenamos los resultados
         $query->orderBy($input->get('sort', 'created_at'), $input->get('sortType', 'desc'));
 
-        // paginamos los resultados
         return $query;
     }
-
-@if($gen->areEnumFields($fields))
-    /**
-     * Devuelve array con los posibles valores de una columna de tipo "enum" de la base de datos.
-     *
-     * @param  string $column
-     * @param  string $table
-     *
-     * @return array
-     */
-    public function getEnumValuesArray(string $column, string $table = '')
-    {
-        $table = !empty($table) ? $table : $this->table;
-
-        $type = $this->getColumnEnumValuesFromDescQuery($column, $table);
-
-        preg_match('/^enum\((.*)\)$/', $type, $matches);
-
-        $enum = array();
-
-        foreach (explode(',', $matches[1]) as $value) {
-            $v = trim($value, "'");
-            $enum = array_add($enum, $v, $v);
-        }
-
-        return $enum;
-    }
-
-    /**
-     * Devuelve string con los posibles valores de una columna de tipo "enum" de
-     * la base de datos separados por coma.
-     *
-     * @param  string $column
-     * @param  string $table
-     *
-     * @return array
-     */
-    public function getEnumValuesString(string $column, string $table = '')
-    {
-        $table = !empty($table) ? $table : $this->table;
-        
-        $type = $this->getColumnEnumValuesFromDescQuery($column, $table);
-
-        preg_match('/^enum\((.*)\)$/', $type, $matches);
-
-        $enum = '';
-
-        foreach (explode(',', $matches[1]) as $value) {
-            $v = trim($value, "'");
-            $enum .= $v.',';
-        }
-
-        return $enum;
-    }
-
-    /**
-     * Obtiene los valores de una columna de tipo enum si la base de datos es
-     * mysql, si no, devuelve los valores enum staticos dados en la creación
-     * del modelo.
-     *
-     * @return string
-     */
-    public function getColumnEnumValuesFromDescQuery(string $column, string $table = '')
-    {
-        $table = !empty($table) ? $table : $this->table;
-        
-        $type = static::${$column.'ColumnEnumValues'};
-
-        if ($this->getDatabaseConnectionDriver() == 'mysql') {
-            $type = \DB::select(
-                \DB::raw(
-                    "SHOW COLUMNS FROM ".
-                    $this->getDatabaseTablesPrefix().
-                    "$table WHERE Field = '$column'"
-                )
-            )[0]->Type;
-        }
-
-        return $type;
-    }
-
-    /**
-     * Devuelve string del driver de la conexión a la base de datos.
-     *
-     * @return string El nombre del driver de la conexión a la base de datos.
-     */
-    public function getDatabaseConnectionDriver()
-    {
-        return config('database.connections.'.config('database.default').'.driver');
-    }
-
-    /**
-     * Devuelve string del prefijo de las tablas de la base de datos.
-     *
-     * @return string El nombre del driver de la conexión a la base de datos.
-     */
-    public function getDatabaseTablesPrefix()
-    {
-        return config('database.connections.'.config('database.default').'.prefix');
-    }
-@endif
 }

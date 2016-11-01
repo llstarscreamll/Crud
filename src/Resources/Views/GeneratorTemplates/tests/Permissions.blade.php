@@ -17,6 +17,9 @@ use {{$modelNamespace = config('modules.CrudGenerator.config.parent-app-namespac
 use {{config('modules.CrudGenerator.config.role-model-namespace')}};
 use {{config('modules.CrudGenerator.config.permission-model-namespace')}};
 use Page\Functional\{{$gen->studlyCasePlural()}}\Index as Page;
+use Page\Functional\{{$gen->studlyCasePlural()}}\Destroy as DestroyPage;
+use Page\Functional\{{$gen->studlyCasePlural()}}\Create as CreatePage;
+use Page\Functional\{{$gen->studlyCasePlural()}}\Edit as EditPage;
 
 class {{$test}}Cest
 {
@@ -73,13 +76,12 @@ class {{$test}}Cest
 
         // no debo ver link de acceso a página de creación en Index
         $I->amOnPage(Page::$moduleURL);
-        $I->dontSee('Crear {!!$request->get('single_entity_name')!!}', 'button.btn.btn-default.btn-sm');
-        $I->dontSee('Crear {!!$request->get('single_entity_name')!!}', 'a.btn.btn-default.btn-sm');
+        $I->dontSee(CreatePage::$createBtn, CreatePage::$createBtnElem);
 
         // si intento acceder a la página soy redirigido al home de la app
         $I->amOnPage(Page::route('/create'));
-        $I->seeCurrentUrlEquals('/home');
-        $I->see('{{ config('modules.CrudGenerator.config.permissions-middleware-msg') }}', '.alert.alert-warning');
+        $I->seeCurrentUrlEquals(Page::$homeUrl);
+        $I->see(Page::$badPermissionsMsg, Page::$badPermissionsMsgElem);
     }
 
     /**
@@ -99,23 +101,23 @@ class {{$test}}Cest
 
         // no debo ver link de acceso a página de edición en Index
         $I->amOnPage(Page::$moduleURL);
-        $I->dontSee('Editar', 'tbody tr td a.btn.btn-warning.btn-xs');
+        $I->dontSee(EditPage::$linkToEdit, 'tbody tr td '.EditPage::$linkToEditElem);
 
         // el la página de detalles del registro no debo ver el link a página de
         // edición
         $I->amOnPage(Page::route("/$this->{{$gen->modelVariableName()}}Id"));
-        $I->dontSee('Editar', '.form-group a.btn.btn-warning');
+        $I->dontSee(EditPage::$linkToEdit, '.form-group '.EditPage::$linkToEditElem);
 
         // si intento acceder a la página de edición de un registro soy
         // redirigido al home de la app
         $I->amOnPage(Page::route("/$this->{{$gen->modelVariableName()}}Id/edit"));
-        $I->seeCurrentUrlEquals('/home');
-        $I->see('{{ config('modules.CrudGenerator.config.permissions-middleware-msg') }}', '.alert.alert-warning');
+        $I->seeCurrentUrlEquals(Page::$homeUrl);
+        $I->see(Page::$badPermissionsMsg, Page::$badPermissionsMsgElem);
     }
 
     /**
-     * Prueba que las restricciones con los permisos de eliminación funcionen
-     * correctamente.
+     * Prueba que las restricciones con los permisos de {{ strtolower($gen->getDestroyBtnTxt()) }}
+     * funcionen correctamente.
      *
      * @param  FunctionalTester $I
 @if(!empty($request->get('is_part_of_package')))
@@ -124,22 +126,22 @@ class {{$test}}Cest
 @else
      */
 @endif
-    public function deletePermissions(FunctionalTester $I)
+    public function {{ $gen->getDestroyVariableName() }}Permissions(FunctionalTester $I)
     {
-        $I->wantTo('probar permisos de eliminación en módulo '.Page::$moduleName);
+        $I->wantTo('probar permisos de {{ strtolower($gen->getDestroyBtnTxt()) }} en módulo '.Page::$moduleName);
 
         // no debo ver link de acceso a página de edición en Index
         $I->amOnPage(Page::$moduleURL);
-        $I->dontSee('Mover a papelera', 'tbody tr td button.btn.btn-danger.btn-xs');
-        $I->dontSee('Borrar {!!$request->get('plural_entity_name')!!} seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->dontSee(DestroyPage::${{ $gen->getDestroyVariableName() }}Btn, DestroyPage::${{ $gen->getDestroyVariableName() }}BtnElem);
+        $I->dontSee(DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtn, DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
         // en página de detalles del registro no debo ver botón "Mover a Papelera"
         $I->amOnPage(Page::route("/$this->{{$gen->modelVariableName()}}Id"));
-        $I->dontSee('Mover a papelera', '.form-group button.btn.btn-danger');
+        $I->dontSee(DestroyPage::${{ $gen->getDestroyVariableName() }}Btn, DestroyPage::${{ $gen->getDestroyVariableName() }}BtnElem);
     }
 
 @if($gen->hasDeletedAtColumn($fields))
     /**
-     * Prueba que las restricciones con los permisos de restauración de registros
+     * Prueba que las restricciones con los permisos de restauración de
      * registros en papelera funcionen correctamente.
      *
      * @param  FunctionalTester $I
@@ -158,9 +160,8 @@ class {{$test}}Cest
 
         // no debo ver link de acceso a página de edición en Index
         $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
-        $I->dontSee('Restaurar', 'tbody tr td button.btn.btn-success.btn-xs');
-        $I->dontSee('Restaurar {{ $request->get('plural_entity_name') }} seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->dontSee(Page::$restoreBtn, Page::$restoreBtnElem);
+        $I->dontSee(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
     }
-
 @endif
 }

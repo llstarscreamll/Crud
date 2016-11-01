@@ -33,6 +33,14 @@ class {{$test}}
     public static $moduleURL = '/{{$gen->route()}}';
 
     /**
+     * La url del home de la app, para cuando el usuario es redirigido cuando
+     * no tiene permisos para realizar alguna acción.
+     *
+     * @var string
+     */
+    public static $homeUrl = '/home';
+
+    /**
      * Nombre del módulo.
      *
      * @var string
@@ -47,6 +55,33 @@ class {{$test}}
      * @var string
      */
     static $table = '{{config('modules.CrudGenerator.uimap.index-table-selector')}}';
+
+    /**
+     * El mensaje mostrado al usuario cuando no tiene los permisos adecuado para
+     * realizar alguna acción.
+     *
+     * @var string
+     */
+    static $badPermissionsMsg = '{{ config('modules.CrudGenerator.config.permissions-middleware-msg') }}';
+    static $badPermissionsMsgElem = '.alert.alert-warning';
+
+<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+    /**
+     * El botón de restaurar varios registros.
+     *
+     * @var string
+     */
+    static $restoreManyBtn = 'Restaurar seleccionados';
+    static $restoreManyBtnElem = 'button.btn.btn-default.btn-sm';
+
+    /**
+     * El botón de restaurar registro.
+     *
+     * @var string
+     */
+    static $restoreBtn = 'Restaurar';
+    static $restoreBtnElem = 'button.btn.btn-default.btn-sm';
+<?php } ?>
 
     /**
      * 

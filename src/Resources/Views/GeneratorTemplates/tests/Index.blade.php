@@ -15,6 +15,7 @@ namespace {{$gen->studlyCasePlural()}};
 use {{$modelNamespace = config('modules.CrudGenerator.config.parent-app-namespace')."\Models\\".$gen->modelClassName()}};
 use FunctionalTester;
 use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
+use Page\Functional\{{$gen->studlyCasePlural()}}\Destroy as DestroyPage;
 
 class {{$test}}Cest
 {
@@ -35,7 +36,7 @@ class {{$test}}Cest
      * @return Illuminate\Database\Eloquent\Collection
 @if(!empty($request->get('is_part_of_package')))
      * @group  {{$request->get('is_part_of_package')}}
-     */ 
+     */
 @else
      */
 @endif
@@ -56,7 +57,7 @@ class {{$test}}Cest
      * @param  FunctionalTester $I
 @if(!empty($request->get('is_part_of_package')))
      * @group  {{$request->get('is_part_of_package')}}
-     */ 
+     */
 @else
      */
 @endif
@@ -70,12 +71,15 @@ class {{$test}}Cest
         $I->amOnPage(Page::$moduleURL);
         $I->see(Page::$moduleName, Page::$titleElem);
 
+        $indexData = Page::getIndexTableData();
+
         // veo los respectivos datos en la tabla
-        foreach (Page::getIndexTableData() as $field => $value) {
-            $I->see($value, Page::$table.' tbody tr.item-1 td.'.$field);
+        foreach ($indexData as $field => $value) {
+            $I->see($value, Page::$table." tbody tr.item-{$indexData['id']} td.$field");
         }
     }
 
+<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
     /**
      * Prueba que sean mostrados los registros en papelera en la tabla del Index
      * según le convenga al usuario, sólo los registros en papelea o registros
@@ -84,7 +88,7 @@ class {{$test}}Cest
      * @param  FunctionalTester $I
 @if(!empty($request->get('is_part_of_package')))
      * @group  {{$request->get('is_part_of_package')}}
-     */ 
+     */
 @else
      */
 @endif
@@ -129,7 +133,7 @@ class {{$test}}Cest
      * @param  FunctionalTester $I
 @if(!empty($request->get('is_part_of_package')))
      * @group  {{$request->get('is_part_of_package')}}
-     */ 
+     */
 @else
      */
 @endif
@@ -143,16 +147,16 @@ class {{$test}}Cest
         // si el usuario no desea mostrar los registros en papelera, el botón no
         // debe ser mostrado
         $I->amOnPage(Page::$moduleURL);
-        $I->dontSee('Restaurar Seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->dontSee(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
 
         // si ha decidido mostrar los registros en papelera, el botón debe ser
         // mostrado
         $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'withTrashed']]));
-        $I->see('Restaurar {{ $request->get('plural_entity_name') }} seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
         $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'onlyTrashed']]));
-        $I->see('Restaurar {{ $request->get('plural_entity_name') }} seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
         // las filas borradas de la tabla también deben mostrar el botón
-        $I->see('Restaurar', 'tbody tr.danger td button.btn.btn-success.btn-xs');
+        $I->see(Page::$restoreBtn, Page::$restoreBtnElem);
     }
 
     /**
@@ -164,13 +168,13 @@ class {{$test}}Cest
      * @param  FunctionalTester $I
 @if(!empty($request->get('is_part_of_package')))
      * @group  {{$request->get('is_part_of_package')}}
-     */ 
+     */
 @else
      */
 @endif
     public function dontSeeTrashButtonIfShownOnlyTrashedData(FunctionalTester $I)
     {
-        $I->wantTo('ocultar botón "mover a papelera" si no hay registros que mover en Index de módulo '.Page::$moduleName);
+        $I->wantTo('ocultar botón "$gen->getDestroyBtnTxt()" según filtros en Index de módulo '.Page::$moduleName);
 
         // creo registros de prueba y elimino algunos
         {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed = $this->createAndSoftDeleteSomeRecords();
@@ -178,11 +182,11 @@ class {{$test}}Cest
         // sólo se oculta el botón si lo unico que se desea consultar son los
         // registros en papelera
         $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'onlyTrashed']]));
-        $I->dontSee('Borrar {!!$request->get('plural_entity_name')!!} seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->dontSee(DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtn, DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
         $I->amOnPage(Page::$moduleURL);
-        $I->see('Borrar {!!$request->get('plural_entity_name')!!} seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->see(DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtn, DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
         $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'withTrashed']]));
-        $I->see('Borrar {!!$request->get('plural_entity_name')!!} seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->see(DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtn, DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
     }
 
     /**
@@ -192,7 +196,7 @@ class {{$test}}Cest
      * @param  FunctionalTester $I
 @if(!empty($request->get('is_part_of_package')))
      * @group  {{$request->get('is_part_of_package')}}
-     */ 
+     */
 @else
      */
 @endif
@@ -208,23 +212,24 @@ class {{$test}}Cest
 
         // si voy al Index no debe haber datos
         $I->amOnPage(Page::$moduleURL);
-        $I->see('No se encontraron registros...', '.alert.alert-warning');
+        $I->see(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
 
         // envío parámetros a Index para que cargue los registros en papelera
         $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'withTrashed']]));
-        $I->dontSee('No se encontraron registros...', '.alert.alert-warning');
+        $I->dontSee(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
         // los registros en papelera se muestran con clase danger en las filas
         // de la tabla
         $I->seeElement('tbody tr.danger');
         // el botón para restaurar los registros en papelera mostrados debe
         // aparecer
-        $I->see('Restaurar {{ $request->get('plural_entity_name') }} seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
         
         // cargo la ruta para restaurar todos los registros en papelera
         $I->restoreMany('{{ $gen->route() }}.restore', {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}->pluck('id')->toArray());
         
         // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::$moduleURL);
-        $I->dontSee('No se encontraron registros...', '.alert.alert-warning');
+        $I->dontSee(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
     }
+<?php } ?>
 }

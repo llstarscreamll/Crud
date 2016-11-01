@@ -18,7 +18,7 @@
 @extends('<?=config('modules.CrudGenerator.config.layout')?>')
 
 {{-- page title --}}
-@section('title') {{trans('<?=$gen->getLangAccess()?>.create.name').trans('<?=$gen->getLangAccess()?>.module.name-singular')}} @stop
+@section('title') {{ trans('<?=$gen->getLangAccess()?>.index-create-btn') }} @endsection
 {{-- /page title --}}
 
 {{-- view styles --}}
@@ -30,7 +30,7 @@
 @section('content')
 
 {{-- heading --}}
-@include('<?=$gen->viewsDirName()?>.partials.heading', ['small_title' => trans('<?=$gen->getLangAccess()?>.create.name')])
+@include('<?=$gen->viewsDirName()?>.partials.heading', ['small_title' => trans('<?= $gen->solveSharedResourcesNamespace() ?>.views.create')])
     
 {{-- content --}}
 <div class="wrapper wrapper-content">

@@ -30,7 +30,7 @@ class {{$test}}Cest
     }
 
     /**
-     * Prueba la funcionalidad de eliminar un registro.
+     * Prueba la funcionalidad de {{ strtolower($gen->getDestroyBtnTxt()) }} un registro.
      *
      * @param  FunctionalTester $I
 @if(!empty($request->get('is_part_of_package')))
@@ -39,17 +39,17 @@ class {{$test}}Cest
 @else
      */
 @endif
-    public function delete(FunctionalTester $I)
+    public function {{ $gen->getDestroyVariableName() }}(FunctionalTester $I)
     {
-        $I->wantTo('eliminar registro en módulo '.Page::$moduleName);
+        $I->wantTo('{{ strtolower($gen->getDestroyBtnTxt()) }} registro en módulo '.Page::$moduleName);
 
         // creo registro de prueba
         Page::have{{$gen->modelClassName()}}($I);
 
-        // voy a la página de detalles del registro y doy clic al botón "Enviar
-        // a Papelera"
+        // voy a la página de detalles del registro y doy clic al botón
+        // "{{ $gen->getDestroyBtnTxt() }}"
         $I->amOnPage(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id']));
-        $I->click(Page::$deleteBtn, Page::$deleteBtnElem);
+        $I->click(Page::${{ $gen->getDestroyVariableName() }}Btn, Page::${{ $gen->getDestroyVariableName() }}BtnElem);
 
         // soy redirigido al Index y debo ver mensaje de éxito en la operación
         $I->seeCurrentUrlEquals(Page::$moduleURL);
@@ -59,7 +59,7 @@ class {{$test}}Cest
     }
 
     /**
-     * Prueba la funcionalidad de mover a la papelera varios registros a la vez.
+     * Prueba la funcionalidad de {{ strtolower($gen->getDestroyBtnTxt()) }} varios registros a la vez.
      *
      * @param  FunctionalTester $I
 @if(!empty($request->get('is_part_of_package')))
@@ -68,22 +68,23 @@ class {{$test}}Cest
 @else
      */
 @endif
-    public function deleteMany(FunctionalTester $I)
+    public function {{ $gen->getDestroyVariableName() }}Many(FunctionalTester $I)
     {
-        $I->wantTo('eliminar varios registros a la vez en módulo '.Page::$moduleName);
+        $I->wantTo('{{ strtolower($gen->getDestroyBtnTxt()) }} varios registros a la vez en módulo '.Page::$moduleName);
 
         // creo registros de prueba
         $books = factory({{ $gen->modelClassName() }}::class, 10)->create();
 
-        // cuando cargo el Index el botón "Mover a la Papelera" debe ser mostrado
+        // cuando cargo el Index el botón "{{ $gen->getDestroyBtnTxt() }}" debe
+        // ser mostrado
         $I->amOnPage(Page::$moduleURL);
-        $I->see('Borrar {!!$request->get('plural_entity_name')!!} seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->see(Page::${{ $gen->getDestroyVariableName() }}ManyBtn, Page::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
         
-        // cargo la ruta que "Mueve a Papelera" los registros
+        // cargo la ruta que "{{ $gen->getDestroyBtnTxt() }}" los registros
         $I->destroyMany('{{ $gen->route() }}.destroy', $books->pluck('id')->toArray());
         
         // soy redirigido al Index y no debe haber datos que mostrar
         $I->seeCurrentUrlEquals(Page::$moduleURL);
-        $I->see('No se encontraron registros...', '.alert.alert-warning');
+        $I->see(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
     }
 }

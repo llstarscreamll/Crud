@@ -156,7 +156,7 @@
     <tr>
         <td class="empty-table" colspan="<?=count($fields)+2?>">
             <div  class="alert alert-warning">
-                {{trans('<?=$gen->getLangAccess()?>.index.no-records-found')}}
+                {{trans('<?=$gen->solveSharedResourcesNamespace()?>.no-records-found')}}
             </div>
         </td>
     </tr>
