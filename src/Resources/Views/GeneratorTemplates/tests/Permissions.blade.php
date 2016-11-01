@@ -50,7 +50,11 @@ class {{$test}}Cest
         ];
 
         // quitamos permisos de edición a los roles
-        $permission = Permission::whereIn('{{config('modules.CrudGenerator.config.permission-slug-field-name')}}', $permissions)->get(['id'])->pluck('id')->toArray();
+        $permission = Permission::whereIn('{{config('modules.CrudGenerator.config.permission-slug-field-name')}}', $permissions)
+            ->get(['id'])
+            ->pluck('id')
+            ->toArray();
+
         Role::all()->each(function ($item) use ($permission) {
             $item->permissions()->detach($permission);
         });
@@ -147,7 +151,7 @@ class {{$test}}Cest
      * @param  FunctionalTester $I
 @if(!empty($request->get('is_part_of_package')))
      * @group  {{$request->get('is_part_of_package')}}
-     */ 
+     */
 @else
      */
 @endif
@@ -159,7 +163,12 @@ class {{$test}}Cest
         {{$gen->modelClassName()}}::destroy($this->{{$gen->modelVariableName()}}Id);
 
         // no debo ver link de acceso a página de edición en Index
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
+        $I->amOnPage(
+            route(
+                '{{ $gen->modelPluralVariableName() }}.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
+            )
+        );
         $I->dontSee(Page::$restoreBtn, Page::$restoreBtnElem);
         $I->dontSee(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
     }

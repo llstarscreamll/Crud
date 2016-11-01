@@ -18,7 +18,7 @@
 // creamos formulario para eliminar registros masivamete //
 ///////////////////////////////////////////////////////////
 ?>
-    @if (array_get(Request::get("search"), 'trashed_records', null) != 'onlyTrashed' && auth()->user()->can('<?=$gen->route()?>.destroy'))
+    @if (array_get(Request::get(<?= $gen->getSearchFieldsPrefixConfigString() ?>), 'trashed_records', null) != 'onlyTrashed' && auth()->user()->can('<?=$gen->route()?>.destroy'))
 
     {{-- Formulario para borrar resgistros masivamente --}}
     {!! Form::open([
@@ -61,7 +61,7 @@
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
 
     {{-- Esta opción sólo es mostrada si el usuario decidió consultar los registros "borrados" --}}
-    @if (array_get(Request::get("search"), 'trashed_records', null) && auth()->user()->can('<?=$gen->route()?>.restore'))
+    @if (array_get(Request::get(<?= $gen->getSearchFieldsPrefixConfigString() ?>), 'trashed_records', null) && auth()->user()->can('<?=$gen->route()?>.restore'))
 
     {{-- Formulario para restablecer resgistros masivamente --}}
     {!! Form::open([

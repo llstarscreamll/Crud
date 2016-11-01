@@ -21,14 +21,14 @@ class {{$test}} extends Index
      *
      * @var string
      */
-    static $title = 'Detalles';
+    public static $title = 'Detalles';
 
     /**
      * El selector del formulario de sólo lectura de los datos.
      *
      * @var string
      */
-    static $form = 'form[name=show-{{$gen->getDashedModelName()}}-form]';
+    public static $form = 'form[name=show-{{$gen->getDashedModelName()}}-form]';
 
     public function __construct(FunctionalTester $I)
     {

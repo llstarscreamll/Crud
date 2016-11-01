@@ -26,30 +26,30 @@ class {{$test}} extends Index
      *
      * @var array
      */
-    static $linkToEdit = 'Editar';
-    static $linkToEditElem = '{{config('modules.CrudGenerator.uimap.edit-link-access-selector')}}';
+    public static $linkToEdit = 'Editar';
+    public static $linkToEditElem = '{{config('modules.CrudGenerator.uimap.edit-link-access-selector')}}';
     
     /**
      * El título de la página.
      *
      * @var string
      */
-    static $title = 'Editar';
+    public static $title = 'Editar';
 
     /**
      * El selector del formulario de edición.
      *
      * @var string
      */
-    static $form = 'form[name=edit-{{$gen->getDashedModelName()}}-form]';
+    public static $form = 'form[name=edit-{{$gen->getDashedModelName()}}-form]';
 
     /**
      * Mensaje de éxito al actualizar un registro.
      *
      * @var array
      */
-    static $msgSuccess = '{{ $gen->getUpdateSuccessMsg() }}';
-    static $msgSuccessElem = '{{ config('modules.CrudGenerator.uimap.alert-success-selector') }}';
+    public static $msgSuccess = '{{ $gen->getUpdateSuccessMsg() }}';
+    public static $msgSuccessElem = '{{ config('modules.CrudGenerator.uimap.alert-success-selector') }}';
 
     public function __construct(FunctionalTester $I)
     {

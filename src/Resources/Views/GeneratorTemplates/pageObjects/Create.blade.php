@@ -31,7 +31,7 @@ class {{$test}} extends Index
      *
      * @var string
      */
-    static $title = 'Crear';
+    public static $title = 'Crear';
 
     /**
      * El enlace botón para ir a formulario de creación. El selector puede ser
@@ -39,30 +39,30 @@ class {{$test}} extends Index
      *
      * @var string
      */
-    static $createBtn = 'Crear {!!$request->get('single_entity_name')!!}';
-    static $createBtnElem = '.btn.btn-default.btn-sm';
+    public static $createBtn = 'Crear {!!$request->get('single_entity_name')!!}';
+    public static $createBtnElem = '.btn.btn-default.btn-sm';
 
     /**
      * El selector del formulario.
      *
      * @var string
      */
-    static $form = 'form[name=create-{{$gen->getDashedModelName()}}-form]';
+    public static $form = 'form[name=create-{{$gen->getDashedModelName()}}-form]';
 
     /**
      * El botón submit del formulario.
      *
      * @var array
      */
-    static $formBtnElem = '{{config('modules.CrudGenerator.uimap.create-form-button-selector')}}';
+    public static $formBtnElem = '{{config('modules.CrudGenerator.uimap.create-form-button-selector')}}';
 
     /**
      * Mensaje de éxito al crear un registro.
      *
      * @var array
      */
-    static $msgSuccess = '{{ $gen->getStoreSuccessMsg() }}';
-    static $msgSuccessElem = '{{ config('modules.CrudGenerator.uimap.alert-success-selector') }}';
+    public static $msgSuccess = '{{ $gen->getStoreSuccessMsg() }}';
+    public static $msgSuccessElem = '{{ config('modules.CrudGenerator.uimap.alert-success-selector') }}';
 
     public function __construct(FunctionalTester $I)
     {

@@ -31,7 +31,8 @@ class {{$test}}Cest
     }
 
     /**
-     * Crea 10 y mueve a papelera 2 registros de prueba en la base de datos.
+     * Crear 10, luego {{ strtolower($gen->getDestroyBtnTxt()) }} 2 registros de prueba en la base de
+     * datos.
      *
      * @return Illuminate\Database\Eloquent\Collection
 @if(!empty($request->get('is_part_of_package')))
@@ -94,7 +95,7 @@ class {{$test}}Cest
 @endif
     public function seeTrashedData(FunctionalTester $I)
     {
-        $I->wantTo('ver registros en papelera en index de módulo '.Page::$moduleName);
+        $I->wantTo('ver registros en papelera en index, módulo '.Page::$moduleName);
         
         // creo registros de prueba y elimino algunos
         {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed = $this->createAndSoftDeleteSomeRecords();
@@ -102,7 +103,12 @@ class {{$test}}Cest
         {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }} = {{ $gen->modelClassName() }}::all();
 
         // con registros en papelera
-        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'withTrashed']]));
+        $I->amOnPage(
+            route(
+                '{{ $gen->modelPluralVariableName() }}.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
+            )
+        );
 
         // las filas de los registros que están en papelera deben aparecer con
         // la clase danger, es decir con un fondo rojo, las filas que no están
@@ -115,7 +121,12 @@ class {{$test}}Cest
         }
 
         // sólo registros en papelera
-        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'onlyTrashed']]));
+        $I->amOnPage(
+            route(
+                '{{ $gen->modelPluralVariableName() }}.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
+            )
+        );
 
         foreach ({{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed as $item) {
             $I->see($item->id, 'tbody tr.danger td.id');
@@ -139,7 +150,7 @@ class {{$test}}Cest
 @endif
     public function seeRestoreButtonIfShownTrashedRecords(FunctionalTester $I)
     {
-        $I->wantTo('ver botón restablecer si hay registros en papelera Index de módulo '.Page::$moduleName);
+        $I->wantTo('ver botón restablecer según filtros en Index, módulo '.Page::$moduleName);
 
         // creo registros de prueba y elimino algunos
         {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed = $this->createAndSoftDeleteSomeRecords();
@@ -151,9 +162,19 @@ class {{$test}}Cest
 
         // si ha decidido mostrar los registros en papelera, el botón debe ser
         // mostrado
-        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'withTrashed']]));
+        $I->amOnPage(
+            route(
+                '{{ $gen->modelPluralVariableName() }}.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
+            )
+        );
         $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
-        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'onlyTrashed']]));
+        $I->amOnPage(
+            route(
+                '{{ $gen->modelPluralVariableName() }}.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
+            )
+        );
         $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
         // las filas borradas de la tabla también deben mostrar el botón
         $I->see(Page::$restoreBtn, Page::$restoreBtnElem);
@@ -174,18 +195,28 @@ class {{$test}}Cest
 @endif
     public function dontSeeTrashButtonIfShownOnlyTrashedData(FunctionalTester $I)
     {
-        $I->wantTo('ocultar botón "$gen->getDestroyBtnTxt()" según filtros en Index de módulo '.Page::$moduleName);
+        $I->wantTo('ocultar botón <?= $gen->getDestroyBtnTxt() ?> según filtros en Index, módulo '.Page::$moduleName);
 
         // creo registros de prueba y elimino algunos
         {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed = $this->createAndSoftDeleteSomeRecords();
 
         // sólo se oculta el botón si lo unico que se desea consultar son los
         // registros en papelera
-        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'onlyTrashed']]));
+        $I->amOnPage(
+            route(
+                '{{ $gen->modelPluralVariableName() }}.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
+            )
+        );
         $I->dontSee(DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtn, DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
         $I->amOnPage(Page::$moduleURL);
         $I->see(DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtn, DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
-        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'withTrashed']]));
+        $I->amOnPage(
+            route(
+                '{{ $gen->modelPluralVariableName() }}.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
+            )
+        );
         $I->see(DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtn, DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
     }
 
@@ -202,7 +233,7 @@ class {{$test}}Cest
 @endif
     public function restoreManyTrashedRecords(FunctionalTester $I)
     {
-        $I->wantTo('restaurar varios registros en papelera a la vez en módulo '.Page::$moduleName);
+        $I->wantTo('restaurar varios registros en papelera, módulo '.Page::$moduleName);
 
         // creo y muevo a papelera algunos registros
         {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }} = factory({{ $gen->modelClassName() }}::class, 10)->create();
@@ -215,7 +246,12 @@ class {{$test}}Cest
         $I->see(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
 
         // envío parámetros a Index para que cargue los registros en papelera
-        $I->amOnPage(route('{{ $gen->modelPluralVariableName() }}.index', ['search' => ['trashed_records' => 'withTrashed']]));
+        $I->amOnPage(
+            route(
+                '{{ $gen->modelPluralVariableName() }}.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
+            )
+        );
         $I->dontSee(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
         // los registros en papelera se muestran con clase danger en las filas
         // de la tabla

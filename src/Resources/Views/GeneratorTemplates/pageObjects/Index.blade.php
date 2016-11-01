@@ -45,16 +45,23 @@ class {{$test}}
      *
      * @var string
      */
-    static $moduleName = '{!!$request->get('plural_entity_name')!!}';
-    static $titleElem = '{{config('modules.CrudGenerator.uimap.module-title-selector')}}';
-    static $titleSmallElem = '{{config('modules.CrudGenerator.uimap.module-title-small-selector')}}';
+    public static $moduleName = '{!!$request->get('plural_entity_name')!!}';
+    public static $titleElem = '{{config('modules.CrudGenerator.uimap.module-title-selector')}}';
+    public static $titleSmallElem = '{{config('modules.CrudGenerator.uimap.module-title-small-selector')}}';
+
+    /**
+     * El prefijo de los campos de búsqueda en la tabla Index.
+     *
+     * @var string
+     */
+    public static $searchFieldsPrefix;
 
     /**
      * El selector de la tabla donde se listan los registros.
      *
      * @var string
      */
-    static $table = '{{config('modules.CrudGenerator.uimap.index-table-selector')}}';
+    public static $table = '{{config('modules.CrudGenerator.uimap.index-table-selector')}}';
 
     /**
      * El mensaje mostrado al usuario cuando no tiene los permisos adecuado para
@@ -62,8 +69,8 @@ class {{$test}}
      *
      * @var string
      */
-    static $badPermissionsMsg = '{{ config('modules.CrudGenerator.config.permissions-middleware-msg') }}';
-    static $badPermissionsMsgElem = '.alert.alert-warning';
+    public static $badPermissionsMsg = '{{ config('modules.CrudGenerator.config.permissions-middleware-msg') }}';
+    public static $badPermissionsMsgElem = '.alert.alert-warning';
 
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
     /**
@@ -71,40 +78,39 @@ class {{$test}}
      *
      * @var string
      */
-    static $restoreManyBtn = 'Restaurar seleccionados';
-    static $restoreManyBtnElem = 'button.btn.btn-default.btn-sm';
+    public static $restoreManyBtn = 'Restaurar seleccionados';
+    public static $restoreManyBtnElem = 'button.btn.btn-default.btn-sm';
 
     /**
      * El botón de restaurar registro.
      *
      * @var string
      */
-    static $restoreBtn = 'Restaurar';
-    static $restoreBtnElem = 'button.btn.btn-default.btn-sm';
+    public static $restoreBtn = 'Restaurar';
+    public static $restoreBtnElem = 'button.btn.btn-default.btn-sm';
 <?php } ?>
 
     /**
-     * 
      * Mensaje cuando no se encuentran datos.
      *
      * @var array
      */
-    static $noDataFountMsg = 'No se encontraron registros...';
-    static $noDataFountMsgElem = '{{config('modules.CrudGenerator.uimap.alert-warning-selector')}}';
+    public static $noDataFountMsg = 'No se encontraron registros...';
+    public static $noDataFountMsgElem = '{{config('modules.CrudGenerator.uimap.alert-warning-selector')}}';
 
     /**
      * La info de creación del registro.
      *
      * @var array
      */
-    static ${{$gen->modelVariableName()}}Data = array();
+    public static ${{$gen->modelVariableName()}}Data = array();
 
     /**
      * Los campos del formulario de creación.
      *
      * @var array
      */
-    static $createFormFields = [
+    public static $createFormFields = [
 @foreach($fields as $field)
 @if($field->on_create_form)
         '{{$field->name}}',
@@ -117,7 +123,7 @@ class {{$test}}
      *
      * @var array
      */
-    static $editFormFields = [
+    public static $editFormFields = [
 @foreach($fields as $field)
 @if($field->on_update_form)
         '{{$field->name}}',
@@ -130,7 +136,7 @@ class {{$test}}
      *
      * @var array
      */
-    static $fieldsThatRequieresConfirmation = [
+    public static $fieldsThatRequieresConfirmation = [
 @foreach($fields as $field)
 @if(strpos($field->validation_rules, 'confirmed'))
         '{{$field->name}}'
@@ -143,7 +149,7 @@ class {{$test}}
      *
      * @var array
      */
-    static $hiddenFields = [
+    public static $hiddenFields = [
 @foreach($fields as $field)
 @if($field->hidden)
         '{{$field->name}}',
@@ -156,10 +162,10 @@ class {{$test}}
      *
      * @var array
      */
-    static $adminUser = [
-        'name'          =>      'Travis Orbin',
-        'email'         =>      'travis.orbin@example.com',
-        'password'      =>      '123456',
+    public static $adminUser = [
+        'name' => 'Travis Orbin',
+        'email' => 'travis.orbin@example.com',
+        'password' => '123456',
     ];
 
     /**
@@ -170,6 +176,7 @@ class {{$test}}
     public function __construct(FunctionalTester $I)
     {
         $this->functionalTester = $I;
+        static::$searchFieldsPrefix = <?= $gen->getSearchFieldsPrefixConfigString() ?>;
 
         // creamos permisos de acceso
         \Artisan::call('db:seed', ['--class' => '{{$gen->modelClassName()}}PermissionsSeeder']);

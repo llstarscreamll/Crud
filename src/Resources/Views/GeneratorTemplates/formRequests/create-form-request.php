@@ -44,6 +44,13 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
     private $<?= $gen->modelVariableName() ?>;
 
     /**
+     * El prefijo para los campos de búsqueda.
+     *
+     * @var string
+     */
+    private $prefix;
+
+    /**
      * @var array
      */
     private $routesAuthMap = [
@@ -91,6 +98,7 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
 <?php if ($gen->areEnumFields($fields)) { ?>
         $this-><?= $gen->modelVariableName() ?> = new <?= $gen->modelClassName() ?>;
 <?php } ?>
+        $this->prefix = <?= $gen->getSearchFieldsPrefixConfigString() ?>;
         
         list($controller, $method) = explode("@", $this->route()->getActionName());
         $method = $method.'Rules';
@@ -108,20 +116,20 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
         return [
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime') { ?>
-            'search.<?= $field->name ?>.from' => <?= $gen->getValidationRules($field, 'index') ?>,
-            'search.<?= $field->name ?>.to' => <?= $gen->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>.from' => <?= $gen->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>.to' => <?= $gen->getValidationRules($field, 'index') ?>,
 <?php } elseif ($field->type == "enum") { ?>
-            'search.<?= $field->name ?>.*' => <?= $gen->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>.*' => <?= $gen->getValidationRules($field, 'index') ?>,
 <?php } elseif ($field->type == "tinyint") { ?>
-            'search.<?= $field->name ?>_true' => <?= $gen->getValidationRules($field, 'index') ?>,
-            'search.<?= $field->name ?>_false' => <?= $gen->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>_true' => <?= $gen->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>_false' => <?= $gen->getValidationRules($field, 'index') ?>,
 <?php } else { ?>
-            'search.<?= $field->name ?>' => <?= $gen->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>' => <?= $gen->getValidationRules($field, 'index') ?>,
 <?php } ?>
 <?php } ?>
-            'search.sort' => ['string'],
+            $this->prefix.'.sort' => ['string'],
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
-            'search.trashed_records' => ['in:onlyTrashed,withTrashed'],
+            $this->prefix.'.trashed_records' => ['in:onlyTrashed,withTrashed'],
 <?php } ?>
         ];
     }

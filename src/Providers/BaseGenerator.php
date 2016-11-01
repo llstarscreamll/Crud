@@ -1095,4 +1095,19 @@ class BaseGenerator
 
         return 'shared';
     }
+
+    /**
+     * Devuelve el string para devolver la configuración del prefijo de los
+     * campos de búsqueda dependiendo de si se usa o no el módulo Core.
+     *
+     * @return string
+     */
+    public function getSearchFieldsPrefixConfigString()
+    {
+        if ($this->areWeUsingCoreModule()) {
+            return "config('modules.core.app.search-fields-prefix')";
+        }
+
+        return "config('{$this->modelVariableName()}.search-fields-prefix')";
+    }
 }
