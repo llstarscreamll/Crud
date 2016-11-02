@@ -10,14 +10,14 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace {{$gen->studlyCasePlural()}};
+namespace <?= $gen->studlyCasePlural() ?>;
 
-use {{$modelNamespace = config('modules.CrudGenerator.config.parent-app-namespace')."\Models\\".$gen->modelClassName()}};
+use <?= $modelNamespace = config('modules.CrudGenerator.config.parent-app-namespace')."\Models\\".$gen->modelClassName() ?>;
 use FunctionalTester;
-use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
-use Page\Functional\{{$gen->studlyCasePlural()}}\Destroy as DestroyPage;
+use Page\Functional\<?= $gen->studlyCasePlural() ?>\<?= $test ?> as Page;
+use Page\Functional\<?= $gen->studlyCasePlural() ?>\Destroy as DestroyPage;
 
-class {{$test}}Cest
+class <?= $test ?>Cest
 {
     /**
      * Las acciones a realizar antes de cada test.
@@ -31,22 +31,22 @@ class {{$test}}Cest
     }
 
     /**
-     * Crear 10, luego {{ strtolower($gen->getDestroyBtnTxt()) }} 2 registros de prueba en la base de
+     * Crear 10, luego <?= strtolower($gen->getDestroyBtnTxt()) ?> 2 registros de prueba en la base de
      * datos.
      *
      * @return Illuminate\Database\Eloquent\Collection
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if (!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */
-@else
+<?php } else { ?>
      */
-@endif
+<?php } ?>
     private function createAndSoftDeleteSomeRecords()
     {
         // creo registros de prueba
-        factory({{ $gen->modelClassName() }}::class, 10)->create();
+        factory(<?= $gen->modelClassName() ?>::class, 10)->create();
 
-        return {{ $gen->modelClassName() }}::all(['id'])->take(2)
+        return <?= $gen->modelClassName() ?>::all(['id'])->take(2)
             ->each(function ($item, $key) {
                 $item->delete();
             });
@@ -56,18 +56,18 @@ class {{$test}}Cest
      * Prueba los datos mostrados en el Index del módulo.
      *
      * @param  FunctionalTester $I
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if (!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */
-@else
+<?php } else { ?>
      */
-@endif
+<?php } ?>
     public function index(FunctionalTester $I)
     {
         $I->wantTo('probar vista index de módulo '.Page::$moduleName);
         
         // creo el registro de prueba
-        Page::have{{$gen->modelClassName()}}($I);
+        Page::have<?= $gen->modelClassName() ?>($I);
 
         $I->amOnPage(Page::$moduleURL);
         $I->see(Page::$moduleName, Page::$titleElem);
@@ -87,25 +87,25 @@ class {{$test}}Cest
      * "normales" junto con los registros en papelera.
      *
      * @param  FunctionalTester $I
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if (!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */
-@else
+<?php } else { ?>
      */
-@endif
+<?php } ?>
     public function seeTrashedData(FunctionalTester $I)
     {
         $I->wantTo('ver registros en papelera en index, módulo '.Page::$moduleName);
         
         // creo registros de prueba y elimino algunos
-        {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed = $this->createAndSoftDeleteSomeRecords();
+        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed = $this->createAndSoftDeleteSomeRecords();
 
-        {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }} = {{ $gen->modelClassName() }}::all();
+        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?> = <?= $gen->modelClassName() ?>::all();
 
         // con registros en papelera
         $I->amOnPage(
             route(
-                '{{ $gen->modelPluralVariableName() }}.index',
+                '<?= $gen->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
             )
         );
@@ -113,26 +113,26 @@ class {{$test}}Cest
         // las filas de los registros que están en papelera deben aparecer con
         // la clase danger, es decir con un fondo rojo, las filas que no están
         // eliminadas no tienen la clase danger
-        foreach ({{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed as $item) {
+        foreach (<?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed as $item) {
             $I->see($item->id, 'tbody tr.danger td.id');
         }
-        foreach ({{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }} as $item) {
+        foreach (<?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?> as $item) {
             $I->see($item->id, 'tbody tr td.id');
         }
 
         // sólo registros en papelera
         $I->amOnPage(
             route(
-                '{{ $gen->modelPluralVariableName() }}.index',
+                '<?= $gen->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
             )
         );
 
-        foreach ({{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed as $item) {
+        foreach (<?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed as $item) {
             $I->see($item->id, 'tbody tr.danger td.id');
         }
 
-        foreach ({{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }} as $item) {
+        foreach (<?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?> as $item) {
             $I->dontSee($item->id, 'tbody tr td.id');
         }
     }
@@ -142,18 +142,18 @@ class {{$test}}Cest
      * mostrados si es que el usuario consulta tales registros.
      *
      * @param  FunctionalTester $I
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if (!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */
-@else
+<?php } else { ?>
      */
-@endif
+<?php } ?>
     public function seeRestoreButtonIfShownTrashedRecords(FunctionalTester $I)
     {
         $I->wantTo('ver botón restablecer según filtros en Index, módulo '.Page::$moduleName);
 
         // creo registros de prueba y elimino algunos
-        {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed = $this->createAndSoftDeleteSomeRecords();
+        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed = $this->createAndSoftDeleteSomeRecords();
 
         // si el usuario no desea mostrar los registros en papelera, el botón no
         // debe ser mostrado
@@ -164,14 +164,14 @@ class {{$test}}Cest
         // mostrado
         $I->amOnPage(
             route(
-                '{{ $gen->modelPluralVariableName() }}.index',
+                '<?= $gen->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
             )
         );
         $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
         $I->amOnPage(
             route(
-                '{{ $gen->modelPluralVariableName() }}.index',
+                '<?= $gen->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
             )
         );
@@ -187,37 +187,37 @@ class {{$test}}Cest
      * innecesario mostrar dicho botón.
      *
      * @param  FunctionalTester $I
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if (!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */
-@else
+<?php } else { ?>
      */
-@endif
+<?php } ?>
     public function dontSeeTrashButtonIfShownOnlyTrashedData(FunctionalTester $I)
     {
         $I->wantTo('ocultar botón <?= $gen->getDestroyBtnTxt() ?> según filtros en Index, módulo '.Page::$moduleName);
 
         // creo registros de prueba y elimino algunos
-        {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}Trashed = $this->createAndSoftDeleteSomeRecords();
+        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed = $this->createAndSoftDeleteSomeRecords();
 
         // sólo se oculta el botón si lo unico que se desea consultar son los
         // registros en papelera
         $I->amOnPage(
             route(
-                '{{ $gen->modelPluralVariableName() }}.index',
+                '<?= $gen->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
             )
         );
-        $I->dontSee(DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtn, DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
+        $I->dontSee(DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtnElem);
         $I->amOnPage(Page::$moduleURL);
-        $I->see(DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtn, DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
+        $I->see(DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtnElem);
         $I->amOnPage(
             route(
-                '{{ $gen->modelPluralVariableName() }}.index',
+                '<?= $gen->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
             )
         );
-        $I->see(DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtn, DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
+        $I->see(DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtnElem);
     }
 
     /**
@@ -225,19 +225,19 @@ class {{$test}}Cest
      * a la vez desde el index.
      *
      * @param  FunctionalTester $I
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if (!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */
-@else
+<?php } else { ?>
      */
-@endif
+<?php } ?>
     public function restoreManyTrashedRecords(FunctionalTester $I)
     {
         $I->wantTo('restaurar varios registros en papelera, módulo '.Page::$moduleName);
 
         // creo y muevo a papelera algunos registros
-        {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }} = factory({{ $gen->modelClassName() }}::class, 10)->create();
-        {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}->each(function ($item) {
+        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?> = factory(<?= $gen->modelClassName() ?>::class, 10)->create();
+        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>->each(function ($item) {
             return $item->delete();
         });
 
@@ -248,7 +248,7 @@ class {{$test}}Cest
         // envío parámetros a Index para que cargue los registros en papelera
         $I->amOnPage(
             route(
-                '{{ $gen->modelPluralVariableName() }}.index',
+                '<?= $gen->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
             )
         );
@@ -261,7 +261,7 @@ class {{$test}}Cest
         $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
         
         // cargo la ruta para restaurar todos los registros en papelera
-        $I->restoreMany('{{ $gen->route() }}.restore', {{ $gen->modelVariableNameFromClass($modelNamespace, 'plural') }}->pluck('id')->toArray());
+        $I->restoreMany('<?= $gen->route() ?>.restore', <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>->pluck('id')->toArray());
         
         // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::$moduleURL);

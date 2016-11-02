@@ -10,25 +10,25 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace {{$gen->studlyCasePlural()}};
+namespace <?= $gen->studlyCasePlural() ?>;
 
 use FunctionalTester;
-use {{$modelNamespace = config('modules.CrudGenerator.config.parent-app-namespace')."\Models\\".$gen->modelClassName()}};
-use {{config('modules.CrudGenerator.config.role-model-namespace')}};
-use {{config('modules.CrudGenerator.config.permission-model-namespace')}};
-use Page\Functional\{{$gen->studlyCasePlural()}}\Index as Page;
-use Page\Functional\{{$gen->studlyCasePlural()}}\Destroy as DestroyPage;
-use Page\Functional\{{$gen->studlyCasePlural()}}\Create as CreatePage;
-use Page\Functional\{{$gen->studlyCasePlural()}}\Edit as EditPage;
+use <?= $modelNamespace = config('modules.CrudGenerator.config.parent-app-namespace')."\Models\\".$gen->modelClassName() ?>;
+use <?= config('modules.CrudGenerator.config.role-model-namespace') ?>;
+use <?= config('modules.CrudGenerator.config.permission-model-namespace') ?>;
+use Page\Functional\<?= $gen->studlyCasePlural() ?>\Index as Page;
+use Page\Functional\<?= $gen->studlyCasePlural() ?>\Destroy as DestroyPage;
+use Page\Functional\<?= $gen->studlyCasePlural() ?>\Create as CreatePage;
+use Page\Functional\<?= $gen->studlyCasePlural() ?>\Edit as EditPage;
 
-class {{$test}}Cest
+class <?= $test ?>Cest
 {
     /**
      * El id del registro de prueba.
      *
      * @var int
      */
-    protected ${{$gen->modelVariableName()}}Id;
+    protected $<?= $gen->modelVariableName() ?>Id;
 
     /**
      * Las acciones a realizar antes de cada test.
@@ -41,16 +41,16 @@ class {{$test}}Cest
         $I->amLoggedAs(Page::$adminUser);
 
         $permissions = [
-            '{{$gen->route()}}.create',
-            '{{$gen->route()}}.edit',
-            '{{$gen->route()}}.destroy',
-@if($gen->hasDeletedAtColumn($fields))
-            '{{$gen->route()}}.restore',
-@endif
+            '<?= $gen->route() ?>.create',
+            '<?= $gen->route() ?>.edit',
+            '<?= $gen->route() ?>.destroy',
+<?php if($gen->hasDeletedAtColumn($fields)) { ?>
+            '<?= $gen->route() ?>.restore',
+<?php } ?>
         ];
 
         // quitamos permisos de edición a los roles
-        $permission = Permission::whereIn('{{config('modules.CrudGenerator.config.permission-slug-field-name')}}', $permissions)
+        $permission = Permission::whereIn('<?= config('modules.CrudGenerator.config.permission-slug-field-name') ?>', $permissions)
             ->get(['id'])
             ->pluck('id')
             ->toArray();
@@ -60,7 +60,7 @@ class {{$test}}Cest
         });
 
         // creamos registro de prueba
-        $this->{{$gen->modelVariableName()}}Id = Page::have{{$gen->modelClassName()}}($I);
+        $this-><?= $gen->modelVariableName() ?>Id = Page::have<?= $gen->modelClassName() ?>($I);
     }
 
     /**
@@ -68,12 +68,12 @@ class {{$test}}Cest
      * correctamente.
      *
      * @param  FunctionalTester $I
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if(!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */ 
-@else
+<?php } else { ?>
      */
-@endif
+<?php } ?>
     public function createPermissions(FunctionalTester $I)
     {
         $I->wantTo('probar permisos de creación en módulo '.Page::$moduleName);
@@ -93,12 +93,12 @@ class {{$test}}Cest
      * correctamente.
      *
      * @param  FunctionalTester $I
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if(!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */ 
-@else
+<?php } else { ?>
      */
-@endif
+<?php } ?>
     public function editPermissions(FunctionalTester $I)
     {
         $I->wantTo('probar permisos de edición en módulo '.Page::$moduleName);
@@ -109,68 +109,68 @@ class {{$test}}Cest
 
         // el la página de detalles del registro no debo ver el link a página de
         // edición
-        $I->amOnPage(Page::route("/$this->{{$gen->modelVariableName()}}Id"));
+        $I->amOnPage(Page::route("/$this-><?= $gen->modelVariableName() ?>Id"));
         $I->dontSee(EditPage::$linkToEdit, '.form-group '.EditPage::$linkToEditElem);
 
         // si intento acceder a la página de edición de un registro soy
         // redirigido al home de la app
-        $I->amOnPage(Page::route("/$this->{{$gen->modelVariableName()}}Id/edit"));
+        $I->amOnPage(Page::route("/$this-><?= $gen->modelVariableName() ?>Id/edit"));
         $I->seeCurrentUrlEquals(Page::$homeUrl);
         $I->see(Page::$badPermissionsMsg, Page::$badPermissionsMsgElem);
     }
 
     /**
-     * Prueba que las restricciones con los permisos de {{ strtolower($gen->getDestroyBtnTxt()) }}
+     * Prueba que las restricciones con los permisos de <?= strtolower($gen->getDestroyBtnTxt()) ?>
      * funcionen correctamente.
      *
      * @param  FunctionalTester $I
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if(!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */ 
-@else
+<?php } else { ?>
      */
-@endif
-    public function {{ $gen->getDestroyVariableName() }}Permissions(FunctionalTester $I)
+<?php } ?>
+    public function <?= $gen->getDestroyVariableName() ?>Permissions(FunctionalTester $I)
     {
-        $I->wantTo('probar permisos de {{ strtolower($gen->getDestroyBtnTxt()) }} en módulo '.Page::$moduleName);
+        $I->wantTo('probar permisos de <?= strtolower($gen->getDestroyBtnTxt()) ?> en módulo '.Page::$moduleName);
 
         // no debo ver link de acceso a página de edición en Index
         $I->amOnPage(Page::$moduleURL);
-        $I->dontSee(DestroyPage::${{ $gen->getDestroyVariableName() }}Btn, DestroyPage::${{ $gen->getDestroyVariableName() }}BtnElem);
-        $I->dontSee(DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtn, DestroyPage::${{ $gen->getDestroyVariableName() }}ManyBtnElem);
+        $I->dontSee(DestroyPage::$<?= $gen->getDestroyVariableName() ?>Btn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>BtnElem);
+        $I->dontSee(DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtnElem);
         // en página de detalles del registro no debo ver botón "Mover a Papelera"
-        $I->amOnPage(Page::route("/$this->{{$gen->modelVariableName()}}Id"));
-        $I->dontSee(DestroyPage::${{ $gen->getDestroyVariableName() }}Btn, DestroyPage::${{ $gen->getDestroyVariableName() }}BtnElem);
+        $I->amOnPage(Page::route("/$this-><?= $gen->modelVariableName() ?>Id"));
+        $I->dontSee(DestroyPage::$<?= $gen->getDestroyVariableName() ?>Btn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>BtnElem);
     }
 
-@if($gen->hasDeletedAtColumn($fields))
+<?php if($gen->hasDeletedAtColumn($fields)) { ?>
     /**
      * Prueba que las restricciones con los permisos de restauración de
      * registros en papelera funcionen correctamente.
      *
      * @param  FunctionalTester $I
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if(!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */
-@else
+<?php } else { ?>
      */
-@endif
+<?php } ?>
     public function restorePermissions(FunctionalTester $I)
     {
         $I->wantTo('probar permisos de restauración en módulo '.Page::$moduleName);
 
         // eliminamos el registro de prueba
-        {{$gen->modelClassName()}}::destroy($this->{{$gen->modelVariableName()}}Id);
+        <?= $gen->modelClassName() ?>::destroy($this-><?= $gen->modelVariableName() ?>Id);
 
         // no debo ver link de acceso a página de edición en Index
         $I->amOnPage(
             route(
-                '{{ $gen->modelPluralVariableName() }}.index',
+                '<?= $gen->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
             )
         );
         $I->dontSee(Page::$restoreBtn, Page::$restoreBtnElem);
         $I->dontSee(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
     }
-@endif
+<?php } ?>
 }

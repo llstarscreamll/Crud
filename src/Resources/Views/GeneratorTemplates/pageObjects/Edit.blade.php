@@ -10,16 +10,16 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace Page\Functional\{{$gen->studlyCasePlural()}};
+namespace Page\Functional\<?= $gen->studlyCasePlural() ?>;
 
 use FunctionalTester;
-@foreach($fields as $field)
-@if($field->namespace !== "" && class_basename($field->namespace) !== 'User')
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->namespace !== "" && class_basename($field->namespace) !== 'User') { ?>
 use {!! $field->namespace !!};
-@endif
-@endforeach
+<?php } ?>
+<?php } ?>
 
-class {{$test}} extends Index
+class <?= $test ?> extends Index
 {
     /**
      * El link de acceso a la edición del registro.
@@ -27,7 +27,7 @@ class {{$test}} extends Index
      * @var array
      */
     public static $linkToEdit = 'Editar';
-    public static $linkToEditElem = '{{config('modules.CrudGenerator.uimap.edit-link-access-selector')}}';
+    public static $linkToEditElem = '<?= config('modules.CrudGenerator.uimap.edit-link-access-selector') ?>';
     
     /**
      * El título de la página.
@@ -41,15 +41,15 @@ class {{$test}} extends Index
      *
      * @var string
      */
-    public static $form = 'form[name=edit-{{$gen->getDashedModelName()}}-form]';
+    public static $form = 'form[name=edit-<?= $gen->getDashedModelName() ?>-form]';
 
     /**
      * Mensaje de éxito al actualizar un registro.
      *
      * @var array
      */
-    public static $msgSuccess = '{{ $gen->getUpdateSuccessMsg() }}';
-    public static $msgSuccessElem = '{{ config('modules.CrudGenerator.uimap.alert-success-selector') }}';
+    public static $msgSuccess = '<?=  $gen->getUpdateSuccessMsg()  ?>';
+    public static $msgSuccessElem = '<?=  config('modules.CrudGenerator.uimap.alert-success-selector')  ?>';
 
     public function __construct(FunctionalTester $I)
     {
@@ -66,7 +66,7 @@ class {{$test}} extends Index
     {
         $data = array();
 
-        foreach (static::${{$gen->modelVariableName()}}Data as $key => $value) {
+        foreach (static::$<?= $gen->modelVariableName() ?>Data as $key => $value) {
             if (in_array($key, static::$editFormFields)) {
                 $data[$key] = $value;
             }
@@ -89,22 +89,22 @@ class {{$test}} extends Index
         $data = array();
 
         $data = [
-@foreach($fields as $field)
-@if($field->on_update_form)
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->on_update_form) { ?>
 <?php if ($field->type == 'tinyint') { ?>
 <?php if ($field->testData == 'false' || $dield->testData == '0') { ?>
-            '{{$field->name}}' => '0',
+            '<?= $field->name ?>' => '0',
 <?php } elseif ($field->testData == 'true' || $dield->testData == '1') { ?>
-            '{{$field->name}}' => true,
+            '<?= $field->name ?>' => true,
 <?php } ?>
 <?php } else { ?>
-            '{{$field->name}}' => {!! $field->namespace == '' ? $field->testDataUpdate : class_basename($field->namespace)."::all(['id'])->last()->id" !!},
+            '<?= $field->name ?>' => {!! $field->namespace == '' ? $field->testDataUpdate : class_basename($field->namespace)."::all(['id'])->last()->id" !!},
 <?php } ?>
-@endif
-@if(strpos($field->validation_rules, 'confirmed'))
-            '{{$field->name}}_confirmation' => {!!$field->testDataUpdate!!},
-@endif
-@endforeach
+<?php } ?>
+<?php if (strpos($field->validation_rules, 'confirmed')) { ?>
+            '<?= $field->name ?>_confirmation' => {!!$field->testDataUpdate!!},
+<?php } ?>
+<?php } ?>
         ];
 
         return $data;

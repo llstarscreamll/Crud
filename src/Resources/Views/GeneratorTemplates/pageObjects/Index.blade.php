@@ -10,27 +10,27 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace Page\Functional\{{$gen->studlyCasePlural()}};
+namespace Page\Functional\<?= $gen->studlyCasePlural() ?>;
 
 use FunctionalTester;
-use {{config('modules.CrudGenerator.config.user-model-namespace')}};
-@if($request->has('use_faker'))
+use <?= config('modules.CrudGenerator.config.user-model-namespace') ?>;
+<?php if ($request->has('use_faker')) { ?>
 use Faker\Factory as Faker;
-@endif
-@foreach($fields as $field)
-@if($field->namespace !== "" && class_basename($field->namespace) !== 'User')
+<?php } ?>
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->namespace !== "" && class_basename($field->namespace) !== 'User') { ?>
 use {!! $field->namespace !!};
-@endif
-@endforeach
+<?php } ?>
+<?php } ?>
 
-class {{$test}}
+class <?= $test ?>
 {
     /**
      * La URL del index del módulo.
      *
      * @var string
      */
-    public static $moduleURL = '/{{$gen->route()}}';
+    public static $moduleURL = '/<?= $gen->route() ?>';
 
     /**
      * La url del home de la app, para cuando el usuario es redirigido cuando
@@ -46,8 +46,8 @@ class {{$test}}
      * @var string
      */
     public static $moduleName = '{!!$request->get('plural_entity_name')!!}';
-    public static $titleElem = '{{config('modules.CrudGenerator.uimap.module-title-selector')}}';
-    public static $titleSmallElem = '{{config('modules.CrudGenerator.uimap.module-title-small-selector')}}';
+    public static $titleElem = '<?= config('modules.CrudGenerator.uimap.module-title-selector') ?>';
+    public static $titleSmallElem = '<?= config('modules.CrudGenerator.uimap.module-title-small-selector') ?>';
 
     /**
      * El prefijo de los campos de búsqueda en la tabla Index.
@@ -61,7 +61,7 @@ class {{$test}}
      *
      * @var string
      */
-    public static $table = '{{config('modules.CrudGenerator.uimap.index-table-selector')}}';
+    public static $table = '<?= config('modules.CrudGenerator.uimap.index-table-selector') ?>';
 
     /**
      * El mensaje mostrado al usuario cuando no tiene los permisos adecuado para
@@ -69,7 +69,7 @@ class {{$test}}
      *
      * @var string
      */
-    public static $badPermissionsMsg = '{{ config('modules.CrudGenerator.config.permissions-middleware-msg') }}';
+    public static $badPermissionsMsg = '<?= config('modules.CrudGenerator.config.permissions-middleware-msg') ?>';
     public static $badPermissionsMsgElem = '.alert.alert-warning';
 
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
@@ -96,14 +96,14 @@ class {{$test}}
      * @var array
      */
     public static $noDataFountMsg = 'No se encontraron registros...';
-    public static $noDataFountMsgElem = '{{config('modules.CrudGenerator.uimap.alert-warning-selector')}}';
+    public static $noDataFountMsgElem = '<?= config('modules.CrudGenerator.uimap.alert-warning-selector') ?>';
 
     /**
      * La info de creación del registro.
      *
      * @var array
      */
-    public static ${{$gen->modelVariableName()}}Data = array();
+    public static $<?= $gen->modelVariableName() ?>Data = array();
 
     /**
      * Los campos del formulario de creación.
@@ -111,11 +111,11 @@ class {{$test}}
      * @var array
      */
     public static $createFormFields = [
-@foreach($fields as $field)
-@if($field->on_create_form)
-        '{{$field->name}}',
-@endif
-@endforeach
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->on_create_form) { ?>
+        '<?= $field->name ?>',
+<?php } ?>
+<?php } ?>
     ];
 
      /**
@@ -124,11 +124,11 @@ class {{$test}}
      * @var array
      */
     public static $editFormFields = [
-@foreach($fields as $field)
-@if($field->on_update_form)
-        '{{$field->name}}',
-@endif
-@endforeach
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->on_update_form) { ?>
+        '<?= $field->name ?>',
+<?php } ?>
+<?php } ?>
     ];
 
     /**
@@ -137,11 +137,11 @@ class {{$test}}
      * @var array
      */
     public static $fieldsThatRequieresConfirmation = [
-@foreach($fields as $field)
-@if(strpos($field->validation_rules, 'confirmed'))
-        '{{$field->name}}'
-@endif
-@endforeach
+<?php foreach ($fields as $field) { ?>
+<?php if (strpos($field->validation_rules, 'confirmed')) { ?>
+        '<?= $field->name ?>'
+<?php } ?>
+<?php } ?>
     ];
 
     /**
@@ -150,11 +150,11 @@ class {{$test}}
      * @var array
      */
     public static $hiddenFields = [
-@foreach($fields as $field)
-@if($field->hidden)
-        '{{$field->name}}',
-@endif
-@endforeach
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->hidden) { ?>
+        '<?= $field->name ?>',
+<?php } ?>
+<?php } ?>
     ];
 
     /**
@@ -179,38 +179,38 @@ class {{$test}}
         static::$searchFieldsPrefix = <?= $gen->getSearchFieldsPrefixConfigString() ?>;
 
         // creamos permisos de acceso
-        \Artisan::call('db:seed', ['--class' => '{{$gen->modelClassName()}}PermissionsSeeder']);
-        \Artisan::call('db:seed', ['--class' => '{{config('modules.CrudGenerator.config.test-roles-seeder-class')}}']);
+        \Artisan::call('db:seed', ['--class' => '<?= $gen->modelClassName() ?>PermissionsSeeder']);
+        \Artisan::call('db:seed', ['--class' => '<?= config('modules.CrudGenerator.config.test-roles-seeder-class') ?>']);
         // creamos usuario admin de prueba
-        \Artisan::call('db:seed', ['--class' => '{{config('modules.CrudGenerator.config.test-users-seeder-class')}}']);
-@foreach($fields as $field)
-@if($field->namespace)
-        \Artisan::call('db:seed', ['--class' => '{{$gen->getTableSeederClassName($field)}}']);
-@endif
-@endforeach
+        \Artisan::call('db:seed', ['--class' => '<?= config('modules.CrudGenerator.config.test-users-seeder-class') ?>']);
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->namespace) { ?>
+        \Artisan::call('db:seed', ['--class' => '<?= $gen->getTableSeederClassName($field) ?>']);
+<?php } ?>
+<?php } ?>
 
         // damos valores a los atributos para crear un registro
-        static::${{$gen->modelVariableName()}}Data = [
-@foreach($fields as $field)
+        static::$<?= $gen->modelVariableName() ?>Data = [
+<?php foreach ($fields as $field) { ?>
 <?php if ($field->type == 'tinyint') { ?>
 <?php if ($field->testData == 'false' || $dield->testData == '0') { ?>
-            '{{$field->name}}' => '0',
+            '<?= $field->name ?>' => '0',
 <?php } elseif ($field->testData == 'true' || $dield->testData == '1') { ?>
-            '{{$field->name}}' => true,
+            '<?= $field->name ?>' => true,
 <?php } ?>
 <?php } else { ?>
-            '{{$field->name}}' => {!! $field->namespace == '' ? $field->testData : class_basename($field->namespace)."::first(['id'])->id" !!},
+            '<?= $field->name ?>' => {!! $field->namespace == '' ? $field->testData : class_basename($field->namespace)."::first(['id'])->id" !!},
 <?php } ?>
-@endforeach
+<?php } ?>
         ];
-@if($request->has('create_employees_data'))
+<?php if ($request->has('create_employees_data')) { ?>
         // crea empleados de prueba, para crear empleados necesito centros y
         // subcentros de costo
         \Artisan::call('db:seed', ['--class' => 'SubCostCentersTableSeeder']);
         \Artisan::call('db:seed', ['--class' => 'CostCentersTableSeeder']);
         \Artisan::call('db:seed', ['--class' => 'EmployeesTableSeeder']);
 
-@endif
+<?php } ?>
     }
 
     /**
@@ -234,9 +234,9 @@ class {{$test}}
      *
      * @return int El id del modelo generado
      */
-    public static function have{{$gen->modelClassName()}}(FunctionalTester $I)
+    public static function have<?= $gen->modelClassName() ?>(FunctionalTester $I)
     {
-        return $I->haveRecord('{{$gen->table_name}}', static::${{$gen->modelVariableName()}}Data);
+        return $I->haveRecord('<?= $gen->table_name ?>', static::$<?= $gen->modelVariableName() ?>Data);
     }
 
     /**
@@ -248,7 +248,7 @@ class {{$test}}
     {
         $data = array();
 
-        foreach (static::${{$gen->modelVariableName()}}Data as $key => $value) {
+        foreach (static::$<?= $gen->modelVariableName() ?>Data as $key => $value) {
             if (in_array($key, static::$createFormFields)) {
                 $data[$key] = $value;
             }
@@ -270,14 +270,14 @@ class {{$test}}
      */
     public static function getIndexTableData()
     {
-        $data = static::${{$gen->modelVariableName()}}Data;
+        $data = static::$<?= $gen->modelVariableName() ?>Data;
 
         // los datos de las llaves foráneas
-@foreach($fields as $field)
-@if($field->namespace)
-        $data['{{ $field->name }}'] = {{ class_basename($field->namespace) }}::find($data['{{ $field->name }}'])->name;
-@endif
-@endforeach
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->namespace) { ?>
+        $data['<?= $field->name ?>'] = <?= class_basename($field->namespace) ?>::find($data['<?= $field->name ?>'])->name;
+<?php } ?>
+<?php } ?>
         
         // los atributos ocultos no deben mostrarse en la tabla del index
         foreach (static::$hiddenFields as $key => $attr) {
@@ -296,7 +296,7 @@ class {{$test}}
      */
     public static function unsetHiddenFields(array $data)
     {
-        $data = !empty($data) ? $data : static::${{$gen->modelVariableName()}}Data;
+        $data = !empty($data) ? $data : static::$<?= $gen->modelVariableName() ?>Data;
 
         // quitamos del array los elementos de static::$hiddenFields
         foreach (static::$hiddenFields as $key => $value) {
@@ -316,7 +316,7 @@ class {{$test}}
      */
     public static function unsetConfirmationFields(array $data = [])
     {
-        $data = !empty($data) ? $data : static::${{$gen->modelVariableName()}}Data;
+        $data = !empty($data) ? $data : static::$<?= $gen->modelVariableName() ?>Data;
         $confirmedFields = static::$fieldsThatRequieresConfirmation;
         $requiredField = '';
 

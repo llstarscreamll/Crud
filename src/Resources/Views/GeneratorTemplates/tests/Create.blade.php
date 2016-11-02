@@ -10,12 +10,12 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace {{$gen->studlyCasePlural()}};
+namespace <?= $gen->studlyCasePlural() ?>;
 
 use FunctionalTester;
-use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
+use Page\Functional\<?= $gen->studlyCasePlural() ?>\<?= $test ?> as Page;
 
-class {{$test}}Cest
+class <?= $test ?>Cest
 {
     /**
      * Las acciones a realizar antes de cada test.
@@ -32,12 +32,12 @@ class {{$test}}Cest
      * Prueba la funcionalidad de crear un nuevo registro.
      *
      * @param  FunctionalTester $I
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if (!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */ 
-@else
+<?php } else { ?>
      */
-@endif
+<?php } ?>
     public function create(FunctionalTester $I)
     {
         $I->wantTo('crear registro en módulo '.Page::$moduleName);
@@ -66,5 +66,4 @@ class {{$test}}Cest
         $formData = Page::unsetConfirmationFields($formData);
         $I->seeRecord('<?= $gen->table_name ?>', $formData);
     }
-
 }

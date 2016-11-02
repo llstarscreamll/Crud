@@ -14,7 +14,7 @@ use Carbon\Carbon;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
-class {{$gen->studlyCasePlural()}}TableSeeder extends Seeder
+class <?= $gen->studlyCasePlural() ?>TableSeeder extends Seeder
 {
     public function run()
     {

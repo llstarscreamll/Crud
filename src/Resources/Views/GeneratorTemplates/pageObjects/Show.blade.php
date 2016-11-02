@@ -10,11 +10,11 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace Page\Functional\{{$gen->studlyCasePlural()}};
+namespace Page\Functional\<?= $gen->studlyCasePlural() ?>;
 
 use FunctionalTester;
 
-class {{$test}} extends Index
+class <?= $test ?> extends Index
 {
     /**
      * El título de la página.
@@ -28,7 +28,7 @@ class {{$test}} extends Index
      *
      * @var string
      */
-    public static $form = 'form[name=show-{{$gen->getDashedModelName()}}-form]';
+    public static $form = 'form[name=show-<?= $gen->getDashedModelName() ?>-form]';
 
     public function __construct(FunctionalTester $I)
     {

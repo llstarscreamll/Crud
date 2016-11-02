@@ -10,21 +10,21 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace Page\Functional\{{$gen->studlyCasePlural()}};
+namespace Page\Functional\<?= $gen->studlyCasePlural() ?>;
 
 use FunctionalTester;
-@if($request->has('use_faker'))
+<?php if($request->has('use_faker')) { ?>
 use Faker\Factory as Faker;
-@endif
+<?php } ?>
 
-class {{$test}} extends Index
+class <?= $test ?> extends Index
 {
     /**
      * La URL de la página.
      *
      * @var string
      */
-    public static $URL = '/{{$gen->route()}}/create';
+    public static $URL = '/<?= $gen->route() ?>/create';
 
     /**
      * El título de la página.
@@ -47,22 +47,22 @@ class {{$test}} extends Index
      *
      * @var string
      */
-    public static $form = 'form[name=create-{{$gen->getDashedModelName()}}-form]';
+    public static $form = 'form[name=create-<?= $gen->getDashedModelName() ?>-form]';
 
     /**
      * El botón submit del formulario.
      *
      * @var array
      */
-    public static $formBtnElem = '{{config('modules.CrudGenerator.uimap.create-form-button-selector')}}';
+    public static $formBtnElem = '<?=config('modules.CrudGenerator.uimap.create-form-button-selector') ?>';
 
     /**
      * Mensaje de éxito al crear un registro.
      *
      * @var array
      */
-    public static $msgSuccess = '{{ $gen->getStoreSuccessMsg() }}';
-    public static $msgSuccessElem = '{{ config('modules.CrudGenerator.uimap.alert-success-selector') }}';
+    public static $msgSuccess = '<?= $gen->getStoreSuccessMsg() ?>';
+    public static $msgSuccessElem = '<?= config('modules.CrudGenerator.uimap.alert-success-selector') ?>';
 
     public function __construct(FunctionalTester $I)
     {

@@ -10,12 +10,12 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace {{$gen->studlyCasePlural()}};
+namespace <?= $gen->studlyCasePlural() ?>;
 
 use FunctionalTester;
-use Page\Functional\{{$gen->studlyCasePlural()}}\{{$test}} as Page;
+use Page\Functional\<?= $gen->studlyCasePlural() ?>\<?= $test ?> as Page;
 
-class {{$test}}Cest
+class <?= $test ?>Cest
 {
     /**
      * Las acciones a realizar antes de cada test.
@@ -32,26 +32,26 @@ class {{$test}}Cest
      * Prueba la funcionalidad de editar la información de un modelo ya creado.
      *
      * @param  FunctionalTester $I
-@if(!empty($request->get('is_part_of_package')))
-     * @group  {{$request->get('is_part_of_package')}}
+<?php if (!empty($request->get('is_part_of_package'))) { ?>
+     * @group  <?= $request->get('is_part_of_package') ?>
      */ 
-@else
+<?php } else { ?>
      */
-@endif
+<?php } ?>
     public function edit(FunctionalTester $I)
     {
         $I->wantTo('editar un registro en modulo '.Page::$moduleName);
 
         // creo el registro de prueba
-        Page::have{{$gen->modelClassName()}}($I);
+        Page::have<?= $gen->modelClassName() ?>($I);
 
         // voy a la página de detalles del registro
-        $I->amOnPage(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id']));
+        $I->amOnPage(Page::route('/'.Page::$<?= $gen->modelVariableName() ?>Data['id']));
         // doy clic al enlace para ir al formulario de edición
         $I->click(Page::$linkToEdit, Page::$linkToEditElem);
 
         // estoy en la página de edición
-        $I->seeCurrentUrlEquals(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id'].'/edit'));
+        $I->seeCurrentUrlEquals(Page::route('/'.Page::$<?= $gen->modelVariableName() ?>Data['id'].'/edit'));
         $I->see(Page::$moduleName, Page::$titleElem);
         $I->see(Page::$title, Page::$titleSmallElem);
 
@@ -76,7 +76,7 @@ class {{$test}}Cest
         $I->see(Page::$msgSuccess, Page::$msgSuccessElem);
         
         // voy a la página de detalles del registro
-        $I->amOnPage(Page::route('/'.Page::${{$gen->modelVariableName()}}Data['id']));
+        $I->amOnPage(Page::route('/'.Page::$<?= $gen->modelVariableName() ?>Data['id']));
         
         // veo los datos actualizados en el formulario de sólo lectura
         $updateData = Page::unsetConfirmationFields($updateData);
