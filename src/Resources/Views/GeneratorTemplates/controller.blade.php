@@ -90,7 +90,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @endforeach
         $data['records'] = {{$gen->modelClassName()}}::findRequested($request)->paginate(15);
         
-        return $this->view("index", $data);
+        return $this->view('index', $data);
     }
 
     /**
@@ -116,7 +116,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @endif
 @endforeach
 
-        return $this->view("create", $data);
+        return $this->view('create', $data);
     }
 
     /**
@@ -165,7 +165,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @endif
 @endforeach
 
-        return $this->view("show", $data);
+        return $this->view('show', $data);
     }
 
     /**
@@ -198,7 +198,7 @@ class {{$gen->controllerClassName()}} extends Controller
 @endif
 @endforeach
 
-        return $this->view("edit", $data);
+        return $this->view('edit', $data);
     }
 
     /**
@@ -294,6 +294,6 @@ class {{$gen->controllerClassName()}} extends Controller
      */
     protected function view(string $view, array $data = [])
     {
-        return view($this->viewsDir.".".$view, $data);
+        return view($this->viewsDir.'.'.$view, $data);
     }
 }
