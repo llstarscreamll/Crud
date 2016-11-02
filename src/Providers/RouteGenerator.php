@@ -41,44 +41,6 @@ class RouteGenerator extends BaseGenerator
     }
 
     /**
-     * Añade el "Route Model Binding" al archivo RouteServiceProvider.php dentro del método
-     * boot, inyecta el una instancia del modelo a la ruta.
-     *
-     * @return bool
-     */
-    public function generateRouteModelBinding()
-    {
-        // si la entidad tiene softDeletes no creo el Model Binding
-        if ($this->hasDeletedAtColumn($this->fields)) {
-            $this->msg_info = "La entidad posee atributo SoftDeleted, Model Binding para la ruta: '".$this->route()."' no creado, tarea omitida.";
-            return false;
-        }
-
-        $declaration = "\$router->model('".$this->route()."', '".config('modules.CrudGenerator.config.parent-app-namespace')."\\Models\\".$this->modelClassName()."');";
-        $providerFile = app_path('Providers/RouteServiceProvider.php');
-        $fileContent = file_get_contents($providerFile);
-
-        if (strpos($fileContent, $declaration) == false) {
-            $regex = "/(public\s*function\s*boot\s*\(\s*Router\s*.router\s*\)\s*\{)/";
-
-            if (preg_match($regex, $fileContent)) {
-                $fileContent = preg_replace($regex, "$1\n\t\t".$declaration, $fileContent);
-                return file_put_contents($providerFile, $fileContent); //&& chmod($providerFile, 0664);
-            }
-
-            // no se encontró la linea en donde se debe añadir al Route Model Binding
-            $this->msg_warning = "No se pudo añadir el enlace al modelo para la ruta '".$this->route()."'. ";
-            $this->msg_warning .= "Por favor añada el enlace manualmente en el archivo {$providerFile}:\n";
-            $this->msg_warning .= $declaration;
-            return false;
-        }
-
-        // ya se ha añadido antes el enlace
-        $this->msg_info = "Model Binding para la ruta: '".$this->route()."' ya existe, tarea omitida.";
-        return false;
-    }
-
-    /**
      * Añade la ruta al fichero de rutas.
      *
      * @return bool

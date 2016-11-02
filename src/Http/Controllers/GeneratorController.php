@@ -11,6 +11,7 @@ use llstarscreamll\CrudGenerator\Providers\TestsGenerator;
 use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
 use llstarscreamll\CrudGenerator\Providers\ModelFactoryGenerator;
 use llstarscreamll\CrudGenerator\Providers\FormRequestGenerator;
+use llstarscreamll\CrudGenerator\Providers\ServiceGenerator;
 
 class GeneratorController extends Controller
 {
@@ -21,9 +22,6 @@ class GeneratorController extends Controller
     {
         // el usuario debe tener permisos para acceder al controlador
         // $this->middleware('checkPermissions', ['except' => ['store', 'update']]);
-
-        // para evitar problemas con los permisos de ficheros y directorios
-        umask(0);
     }
 
     /**
@@ -75,7 +73,14 @@ class GeneratorController extends Controller
         $testsGenerator = new TestsGenerator($request);
         $modelFactoryGenerator = new ModelFactoryGenerator($request);
         $formRequestGenerator = new FormRequestGenerator($request);
+        $serviceGenerator = new ServiceGenerator($request);
 
+        // genero el Servicio
+        if ($serviceGenerator->generate() === false) {
+            return redirect()
+                ->back()
+                ->with('error', 'Ocurrió un error generando el Servicio.');
+        }
         // genero el Model Factory
         if ($formRequestGenerator->generate() === false) {
             return redirect()
@@ -126,17 +131,6 @@ class GeneratorController extends Controller
         }
         // el modelo se generó correctamente
         $msg_success[] = 'Controlador generado correctamente.';
-
-        //////////////////////////////////////////
-        // genero el model binding para la ruta //
-        //////////////////////////////////////////
-        if ($routeGenerator->generateRouteModelBinding() === false) {
-            $msg_warning[] = $routeGenerator->msg_warning;
-            $msg_info[] = $routeGenerator->msg_info;
-        } else {
-            // el controlador se generó correctamente
-            $msg_success[] = 'Model Binding para el Controlador generado correctamente.';
-        }
 
         ////////////////////
         // genero la ruta //
