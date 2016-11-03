@@ -106,6 +106,19 @@ class <?= $test ?>
     public static $<?= $gen->modelVariableName() ?>Data = array();
 
     /**
+     * Las columnas por defecto a mostrar en la tabla del Index.
+     *
+     * @var array
+     */
+    public static $tableColumns = [
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->on_index_table && !$field->hidden) { ?>
+        '<?= $field->name ?>',
+<?php } ?>
+<?php } ?>
+    ];
+
+    /**
      * Los campos del formulario de creación.
      *
      * @var array

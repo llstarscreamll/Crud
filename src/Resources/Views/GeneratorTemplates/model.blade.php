@@ -124,7 +124,7 @@ class <?= $gen->modelClassName() ?> extends Model
      */
     public $casts = [
 <?php foreach ($fields as $field) { ?>
-<?php if (!in_array($field->type, ['datetime', 'timestamp'])) { ?>
+<?php if (!in_array($field->type, ['datetime', 'timestamp', 'date'])) { ?>
         '<?= $field->name ?>' => '<?= $gen->getFieldTypeCast($field) ?>',
 <?php } ?>
 <?php } ?>

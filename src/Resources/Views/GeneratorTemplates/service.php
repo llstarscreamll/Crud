@@ -26,11 +26,28 @@ use <?= $class ?>;
  */
 class <?= $gen->modelClassName() ?>Service
 {
+    /**
+     * Las columnas a mostrar en la tabla del Index.
+     *
+     * @var array
+     */
     private $tableColumns = [
 <?php foreach ($fields as $field) { ?>
-<?php if ($field->on_index_table) { ?>
+<?php if ($field->on_index_table && !$field->hidden) { ?>
         '<?= $field->name ?>',
 <?php } ?>
+<?php } ?>
+    ];
+
+    /**
+     * Las columnas o atributos que deben ser consultados de la base de datos,
+     * así el usuario no lo especifique.
+     *
+     * @var array
+     */
+    private $forceQueryColumns = [
+<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+        'deleted_at'
 <?php } ?>
     ];
 
@@ -45,8 +62,24 @@ class <?= $gen->modelClassName() ?>Service
     public function indexSearch($request)
     {
         return <?= $gen->modelClassName() ?>::findRequested($request)
-            ->select($request->get('table_columns', $this->tableColumns))
+            ->select($this->getQueryColumns($request))
             ->paginate(15);
+    }
+
+    /**
+     * Obtienen array de columnas a consultar en la base de datos para la tabla
+     * del index.
+     *
+     * @param  Illuminate\Support\Collection $request
+     *
+     * @return array
+     */
+    private function getQueryColumns($request)
+    {
+        return array_merge(
+            $request->get('table_columns', $this->tableColumns),
+            $this->forceQueryColumns
+        );
     }
 
     /**
@@ -214,6 +247,7 @@ class <?= $gen->modelClassName() ?>Service
             trans_choice('<?= $gen->getLangAccess() ?>.destroy_<?= $gen->snakeCaseSingular() ?>_success', count($id))
         );
     }
+<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
 
     /**
      * Realiza restauración de <?= $request->get('single_entity_name') ?>.
@@ -231,4 +265,5 @@ class <?= $gen->modelClassName() ?>Service
             trans_choice('<?= $gen->getLangAccess() ?>.restore_<?= $gen->snakeCaseSingular() ?>_success', count($id))
         );
     }
+<?php } ?>
 }

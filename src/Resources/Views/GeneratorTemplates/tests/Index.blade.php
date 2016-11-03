@@ -75,8 +75,8 @@ class <?= $test ?>Cest
         $indexData = Page::getIndexTableData();
 
         // veo los respectivos datos en la tabla
-        foreach ($indexData as $field => $value) {
-            $I->see($value, Page::$table." tbody tr.item-{$indexData['id']} td.$field");
+        foreach (Page::$tableColumns as $column) {
+            $I->see($indexData[$column], Page::$table." tbody tr.item-{$indexData['id']} td.$column");
         }
     }
 
