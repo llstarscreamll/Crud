@@ -30,9 +30,11 @@
     @endif
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
+    @if(in_array('<?= $field->name ?>', $tableColumns))
     <th class="<?= $field->name ?>">
         {!! UI::sortLink('<?=$gen->route()?>.index', trans('<?=$gen->getLangAccess()?>.fields-labels-short.<?=$field->name?>'), '<?=$field->name?>') !!}
     </th>
+    @endif
 <?php } ?>
 <?php } ?>
     @if(!isset($hide_actions_column))

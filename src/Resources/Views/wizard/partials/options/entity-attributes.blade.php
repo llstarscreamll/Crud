@@ -36,7 +36,7 @@
                     <tr>
                         <th colspan="6" class="text-center">DB</th>
                         <th colspan="4" class="text-center">Model Attr</th>
-                        <th colspan="3" class="text-center">HTML</th>
+                        <th colspan="4" class="text-center">HTML</th>
                         <th colspan="2" class="text-center">Test</th>
                         <th colspan="1" class="text-center">Validation</th>
                     </tr>
@@ -51,6 +51,7 @@
                         <th>Relation</th>
                         <th>Fillable?</th>
                         <th>Hidden?</th>
+                        <th>Index?</th>
                         <th>Create?</th>
                         <th>Update?</th>
                         <th>Label</th>
@@ -111,6 +112,14 @@
                         </td>
                         <td>
                             {!! Form::checkbox("field[$i][hidden]", true, null, [
+                                'class' => 'bootstrap_switch',
+                                'data-size' => 'mini',
+                                'data-on-text' => 'SI',
+                                'data-off-text' => 'NO',
+                            ]) !!}
+                        </td>
+                        <td>
+                            {!! Form::checkbox("field[$i][on_index_table]", false, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
                                 'data-on-text' => 'SI',

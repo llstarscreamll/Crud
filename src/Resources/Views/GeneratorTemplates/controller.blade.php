@@ -57,9 +57,9 @@ class <?= $gen->controllerClassName() ?> extends Controller
      */
     public function index(<?= $gen->modelClassName()."Request" ?> $request)
     {
-        $request = collect($request->get('search'));
-        $data = $this-><?= $gen->modelVariableName() ?>Service->getIndexViewData();
-        $data['records'] = $this-><?= $gen->modelVariableName() ?>Service->indexSearch($request);
+        $searchRequest = collect($request->get('search'));
+        $data = $this-><?= $gen->modelVariableName() ?>Service->getIndexViewData($searchRequest);
+        $data['records'] = $this-><?= $gen->modelVariableName() ?>Service->indexSearch($searchRequest);
 
         return $this->view('index', $data);
     }

@@ -94,6 +94,7 @@ class BaseGenerator
             $field->relation = $field_data['relation'];
             $field->fillable = isset($field_data['fillable']);
             $field->hidden = isset($field_data['hidden']);
+            $field->on_index_table = isset($field_data['on_index_table']) ? $field_data['on_index_table'] : false;
             $field->on_create_form = isset($field_data['on_create_form']);
             $field->on_update_form = isset($field_data['on_update_form']);
             $field->testData = empty($field_data['testData']) ? 'null' : $field_data['testData'];

@@ -111,6 +111,24 @@ class <?= $gen->modelClassName() ?> extends Model
      */
     protected $appends = [];
 
+    /**
+     * Los campos o columnas de la tabla que pueden ser usados como criteroas de
+     * búsqueda de datos.
+     *
+     * @var array
+     */
+    public $fieldsSearchable = [
+        'id',
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->fillable) { ?>
+        '<?= $field->name ?>',
+<?php } ?>
+<?php } ?>
+        'created_at',
+        'updated_at',
+        <?= $hasSoftDelete ? "'deleted_at',\n" : null ?>
+    ];
+
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->type == 'enum') { ?>
     /**

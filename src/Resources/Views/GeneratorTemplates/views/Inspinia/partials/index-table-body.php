@@ -28,9 +28,12 @@
     @if(!isset($hide_checkboxes_column))
     <tr class="item-{{ $record->id }} <?= $gen->hasDeletedAtColumn($fields) ? '{{ $record->trashed() ? \'danger\' : null }}': null ?> ">
     @endif
-    <td class="checkbox-column">{!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item']) !!}</td>
+    <td class="checkbox-column">
+        {!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item']) !!}
+    </td>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
+        @if(in_array('<?= $field->name ?>', $tableColumns))
         <td class="<?= $field->name ?>">
 <?php if (! $gen->isGuarded($field->name)) { ?>
 <?php
@@ -58,6 +61,7 @@
             {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
 <?php } // end if ?>
         </td>
+        @endif
 <?php } // end if ?>
 <?php } // endforeach ?>
         

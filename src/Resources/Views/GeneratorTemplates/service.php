@@ -26,6 +26,14 @@ use <?= $class ?>;
  */
 class <?= $gen->modelClassName() ?>Service
 {
+    private $tableColumns = [
+<?php foreach ($fields as $field) { ?>
+<?php if ($field->on_index_table) { ?>
+        '<?= $field->name ?>',
+<?php } ?>
+<?php } ?>
+    ];
+
     /**
      * Obtiene datos de consulta predeterminada o lo que indique el usuario de
      * la entidad para la vista Index.
@@ -37,6 +45,7 @@ class <?= $gen->modelClassName() ?>Service
     public function indexSearch($request)
     {
         return <?= $gen->modelClassName() ?>::findRequested($request)
+            ->select($request->get('table_columns', $this->tableColumns))
             ->paginate(15);
     }
 
@@ -45,7 +54,7 @@ class <?= $gen->modelClassName() ?>Service
      *
      * @return array
      */
-    public function getIndexViewData()
+    public function getIndexViewData($request)
     {
         $data = [];
 <?php if ($gen->areEnumFields($fields)) { ?>
@@ -72,7 +81,8 @@ class <?= $gen->modelClassName() ?>Service
 <?php } ?>
 <?php } ?>
 <?php } ?>
-        
+        $data['tableColumns'] = $request->get('table_columns', $this->tableColumns);
+
         return $data;
     }
 
