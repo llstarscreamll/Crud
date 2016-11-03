@@ -95,7 +95,13 @@ class <?= $gen->modelClassName() ?> extends Model
      *
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at'<?= $hasSoftDelete ? ", 'deleted_at'" : null ?>];
+    protected $dates = [
+<?php foreach ($fields as $field) { ?>
+<?php if (in_array($field->type, ['datetime', 'timestamp'])) { ?>
+        '<?= $field->name ?>',
+<?php } ?>
+<?php } ?>
+    ];
 
     /**
      * El formato de almacenamiento de las columnas de tipo fecha del modelo.
@@ -112,21 +118,16 @@ class <?= $gen->modelClassName() ?> extends Model
     protected $appends = [];
 
     /**
-     * Los campos o columnas de la tabla que pueden ser usados como criteroas de
-     * búsqueda de datos.
+     * Mapeo de casting de atributos a los tipos de datos nativos.
      *
      * @var array
      */
-    public $fieldsSearchable = [
-        'id',
+    public $casts = [
 <?php foreach ($fields as $field) { ?>
-<?php if ($field->fillable) { ?>
-        '<?= $field->name ?>',
+<?php if (!in_array($field->type, ['datetime', 'timestamp'])) { ?>
+        '<?= $field->name ?>' => '<?= $gen->getFieldTypeCast($field) ?>',
 <?php } ?>
 <?php } ?>
-        'created_at',
-        'updated_at',
-        <?= $hasSoftDelete ? "'deleted_at',\n" : null ?>
     ];
 
 <?php foreach ($fields as $field) { ?>

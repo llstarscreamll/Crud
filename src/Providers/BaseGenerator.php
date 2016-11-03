@@ -94,7 +94,7 @@ class BaseGenerator
             $field->relation = $field_data['relation'];
             $field->fillable = isset($field_data['fillable']);
             $field->hidden = isset($field_data['hidden']);
-            $field->on_index_table = isset($field_data['on_index_table']) ? $field_data['on_index_table'] : false;
+            $field->on_index_table = isset($field_data['on_index_table']);
             $field->on_create_form = isset($field_data['on_create_form']);
             $field->on_update_form = isset($field_data['on_update_form']);
             $field->testData = empty($field_data['testData']) ? 'null' : $field_data['testData'];
@@ -1110,5 +1110,57 @@ class BaseGenerator
         }
 
         return "config('{$this->modelVariableName()}.search-fields-prefix', 'search')";
+    }
+
+    /**
+     * Optiene el tipo de dato nativo del campo, de la base de datos a PHP.
+     *
+     * @param  stdClass $field
+     * @return string
+     */
+    public function getFieldTypeCast($field)
+    {
+        $stringTypes = [
+            'varchar',
+            'char',
+            'text',
+            'enum',
+            'time',
+        ];
+        $cast = 'null';
+        
+        if (in_array($field->type, $stringTypes)) {
+            $cast = 'string';
+        }
+
+        if ($field->type == 'double') {
+            $cast = 'double';
+        }
+
+        if ($field->type == 'float') {
+            $cast = 'float';
+        }
+
+        if ($field->type == 'tinyint') {
+            $cast = 'boolean';
+        }
+
+        if ($field->type == 'int' || $field->type == 'bigint') {
+            $cast = 'int';
+        }
+
+        if ($field->type == 'json') {
+            $cast = 'array';
+        }
+
+        if ($field->type == 'date') {
+            $cast = 'date';
+        }
+
+        if ($field->type == 'datetime' || $field->type == 'timestamp') {
+            $cast = 'datetime';
+        }
+
+        return $cast;
     }
 }
