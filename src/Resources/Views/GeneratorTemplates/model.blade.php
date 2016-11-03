@@ -104,6 +104,13 @@ class <?= $gen->modelClassName() ?> extends Model
      */
     protected $dateFormat = 'Y-m-d H:i:s';
 
+    /**
+     * Los "accessors" a adjuntar al modelo cuando sea convertido a array.
+     *
+     * @var array
+     */
+    protected $appends = [];
+
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->type == 'enum') { ?>
     /**
