@@ -75,6 +75,8 @@
                     </div>
                 </li>
 <?php } ?>
+
+                {{-- Las columnas de la tabla a mostrar u ocultar --}}
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-table-columns') }}</li>
 <?php foreach ($fields as $field) { ?>
