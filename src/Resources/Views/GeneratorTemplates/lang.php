@@ -38,9 +38,11 @@ return [
     ],
 
     // nombres cortos de los elementos del formulario, para la tabla del index
-    'fields-labels-short' => [
+    'table-columns' => [
 <?php foreach ($fields as $field) { ?>
+<?php if (!$field->hidden) { ?>
         '<?= $field->name?>' => '<?= $gen->getFormFieldName($field->label) ?>',
+<?php } ?>
 <?php } ?>
     ],
 

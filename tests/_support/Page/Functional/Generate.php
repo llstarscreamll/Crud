@@ -27,7 +27,7 @@ class Generate
         'checkbox_component_on_index_table' => 'iCheck',
         'use_modal_confirmation_on_delete' => true,
         'use_DateTimePicker_on_form_fields' => true,
-        'use_x_editable' => true,
+        'use_x_editable' => false,
 
         // para la columna id
         'field[0][name]' => 'id',

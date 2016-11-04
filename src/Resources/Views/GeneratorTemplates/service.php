@@ -31,7 +31,7 @@ class <?= $gen->modelClassName() ?>Service
      *
      * @var array
      */
-    private $tableColumns = [
+    private $defaultSelectedtableColumns = [
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->on_index_table && !$field->hidden) { ?>
         '<?= $field->name ?>',
@@ -46,6 +46,7 @@ class <?= $gen->modelClassName() ?>Service
      * @var array
      */
     private $forceQueryColumns = [
+        'id',
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
         'deleted_at'
 <?php } ?>
@@ -77,7 +78,7 @@ class <?= $gen->modelClassName() ?>Service
     private function getQueryColumns($request)
     {
         return array_merge(
-            $request->get('table_columns', $this->tableColumns),
+            $request->get('table_columns', $this->defaultSelectedtableColumns),
             $this->forceQueryColumns
         );
     }
@@ -114,7 +115,10 @@ class <?= $gen->modelClassName() ?>Service
 <?php } ?>
 <?php } ?>
 <?php } ?>
-        $data['tableColumns'] = $request->get('table_columns', $this->tableColumns);
+        $data['selectedTableColumns'] = $request->get(
+            'table_columns',
+            $this->defaultSelectedtableColumns
+        );
 
         return $data;
     }

@@ -33,7 +33,7 @@
     </td>
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
-        @if(in_array('<?= $field->name ?>', $tableColumns))
+        @if(in_array('<?= $field->name ?>', $selectedTableColumns))
         <td class="<?= $field->name ?>">
 <?php if (! $gen->isGuarded($field->name)) { ?>
 <?php

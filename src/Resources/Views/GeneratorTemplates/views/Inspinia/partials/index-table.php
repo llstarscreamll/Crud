@@ -49,7 +49,7 @@
 
 {!! $records->appends(Request::query())->render() !!}
 
-<div>
+<div class="table-notes">
     <strong>Notas:</strong>
     <ul>
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>

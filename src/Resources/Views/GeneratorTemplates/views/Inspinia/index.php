@@ -61,7 +61,7 @@
 
             {{-- box footer --}}
             <div class="ibox-footer">
-                <span class="pull-right">
+                <span class="pull-right version-info">
                     <a href="#"><strong>v0.1</strong></a>
                 </span>
                 <div class="clearfix"></div>

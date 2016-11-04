@@ -29,7 +29,7 @@
     @endif
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
-    @if(in_array('<?= $field->name ?>', $tableColumns))
+    @if(in_array('<?= $field->name ?>', $selectedTableColumns))
     <td class="<?= $field->name ?>">
         <?=$gen->getSearchUISetup($field, $gen->table_name)?>
     </td>
@@ -79,18 +79,13 @@
                 {{-- Las columnas de la tabla a mostrar u ocultar --}}
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-table-columns') }}</li>
-<?php foreach ($fields as $field) { ?>
-<?php if (!$field->hidden) { ?>
-                <div class="checkbox">
-                <li>
-                    <label>
-                        {!! UI::searchField('checkbox', 'table_columns[]', '<?=$field->name?>', [], ['checked' => in_array('<?=$field->name?>', $tableColumns) ? 'checked' : null]) !!}
-                        {{ trans('<?=$gen->getLangAccess()?>.fields-labels-short.<?=$field->name?>') }}
-                    </label>
-                </li>
-                </div>
-<?php } ?>
-<?php } ?>
+                
+                {!! UI::makeCheckboxesArray(
+                    'table_columns[]',
+                    trans('<?= $gen->getLangAccess() ?>.table-columns'),
+                    $selectedTableColumns
+                ) !!}
+
             </ul>
         </div>
         
