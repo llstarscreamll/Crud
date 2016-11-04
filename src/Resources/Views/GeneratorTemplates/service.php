@@ -110,7 +110,7 @@ class <?= $gen->modelClassName() ?>Service
 <?php if ($field->type == 'enum') { ?>
         $data['<?= $field->name ?>_list_json'] = collect($data['<?= $field->name ?>_list'])
             ->map(function ($item, $key) {
-                return [$key => $item];
+                return [$key => trans('<?= $gen->modelVariableName() ?>.form-labels.<?= $field->name ?>.'.$item)];
             })->values()->toJson();
 <?php } ?>
 <?php } ?>
@@ -141,7 +141,10 @@ class <?= $gen->modelClassName() ?>Service
 <?php } ?>
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->type == 'enum') { ?>
-        $data['<?= $field->name ?>_list'] = $<?= $gen->modelVariableName() ?>->getEnumValuesArray('<?= $field->name ?>');
+        $data['<?= $field->name ?>_list'] = collect($<?= $gen->modelVariableName() ?>->getEnumValuesArray('<?= $field->name ?>'))
+        ->map(function ($item, $key) {
+            return $item = trans('<?= $gen->modelVariableName() ?>.form-labels.<?= $field->name ?>_values.'.$item);
+        })->all();
 <?php } ?>
 <?php } ?>
     

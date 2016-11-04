@@ -63,7 +63,6 @@ class BaseGenerator
                 }
             }
 
-            // everything decided for the field, add it to the array
             $tableFields[$field->name] = $field;
         }
 
@@ -101,7 +100,6 @@ class BaseGenerator
             $field->testDataUpdate = empty($field_data['testDataUpdate']) ? 'null' : $field_data['testDataUpdate'];
             $field->validation_rules = $field_data['validation_rules'];
 
-            // everything decided for the field, add it to the array
             $fields[$field->name] = $field;
         }
 
@@ -942,7 +940,7 @@ class BaseGenerator
      *
      * Genera las reglas de validación para el campo.
      *
-     * @param  stdClass $field
+     * @param stdClass $field
      *
      * @return string
      */
@@ -950,7 +948,7 @@ class BaseGenerator
     {
         $rules = '';
 
-        if ($field->required && $field->name !== "id" && $field->type !== "tinyint" && $method !== "index") {
+        if ($field->required && $field->name !== 'id' && $field->type !== 'tinyint' && $method !== 'index') {
             $rules .= "'required', ";
         }
 
@@ -959,7 +957,7 @@ class BaseGenerator
         }
 
         if (in_array($field->type, $this->numericTypes())
-            && $method == "index"
+            && $method == 'index'
             && ($field->key == 'PRI' || $field->key == 'MUL')
         ) {
             $rules .= "'array', ";
@@ -986,7 +984,7 @@ class BaseGenerator
         }
 
         if ($field->key == 'MUL') {
-            $table = with(new $field->namespace)->getTable();
+            $table = with(new $field->namespace())->getTable();
             $rules .= "'exists:$table,id', ";
         }
 
@@ -1077,7 +1075,7 @@ class BaseGenerator
      */
     public function areWeUsingCoreModule()
     {
-        return (bool)class_exists(\llstarscreamll\Core\Providers\CoreServiceProvider::class);
+        return (bool) class_exists(\llstarscreamll\Core\Providers\CoreServiceProvider::class);
     }
 
     /**
@@ -1115,7 +1113,8 @@ class BaseGenerator
     /**
      * Optiene el tipo de dato nativo del campo, de la base de datos a PHP.
      *
-     * @param  stdClass $field
+     * @param stdClass $field
+     *
      * @return string
      */
     public function getFieldTypeCast($field)
@@ -1128,7 +1127,7 @@ class BaseGenerator
             'time',
         ];
         $cast = 'null';
-        
+
         if (in_array($field->type, $stringTypes)) {
             $cast = 'string';
         }
@@ -1162,5 +1161,25 @@ class BaseGenerator
         }
 
         return $cast;
+    }
+
+    /**
+     * Devuelve string en forma de array "['value', 'value2']" con los posibles
+     * valores de una columna de tipo enum de la base de datos.
+     *
+     * @param  stdClass $field
+     *
+     * @return string
+     */
+    public function getEnumValuesArrayFormField(stdClass $field)
+    {
+        $modelGenerator = new ModelGenerator($this->request);
+        $enumColumnQueryResult = $modelGenerator
+            ->getMysqlTableColumnEnumValues($field->name);
+
+        $values = str_replace('enum(', '', $enumColumnQueryResult);
+        $values = str_replace(')', '', $values);
+
+        return "[$values]";
     }
 }

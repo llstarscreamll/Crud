@@ -34,6 +34,9 @@ return [
 <?php if (strpos($field->validation_rules, 'confirmed')) { ?>
         '<?= $field->name?>_confirmation' => '<?= $gen->getFormFieldName("Confirmar ".$field->label).($gen->isTheFieldRequired($field) ? ' *' : '') ?>',
 <?php } ?>
+<?php if ($field->type == "enum") { ?>
+        '<?= $field->name?>_values' => <?= $gen->getEnumValuesArrayFormField($field) ?>,
+<?php } ?>
 <?php } ?>
     ],
 
