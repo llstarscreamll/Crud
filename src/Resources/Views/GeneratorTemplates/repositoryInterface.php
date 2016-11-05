@@ -12,6 +12,7 @@
 namespace <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Repositories\Contracts;
 
 use Prettus\Repository\Contracts\RepositoryInterface;
+use Illuminate\Support\Collection;
 
 interface <?= $gen->modelClassName() ?>Repository extends RepositoryInterface
 {
@@ -26,5 +27,4 @@ interface <?= $gen->modelClassName() ?>Repository extends RepositoryInterface
     public function destroy($ids);
     
     public function restore($ids);
-
 }
