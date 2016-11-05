@@ -12,6 +12,7 @@ use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
 use llstarscreamll\CrudGenerator\Providers\ModelFactoryGenerator;
 use llstarscreamll\CrudGenerator\Providers\FormRequestGenerator;
 use llstarscreamll\CrudGenerator\Providers\ServiceGenerator;
+use llstarscreamll\CrudGenerator\Providers\RepositoryGenerator;
 
 class GeneratorController extends Controller
 {
@@ -74,6 +75,15 @@ class GeneratorController extends Controller
         $modelFactoryGenerator = new ModelFactoryGenerator($request);
         $formRequestGenerator = new FormRequestGenerator($request);
         $serviceGenerator = new ServiceGenerator($request);
+        $reposGenerator = new RepositoryGenerator($request);
+
+        // genero el repositorio
+        if ($reposGenerator->generate() === false) {
+            return redirect()
+                ->back()
+                ->with('error', 'Ocurrió un error generando los repositorios.');
+        }
+        $msg_success[] = 'Repositorios generados correctamente.';
 
         // genero el Servicio
         if ($serviceGenerator->generate() === false) {
@@ -81,13 +91,14 @@ class GeneratorController extends Controller
                 ->back()
                 ->with('error', 'Ocurrió un error generando el Servicio.');
         }
+        $msg_success[] = 'Servicio generado correctamente.';
+
         // genero el Model Factory
         if ($formRequestGenerator->generate() === false) {
             return redirect()
                 ->back()
                 ->with('error', 'Ocurrió un error generando el Form Request.');
         }
-        // los modelos han sido generados correctamente
         $msg_success[] = 'Form Request generado correctamente.';
 
         // genero el Model Factory
@@ -96,7 +107,6 @@ class GeneratorController extends Controller
                 ->back()
                 ->with('error', 'Ocurrió un error generando el Model Factory.');
         }
-        // los modelos han sido generados correctamente
         $msg_success[] = 'Model Factory generado correctamente.';
 
         ////////////////////////////////////

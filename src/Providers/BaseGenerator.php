@@ -209,6 +209,32 @@ class BaseGenerator
     }
 
     /**
+     * Obtiene string con el namespace del repositorio de un modelo.
+     *
+     * @param string $model El modelo.
+     *
+     * @return string
+     */
+    public function getModelRepositoryNamespace($model)
+    {
+        $modelName = class_basename($model);
+
+        if (str_contains($model, 'llstarscreamll\\Core')) {
+            $repo = "llstarscreamll\\Core\\Contracts\\".$modelName."Repository";
+            if (interface_exists($repo)) {
+                return $repo;
+            }
+        }
+
+        $repo = config('modules.CrudGenerator.config.parent-app-namespace').
+            "\\Repositories\\Contracts\\".
+            $modelName.
+            "Repository";
+
+        return $repo;
+    }
+
+    /**
      * Los campos a omitir.
      *
      * @return array
@@ -1167,7 +1193,7 @@ class BaseGenerator
      * Devuelve string en forma de array "['value', 'value2']" con los posibles
      * valores de una columna de tipo enum de la base de datos.
      *
-     * @param  stdClass $field
+     * @param stdClass $field
      *
      * @return string
      */
@@ -1181,5 +1207,15 @@ class BaseGenerator
         $values = str_replace(')', '', $values);
 
         return "[$values]";
+    }
+
+    /**
+     * Obtiene el nombre del Critirea del repositorio.
+     *
+     * @return string
+     */
+    public function getRepositoryCriteriaName()
+    {
+        return 'Search'.$this->modelClassName().'Criteria';
     }
 }

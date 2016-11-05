@@ -52,7 +52,7 @@
                 ) !!}
 
                     <div class='form-group col-sm-6 {{$errors->has('id') ? 'has-error' : ''}}'>
-                        {!! Form::label('id', trans('<?=$gen->getLangAccess()?>.form-fields.id')) !!}
+                        {!! Form::label('id', trans('<?=$gen->getLangAccess()?>.form-labels.id')) !!}
                         {!! Form::input('text', 'id', null, ['class' => 'form-control', isset($show) ? 'disabled' : '']) !!}
                     </div>
 

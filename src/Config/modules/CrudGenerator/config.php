@@ -74,6 +74,10 @@ return $config = [
     'user-model-namespace' => 'llstarscreamll\Core\Models\User',
     'permission-model-namespace' => 'llstarscreamll\Core\Models\Permission',
     'role-model-namespace' => 'llstarscreamll\Core\Models\Role',
+    // los namespaces de los repositorios de usuario
+    'user-repository-namespace' => 'llstarscreamll\Core\Contracts\UserRepository',
+    'permission-repository-namespace' => 'llstarscreamll\Core\Contracts\PermissionRepository',
+    'role-repository-namespace' => 'llstarscreamll\Core\Contracts\RoleRepository',
     // el nombre del seeder del usuario de prueba
     'test-users-seeder-class' => 'DefaultUsersTableSeeder',
     // el nombre del seeder de la tabla roles
