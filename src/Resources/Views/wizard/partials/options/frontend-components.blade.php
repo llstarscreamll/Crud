@@ -62,6 +62,19 @@
     </div>
 
     <div class="row">
+        <div class="form-group col-sm-6 col-md-2">
+            <label>
+                Include assets?<br>
+            </label>
+            <br>
+            {!! Form::checkbox('include_assets', true, false, [
+                'class' => 'bootstrap_switch',
+                'data-size' => 'mini',
+                'data-on-text' => 'SI',
+                'data-off-text' => 'NO',
+            ]) !!}
+        </div>
+
         <div class="form-group col-sm-4 col-md-3">
             {!! Form::label('UI_theme', 'UI Theme') !!}
             {!! Form::select(

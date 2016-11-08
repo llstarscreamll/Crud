@@ -23,6 +23,7 @@ class GeneratorController extends Controller
     {
         // el usuario debe tener permisos para acceder al controlador
         // $this->middleware('checkPermissions', ['except' => ['store', 'update']]);
+        umask(0); // para evitar problemas con los permisos de ficheros y directorios
     }
 
     /**

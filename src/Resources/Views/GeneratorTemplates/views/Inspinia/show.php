@@ -120,7 +120,9 @@
 {{-- view scripts--}}
 @section('scripts')
 
+<?php if ($request->get('include_assets', false)) { ?>
 @include('<?=$gen->viewsDirName()?>.partials.form-assets')
+<?php } ?>
 @include('<?=$gen->viewsDirName()?>.partials.form-scripts')
 
 @endsection()
