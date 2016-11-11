@@ -73,7 +73,7 @@ class <?= $test ?>Cest
         $I->wantTo('<?= strtolower($gen->getDestroyBtnTxt()) ?> varios registros a la vez en módulo '.Page::$moduleName);
 
         // creo registros de prueba
-        $books = factory(<?= $gen->modelClassName() ?>::class, 10)->create();
+        $<?= str_plural($gen->modelVariableName()) ?> = factory(<?= $gen->modelClassName() ?>::class, 10)->create();
 
         // cuando cargo el Index el botón "<?= $gen->getDestroyBtnTxt() ?>" debe
         // ser mostrado
@@ -81,7 +81,9 @@ class <?= $test ?>Cest
         $I->see(Page::$<?= $gen->getDestroyVariableName() ?>ManyBtn, Page::$<?= $gen->getDestroyVariableName() ?>ManyBtnElem);
         
         // cargo la ruta que "<?= $gen->getDestroyBtnTxt() ?>" los registros
-        $I->destroyMany('<?= $gen->route() ?>.destroy', $books->pluck('id')->toArray());
+        $I->submitForm('#deletemanyForm', [
+            'id' => $<?= str_plural($gen->modelVariableName()) ?>->pluck('id')->toArray()
+        ]);
         
         // soy redirigido al Index y no debe haber datos que mostrar
         $I->seeCurrentUrlEquals(Page::$moduleURL);

@@ -260,8 +260,10 @@ class <?= $test ?>Cest
         // aparecer
         $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
         
-        // cargo la ruta para restaurar todos los registros en papelera
-        $I->restoreMany('<?= $gen->route() ?>.restore', <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>->pluck('id')->toArray());
+        // envío formulario de restauración todos los registros en papelera
+        $I->submitForm('#restoremanyForm', [
+            'id' => $<?= str_plural($gen->modelVariableName()) ?>->pluck('id')->toArray()
+        ]);
         
         // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::$moduleURL);
