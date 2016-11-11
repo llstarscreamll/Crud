@@ -6,4 +6,4 @@ class_name: UnitTester
 modules:
     enabled:
         - Asserts
-        - \CrudGenerator\Helper\Unit
+        - \Crud\Helper\Unit

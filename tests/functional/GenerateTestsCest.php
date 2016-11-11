@@ -1,8 +1,8 @@
 <?php
 
-namespace CrudGenerator;
+namespace Crud;
 
-use CrudGenerator\Page\Functional\Generate as Page;
+use Crud\Page\Functional\Generate as Page;
 
 class GenerateTestsCest
 {

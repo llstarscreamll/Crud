@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -12,7 +12,7 @@
 
 namespace <?= $gen->studlyCasePlural() ?>;
 
-use <?= $modelNamespace = config('modules.CrudGenerator.config.parent-app-namespace')."\Models\\".$gen->modelClassName() ?>;
+use <?= $modelNamespace = config('modules.crud.config.parent-app-namespace')."\Models\\".$gen->modelClassName() ?>;
 use FunctionalTester;
 use Page\Functional\<?= $gen->studlyCasePlural() ?>\<?= $test ?> as Page;
 use Page\Functional\<?= $gen->studlyCasePlural() ?>\Destroy as DestroyPage;

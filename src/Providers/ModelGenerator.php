@@ -1,6 +1,6 @@
 <?php
 
-namespace llstarscreamll\CrudGenerator\Providers;
+namespace llstarscreamll\Crud\Providers;
 
 /**
  *

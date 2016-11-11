@@ -1,8 +1,8 @@
 <?php
 
-namespace llstarscreamll\CrudGenerator\Providers;
+namespace llstarscreamll\Crud\Providers;
 
-use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
+use llstarscreamll\Crud\Providers\BaseGenerator;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -91,7 +91,7 @@ class TestsGenerator extends BaseGenerator
         $this->msg_success[] = "composer dumpautoload exitoso: ".$command;
 
         // recorro el array de tests que debo crear
-        foreach (config('modules.CrudGenerator.config.tests') as $test) {
+        foreach (config('modules.crud.config.tests') as $test) {
             // genero los tests
             if (! $this->generateFunctionalTests($test)) {
                 $this->msg_error[] = "Ocurrió un error generando el Test ".$test.".";

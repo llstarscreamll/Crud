@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -13,7 +13,7 @@
 namespace Page\Functional\<?= $gen->studlyCasePlural() ?>;
 
 use FunctionalTester;
-use <?= config('modules.CrudGenerator.config.user-model-namespace') ?>;
+use <?= config('modules.crud.config.user-model-namespace') ?>;
 <?php if ($request->has('use_faker')) { ?>
 use Faker\Factory as Faker;
 <?php } ?>
@@ -46,8 +46,8 @@ class <?= $test ?>
      * @var string
      */
     public static $moduleName = '{!!$request->get('plural_entity_name')!!}';
-    public static $titleElem = '<?= config('modules.CrudGenerator.uimap.module-title-selector') ?>';
-    public static $titleSmallElem = '<?= config('modules.CrudGenerator.uimap.module-title-small-selector') ?>';
+    public static $titleElem = '<?= config('modules.crud.uimap.module-title-selector') ?>';
+    public static $titleSmallElem = '<?= config('modules.crud.uimap.module-title-small-selector') ?>';
 
     /**
      * El prefijo de los campos de búsqueda en la tabla Index.
@@ -61,7 +61,7 @@ class <?= $test ?>
      *
      * @var string
      */
-    public static $table = '<?= config('modules.CrudGenerator.uimap.index-table-selector') ?>';
+    public static $table = '<?= config('modules.crud.uimap.index-table-selector') ?>';
 
     /**
      * El mensaje mostrado al usuario cuando no tiene los permisos adecuado para
@@ -69,7 +69,7 @@ class <?= $test ?>
      *
      * @var string
      */
-    public static $badPermissionsMsg = '<?= config('modules.CrudGenerator.config.permissions-middleware-msg') ?>';
+    public static $badPermissionsMsg = '<?= config('modules.crud.config.permissions-middleware-msg') ?>';
     public static $badPermissionsMsgElem = '.alert.alert-warning';
 
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
@@ -96,7 +96,7 @@ class <?= $test ?>
      * @var array
      */
     public static $noDataFountMsg = 'No se encontraron registros...';
-    public static $noDataFountMsgElem = '<?= config('modules.CrudGenerator.uimap.alert-warning-selector') ?>';
+    public static $noDataFountMsgElem = '<?= config('modules.crud.uimap.alert-warning-selector') ?>';
 
     /**
      * La info de creación del registro.
@@ -193,9 +193,9 @@ class <?= $test ?>
 
         // creamos permisos de acceso
         \Artisan::call('db:seed', ['--class' => '<?= $gen->modelClassName() ?>PermissionsSeeder']);
-        \Artisan::call('db:seed', ['--class' => '<?= config('modules.CrudGenerator.config.test-roles-seeder-class') ?>']);
+        \Artisan::call('db:seed', ['--class' => '<?= config('modules.crud.config.test-roles-seeder-class') ?>']);
         // creamos usuario admin de prueba
-        \Artisan::call('db:seed', ['--class' => '<?= config('modules.CrudGenerator.config.test-users-seeder-class') ?>']);
+        \Artisan::call('db:seed', ['--class' => '<?= config('modules.crud.config.test-users-seeder-class') ?>']);
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->namespace) { ?>
         \Artisan::call('db:seed', ['--class' => '<?= $gen->getTableSeederClassName($field) ?>']);

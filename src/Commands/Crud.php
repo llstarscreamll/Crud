@@ -1,8 +1,8 @@
 <?php
-namespace llstarscreamll\CrudGenerator\Commands;
+namespace llstarscreamll\Crud\Commands;
 
 use Illuminate\Console\Command;
-use llstarscreamll\CrudGenerator\Db;
+use llstarscreamll\Crud\Db;
 
 class Crud extends Command
 {
@@ -233,7 +233,7 @@ class Crud extends Command
         }
 
         // recorro el array de vistas que debo crear
-        foreach (config('modules.CrudGenerator.config.views') as $view) {
+        foreach (config('modules.Crud.config.views') as $view) {
             // TODO:
             // - Crear vista separada para la tabla del index
             // - Pasar todos los strings de las vistas a variables leidas de el
@@ -335,6 +335,6 @@ class Crud extends Command
 
     public function templatesDir()
     {
-        return config('modules.CrudGenerator.config.templates');
+        return config('modules.Crud.config.templates');
     }
 }

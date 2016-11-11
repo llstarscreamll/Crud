@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 /* @var $foreign_keys [] */
@@ -10,11 +10,11 @@
 <?=  $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Services;
+namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Services;
 
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>;
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository;
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>;
 <?php foreach ($foreign_keys as $foreign) { ?>
 <?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
 use <?= $gen->getModelRepositoryNamespace($class) ?>;
@@ -25,12 +25,12 @@ use Illuminate\Support\Collection;
 /**
  * Clase <?= $gen->modelClassName()."Service\n" ?>
  *
- * @author <?= config('modules.CrudGenerator.config.author') ?> <<?= config('modules.CrudGenerator.config.author_email') ?>>
+ * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
  */
 class <?= $gen->modelClassName() ?>Service
 {
     /**
-     * @var <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository
+     * @var <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository
      */
     private $<?= $gen->modelVariableName() ?>Repository;
 <?php foreach ($foreign_keys as $foreign) { ?>
@@ -72,7 +72,7 @@ class <?= $gen->modelClassName() ?>Service
     /**
      * Crea nueva instancia del servicio.
      *
-     * @param <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository $<?= $gen->modelVariableName() ?>Repository
+     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository $<?= $gen->modelVariableName() ?>Repository
 <?php foreach ($foreign_keys as $foreign) { ?>
 <?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
      * @param <?= ($class = $gen->getModelRepositoryNamespace($class))." ".$gen->modelVariableNameFromClass($class)."\n" ?>
@@ -97,7 +97,7 @@ class <?= $gen->modelClassName() ?>Service
      * Obtiene datos de consulta predeterminada o lo que indique el usuario de
      * la entidad para la vista Index.
      *
-     * @param  <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
      *
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
@@ -127,7 +127,7 @@ class <?= $gen->modelClassName() ?>Service
     /**
      * Obtiene los datos para la vista Index.
      *
-     * @param  <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
      *
      * @return array
      */
@@ -239,9 +239,9 @@ class <?= $gen->modelClassName() ?>Service
     /**
      * Guarda en base de datos nuevo registro de <?= $request->get('single_entity_name') ?>.
      *
-     * @param  <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
      *
-     * @return <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName()."\n" ?>
+     * @return <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName()."\n" ?>
      */
     public function store(<?= $gen->modelClassName()."Request" ?> $request)
     {
@@ -255,9 +255,9 @@ class <?= $gen->modelClassName() ?>Service
      * Realiza actualización de <?= $request->get('single_entity_name') ?>.
      *
      * @param  int  $id
-     * @param  <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
      *
-     * @return  <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName()."\n" ?>
+     * @return  <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName()."\n" ?>
      */
     public function update(int $id, <?= $gen->modelClassName()."Request" ?> $request)
     {
@@ -284,7 +284,7 @@ class <?= $gen->modelClassName() ?>Service
      * Realiza acción de <?= strtolower($gen->getDestroyBtnTxt()) ?> registro de <?= $request->get('single_entity_name') ?>.
      *
      * @param  int  $id
-     * @param  <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
      */
     public function destroy(int $id, <?= $gen->modelClassName()."Request" ?> $request)
     {
@@ -302,7 +302,7 @@ class <?= $gen->modelClassName() ?>Service
      * Realiza restauración de <?= $request->get('single_entity_name') ?>.
      *
      * @param  int  $id
-     * @param  <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
      */
     public function restore(int $id, <?= $gen->modelClassName()."Request" ?> $request)
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace llstarscreamll\CrudGenerator\Providers;
+namespace llstarscreamll\Crud\Providers;
 
 use stdClass;
 
@@ -226,7 +226,7 @@ class BaseGenerator
             }
         }
 
-        $repo = config('modules.CrudGenerator.config.parent-app-namespace').
+        $repo = config('modules.crud.config.parent-app-namespace').
             "\\Repositories\\Contracts\\".
             $modelName.
             "Repository";
@@ -352,7 +352,7 @@ class BaseGenerator
      */
     public function modelsDir()
     {
-        return app_path().'/Models';
+        return app_path('Models');
     }
 
     /**
@@ -442,7 +442,7 @@ class BaseGenerator
      */
     public function templatesDir()
     {
-        return config('modules.CrudGenerator.config.templates');
+        return config('modules.crud.config.templates');
     }
 
     /**
@@ -666,11 +666,11 @@ class BaseGenerator
      */
     public function getViewCopyRightDocBlock()
     {
-        $link = config('modules.CrudGenerator.config.link');
-        $author = config('modules.CrudGenerator.config.author');
-        $license = config('modules.CrudGenerator.config.license');
-        $copyRight = config('modules.CrudGenerator.config.copyright');
-        $authorEmail = config('modules.CrudGenerator.config.author_email');
+        $link = config('modules.crud.config.link');
+        $author = config('modules.crud.config.author');
+        $license = config('modules.crud.config.license');
+        $copyRight = config('modules.crud.config.copyright');
+        $authorEmail = config('modules.crud.config.author_email');
         $package = !empty($this->request->get('is_part_of_package'))
             ? $this->request->get('is_part_of_package')
             : $this->request->get('plural_entity_name');
@@ -690,11 +690,11 @@ class BaseGenerator
 
     public function getClassCopyRightDocBlock()
     {
-        $link = config('modules.CrudGenerator.config.link');
-        $author = config('modules.CrudGenerator.config.author');
-        $license = config('modules.CrudGenerator.config.license');
-        $copyRight = config('modules.CrudGenerator.config.copyright');
-        $authorEmail = config('modules.CrudGenerator.config.author_email');
+        $link = config('modules.crud.config.link');
+        $author = config('modules.crud.config.author');
+        $license = config('modules.crud.config.license');
+        $copyRight = config('modules.crud.config.copyright');
+        $authorEmail = config('modules.crud.config.author_email');
         $package = !empty($this->request->get('is_part_of_package'))
             ? $this->request->get('is_part_of_package')
             : $this->request->get('plural_entity_name');
@@ -974,13 +974,20 @@ class BaseGenerator
     {
         $rules = '';
 
-        if ($field->required && $field->name !== 'id' && $field->type !== 'tinyint' && $method !== 'index') {
+        if ($field->required &&
+            $field->name !== 'id' &&
+            $field->type !== 'tinyint' &&
+            $method !== 'index'
+        ) {
             $rules .= "'required', ";
         }
 
-        if (in_array($field->type, $this->numericTypes()) && ($field->key != 'PRI' && $field->key != 'MUL')) {
+        if (in_array($field->type, $this->numericTypes()) &&
+            ($field->key != 'PRI' && $field->key != 'MUL')
+        ) {
             $rules .= "'numeric', ";
         }
+
 
         if (in_array($field->type, $this->numericTypes())
             && $method == 'index'
@@ -1010,7 +1017,7 @@ class BaseGenerator
         }
 
         if ($field->key == 'MUL') {
-            $table = with(new $field->namespace())->getTable();
+            $table = with(new $field->namespace)->getTable();
             $rules .= "'exists:$table,id', ";
         }
 
@@ -1101,7 +1108,7 @@ class BaseGenerator
      */
     public function areWeUsingCoreModule()
     {
-        return (bool) class_exists(\llstarscreamll\Core\Providers\CoreServiceProvider::class);
+        return (boolean) class_exists(\llstarscreamll\Core\Providers\CoreServiceProvider::class);
     }
 
     /**

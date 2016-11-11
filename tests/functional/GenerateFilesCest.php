@@ -1,9 +1,9 @@
 <?php
 
-namespace CrudGenerator;
+namespace Crud;
 
-use CrudGenerator\FunctionalTester;
-use CrudGenerator\Page\Functional\Generate as Page;
+use Crud\FunctionalTester;
+use Crud\Page\Functional\Generate as Page;
 
 class GenerateFilesCest
 {
@@ -39,7 +39,7 @@ class GenerateFilesCest
         $I->seeFileFound('Book.php', base_path().'/app/Models');
         $I->seeFileFound('BookController.php', base_path().'/app/Http/Controllers');
         // los tests
-        foreach (config('modules.CrudGenerator.config.tests') as $test) {
+        foreach (config('modules.crud.config.tests') as $test) {
             if ($test != 'Permissions') {
                 $I->seeFileFound($test.'.php', base_path().'/tests/_support/Page/Functional/Books');
             }
@@ -48,7 +48,7 @@ class GenerateFilesCest
         }
 
         // las vistas
-        foreach (config('modules.CrudGenerator.config.views') as $view) {
+        foreach (config('modules.crud.config.views') as $view) {
             if (strpos($view, 'partials/') === false) {
                 $I->seeFileFound($view.'.blade.php', base_path().'/resources/views/books');
                 continue;

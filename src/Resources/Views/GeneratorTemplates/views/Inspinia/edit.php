@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -15,7 +15,7 @@
     ****************************************************************************
 --}}
 
-@extends('<?=config('modules.CrudGenerator.config.layout')?>')
+@extends('<?=config('modules.crud.config.layout')?>')
 
 {{-- page title --}}
 @section('title') {{trans('<?= $gen->solveSharedResourcesNamespace() ?>.views.edit').trans('<?=$gen->getLangAccess()?>.module.name-singular')}} @endsection
@@ -41,7 +41,7 @@
             {{-- box content --}}
             <div class="ibox-content">
 
-                @include ('<?=config('modules.CrudGenerator.config.layout-namespace')?>partials.notifications')
+                @include ('<?=config('modules.crud.config.layout-namespace')?>partials.notifications')
 
                 {!! Form::model(
                     $<?=$gen->modelVariableName()?>,

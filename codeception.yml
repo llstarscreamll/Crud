@@ -1,4 +1,4 @@
-namespace: CrudGenerator
+namespace: Crud
 actor: Tester
 paths:
     tests: tests

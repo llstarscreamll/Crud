@@ -9,7 +9,7 @@ CrudGenerator es un paquete de laravel para la generación de aplicaciones CRUD 
 Clonar el repositorio donde se desee:
 
 ```bash
-git clone git@github.com:llstarscreamll/CrudGenerator.git packages/llstarscreamll/CrudGenerator
+git clone git@github.com:llstarscreamll/CrudGenerator.git packages/llstarscreamll/crud
 ```
 
 Añadir el service provider en `config/app.php`:
@@ -65,6 +65,25 @@ Esta app genera los siguientes archivos, según la configuración deseada:
     - Show
     - Destroy
     - Permissions
+
+# Tests #
+
+Las pruebas automatizadas están hechas con el Framework **Codeception**. El paquete no está incluido dentro de las dependencias del paquete en el archivo `composer.json`, así que Codeception se debe instalar globalmente para un hacer mas fluido el desarrollo de mas paquetes:
+
+```bash
+composer global require "codeception/codeception=*"
+composer global require "codeception/specify=*"
+composer global require "codeception/verify=*"
+sudo ln -s ~/global/composer/vendor/bin/codecept /usr/local/bin/codecept
+```
+
+>> Reemplazar `~/global/composer/vendor/bin/codecept`con la ruta donde se encuentra el direcotio bin global de composer, ejecutar el comando `composer config --list --global | grep home``y copiar la ruta correcta.
+
+Para correr las pruebas funcionales del paquete ir a la carpeta donde se ha clonado el proyecto y ejecutar el comando:
+
+```bash
+codecept run functional
+```
 
 ## Extra, configuraciones óptimas para Laravel en servidor Nginx
 

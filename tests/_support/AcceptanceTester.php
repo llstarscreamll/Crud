@@ -1,5 +1,5 @@
 <?php
-namespace CrudGenerator;
+namespace Crud;
 
 /**
  * Inherited Methods

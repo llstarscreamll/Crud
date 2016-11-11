@@ -1,8 +1,8 @@
 <?php
 
-namespace llstarscreamll\CrudGenerator\Providers;
+namespace llstarscreamll\Crud\Providers;
 
-use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
+use llstarscreamll\Crud\Providers\BaseGenerator;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 

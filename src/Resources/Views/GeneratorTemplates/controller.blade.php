@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 /* @var $foreign_keys [] */
@@ -10,17 +10,17 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Controllers;
+namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Controllers;
 
 use Illuminate\Http\Request;
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Services\<?= $gen->modelClassName() ?>Service;
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>;
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Controllers\Controller;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Services\<?= $gen->modelClassName() ?>Service;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Controllers\Controller;
 
 /**
  * Clase <?= $gen->controllerClassName() ?>
  *
- * @author <?= config('modules.CrudGenerator.config.author') ?> <<?= config('modules.CrudGenerator.config.author_email') ?>>
+ * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
  */
 class <?= $gen->controllerClassName() ?> extends Controller
 {
@@ -32,7 +32,7 @@ class <?= $gen->controllerClassName() ?> extends Controller
     private $viewsDir = "<?= $gen->viewsDirName() ?>";
     
     /**
-     * <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Services\<?= $gen->modelClassName() ?>Service
+     * <?= config('modules.crud.config.parent-app-namespace') ?>\Services\<?= $gen->modelClassName() ?>Service
      */
     private $<?= $gen->modelVariableName() ?>Service;
     
@@ -44,14 +44,14 @@ class <?= $gen->controllerClassName() ?> extends Controller
         // el usuario debe estar autenticado para acceder al controlador
         $this->middleware('auth');
         // el usuario debe tener permisos para acceder al controlador
-        $this->middleware('<?= config("modules.CrudGenerator.config.permissions-middleware") ?>', ['except' => ['store', 'update']]);
+        $this->middleware('<?= config("modules.crud.config.permissions-middleware") ?>', ['except' => ['store', 'update']]);
         $this-><?= $gen->modelVariableName() ?>Service = $<?= $gen->modelVariableName() ?>Service;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @param <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
+     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      *
      * @return Illuminate\Http\Response
      */
@@ -77,7 +77,7 @@ class <?= $gen->controllerClassName() ?> extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
      *
      * @return Illuminate\Http\Response
      */
@@ -116,7 +116,7 @@ class <?= $gen->controllerClassName() ?> extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
+     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      * @param int $id
      *
      * @return Illuminate\Http\Response
@@ -135,7 +135,7 @@ class <?= $gen->controllerClassName() ?> extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
+     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      * @param int $id
      *
      * @return Illuminate\Http\Response
@@ -150,7 +150,7 @@ class <?= $gen->controllerClassName() ?> extends Controller
     /**
      * Restore the specified resource from storage.
      *
-     * @param <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
+     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      * @param int $id
      *
      * @return Illuminate\Http\Response

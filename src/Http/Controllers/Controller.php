@@ -1,6 +1,6 @@
 <?php
 
-namespace llstarscreamll\CrudGenerator\Http\Controllers;
+namespace llstarscreamll\Crud\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

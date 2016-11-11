@@ -1,4 +1,4 @@
-@extends(config('modules.CrudGenerator.config.layout'))
+@extends(config('modules.crud.config.layout'))
 
 @section('title') Opciones CRUD @stop
 
@@ -38,14 +38,14 @@
         <div class="panel panel-default">
             
             <div class="panel-heading">
-                CrudGenerator
+                Crud
             </div>
 
             <div class="panel-body">
 
-                @include (config('modules.CrudGenerator.config.layout-namespace').'partials.notifications')
+                @include (config('modules.crud.config.layout-namespace').'partials.notifications')
                 
-                {!! Form::model($options, ['route' => 'crudGenerator.generate', 'method' => 'POST', 'name' => 'CRUD-form']) !!}
+                {!! Form::model($options, ['route' => 'crud.generate', 'method' => 'POST', 'name' => 'CRUD-form']) !!}
 
                     {!! Form::hidden('table_name', $table_name) !!}
                     

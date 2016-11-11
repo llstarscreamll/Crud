@@ -13,15 +13,15 @@
 
 Route::group(
     [
-        'prefix' => 'crudGenerator',
+        'prefix' => 'crud',
         'middleware' => ['web', 'auth'],
-        'namespace' => 'llstarscreamll\CrudGenerator\Http\Controllers',
+        'namespace' => 'llstarscreamll\Crud\Http\Controllers',
     ],
     function () {
         Route::get(
             '/',
             [
-                'as' => 'crudGenerator.index',
+                'as' => 'crud.index',
                 'uses' => 'GeneratorController@index'
             ]
         );
@@ -29,7 +29,7 @@ Route::group(
         Route::post(
             '/fire',
             [
-                'as' => 'crudGenerator.generate',
+                'as' => 'crud.generate',
                 'uses' => 'GeneratorController@generate'
             ]
         );
@@ -37,7 +37,7 @@ Route::group(
         Route::get(
             '/showOptions',
             [
-                'as' => 'crudGenerator.showOptions',
+                'as' => 'crud.showOptions',
                 'uses' => 'GeneratorController@showOptions'
             ]
         );

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Este archivo es parte de llstarscreamll\CrudGenerator, aquí se muestran todas
+ * Este archivo es parte de llstarscreamll\Crud, aquí se muestran todas
  * las opciones de configuración del paquete.
  *
  * @license MIT
- * @package llstarscreamll\CrudGenerator
+ * @package llstarscreamll\Crud
  */
 
 return $config = [
@@ -13,8 +13,8 @@ return $config = [
     /**
      * Información del paquete.
      */
-    'module-info'   =>  [
-        'name'      =>  'CrudGenerator',
+    'module-info' =>  [
+        'name' =>  'crud',
     ],
 
     'supported_ui_themes' => ['Bootstrap', 'Inspinia'],
@@ -63,8 +63,8 @@ return $config = [
     /**
      * La plantilla que las vistas generadas extenderán
      */
-    'layout'    => 'core::layouts.app-sidebar',
-    'layout-namespace'    => 'core::',
+    'layout' => 'core::layouts.app-sidebar',
+    'layout-namespace' => 'core::',
     'core-assets-namespase' => 'core/', // no olvidar el "/" si es que hay namespace
 
     // el namespace de las clases a generar

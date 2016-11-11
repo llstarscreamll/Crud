@@ -1,8 +1,8 @@
 <?php
 
-namespace llstarscreamll\CrudGenerator\Providers;
+namespace llstarscreamll\Crud\Providers;
 
-use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
+use llstarscreamll\Crud\Providers\BaseGenerator;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -58,6 +58,8 @@ class FormRequestGenerator extends BaseGenerator
             ]
         );
 
+        //dd($content, $formRequestFile);
+
         if (file_put_contents($formRequestFile, $content) === false) {
             $this->msg_error[] = 'Error generando Form Request';
             return false;
@@ -75,6 +77,6 @@ class FormRequestGenerator extends BaseGenerator
      */
     public function formRequestsDir()
     {
-        return app_path('/Http/Requests');
+        return app_path('Http/Requests');
     }
 }

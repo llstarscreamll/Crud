@@ -1,8 +1,8 @@
 <?php
-namespace CrudGenerator;
+namespace Crud;
 
-use CrudGenerator\FunctionalTester;
-use CrudGenerator\Page\Functional\Generate as Page;
+use Crud\FunctionalTester;
+use Crud\Page\Functional\Generate as Page;
 
 class GenerateRoutesCest
 {

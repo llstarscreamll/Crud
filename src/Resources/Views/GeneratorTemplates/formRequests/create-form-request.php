@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\FormRequestGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\FormRequestGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -10,22 +10,22 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Http\Requests;
+namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests;
 
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Http\FormRequest;
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>;
 <?php if ($request->get('use_x_editable', false)) { ?>
 <?php if ($gen->areWeUsingCoreModule()) { ?>
 use llstarscreamll\Core\Traits\FormRequestXEditableSetup;
 <?php } else { ?>
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Traits\FormRequestXEditableSetup;<?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Traits\FormRequestXEditableSetup;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Traits\FormRequestXEditableSetup;<?= config('modules.crud.config.parent-app-namespace') ?>\Traits\FormRequestXEditableSetup;
 <?php } ?>
 <?php } else { ?>
 <?php if ($gen->areWeUsingCoreModule()) { ?>
 use llstarscreamll\Core\Traits\FormRequestBasicSetup;
 <?php } else { ?>
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Traits\FormRequestBasicSetup;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Traits\FormRequestBasicSetup;
 <?php } ?>
 <?php } ?>
 
@@ -38,7 +38,7 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
 <?php } ?>
 
     /**
-     * @var <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>
+     * @var <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>
 
      */
     private $<?= $gen->modelVariableName() ?>;
@@ -54,8 +54,8 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
      * @var array
      */
     private $routesAuthMap = [
-        '<?=$gen->route()?>.store' => '<?=$gen->route()?>.create',
-        '<?=$gen->route()?>.update' => '<?=$gen->route()?>.edit',
+        '<?= $gen->route() ?>.store' => '<?= $gen->route() ?>.create',
+        '<?= $gen->route() ?>.update' => '<?= $gen->route() ?>.edit',
     ];
 
     /**

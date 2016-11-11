@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -38,7 +38,7 @@ class <?= $test ?> extends Index
      * @var string
      */
     public static $msgSuccess = '<?= $gen->getDestroySuccessMsgSingle() ?>';
-    public static $msgSuccessElem = '<?= config('modules.CrudGenerator.uimap.alert-success-selector') ?>';
+    public static $msgSuccessElem = '<?= config('modules.crud.uimap.alert-success-selector') ?>';
 
     public function __construct(FunctionalTester $I)
     {

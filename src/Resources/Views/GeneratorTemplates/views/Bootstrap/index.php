@@ -1,10 +1,10 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
 
-@extends('<?=config('modules.CrudGenerator.config.layout')?>')
+@extends('<?=config('modules.crud.config.layout')?>')
 
 @section('title') {{trans('<?=$gen->getLangAccess()?>.module.name')}} @endsection
 
@@ -134,7 +134,7 @@
                     
                     </div>
 
-                    @include('<?=config('modules.CrudGenerator.config.layout-namespace')?>partials.notifications')
+                    @include('<?=config('modules.crud.config.layout-namespace')?>partials.notifications')
 
                 </div>
 

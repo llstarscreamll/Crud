@@ -1,4 +1,4 @@
-@extends(config('modules.CrudGenerator.config.layout'))
+@extends(config('modules.crud.config.layout'))
 
 @section('title') Generar CRUD @stop
 
@@ -11,13 +11,13 @@
     <div class="panel panel-default">
         
         <div class="panel-heading">
-            CrudGenerator
+            Crud
         </div>
 
         <div class="panel-body">
-            @include (config('modules.CrudGenerator.config.layout-namespace').'partials.notifications')
+            @include (config('modules.crud.config.layout-namespace').'partials.notifications')
 			
-            {!! Form::open(['route' => 'crudGenerator.showOptions', 'method' => 'GET']) !!}
+            {!! Form::open(['route' => 'crud.showOptions', 'method' => 'GET']) !!}
                 
                 <div class="col-sm-8 col-sm-offset-2">    
                     @include('crud::wizard.partials.create-edit-form')

@@ -1,6 +1,6 @@
 <?php
 
-namespace llstarscreamll\CrudGenerator\Providers;
+namespace llstarscreamll\Crud\Providers;
 
 /**
  *
@@ -134,10 +134,10 @@ class RepositoryGenerator extends BaseGenerator
         );
 
         // generamos el string del binding
-        $contract = config('modules.CrudGenerator.config.parent-app-namespace').
+        $contract = config('modules.crud.config.parent-app-namespace').
             '\\Repositories\\Contracts\\'.
             $this->getRepositoryInterfaceName();
-        $implementation = config('modules.CrudGenerator.config.parent-app-namespace').
+        $implementation = config('modules.crud.config.parent-app-namespace').
             '\\Repositories\\'.
             $this->getRepositoryImplementationName();
         $binding = "\$this->app->bind('$contract', '$implementation');";

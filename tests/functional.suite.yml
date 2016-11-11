@@ -8,7 +8,7 @@ class_name: FunctionalTester
 modules:
     enabled:
         # add framework module here
-        - \CrudGenerator\Helper\Functional
+        - \Crud\Helper\Functional
         - Filesystem
         - Laravel5:
             environment_file: .env.testing

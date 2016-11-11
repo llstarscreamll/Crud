@@ -9,4 +9,4 @@ modules:
     enabled:
         - PhpBrowser:
             url: http://localhost/myapp
-        - \CrudGenerator\Helper\Acceptance
+        - \Crud\Helper\Acceptance

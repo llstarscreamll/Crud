@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -54,7 +54,7 @@ class <?= $test ?> extends Index
      *
      * @var array
      */
-    public static $formBtnElem = '<?=config('modules.CrudGenerator.uimap.create-form-button-selector') ?>';
+    public static $formBtnElem = '<?=config('modules.crud.uimap.create-form-button-selector') ?>';
 
     /**
      * Mensaje de éxito al crear un registro.
@@ -62,7 +62,7 @@ class <?= $test ?> extends Index
      * @var array
      */
     public static $msgSuccess = '<?= $gen->getStoreSuccessMsg() ?>';
-    public static $msgSuccessElem = '<?= config('modules.CrudGenerator.uimap.alert-success-selector') ?>';
+    public static $msgSuccessElem = '<?= config('modules.crud.uimap.alert-success-selector') ?>';
 
     public function __construct(FunctionalTester $I)
     {

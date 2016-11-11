@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -9,12 +9,12 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Repositories;
+namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository;
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>;
-use <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Repositories\Criterias\<?= $gen->getRepositoryCriteriaName() ?>;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Criterias\<?= $gen->getRepositoryCriteriaName() ?>;
 use Illuminate\Support\Collection;
 
 class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository implements <?= $gen->modelClassName() ?>Repository
@@ -35,7 +35,7 @@ class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository imp
     /**
      * Especifica modelo Eloquent.
      *
-     * @return <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName()."\n" ?>
+     * @return <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName()."\n" ?>
      */
     public function model()
     {

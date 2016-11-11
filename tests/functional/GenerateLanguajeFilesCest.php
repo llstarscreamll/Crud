@@ -2,8 +2,8 @@
 
 namespace CRUD;
 
-use CrudGenerator\FunctionalTester;
-use CrudGenerator\Page\Functional\Generate as Page;
+use Crud\FunctionalTester;
+use Crud\Page\Functional\Generate as Page;
 
 class GenerateLanguajeFilesCest
 {
@@ -26,7 +26,7 @@ class GenerateLanguajeFilesCest
     {
         $I->wantTo('revisar archivo de lenguaje generado');
 
-        $I->openFile(base_path().'/resources/lang/es/book/views.php');
+        $I->openFile(base_path().'/resources/lang/es/book.php');
         $langFile = file_get_contents(__DIR__.'/../_data/lang/views.php');
         $I->seeInThisFile($langFile);
     }

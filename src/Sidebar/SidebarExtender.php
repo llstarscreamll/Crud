@@ -1,6 +1,6 @@
 <?php
 
-namespace llstarscreamll\CrudGenerator\Sidebar;
+namespace llstarscreamll\Crud\Sidebar;
 
 use Maatwebsite\Sidebar\Badge;
 use Maatwebsite\Sidebar\Group;
@@ -20,11 +20,11 @@ class SidebarExtender implements \Maatwebsite\Sidebar\SidebarExtender
             '',
             function (Group $group) {
                 $group->item(
-                    'Crud Generator',
+                    'Crud',
                     function (Item $item) {
                         $item->icon('fa fa-magic');
                         $item->weight(0);
-                        $item->route('crudGenerator.index');
+                        $item->route('crud.index');
                         $item->authorize(
                             // TODO:
                             // - Crear seed con permisos para este módulo

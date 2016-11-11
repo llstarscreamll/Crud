@@ -1,8 +1,8 @@
 <?php
 
-namespace CrudGenerator\Page\Functional;
+namespace Crud\Page\Functional;
 
-use CrudGenerator\FunctionalTester;
+use Crud\FunctionalTester;
 use llstarscreamll\Core\Models\User;
 use llstarscreamll\Core\Models\Role;
 
@@ -359,7 +359,7 @@ class Generate
      *
      * @var string
      */
-    public static $URL = '/crudGenerator/showOptions';
+    public static $URL = '/crud/showOptions';
 
     /**
      * The user admin data, this user is the actor
@@ -385,7 +385,7 @@ class Generate
      *
      * @var string
      */
-    public static $title = 'CrudGenerator';
+    public static $title = 'Crud';
 
     /**
      * El elemento que contiene el título.

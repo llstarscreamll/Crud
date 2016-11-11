@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -9,7 +9,7 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-$factory->define(<?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>::class, function (Faker\Generator $faker) {
+$factory->define(<?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>::class, function (Faker\Generator $faker) {
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->namespace) { ?>
     <?= $gen->modelVariableNameFromClass($field->namespace, 'plural') ?> = <?= $field->namespace ?>::all('id')->pluck('id')->toArray();

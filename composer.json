@@ -23,7 +23,7 @@
     "require-dev": {},
     "autoload": {
         "psr-4": {
-            "llstarscreamll\\CrudGenerator\\": "src/"
+            "llstarscreamll\\Crud\\": "src/"
         }
     },
     "minimum-stability": "stable",

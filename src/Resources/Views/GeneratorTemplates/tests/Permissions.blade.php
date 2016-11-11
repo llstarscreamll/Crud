@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -13,9 +13,9 @@
 namespace <?= $gen->studlyCasePlural() ?>;
 
 use FunctionalTester;
-use <?= $modelNamespace = config('modules.CrudGenerator.config.parent-app-namespace')."\Models\\".$gen->modelClassName() ?>;
-use <?= config('modules.CrudGenerator.config.role-model-namespace') ?>;
-use <?= config('modules.CrudGenerator.config.permission-model-namespace') ?>;
+use <?= $modelNamespace = config('modules.crud.config.parent-app-namespace')."\Models\\".$gen->modelClassName() ?>;
+use <?= config('modules.crud.config.role-model-namespace') ?>;
+use <?= config('modules.crud.config.permission-model-namespace') ?>;
 use Page\Functional\<?= $gen->studlyCasePlural() ?>\Index as Page;
 use Page\Functional\<?= $gen->studlyCasePlural() ?>\Destroy as DestroyPage;
 use Page\Functional\<?= $gen->studlyCasePlural() ?>\Create as CreatePage;
@@ -50,7 +50,7 @@ class <?= $test ?>Cest
         ];
 
         // quitamos permisos de edición a los roles
-        $permission = Permission::whereIn('<?= config('modules.CrudGenerator.config.permission-slug-field-name') ?>', $permissions)
+        $permission = Permission::whereIn('<?= config('modules.crud.config.permission-slug-field-name') ?>', $permissions)
             ->get(['id'])
             ->pluck('id')
             ->toArray();

@@ -1,11 +1,11 @@
 <?php
 
-namespace llstarscreamll\CrudGenerator\Providers;
+namespace llstarscreamll\Crud\Providers;
 
 use Illuminate\Foundation\AliasLoader;
 use Illuminate\Support\ServiceProvider;
 
-class CrudGeneratorServiceProvider extends ServiceProvider
+class CrudServiceProvider extends ServiceProvider
 {
     /**
      * La versión del paquete.
@@ -91,7 +91,7 @@ class CrudGeneratorServiceProvider extends ServiceProvider
             // publica las vistas para generar los archivos
             $this->publishes(
                 [
-                __DIR__.'/../Resources/Views/GeneratorTemplates' => base_path('resources/views/vendor/CrudGenerator/templates'),
+                __DIR__.'/../Resources/Views/GeneratorTemplates' => base_path('resources/views/vendor/crud/templates'),
                 ],
                 'views'
             );

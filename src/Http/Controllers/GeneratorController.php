@@ -1,18 +1,18 @@
 <?php
 
-namespace llstarscreamll\CrudGenerator\Http\Controllers;
+namespace llstarscreamll\Crud\Http\Controllers;
 
 use Illuminate\Http\Request;
-use llstarscreamll\CrudGenerator\Providers\ModelGenerator;
-use llstarscreamll\CrudGenerator\Providers\RouteGenerator;
-use llstarscreamll\CrudGenerator\Providers\ControllerGenerator;
-use llstarscreamll\CrudGenerator\Providers\ViewsGenerator;
-use llstarscreamll\CrudGenerator\Providers\TestsGenerator;
-use llstarscreamll\CrudGenerator\Providers\BaseGenerator;
-use llstarscreamll\CrudGenerator\Providers\ModelFactoryGenerator;
-use llstarscreamll\CrudGenerator\Providers\FormRequestGenerator;
-use llstarscreamll\CrudGenerator\Providers\ServiceGenerator;
-use llstarscreamll\CrudGenerator\Providers\RepositoryGenerator;
+use llstarscreamll\Crud\Providers\ModelGenerator;
+use llstarscreamll\Crud\Providers\RouteGenerator;
+use llstarscreamll\Crud\Providers\ControllerGenerator;
+use llstarscreamll\Crud\Providers\ViewsGenerator;
+use llstarscreamll\Crud\Providers\TestsGenerator;
+use llstarscreamll\Crud\Providers\BaseGenerator;
+use llstarscreamll\Crud\Providers\ModelFactoryGenerator;
+use llstarscreamll\Crud\Providers\FormRequestGenerator;
+use llstarscreamll\Crud\Providers\ServiceGenerator;
+use llstarscreamll\Crud\Providers\RepositoryGenerator;
 
 class GeneratorController extends Controller
 {
@@ -173,7 +173,7 @@ class GeneratorController extends Controller
         $request->session()->flash('warning', $msg_warning);
 
         return redirect()
-            ->route('crudGenerator.showOptions', ['table_name' => $request->get('table_name')]);
+            ->route('crud.showOptions', ['table_name' => $request->get('table_name')]);
     }
 
     /**
@@ -194,7 +194,7 @@ class GeneratorController extends Controller
     private function generateOptionsArray($request)
     {
         // no se ha creado la carpeta donde guardo las opciones de los CRUD generados?
-        if (!file_exists($path = base_path().'/config/modules/CrudGenerator/generated')) {
+        if (!file_exists($path = base_path().'/config/modules/crud/generated')) {
             // entonces la creo
             mkdir($path, 0755, true);
         }
@@ -228,8 +228,8 @@ class GeneratorController extends Controller
 
         // si ya he trabajado con la tabla en cuestion, cargo las opciones
         // de la última ves en que se genero el CRUD para esa taba
-        if (file_exists(base_path().'/config/modules/CrudGenerator/generated/'.$request->get('table_name').'.php')) {
-            $data['options'] = config('modules.CrudGenerator.generated.'.$request->get('table_name'));
+        if (file_exists(base_path().'/config/modules/crud/generated/'.$request->get('table_name').'.php')) {
+            $data['options'] = config('modules.crud.generated.'.$request->get('table_name'));
         } else {
             $data['options'] = [];
         }
@@ -239,8 +239,8 @@ class GeneratorController extends Controller
         $data['fields'] = array_values($modelGenerator->fields($request->get('table_name')));
         $data['table_name'] = $request->get('table_name');
         $data['UI_themes'] = array_combine(
-            config('modules.CrudGenerator.config.supported_ui_themes'),
-            config('modules.CrudGenerator.config.supported_ui_themes')
+            config('modules.crud.config.supported_ui_themes'),
+            config('modules.crud.config.supported_ui_themes')
         );
 
         return view('crud::wizard.options', $data);

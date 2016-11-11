@@ -2,8 +2,8 @@
 
 namespace CRUD;
 
-use CrudGenerator\FunctionalTester;
-use CrudGenerator\Page\Functional\Generate as Page;
+use Crud\FunctionalTester;
+use Crud\Page\Functional\Generate as Page;
 
 class GenerateModelCest
 {

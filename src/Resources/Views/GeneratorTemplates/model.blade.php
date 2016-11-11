@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\CrudGenerator\Providers\TestsGenerator */
+/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -9,7 +9,7 @@
 <?= $gen->getClassCopyRightDocBlock() ?>
 
 
-namespace <?= config('modules.CrudGenerator.config.parent-app-namespace') ?>\Models;
+namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Models;
 
 use Illuminate\Database\Eloquent\Model;
 <?php if (($hasSoftDelete = $gen->hasDeletedAtColumn($fields))) { ?>
