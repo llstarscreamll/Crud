@@ -264,12 +264,12 @@ class <?= $gen->modelClassName() ?>Service
 <?php if ($request->get('use_x_editable', false)) { ?>
         if ($request->isXmlHttpRequest()) {
             $data = [$request->name  => $request->value];
-            $this-><?= $gen->modelVariableName() ?>Repository->update($data, $id);
+            $<?= $gen->modelVariableName() ?> = $this-><?= $gen->modelVariableName() ?>Repository->update($data, $id);
             return $<?= $gen->modelVariableName() ?>;
         }
 
 <?php } ?>
-        $this-><?= $gen->modelVariableName() ?>Repository->update($request->all(), $id);
+        $<?= $gen->modelVariableName() ?> = $this-><?= $gen->modelVariableName() ?>Repository->update($request->all(), $id);
         session()->flash(
             'success',
             trans('<?= $gen->getLangAccess() ?>.update_<?= $gen->snakeCaseSingular() ?>_success')
