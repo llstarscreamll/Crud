@@ -103,7 +103,6 @@ class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository imp
                 return $item = trans('<?= $gen->modelVariableName() ?>.form-labels.status_values.'.$item);
             })->all();
     }
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
 
     /**
      * <?= $gen->getDestroyBtnTxt() ?> uno o varios registros.
@@ -116,6 +115,7 @@ class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository imp
     {
         return $this->model->destroy($ids);
     }
+<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
 
     /**
      * Restaura de papelera uno o varios registros.
