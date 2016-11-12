@@ -28,25 +28,25 @@
         'class' => 'form-inline display-inline'
     ]) !!}
         
-        {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para "eliminar" varios registro a la vez --}}
-        <button title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-many-btn')}}"
+        {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para <?= strtolower($gen->getDestroyBtnTxt()) ?> varios registro a la vez --}}
+        <button title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.<?= $gen->getDestroyVariableName() ?>-many-btn')}}"
                 class="btn btn-default btn-sm many-action <?= $request->has('use_modal_confirmation_on_delete') ? 'bootbox-dialog' : null ?>"
                 role="button"
                 data-toggle="tooltip"
                 data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                 {{-- Setup de ventana modal de confirmación --}}
-                data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-btn')}}"
-                data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-many-message')}}"
-                data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-many-btn-confirm')}}"
+                data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.<?= $gen->getDestroyVariableName() ?>-btn')}}"
+                data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-<?= $gen->getDestroyVariableName() ?>-many-message')}}"
+                data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-<?= $gen->getDestroyVariableName() ?>-many-btn-confirm')}}"
                 data-btnClassName="btn-danger"
                 data-targetFormId="deletemanyForm"
 <?php } else { ?>
                 onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>.index.delete-many-confirm-message')}}')"
 <?php } ?>
                 type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>">
-            <span class="glyphicon glyphicon-trash"></span>
-            <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-many-btn')}}</span>
+            <span class="fa fa-<?= $gen->getDestroyVariableName() == 'trash' ? 'trash' : 'minus-circle' ?>"></span>
+            <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.<?= $gen->getDestroyVariableName() ?>-many-btn')}}</span>
         </button>
     
     {!! Form::close() !!}

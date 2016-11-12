@@ -86,16 +86,16 @@
                                         data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                                         {{-- Setup de ventana modal de confirmación --}}
-                                        data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-message', ['item' => $<?=$gen->modelVariableName()?>->name])}}"
-                                        data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-title')}}"
-                                        data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-delete-btn-confirm')}}"
+                                        data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-<?= $gen->getDestroyVariableName() ?>-message', ['item' => $<?=$gen->modelVariableName()?>->name])}}"
+                                        data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-<?= $gen->getDestroyVariableName() ?>-title')}}"
+                                        data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-<?= $gen->getDestroyVariableName() ?>-btn-confirm')}}"
                                         data-btnClassName="btn-danger"
 <?php } else { ?>
-                                        onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>.index.delete-confirm-message') }}')"
+                                        onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>.index.<?= $gen->getDestroyVariableName() ?>-confirm-message') }}')"
 <?php } ?>
-                                        title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-btn')}}">
-                                    <span class="fa fa-trash"></span>
-                                    <span class="">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.trash-btn')}}</span>
+                                        title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.<?= $gen->getDestroyVariableName() ?>-btn')}}">
+                                    <span class="fa fa-<?= $gen->getDestroyVariableName() == 'trash' ? 'trash' : 'minus-circle' ?>"></span>
+                                    <span class="">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.<?= $gen->getDestroyVariableName() ?>-btn')}}</span>
                                 </button>
                             
                             {!! Form::close() !!}
