@@ -14,6 +14,11 @@ namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories
 use Prettus\Repository\Contracts\RepositoryInterface;
 use Illuminate\Support\Collection;
 
+/**
+ * Interfaz <?= $gen->modelClassName()."Repository\n" ?>
+ *
+ * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
+ */
 interface <?= $gen->modelClassName() ?>Repository extends RepositoryInterface
 {
     public function getRequested(Collection $request, array $columns = ['*'], int $rows = 15);

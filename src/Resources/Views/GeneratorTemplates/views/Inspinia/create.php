@@ -85,5 +85,4 @@
 <?php } ?>
 <?php ?>
 @include('<?=$gen->viewsDirName()?>.partials.form-scripts')
-
 @endsection()

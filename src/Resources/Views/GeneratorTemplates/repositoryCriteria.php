@@ -17,6 +17,8 @@ use Illuminate\Support\Collection;
 
 /**
  * Class <?= $gen->getRepositoryCriteriaName()."\n" ?>
+ *
+ * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
  */
 class <?= $gen->getRepositoryCriteriaName() ?> implements CriteriaInterface
 {
@@ -34,10 +36,11 @@ class <?= $gen->getRepositoryCriteriaName() ?> implements CriteriaInterface
     {
         $this->input = $input;
     }
+
     /**
      * Apply criteria in query repository
      *
-     * @param                     $model
+     * @param <?= $gen->modelClassName() ?> $model
      * @param RepositoryInterface $repository
      *
      * @return Illuminate\Database\Eloquent\Builder

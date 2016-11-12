@@ -78,15 +78,12 @@
 
 {{-- view scripts--}}
 @section('scripts')
-
 <?php if ($request->get('include_assets', false)) { ?>
 @include('<?=$gen->viewsDirName()?>.partials.index-assets')
 @include('<?=$gen->viewsDirName()?>.partials.form-assets')
 <?php } ?>
 @include('<?=$gen->viewsDirName()?>.partials.form-scripts')
-
 <script>
-
 <?php
 /////////////////////////////////////////////////////////////////////////////////////
 // lineas para mejorar el comportamiento de selección de los elementos de la tabla //
@@ -140,7 +137,6 @@
         dateRangePickerLocaleSettings,
         dateRangePickerRangesSettings
     );
-
 <?php } // end if ?>
 <?php
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -158,10 +154,8 @@
 //   colición con el compoente Bootstrap DateTimePicker, ambos usan los mismos nombres...                              //
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
-
 <?php if ($request->get('use_x_editable', false)) { ?>
 {{-- Inicializa y configura x-editable --}}
 @include('<?= $gen->solveSharedResourcesNamespace() ?>.x-editable')
-
 <?php } ?>
 @endsection

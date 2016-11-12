@@ -182,7 +182,7 @@ class <?= $test ?>
     ];
 
     /**
-     * @var FunctionalTester;
+     * @var FunctionalTester
      */
     protected $functionalTester;
 

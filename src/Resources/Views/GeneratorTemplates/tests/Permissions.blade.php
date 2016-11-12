@@ -69,7 +69,7 @@ class <?= $test ?>Cest
      *
      * @param  FunctionalTester $I
 <?php if(!empty($request->get('is_part_of_package'))) { ?>
-     * @group  <?= $request->get('is_part_of_package') ?>
+     * @group  <?= $request->get('is_part_of_package')."\n" ?>
      */ 
 <?php } else { ?>
      */
@@ -94,7 +94,7 @@ class <?= $test ?>Cest
      *
      * @param  FunctionalTester $I
 <?php if(!empty($request->get('is_part_of_package'))) { ?>
-     * @group  <?= $request->get('is_part_of_package') ?>
+     * @group  <?= $request->get('is_part_of_package')."\n" ?>
      */ 
 <?php } else { ?>
      */
@@ -125,7 +125,7 @@ class <?= $test ?>Cest
      *
      * @param  FunctionalTester $I
 <?php if(!empty($request->get('is_part_of_package'))) { ?>
-     * @group  <?= $request->get('is_part_of_package') ?>
+     * @group  <?= $request->get('is_part_of_package')."\n" ?>
      */ 
 <?php } else { ?>
      */
@@ -150,7 +150,7 @@ class <?= $test ?>Cest
      *
      * @param  FunctionalTester $I
 <?php if(!empty($request->get('is_part_of_package'))) { ?>
-     * @group  <?= $request->get('is_part_of_package') ?>
+     * @group  <?= $request->get('is_part_of_package')."\n" ?>
      */
 <?php } else { ?>
      */

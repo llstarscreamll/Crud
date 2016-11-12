@@ -20,6 +20,11 @@ use Illuminate\Support\Collection;
 use llstarscreamll\Core\Traits\EnumValues;
 <?php } ?>
 
+/**
+ * Clase <?= $gen->modelClassName()."\n" ?>
+ *
+ * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
+ */
 class <?= $gen->modelClassName() ?> extends Model
 {
 <?php if ($hasSoftDelete) { ?>
@@ -34,7 +39,7 @@ class <?= $gen->modelClassName() ?> extends Model
      *
      * @var string
      */
-    //protected $connection = 'connection-name';
+    // protected $connection = 'connection-name';
     
     /**
      * La tabla asociada al modelo.
@@ -51,7 +56,7 @@ class <?= $gen->modelClassName() ?> extends Model
     protected $primaryKey = '<?= $gen->getPrimaryKey($fields) ?>';
 
     /**
-     * Los atributos que SI son asignables.
+     * Los atributos asignables (mass assignable).
      *
      * @var array
      */
@@ -62,13 +67,6 @@ class <?= $gen->modelClassName() ?> extends Model
 <?php } ?>
 <?php } ?>
     ];
-
-    /**
-     * Los atributos que NO son asignables.
-     *
-     * @var array
-     */
-    protected $guarded = ['id', 'created_at', 'updated_at'<?= $hasSoftDelete ? ", 'deleted_at'" : null ?>];
 
     /**
      * Los atributos ocultos al usuario.
@@ -84,7 +82,7 @@ class <?= $gen->modelClassName() ?> extends Model
     ];
 
     /**
-     * Indica si Eloquent debe gestionar los timestamps del modelo.
+     * Indica si Eloquent debe gestionar los timestamps en el modelo.
      *
      * @var bool
      */
@@ -111,14 +109,14 @@ class <?= $gen->modelClassName() ?> extends Model
     protected $dateFormat = 'Y-m-d H:i:s';
 
     /**
-     * Los "accessors" a adjuntar al modelo cuando sea convertido a array.
+     * Los "accessors" a adjuntar al modelo cuando sea convertido a array o Json.
      *
      * @var array
      */
     protected $appends = [];
 
     /**
-     * Mapeo de casting de atributos a los tipos de datos nativos.
+     * Casting de atributos a los tipos de datos nativos.
      *
      * @var array
      */

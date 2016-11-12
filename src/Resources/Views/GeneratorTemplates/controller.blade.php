@@ -18,7 +18,7 @@ use <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= 
 use <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Controllers\Controller;
 
 /**
- * Clase <?= $gen->controllerClassName() ?>
+ * Clase <?= $gen->controllerClassName()."\n" ?>
  *
  * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
  */
@@ -32,7 +32,7 @@ class <?= $gen->controllerClassName() ?> extends Controller
     private $viewsDir = "<?= $gen->viewsDirName() ?>";
     
     /**
-     * <?= config('modules.crud.config.parent-app-namespace') ?>\Services\<?= $gen->modelClassName() ?>Service
+     * @var <?= config('modules.crud.config.parent-app-namespace') ?>\Services\<?= $gen->modelClassName() ?>Service
      */
     private $<?= $gen->modelVariableName() ?>Service;
     
@@ -116,12 +116,12 @@ class <?= $gen->controllerClassName() ?> extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      * @param int $id
+     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      *
      * @return Illuminate\Http\Response
      */
-    public function update(<?= $gen->modelClassName()."Request" ?> $request, int $id)
+    public function update(int $id, <?= $gen->modelClassName()."Request" ?> $request)
     {
         $this-><?= $gen->modelVariableName() ?>Service->update($id, $request);
         
@@ -135,12 +135,12 @@ class <?= $gen->controllerClassName() ?> extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      * @param int $id
+     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      *
      * @return Illuminate\Http\Response
      */
-    public function destroy(<?= $gen->modelClassName()."Request" ?> $request, int $id)
+    public function destroy(int $id, <?= $gen->modelClassName()."Request" ?> $request)
     {
         $this-><?= $gen->modelVariableName() ?>Service->destroy($id, $request);
         return redirect()->route('<?= $gen->route().'.index' ?>');
@@ -150,12 +150,12 @@ class <?= $gen->controllerClassName() ?> extends Controller
     /**
      * Restore the specified resource from storage.
      *
-     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      * @param int $id
+     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?> $request
      *
      * @return Illuminate\Http\Response
      */
-    public function restore(<?= $gen->modelClassName()."Request" ?> $request, int $id)
+    public function restore(int $id, <?= $gen->modelClassName()."Request" ?> $request)
     {
         $this-><?= $gen->modelVariableName() ?>Service->restore($id, $request);
         return redirect()->route('<?= $gen->route().'.index' ?>');

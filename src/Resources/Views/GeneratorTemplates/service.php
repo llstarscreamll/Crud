@@ -44,7 +44,7 @@ class <?= $gen->modelClassName() ?>Service
 <?php } ?>
 
     /**
-     * Las columnas a mostrar en la tabla del Index.
+     * Las columnas predeterminadas a mostrar en la tabla del Index.
      *
      * @var array
      */
@@ -141,9 +141,9 @@ class <?= $gen->modelClassName() ?>Service
             'table_columns',
             $this->defaultSelectedtableColumns
         );
-
 <?php if ($request->get('use_x_editable', false)) { ?>
 <?php if ($gen->areEnumFields($fields)) { ?>
+
         // obtenemos datos Json para plugin x-editable
         $<?= $gen->modelVariableName() ?> = new <?= $gen->modelClassName() ?>;
 <?php } ?>
@@ -261,17 +261,15 @@ class <?= $gen->modelClassName() ?>Service
      */
     public function update(int $id, <?= $gen->modelClassName()."Request" ?> $request)
     {
-        $<?= $gen->modelVariableName() ?> = $this-><?= $gen->modelVariableName() ?>Repository->find($id);
-
 <?php if ($request->get('use_x_editable', false)) { ?>
         if ($request->isXmlHttpRequest()) {
             $data = [$request->name  => $request->value];
-            $<?= $gen->modelVariableName() ?>->update($data);
-            return $book;
+            $this-><?= $gen->modelVariableName() ?>Repository->update($data, $id);
+            return $<?= $gen->modelVariableName() ?>;
         }
 
 <?php } ?>
-        $<?= $gen->modelVariableName() ?>->update($request->all());
+        $this-><?= $gen->modelVariableName() ?>Repository->update($request->all(), $id);
         session()->flash(
             'success',
             trans('<?= $gen->getLangAccess() ?>.update_<?= $gen->snakeCaseSingular() ?>_success')

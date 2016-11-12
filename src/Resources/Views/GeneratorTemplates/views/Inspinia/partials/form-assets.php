@@ -35,6 +35,6 @@
  */
 ?>
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
-{{-- Bootbox --}}
-<script src="{{ asset('plugins/bootbox/bootbox.js') }}" type="text/javascript"></script>
+    {{-- Bootbox --}}
+    <script src="{{ asset('plugins/bootbox/bootbox.js') }}" type="text/javascript"></script>
 <?php } ?>

@@ -46,8 +46,7 @@
                 {!! Form::model(
                     $<?=$gen->modelVariableName()?>,
                     [
-                        'route' => ['<?=$gen->route()?>.update',
-                        $<?=$gen->modelVariableName()?>->id],
+                        'route' => ['<?=$gen->route()?>.update', $<?=$gen->modelVariableName()?>->id],
                         'method' => 'PUT',
                         'name' => 'edit-<?=$gen->getDashedModelName()?>-form'
                     ]
@@ -86,5 +85,4 @@
 @include('<?=$gen->viewsDirName()?>.partials.form-assets')
 <?php } ?>
 @include('<?=$gen->viewsDirName()?>.partials.form-scripts')
-
 @endsection()

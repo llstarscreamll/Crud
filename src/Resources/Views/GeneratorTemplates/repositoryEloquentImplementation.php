@@ -17,6 +17,11 @@ use <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->m
 use <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Criterias\<?= $gen->getRepositoryCriteriaName() ?>;
 use Illuminate\Support\Collection;
 
+/**
+ * Class <?= $gen->modelClassName()."EloquentRepository\n" ?>
+ *
+ * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
+ */
 class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository implements <?= $gen->modelClassName() ?>Repository
 {
     /**
@@ -33,7 +38,7 @@ class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository imp
     ];
 
     /**
-     * Especifica modelo Eloquent.
+     * Especifíca el modelo Eloquent a usar.
      *
      * @return <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName()."\n" ?>
      */
@@ -53,13 +58,13 @@ class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository imp
      */
     public function getRequested(Collection $request, array $columns = ['*'], int $rows = 15)
     {
-            return $this->pushCriteria(new <?= $gen->getRepositoryCriteriaName() ?>($request))
-            ->paginate($rows, $columns);
+        return $this->pushCriteria(new <?= $gen->getRepositoryCriteriaName() ?>($request))
+        ->paginate($rows, $columns);
     }
 
     /**
-     * Obtiene lista de modelos con las columnas indicadas en $key y $name,
-     * generalmente para ser usadas en los selects de formularios.
+     * Obtiene lista de datos con las columnas indicadas en $key y $name,
+     * generalmente para ser usadas en selects de formularios.
      *
      * @param  string $key   Nombre de columna que va a ser indice del array.
      * @param  string $name  Nombre de columna que será el valor del indice del array.
@@ -95,7 +100,7 @@ class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository imp
     {
         return collect($this->getEnumValuesArray($column))
             ->map(function ($item, $key) {
-                return $item = trans('book.form-labels.status_values.'.$item);
+                return $item = trans('<?= $gen->modelVariableName() ?>.form-labels.status_values.'.$item);
             })->all();
     }
 <?php if ($gen->hasDeletedAtColumn($fields)) { ?>
