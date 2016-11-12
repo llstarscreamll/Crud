@@ -28,8 +28,10 @@ interface <?= $gen->modelClassName() ?>Repository extends RepositoryInterface
     public function getEnumValuesArray(string $column);
 
     public function getEnumFieldSelectList(string $column);
-
+<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+    
     public function destroy($ids);
     
     public function restore($ids);
+<?php } ?>
 }
