@@ -119,7 +119,7 @@
                             ]) !!}
                         </td>
                         <td>
-                            {!! Form::checkbox("field[$i][on_index_table]", false, null, [
+                            {!! Form::checkbox("field[$i][on_index_table]", true, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
                                 'data-on-text' => 'SI',
