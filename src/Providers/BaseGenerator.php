@@ -729,7 +729,7 @@ class BaseGenerator
      *
      * @return string
      */
-    public function getFakeDataGenerator($field, $onlyFaker = false)
+    public function getFakeDataGenerator($field, bool $onlyFaker = false)
     {
         // null para los campos de fecha de eliminación
         if ($field->name == 'deleted_at') {
@@ -758,7 +758,7 @@ class BaseGenerator
             return '$faker->randomElement('.$modelVariableName.')';
         }
 
-        if ($field->type == 'int' && !$field->namespace) {
+        if (($field->type == 'int' || $field->type == 'bigint') && !$field->namespace) {
             return '$faker->randomNumber()';
         }
 
