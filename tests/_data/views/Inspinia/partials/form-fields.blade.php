@@ -9,7 +9,7 @@
     quiera visualizar los datos sin riesgo a que se hagan cambios.
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -24,7 +24,7 @@
 --}}
 
 <div class='form-group col-sm-6 {{ $errors->has('reason_id') ? 'has-error' : null }}'>
-	{!! Form::label('reason_id', trans('book/views.form-fields.reason_id')) !!}
+	{!! Form::label('reason_id', trans('book.form-labels.reason_id')) !!}
 	{!! Form::select(
 		'reason_id',
 		$reason_id_list,
@@ -36,7 +36,6 @@
 			'title' => '---',
 			'data-selected-text-format' => 'count > 0',
 			isset($show) ? 'disabled' : null,
-			'form' => 'searchForm'
 		]
 	) !!}
 
@@ -44,7 +43,7 @@
 </div>
 
 <div class='form-group col-sm-6 {{ $errors->has('name') ? 'has-error' : null }}'>
-	{!! Form::label('name', trans('book/views.form-fields.name')) !!}
+	{!! Form::label('name', trans('book.form-labels.name')) !!}
 	{!! Form::input('text', 'name', null, ['class' => 'form-control', isset($show) ? 'disabled' : null]) !!}
 
 	{!! $errors->first('name', '<span class="text-danger">:message</span>') !!}
@@ -53,14 +52,14 @@
 <div class="clearfix"></div>
 
 <div class='form-group col-sm-6 {{ $errors->has('author') ? 'has-error' : null }}'>
-	{!! Form::label('author', trans('book/views.form-fields.author')) !!}
+	{!! Form::label('author', trans('book.form-labels.author')) !!}
 	{!! Form::input('text', 'author', null, ['class' => 'form-control', isset($show) ? 'disabled' : null]) !!}
 
 	{!! $errors->first('author', '<span class="text-danger">:message</span>') !!}
 </div>
 
 <div class='form-group col-sm-6 {{ $errors->has('genre') ? 'has-error' : null }}'>
-	{!! Form::label('genre', trans('book/views.form-fields.genre')) !!}
+	{!! Form::label('genre', trans('book.form-labels.genre')) !!}
 	{!! Form::input('text', 'genre', null, ['class' => 'form-control', isset($show) ? 'disabled' : null]) !!}
 
 	{!! $errors->first('genre', '<span class="text-danger">:message</span>') !!}
@@ -69,14 +68,14 @@
 <div class="clearfix"></div>
 
 <div class='form-group col-sm-6 {{ $errors->has('stars') ? 'has-error' : null }}'>
-	{!! Form::label('stars', trans('book/views.form-fields.stars')) !!}
+	{!! Form::label('stars', trans('book.form-labels.stars')) !!}
 	{!! Form::input('number', 'stars', null, ['class' => 'form-control', isset($show) ? 'disabled' : null]) !!}
 
 	{!! $errors->first('stars', '<span class="text-danger">:message</span>') !!}
 </div>
 
 <div class='form-group col-sm-6 {{ $errors->has('published_year') ? 'has-error' : null }}'>
-	{!! Form::label('published_year', trans('book/views.form-fields.published_year')) !!}
+	{!! Form::label('published_year', trans('book.form-labels.published_year')) !!}
 	{!! Form::input('text', 'published_year', null, ['class' => 'form-control', isset($show) ? 'disabled' : null]) !!}
 
 	{!! $errors->first('published_year', '<span class="text-danger">:message</span>') !!}
@@ -85,7 +84,7 @@
 <div class="clearfix"></div>
 
 <div class='form-group col-sm-6 {{ $errors->has('enabled') ? 'has-error' : null }}'>
-	{!! Form::label('enabled', trans('book/views.form-fields.enabled')) !!}
+	{!! Form::label('enabled', trans('book.form-labels.enabled')) !!}
 	<br>
 	{!! Form::hidden('enabled', '0') !!}
 	{!! Form::checkbox(
@@ -107,7 +106,7 @@
 </div>
 
 <div class='form-group col-sm-6 {{ $errors->has('status') ? 'has-error' : null }}'>
-	{!! Form::label('status', trans('book/views.form-fields.status')) !!}
+	{!! Form::label('status', trans('book.form-labels.status')) !!}
 	{!! Form::select(
 		'status',
 		$status_list,
@@ -119,7 +118,6 @@
 			'title' => '---',
 			'data-selected-text-format' => 'count > 0',
 			isset($show) ? 'disabled' : null,
-			'form' => 'searchForm'
 		]
 	) !!}
 
@@ -129,7 +127,7 @@
 <div class="clearfix"></div>
 
 <div class='form-group col-sm-6 {{ $errors->has('unlocking_word') ? 'has-error' : null }}'>
-	{!! Form::label('unlocking_word', trans('book/views.form-fields.unlocking_word')) !!}
+	{!! Form::label('unlocking_word', trans('book.form-labels.unlocking_word')) !!}
 	{!! Form::input('text', 'unlocking_word', null, ['class' => 'form-control', isset($show) ? 'disabled' : null]) !!}
 
 	{!! $errors->first('unlocking_word', '<span class="text-danger">:message</span>') !!}
@@ -137,7 +135,7 @@
 
 @if(!isset($show))
 <div class='form-group col-sm-6 {{ $errors->has('unlocking_word') ? 'has-error' : null }}'>
-	{!! Form::label('unlocking_word_confirmation', trans('book/views.form-fields.unlocking_word_confirmation')) !!}
+	{!! Form::label('unlocking_word_confirmation', trans('book.form-labels.unlocking_word_confirmation')) !!}
 	{!! Form::input('text', 'unlocking_word_confirmation', null, ['class' => 'form-control']) !!}
 
 	{!! $errors->first('unlocking_word', '<span class="text-danger">:message</span>') !!}
@@ -145,7 +143,7 @@
 @endif
 
 <div class='form-group col-sm-6 {{ $errors->has('synopsis') ? 'has-error' : null }}'>
-	{!! Form::label('synopsis', trans('book/views.form-fields.synopsis')) !!}
+	{!! Form::label('synopsis', trans('book.form-labels.synopsis')) !!}
 	{!! Form::textarea('synopsis', null, ['class' => 'form-control', isset($show) ? 'disabled' : null]) !!}
 
 	{!! $errors->first('synopsis', '<span class="text-danger">:message</span>') !!}

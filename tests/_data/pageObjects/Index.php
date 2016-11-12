@@ -19,8 +19,7 @@ use FunctionalTester;
 use llstarscreamll\Core\Models\User;
 use App\Models\Reason;
 
-class Index
-{
+class Index{
     /**
      * La URL del index del módulo.
      *
@@ -29,43 +28,96 @@ class Index
     public static $moduleURL = '/books';
 
     /**
+     * La url del home de la app, para cuando el usuario es redirigido cuando
+     * no tiene permisos para realizar alguna acción.
+     *
+     * @var  string
+     */
+    public static $homeUrl = '/home';
+
+    /**
      * Nombre del módulo.
      *
      * @var  string
      */
-    static $moduleName = 'Libros';
-    static $titleElem = 'h2';
-    static $titleSmallElem = 'h2 small';
+    public static $moduleName = 'Libros';
+    public static $titleElem = 'h2';
+    public static $titleSmallElem = 'h2 small';
+
+    /**
+     * El prefijo de los campos de búsqueda en la tabla Index.
+     *
+     * @var  string
+     */
+    public static $searchFieldsPrefix;
 
     /**
      * El selector de la tabla donde se listan los registros.
      *
      * @var  string
      */
-    static $table = '.table.table-hover';
+    public static $table = '.table.table-hover';
 
     /**
-     * 
+     * El mensaje mostrado al usuario cuando no tiene los permisos adecuado para
+     * realizar alguna acción.
+     *
+     * @var  string
+     */
+    public static $badPermissionsMsg = 'No tienes permisos para realizar esta acción.';
+    public static $badPermissionsMsgElem = '.alert.alert-warning';
+
+    /**
+     * El botón de restaurar varios registros.
+     *
+     * @var  string
+     */
+    public static $restoreManyBtn = 'Restaurar seleccionados';
+    public static $restoreManyBtnElem = 'button.btn.btn-default.btn-sm';
+
+    /**
+     * El botón de restaurar registro.
+     *
+     * @var  string
+     */
+    public static $restoreBtn = 'Restaurar';
+    public static $restoreBtnElem = 'button.btn.btn-default.btn-sm';
+
+    /**
      * Mensaje cuando no se encuentran datos.
      *
      * @var  array
      */
-    static $noDataFountMsg = 'No se encontraron registros...';
-    static $noDataFountMsgElem = '.alert.alert-warning';
+    public static $noDataFountMsg = 'No se encontraron registros...';
+    public static $noDataFountMsgElem = '.alert.alert-warning';
 
     /**
      * La info de creación del registro.
      *
      * @var  array
      */
-    static $bookData = array();
+    public static $bookData = array();
+
+    /**
+     * Las columnas por defecto a mostrar en la tabla del Index.
+     *
+     * @var  array
+     */
+    public static $tableColumns = [
+        'id',
+        'reason_id',
+        'name',
+        'author',
+        'approved_at',
+        'created_at',
+    ];
 
     /**
      * Los campos del formulario de creación.
      *
      * @var  array
      */
-    static $createFormFields = [
+    public static $createFormFields = [
         'reason_id',
         'name',
         'author',
@@ -83,7 +135,7 @@ class Index
      *
      * @var  array
      */
-    static $editFormFields = [
+    public static $editFormFields = [
         'reason_id',
         'name',
         'author',
@@ -101,7 +153,7 @@ class Index
      *
      * @var  array
      */
-    static $fieldsThatRequieresConfirmation = [
+    public static $fieldsThatRequieresConfirmation = [
         'unlocking_word'
     ];
 
@@ -110,7 +162,7 @@ class Index
      *
      * @var  array
      */
-    static $hiddenFields = [
+    public static $hiddenFields = [
         'unlocking_word',
         'approved_password',
     ];
@@ -120,20 +172,21 @@ class Index
      *
      * @var  array
      */
-    static $adminUser = [
-        'name'          =>      'Travis Orbin',
-        'email'         =>      'travis.orbin@example.com',
-        'password'      =>      '123456',
+    public static $adminUser = [
+        'name' => 'Travis Orbin',
+        'email' => 'travis.orbin@example.com',
+        'password' => '123456',
     ];
 
     /**
-     * @var  FunctionalTester;
+     * @var  FunctionalTester
      */
     protected $functionalTester;
 
     public function __construct(FunctionalTester $I)
     {
         $this->functionalTester = $I;
+        static::$searchFieldsPrefix = config('modules.core.app.search-fields-prefix', 'search');
 
         // creamos permisos de acceso
         \Artisan::call('db:seed', ['--class' => 'BookPermissionsSeeder']);
@@ -152,7 +205,7 @@ class Index
             'genre' => "Ficción",
             'stars' => "4",
             'published_year' => date("Y-m-d"),
-            'enabled' => false,
+            'enabled' => '0',
             'status' => "waiting_confirmation",
             'unlocking_word' => "asdfg",
             'synopsis' => "Esta es una prueba de sinopsis...",
@@ -204,7 +257,7 @@ class Index
             if (in_array($key, static::$createFormFields)) {
                 $data[$key] = $value;
             }
-            if (in_array($key, static::$fieldsThatRequieresConfirmation)){
+            if (in_array($key, static::$fieldsThatRequieresConfirmation)) {
                 $data[$key.'_confirmation'] = $value;
             }
         }
@@ -272,7 +325,7 @@ class Index
         // los campos ocultos no deben ser mostrados en la vista de sólo lectura
         foreach ($confirmedFields as $key => $value) {
             $requiredField = $value.'_confirmation';
-            if (in_array($requiredField, $data)) {
+            if (array_key_exists($requiredField, $data)) {
                 unset($data[$requiredField]);
             }
         }

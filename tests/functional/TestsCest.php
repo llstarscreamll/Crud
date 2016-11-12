@@ -4,7 +4,7 @@ namespace Crud;
 
 use Crud\Page\Functional\Generate as Page;
 
-class GenerateTestsCest
+class TestsCest
 {
     public function _before(FunctionalTester $I)
     {
@@ -36,9 +36,9 @@ class GenerateTestsCest
         $test = file_get_contents(__DIR__.'/../_data/functionalTests/CreateCest.php');
         $I->seeInThisFile($test);
 
-        // abro el test Delete
-        $I->openFile(base_path().'/tests/functional/Books/DeleteCest.php');
-        $test = file_get_contents(__DIR__.'/../_data/functionalTests/DeleteCest.php');
+        // abro el test Destroy
+        $I->openFile(base_path().'/tests/functional/Books/DestroyCest.php');
+        $test = file_get_contents(__DIR__.'/../_data/functionalTests/DestroyCest.php');
         $I->seeInThisFile($test);
 
         // abro el test Edit
@@ -49,6 +49,11 @@ class GenerateTestsCest
         // abro el test Index
         $I->openFile(base_path().'/tests/functional/Books/IndexCest.php');
         $test = file_get_contents(__DIR__.'/../_data/functionalTests/IndexCest.php');
+        $I->seeInThisFile($test);
+
+        // abro el test Permissions
+        $I->openFile(base_path().'/tests/functional/Books/PermissionsCest.php');
+        $test = file_get_contents(__DIR__.'/../_data/functionalTests/PermissionsCest.php');
         $I->seeInThisFile($test);
 
         // abro el test Show

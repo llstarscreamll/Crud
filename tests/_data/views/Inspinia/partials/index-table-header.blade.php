@@ -14,7 +14,7 @@
     $hide_actions_column = true
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -30,219 +30,84 @@
 
 <tr class="header-row">
     @if(!isset($hide_checkboxes_column))
-    <th class="checkbox-column"></th>
+        <th class="checkbox-column"></th>
     @endif
+    @if(in_array('id', $selectedTableColumns))
     <th class="id">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'id',
-                'sortType' => (Request::input('sort') == 'id' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.id')}}
-            {!!Request::input('sort') == 'id' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.id'), 'id') !!}
     </th>
+    @endif
+    @if(in_array('reason_id', $selectedTableColumns))
     <th class="reason_id">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'reason_id',
-                'sortType' => (Request::input('sort') == 'reason_id' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.reason_id')}}
-            {!!Request::input('sort') == 'reason_id' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.reason_id'), 'reason_id') !!}
     </th>
+    @endif
+    @if(in_array('name', $selectedTableColumns))
     <th class="name">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'name',
-                'sortType' => (Request::input('sort') == 'name' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.name')}}
-            {!!Request::input('sort') == 'name' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.name'), 'name') !!}
     </th>
+    @endif
+    @if(in_array('author', $selectedTableColumns))
     <th class="author">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'author',
-                'sortType' => (Request::input('sort') == 'author' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.author')}}
-            {!!Request::input('sort') == 'author' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.author'), 'author') !!}
     </th>
+    @endif
+    @if(in_array('genre', $selectedTableColumns))
     <th class="genre">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'genre',
-                'sortType' => (Request::input('sort') == 'genre' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.genre')}}
-            {!!Request::input('sort') == 'genre' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.genre'), 'genre') !!}
     </th>
+    @endif
+    @if(in_array('stars', $selectedTableColumns))
     <th class="stars">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'stars',
-                'sortType' => (Request::input('sort') == 'stars' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.stars')}}
-            {!!Request::input('sort') == 'stars' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.stars'), 'stars') !!}
     </th>
+    @endif
+    @if(in_array('published_year', $selectedTableColumns))
     <th class="published_year">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'published_year',
-                'sortType' => (Request::input('sort') == 'published_year' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.published_year')}}
-            {!!Request::input('sort') == 'published_year' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.published_year'), 'published_year') !!}
     </th>
+    @endif
+    @if(in_array('enabled', $selectedTableColumns))
     <th class="enabled">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'enabled',
-                'sortType' => (Request::input('sort') == 'enabled' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.enabled')}}
-            {!!Request::input('sort') == 'enabled' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.enabled'), 'enabled') !!}
     </th>
+    @endif
+    @if(in_array('status', $selectedTableColumns))
     <th class="status">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'status',
-                'sortType' => (Request::input('sort') == 'status' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.status')}}
-            {!!Request::input('sort') == 'status' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.status'), 'status') !!}
     </th>
+    @endif
+    @if(in_array('synopsis', $selectedTableColumns))
     <th class="synopsis">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'synopsis',
-                'sortType' => (Request::input('sort') == 'synopsis' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.synopsis')}}
-            {!!Request::input('sort') == 'synopsis' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.synopsis'), 'synopsis') !!}
     </th>
+    @endif
+    @if(in_array('approved_at', $selectedTableColumns))
     <th class="approved_at">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'approved_at',
-                'sortType' => (Request::input('sort') == 'approved_at' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.approved_at')}}
-            {!!Request::input('sort') == 'approved_at' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.approved_at'), 'approved_at') !!}
     </th>
+    @endif
+    @if(in_array('approved_by', $selectedTableColumns))
     <th class="approved_by">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'approved_by',
-                'sortType' => (Request::input('sort') == 'approved_by' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.approved_by')}}
-            {!!Request::input('sort') == 'approved_by' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.approved_by'), 'approved_by') !!}
     </th>
+    @endif
+    @if(in_array('created_at', $selectedTableColumns))
     <th class="created_at">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'created_at',
-                'sortType' => (Request::input('sort') == 'created_at' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.created_at')}}
-            {!!Request::input('sort') == 'created_at' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.created_at'), 'created_at') !!}
     </th>
+    @endif
+    @if(in_array('updated_at', $selectedTableColumns))
     <th class="updated_at">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'updated_at',
-                'sortType' => (Request::input('sort') == 'updated_at' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.updated_at')}}
-            {!!Request::input('sort') == 'updated_at' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.updated_at'), 'updated_at') !!}
     </th>
+    @endif
+    @if(in_array('deleted_at', $selectedTableColumns))
     <th class="deleted_at">
-        <a href="{{route('books.index',
-            array_merge(
-                Request::query(),
-                [
-                'sort' => 'deleted_at',
-                'sortType' => (Request::input('sort') == 'deleted_at' and Request::input('sortType') == 'asc') ? 'desc' : 'asc'
-                ]
-            )
-        )}}">
-            {{trans('book/views.form-fields-short-name.deleted_at')}}
-            {!!Request::input('sort') == 'deleted_at' ? '<i class="fa fa-sort-alpha-'.Request::input('sortType').'"></i>' : ''!!}
-        </a>
+        {!! UI::sortLink('books.index', trans('book.table-columns.deleted_at'), 'deleted_at') !!}
     </th>
+    @endif
     @if(!isset($hide_actions_column))
-    <th class="actions-column">{{trans('book/views.index.table-actions-column')}}</th>
+        <th class="actions-column">{{trans('core::shared.table-actions-column')}}</th>
     @endif
 </tr>

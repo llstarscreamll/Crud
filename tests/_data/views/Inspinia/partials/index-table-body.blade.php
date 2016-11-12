@@ -14,7 +14,7 @@
     $hide_actions_column = true
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -32,147 +32,84 @@
     @if(!isset($hide_checkboxes_column))
     <tr class="item-{{ $record->id }} {{ $record->trashed() ? 'danger' : null }} ">
     @endif
-    <td class="checkbox-column">{!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item']) !!}</td>
+    <td class="checkbox-column">
+        {!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item']) !!}
+    </td>
+        @if(in_array('id', $selectedTableColumns))
         <td class="id">
-            {{-- El campo id no es editable --}}
             {{ $record->id }}
         </td>
+        @endif
+        @if(in_array('reason_id', $selectedTableColumns))
         <td class="reason_id">
-            <span @if (! $record->trashed()) class="editable"
-                  data-type="select"
-                  data-name="reason_id"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('book/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record->reason_id }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/books/{{ $record->{$record->getKeyName()} }}"
-                  data-source='{{ $reason_id_list_json }}'
-                  @endif>{{ $record->reason ? $record->reason->name : '' }}</span>
+            {{ $record->reason ? $record->reason->name : '' }}
         </td>
+        @endif
+        @if(in_array('name', $selectedTableColumns))
         <td class="name">
-            <span @if (! $record->trashed()) class="editable"
-                  data-type="text"
-                  data-name="name"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('book/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record->name }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/books/{{ $record->{$record->getKeyName()} }}"
-                  @endif>{{ $record->name }}</span>
+            {{ $record->name }}
         </td>
+        @endif
+        @if(in_array('author', $selectedTableColumns))
         <td class="author">
-            <span @if (! $record->trashed()) class="editable"
-                  data-type="text"
-                  data-name="author"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('book/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record->author }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/books/{{ $record->{$record->getKeyName()} }}"
-                  @endif>{{ $record->author }}</span>
+            {{ $record->author }}
         </td>
+        @endif
+        @if(in_array('genre', $selectedTableColumns))
         <td class="genre">
-            <span @if (! $record->trashed()) class="editable"
-                  data-type="text"
-                  data-name="genre"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('book/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record->genre }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/books/{{ $record->{$record->getKeyName()} }}"
-                  @endif>{{ $record->genre }}</span>
+            {{ $record->genre }}
         </td>
+        @endif
+        @if(in_array('stars', $selectedTableColumns))
         <td class="stars">
-            <span @if (! $record->trashed()) class="editable"
-                  data-type="number"
-                  data-name="stars"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('book/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record->stars }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/books/{{ $record->{$record->getKeyName()} }}"
-                  @endif>{{ $record->stars }}</span>
+            {{ $record->stars }}
         </td>
+        @endif
+        @if(in_array('published_year', $selectedTableColumns))
         <td class="published_year">
-            <span @if (! $record->trashed()) class="editable-date"
-                  data-type="date"
-                  data-name="published_year"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('book/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record->published_year }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/books/{{ $record->{$record->getKeyName()} }}"
-                  @endif>{{ $record->published_year }}</span>
+            {{ $record->published_year }}
         </td>
+        @endif
+        @if(in_array('enabled', $selectedTableColumns))
         <td class="enabled">
-            <span @if (! $record->trashed()) class="editable"
-                  data-type="text"
-                  data-name="enabled"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('book/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record->enabled }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/books/{{ $record->{$record->getKeyName()} }}"
-                  @endif>{{ $record->enabled }}</span>
+            {{ $record->enabled }}
         </td>
+        @endif
+        @if(in_array('status', $selectedTableColumns))
         <td class="status">
-            <span @if (! $record->trashed()) class="editable"
-                  data-type="select"
-                  data-name="status"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('book/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record->status }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/books/{{ $record->{$record->getKeyName()} }}"
-                  data-source='{{ $status_list_json }}'
-                  @endif>{{ $record->status }}</span>
+            {{ $record->status }}
         </td>
+        @endif
+        @if(in_array('synopsis', $selectedTableColumns))
         <td class="synopsis">
-            <span @if (! $record->trashed()) class="editable"
-                  data-type="textarea"
-                  data-name="synopsis"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('book/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record->synopsis }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/books/{{ $record->{$record->getKeyName()} }}"
-                  @endif>{{ $record->synopsis }}</span>
+            {{ $record->synopsis }}
         </td>
+        @endif
+        @if(in_array('approved_at', $selectedTableColumns))
         <td class="approved_at">
-            <span @if (! $record->trashed()) class="editable-datetime"
-                  data-type="datetime"
-                  data-name="approved_at"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('book/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record->approved_at }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/books/{{ $record->{$record->getKeyName()} }}"
-                  @endif>{{ $record->approved_at }}</span>
+            {{ $record->approved_at }}
         </td>
+        @endif
+        @if(in_array('approved_by', $selectedTableColumns))
         <td class="approved_by">
-            <span @if (! $record->trashed()) class="editable"
-                  data-type="select"
-                  data-name="approved_by"
-                  data-placement="bottom"
-                  data-emptytext="{{ trans('book/views.index.x-editable.dafaultValue') }}"
-                  data-value="{{ $record->approved_by }}"
-                  data-pk="{{ $record->{$record->getKeyName()} }}"
-                  data-url="/books/{{ $record->{$record->getKeyName()} }}"
-                  data-source='{{ $approved_by_list_json }}'
-                  @endif>{{ $record->approvedBy ? $record->approvedBy->name : '' }}</span>
+            {{ $record->approvedBy ? $record->approvedBy->name : '' }}
         </td>
+        @endif
+        @if(in_array('created_at', $selectedTableColumns))
         <td class="created_at">
-            {{-- El campo created_at no es editable --}}
             {{ $record->created_at }}
         </td>
+        @endif
+        @if(in_array('updated_at', $selectedTableColumns))
         <td class="updated_at">
-            {{-- El campo updated_at no es editable --}}
             {{ $record->updated_at }}
         </td>
+        @endif
+        @if(in_array('deleted_at', $selectedTableColumns))
         <td class="deleted_at">
-            {{-- El campo deleted_at no es editable --}}
             {{ $record->deleted_at }}
         </td>
+        @endif
         
         @if(!isset($hide_actions_column))
         {{-- Los botones de acción para cada registro --}}
@@ -190,13 +127,13 @@
                         data-toggle="tooltip"
                         data-placement="top"
                         {{-- Setup de ventana modal de confirmación --}}
-                        data-modalTitle="{{trans('book/views.index.modal-restore-title')}}"
-                        data-modalMessage="{{trans('book/views.index.modal-restore-message', ['item' => $record->name])}}"
-                        data-btnLabel="{{trans('book/views.index.modal-restore-btn-confirm-label')}}"
-                        data-btnClassName="{{trans('book/views.index.modal-restore-btn-confirm-class-name')}}"
-                        title="{{trans('book/views.index.restore-row-button-label')}}">
+                        data-modalTitle="{{trans('core::shared.modal-restore-title')}}"
+                        data-modalMessage="{{trans('core::shared.modal-restore-message', ['item' => $record->name])}}"
+                        data-btnLabel="{{trans('core::shared.modal-restore-btn-confirm')}}"
+                        data-btnClassName="btn-success"
+                        title="{{trans('core::shared.restore-btn')}}">
                     <span class="fa fa-mail-reply"></span>
-                    <span class="sr-only">{{trans('book/views.index.restore-row-button-label')}}</span>
+                    <span class="sr-only">{{trans('core::shared.restore-btn')}}</span>
                 </button>
             
             {!! Form::close() !!}
@@ -208,9 +145,9 @@
                 role="button"
                 data-toggle="tooltip"
                 data-placement="top"
-                title="{{trans('book/views.index.see-details-button-label')}}">
+                title="{{trans('core::shared.show-btn')}}">
                 <span class="fa fa-eye"></span>
-                <span class="sr-only">{{trans('book/views.index.see-details-button-label')}}</span>
+                <span class="sr-only">{{trans('core::shared.show-btn')}}</span>
             </a>
 
             @if(auth()->user()->can('books.edit'))
@@ -219,9 +156,9 @@
                     class="btn btn-warning btn-xs" role="button"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="{{trans('book/views.index.edit-item-button-label')}}">
+                    title="{{trans('core::shared.edit-btn')}}">
                     <span class="glyphicon glyphicon-pencil"></span>
-                    <span class="sr-only">{{trans('book/views.index.edit-item-button-label')}}</span>
+                    <span class="sr-only">{{trans('core::shared.edit-btn')}}</span>
                 </a>
             @endif
 
@@ -236,13 +173,13 @@
                             data-toggle="tooltip"
                             data-placement="top"
                             {{-- Setup de ventana modal de confirmación --}}
-                            data-modalMessage="{{trans('book/views.index.modal-delete-message', ['item' => $record->name])}}"
-                            data-modalTitle="{{trans('book/views.index.modal-delete-title')}}"
-                            data-btnLabel="{{trans('book/views.index.modal-delete-btn-confirm-label')}}"
-                            data-btnClassName="{{trans('book/views.index.modal-delete-btn-confirm-class-name')}}"
-                            title="{{trans('book/views.index.delete-item-button-label')}}">
+                            data-modalMessage="{{trans('core::shared.modal-delete-message', ['item' => $record->name])}}"
+                            data-modalTitle="{{trans('core::shared.modal-delete-title')}}"
+                            data-btnLabel="{{trans('core::shared.modal-delete-btn-confirm')}}"
+                            data-btnClassName="btn-danger"
+                            title="{{trans('core::shared.trash-btn')}}">
                         <span class="fa fa-trash"></span>
-                        <span class="sr-only">{{trans('book/views.index.delete-item-button-label')}}</span>
+                        <span class="sr-only">{{trans('core::shared.trash-btn')}}</span>
                     </button>
                 
                 {!! Form::close() !!}
@@ -257,7 +194,7 @@
     <tr>
         <td class="empty-table" colspan="19">
             <div  class="alert alert-warning">
-                {{trans('book/views.index.no-records-found')}}
+                {{trans('core::shared.no-records-found')}}
             </div>
         </td>
     </tr>

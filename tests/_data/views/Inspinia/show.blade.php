@@ -5,7 +5,7 @@
     Muestra la vista de detalles de un registro.
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -22,7 +22,7 @@
 @extends('core::layouts.app-sidebar')
 
 {{-- page title --}}
-@section('title') {{trans('book/views.show.name').trans('book/views.module.name-singular')}} @stop
+@section('title') {{trans('core::shared.views.show').trans('book.module.name-singular')}} @stop
 {{-- /page title --}}
 
 {{-- view styles --}}
@@ -34,7 +34,7 @@
 @section('content')
 
 {{-- heading --}}
-@include('books.partials.heading', ['small_title' => trans('book/views.show.name')])
+@include('books.partials.heading', ['small_title' => trans('core::shared.views.show')])
     
 {{-- content --}}
 <div class="wrapper wrapper-content">
@@ -56,7 +56,7 @@
                 ) !!}
 
                     <div class='form-group col-sm-6 {{$errors->has('id') ? 'has-error' : ''}}'>
-                        {!! Form::label('id', trans('book/views.form-fields.id')) !!}
+                        {!! Form::label('id', trans('book.form-labels.id')) !!}
                         {!! Form::input('text', 'id', null, ['class' => 'form-control', isset($show) ? 'disabled' : '']) !!}
                     </div>
 
@@ -74,7 +74,7 @@
                         @if(auth()->user()->can('books.edit'))
                             <a href="{{route('books.edit', $book->id)}}" class="btn btn-warning" role="button">
                                 <span class="glyphicon glyphicon-pencil"></span>
-                                <span class="">{{trans('book/views.show.btn-edit')}}</span>
+                                <span class="">{{trans('core::shared.edit-btn')}}</span>
                             </a>
                         @endif
 
@@ -89,13 +89,13 @@
                                         data-toggle="tooltip"
                                         data-placement="top"
                                         {{-- Setup de ventana modal de confirmación --}}
-                                        data-modalMessage="{{trans('book/views.index.modal-delete-message', ['item' => $book->name])}}"
-                                        data-modalTitle="{{trans('book/views.index.modal-delete-title')}}"
-                                        data-btnLabel="{{trans('book/views.index.modal-delete-btn-confirm-label')}}"
-                                        data-btnClassName="{{trans('book/views.index.modal-delete-btn-confirm-class-name')}}"
-                                        title="{{trans('book/views.index.delete-item-button-label')}}">
+                                        data-modalMessage="{{trans('core::shared.modal-delete-message', ['item' => $book->name])}}"
+                                        data-modalTitle="{{trans('core::shared.modal-delete-title')}}"
+                                        data-btnLabel="{{trans('core::shared.modal-delete-btn-confirm')}}"
+                                        data-btnClassName="btn-danger"
+                                        title="{{trans('core::shared.trash-btn')}}">
                                     <span class="fa fa-trash"></span>
-                                    <span class="">{{trans('book/views.index.delete-item-button-label')}}</span>
+                                    <span class="">{{trans('core::shared.trash-btn')}}</span>
                                 </button>
                             
                             {!! Form::close() !!}
@@ -119,8 +119,5 @@
 
 {{-- view scripts--}}
 @section('scripts')
-
-@include('books.partials.form-assets')
 @include('books.partials.form-scripts')
-
 @endsection()

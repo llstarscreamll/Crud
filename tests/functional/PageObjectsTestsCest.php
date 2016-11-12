@@ -5,7 +5,7 @@ namespace Crud;
 use Crud\FunctionalTester;
 use Crud\Page\Functional\Generate as Page;
 
-class GeneratePageObjectsTestsCest
+class PageObjectsTestsCest
 {
     public function _before(FunctionalTester $I)
     {
@@ -33,9 +33,9 @@ class GeneratePageObjectsTestsCest
         $pageObject = file_get_contents(__DIR__.'/../_data/pageObjects/Create.php');
         $I->seeInThisFile($pageObject);
 
-        // abro el pageObject Delete
-        $I->openFile(base_path().'/tests/_support/Page/Functional/Books/Delete.php');
-        $pageObject = file_get_contents(__DIR__.'/../_data/pageObjects/Delete.php');
+        // abro el pageObject Destroy
+        $I->openFile(base_path().'/tests/_support/Page/Functional/Books/Destroy.php');
+        $pageObject = file_get_contents(__DIR__.'/../_data/pageObjects/Destroy.php');
         $I->seeInThisFile($pageObject);
 
         // abro el pageObject Edit

@@ -11,7 +11,7 @@
     al changelog.
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -28,7 +28,7 @@
 @extends('core::layouts.app-sidebar')
 
 {{-- page title --}}
-@section('title') {{trans('book/views.module.name')}} @endsection
+@section('title') {{trans('book.module.name')}} @endsection
 {{-- /page title --}}
 
 {{-- view styles --}}
@@ -65,7 +65,7 @@
 
             {{-- box footer --}}
             <div class="ibox-footer">
-                <span class="pull-right">
+                <span class="pull-right version-info">
                     <a href="#"><strong>v0.1</strong></a>
                 </span>
                 <div class="clearfix"></div>
@@ -82,14 +82,10 @@
 
 {{-- view scripts--}}
 @section('scripts')
-
-@include('books.partials.index-assets')
-@include('books.partials.form-assets')
 @include('books.partials.form-scripts')
-
 <script>
-
     $(document).ready(function() {
+        $(".select2-ids").select2({tags: true, language: "es"});
         {{-- Inicializa las mejoras de selección en la tabla --}}
         setupTableSelectionAddons();
         {{-- Inicializa el componente iCheck --}}
@@ -108,35 +104,17 @@
 
     let dateRangeFields = [
         {
-            field: 'input[name="published_year[informative]"]',
+            field: 'input.plugin-date',
             format: 'YYYY-MM-DD',
             with_time_picker: false,
             opens: 'center',
         },
         {
-            field: 'input[name="approved_at[informative]"]',
+            field: 'input.plugin-datetime',
             format: 'YYYY-MM-DD HH:mm:ss',
             with_time_picker: true,
             opens: 'left',
-        },
-        {
-            field: 'input[name="created_at[informative]"]',
-            format: 'YYYY-MM-DD HH:mm:ss',
-            with_time_picker: true,
-            opens: 'left',
-        },
-        {
-            field: 'input[name="updated_at[informative]"]',
-            format: 'YYYY-MM-DD HH:mm:ss',
-            with_time_picker: true,
-            opens: 'left',
-        },
-        {
-            field: 'input[name="deleted_at[informative]"]',
-            format: 'YYYY-MM-DD HH:mm:ss',
-            with_time_picker: true,
-            opens: 'left',
-        },
+        }
     ];
 
     {{-- Configuración de Bootstrap DateRangePicker --}}
@@ -145,10 +123,5 @@
         dateRangePickerLocaleSettings,
         dateRangePickerRangesSettings
     );
-
 </script>
-
-{{-- Inicializa y configura x-editable --}}
-@include('core::shared.x-editable')
-
 @endsection

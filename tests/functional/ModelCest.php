@@ -1,18 +1,16 @@
 <?php
-namespace Crud;
+
+namespace CRUD;
 
 use Crud\FunctionalTester;
 use Crud\Page\Functional\Generate as Page;
 
-class GenerateRoutesCest
+class ModelCest
 {
     public function _before(FunctionalTester $I)
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
-
-        $I->am('Developer');
-        $I->wantTo('revisar las lineas de codigo del controlador');
 
         $I->amOnPage(Page::route('?table_name='.Page::$tableName));
         $I->see(Page::$title, Page::$titleElem);
@@ -26,16 +24,16 @@ class GenerateRoutesCest
     }
 
     /**
-     * Comprueba las líneas de código generadas en el controlador del CRUD.
+     * Comprueba las líneas de código generadas en el modelo del CRUD.
      *
-     * @param  FunctionalTester $I
+     * @param FunctionalTester $I
      */
-    public function checkRoutesCode(FunctionalTester $I)
+    public function checkModelCode(FunctionalTester $I)
     {
-        $I->wantTo('comprobar las rutas generadas');
+        $I->wantTo('revisar el modelo generado');
 
-        $I->openFile(base_path().'/routes/web.php');
-        $routes = file_get_contents(__DIR__.'/../_data/routes/bookRoutes.php');
-        $I->seeInThisFile($routes);
+        $I->openFile(base_path().'/app/Models/Book.php');
+        $model = file_get_contents(__DIR__.'/../_data/models/Book.php');
+        $I->seeInThisFile($model);
     }
 }

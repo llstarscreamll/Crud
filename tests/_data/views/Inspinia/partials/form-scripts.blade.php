@@ -5,7 +5,7 @@
     Contiene el código javascript usado en el formulario.
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -32,11 +32,11 @@
 
     {{-- Inicialización y configuración de Bootbox --}}
     initBootBoxComponent(
-        '{{ trans('book/views.index.modal-default-title') }}',
-        '{{ trans('book/views.index.modal-default-btn-confirmation-label') }}',
-        '{{ trans('book/views.index.modal-default-btn-confirmation-className') }}',
-        '{{ trans('book/views.index.modal-default-btn-cancel-label') }}',
-        '{{ trans('book/views.index.modal-default-btn-cancel-className') }}'
+        '{{ trans('book.index.modal-default-title') }}',
+        '{{ trans('book.index.modal-default-btn-confirmation') }}',
+        'btn-primary',
+        '{{ trans('core::shared.modal-default-btn-cancel') }}',
+        'btn-default'
     );
     
 </script>

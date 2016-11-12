@@ -1,17 +1,18 @@
 <?php
 
-namespace CRUD;
+namespace Crud;
 
 use Crud\FunctionalTester;
 use Crud\Page\Functional\Generate as Page;
 
-class GenerateModelCest
+class ServiceCest
 {
     public function _before(FunctionalTester $I)
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
 
+        $I->seeAuthentication();
         $I->amOnPage(Page::route('?table_name='.Page::$tableName));
         $I->see(Page::$title, Page::$titleElem);
 
@@ -19,21 +20,18 @@ class GenerateModelCest
         $I->submitForm('form[name=CRUD-form]', Page::$formData);
     }
 
-    public function _after(FunctionalTester $I)
-    {
-    }
-
     /**
-     * Comprueba las líneas de código generadas en el modelo del CRUD.
+     * Prueba el código del servicio generado.
      *
-     * @param FunctionalTester $I
+     * @param  FunctionalTester $I
      */
-    public function checkModelCode(FunctionalTester $I)
+    public function generateService(FunctionalTester $I)
     {
-        $I->wantTo('revisar el modelo generado');
+        $I->wantTo('revisar código de servicio generado');
 
-        $I->openFile(base_path().'/app/Models/Book.php');
-        $model = file_get_contents(__DIR__.'/../_data/models/Book.php');
-        $I->seeInThisFile($model);
+        $I->openFile(base_path().'/app/Services/BookService.php');
+        $service = file_get_contents(__DIR__.'/../_data/BookService.php');
+
+        $I->seeInThisFile($service);
     }
 }

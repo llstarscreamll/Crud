@@ -8,7 +8,7 @@
     $small_title.
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -26,7 +26,7 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-xs-12">
         <h2>
-            <a href="{{route('books.index')}}">{{trans('book/views.module.name')}}</a>
+            <a href="{{route('books.index')}}">{{trans('book.module.name')}}</a>
             <small>{{ isset($small_title) ? $small_title : null }}</small>
         </h2>
     </div>

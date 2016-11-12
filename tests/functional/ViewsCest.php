@@ -4,7 +4,7 @@ namespace Crud;
 
 use Crud\Page\Functional\Generate as Page;
 
-class GenerateViewsCest
+class ViewsCest
 {
     /**
      * El tema de las vistas seleccionado.
@@ -83,49 +83,68 @@ class GenerateViewsCest
         $view = file_get_contents(__DIR__."/../_data/views/$this->theme/show.blade.php");
         $I->seeInThisFile($view);
 
-        // partial form-assets
+        // ********
+        // Partials
+        // ********
+
+        // form-assets
         $I->openFile(base_path()."/resources/views/books/partials/form-assets.blade.php");
         $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/form-assets.blade.php");
         $I->seeInThisFile($view);
 
-        // partial form-fields
+        // form-fields
         $I->openFile(base_path()."/resources/views/books/partials/form-fields.blade.php");
         $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/form-fields.blade.php");
         $I->seeInThisFile($view);
 
-        // partial form-scripts
+        // form-scripts
         $I->openFile(base_path()."/resources/views/books/partials/form-scripts.blade.php");
         $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/form-scripts.blade.php");
         $I->seeInThisFile($view);
 
-        // partial heading
+        // heading
         $I->openFile(base_path()."/resources/views/books/partials/heading.blade.php");
         $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/heading.blade.php");
         $I->seeInThisFile($view);
 
-        // partial hidden-form-fields
+        // hidden-form-fields
         $I->openFile(base_path()."/resources/views/books/partials/hidden-form-fields.blade.php");
         $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/hidden-form-fields.blade.php");
         $I->seeInThisFile($view);
 
-        // partial index-assets
+        // index-assets
         $I->openFile(base_path()."/resources/views/books/partials/index-assets.blade.php");
         $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/index-assets.blade.php");
         $I->seeInThisFile($view);
 
-        // partial index-buttons
+        // index-buttons
         $I->openFile(base_path()."/resources/views/books/partials/index-buttons.blade.php");
         $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/index-buttons.blade.php");
         $I->seeInThisFile($view);
 
-        // partial index-create-form
+        // index-create-form
         $I->openFile(base_path()."/resources/views/books/partials/index-create-form.blade.php");
         $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/index-create-form.blade.php");
         $I->seeInThisFile($view);
 
-        // partial index-table
+        // index-table
         $I->openFile(base_path()."/resources/views/books/partials/index-table.blade.php");
         $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/index-table.blade.php");
+        $I->seeInThisFile($view);
+
+        // index-table-header
+        $I->openFile(base_path()."/resources/views/books/partials/index-table-header.blade.php");
+        $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/index-table-header.blade.php");
+        $I->seeInThisFile($view);
+
+        // index-table-search
+        $I->openFile(base_path()."/resources/views/books/partials/index-table-search.blade.php");
+        $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/index-table-search.blade.php");
+        $I->seeInThisFile($view);
+
+        // index-table-body
+        $I->openFile(base_path()."/resources/views/books/partials/index-table-body.blade.php");
+        $view = file_get_contents(__DIR__."/../_data/views/$this->theme/partials/index-table-body.blade.php");
         $I->seeInThisFile($view);
     }
 }

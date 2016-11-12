@@ -7,7 +7,7 @@
     cargada desde la vista index.
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -21,14 +21,14 @@
     ****************************************************************************
 --}}
 
-<div class="modal fade" id="create-form-modal" tabindex="-1" role="dialog" aria-labelledby="{{trans('book/views.index.create-form-modal-title')}}">
+<div class="modal fade" id="create-form-modal" tabindex="-1" role="dialog" arialedby="{{trans('book.index-create-form-modal-title')}}">
     <div class="modal-dialog modal-lg" role="document">
 
         <div class="modal-content">
 
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">{{trans('book/views.index.create-form-modal-title')}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{{trans('book.index-create-form-modal-title')}}</h4>
             </div>
 
             <div class="modal-body">
@@ -42,13 +42,13 @@
                     <div class="form-group col-sm-6">
                         <button type="submit" class="btn btn-primary">
                             <span class="glyphicon glyphicon-floppy-disk"></span>
-                            <span class="">{{trans('book/views.create.btn-create')}}</span>
+                            <span class="">{{trans('core::shared.create-btn')}}</span>
                         </button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">
                             <span class="glyphicon glyphicon-remove"></span>
                             <span>Cerrar</span>
                         </button>
-                        <span id="helpBlock" class="help-block">{!!trans('book/views.inputs-required-help')!!}</span>
+                        <span id="helpBlock" class="help-block">{!!trans('core::shared.inputs-required-msg')!!}</span>
                     </div>
                     <div class="clearfix"></div>
                     

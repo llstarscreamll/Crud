@@ -5,7 +5,7 @@
     Muestra la vista de edición de registros.
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -22,7 +22,7 @@
 @extends('core::layouts.app-sidebar')
 
 {{-- page title --}}
-@section('title') {{trans('book/views.edit.name').trans('book/views.module.name-singular')}} @endsection
+@section('title') {{trans('core::shared.views.edit').trans('book.module.name-singular')}} @endsection
 {{-- /page title --}}
 
 {{-- view styles --}}
@@ -34,7 +34,7 @@
 @section('content')
 
 {{-- heading --}}
-@include('books.partials.heading', ['small_title' => trans('book/views.edit.name')])
+@include('books.partials.heading', ['small_title' => trans('core::shared.views.edit')])
     
 {{-- content --}}
 <div class="wrapper wrapper-content">
@@ -50,8 +50,7 @@
                 {!! Form::model(
                     $book,
                     [
-                        'route' => ['books.update',
-                        $book->id],
+                        'route' => ['books.update', $book->id],
                         'method' => 'PUT',
                         'name' => 'edit-books-form'
                     ]
@@ -64,9 +63,9 @@
                     <div class="form-group col-sm-6">
                         <button type="submit" class="btn btn-warning">
                             <span class="glyphicon glyphicon-pencil"></span>
-                            <span class="">{{trans('book/views.edit.btn-edit')}}</span> 
+                            <span class="">{{trans('core::shared.edit-btn')}}</span> 
                         </button>
-                        <span id="helpBlock" class="help-block">{!!trans('book/views.inputs-required-help')!!}</span>
+                        <span id="helpBlock" class="help-block">{!!trans('core::shared.inputs-required-msg')!!}</span>
                     </div>
 
                     <div class="clearfix"></div>
@@ -86,8 +85,5 @@
 
 {{-- view scripts--}}
 @section('scripts')
-
-@include('books.partials.form-assets')
 @include('books.partials.form-scripts')
-
 @endsection()

@@ -20,6 +20,9 @@ use App\Models\Book;
 use llstarscreamll\Core\Models\Role;
 use llstarscreamll\Core\Models\Permission;
 use Page\Functional\Books\Index as Page;
+use Page\Functional\Books\Destroy as DestroyPage;
+use Page\Functional\Books\Create as CreatePage;
+use Page\Functional\Books\Edit as EditPage;
 
 class PermissionsCest
 {
@@ -48,7 +51,11 @@ class PermissionsCest
         ];
 
         // quitamos permisos de edición a los roles
-        $permission = Permission::whereIn('slug', $permissions)->get(['id'])->pluck('id')->toArray();
+        $permission = Permission::whereIn('slug', $permissions)
+            ->get(['id'])
+            ->pluck('id')
+            ->toArray();
+
         Role::all()->each(function ($item) use ($permission) {
             $item->permissions()->detach($permission);
         });
@@ -70,13 +77,12 @@ class PermissionsCest
 
         // no debo ver link de acceso a página de creación en Index
         $I->amOnPage(Page::$moduleURL);
-        $I->dontSee('Crear Libro', 'button.btn.btn-default.btn-sm');
-        $I->dontSee('Crear Libro', 'a.btn.btn-default.btn-sm');
+        $I->dontSee(CreatePage::$createBtn, CreatePage::$createBtnElem);
 
         // si intento acceder a la página soy redirigido al home de la app
         $I->amOnPage(Page::route('/create'));
-        $I->seeCurrentUrlEquals('/home');
-        $I->see('No tienes permisos para realizar esta acción.', '.alert.alert-warning');
+        $I->seeCurrentUrlEquals(Page::$homeUrl);
+        $I->see(Page::$badPermissionsMsg, Page::$badPermissionsMsgElem);
     }
 
     /**
@@ -92,47 +98,46 @@ class PermissionsCest
 
         // no debo ver link de acceso a página de edición en Index
         $I->amOnPage(Page::$moduleURL);
-        $I->dontSee('Editar', 'tbody tr td a.btn.btn-warning.btn-xs');
+        $I->dontSee(EditPage::$linkToEdit, 'tbody tr td '.EditPage::$linkToEditElem);
 
         // el la página de detalles del registro no debo ver el link a página de
         // edición
         $I->amOnPage(Page::route("/$this->bookId"));
-        $I->dontSee('Editar', '.form-group a.btn.btn-warning');
+        $I->dontSee(EditPage::$linkToEdit, '.form-group '.EditPage::$linkToEditElem);
 
         // si intento acceder a la página de edición de un registro soy
         // redirigido al home de la app
         $I->amOnPage(Page::route("/$this->bookId/edit"));
-        $I->seeCurrentUrlEquals('/home');
-        $I->see('No tienes permisos para realizar esta acción.', '.alert.alert-warning');
+        $I->seeCurrentUrlEquals(Page::$homeUrl);
+        $I->see(Page::$badPermissionsMsg, Page::$badPermissionsMsgElem);
     }
 
     /**
-     * Prueba que las restricciones con los permisos de eliminación funcionen
-     * correctamente.
+     * Prueba que las restricciones con los permisos de mover a papelera     * funcionen correctamente.
      *
      * @param    FunctionalTester $I
      * @group    Books
      */ 
-    public function deletePermissions(FunctionalTester $I)
+    public function trashPermissions(FunctionalTester $I)
     {
-        $I->wantTo('probar permisos de eliminación en módulo '.Page::$moduleName);
+        $I->wantTo('probar permisos de mover a papelera en módulo '.Page::$moduleName);
 
         // no debo ver link de acceso a página de edición en Index
         $I->amOnPage(Page::$moduleURL);
-        $I->dontSee('Mover a papelera', 'tbody tr td button.btn.btn-danger.btn-xs');
-        $I->dontSee('Borrar Libros seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->dontSee(DestroyPage::$trashBtn, DestroyPage::$trashBtnElem);
+        $I->dontSee(DestroyPage::$trashManyBtn, DestroyPage::$trashManyBtnElem);
         // en página de detalles del registro no debo ver botón "Mover a Papelera"
         $I->amOnPage(Page::route("/$this->bookId"));
-        $I->dontSee('Mover a papelera', '.form-group button.btn.btn-danger');
+        $I->dontSee(DestroyPage::$trashBtn, DestroyPage::$trashBtnElem);
     }
 
     /**
-     * Prueba que las restricciones con los permisos de restauración de registros
+     * Prueba que las restricciones con los permisos de restauración de
      * registros en papelera funcionen correctamente.
      *
      * @param    FunctionalTester $I
      * @group    Books
-     */ 
+     */
     public function restorePermissions(FunctionalTester $I)
     {
         $I->wantTo('probar permisos de restauración en módulo '.Page::$moduleName);
@@ -141,9 +146,13 @@ class PermissionsCest
         Book::destroy($this->bookId);
 
         // no debo ver link de acceso a página de edición en Index
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
-        $I->dontSee('Restaurar', 'tbody tr td button.btn.btn-success.btn-xs');
-        $I->dontSee('Restaurar Libros seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->amOnPage(
+            route(
+                'books.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
+            )
+        );
+        $I->dontSee(Page::$restoreBtn, Page::$restoreBtnElem);
+        $I->dontSee(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
     }
-
 }

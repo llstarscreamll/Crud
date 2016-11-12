@@ -6,7 +6,7 @@
     la base dedatos. Esta vista es llamada desde la vista index.
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -22,31 +22,31 @@
 
 <div class="row tools">
     <div class="col-md-6 action-buttons">
-    @if (Request::get('trashed_records') != 'onlyTrashed' && auth()->user()->can('books.destroy'))
+    @if (array_get(Request::get(config('modules.core.app.search-fields-prefix', 'search')), 'trashed_records', null) != 'onlyTrashed' && auth()->user()->can('books.destroy'))
 
     {{-- Formulario para borrar resgistros masivamente --}}
     {!! Form::open([
         'route' => ['books.destroy', 0],
         'method' => 'DELETE',
-        'id' => 'deleteMassivelyForm',
+        'id' => 'deletemanyForm',
         'class' => 'form-inline display-inline'
     ]) !!}
         
         {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para "eliminar" varios registro a la vez --}}
-        <button title="{{trans('book/views.index.delete-massively-button-label')}}"
-                class="btn btn-default btn-sm massively-action bootbox-dialog"
+        <button title="{{trans('core::shared.trash-many-btn')}}"
+                class="btn btn-default btn-sm many-action bootbox-dialog"
                 role="button"
                 data-toggle="tooltip"
                 data-placement="top"
                 {{-- Setup de ventana modal de confirmación --}}
-                data-modalTitle="{{trans('book/views.index.modal-delete-massively-title')}}"
-                data-modalMessage="{{trans('book/views.index.modal-delete-massively-message')}}"
-                data-btnLabel="{{trans('book/views.index.modal-delete-massively-btn-confirm-label')}}"
-                data-btnClassName="{{trans('book/views.index.modal-delete-massively-btn-confirm-class-name')}}"
-                data-targetFormId="deleteMassivelyForm"
+                data-modalTitle="{{trans('core::shared.trash-btn')}}"
+                data-modalMessage="{{trans('core::shared.modal-delete-many-message')}}"
+                data-btnLabel="{{trans('core::shared.modal-delete-many-btn-confirm')}}"
+                data-btnClassName="btn-danger"
+                data-targetFormId="deletemanyForm"
                 type="button">
             <span class="glyphicon glyphicon-trash"></span>
-            <span class="sr-only">{{trans('book/views.index.delete-massively-button-label')}}</span>
+            <span class="sr-only">{{trans('core::shared.trash-many-btn')}}</span>
         </button>
     
     {!! Form::close() !!}
@@ -55,31 +55,31 @@
 
 
     {{-- Esta opción sólo es mostrada si el usuario decidió consultar los registros "borrados" --}}
-    @if (Request::has('trashed_records') && auth()->user()->can('books.restore'))
+    @if (array_get(Request::get(config('modules.core.app.search-fields-prefix', 'search')), 'trashed_records', null) && auth()->user()->can('books.restore'))
 
     {{-- Formulario para restablecer resgistros masivamente --}}
     {!! Form::open([
         'route' => ['books.restore', 0],
         'method' => 'PUT',
-        'id' => 'restoreMassivelyForm',
+        'id' => 'restoremanyForm',
         'class' => 'form-inline display-inline'
     ]) !!}
         
         {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para restablecer varios registros a la vez --}}
-        <button title="{{trans('book/views.index.restore-massively-button-label')}}"
-                class="btn btn-default btn-sm massively-action bootbox-dialog"
+        <button title="{{trans('core::shared.restore-many-btn')}}"
+                class="btn btn-default btn-sm many-action bootbox-dialog"
                 role="button"
                 data-toggle="tooltip"
                 data-placement="top"
                 {{-- Setup de ventana modal de confirmación --}}
-                data-modalTitle="{{trans('book/views.index.modal-restore-massively-title')}}"
-                data-modalMessage="{{trans('book/views.index.modal-restore-massively-message')}}"
-                data-btnLabel="{{trans('book/views.index.modal-restore-massively-btn-confirm-label')}}"
-                data-btnClassName="{{trans('book/views.index.modal-restore-massively-btn-confirm-class-name')}}"
-                data-targetFormId="restoreMassivelyForm"
+                data-modalTitle="{{trans('core::shared.modal-restore-many-title')}}"
+                data-modalMessage="{{trans('core::shared.modal-restore-many-message')}}"
+                data-btnLabel="{{trans('core::shared.modal-restore-many-btn-confirm')}}"
+                data-btnClassName="btn-success"
+                data-targetFormId="restoremanyForm"
                 type="button">
             <span class="fa fa-mail-reply"></span>
-            <span class="sr-only">{{trans('book/views.index.restore-massively-button-label')}}</span>
+            <span class="sr-only">{{trans('core::shared.restore-many-btn')}}</span>
         </button>
     
     {!! Form::close() !!}
@@ -91,10 +91,10 @@
             {{--*******************************************************************************************************************************
                 Descomentar este bloque y comentar el bloque siguiente si se desea que el formulario de creación SI quede en la vista del index
                 *******************************************************************************************************************************--}}
-            <div class="display-inline" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('book/views.index.create-button-label')}}">
+            <div class="display-inline" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('book.index-create-btn')}}">
                 <button type="button" class="btn btn-default btn-sm" data-toggle="modal" data-target="#create-form-modal">
                     <span class="glyphicon glyphicon-plus"></span>
-                    <span class="sr-only">{{trans('book/views.index.create-button-label')}}</span>
+                    <span class="sr-only">{{trans('book.index-create-btn')}}</span>
                 </button>
             </div>
 
@@ -104,12 +104,11 @@
             {{-- Link que lleva a la página con el formulario de creación de registro --}}
             {{--******************************************************************************************************************************
                 Descomentar este bloque y comentar el bloque anterior si se desea que el formulario de creación NO quede en la vista del index
-            <a id="create-books-link" class="btn btn-default btn-sm" href="{!! route('books.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('book/views.index.create-button-label')}}">
+            <a id="create-books-link" class="btn btn-default btn-sm" href="{!! route('books.create') !!}" role="button"  data-toggle="tooltip" data-placement="top" title="{{trans('book.index-create-btn')}}">
                 <span class="glyphicon glyphicon-plus"></span>
-                <span class="sr-only">{{trans('book/views.index.create-button-label')}}</span>
+                <span class="sr-only">{{trans('book.index-create-btn')}}</span>
             </a>
                 ******************************************************************************************************************************--}}
         @endif
     </div>
-
 </div>

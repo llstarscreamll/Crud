@@ -5,7 +5,7 @@
     Muestra la vista de creación de registros.
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -22,7 +22,7 @@
 @extends('core::layouts.app-sidebar')
 
 {{-- page title --}}
-@section('title') {{trans('book/views.create.name').trans('book/views.module.name-singular')}} @stop
+@section('title') {{ trans('book.index-create-btn') }} @endsection
 {{-- /page title --}}
 
 {{-- view styles --}}
@@ -34,7 +34,7 @@
 @section('content')
 
 {{-- heading --}}
-@include('books.partials.heading', ['small_title' => trans('book/views.create.name')])
+@include('books.partials.heading', ['small_title' => trans('core::shared.views.create')])
     
 {{-- content --}}
 <div class="wrapper wrapper-content">
@@ -60,10 +60,10 @@
                     <div class="form-group col-sm-6">
                         <button type="submit" class="btn btn-primary">
                             <span class="glyphicon glyphicon-floppy-disk"></span>
-                            <span class="">{{trans('book/views.create.btn-create')}}</span>
+                            <span class="">{{trans('core::shared.create-btn')}}</span>
                         </button>
                         <span id="helpBlock" class="help-block">
-                            {!!trans('book/views.inputs-required-help')!!}
+                            {!!trans('core::shared.inputs-required-msg')!!}
                         </span>
                     </div>
 
@@ -84,8 +84,5 @@
 
 {{-- view scripts--}}
 @section('scripts')
-
-@include('books.partials.form-assets')
 @include('books.partials.form-scripts')
-
 @endsection()

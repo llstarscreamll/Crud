@@ -17,9 +17,9 @@ namespace Books;
 
 use App\Models\Book;
 use FunctionalTester;
-use Page\Functional\Books\Delete as Page;
+use Page\Functional\Books\Destroy as Page;
 
-class DeleteCest
+class DestroyCest
 {
     /**
      * Las acciones a realizar antes de cada test.
@@ -33,22 +33,22 @@ class DeleteCest
     }
 
     /**
-     * Prueba la funcionalidad de eliminar un registro.
+     * Prueba la funcionalidad de mover a papelera un registro.
      *
      * @param    FunctionalTester $I
      * @group    Books
      */ 
-    public function delete(FunctionalTester $I)
+    public function trash(FunctionalTester $I)
     {
-        $I->wantTo('eliminar registro en módulo '.Page::$moduleName);
+        $I->wantTo('mover a papelera registro en módulo '.Page::$moduleName);
 
         // creo registro de prueba
         Page::haveBook($I);
 
-        // voy a la página de detalles del registro y doy clic al botón "Enviar
-        // a Papelera"
+        // voy a la página de detalles del registro y doy clic al botón
+        // "Mover a Papelera"
         $I->amOnPage(Page::route('/'.Page::$bookData['id']));
-        $I->click(Page::$deleteBtn, Page::$deleteBtnElem);
+        $I->click(Page::$trashBtn, Page::$trashBtnElem);
 
         // soy redirigido al Index y debo ver mensaje de éxito en la operación
         $I->seeCurrentUrlEquals(Page::$moduleURL);
@@ -58,27 +58,30 @@ class DeleteCest
     }
 
     /**
-     * Prueba la funcionalidad de mover a la papelera varios registros a la vez.
+     * Prueba la funcionalidad de mover a papelera varios registros a la vez.
      *
      * @param    FunctionalTester $I
      * @group    Books
      */ 
-    public function deleteMany(FunctionalTester $I)
+    public function trashMany(FunctionalTester $I)
     {
-        $I->wantTo('eliminar varios registros a la vez en módulo '.Page::$moduleName);
+        $I->wantTo('mover a papelera varios registros a la vez en módulo '.Page::$moduleName);
 
         // creo registros de prueba
         $books = factory(Book::class, 10)->create();
 
-        // cuando cargo el Index el botón "Mover a la Papelera" debe ser mostrado
+        // cuando cargo el Index el botón "Mover a Papelera" debe
+        // ser mostrado
         $I->amOnPage(Page::$moduleURL);
-        $I->see('Borrar Libros seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->see(Page::$trashManyBtn, Page::$trashManyBtnElem);
         
-        // cargo la ruta que "Mueve a Papelera" los registros
-        $I->destroyMany('books.destroy', $books->pluck('id')->toArray());
+        // cargo la ruta que "Mover a Papelera" los registros
+        $I->submitForm('#deletemanyForm', [
+            'id' => $books->pluck('id')->toArray()
+        ]);
         
         // soy redirigido al Index y no debe haber datos que mostrar
         $I->seeCurrentUrlEquals(Page::$moduleURL);
-        $I->see('No se encontraron registros...', '.alert.alert-warning');
+        $I->see(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
     }
 }

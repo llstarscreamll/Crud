@@ -17,21 +17,31 @@ namespace Page\Functional\Books;
 
 use FunctionalTester;
 
-class Show extends Index
+class Destroy extends Index
 {
     /**
-     * El título de la página.
+     * El botón de mover a papelera.
      *
      * @var  string
      */
-    public static $title = 'Detalles';
+    public static $trashBtn = 'Mover a Papelera';
+    public static $trashBtnElem = 'button.btn.btn-danger';
 
     /**
-     * El selector del formulario de sólo lectura de los datos.
+     * Botón de mover a papelera varios registros.
      *
      * @var  string
      */
-    public static $form = 'form[name=show-books-form]';
+    public static $trashManyBtn = 'Mover seleccionados a papelera';
+    public static $trashManyBtnElem = 'button.btn.btn-default.btn-sm';
+
+    /**
+     * Mensaje de éxito al mover a papelera un registro.
+     *
+     * @var  string
+     */
+    public static $msgSuccess = 'El libro ha sido movido a la papelera.';
+    public static $msgSuccessElem = '.alert.alert-success';
 
     public function __construct(FunctionalTester $I)
     {

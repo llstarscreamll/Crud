@@ -31,29 +31,38 @@ class Create extends Index
      *
      * @var  string
      */
-    static $title = 'Crear';
+    public static $title = 'Crear';
+
+    /**
+     * El enlace botón para ir a formulario de creación. El selector puede ser
+     * un link <a> o un botón <button>, pero la clase es la misma en los dos.
+     *
+     * @var  string
+     */
+    public static $createBtn = 'Crear Libro';
+    public static $createBtnElem = '.btn.btn-default.btn-sm';
 
     /**
      * El selector del formulario.
      *
      * @var  string
      */
-    static $form = 'form[name=create-books-form]';
+    public static $form = 'form[name=create-books-form]';
 
     /**
      * El botón submit del formulario.
      *
      * @var  array
      */
-    static $formBtnElem = 'button.btn.btn-primary';
+    public static $formBtnElem = 'button.btn.btn-primary';
 
     /**
      * Mensaje de éxito al crear un registro.
      *
      * @var  array
      */
-    static $msgSuccess = 'Libro creado correctamente.';
-    static $msgSuccessElem = '.alert.alert-success';
+    public static $msgSuccess = 'Libro creado correctamente.';
+    public static $msgSuccessElem = '.alert.alert-success';
 
     public function __construct(FunctionalTester $I)
     {

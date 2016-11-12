@@ -78,8 +78,8 @@ class EditCest
         $I->amOnPage(Page::route('/'.Page::$bookData['id']));
         
         // veo los datos actualizados en el formulario de sólo lectura
-        $updateData = Page::unsetHiddenFields($updateData);
         $updateData = Page::unsetConfirmationFields($updateData);
         $I->seeInFormFields('form', $updateData);
+        $I->seeRecord('books', $updateData);
     }
 }

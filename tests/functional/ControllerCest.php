@@ -1,19 +1,21 @@
 <?php
 
-namespace CRUD;
+namespace Crud;
 
-use Crud\FunctionalTester;
 use Crud\Page\Functional\Generate as Page;
 
-class GenerateLanguajeFilesCest
+class ControllerCest
 {
     public function _before(FunctionalTester $I)
     {
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
 
+        $I->seeAuthentication();
         $I->amOnPage(Page::route('?table_name='.Page::$tableName));
         $I->see(Page::$title, Page::$titleElem);
+
+        // envío el formulario de creación del CRUD
         $I->submitForm('form[name=CRUD-form]', Page::$formData);
     }
 
@@ -22,12 +24,13 @@ class GenerateLanguajeFilesCest
      *
      * @param FunctionalTester $I
      */
-    public function checkLanguageFilesCode(FunctionalTester $I)
+    public function checkControllerCode(FunctionalTester $I)
     {
-        $I->wantTo('revisar archivo de lenguaje generado');
+        $I->wantTo('revisar el controlador generado');
 
-        $I->openFile(base_path().'/resources/lang/es/book.php');
-        $langFile = file_get_contents(__DIR__.'/../_data/lang/views.php');
-        $I->seeInThisFile($langFile);
+        $I->openFile(base_path().'/app/Http/Controllers/BookController.php');
+        $controller = file_get_contents(__DIR__.'/../_data/controllers/BookController.php');
+
+        $I->seeInThisFile($controller);
     }
 }

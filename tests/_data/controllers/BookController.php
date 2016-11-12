@@ -16,10 +16,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Book;
+use App\Services\BookService;
+use App\Http\Requests\BookRequest;
 use App\Http\Controllers\Controller;
-use llstarscreamll\Core\Models\User;
-use App\Models\Reason;
 
 /**
  * Clase BookController
@@ -33,170 +32,105 @@ class BookController extends Controller
      *
      * @var  String
      */
-    public $viewDir = "books";
+    private $viewsDir = "books";
+    
+    /**
+     * @var  App\Services\BookService
+     */
+    private $bookService;
     
     /**
      * Create a new controller instance.
      */
-    public function __construct()
+    public function __construct(BookService $bookService)
     {
         // el usuario debe estar autenticado para acceder al controlador
         $this->middleware('auth');
         // el usuario debe tener permisos para acceder al controlador
         $this->middleware('permission', ['except' => ['store', 'update']]);
+        $this->bookService = $bookService;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  App\Http\Requests\BookRequest $request
      *
-     * @return  \Illuminate\Http\Response
+     * @return  Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(BookRequest $request)
     {
-        // los datos para la vista
-        $data = array();
+        $data = $this->bookService->getIndexTableData($request);
+        $data['records'] = $this->bookService->indexSearch($request);
 
-        $data['approved_by_list'] = User::pluck('name', 'id')->all();
-        $data['approved_by_list_json'] = collect($data['approved_by_list'])
-            ->map(function ($item, $key) { return [$key => $item];})
-            ->values()
-            ->toJson();
-
-        $data['reason_id_list'] = Reason::pluck('name', 'id')->all();
-        $data['reason_id_list_json'] = collect($data['reason_id_list'])
-            ->map(function ($item, $key) { return [$key => $item];})
-            ->values()
-            ->toJson();
-
-        $data['status_list'] = Book::getEnumValuesArray('books', 'status');
-        $data['status_list_json'] = collect($data['status_list'])
-            ->map(function ($item, $key) { return [$key => $item];})
-            ->values()
-            ->toJson();
-
-        $data['records'] = Book::findRequested($request);
-        
-        return $this->view("index", $data);
+        return $this->view('index', $data);
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return  \Illuminate\Http\Response
+     * @return  Illuminate\Http\Response
      */
     public function create()
     {
-        // los datos para la vista
-        $data = array();
-        $data['approved_by_list'] = User::pluck('name', 'id')->all();
-
-        $data['reason_id_list'] = Reason::pluck('name', 'id')->all();
-
-        $data['status_list'] = Book::getEnumValuesArray('books', 'status');
-
-
-        return $this->view("create", $data);
+        $data = $this->bookService->getCreateFormData();
+        return $this->view('create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param    \Illuminate\Http\Request  $reques
+     * @param    App\Http\Requests\BookRequest  $request
      *
-     * @return  \Illuminate\Http\Response
+     * @return  Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-        $this->validate($request, Book::validationRules(null, $request), [], trans('book/validation.attributes'));
-
-        Book::create($request->all());
-        $request->session()->flash('success', trans('book/messages.create_book_success'));
-        
+        $this->bookService->store($request);
         return redirect()->route('books.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  string $id
+     * @param  int $id
      *
-     * @return  \Illuminate\Http\Response
+     * @return  Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show(int $id)
     {
-        // los datos para la vista
-        $data = array();
-        $data['book'] = Book::findOrFail($id);
-
-        $data['approved_by_list'] = ($user = User::where('id', $data['book']->approved_by)->first())
-            ? $user->pluck('name', 'id')->all()
-            : [];
-
-        $data['reason_id_list'] = ($reason = Reason::where('id', $data['book']->reason_id)->first())
-            ? $reason->pluck('name', 'id')->all()
-            : [];
-
-        $data['status_list'] = Book::getEnumValuesArray('books', 'status');
-        
-        return $this->view("show", $data);
+        $data = $this->bookService->getShowFormData($id);
+        return $this->view('show', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  string $id
+     * @param  int $id
      *
-     * @return  \Illuminate\Http\Response
+     * @return  Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit(int $id)
     {
-        // los datos para la vista
-        $data = array();
-        $data['book'] = Book::findOrFail($id);
-
-        $data['approved_by_list'] = User::pluck('name', 'id')->all();
-
-        $data['reason_id_list'] = Reason::pluck('name', 'id')->all();
-
-        $data['status_list'] = Book::getEnumValuesArray('books', 'status');
-
-        return $this->view("edit", $data);
+        $data = $this->bookService->getEditFormData($id);
+        return $this->view('edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  string $id
+     * @param  int $id
+     * @param  App\Http\Requests\BookRequest $request
      *
-     * @return  \Illuminate\Http\Response
+     * @return  Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(int $id, BookRequest $request)
     {
-        $book = Book::findOrFail($id);
-
-        if( $request->isXmlHttpRequest() )
-        {
-            $data = [$request->name  => $request->value];
-            $validator = \Validator::make($data, Book::validationRules($request->name, $request, 'update'), [], trans('book/validation.attributes'));
-            
-            if($validator->fails()) {
-                return response($validator->errors()->first( $request->name),403);
-            }
-
-            $book->update($data);
-
-            return "Record updated";
+        $this->bookService->update($id, $request);
+        
+        if ($request->isXmlHttpRequest()) {
+            return response('ok!!', 204);
         }
-
-        $this->validate($request, Book::validationRules(null, $request, 'update'), [], trans('book/validation.attributes'));
-
-        $book->update($request->all());
-        $request->session()->flash('success', trans('book/messages.update_book_success'));
 
         return redirect()->route('books.index');
     }
@@ -204,38 +138,28 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  string $id
+     * @param  int $id
+     * @param  App\Http\Requests\BookRequest $request
      *
-     * @return  \Illuminate\Http\Response
+     * @return  Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy(int $id, BookRequest $request)
     {
-        $id = $request->has('id') ? $request->get('id') : $id;
-
-        Book::destroy($id)
-            ? $request->session()->flash('success', trans_choice('book/messages.destroy_book_success', count($id)))
-            : $request->session()->flash('error', trans_choice('book/messages.destroy_book_error', count($id)));
-
+        $this->bookService->destroy($id, $request);
         return redirect()->route('books.index');
     }
 
     /**
      * Restore the specified resource from storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  string $id
+     * @param  int $id
+     * @param  App\Http\Requests\BookRequest $request
      *
-     * @return  \Illuminate\Http\Response
+     * @return  Illuminate\Http\Response
      */
-    public function restore(Request $request, $id)
+    public function restore(int $id, BookRequest $request)
     {
-        $id = $request->has('id') ? $request->get('id') : $id;
-
-        Book::onlyTrashed()->whereIn('id', $id)->restore()
-            ? $request->session()->flash('success', trans_choice('book/messages.restore_book_success', count($id)))
-            : $request->session()->flash('error', trans_choice('book/messages.restore_book_error', count($id)));
-
+        $this->bookService->restore($id, $request);
         return redirect()->route('books.index');
     }
     
@@ -243,12 +167,12 @@ class BookController extends Controller
      * Devuelve la vista con los respectivos datos.
      *
      * @param  string $view
-     * @param  string $data
+     * @param  array  $data
      *
-     * @return  \Illuminate\Http\Response
+     * @return  Illuminate\Http\Response
      */
-    protected function view($view, $data = [])
+    protected function view(string $view, array $data = [])
     {
-        return view($this->viewDir.".".$view, $data);
+        return view($this->viewsDir.'.'.$view, $data);
     }
 }

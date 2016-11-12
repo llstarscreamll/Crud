@@ -17,7 +17,7 @@
     datos mostrados en la tabla.
     ****************************************************************************
 
-    Este archivo es parte del Books.
+    Este archivo es parte de Books.
     (c) Johan Alvarez <llstarscreamll@hotmail.com>
     Licensed under The MIT License (MIT).
 
@@ -53,7 +53,7 @@
 
 {!! $records->appends(Request::query())->render() !!}
 
-<div>
+<div class="table-notes">
     <strong>Notas:</strong>
     <ul>
         <li>Los registros que están "Eliminados", se muestran con <span class="bg-danger">Fondo Rojo</span>.</li>

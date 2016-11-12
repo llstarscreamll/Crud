@@ -18,6 +18,7 @@ namespace Books;
 use App\Models\Book;
 use FunctionalTester;
 use Page\Functional\Books\Index as Page;
+use Page\Functional\Books\Destroy as DestroyPage;
 
 class IndexCest
 {
@@ -33,11 +34,12 @@ class IndexCest
     }
 
     /**
-     * Crea 10 y mueve a papelera 2 registros de prueba en la base de datos.
+     * Crear 10, luego mover a papelera 2 registros de prueba en la base de
+     * datos.
      *
      * @return  Illuminate\Database\Eloquent\Collection
      * @group    Books
-     */ 
+     */
     private function createAndSoftDeleteSomeRecords()
     {
         // creo registros de prueba
@@ -54,7 +56,7 @@ class IndexCest
      *
      * @param    FunctionalTester $I
      * @group    Books
-     */ 
+     */
     public function index(FunctionalTester $I)
     {
         $I->wantTo('probar vista index de módulo '.Page::$moduleName);
@@ -65,9 +67,11 @@ class IndexCest
         $I->amOnPage(Page::$moduleURL);
         $I->see(Page::$moduleName, Page::$titleElem);
 
+        $indexData = Page::getIndexTableData();
+
         // veo los respectivos datos en la tabla
-        foreach (Page::getIndexTableData() as $field => $value) {
-            $I->see($value, Page::$table.' tbody tr.item-1 td.'.$field);
+        foreach (Page::$tableColumns as $column) {
+            $I->see($indexData[$column], Page::$table." tbody tr.item-{$indexData['id']} td.$column");
         }
     }
 
@@ -78,10 +82,10 @@ class IndexCest
      *
      * @param    FunctionalTester $I
      * @group    Books
-     */ 
+     */
     public function seeTrashedData(FunctionalTester $I)
     {
-        $I->wantTo('ver registros en papelera en index de módulo '.Page::$moduleName);
+        $I->wantTo('ver registros en papelera en index, módulo '.Page::$moduleName);
         
         // creo registros de prueba y elimino algunos
         $booksTrashed = $this->createAndSoftDeleteSomeRecords();
@@ -89,7 +93,12 @@ class IndexCest
         $books = Book::all();
 
         // con registros en papelera
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
+        $I->amOnPage(
+            route(
+                'books.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
+            )
+        );
 
         // las filas de los registros que están en papelera deben aparecer con
         // la clase danger, es decir con un fondo rojo, las filas que no están
@@ -102,7 +111,12 @@ class IndexCest
         }
 
         // sólo registros en papelera
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=onlyTrashed');
+        $I->amOnPage(
+            route(
+                'books.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
+            )
+        );
 
         foreach ($booksTrashed as $item) {
             $I->see($item->id, 'tbody tr.danger td.id');
@@ -119,10 +133,10 @@ class IndexCest
      *
      * @param    FunctionalTester $I
      * @group    Books
-     */ 
+     */
     public function seeRestoreButtonIfShownTrashedRecords(FunctionalTester $I)
     {
-        $I->wantTo('ver botón restablecer si hay registros en papelera Index de módulo '.Page::$moduleName);
+        $I->wantTo('ver botón restablecer según filtros en Index, módulo '.Page::$moduleName);
 
         // creo registros de prueba y elimino algunos
         $booksTrashed = $this->createAndSoftDeleteSomeRecords();
@@ -130,16 +144,26 @@ class IndexCest
         // si el usuario no desea mostrar los registros en papelera, el botón no
         // debe ser mostrado
         $I->amOnPage(Page::$moduleURL);
-        $I->dontSee('Restaurar Seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->dontSee(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
 
         // si ha decidido mostrar los registros en papelera, el botón debe ser
         // mostrado
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
-        $I->see('Restaurar Libros seleccionados', 'button.btn.btn-default.btn-sm');
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=onlyTrashed');
-        $I->see('Restaurar Libros seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->amOnPage(
+            route(
+                'books.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
+            )
+        );
+        $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
+        $I->amOnPage(
+            route(
+                'books.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
+            )
+        );
+        $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
         // las filas borradas de la tabla también deben mostrar el botón
-        $I->see('Restaurar', 'tbody tr.danger td button.btn.btn-success.btn-xs');
+        $I->see(Page::$restoreBtn, Page::$restoreBtnElem);
     }
 
     /**
@@ -150,22 +174,32 @@ class IndexCest
      *
      * @param    FunctionalTester $I
      * @group    Books
-     */ 
+     */
     public function dontSeeTrashButtonIfShownOnlyTrashedData(FunctionalTester $I)
     {
-        $I->wantTo('ocultar botón "mover a papelera" si no hay registros que mover en Index de módulo '.Page::$moduleName);
+        $I->wantTo('ocultar botón Mover a Papelera según filtros en Index, módulo '.Page::$moduleName);
 
         // creo registros de prueba y elimino algunos
         $booksTrashed = $this->createAndSoftDeleteSomeRecords();
 
         // sólo se oculta el botón si lo unico que se desea consultar son los
         // registros en papelera
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=onlyTrashed');
-        $I->dontSee('Borrar Libros seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->amOnPage(
+            route(
+                'books.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
+            )
+        );
+        $I->dontSee(DestroyPage::$trashManyBtn, DestroyPage::$trashManyBtnElem);
         $I->amOnPage(Page::$moduleURL);
-        $I->see('Borrar Libros seleccionados', 'button.btn.btn-default.btn-sm');
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
-        $I->see('Borrar Libros seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->see(DestroyPage::$trashManyBtn, DestroyPage::$trashManyBtnElem);
+        $I->amOnPage(
+            route(
+                'books.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
+            )
+        );
+        $I->see(DestroyPage::$trashManyBtn, DestroyPage::$trashManyBtnElem);
     }
 
     /**
@@ -174,10 +208,10 @@ class IndexCest
      *
      * @param    FunctionalTester $I
      * @group    Books
-     */ 
+     */
     public function restoreManyTrashedRecords(FunctionalTester $I)
     {
-        $I->wantTo('restaurar varios registros en papelera a la vez en módulo '.Page::$moduleName);
+        $I->wantTo('restaurar varios registros en papelera, módulo '.Page::$moduleName);
 
         // creo y muevo a papelera algunos registros
         $books = factory(Book::class, 10)->create();
@@ -187,23 +221,30 @@ class IndexCest
 
         // si voy al Index no debe haber datos
         $I->amOnPage(Page::$moduleURL);
-        $I->see('No se encontraron registros...', '.alert.alert-warning');
+        $I->see(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
 
         // envío parámetros a Index para que cargue los registros en papelera
-        $I->amOnPage(Page::$moduleURL.'?trashed_records=withTrashed');
-        $I->dontSee('No se encontraron registros...', '.alert.alert-warning');
+        $I->amOnPage(
+            route(
+                'books.index',
+                [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
+            )
+        );
+        $I->dontSee(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
         // los registros en papelera se muestran con clase danger en las filas
         // de la tabla
         $I->seeElement('tbody tr.danger');
         // el botón para restaurar los registros en papelera mostrados debe
         // aparecer
-        $I->see('Restaurar Libros seleccionados', 'button.btn.btn-default.btn-sm');
+        $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
         
-        // cargo la ruta para restaurar todos los registros en papelera
-        $I->restoreMany('books.restore', $books->pluck('id')->toArray());
+        // envío formulario de restauración todos los registros en papelera
+        $I->submitForm('#restoremanyForm', [
+            'id' => $books->pluck('id')->toArray()
+        ]);
         
         // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::$moduleURL);
-        $I->dontSee('No se encontraron registros...', '.alert.alert-warning');
+        $I->dontSee(Page::$noDataFountMsg, Page::$noDataFountMsgElem);
     }
 }

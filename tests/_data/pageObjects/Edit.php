@@ -25,30 +25,30 @@ class Edit extends Index
      *
      * @var  array
      */
-    static $linkToEdit = 'Editar';
-    static $linkToEditElem = 'a.btn.btn-warning';
+    public static $linkToEdit = 'Editar';
+    public static $linkToEditElem = 'a.btn.btn-warning';
     
     /**
      * El título de la página.
      *
      * @var  string
      */
-    static $title = 'Actualizar';
+    public static $title = 'Editar';
 
     /**
      * El selector del formulario de edición.
      *
      * @var  string
      */
-    static $form = 'form[name=edit-books-form]';
+    public static $form = 'form[name=edit-books-form]';
 
     /**
      * Mensaje de éxito al actualizar un registro.
      *
      * @var  array
      */
-    static $msgSuccess = 'Libro actualizado correctamente.';
-    static $msgSuccessElem = '.alert.alert-success';
+    public static $msgSuccess = 'Libro actualizado correctamente.';
+    public static $msgSuccessElem = '.alert.alert-success';
 
     public function __construct(FunctionalTester $I)
     {
@@ -94,7 +94,7 @@ class Edit extends Index
             'genre' => "Thriller",
             'stars' => "5",
             'published_year' => "2016-05-05",
-            'enabled' => true,
+            'enabled' => '0',
             'status' => "approved",
             'unlocking_word' => "asdfghjklñ",
             'unlocking_word_confirmation' => "asdfghjklñ",
