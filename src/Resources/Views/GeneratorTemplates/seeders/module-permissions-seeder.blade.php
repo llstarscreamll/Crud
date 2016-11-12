@@ -13,6 +13,11 @@
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 
+/**
+ * Clase <?= $gen->modelClassName() ?>PermissionsSeeder
+ *
+ * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
+ */
 class <?= $gen->modelClassName() ?>PermissionsSeeder extends Seeder
 {
     public function run()
