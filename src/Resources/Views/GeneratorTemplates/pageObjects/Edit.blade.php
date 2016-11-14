@@ -92,9 +92,9 @@ class <?= $test ?> extends Index
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->on_update_form) { ?>
 <?php if ($field->type == 'tinyint') { ?>
-<?php if ($field->testData == 'false' || $dield->testData == '0') { ?>
+<?php if ($field->testData == 'false' || $field->testData == '0') { ?>
             '<?= $field->name ?>' => '0',
-<?php } elseif ($field->testData == 'true' || $dield->testData == '1') { ?>
+<?php } elseif ($field->testData == 'true' || $field->testData == '1') { ?>
             '<?= $field->name ?>' => true,
 <?php } ?>
 <?php } else { ?>
