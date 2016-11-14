@@ -82,6 +82,6 @@ class <?= $test ?>Cest
         // veo los datos actualizados en el formulario de sólo lectura
         $updateData = Page::unsetConfirmationFields($updateData);
         $I->seeInFormFields('form', $updateData);
-        $I->seeRecord('<?= $gen->table_name ?>', $updateData);
+        $I->seeRecord('<?= $gen->table_name ?>', null_empty_fields($updateData));
     }
 }

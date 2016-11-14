@@ -64,6 +64,6 @@ class CreateCest
         // veo mensaje de éxito en la operación
         $I->see(Page::$msgSuccess, Page::$msgSuccessElem);
         $formData = Page::unsetConfirmationFields($formData);
-        $I->seeRecord('books', $formData);
+        $I->seeRecord('books', null_empty_fields($formData));
     }
 }

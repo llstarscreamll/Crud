@@ -65,6 +65,6 @@ class <?= $test ?>Cest
         // veo mensaje de éxito en la operación
         $I->see(Page::$msgSuccess, Page::$msgSuccessElem);
         $formData = Page::unsetConfirmationFields($formData);
-        $I->seeRecord('<?= $gen->table_name ?>', $formData);
+        $I->seeRecord('<?= $gen->table_name ?>', null_empty_fields($formData));
     }
 }

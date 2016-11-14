@@ -81,6 +81,6 @@ class EditCest
         // veo los datos actualizados en el formulario de sólo lectura
         $updateData = Page::unsetConfirmationFields($updateData);
         $I->seeInFormFields('form', $updateData);
-        $I->seeRecord('books', $updateData);
+        $I->seeRecord('books', null_empty_fields($updateData));
     }
 }
