@@ -245,7 +245,8 @@ class <?= $gen->modelClassName() ?>Service
      */
     public function store(<?= $gen->modelClassName()."Request" ?> $request)
     {
-        $<?= $gen->modelVariableName() ?> = $this-><?= $gen->modelVariableName() ?>Repository->create($request->all());
+        $input = null_empty_fields($request->all());
+        $<?= $gen->modelVariableName() ?> = $this-><?= $gen->modelVariableName() ?>Repository->create($input);
         session()->flash('success', trans('<?= $gen->getLangAccess() ?>.store_<?= $gen->snakeCaseSingular() ?>_success'));
 
         return $<?= $gen->modelVariableName() ?>;
@@ -269,7 +270,8 @@ class <?= $gen->modelClassName() ?>Service
         }
 
 <?php } ?>
-        $<?= $gen->modelVariableName() ?> = $this-><?= $gen->modelVariableName() ?>Repository->update($request->all(), $id);
+        $input = null_empty_fields($request->all());
+        $<?= $gen->modelVariableName() ?> = $this-><?= $gen->modelVariableName() ?>Repository->update($input, $id);
         session()->flash(
             'success',
             trans('<?= $gen->getLangAccess() ?>.update_<?= $gen->snakeCaseSingular() ?>_success')
