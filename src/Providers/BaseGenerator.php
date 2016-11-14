@@ -96,8 +96,14 @@ class BaseGenerator
             $field->on_index_table = isset($field_data['on_index_table']);
             $field->on_create_form = isset($field_data['on_create_form']);
             $field->on_update_form = isset($field_data['on_update_form']);
-            $field->testData = empty($field_data['testData']) ? 'null' : $field_data['testData'];
-            $field->testDataUpdate = empty($field_data['testDataUpdate']) ? 'null' : $field_data['testDataUpdate'];
+            $field->testData = empty($field_data['testData']) ? '""' : $field_data['testData'];
+            if ($field->name == "deleted_at" && empty($field_data['testData'])) {
+                $field->testData = 'null';
+            }
+            $field->testDataUpdate = empty($field_data['testDataUpdate']) ? '""' : $field_data['testDataUpdate'];
+            if ($field->name == "deleted_at" && empty($field_data['testDataUpdate'])) {
+                $field->testDataUpdate = 'null';
+            }
             $field->validation_rules = $field_data['validation_rules'];
 
             $fields[$field->name] = $field;
