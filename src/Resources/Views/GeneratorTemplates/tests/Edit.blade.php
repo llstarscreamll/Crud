@@ -69,6 +69,7 @@ class <?= $test ?>Cest
         // envío el formulario con los nuevos datos
         $updateData = Page::getDataToUpdateForm();
         $I->submitForm(Page::$form, $updateData);
+        $I->dontSeeFormErrors();
 
         // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::route(''));

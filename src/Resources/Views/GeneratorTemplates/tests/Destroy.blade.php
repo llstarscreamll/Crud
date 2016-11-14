@@ -84,6 +84,7 @@ class <?= $test ?>Cest
         $I->submitForm('#deletemanyForm', [
             'id' => $<?= str_plural($gen->modelVariableName()) ?>->pluck('id')->toArray()
         ]);
+        $I->dontSeeFormErrors();
         
         // soy redirigido al Index y no debe haber datos que mostrar
         $I->seeCurrentUrlEquals(Page::$moduleURL);

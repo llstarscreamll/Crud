@@ -264,6 +264,7 @@ class <?= $test ?>Cest
         $I->submitForm('#restoremanyForm', [
             'id' => $<?= str_plural($gen->modelVariableName()) ?>->pluck('id')->toArray()
         ]);
+        $I->dontSeeFormErrors();
         
         // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::$moduleURL);
