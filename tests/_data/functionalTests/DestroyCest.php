@@ -79,6 +79,7 @@ class DestroyCest
         $I->submitForm('#deletemanyForm', [
             'id' => $books->pluck('id')->toArray()
         ]);
+        $I->dontSeeFormErrors();
         
         // soy redirigido al Index y no debe haber datos que mostrar
         $I->seeCurrentUrlEquals(Page::$moduleURL);

@@ -57,6 +57,7 @@ class CreateCest
 
         // envío el formulario
         $I->submitForm(Page::$form, $formData, Page::$formBtnElem);
+        $I->dontSeeFormErrors();
 
         // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::$moduleURL);

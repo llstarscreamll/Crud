@@ -32,7 +32,7 @@ interface BookRepository extends RepositoryInterface
     public function getEnumValuesArray(string $column);
 
     public function getEnumFieldSelectList(string $column);
-
+    
     public function destroy($ids);
     
     public function restore($ids);

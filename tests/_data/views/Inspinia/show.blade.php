@@ -89,9 +89,9 @@
                                         data-toggle="tooltip"
                                         data-placement="top"
                                         {{-- Setup de ventana modal de confirmación --}}
-                                        data-modalMessage="{{trans('core::shared.modal-delete-message', ['item' => $book->name])}}"
-                                        data-modalTitle="{{trans('core::shared.modal-delete-title')}}"
-                                        data-btnLabel="{{trans('core::shared.modal-delete-btn-confirm')}}"
+                                        data-modalMessage="{{trans('core::shared.modal-trash-message', ['item' => $book->name])}}"
+                                        data-modalTitle="{{trans('core::shared.modal-trash-title')}}"
+                                        data-btnLabel="{{trans('core::shared.modal-trash-btn-confirm')}}"
                                         data-btnClassName="btn-danger"
                                         title="{{trans('core::shared.trash-btn')}}">
                                     <span class="fa fa-trash"></span>

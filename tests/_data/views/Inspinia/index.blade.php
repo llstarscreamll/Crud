@@ -6,9 +6,6 @@
     partials.index-table), se muestran botones a acciones y/o links de acceso a
     otras secciones, por ejemplo eliminar o crear registros (revisar
     partials.index-buttons).
-
-    En el footer del panel se muestra la versión de este paquete, el cual vincula
-    al changelog.
     ****************************************************************************
 
     Este archivo es parte de Books.
@@ -66,7 +63,7 @@
             {{-- box footer --}}
             <div class="ibox-footer">
                 <span class="pull-right version-info">
-                    <a href="#"><strong>v0.1</strong></a>
+                    <strong>v0.1</strong>
                 </span>
                 <div class="clearfix"></div>
             </div>

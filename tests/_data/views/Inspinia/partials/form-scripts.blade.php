@@ -29,7 +29,7 @@
     
     {{-- Inicializa el componente SwitchBootstrap --}}
     $(".bootstrap_switch").bootstrapSwitch();
-
+    
     {{-- Inicialización y configuración de Bootbox --}}
     initBootBoxComponent(
         '{{ trans('book.index.modal-default-title') }}',

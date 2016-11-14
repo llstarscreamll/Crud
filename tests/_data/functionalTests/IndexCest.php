@@ -242,6 +242,7 @@ class IndexCest
         $I->submitForm('#restoremanyForm', [
             'id' => $books->pluck('id')->toArray()
         ]);
+        $I->dontSeeFormErrors();
         
         // soy redirigido al Index del módulo
         $I->seeCurrentUrlEquals(Page::$moduleURL);

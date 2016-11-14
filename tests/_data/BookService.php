@@ -202,7 +202,8 @@ class BookService
      */
     public function store(BookRequest $request)
     {
-        $book = $this->bookRepository->create($request->all());
+        $input = null_empty_fields($request->all());
+        $book = $this->bookRepository->create($input);
         session()->flash('success', trans('book.store_book_success'));
 
         return $book;
@@ -218,7 +219,8 @@ class BookService
      */
     public function update(int $id, BookRequest $request)
     {
-        $this->bookRepository->update($request->all(), $id);
+        $input = null_empty_fields($request->all());
+        $book = $this->bookRepository->update($input, $id);
         session()->flash(
             'success',
             trans('book.update_book_success')

@@ -32,7 +32,7 @@
         'class' => 'form-inline display-inline'
     ]) !!}
         
-        {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para "eliminar" varios registro a la vez --}}
+        {{-- Botón que muestra ventana modal de confirmación para el envío del formulario para mover a papelera varios registro a la vez --}}
         <button title="{{trans('core::shared.trash-many-btn')}}"
                 class="btn btn-default btn-sm many-action bootbox-dialog"
                 role="button"
@@ -40,12 +40,12 @@
                 data-placement="top"
                 {{-- Setup de ventana modal de confirmación --}}
                 data-modalTitle="{{trans('core::shared.trash-btn')}}"
-                data-modalMessage="{{trans('core::shared.modal-delete-many-message')}}"
-                data-btnLabel="{{trans('core::shared.modal-delete-many-btn-confirm')}}"
+                data-modalMessage="{{trans('core::shared.modal-trash-many-message')}}"
+                data-btnLabel="{{trans('core::shared.modal-trash-many-btn-confirm')}}"
                 data-btnClassName="btn-danger"
                 data-targetFormId="deletemanyForm"
                 type="button">
-            <span class="glyphicon glyphicon-trash"></span>
+            <span class="fa fa-trash"></span>
             <span class="sr-only">{{trans('core::shared.trash-many-btn')}}</span>
         </button>
     

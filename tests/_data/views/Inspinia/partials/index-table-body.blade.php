@@ -163,7 +163,7 @@
             @endif
 
             @if(auth()->user()->can('books.destroy'))
-                {{-- Formulario para eliminar registro --}}
+                {{-- Formulario para mover a papelera registro --}}
                 {!! Form::open(['route' => ['books.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
                     
                     {{-- Botón muestra ventana modal de confirmación para el envío de formulario de eliminar el registro --}}
@@ -173,9 +173,9 @@
                             data-toggle="tooltip"
                             data-placement="top"
                             {{-- Setup de ventana modal de confirmación --}}
-                            data-modalMessage="{{trans('core::shared.modal-delete-message', ['item' => $record->name])}}"
-                            data-modalTitle="{{trans('core::shared.modal-delete-title')}}"
-                            data-btnLabel="{{trans('core::shared.modal-delete-btn-confirm')}}"
+                            data-modalMessage="{{trans('core::shared.modal-trash-message', ['item' => $record->name])}}"
+                            data-modalTitle="{{trans('core::shared.modal-trash-title')}}"
+                            data-btnLabel="{{trans('core::shared.modal-trash-btn-confirm')}}"
                             data-btnClassName="btn-danger"
                             title="{{trans('core::shared.trash-btn')}}">
                         <span class="fa fa-trash"></span>
