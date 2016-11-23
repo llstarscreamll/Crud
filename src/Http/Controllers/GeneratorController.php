@@ -8,11 +8,13 @@ use llstarscreamll\Crud\Providers\RouteGenerator;
 use llstarscreamll\Crud\Providers\ControllerGenerator;
 use llstarscreamll\Crud\Providers\ViewsGenerator;
 use llstarscreamll\Crud\Providers\TestsGenerator;
-use llstarscreamll\Crud\Providers\BaseGenerator;
 use llstarscreamll\Crud\Providers\ModelFactoryGenerator;
 use llstarscreamll\Crud\Providers\FormRequestGenerator;
 use llstarscreamll\Crud\Providers\ServiceGenerator;
 use llstarscreamll\Crud\Providers\RepositoryGenerator;
+use llstarscreamll\Crud\Providers\LangGenerator;
+use llstarscreamll\Crud\Providers\SeedersGenerator;
+use llstarscreamll\Crud\Providers\FurtherTasks;
 
 class GeneratorController extends Controller
 {
@@ -23,13 +25,15 @@ class GeneratorController extends Controller
     {
         // el usuario debe tener permisos para acceder al controlador
         // $this->middleware('checkPermissions', ['except' => ['store', 'update']]);
-        umask(0); // para evitar problemas con los permisos de ficheros y directorios
+        // para evitar problemas con los permisos de ficheros y directorios
+        umask(0);
     }
 
     /**
-     * [index description].
+     * Muestra el formulario donde se debe dar la tabla de la base de datos a la
+     * cual crearemos la CRUD app.
      *
-     * @return [type] [description]
+     * @return Illuminate\Http\Response
      */
     public function index()
     {
@@ -37,15 +41,13 @@ class GeneratorController extends Controller
     }
 
     /**
-     * [generate description].
+     * Ejecuta los scripts para generar los ficheros necesarios para la CRUD app
+     * de la tabla de la base de datos elegida.
      *
-     * @return [type] [description]
+     * @return Illuminate\Http\Response
      */
     public function generate(Request $request)
     {
-        // TODO:
-        // - Validar los campos que vienen del usuario
-
         // para flashear los mensajes
         $msg_success = array();
         $msg_error = array();
@@ -67,7 +69,7 @@ class GeneratorController extends Controller
                 );
         }
 
-        // el generador de los archivos de modelos
+        // las clases que generan la CRUD app
         $modelGenerator = new ModelGenerator($request);
         $controllerGenerator = new ControllerGenerator($request);
         $routeGenerator = new RouteGenerator($request);
@@ -77,49 +79,18 @@ class GeneratorController extends Controller
         $formRequestGenerator = new FormRequestGenerator($request);
         $serviceGenerator = new ServiceGenerator($request);
         $reposGenerator = new RepositoryGenerator($request);
+        $langGenerator = new LangGenerator($request);
+        $seedersGenerator = new SeedersGenerator($request);
+        $furtherTasks = new FurtherTasks();
 
-        // genero el repositorio
-        if ($reposGenerator->generate() === false) {
-            return redirect()
-                ->back()
-                ->with('error', 'Ocurrió un error generando los repositorios.');
-        }
-        $msg_success[] = 'Repositorios generados correctamente.';
-
-        // genero el Servicio
-        if ($serviceGenerator->generate() === false) {
-            return redirect()
-                ->back()
-                ->with('error', 'Ocurrió un error generando el Servicio.');
-        }
-        $msg_success[] = 'Servicio generado correctamente.';
-
-        // genero el Model Factory
-        if ($formRequestGenerator->generate() === false) {
-            return redirect()
-                ->back()
-                ->with('error', 'Ocurrió un error generando el Form Request.');
-        }
-        $msg_success[] = 'Form Request generado correctamente.';
-
-        // genero el Model Factory
-        if ($modelFactoryGenerator->generate() === false) {
-            return redirect()
-                ->back()
-                ->with('error', 'Ocurrió un error generando el Model Factory.');
-        }
-        $msg_success[] = 'Model Factory generado correctamente.';
-
-        ////////////////////////////////////
-        // genero las pruebas funcionales //
-        ////////////////////////////////////
-        if ($testsGenerator->generate() === false) {
-            return redirect()
-                ->back()
-                ->with('error', 'Ocurrió un error generando los tests funcionales.');
-        }
-        // los modelos han sido generados correctamente
-        $msg_success[] = 'Los tests se han generado correctamente.';
+        $seedersGenerator->generate();
+        $langGenerator->generate();
+        $reposGenerator->generate();
+        $serviceGenerator->generate();
+        $formRequestGenerator->generate();
+        $modelFactoryGenerator->generate();
+        $testsGenerator->generate();
+        $furtherTasks->run();
 
         //////////////////////
         // genero el modelo //
@@ -207,7 +178,7 @@ class GeneratorController extends Controller
             $generator->templatesDir().'.options',
             [
             'request' => $request->except(['_token']),
-            'gen' => $generator
+            'gen' => $generator,
             ]
         );
 

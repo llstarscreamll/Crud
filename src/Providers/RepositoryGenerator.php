@@ -37,10 +37,21 @@ class RepositoryGenerator extends BaseGenerator
      */
     public function generate()
     {
-        $this->buildContract();
-        $this->buildImplementation();
-        $this->buildCriteria();
-        $this->generateAppBinding();
+        $this->buildContract()
+        ? session()->push('success', 'Contrato de repositorio generado correctamente')
+        : session()->push('error', 'Error generando contrato de repositorio');
+        
+        $this->buildImplementation()
+        ? session()->push('success', 'Implementación de repositorio generada correctamente')
+        : session()->push('error', 'Error generando implementación de contrato');
+        
+        $this->buildCriteria()
+        ? session()->push('success', 'Criteria de repositorio generado correctamente')
+        : session()->push('error', 'Error generando Criteria de repositorio');
+        
+        $this->generateAppBinding()
+        ? session()->push('success', 'Binding de repositorio generado correctamente')
+        : session()->push('warning', 'Error generando binding de repositorio, tal vez ya existe?');
 
         return true;
     }

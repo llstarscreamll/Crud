@@ -2,13 +2,6 @@
 
 namespace llstarscreamll\Crud\Providers;
 
-use llstarscreamll\Crud\Providers\BaseGenerator;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-
-/**
-*
-*/
 class ModelFactoryGenerator extends BaseGenerator
 {
     /**
@@ -17,19 +10,16 @@ class ModelFactoryGenerator extends BaseGenerator
      * @var string
      */
     public $table_name;
-    
+
     /**
      * La iformación dada por el usuario.
      *
-     * @var Object
+     * @var object
      */
     public $request;
 
-    public $msg_success = array();
-    public $msg_error = array();
-
     /**
-     *
+     * Crea nueva instancia de ModelFactoryGenerator.
      */
     public function __construct($request)
     {
@@ -40,34 +30,35 @@ class ModelFactoryGenerator extends BaseGenerator
     /**
      * Genera los tests o pruebas funcionales del CRUD a crear.
      *
-     * @return integer|bool
+     * @return bool
      */
     public function generate()
     {
         // no se ha creado la carpeta para los archivos de idioma?
-        if (! file_exists($this->modelFactoriesDir())) {
+        if (!file_exists($this->modelFactoriesDir())) {
             // entonces la creo
             mkdir($this->modelFactoriesDir(), 0755, true);
         }
 
-        $seederFile = $this->modelFactoriesDir()."/".$this->modelClassName()."Factory.php";
+        $seederFile = $this->modelFactoriesDir().'/'.$this->modelClassName().'Factory.php';
 
         $content = view(
             $this->templatesDir().'.model-factory',
             [
             'gen' => $this,
             'fields' => $this->advanceFields($this->request),
-            'request' => $this->request
+            'request' => $this->request,
             ]
         );
 
         if (file_put_contents($seederFile, $content) === false) {
-            $this->msg_error[] = 'Error generando Model Factory';
+            session()->push('error', 'Error generando Model Factory');
+
             return false;
         }
 
-        $this->msg_success[] = "Model Factory generado correctamente.";
-        
+        session()->push('success', 'Model Factory generado correctamente.');
+
         return true;
     }
 

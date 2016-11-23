@@ -2,10 +2,6 @@
 
 namespace llstarscreamll\Crud\Providers;
 
-use llstarscreamll\Crud\Providers\BaseGenerator;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
-
 class ServiceGenerator extends BaseGenerator
 {
     /**
@@ -14,19 +10,16 @@ class ServiceGenerator extends BaseGenerator
      * @var string
      */
     public $table_name;
-    
+
     /**
      * La iformación dada por el usuario.
      *
-     * @var Object
+     * @var object
      */
     public $request;
 
-    public $msg_success = array();
-    public $msg_error = array();
-
     /**
-     *
+     * Crea nueva instancia de SeviceGenerator.
      */
     public function __construct($request)
     {
@@ -37,17 +30,17 @@ class ServiceGenerator extends BaseGenerator
     /**
      * Genera el servicio del CRUD a crear.
      *
-     * @return integer|bool
+     * @return bool
      */
     public function generate()
     {
         // si no existe el directorio donde crearemos el servicio, lo creamos
-        if (! file_exists($this->servicesDir())) {
+        if (!file_exists($this->servicesDir())) {
             // entonces la creo
             mkdir($this->servicesDir(), 0755, true);
         }
 
-        $serviceFile = $this->servicesDir()."/".$this->modelClassName()."Service.php";
+        $serviceFile = $this->servicesDir().'/'.$this->modelClassName().'Service.php';
 
         $content = view(
             $this->templatesDir().'.service',
@@ -55,17 +48,18 @@ class ServiceGenerator extends BaseGenerator
             'gen' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request,
-            'foreign_keys'  => $this->getForeignKeys($this->table_name),
+            'foreign_keys' => $this->getForeignKeys($this->table_name),
             ]
         );
 
         if (file_put_contents($serviceFile, $content) === false) {
-            $this->msg_error[] = 'Error generando service';
+            session()->push('error', 'Error generando clase servicio');
+
             return false;
         }
 
-        $this->msg_success[] = "Service generado correctamente.";
-        
+        session()->push('success', 'Service generado correctamente.');
+
         return true;
     }
 
