@@ -6,7 +6,7 @@ CrudGenerator es un paquete de laravel para la generación de aplicaciones CRUD 
 
 ## Instalación ##
 
-Clonar el repositorio donde se desee:
+Clonar el repositorio donde se desee, para este ejemplo estando en el directorio raíz de la instalación de Laravel:
 
 ```bash
 git clone git@github.com:llstarscreamll/CrudGenerator.git packages/llstarscreamll/crud
@@ -27,18 +27,19 @@ php artisan vendor:publish --provider="llstarscreamll\Crud\Providers\CrudService
 php artisan migrate # para tablas de prueba
 ```
 
-Presta mucha atención a los archivos de configuración publicados en la carpeta `config/llstarscreamll/CrudGenerator`, da valores a las variables que allí hay acorde a las necesidades.
+Prestar mucha atención a los archivos de configuración publicados en la carpeta `config/llstarscreamll/CrudGenerator`, dar valores a las variables que allí hay acorde a las necesidades.
 
 ## Clases/Archivos Generados: ##
 
 Esta app genera los siguientes archivos, según la configuración deseada:
 
-- Añade las respectivas rutas al ficher `routes/web.php`
+- Añade las respectivas rutas al fichero `routes/web.php`
 - Controlador
 - Modelo
 - Contrato del repositiorio para el modelo
 - Implementación del contrato del repositorio del modelo
-- Clase Servicio, la cual guarda la lógica de negocio de la app, es usada en el controlador,
+- Search Criteria, para búsqueda de registros del repositorio generado
+- Clase Servicio, la cual guarda la lógica de negocio de la app, es usada en el controlador
 - Archivo de idioma español
 - Vistas:
     - partials/
@@ -77,12 +78,12 @@ composer global require "codeception/verify=*"
 sudo ln -s ~/global/composer/vendor/bin/codecept /usr/local/bin/codecept
 ```
 
->> Reemplazar `~/global/composer/vendor/bin/codecept`con la ruta donde se encuentra el direcotio bin global de composer, ejecutar el comando `composer config --list --global | grep home``y copiar la ruta correcta.
+> Reemplazar `~/global/composer/vendor/bin/codecept`con la ruta donde se encuentra el direcotio bin global de composer, ejecutar el comando `composer config --list --global | grep home``y copiar la ruta correcta.
 
 Para correr las pruebas funcionales del paquete ir a la carpeta donde se ha clonado el proyecto y ejecutar el comando:
 
 ```bash
-codecept run functional
+codecept run
 ```
 
 ## Extra, configuraciones óptimas para Laravel en servidor Nginx
