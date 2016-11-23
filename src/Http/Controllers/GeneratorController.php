@@ -90,18 +90,8 @@ class GeneratorController extends Controller
         $formRequestGenerator->generate();
         $modelFactoryGenerator->generate();
         $testsGenerator->generate();
+        $modelGenerator->generate();
         $furtherTasks->run();
-
-        //////////////////////
-        // genero el modelo //
-        //////////////////////
-        if ($modelGenerator->generate() === false) {
-            return redirect()
-                ->back()
-                ->with('error', 'Ocurrió un error generando el modelo.');
-        }
-        // el modelo se generó correctamente
-        $msg_success[] = 'Modelo generado correctamente.';
 
         ///////////////////////////
         // genero el controlador //

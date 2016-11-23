@@ -2,9 +2,6 @@
 
 namespace llstarscreamll\Crud\Providers;
 
-/**
- *
- */
 class ModelGenerator extends BaseGenerator
 {
     /**
@@ -21,9 +18,6 @@ class ModelGenerator extends BaseGenerator
      */
     public $request;
 
-    /**
-     *
-     */
     public function __construct($request)
     {
         $this->table_name = $request->get('table_name');
@@ -54,7 +48,11 @@ class ModelGenerator extends BaseGenerator
             ]
         );
 
-        return file_put_contents($modelFile, $content);
+        file_put_contents($modelFile, $content) === false
+            ? session()->push('error', 'Error generando el modelo')
+            : session()->push('success', 'Modelo generado correctamente');
+
+        return true;
     }
 
     /**
@@ -97,13 +95,17 @@ class ModelGenerator extends BaseGenerator
      */
     public function getMysqlTableColumnEnumValues($column)
     {
-        return \DB::select(\DB::raw("SHOW COLUMNS FROM {$this->getDatabaseTablesPrefix()}$this->table_name WHERE Field = '$column'"))[0]->Type;
+        return \DB::select(
+            \DB::raw(
+                "SHOW COLUMNS FROM {$this->getDatabaseTablesPrefix()}$this->table_name WHERE Field = '$column'"
+            )
+        )[0]->Type;
     }
 
     /**
      * Devuelve string del prefijo de las tablas de la base de datos.
      *
-     * @return string El nombre del driver de la conexión a la base de datos.
+     * @return string El nombre del driver de la conexión a la base de datos
      */
     public static function getDatabaseTablesPrefix()
     {
