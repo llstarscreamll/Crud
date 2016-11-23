@@ -34,7 +34,7 @@ class ViewsGenerator extends BaseGenerator
      *
      * @return bool
      */
-    public function generate()
+    public function run()
     {
         // no se ha creado la carpeta de las vistas?
         if (!file_exists($this->viewsDir())) {

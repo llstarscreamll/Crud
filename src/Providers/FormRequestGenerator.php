@@ -32,7 +32,7 @@ class FormRequestGenerator extends BaseGenerator
      *
      * @return bool
      */
-    public function generate()
+    public function run()
     {
         // no se ha creado la carpeta para los archivos de idioma?
         if (!file_exists($this->formRequestsDir())) {

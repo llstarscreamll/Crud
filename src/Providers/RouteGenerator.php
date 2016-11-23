@@ -40,7 +40,7 @@ class RouteGenerator extends BaseGenerator
      *
      * @return bool
      */
-    public function generateRoute()
+    public function run()
     {
         // el nombre del recurso
         $route = "Route::resource('{$this->route()}','{$this->controllerClassName()}');";

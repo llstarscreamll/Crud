@@ -77,17 +77,17 @@ class GeneratorController extends Controller
         $seedersGenerator = new SeedersGenerator($request);
         $furtherTasks = new FurtherTasks();
 
-        $seedersGenerator->generate();
-        $langGenerator->generate();
-        $reposGenerator->generate();
-        $serviceGenerator->generate();
-        $formRequestGenerator->generate();
-        $modelFactoryGenerator->generate();
-        $testsGenerator->generate();
-        $modelGenerator->generate();
-        $controllerGenerator->generate();
-        $routeGenerator->generateRoute();
-        $viewsGenerator->generate();
+        $seedersGenerator->run();
+        $langGenerator->run();
+        $reposGenerator->run();
+        $serviceGenerator->run();
+        $formRequestGenerator->run();
+        $modelFactoryGenerator->run();
+        $testsGenerator->run();
+        $modelGenerator->run();
+        $controllerGenerator->run();
+        $routeGenerator->run();
+        $viewsGenerator->run();
         $furtherTasks->run();
 
         return redirect()->route(

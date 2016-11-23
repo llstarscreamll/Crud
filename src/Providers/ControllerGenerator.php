@@ -30,7 +30,7 @@ class ControllerGenerator extends BaseGenerator
     /**
      * Genera el controlador.
      */
-    public function generate()
+    public function run()
     {
         // el archivo del controlador
         $controllerFile = $this->controllersDir().'/'.$this->controllerClassName().'.php';

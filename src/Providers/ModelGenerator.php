@@ -32,7 +32,7 @@ class ModelGenerator extends BaseGenerator
      *
      * @return int|bool
      */
-    public function generate()
+    public function run()
     {
         // no se ha creado la carpeta para los modelos?
         if (!file_exists($this->modelsDir())) {

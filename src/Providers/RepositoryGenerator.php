@@ -35,7 +35,7 @@ class RepositoryGenerator extends BaseGenerator
      *
      * @return int|bool
      */
-    public function generate()
+    public function run()
     {
         $this->buildContract()
         ? session()->push('success', 'Contrato de repositorio generado correctamente')

@@ -32,7 +32,7 @@ class SeedersGenerator extends BaseGenerator
      *
      * @return bool
      */
-    public function generate()
+    public function run()
     {
         $this->generatePermissionSeeder() === false
         ? session()->push('error', 'Ocurrió un error generando el seeder de permisos.')

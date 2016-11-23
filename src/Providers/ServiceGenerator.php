@@ -32,7 +32,7 @@ class ServiceGenerator extends BaseGenerator
      *
      * @return bool
      */
-    public function generate()
+    public function run()
     {
         // si no existe el directorio donde crearemos el servicio, lo creamos
         if (!file_exists($this->servicesDir())) {
