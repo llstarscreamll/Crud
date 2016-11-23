@@ -114,21 +114,6 @@ class CrudServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // constante para el tema de la aplicación
-        if (!defined('THEME')) {
-            define('THEME', config('modules.core.config.theme'));
-        }
-
-        // constante para dirección de instalación del paquete
-        if (!defined('CORE_PATH')) {
-            define('CORE_PATH', realpath(__DIR__.'/../../'));
-        }
-
-        // constante para dirección de instalación del paquete
-        if (!defined('CORE_VERSION')) {
-            define('CORE_VERSION', static::CORE_VERSION);
-        }
-
         // registramos los servicios
         foreach ($this->services as $key => $value) {
             $this->app->bindIf($key, $value);
