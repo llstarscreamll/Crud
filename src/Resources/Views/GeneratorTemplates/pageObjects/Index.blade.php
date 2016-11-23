@@ -14,9 +14,6 @@ namespace Page\Functional\<?= $gen->studlyCasePlural() ?>;
 
 use FunctionalTester;
 use <?= config('modules.crud.config.user-model-namespace') ?>;
-<?php if ($request->has('use_faker')) { ?>
-use Faker\Factory as Faker;
-<?php } ?>
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->namespace !== "" && class_basename($field->namespace) !== 'User') { ?>
 use {!! $field->namespace !!};
@@ -64,8 +61,8 @@ class <?= $test ?>
     public static $table = '<?= config('modules.crud.uimap.index-table-selector') ?>';
 
     /**
-     * El mensaje mostrado al usuario cuando no tiene los permisos adecuado para
-     * realizar alguna acción.
+     * El mensaje mostrado al usuario cuando no tiene los permisos para realizar
+     * alguna acción.
      *
      * @var string
      */
@@ -216,14 +213,6 @@ class <?= $test ?>
 <?php } ?>
 <?php } ?>
         ];
-<?php if ($request->has('create_employees_data')) { ?>
-        // crea empleados de prueba, para crear empleados necesito centros y
-        // subcentros de costo
-        \Artisan::call('db:seed', ['--class' => 'SubCostCentersTableSeeder']);
-        \Artisan::call('db:seed', ['--class' => 'CostCentersTableSeeder']);
-        \Artisan::call('db:seed', ['--class' => 'EmployeesTableSeeder']);
-
-<?php } ?>
     }
 
     /**

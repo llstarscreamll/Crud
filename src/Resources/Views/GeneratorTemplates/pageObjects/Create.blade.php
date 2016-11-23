@@ -13,9 +13,6 @@
 namespace Page\Functional\<?= $gen->studlyCasePlural() ?>;
 
 use FunctionalTester;
-<?php if($request->has('use_faker')) { ?>
-use Faker\Factory as Faker;
-<?php } ?>
 
 class <?= $test ?> extends Index
 {
