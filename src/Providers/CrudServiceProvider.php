@@ -96,14 +96,6 @@ class CrudServiceProvider extends ServiceProvider
                 'views'
             );
 
-            // publicammos archivos para testing
-            $this->publishes(
-                [
-                __DIR__.'/../../stubs' => base_path(),
-                ],
-                'testing'
-            );
-
             // publica los archivos de configuración
             $this->publishes([__DIR__.'/../Config' => config_path()], 'config');
         }
