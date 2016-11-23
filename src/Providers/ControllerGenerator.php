@@ -2,11 +2,6 @@
 
 namespace llstarscreamll\Crud\Providers;
 
-use llstarscreamll\Crud\Providers\BaseGenerator;
-
-/**
-*
-*/
 class ControllerGenerator extends BaseGenerator
 {
     /**
@@ -17,28 +12,14 @@ class ControllerGenerator extends BaseGenerator
     public $table_name;
 
     /**
-     * Los mensajes de alerta en la operación.
-     *
-     * @var string
-     */
-    public $msg_warning;
-
-    /**
-     * Los mensajes de info en la operación.
-     *
-     * @var string
-     */
-    public $msg_info;
-
-    /**
      * Los datos del usuario.
      *
-     * @var Object
+     * @var object
      */
     public $request;
 
     /**
-     *
+     * Crea nueva instancia de ControllerGenerator.
      */
     public function __construct($request)
     {
@@ -48,24 +29,26 @@ class ControllerGenerator extends BaseGenerator
 
     /**
      * Genera el controlador.
-     *
-     * @return void
      */
     public function generate()
     {
         // el archivo del controlador
-        $controllerFile = $this->controllersDir().'/'.$this->controllerClassName().".php";
+        $controllerFile = $this->controllersDir().'/'.$this->controllerClassName().'.php';
 
         $content = view(
             $this->templatesDir().'.controller',
             [
             'gen' => $this,
             'fields' => $this->advanceFields($this->request),
-            'foreign_keys'  => $this->getForeignKeys($this->table_name),
-            'request' => $this->request
+            'foreign_keys' => $this->getForeignKeys($this->table_name),
+            'request' => $this->request,
             ]
         );
 
-        return file_put_contents($controllerFile, $content);
+        file_put_contents($controllerFile, $content) === false
+        ? session()->push('error', 'Error generando controlador')
+        : session()->push('success', 'Controlador generado correctamente');
+
+        return true;
     }
 }

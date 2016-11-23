@@ -2,11 +2,6 @@
 
 namespace llstarscreamll\Crud\Providers;
 
-use llstarscreamll\Crud\Providers\BaseGenerator;
-
-/**
-*
-*/
 class RouteGenerator extends BaseGenerator
 {
     /**
@@ -17,21 +12,21 @@ class RouteGenerator extends BaseGenerator
     public $table_name;
 
     /**
-     * Los mensajes de alerta en la operación.
+     * La iformación dada por el usuario.
      *
-     * @var string
+     * @var object
      */
-    public $msg_warning;
+    public $request;
 
     /**
-     * Los mensajes de info en la operación.
+     * Los campos parseados.
      *
-     * @var string
+     * @var stdClass
      */
-    public $msg_info;
+    public $fields;
 
     /**
-     *
+     * Crea nueva instancia de RouteGenerator.
      */
     public function __construct($request)
     {
@@ -49,14 +44,15 @@ class RouteGenerator extends BaseGenerator
     {
         // el nombre del recurso
         $route = "Route::resource('{$this->route()}','{$this->controllerClassName()}');";
-        
+
         // si la tabla tienen la columna deleted_at, genero la ruta para
         // restaurar archivos de papelera
         if ($this->hasDeletedAtColumn($this->fields)) {
-
-            $restore_route = "Route::put(\n\t'/{$this->route()}/restore/{{$this->table_name}}',\n\t[\n\t'as' => '{$this->route()}.restore',\n\t'uses' => '{$this->controllerClassName()}@restore'\n\t]\n);\n";
+            $restore_route = "Route::put(\n\t'/{$this->route()}/restore/{{$this->table_name}}',".
+                             "\n\t[\n\t'as' => '{$this->route()}.restore',".
+                             "\n\t'uses' => '{$this->controllerClassName()}@restore'".
+                             "\n\t]\n);\n";
             $route = $restore_route.$route;
-
         }
 
         // el fichero de las rutas
@@ -66,12 +62,16 @@ class RouteGenerator extends BaseGenerator
 
         // no está el nombre del recurso ($route) puesto en el fichero?
         if (strpos($routesFileContent, $route) == false) {
-            
             $routesFileContent = $this->getUpdatedContent($routesFileContent, $route);
-            return file_put_contents($routesFile, $routesFileContent);
+
+            file_put_contents($routesFile, $routesFileContent) === false
+            ? session()->push('error', 'Error generando la ruta')
+            : session()->push('success', 'Ruta generada correctamente');
+
+            return true;
         }
 
-        $this->msg_info = "La ruta: '".$route."' ya existe, tarea omitida.";
+        session()->push('warning', "La ruta: '".$route."' ya existe, tarea omitida.");
 
         return false;
     }
@@ -79,14 +79,16 @@ class RouteGenerator extends BaseGenerator
     /**
      * Obtiene el contenido a actualizar para el fichero de rutas.
      *
-     * @param  string $existingContent
-     * @param  string $route
+     * @param string $existingContent
+     * @param string $route
+     *
      * @return string
      */
     public function getUpdatedContent($existingContent, $route)
     {
+        dd($existingContent);
         // check if the user has directed to add routes
-        $str = "generated routes go here";
+        $str = 'generated routes go here';
         if (strpos($existingContent, $str) !== false) {
             return str_replace($str, "{$str}\n\t".$route, $existingContent);
         }

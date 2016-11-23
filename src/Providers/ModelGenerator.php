@@ -18,6 +18,9 @@ class ModelGenerator extends BaseGenerator
      */
     public $request;
 
+    /**
+     * Crea nueva instancia de ModelGenerator.
+     */
     public function __construct($request)
     {
         $this->table_name = $request->get('table_name');

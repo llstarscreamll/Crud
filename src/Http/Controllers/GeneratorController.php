@@ -91,29 +91,9 @@ class GeneratorController extends Controller
         $modelFactoryGenerator->generate();
         $testsGenerator->generate();
         $modelGenerator->generate();
+        $controllerGenerator->generate();
+        $routeGenerator->generateRoute();
         $furtherTasks->run();
-
-        ///////////////////////////
-        // genero el controlador //
-        ///////////////////////////
-        if ($controllerGenerator->generate() === false) {
-            return redirect()
-                ->back()
-                ->with('error', 'Ocurrió un error generando el controlador.');
-        }
-        // el modelo se generó correctamente
-        $msg_success[] = 'Controlador generado correctamente.';
-
-        ////////////////////
-        // genero la ruta //
-        ////////////////////
-        if ($routeGenerator->generateRoute() === false) {
-            $msg_warning[] = $routeGenerator->msg_warning;
-            $msg_info[] = $routeGenerator->msg_info;
-        } else {
-            // la ruta se generó correctamente
-            $msg_success[] = 'La ruta se ha generado correctamente.';
-        }
 
         ///////////////////////
         // genero las vistas //
@@ -125,16 +105,10 @@ class GeneratorController extends Controller
             $msg_success = array_merge($msg_success, $viewsGenerator->msg_success);
         }
 
-        //////////////////////////
-        // flasheo los mensajes //
-        //////////////////////////
-        $request->session()->flash('success', $msg_success);
-        $request->session()->flash('error', $msg_error);
-        $request->session()->flash('info', $msg_info);
-        $request->session()->flash('warning', $msg_warning);
-
-        return redirect()
-            ->route('crud.showOptions', ['table_name' => $request->get('table_name')]);
+        return redirect()->route(
+            'crud.showOptions',
+            ['table_name' => $request->get('table_name')]
+        );
     }
 
     /**
