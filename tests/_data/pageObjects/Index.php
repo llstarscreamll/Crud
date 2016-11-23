@@ -59,8 +59,8 @@ class Index{
     public static $table = '.table.table-hover';
 
     /**
-     * El mensaje mostrado al usuario cuando no tiene los permisos adecuado para
-     * realizar alguna acción.
+     * El mensaje mostrado al usuario cuando no tiene los permisos para realizar
+     * alguna acción.
      *
      * @var  string
      */
