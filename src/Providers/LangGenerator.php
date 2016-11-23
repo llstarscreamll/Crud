@@ -43,12 +43,9 @@ class LangGenerator extends BaseGenerator
             mkdir($this->langDir(), 0755, true);
         }
 
-        if (!$this->generateLangFiles()) {
-            session()->push('error', 'Ocurrió un error generando el archivo de idioma.');
-
-            return false;
-        }
-        session()->push('success', 'Archivo de idioma generado correctamente.');
+        $this->generateLangFiles() === false
+            ? session()->push('error', 'Ocurrió un error generando el archivo de idioma.')
+            : session()->push('success', 'Archivo de idioma generado correctamente.');
 
         return true;
     }
@@ -81,6 +78,6 @@ class LangGenerator extends BaseGenerator
             ]
         );
 
-        file_put_contents($langFile, $content);
+        return file_put_contents($langFile, $content);
     }
 }

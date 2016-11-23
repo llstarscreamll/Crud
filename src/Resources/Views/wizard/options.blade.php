@@ -44,6 +44,8 @@
             <div class="panel-body">
 
                 @include (config('modules.crud.config.layout-namespace').'partials.notifications')
+                {{-- borramos los mensajes generados por el controlador --}}
+                {{ session()->forget(['success', 'error', 'warning']) }}
                 
                 {!! Form::model($options, ['route' => 'crud.generate', 'method' => 'POST', 'name' => 'CRUD-form']) !!}
 

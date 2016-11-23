@@ -34,13 +34,13 @@ class SeedersGenerator extends BaseGenerator
      */
     public function generate()
     {
-        !$this->generatePermissionSeeder()
+        $this->generatePermissionSeeder() === false
         ? session()->push('error', 'Ocurrió un error generando el seeder de permisos.')
         : session()->push('success', 'Seeder de permisos generado correctamente.');
 
-        !$this->generateFakeDataSeeder()
-        ? session()->push('error', 'Ocurrió un error generando el seeder de permisos.')
-        : session()->push('success', 'Seeder de permisos generado correctamente.');
+        $this->generateFakeDataSeeder() === false
+        ? session()->push('error', 'Ocurrió un error generando el seeder de datos de prueba.')
+        : session()->push('success', 'Seeder de datos de prueba generado correctamente.');
 
         return true;
     }
@@ -73,7 +73,7 @@ class SeedersGenerator extends BaseGenerator
             ]
         );
 
-        file_put_contents($seederFile, $content);
+        return file_put_contents($seederFile, $content);
     }
 
     /**
@@ -94,6 +94,6 @@ class SeedersGenerator extends BaseGenerator
             ]
         );
 
-        file_put_contents($seederFile, $content);
+        return file_put_contents($seederFile, $content);
     }
 }
