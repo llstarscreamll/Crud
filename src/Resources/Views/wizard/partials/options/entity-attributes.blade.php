@@ -34,19 +34,19 @@
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th colspan="6" class="text-center">DB</th>
+                        <th colspan="3" class="text-center">DB</th>
                         <th colspan="4" class="text-center">Model Attr</th>
                         <th colspan="4" class="text-center">HTML</th>
-                        <th colspan="2" class="text-center">Test</th>
+                        <th colspan="2" class="text-center">Test Data</th>
                         <th colspan="1" class="text-center">Validation</th>
                     </tr>
                     <tr>
                         <th>Name</th>
                         <th>Type</th>
                         <th>Required?</th>
-                        <th>DefaultValue</th>
-                        <th>Key</th>
-                        <th>MaxLen.</th>
+                        <th class="hidden">DefaultValue</th>
+                        <th class="hidden">Key</th>
+                        <th class="hidden">MaxLen.</th>
                         <th>Namespace</th>
                         <th>Relation</th>
                         <th>Fillable?</th>
@@ -77,13 +77,13 @@
                                 'data-off-text' => 'NO',
                             ]) !!}
                         </td>
-                        <td>
+                        <td class="hidden">
                             {!! Form::text("field[$i][defValue]", $fields[$i]->defValue, ['class' => 'form-control input-xs input-text-short']) !!}
                         </td>
-                        <td>
+                        <td class="hidden">
                             {!! Form::text("field[$i][key]", $fields[$i]->key, ['class' => 'form-control input-xs input-text-extra-short', 'maxlength' => 3]) !!}
                         </td>
-                        <td>
+                        <td class="hidden">
                             {!! Form::number("field[$i][maxLength]", $fields[$i]->maxLength, ['class' => 'form-control input-xs']) !!}
                         </td>
                         <td>
