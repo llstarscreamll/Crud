@@ -62,7 +62,7 @@ class RouteGenerator extends BaseGenerator
 
         // no está el nombre del recurso ($route) puesto en el fichero?
         if (strpos($routesFileContent, $route) == false) {
-            $routesFileContent = $this->getUpdatedContent($routesFileContent, $route);
+            $routesFileContent .= $route;
 
             file_put_contents($routesFile, $routesFileContent) === false
             ? session()->push('error', 'Error generando la ruta')
@@ -74,32 +74,5 @@ class RouteGenerator extends BaseGenerator
         session()->push('warning', "La ruta: '".$route."' ya existe, tarea omitida.");
 
         return false;
-    }
-
-    /**
-     * Obtiene el contenido a actualizar para el fichero de rutas.
-     *
-     * @param string $existingContent
-     * @param string $route
-     *
-     * @return string
-     */
-    public function getUpdatedContent($existingContent, $route)
-    {
-        dd($existingContent);
-        // check if the user has directed to add routes
-        $str = 'generated routes go here';
-        if (strpos($existingContent, $str) !== false) {
-            return str_replace($str, "{$str}\n\t".$route, $existingContent);
-        }
-
-        // check for 'web' middleware group
-        $regex = "/(Route\s*\:\:\s*group\s*\(\s*\[\s*\'middleware\'\s*\=\>\s*\[\s*\'web\'\s*\]\s*\]\s*\,\s*function\s*\(\s*\)\s*\{)/";
-        if (preg_match($regex, $existingContent)) {
-            return preg_replace($regex, "$1\n\t".$route, $existingContent);
-        }
-
-        // if there is no 'web' middleware group
-        return $existingContent."\n".$route;
     }
 }

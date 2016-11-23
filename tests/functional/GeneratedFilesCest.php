@@ -32,8 +32,8 @@ class GeneratedFilesCest
 
         // veo los mensajes de operación exitosa
         $I->see('Los tests se han generado correctamente.', '.alert-success');
-        $I->see('Modelo generado correctamente.', '.alert-success');
-        $I->see('Controlador generado correctamente.', '.alert-success');
+        $I->see('Modelo generado correctamente', '.alert-success');
+        $I->see('Controlador generado correctamente', '.alert-success');
 
         // compruebo que los archivos de la app hayan sido generados
         $I->seeFileFound('Book.php', base_path('app/Models'));

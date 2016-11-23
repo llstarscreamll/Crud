@@ -48,12 +48,6 @@ class GeneratorController extends Controller
      */
     public function generate(Request $request)
     {
-        // para flashear los mensajes
-        $msg_success = array();
-        $msg_error = array();
-        $msg_warning = array();
-        $msg_info = array();
-
         // hago que las opciones dadas por el usuario persistan en un archivo de configuración
         // que luego se cargará automaticamente en caso de que se repita el proceso con la
         // misma tabla.
@@ -93,17 +87,8 @@ class GeneratorController extends Controller
         $modelGenerator->generate();
         $controllerGenerator->generate();
         $routeGenerator->generateRoute();
+        $viewsGenerator->generate();
         $furtherTasks->run();
-
-        ///////////////////////
-        // genero las vistas //
-        ///////////////////////
-        if (!$viewsGenerator->generate()) {
-            $msg_error = array_merge($msg_error, $viewsGenerator->msg_error);
-        } else {
-            // el controlador se generó correctamente
-            $msg_success = array_merge($msg_success, $viewsGenerator->msg_success);
-        }
 
         return redirect()->route(
             'crud.showOptions',
@@ -112,9 +97,9 @@ class GeneratorController extends Controller
     }
 
     /**
-     * [tableExists description].
+     * Comprueba si existe o no una tabla en la base de datos.
      *
-     * @return [type] [description]
+     * @return bool
      */
     private function tableExists($table)
     {
@@ -150,7 +135,7 @@ class GeneratorController extends Controller
     }
 
     /**
-     * [showOptions description].
+     * Muestra formulario con las opciones de la CRUD app a generar.
      *
      * @return view
      */

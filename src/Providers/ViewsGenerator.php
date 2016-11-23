@@ -4,9 +4,6 @@ namespace llstarscreamll\Crud\Providers;
 
 use stdClass;
 
-/**
- *
- */
 class ViewsGenerator extends BaseGenerator
 {
     /**
@@ -17,20 +14,6 @@ class ViewsGenerator extends BaseGenerator
     public $table_name;
 
     /**
-     * Los mensajes de alerta en la operación.
-     *
-     * @var array
-     */
-    public $msg_error = array();
-
-    /**
-     * Los mensajes de info en la operación.
-     *
-     * @var array
-     */
-    public $msg_success = array();
-
-    /**
      * La iformación dada por el usuario.
      *
      * @var object
@@ -38,7 +21,7 @@ class ViewsGenerator extends BaseGenerator
     public $request;
 
     /**
-     *
+     * Crea nueva instancia de ViewsGenerator.
      */
     public function __construct($request)
     {
@@ -67,9 +50,6 @@ class ViewsGenerator extends BaseGenerator
 
         // recorro el array de vistas que debo crear
         foreach (config('modules.crud.config.views') as $view) {
-            // TODO:
-            // - Crear vista separada para la tabla del index
-
             $viewFile = $this->viewsDir().'/'.$view.'.blade.php';
 
             $content = view(
@@ -81,14 +61,12 @@ class ViewsGenerator extends BaseGenerator
                 ]
             );
 
-            if (file_put_contents($viewFile, $content) === false && chmod($controllerFile, 0664) === false) {
-                $this->msg_error[] = 'Ocurrió un error generando la vista '.$view.'.';
-
-                return false;
+            if (file_put_contents($viewFile, $content) === false) {
+                session()->push('error', 'Ocurrió un error generando la vista '.$view.'.');
             }
-
-            $this->msg_success[] = 'Vista '.$view.' generada correctamente.';
         }
+
+        session()->push('success', 'Vistas generadas correctamente');
 
         return true;
     }
@@ -97,7 +75,8 @@ class ViewsGenerator extends BaseGenerator
      * Construye el setup de clase helper UI para construir los campos del
      * formulario de búsqueda.
      *
-     * @param  stdClass $field
+     * @param stdClass $field
+     *
      * @return string
      */
     public function getSearchUISetup(stdClass $field)
@@ -112,8 +91,8 @@ class ViewsGenerator extends BaseGenerator
             $value = ", ''";
             $data = ", \${$field->name}_list";
         }
-        
-        $output = "{!! UI::searchField(";
+
+        $output = '{!! UI::searchField(';
         $output .= "{$type}"; // tipo de dato del campo
         $output .= "{$name}"; // nombre del campo
         $output .= "{$value}"; // valor predeterminado del campo
@@ -216,7 +195,7 @@ class ViewsGenerator extends BaseGenerator
     ) {
         $name = $multiple ? $field->name.'[]' : $field->name;
 
-        $output = "{!! Form::select(";
+        $output = '{!! Form::select(';
         $output .= "\n\t\t'$name',";
         $output .= "\n\t\t\${$field->name}_list,";
         $output .= "\n\t\tRequest::input('$field->name'),";
@@ -367,7 +346,7 @@ class ViewsGenerator extends BaseGenerator
     public function getSourceForEnum(stdClass $field)
     {
         if ($field->type == 'enum' || (in_array($field->type, ['int', 'unsigned_int']) && $field->key == 'MUL')) {
-            return "$".$field->name."_list_json";
+            return '$'.$field->name.'_list_json';
         }
 
         return '';
