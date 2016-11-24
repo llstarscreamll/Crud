@@ -37,8 +37,8 @@
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
     {{-- Inicialización y configuración de Bootbox --}}
     initBootBoxComponent(
-        '{{ trans('book.index.modal-default-title') }}',
-        '{{ trans('book.index.modal-default-btn-confirmation') }}',
+        '{{ trans('<?=$gen->getLangAccess()?>.index.modal-default-title') }}',
+        '{{ trans('<?=$gen->getLangAccess()?>.index.modal-default-btn-confirmation') }}',
         'btn-primary',
         '{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-default-btn-cancel') }}',
         'btn-default'
