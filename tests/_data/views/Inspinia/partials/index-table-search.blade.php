@@ -33,77 +33,77 @@
     @endif
     @if(in_array('id', $selectedTableColumns))
     <td class="id">
-        {!! UI::searchField('PRI', 'id') !!}
+        {!! UISearch::searchField('PRI', 'id') !!}
     </td>
     @endif
     @if(in_array('reason_id', $selectedTableColumns))
     <td class="reason_id">
-        {!! UI::searchField('MUL', 'reason_id', '', $reason_id_list) !!}
+        {!! UISearch::searchField('MUL', 'reason_id', '', $reason_id_list) !!}
     </td>
     @endif
     @if(in_array('name', $selectedTableColumns))
     <td class="name">
-        {!! UI::searchField('varchar', 'name') !!}
+        {!! UISearch::searchField('varchar', 'name') !!}
     </td>
     @endif
     @if(in_array('author', $selectedTableColumns))
     <td class="author">
-        {!! UI::searchField('varchar', 'author') !!}
+        {!! UISearch::searchField('varchar', 'author') !!}
     </td>
     @endif
     @if(in_array('genre', $selectedTableColumns))
     <td class="genre">
-        {!! UI::searchField('varchar', 'genre') !!}
+        {!! UISearch::searchField('varchar', 'genre') !!}
     </td>
     @endif
     @if(in_array('stars', $selectedTableColumns))
     <td class="stars">
-        {!! UI::searchField('int', 'stars') !!}
+        {!! UISearch::searchField('int', 'stars') !!}
     </td>
     @endif
     @if(in_array('published_year', $selectedTableColumns))
     <td class="published_year">
-        {!! UI::searchField('date', 'published_year') !!}
+        {!! UISearch::searchField('date', 'published_year') !!}
     </td>
     @endif
     @if(in_array('enabled', $selectedTableColumns))
     <td class="enabled">
-        {!! UI::searchField('tinyint', 'enabled') !!}
+        {!! UISearch::searchField('tinyint', 'enabled') !!}
     </td>
     @endif
     @if(in_array('status', $selectedTableColumns))
     <td class="status">
-        {!! UI::searchField('enum', 'status', '', $status_list) !!}
+        {!! UISearch::searchField('enum', 'status', '', $status_list) !!}
     </td>
     @endif
     @if(in_array('synopsis', $selectedTableColumns))
     <td class="synopsis">
-        {!! UI::searchField('text', 'synopsis') !!}
+        {!! UISearch::searchField('text', 'synopsis') !!}
     </td>
     @endif
     @if(in_array('approved_at', $selectedTableColumns))
     <td class="approved_at">
-        {!! UI::searchField('datetime', 'approved_at') !!}
+        {!! UISearch::searchField('datetime', 'approved_at') !!}
     </td>
     @endif
     @if(in_array('approved_by', $selectedTableColumns))
     <td class="approved_by">
-        {!! UI::searchField('MUL', 'approved_by', '', $approved_by_list) !!}
+        {!! UISearch::searchField('MUL', 'approved_by', '', $approved_by_list) !!}
     </td>
     @endif
     @if(in_array('created_at', $selectedTableColumns))
     <td class="created_at">
-        {!! UI::searchField('timestamp', 'created_at') !!}
+        {!! UISearch::searchField('timestamp', 'created_at') !!}
     </td>
     @endif
     @if(in_array('updated_at', $selectedTableColumns))
     <td class="updated_at">
-        {!! UI::searchField('timestamp', 'updated_at') !!}
+        {!! UISearch::searchField('timestamp', 'updated_at') !!}
     </td>
     @endif
     @if(in_array('deleted_at', $selectedTableColumns))
     <td class="deleted_at">
-        {!! UI::searchField('timestamp', 'deleted_at') !!}
+        {!! UISearch::searchField('timestamp', 'deleted_at') !!}
     </td>
     @endif
     
@@ -129,7 +129,7 @@
                 <li>
                     <div class="checkbox">
                         <label>
-                            {!! UI::searchField('radio', 'trashed_records', 'withTrashed', [], []) !!}
+                            {!! UISearch::searchField('radio', 'trashed_records', 'withTrashed', [], []) !!}
                             {{ trans('core::shared.filter-with-trashed') }}
                         </label>
                     </div>
@@ -138,7 +138,7 @@
                 <li>
                     <div class="checkbox">
                         <label>
-                            {!! UI::searchField('radio', 'trashed_records', 'onlyTrashed', [], []) !!}
+                            {!! UISearch::searchField('radio', 'trashed_records', 'onlyTrashed', [], []) !!}
                             {{ trans('core::shared.filter-only-trashed') }}
                         </label>
                     </div>
@@ -148,7 +148,7 @@
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">{{ trans('core::shared.more-filters-table-columns') }}</li>
                 
-                {!! UI::makeCheckboxesArray(
+                {!! UISearch::makeCheckboxesArray(
                     'table_columns[]',
                     trans('book.table-columns'),
                     $selectedTableColumns
