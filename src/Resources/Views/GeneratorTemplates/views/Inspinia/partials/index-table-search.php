@@ -60,7 +60,7 @@
                 <li>
                     <div class="checkbox">
                         <label>
-                            {!! UI::searchField('radio', 'trashed_records', 'withTrashed', [], []) !!}
+                            {!! UISearch::searchField('radio', 'trashed_records', 'withTrashed', [], []) !!}
                             {{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.filter-with-trashed') }}
                         </label>
                     </div>
@@ -69,7 +69,7 @@
                 <li>
                     <div class="checkbox">
                         <label>
-                            {!! UI::searchField('radio', 'trashed_records', 'onlyTrashed', [], []) !!}
+                            {!! UISearch::searchField('radio', 'trashed_records', 'onlyTrashed', [], []) !!}
                             {{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.filter-only-trashed') }}
                         </label>
                     </div>
@@ -80,7 +80,7 @@
                 <li role="separator" class="divider"></li>
                 <li class="dropdown-header">{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-table-columns') }}</li>
                 
-                {!! UI::makeCheckboxesArray(
+                {!! UISearch::makeCheckboxesArray(
                     'table_columns[]',
                     trans('<?= $gen->getLangAccess() ?>.table-columns'),
                     $selectedTableColumns

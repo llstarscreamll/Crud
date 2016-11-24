@@ -46,7 +46,7 @@
             @if($record->trashed())
                 {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
             @else
-                {!! UI::xEditableSpan(
+                {!! UISearch::xEditableSpan(
                     '<?=$gen->getInputType($field)?>',
                     '<?=$field->name?>',
                     (string) $record-><?=$field->name?>,

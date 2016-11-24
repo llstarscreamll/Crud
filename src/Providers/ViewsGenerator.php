@@ -92,7 +92,7 @@ class ViewsGenerator extends BaseGenerator
             $data = ", \${$field->name}_list";
         }
 
-        $output = '{!! UI::searchField(';
+        $output = '{!! UISearch::searchField(';
         $output .= "{$type}"; // tipo de dato del campo
         $output .= "{$name}"; // nombre del campo
         $output .= "{$value}"; // valor predeterminado del campo

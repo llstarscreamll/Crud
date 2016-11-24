@@ -32,7 +32,7 @@
 <?php if (!$field->hidden) { ?>
     @if(in_array('<?= $field->name ?>', $selectedTableColumns))
     <th class="<?= $field->name ?>">
-        {!! UI::sortLink('<?=$gen->route()?>.index', trans('<?=$gen->getLangAccess()?>.table-columns.<?=$field->name?>'), '<?=$field->name?>') !!}
+        {!! UISearch::sortLink('<?=$gen->route()?>.index', trans('<?=$gen->getLangAccess()?>.table-columns.<?=$field->name?>'), '<?=$field->name?>') !!}
     </th>
     @endif
 <?php } ?>
