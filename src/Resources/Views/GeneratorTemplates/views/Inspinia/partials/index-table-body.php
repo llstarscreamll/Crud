@@ -51,7 +51,7 @@
                     '<?=$field->name?>',
                     (string) $record-><?=$field->name?>,
                     (string) <?=$gen->getRecordFieldData($field, '$record')?>,
-                    ['data-url' => '/books/'.$record->{$record->getKeyName()}<?php if ($enum_source = $gen->getSourceForEnum($field)) { ?> <?= ', \'data-source\' => '.$enum_source ?><?php } ?>]
+                    ['data-url' => '/<?=$gen->route()?>/'.$record->{$record->getKeyName()}<?php if ($enum_source = $gen->getSourceForEnum($field)) { ?> <?= ', \'data-source\' => '.$enum_source ?><?php } ?>]
                 ) !!}
             @endif
 <?php } else { ?>
