@@ -391,7 +391,7 @@ class ViewsGenerator extends BaseGenerator
             $parent_table = explode('.', $foreign->references);
 
             // si el campo actual es una llave foránea
-            if (strpos($child_table[1], $field->name) !== false) {
+            if (strpos($child_table[1], $field->name) !== false && ! empty($field->namespace)) {
                 $output .= "\t".$this->buildSelectPicker($field, false, true);
                 $output .= $this->endFormGroup($field);
 
