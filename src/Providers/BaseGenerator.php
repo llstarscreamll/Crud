@@ -1231,4 +1231,29 @@ class BaseGenerator
     {
         return 'Search'.$this->modelClassName().'Criteria';
     }
+
+    /**
+     * Compruena si la tabla tiene las columnas timestamps de Laravel.
+     *
+     * @param  stdClass  $fields
+     *
+     * @return boolean
+     */
+    public function hasLaravelTimestamps($fields)
+    {
+        $hasCreatedAtColumn = false;
+        $hasUpdatedAtColumn = false;
+
+        foreach ($fields as $field) {
+            if ($field->name == "created_at") {
+                $hasCreatedAtColumn = true;
+            }
+
+            if ($field->name == "updated_at") {
+                $hasUpdatedAtColumn = true;
+            }
+        }
+
+        return $hasCreatedAtColumn && $hasUpdatedAtColumn;
+    }
 }

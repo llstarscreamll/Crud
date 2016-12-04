@@ -78,7 +78,7 @@ class <?= $gen->getRepositoryCriteriaName() ?> implements CriteriaInterface
         $this->input->has('trashed_records') && $model->{$this->input->get('trashed_records')}();
 <?php } ?>
         // ordenamos los resultados
-        $model->orderBy($this->input->get('sort', 'created_at'), $this->input->get('sortType', 'desc'));
+        $model->orderBy($this->input->get('sort', '<?= $gen->hasLaravelTimestamps($fields) ? 'created_at' : 'name' ?>'), $this->input->get('sortType', 'desc'));
 
         return $model;
     }

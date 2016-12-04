@@ -86,7 +86,7 @@ class <?= $gen->modelClassName() ?> extends Model
      *
      * @var bool
      */
-    public $timestamps = true;
+    public $timestamps = <?= $gen->hasLaravelTimestamps($fields) ? 'true' : 'false' ?>;
     
     /**
      * Los atributos que deben ser convertidos a fechas (Carbon).
