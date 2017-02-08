@@ -15,6 +15,7 @@ namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Services;
 use <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>;
 use <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository;
 use <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>;
+<?php $gen->namespacesAdded = []; ?>
 <?php foreach ($foreign_keys as $foreign) { ?>
 <?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
 use <?= $gen->getModelRepositoryNamespace($class) ?>;
@@ -33,6 +34,7 @@ class <?= $gen->modelClassName() ?>Service
      * @var <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository
      */
     private $<?= $gen->modelVariableName() ?>Repository;
+<?php $gen->namespacesAdded = []; ?>
 <?php foreach ($foreign_keys as $foreign) { ?>
 <?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
     
@@ -73,19 +75,21 @@ class <?= $gen->modelClassName() ?>Service
      * Crea nueva instancia del servicio.
      *
      * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository $<?= $gen->modelVariableName() ?>Repository
+<?php $gen->namespacesAdded = []; ?>
 <?php foreach ($foreign_keys as $foreign) { ?>
 <?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
      * @param <?= ($class = $gen->getModelRepositoryNamespace($class))." ".$gen->modelVariableNameFromClass($class)."\n" ?>
 <?php } ?>
 <?php } ?>
      */
-    public function __construct(<?= $gen->modelClassName() ?>Repository $<?= $gen->modelVariableName() ?>Repository<?php foreach ($foreign_keys as $foreign) { ?>
+    public function __construct(<?= $gen->modelClassName() ?>Repository $<?= $gen->modelVariableName() ?>Repository<?php $gen->namespacesAdded = []; ?><?php foreach ($foreign_keys as $foreign) { ?>
 <?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
 , <?= class_basename($class = $gen->getModelRepositoryNamespace($class))." ".$gen->modelVariableNameFromClass($class) ?>
 <?php } ?>
 <?php } ?>)
     {
         $this-><?= $gen->modelVariableName() ?>Repository = $<?= $gen->modelVariableName() ?>Repository;
+<?php $gen->namespacesAdded = []; ?>
 <?php foreach ($foreign_keys as $foreign) { ?>
 <?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
         <?= str_replace('$', '$this->', $gen->modelVariableNameFromClass($class)).'Repository = '.$gen->modelVariableNameFromClass($class)."Repository;\n" ?>
