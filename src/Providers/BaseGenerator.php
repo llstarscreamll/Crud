@@ -19,6 +19,13 @@ class BaseGenerator
     private $query_wildcard = '#';
 
     /**
+     * Array de namespaces añadidos.
+     *
+     * @var array
+     */
+    public $namespacesAdded = [];
+
+    /**
      * Devuelve los campos o columnas de la tabla especificada.
      *
      * @param string $table El nombre de la tabla en la base de datos.
@@ -205,13 +212,25 @@ class BaseGenerator
      */
     public function getForeignKeyModelNamespace($foreign, $fields)
     {
+        $namespace = '';
+        $coincidences = 0;
+
         foreach ($fields as $key => $field) {
             if ($field->name == explode('.', $foreign->foreign_key)[1]) {
-                return $field->namespace;
+                $namespace = $field->namespace;
+                array_push($this->namespacesAdded, $namespace);
             }
         }
 
-        return false;
+        foreach ($this->namespacesAdded as $added) {
+            if ($added === $namespace) {
+                $coincidences++;
+            }
+        }
+
+        //dd($this->namespacesAdded, $coincidences);
+
+        return empty($namespace) || $coincidences > 1 ? false : $namespace;
     }
 
     /**
