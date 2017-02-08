@@ -76,5 +76,7 @@ class <?= $gen->modelClassName() ?>PermissionsSeeder extends Seeder
 <?php } ?>
 
         \DB::table('permissions')->insert($data);
+
+        $this->call(AttachPermissionsToAdminRoleSeeder::class);
     }
 }

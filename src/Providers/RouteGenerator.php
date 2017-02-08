@@ -43,7 +43,7 @@ class RouteGenerator extends BaseGenerator
     public function run()
     {
         // el nombre del recurso
-        $route = "Route::resource('{$this->route()}','{$this->controllerClassName()}');";
+        $route = "Route::resource('{$this->route()}', '{$this->controllerClassName()}');\n";
 
         // si la tabla tienen la columna deleted_at, genero la ruta para
         // restaurar archivos de papelera
