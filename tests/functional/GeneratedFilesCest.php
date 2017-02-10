@@ -14,7 +14,6 @@ class GeneratedFilesCest
 
         $I->amOnPage(Page::route('?table_name='.Page::$tableName));
         $I->see(Page::$title, Page::$titleElem);
-        $I->submitForm('form[name=CRUD-form]', Page::$formData);
     }
 
     public function _after(FunctionalTester $I)
@@ -28,12 +27,15 @@ class GeneratedFilesCest
      */
     public function checkFilesGeneration(FunctionalTester $I)
     {
-        $I->wantTo('crear aplicacion CRUD');
+        $I->wantTo('crear aplicacion Laravel App CRUD');
+
+        $I->submitForm('form[name=CRUD-form]', Page::$formData);
 
         // veo los mensajes de operación exitosa
         $I->see('Los tests se han generado correctamente.', '.alert-success');
         $I->see('Modelo generado correctamente', '.alert-success');
         $I->see('Controlador generado correctamente', '.alert-success');
+        // hay muchos otros mensajes
 
         // compruebo que los archivos de la app hayan sido generados
         $I->seeFileFound('Book.php', base_path('app/Models'));
@@ -45,7 +47,7 @@ class GeneratedFilesCest
         $I->seeFileFound('book.php', base_path('/resources/lang/es'));
         // reviso que se hallan añadido las rutas en web.php
         $I->openFile(base_path('routes/web.php'));
-        $I->seeInThisFile("Route::resource('books','BookController');");
+        $I->seeInThisFile("Route::resource('books', 'BookController');");
 
         // los tests
         foreach (config('modules.crud.config.tests') as $test) {
@@ -60,7 +62,10 @@ class GeneratedFilesCest
             if (strpos($view, 'partials/') === false) {
                 $I->seeFileFound($view.'.blade.php', base_path('resources/views/books'));
             } else {
-                $I->seeFileFound(str_replace('partials/', '', $view).'.blade.php', base_path('resources/views/books/partials'));
+                $I->seeFileFound(
+                    str_replace('partials/', '', $view).'.blade.php',
+                    base_path('resources/views/books/partials')
+                );
             }
         }
     }

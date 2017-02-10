@@ -14,6 +14,7 @@ class Generate
      * @var array
      */
     public static $formData = [
+        'app_type' => 'laravel_app',
         'UI_theme' => 'Inspinia',
         'is_part_of_package' => 'Books',
         'table_name' => 'books',

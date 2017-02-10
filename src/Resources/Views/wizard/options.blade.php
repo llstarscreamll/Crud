@@ -52,11 +52,17 @@
                     {!! Form::hidden('table_name', $table_name) !!}
                     
                     <div class="clearfix"></div>
+                    @include('crud::wizard.partials.options.app-type')
+                    
+                    <div class="clearfix"></div>
                     @include('crud::wizard.partials.options.tests-and-seeder-options')
+
                     <div class="clearfix"></div>
                     @include('crud::wizard.partials.options.frontend-components')
+
                     <div class="clearfix"></div>
                     @include('crud::wizard.partials.options.entity-attributes')
+
                     <div class="clearfix"></div>
 
                     <div class="form-group">
