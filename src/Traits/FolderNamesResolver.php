@@ -37,9 +37,38 @@ trait FolderNamesResolver
         return $this->containerFolder().'/Actions';
     }
 
+    /**
+     * Data folders.
+     */
+
     public function dataFolder()
     {
         return $this->containerFolder().'/Data';
+    }
+
+    public function criteriasFolder()
+    {
+        return $this->dataFolder().'/Criterias';
+    }
+
+    public function factoriesFolder()
+    {
+        return $this->dataFolder().'/Factories';
+    }
+
+    public function migrationsFolder()
+    {
+        return $this->dataFolder().'/Migrations';
+    }
+
+    public function repositoriesFolder()
+    {
+        return $this->dataFolder().'/Repositories';
+    }
+
+    public function seedersFolder()
+    {
+        return $this->dataFolder().'/Seeders';
     }
 
     public function modelsFolder()
@@ -118,5 +147,18 @@ trait FolderNamesResolver
     public function webViewsFolder()
     {
         return $this->webFolder().'/Views';
+    }
+
+    /**
+     * Actions files.
+     */
+
+    public function actionFile(string $file, bool $plural = false)
+    {
+        $container = $plural
+            ? str_plural($this->containerName())
+            : $this->containerName();
+
+        return $file.$container.'Action.php';
     }
 }

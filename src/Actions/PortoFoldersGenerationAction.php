@@ -48,6 +48,31 @@ class PortoFoldersGenerationAction
             mkdir($this->dataFolder());
         }
 
+        // Generate Criterias folder
+        if (!file_exists($this->criteriasFolder())) {
+            mkdir($this->criteriasFolder());
+        }
+
+        // Generate factories folder
+        if (!file_exists($this->factoriesFolder())) {
+            mkdir($this->factoriesFolder());
+        }
+
+        // Generate migrations folder
+        if (!file_exists($this->migrationsFolder())) {
+            mkdir($this->migrationsFolder());
+        }
+
+        // Generate repositories folder
+        if (!file_exists($this->repositoriesFolder())) {
+            mkdir($this->repositoriesFolder());
+        }
+
+        // Generate seeders folder
+        if (!file_exists($this->seedersFolder())) {
+            mkdir($this->seedersFolder());
+        }
+
         // Generate Models folder
         if (!file_exists($this->modelsFolder())) {
             mkdir($this->modelsFolder());

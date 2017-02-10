@@ -31,7 +31,14 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists(app_path('Containers')), 'Containers folder');
         $I->assertTrue(file_exists(app_path('Containers/'.$package)), 'package container folder');
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Actions')), 'Actions folder');
+        // Data folders
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Data')), 'Data folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Data/Criterias')), 'Data/Criterias folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Data/Factories')), 'Data/Factories folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Data/Migrations')), 'Data/Migrations folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Data/Repositories')), 'Data/Repositories folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Data/Seeders')), 'Data/Seeders folder');
+
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Models')), 'Models folder');
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Tasks')), 'Tasks folder');
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI')), 'UI folder');
@@ -49,9 +56,21 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Routes')), 'WEB/Routes folder');
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Views')), 'WEB/Views folder');
 
-        // now chek the generated files/clases
+        // generated Actions files/clases
         $I->seeFileFound('composer.json', app_path('Containers/'.$package));
-        //$I->seeFileFound('Book.php', app_path('Containers/'.$package.'/UI/API/Routes'));
+        $I->seeFileFound('ListAndSearchBooksAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('CreateBookAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('UpdateBookAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('DeleteBookAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('RestoreBookAction.php', app_path('Containers/'.$package.'/Actions'));
+
+        // generated Actions files/clases
+        $I->seeFileFound('composer.json', app_path('Containers/'.$package));
+        $I->seeFileFound('ListAndSearchBooksAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('CreateBookAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('UpdateBookAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('DeleteBookAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('RestoreBookAction.php', app_path('Containers/'.$package.'/Actions'));
     }
 
     /**

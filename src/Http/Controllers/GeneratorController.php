@@ -18,6 +18,7 @@ use llstarscreamll\Crud\Providers\FurtherTasks;
 
 use llstarscreamll\Crud\Actions\PortoFoldersGenerationAction;
 use llstarscreamll\Crud\Actions\CreateComposerFileAction;
+use llstarscreamll\Crud\Actions\CreateActionsFilesAction;
 
 class GeneratorController extends Controller
 {
@@ -52,6 +53,10 @@ class GeneratorController extends Controller
         // generate composer file
         $createComposerFileAction = new CreateComposerFileAction();
         $createComposerFileAction->run($request->get('is_part_of_package'));
+
+        // generate actions classes
+        $createActionsFilesAction = new CreateActionsFilesAction();
+        $createActionsFilesAction->run($request->get('is_part_of_package'));
 
         return 'success!!';
     }
