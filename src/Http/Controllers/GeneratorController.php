@@ -16,6 +16,9 @@ use llstarscreamll\Crud\Providers\LangGenerator;
 use llstarscreamll\Crud\Providers\SeedersGenerator;
 use llstarscreamll\Crud\Providers\FurtherTasks;
 
+use llstarscreamll\Crud\Actions\PortoFoldersGenerationAction;
+use llstarscreamll\Crud\Actions\CreateComposerFileAction;
+
 class GeneratorController extends Controller
 {
     /**
@@ -40,6 +43,19 @@ class GeneratorController extends Controller
         return view('crud::wizard.index');
     }
 
+    public function generatePortoContainer(Request $request)
+    {
+        // generate the base folders
+        $portoFoldersGenerationAction = new PortoFoldersGenerationAction();
+        $portoFoldersGenerationAction->run($request->get('is_part_of_package'));
+
+        // generate composer file
+        $createComposerFileAction = new CreateComposerFileAction();
+        $createComposerFileAction->run($request->get('is_part_of_package'));
+
+        return 'success!!';
+    }
+
     /**
      * Ejecuta los scripts para generar los ficheros necesarios para la CRUD app
      * de la tabla de la base de datos elegida.
@@ -61,6 +77,11 @@ class GeneratorController extends Controller
                     'error',
                     'La tabla '.$request->get('table_name').' no existe en la base de datos.'
                 );
+        }
+
+        // si el usuario quiere generar Container de Porto
+        if ($request->get('app_type', 'laravel_app') !== 'laravel_app') {
+            return $this->generatePortoContainer($request);
         }
 
         // las clases que generan la CRUD app

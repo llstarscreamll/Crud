@@ -34,6 +34,14 @@ Route::group(
             ]
         );
 
+        Route::post(
+            '/generate-porto-container',
+            [
+                'as' => 'crud.generate-porto-container',
+                'uses' => 'GeneratorController@generatePortoContainer'
+            ]
+        );
+
         Route::get(
             '/showOptions',
             [
