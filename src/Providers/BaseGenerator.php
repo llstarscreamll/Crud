@@ -1042,7 +1042,7 @@ class BaseGenerator
         }
 
         if ($field->key == 'MUL') {
-            $table = with(new $field->namespace)->getTable();
+            $table = $this->getTableNameFromModel($field->namespace);
             $rules .= "'exists:$table,id', ";
         }
 
@@ -1060,6 +1060,15 @@ class BaseGenerator
         $rules = "[$rules]";
 
         return $rules;
+    }
+
+    /**
+     * Devuelve el nombre de la tabla de un modelo siguiendo las convenciones de
+     * Lararavel para nombrar los modelos.
+     */
+    private function getTableNameFromModel(string $model)
+    {
+        return snake_case(str_plural(class_basename($model)));
     }
 
     /**
