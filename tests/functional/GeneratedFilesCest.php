@@ -64,13 +64,21 @@ class GeneratedFilesCest
         $I->seeFileFound('DeleteBookAction.php', app_path('Containers/'.$package.'/Actions'));
         $I->seeFileFound('RestoreBookAction.php', app_path('Containers/'.$package.'/Actions'));
 
-        // generated Actions files/clases
         $I->seeFileFound('composer.json', app_path('Containers/'.$package));
+
+        // generated Actions files/clases
         $I->seeFileFound('ListAndSearchBooksAction.php', app_path('Containers/'.$package.'/Actions'));
         $I->seeFileFound('CreateBookAction.php', app_path('Containers/'.$package.'/Actions'));
         $I->seeFileFound('UpdateBookAction.php', app_path('Containers/'.$package.'/Actions'));
         $I->seeFileFound('DeleteBookAction.php', app_path('Containers/'.$package.'/Actions'));
         $I->seeFileFound('RestoreBookAction.php', app_path('Containers/'.$package.'/Actions'));
+
+        // generated Tasks files/clases
+        $I->seeFileFound('ListBooksTask.php', app_path('Containers/'.$package.'/Tasks'));
+        $I->seeFileFound('CreateBookTask.php', app_path('Containers/'.$package.'/Tasks'));
+        $I->seeFileFound('UpdateBookTask.php', app_path('Containers/'.$package.'/Tasks'));
+        $I->seeFileFound('DeleteBookTask.php', app_path('Containers/'.$package.'/Tasks'));
+        $I->seeFileFound('RestoreBookTask.php', app_path('Containers/'.$package.'/Tasks'));
     }
 
     /**

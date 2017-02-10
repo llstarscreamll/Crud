@@ -19,6 +19,7 @@ use llstarscreamll\Crud\Providers\FurtherTasks;
 use llstarscreamll\Crud\Actions\PortoFoldersGenerationAction;
 use llstarscreamll\Crud\Actions\CreateComposerFileAction;
 use llstarscreamll\Crud\Actions\CreateActionsFilesAction;
+use llstarscreamll\Crud\Actions\CreateTasksFilesAction;
 
 class GeneratorController extends Controller
 {
@@ -57,6 +58,10 @@ class GeneratorController extends Controller
         // generate actions classes
         $createActionsFilesAction = new CreateActionsFilesAction();
         $createActionsFilesAction->run($request->get('is_part_of_package'));
+
+        // generate tasks classes
+        $createTasksFilesAction = new CreateTasksFilesAction();
+        $createTasksFilesAction->run($request->get('is_part_of_package'));
 
         return 'success!!';
     }

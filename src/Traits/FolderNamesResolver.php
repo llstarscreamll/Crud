@@ -153,12 +153,25 @@ trait FolderNamesResolver
      * Actions files.
      */
 
-    public function actionFile(string $file, bool $plural = false)
+    public function actionFile(string $action, bool $plural = false)
     {
-        $container = $plural
+        $entity = $plural
             ? str_plural($this->containerName())
             : $this->containerName();
 
-        return $file.$container.'Action.php';
+        return $action.$entity.'Action.php';
+    }
+
+    /**
+     * Tasks files.
+     */
+
+    public function taskFile(string $task, bool $plural = false)
+    {
+        $entity = $plural
+            ? str_plural($this->containerName())
+            : $this->containerName();
+
+        return $task.$entity.'Task.php';
     }
 }
