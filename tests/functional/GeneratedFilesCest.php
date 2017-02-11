@@ -55,6 +55,8 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Requests')), 'WEB/Requests folder');
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Routes')), 'WEB/Routes folder');
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Views')), 'WEB/Views folder');
+        // CLI folders
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/CLI')), 'UI/CLI folder');
 
         // generated Actions files/clases
         $I->seeFileFound('composer.json', app_path('Containers/'.$package));

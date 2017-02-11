@@ -121,6 +121,15 @@ trait FolderNamesResolver
     }
 
     /**
+     * CLI folders.
+     */
+
+    public function cliFolder()
+    {
+        return $this->uiFolder().'/CLI';
+    }
+
+    /**
      * WEB folders.
      */
 
