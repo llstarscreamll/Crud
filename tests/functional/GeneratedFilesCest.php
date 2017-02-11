@@ -30,7 +30,16 @@ class GeneratedFilesCest
         // los directorios deben estar creados correctamente
         $I->assertTrue(file_exists(app_path('Containers')), 'Containers folder');
         $I->assertTrue(file_exists(app_path('Containers/'.$package)), 'package container folder');
+        
+        // generated Actions
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Actions')), 'Actions folder');
+        $I->seeFileFound('composer.json', app_path('Containers/'.$package));
+        $I->seeFileFound('ListAndSearchBooksAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('CreateBookAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('UpdateBookAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('DeleteBookAction.php', app_path('Containers/'.$package.'/Actions'));
+        $I->seeFileFound('RestoreBookAction.php', app_path('Containers/'.$package.'/Actions'));
+
         // Data folders
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Data')), 'Data folder');
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Data/Criterias')), 'Data/Criterias folder');
@@ -39,62 +48,58 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Data/Repositories')), 'Data/Repositories folder');
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Data/Seeders')), 'Data/Seeders folder');
 
+        // generated Models
         $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Models')), 'Models folder');
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Tasks')), 'Tasks folder');
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI')), 'UI folder');
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Tests')), 'Tests folder');
-        // API folders
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/API')), 'UI/API folder');
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/API/Controllers')), 'API/Controllers folder');
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/API/Requests')), 'API/Requests folder');
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/API/Routes')), 'API/Routes folder');
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/API/Transformers')), 'API/Transformers folder');
-        // WEB folders
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB')), 'UI/WEB folder');
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Controllers')), 'WEB/Controllers folder');
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Requests')), 'WEB/Requests folder');
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Routes')), 'WEB/Routes folder');
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Views')), 'WEB/Views folder');
-        // CLI folders
-        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/CLI')), 'UI/CLI folder');
-
-        // generated Actions files/clases
-        $I->seeFileFound('composer.json', app_path('Containers/'.$package));
-        $I->seeFileFound('ListAndSearchBooksAction.php', app_path('Containers/'.$package.'/Actions'));
-        $I->seeFileFound('CreateBookAction.php', app_path('Containers/'.$package.'/Actions'));
-        $I->seeFileFound('UpdateBookAction.php', app_path('Containers/'.$package.'/Actions'));
-        $I->seeFileFound('DeleteBookAction.php', app_path('Containers/'.$package.'/Actions'));
-        $I->seeFileFound('RestoreBookAction.php', app_path('Containers/'.$package.'/Actions'));
-
-        $I->seeFileFound('composer.json', app_path('Containers/'.$package));
-
-        // generated Actions files/clases
-        $I->seeFileFound('ListAndSearchBooksAction.php', app_path('Containers/'.$package.'/Actions'));
-        $I->seeFileFound('CreateBookAction.php', app_path('Containers/'.$package.'/Actions'));
-        $I->seeFileFound('UpdateBookAction.php', app_path('Containers/'.$package.'/Actions'));
-        $I->seeFileFound('DeleteBookAction.php', app_path('Containers/'.$package.'/Actions'));
-        $I->seeFileFound('RestoreBookAction.php', app_path('Containers/'.$package.'/Actions'));
 
         // generated Tasks files/clases
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/Tasks')), 'Tasks folder');
         $I->seeFileFound('ListBooksTask.php', app_path('Containers/'.$package.'/Tasks'));
         $I->seeFileFound('CreateBookTask.php', app_path('Containers/'.$package.'/Tasks'));
         $I->seeFileFound('UpdateBookTask.php', app_path('Containers/'.$package.'/Tasks'));
         $I->seeFileFound('DeleteBookTask.php', app_path('Containers/'.$package.'/Tasks'));
         $I->seeFileFound('RestoreBookTask.php', app_path('Containers/'.$package.'/Tasks'));
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI')), 'UI folder');
 
-        // generated API route files
+        // tests folders
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/tests')), 'tests folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/tests/acceptance')), 'tests/acceptance folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/tests/functional')), 'tests/functional folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/tests/unit')), 'tests/unit folder');
+
+        // API folders
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/API')), 'UI/API folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/API/Controllers')), 'API/Controllers folder');
+
+        // generated API requests
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/API/Requests')), 'API/Requests folder');
+        $I->seeFileFound('ListAllBooksRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
+        $I->seeFileFound('CreateBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
+        $I->seeFileFound('UpdateBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
+        $I->seeFileFound('DeleteBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
+        $I->seeFileFound('RestoreBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
+        
+        // generated API routes
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/API/Routes')), 'API/Routes folder');
         $I->seeFileFound('ListBooks.v1.private.php', app_path('Containers/'.$package.'/UI/API/Routes'));
         $I->seeFileFound('CreateBook.v1.private.php', app_path('Containers/'.$package.'/UI/API/Routes'));
         $I->seeFileFound('UpdateBook.v1.private.php', app_path('Containers/'.$package.'/UI/API/Routes'));
         $I->seeFileFound('DeleteBook.v1.private.php', app_path('Containers/'.$package.'/UI/API/Routes'));
         $I->seeFileFound('RestoreBook.v1.private.php', app_path('Containers/'.$package.'/UI/API/Routes'));
 
-        // generated API request files
-        $I->seeFileFound('ListAllBooksRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
-        $I->seeFileFound('CreateBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
-        $I->seeFileFound('UpdateBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
-        $I->seeFileFound('DeleteBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
-        $I->seeFileFound('RestoreBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/API/Transformers')), 'API/Transformers folder');
+
+        // WEB folders
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB')), 'UI/WEB folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Controllers')), 'WEB/Controllers folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Requests')), 'WEB/Requests folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Routes')), 'WEB/Routes folder');
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/WEB/Views')), 'WEB/Views folder');
+
+        // CLI folders
+        $I->assertTrue(file_exists(app_path('Containers/'.$package.'/UI/CLI')), 'UI/CLI folder');
+
+        // Other files
+        $I->seeFileFound('composer.json', app_path('Containers/'.$package));
     }
 
     /**
