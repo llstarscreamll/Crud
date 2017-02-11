@@ -5,11 +5,11 @@ namespace llstarscreamll\Crud\Actions;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 
 /**
- * PortoFoldersGeneration Class.
+ * CreateApiRoutesFilesAction Class.
  *
  * @author Johan Alvarez <llstarscreamll@hotmail.com>
  */
-class CreateTasksFilesAction
+class CreateApiRoutesFilesAction
 {
     use FolderNamesResolver;
 
@@ -21,7 +21,7 @@ class CreateTasksFilesAction
     public $container = '';
 
     /**
-     * The tasks files to generate.
+     * The routes files to generate.
      *
      * @var array
      */
@@ -45,12 +45,12 @@ class CreateTasksFilesAction
         foreach ($this->files as $file) {
             $plural = ($file == "List") ? true : false;
 
-            $taskFile = $this->tasksFolder().'/'.$this->taskFile($file, $plural);
-            $template = $this->templatesDir().'.Porto/Tasks/'.$file;
+            $actionFile = $this->apiRoutesFolder().'/'.$this->apiRouteFile($file, $plural);
+            $template = $this->templatesDir().'.Porto/UI/API/Routes/'.$file;
 
             $content = view($template, ['gen' => $this]);
 
-            file_put_contents($taskFile, $content) === false
+            file_put_contents($actionFile, $content) === false
                 ? session()->push('error', "Error creating $file task file")
                 : session()->push('success', "$file task creation success");
         }

@@ -20,6 +20,7 @@ use llstarscreamll\Crud\Actions\PortoFoldersGenerationAction;
 use llstarscreamll\Crud\Actions\CreateComposerFileAction;
 use llstarscreamll\Crud\Actions\CreateActionsFilesAction;
 use llstarscreamll\Crud\Actions\CreateTasksFilesAction;
+use llstarscreamll\Crud\Actions\CreateApiRoutesFilesAction;
 
 class GeneratorController extends Controller
 {
@@ -62,6 +63,10 @@ class GeneratorController extends Controller
         // generate tasks classes
         $createTasksFilesAction = new CreateTasksFilesAction();
         $createTasksFilesAction->run($request->get('is_part_of_package'));
+
+        // generate API routes files
+        $createApiRoutesFilesAction = new CreateApiRoutesFilesAction();
+        $createApiRoutesFilesAction->run($request->get('is_part_of_package'));
 
         return 'success!!';
     }

@@ -174,4 +174,13 @@ trait FolderNamesResolver
 
         return $task.$entity.'Task.php';
     }
+
+    public function apiRouteFile(string $route, bool $plural = false)
+    {
+        $entity = $plural
+            ? str_plural($this->containerName())
+            : $this->containerName();
+
+        return $route.$entity.'.v1.private.php';
+    }
 }
