@@ -83,7 +83,12 @@ trait FolderNamesResolver
 
     public function testsFolder()
     {
-        return $this->containerFolder().'/Tests';
+        return $this->containerFolder().'/tests';
+    }
+
+    public function apiTestsFolder()
+    {
+        return $this->containerFolder().'/tests/api';
     }
 
     public function uiFolder()

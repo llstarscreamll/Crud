@@ -22,6 +22,7 @@ use llstarscreamll\Crud\Actions\CreateActionsFilesAction;
 use llstarscreamll\Crud\Actions\CreateTasksFilesAction;
 use llstarscreamll\Crud\Actions\CreateApiRoutesFilesAction;
 use llstarscreamll\Crud\Actions\CreateApiRequestsFilesAction;
+use llstarscreamll\Crud\Actions\CreateCodeceptionTestsAction;
 
 class GeneratorController extends Controller
 {
@@ -72,6 +73,10 @@ class GeneratorController extends Controller
         // generate API request files
         $createApiRequestsFilesAction = new CreateApiRequestsFilesAction();
         $createApiRequestsFilesAction->run($request->get('is_part_of_package'));
+
+        // generate Codeception tests files
+        $createCodeceptionTestsAction = new CreateCodeceptionTestsAction();
+        $createCodeceptionTestsAction->run($request->get('is_part_of_package'));
 
         return 'success!!';
     }

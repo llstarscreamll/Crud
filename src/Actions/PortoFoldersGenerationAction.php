@@ -118,7 +118,7 @@ class PortoFoldersGenerationAction
             mkdir($this->apiTransformersFolder());
         }
 
-        // Generate UI/CLI
+        // Generate UI/CLI folder
         if (!file_exists($this->cliFolder())) {
             mkdir($this->cliFolder());
         }
