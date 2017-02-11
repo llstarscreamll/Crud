@@ -87,6 +87,12 @@ class GeneratedFilesCest
         $I->seeFileFound('DeleteBook.v1.private.php', app_path('Containers/'.$package.'/UI/API/Routes'));
         $I->seeFileFound('RestoreBook.v1.private.php', app_path('Containers/'.$package.'/UI/API/Routes'));
 
+        // generated API request files
+        $I->seeFileFound('ListAllBooksRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
+        $I->seeFileFound('CreateBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
+        $I->seeFileFound('UpdateBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
+        $I->seeFileFound('DeleteBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
+        $I->seeFileFound('RestoreBookRequest.php', app_path('Containers/'.$package.'/UI/API/Requests'));
     }
 
     /**
