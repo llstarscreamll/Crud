@@ -25,7 +25,13 @@ class CreateCodeceptionTestsAction
      *
      * @var array
      */
-    public $files = [];
+    public $files = [
+        'ListAll',
+        'Create',
+        'Update',
+        'Delete',
+        'Restore',
+    ];
 
     /**
      * @param string $container Contaner name
@@ -35,29 +41,46 @@ class CreateCodeceptionTestsAction
     public function run(string $container)
     {
         $this->container = studly_case($container);
-        $containerFolder = $this->containerFolder();
 
-        // bootstraps Codeception on container
-        if (!file_exists($this->testsFolder())) {
-            exec("cd $containerFolder && codecept bootstrap --namespace=".$this->containerName());
-        } else {
-            session()->push('warning', 'Codeception tests already bootstraped!!');
-        }
+        $this->bootstrapCodeception();
 
-        // create suit for API tests
-        if (!file_exists($this->apiTestsFolder())) {
-            exec("cd $containerFolder && codecept generate:suite api");
-        } else {
-            session()->push('warning', 'Codeception tests already bootstraped!!');
-        }
+        $this->createCodeceptApiSuite();
 
         $this->configureCodeceptSuite('api');
         $this->configureCodeceptSuite('functional');
 
         // builds Codeception suites
-        exec("cd $containerFolder && codecept build");
+        exec("cd {$this->containerFolder()} && codecept build");
 
         return true;
+    }
+
+    /**
+     * Bootstraps Codeception on container.
+     *
+     * @return void
+     */
+    public function bootstrapCodeception()
+    {
+        if (!file_exists($this->containerFolder().'/codeception.yml')) {
+            exec("cd {$this->containerFolder()} && codecept bootstrap --namespace=".$this->containerName());
+        } else {
+            session()->push('warning', 'Codeception tests already bootstraped!!');
+        }
+    }
+
+    /**
+     * Create Codeception suite for API tests.
+     *
+     * @return void
+     */
+    public function createCodeceptApiSuite()
+    {
+        if (!file_exists($this->apiTestsFolder())) {
+            exec("cd {$this->containerFolder()} && codecept generate:suite api");
+        } else {
+            session()->push('warning', 'Codeception tests already bootstraped!!');
+        }
     }
 
     /**
