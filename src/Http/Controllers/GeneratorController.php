@@ -75,8 +75,8 @@ class GeneratorController extends Controller
         $createApiRequestsFilesAction->run($request->get('is_part_of_package'));
 
         // generate Codeception tests files
-        $createCodeceptionTestsAction = new CreateCodeceptionTestsAction();
-        $createCodeceptionTestsAction->run($request->get('is_part_of_package'));
+        $createCodeceptionTestsAction = new CreateCodeceptionTestsAction($request);
+        $createCodeceptionTestsAction->run();
 
         return 'success!!';
     }

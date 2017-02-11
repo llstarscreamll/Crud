@@ -2,6 +2,7 @@
 
 namespace llstarscreamll\Crud\Actions;
 
+use Illuminate\Http\Request;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 
 /**
@@ -18,7 +19,14 @@ class CreateCodeceptionTestsAction
      *
      * @var string
      */
-    public $container = '';
+    public $container;
+
+    /**
+     * Container entity to generate (database table name).
+     *
+     * @var string
+     */
+    public $tableName;
 
     /**
      * The tests files to generate.
@@ -26,7 +34,7 @@ class CreateCodeceptionTestsAction
      * @var array
      */
     public $files = [
-        'ListAll',
+        'List',
         'Create',
         'Update',
         'Delete',
@@ -34,14 +42,24 @@ class CreateCodeceptionTestsAction
     ];
 
     /**
+     * Create new CreateCodeceptionTestsAction instance.
+     *
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+        $this->container = studly_case($request->get('is_part_of_package'));
+        $this->tableName = $this->request->get('table_name');
+    }
+
+    /**
      * @param string $container Contaner name
      *
      * @return bool
      */
-    public function run(string $container)
+    public function run()
     {
-        $this->container = studly_case($container);
-
         $this->bootstrapCodeception();
 
         $this->createCodeceptApiSuite();
@@ -51,6 +69,8 @@ class CreateCodeceptionTestsAction
 
         // builds Codeception suites
         exec("cd {$this->containerFolder()} && codecept build");
+
+        $this->generateApiTests();
 
         return true;
     }
@@ -117,17 +137,31 @@ class CreateCodeceptionTestsAction
 
     private function generateApiTests()
     {
-        foreach ($this->files as $file) {
-            $plural = ($file == "ListAll") ? true : false;
+        $this->createContainerApiTestsFolder();
 
-            $actionFile = $this->apiRequestsFolder().'/'.$this->apiRequestFile($file, $plural);
-            $template = $this->templatesDir().'.Porto/UI/API/Requests/'.$file;
+        foreach ($this->files as $file) {
+            $plural = ($file == "List") ? true : false;
+
+            $testFile = $this->apiTestsFolder()."/{$this->entityName()}/".$this->apiTestFile($file, $plural);
+            $template = $this->templatesDir().'.Porto/tests/api/'.$file;
 
             $content = view($template, ['gen' => $this]);
 
-            file_put_contents($actionFile, $content) === false
-                ? session()->push('error', "Error creating $file request file")
-                : session()->push('success', "$file request creation success");
+            file_put_contents($testFile, $content) === false
+                ? session()->push('error', "Error creating $file api test file")
+                : session()->push('success', "$file api test creation success");
+        }
+    }
+
+    /**
+     * Creates the API entity tests folder.
+     *
+     * @return void
+     */
+    private function createContainerApiTestsFolder()
+    {
+        if (!file_exists($this->apiTestsFolder().'/'.$this->entityName())) {
+            mkdir($this->apiTestsFolder().'/'.$this->entityName());
         }
     }
 }

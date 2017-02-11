@@ -31,6 +31,7 @@ class GeneratedFilesCest
         $data = Page::$formData;
         $data['app_type'] = 'porto_container';
         $this->package = studly_case(str_singular($data['is_part_of_package']));
+        $this->entity = studly_case(str_singular($data['table_name']));
         
         $I->submitForm('form[name=CRUD-form]', $data);
 
@@ -77,6 +78,14 @@ class GeneratedFilesCest
         $I->seeFileFound('unit.suite.yml', app_path('Containers/'.$this->package.'/tests'));
         $I->assertTrue(file_exists(app_path('Containers/'.$this->package.'/tests/api')), 'api test');
         $I->seeFileFound('api.suite.yml', app_path('Containers/'.$this->package.'/tests'));
+        // API entity tests
+        $apiTestsFolder = app_path('Containers/'.$this->package.'/tests/api/'.$this->entity);
+        $I->assertTrue(file_exists($apiTestsFolder), 'entity api tests folder');
+        $I->seeFileFound('List'.str_plural($this->entity).'Test.php', $apiTestsFolder);
+        $I->seeFileFound('Create'.$this->entity.'Test.php', $apiTestsFolder);
+        $I->seeFileFound('Update'.$this->entity.'Test.php', $apiTestsFolder);
+        $I->seeFileFound('Delete'.$this->entity.'Test.php', $apiTestsFolder);
+        $I->seeFileFound('Restore'.$this->entity.'Test.php', $apiTestsFolder);
 
         // API
         $I->assertTrue(file_exists(app_path('Containers/'.$this->package.'/UI/API')), 'UI/API folder');

@@ -7,14 +7,19 @@ namespace llstarscreamll\Crud\Traits;
 */
 trait FolderNamesResolver
 {
-    public function containerName()
-    {
-        return studly_case(str_singular($this->container));
-    }
-
     public function templatesDir()
     {
         return config('modules.crud.config.templates');
+    }
+
+    public function entityName()
+    {
+        return studly_case(str_singular($this->tableName));
+    }
+
+    public function containerName()
+    {
+        return studly_case(str_singular($this->container));
     }
 
     /**
@@ -81,6 +86,15 @@ trait FolderNamesResolver
         return $this->containerFolder().'/Tasks';
     }
 
+    public function uiFolder()
+    {
+        return $this->containerFolder().'/UI';
+    }
+
+    /**
+     * Tests
+     */
+
     public function testsFolder()
     {
         return $this->containerFolder().'/tests';
@@ -91,13 +105,17 @@ trait FolderNamesResolver
         return $this->containerFolder().'/tests/api';
     }
 
-    public function uiFolder()
+    public function apiTestFile(string $test, bool $plural = false)
     {
-        return $this->containerFolder().'/UI';
+        $entity = $plural
+            ? str_plural($this->entityName())
+            : $this->entityName();
+
+        return $test.$entity.'Test.php';
     }
 
     /**
-     * API folders.
+     * API
      */
 
     public function apiFolder()
@@ -125,8 +143,26 @@ trait FolderNamesResolver
         return $this->apiFolder().'/Transformers';
     }
 
+    public function apiRouteFile(string $route, bool $plural = false)
+    {
+        $entity = $plural
+            ? str_plural($this->containerName())
+            : $this->containerName();
+
+        return $route.$entity.'.v1.private.php';
+    }
+
+    public function apiRequestFile(string $request, bool $plural = false)
+    {
+        $entity = $plural
+            ? str_plural($this->containerName())
+            : $this->containerName();
+
+        return $request.$entity.'Request.php';
+    }
+
     /**
-     * CLI folders.
+     * CLI
      */
 
     public function cliFolder()
@@ -135,7 +171,7 @@ trait FolderNamesResolver
     }
 
     /**
-     * WEB folders.
+     * WEB
      */
 
     public function webFolder()
@@ -164,7 +200,7 @@ trait FolderNamesResolver
     }
 
     /**
-     * Actions files.
+     * Actions
      */
 
     public function actionFile(string $action, bool $plural = false)
@@ -177,7 +213,7 @@ trait FolderNamesResolver
     }
 
     /**
-     * Tasks files.
+     * Tasks
      */
 
     public function taskFile(string $task, bool $plural = false)
@@ -187,23 +223,5 @@ trait FolderNamesResolver
             : $this->containerName();
 
         return $task.$entity.'Task.php';
-    }
-
-    public function apiRouteFile(string $route, bool $plural = false)
-    {
-        $entity = $plural
-            ? str_plural($this->containerName())
-            : $this->containerName();
-
-        return $route.$entity.'.v1.private.php';
-    }
-
-    public function apiRequestFile(string $request, bool $plural = false)
-    {
-        $entity = $plural
-            ? str_plural($this->containerName())
-            : $this->containerName();
-
-        return $request.$entity.'Request.php';
     }
 }
