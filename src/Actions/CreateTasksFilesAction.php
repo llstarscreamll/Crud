@@ -2,6 +2,7 @@
 
 namespace llstarscreamll\Crud\Actions;
 
+use Illuminate\Http\Request;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 
 /**
@@ -18,7 +19,14 @@ class CreateTasksFilesAction
      *
      * @var string
      */
-    public $container = '';
+    public $container;
+
+    /**
+     * Container entity to generate (database table name).
+     *
+     * @var string
+     */
+    public $tableName;
 
     /**
      * The tasks files to generate.
@@ -34,18 +42,30 @@ class CreateTasksFilesAction
     ];
 
     /**
+     * Create new CreateTasksFilesAction instance.
+     *
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+        $this->container = studly_case($request->get('is_part_of_package'));
+        $this->tableName = $this->request->get('table_name');
+    }
+
+    /**
      * @param string $container Contaner name
      *
      * @return bool
      */
-    public function run(string $container)
+    public function run()
     {
-        $this->container = studly_case($container);
+        $this->createEntityTasksFolder();
 
         foreach ($this->files as $file) {
             $plural = ($file == "List") ? true : false;
 
-            $taskFile = $this->tasksFolder().'/'.$this->taskFile($file, $plural);
+            $taskFile = $this->tasksFolder()."/{$this->entityName()}/".$this->taskFile($file, $plural);
             $template = $this->templatesDir().'.Porto/Tasks/'.$file;
 
             $content = view($template, ['gen' => $this]);
@@ -56,5 +76,17 @@ class CreateTasksFilesAction
         }
 
         return true;
+    }
+
+    /**
+     * Create the entity tasks folder.
+     *
+     * @return void
+     */
+    private function createEntityTasksFolder()
+    {
+        if (!file_exists($this->tasksFolder().'/'.$this->entityName())) {
+            mkdir($this->tasksFolder().'/'.$this->entityName());
+        }
     }
 }

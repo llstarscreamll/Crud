@@ -77,8 +77,6 @@ class CreateCodeceptionTestsAction
 
     /**
      * Bootstraps Codeception on container.
-     *
-     * @return void
      */
     public function bootstrapCodeception()
     {
@@ -91,8 +89,6 @@ class CreateCodeceptionTestsAction
 
     /**
      * Create Codeception suite for API tests.
-     *
-     * @return void
      */
     public function createCodeceptApiSuite()
     {
@@ -106,8 +102,7 @@ class CreateCodeceptionTestsAction
     /**
      * Adds Laravel module for Codeception suite.
      *
-     * @param  string $suite The codeception suite name
-     * @return void
+     * @param string $suite The codeception suite name
      */
     private function configureCodeceptSuite(string $suite)
     {
@@ -132,15 +127,15 @@ class CreateCodeceptionTestsAction
             "        - Laravel5:\n".
             "            environment_file: .env.testing\n".
             "            root: ../../../\n".
-            "            run_database_migrations: true";
+            '            run_database_migrations: true';
     }
 
     private function generateApiTests()
     {
-        $this->createContainerApiTestsFolder();
+        $this->createEntityApiTestsFolder();
 
         foreach ($this->files as $file) {
-            $plural = ($file == "List") ? true : false;
+            $plural = ($file == 'List') ? true : false;
 
             $testFile = $this->apiTestsFolder()."/{$this->entityName()}/".$this->apiTestFile($file, $plural);
             $template = $this->templatesDir().'.Porto/tests/api/'.$file;
@@ -155,10 +150,8 @@ class CreateCodeceptionTestsAction
 
     /**
      * Creates the API entity tests folder.
-     *
-     * @return void
      */
-    private function createContainerApiTestsFolder()
+    private function createEntityApiTestsFolder()
     {
         if (!file_exists($this->apiTestsFolder().'/'.$this->entityName())) {
             mkdir($this->apiTestsFolder().'/'.$this->entityName());

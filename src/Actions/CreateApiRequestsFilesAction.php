@@ -2,6 +2,7 @@
 
 namespace llstarscreamll\Crud\Actions;
 
+use Illuminate\Http\Request;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 
 /**
@@ -18,7 +19,14 @@ class CreateApiRequestsFilesAction
      *
      * @var string
      */
-    public $container = '';
+    public $container;
+
+    /**
+     * Container entity to generate (database table name).
+     *
+     * @var string
+     */
+    public $tableName;
 
     /**
      * The routes files to generate.
@@ -34,27 +42,51 @@ class CreateApiRequestsFilesAction
     ];
 
     /**
+     * Create new CreateTasksFilesAction instance.
+     *
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+        $this->container = studly_case($request->get('is_part_of_package'));
+        $this->tableName = $this->request->get('table_name');
+    }
+
+    /**
      * @param string $container Contaner name
      *
      * @return bool
      */
-    public function run(string $container)
+    public function run()
     {
-        $this->container = studly_case($container);
+        $this->createEntityApiRequestsFolder();
 
         foreach ($this->files as $file) {
             $plural = ($file == "ListAll") ? true : false;
 
-            $actionFile = $this->apiRequestsFolder().'/'.$this->apiRequestFile($file, $plural);
+            $actionFile = $this->apiRequestsFolder()."/{$this->entityName()}/".$this->apiRequestFile($file, $plural);
             $template = $this->templatesDir().'.Porto/UI/API/Requests/'.$file;
 
             $content = view($template, ['gen' => $this]);
 
             file_put_contents($actionFile, $content) === false
-                ? session()->push('error', "Error creating $file request file")
-                : session()->push('success', "$file request creation success");
+                ? session()->push('error', "Error creating $file api request file")
+                : session()->push('success', "$file api request creation success");
         }
 
         return true;
+    }
+
+    /**
+     * Create the entity api requests folder.
+     *
+     * @return void
+     */
+    private function createEntityApiRequestsFolder()
+    {
+        if (!file_exists($this->apiRequestsFolder().'/'.$this->entityName())) {
+            mkdir($this->apiRequestsFolder().'/'.$this->entityName());
+        }
     }
 }
