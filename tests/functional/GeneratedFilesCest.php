@@ -33,6 +33,10 @@ class GeneratedFilesCest
 
         $data = Page::$formData;
         $data['app_type'] = 'porto_container';
+        // modify relations namespaces for Porto container convenience
+        $data['field[1][namespace]'] = 'App\Containers\Reason\Models\Reason';
+        $data['field[12][namespace]'] = 'App\Containers\User\Models\User';
+
         $this->package = studly_case(str_singular($data['is_part_of_package']));
         $this->entity = studly_case(str_singular($data['table_name']));
         
