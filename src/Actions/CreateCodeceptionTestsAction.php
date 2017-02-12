@@ -64,8 +64,8 @@ class CreateCodeceptionTestsAction
 
         $this->createCodeceptApiSuite();
 
-        $this->configureCodeceptSuite('api');
-        $this->configureCodeceptSuite('functional');
+        $this->configureCodeceptSuite('api', $this->getApiSuiteModules());
+        $this->configureCodeceptSuite('functional', $this->getFunctionalSuiteModules());
 
         // builds Codeception suites
         exec("cd {$this->containerFolder()} && codecept build");
@@ -102,14 +102,15 @@ class CreateCodeceptionTestsAction
     /**
      * Adds Laravel module for Codeception suite.
      *
-     * @param string $suite The codeception suite name
+     * @param string $suite   The codeception suite name
+     * @param string $modules The modules to enable on suite
      */
-    private function configureCodeceptSuite(string $suite)
+    private function configureCodeceptSuite(string $suite, string $modules)
     {
         $suiteContent = file_get_contents($this->containerFolder()."/tests/$suite.suite.yml");
 
-        if (strpos($suiteContent, $this->getLaravelCodeceptSuitModule()) === false) {
-            $suiteContent .= $this->getLaravelCodeceptSuitModule();
+        if (strpos($suiteContent, $modules) === false) {
+            $suiteContent .= $modules;
             file_put_contents($this->containerFolder()."/tests/$suite.suite.yml", $suiteContent);
         } else {
             session()->push('warning', "Codeception setup for $suite.suite.yml already set!!");
@@ -117,13 +118,31 @@ class CreateCodeceptionTestsAction
     }
 
     /**
-     * Returns the modules to enable on Codeception suites.
+     * Returns the modules to enable on Codeception API suite.
      *
      * @return string
      */
-    private function getLaravelCodeceptSuitModule()
+    private function getApiSuiteModules()
     {
-        return "\n        - Asserts\n".
+        return "\n ".
+            "       - Asserts\n".
+            "        - REST:\n".
+            "            depends: Laravel5\n".
+            "        - Laravel5:\n".
+            "            environment_file: .env.testing\n".
+            "            root: ../../../\n".
+            '            run_database_migrations: true';
+    }
+
+    /**
+     * Returns the modules to enable on Codeception functional suite.
+     *
+     * @return string
+     */
+    private function getFunctionalSuiteModules()
+    {
+        return "\n ".
+            "       - Asserts\n".
             "        - Laravel5:\n".
             "            environment_file: .env.testing\n".
             "            root: ../../../\n".
@@ -140,7 +159,10 @@ class CreateCodeceptionTestsAction
             $testFile = $this->apiTestsFolder()."/{$this->entityName()}/".$this->apiTestFile($file, $plural);
             $template = $this->templatesDir().'.Porto/tests/api/'.$file;
 
-            $content = view($template, ['gen' => $this]);
+            $content = view($template, [
+                'gen' => $this,
+                'fields' => $this->advanceFields($this->request)
+                ]);
 
             file_put_contents($testFile, $content) === false
                 ? session()->push('error', "Error creating $file api test file")
@@ -156,5 +178,43 @@ class CreateCodeceptionTestsAction
         if (!file_exists($this->apiTestsFolder().'/'.$this->entityName())) {
             mkdir($this->apiTestsFolder().'/'.$this->entityName());
         }
+    }
+
+    public function advanceFields($request)
+    {
+        $fields = array();
+
+        foreach ($request->get('field') as $field_data) {
+            $field = new \stdClass();
+            $field->name = $field_data['name'];
+            $field->label = $field_data['label'];
+            $field->type = $field_data['type'];
+            $field->required = isset($field_data['required']);
+            $field->defValue = $field_data['defValue'];
+            $field->key = $field_data['key'];
+            $field->maxLength = $field_data['maxLength'];
+            $field->namespace = $field_data['namespace'];
+            $field->relation = $field_data['relation'];
+            $field->fillable = isset($field_data['fillable']);
+            $field->hidden = isset($field_data['hidden']);
+            $field->on_index_table = isset($field_data['on_index_table']);
+            $field->on_create_form = isset($field_data['on_create_form']);
+            $field->on_update_form = isset($field_data['on_update_form']);
+            $field->testData = empty($field_data['testData']) ? '""' : $field_data['testData'];
+            if ($field->name == "deleted_at" && empty($field_data['testData'])) {
+                $field->testData = 'null';
+            }
+            $field->testDataUpdate = empty($field_data['testDataUpdate']) ? '""' : $field_data['testDataUpdate'];
+            if ($field->name == "deleted_at" && empty($field_data['testDataUpdate'])) {
+                $field->testDataUpdate = 'null';
+            }
+            $field->validation_rules = $field_data['validation_rules'];
+
+            $fields[$field->name] = $field;
+        }
+
+        $this->fields = $fields;
+
+        return $fields;
     }
 }

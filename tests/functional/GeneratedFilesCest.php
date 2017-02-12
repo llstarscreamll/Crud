@@ -21,7 +21,10 @@ class GeneratedFilesCest
      */
     public function _after(FunctionalTester $I)
     {
-        // $I->deleteDir(app_path('Containers/'.$this->package));
+        if (file_exists(app_path("/Containers/").$this->package)) {
+            $I->copyDir(app_path('Containers/Book'), '/home/johan/Code/hello/app/Containers/Book');
+            $I->deleteDir(app_path("/Containers/").$this->package);
+        }
     }
 
     public function checkPortoContainerFilesGeneration(FunctionalTester $I)
@@ -83,11 +86,11 @@ class GeneratedFilesCest
         // API entity tests
         $apiTestsFolder = app_path('Containers/'.$this->package.'/tests/api/'.$this->entity);
         $I->assertTrue(file_exists($apiTestsFolder), 'entity api tests dir');
-        $I->seeFileFound('List'.str_plural($this->entity).'Test.php', $apiTestsFolder);
-        $I->seeFileFound('Create'.$this->entity.'Test.php', $apiTestsFolder);
-        $I->seeFileFound('Update'.$this->entity.'Test.php', $apiTestsFolder);
-        $I->seeFileFound('Delete'.$this->entity.'Test.php', $apiTestsFolder);
-        $I->seeFileFound('Restore'.$this->entity.'Test.php', $apiTestsFolder);
+        $I->seeFileFound('List'.str_plural($this->entity).'Cest.php', $apiTestsFolder);
+        $I->seeFileFound('Create'.$this->entity.'Cest.php', $apiTestsFolder);
+        $I->seeFileFound('Update'.$this->entity.'Cest.php', $apiTestsFolder);
+        $I->seeFileFound('Delete'.$this->entity.'Cest.php', $apiTestsFolder);
+        $I->seeFileFound('Restore'.$this->entity.'Cest.php', $apiTestsFolder);
 
         // UI
         $I->assertTrue(file_exists(app_path('Containers/'.$this->package.'/UI')), 'UI dir');

@@ -4,7 +4,7 @@ namespace {{ $gen->entityName() }};
 
 use {{ $gen->entityName() }}\ApiTester;
 
-class Restore{{ $gen->entityName() }}Cest
+class List{{ $gen->entityName() }}Cest
 {
     public function _before(ApiTester $I)
     {
@@ -14,7 +14,7 @@ class Restore{{ $gen->entityName() }}Cest
     {
     }
 
-    public function tryToTestRestore{{ $gen->entityName() }}(ApiTester $I)
+    public function tryToTestList{{ $gen->entityName() }}(ApiTester $I)
     {
     }
 }
