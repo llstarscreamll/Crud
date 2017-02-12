@@ -25,6 +25,7 @@ use llstarscreamll\Crud\Actions\CreateApiRequestsFilesAction;
 use llstarscreamll\Crud\Actions\CreateCodeceptionTestsAction;
 use llstarscreamll\Crud\Actions\CreateModelFactoryAction;
 use llstarscreamll\Crud\Actions\CreateModelAction;
+use llstarscreamll\Crud\Actions\CreateApiControllerAction;
 
 class GeneratorController extends Controller
 {
@@ -75,6 +76,10 @@ class GeneratorController extends Controller
         // generate API request files
         $createApiRequestsFilesAction = new CreateApiRequestsFilesAction($request);
         $createApiRequestsFilesAction->run();
+
+        // generate API controller
+        $createApiControllerAction = new CreateApiControllerAction($request);
+        $createApiControllerAction->run();
 
         // generate entity model factory files
         $createModelFactoryAction = new CreateModelFactoryAction($request);

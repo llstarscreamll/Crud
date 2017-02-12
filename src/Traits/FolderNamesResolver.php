@@ -256,6 +256,14 @@ trait FolderNamesResolver
         return $action.$entity.'Action.php';
     }
 
+    public function actionClass(string $action, bool $plural = false)
+    {
+        $actionFile = $this->actionFile($action, $plural);
+        $actionClass = str_replace('.php', '', $actionFile);
+
+        return $actionClass;
+    }
+
     /**
      * Tasks
      */

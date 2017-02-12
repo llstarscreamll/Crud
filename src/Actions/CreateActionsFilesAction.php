@@ -60,10 +60,12 @@ class CreateActionsFilesAction
      */
     public function run()
     {
+        $this->createEntityActionsFolder();
+        
         foreach ($this->files as $file) {
             $plural = ($file == "ListAndSearch") ? true : false;
 
-            $actionFile = $this->actionsFolder().'/'.$this->actionFile($file, $plural);
+            $actionFile = $this->actionsFolder()."/{$this->entityName()}/".$this->actionFile($file, $plural);
             $template = $this->templatesDir().'.Porto/Actions/'.$file;
 
             $content = view($template, ['gen' => $this]);
@@ -74,5 +76,17 @@ class CreateActionsFilesAction
         }
 
         return true;
+    }
+
+    /**
+     * Create the entity actions folder.
+     *
+     * @return void
+     */
+    private function createEntityActionsFolder()
+    {
+        if (!file_exists($this->actionsFolder().'/'.$this->entityName())) {
+            mkdir($this->actionsFolder().'/'.$this->entityName());
+        }
     }
 }

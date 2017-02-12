@@ -48,7 +48,7 @@ class GeneratedFilesCest
         
         // generated entity Actions
         // TODO: actions should be wrapped on entity folder, like Actions/Book/CreateBookAction.php
-        $actionsDir = app_path('Containers/'.$this->package.'/Actions');
+        $actionsDir = app_path('Containers/'.$this->package.'/Actions/'.$this->entity);
         $I->assertTrue(file_exists($actionsDir), 'Actions dir');
         $I->seeFileFound('ListAndSearchBooksAction.php', $actionsDir);
         $I->seeFileFound('CreateBookAction.php', $actionsDir);
@@ -105,6 +105,7 @@ class GeneratedFilesCest
         $apiDir = app_path('Containers/'.$this->package.'/UI/API');
         $I->assertTrue(file_exists($apiDir), 'UI/API dir');
         $I->assertTrue(file_exists($apiDir.'/Controllers'), 'API/Controllers dir');
+        $I->seeFileFound('Controller.php', $apiDir.'/Controllers');
 
         // generated entity API requests
         $apiRequestsDir = $apiDir.'/Requests';
