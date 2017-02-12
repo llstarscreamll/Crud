@@ -7,7 +7,7 @@ use {{ $gen->entityModelNamespace() }};
 
 class Create{{ $gen->entityName() }}Cest
 {
-    private $endpoint = 'api/{{ camel_case($gen->entityName()) }}/create';
+    private $endpoint = 'api/{{ str_slug($gen->tableName, $separator = "-") }}/create';
 
     public function _before(ApiTester $I)
     {

@@ -1,7 +1,7 @@
 <?= "<?php\n" ?>
 
-$router->post('{{ str_slug($gen->tableName, $separator = "_") }}/create', [
-    'uses'  => 'Controller@createAdmin',
+$router->post('{{ str_slug($gen->tableName, $separator = "-") }}/create', [
+    'uses'  => 'Controller@create{{ $gen->entityName() }}',
     'middleware' => [
       'api.auth',
     ],
