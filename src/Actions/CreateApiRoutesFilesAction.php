@@ -2,6 +2,8 @@
 
 namespace llstarscreamll\Crud\Actions;
 
+use Illuminate\Http\Request;
+use llstarscreamll\Crud\Traits\DataGenerator;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 
 /**
@@ -12,13 +14,21 @@ use llstarscreamll\Crud\Traits\FolderNamesResolver;
 class CreateApiRoutesFilesAction
 {
     use FolderNamesResolver;
+    use DataGenerator;
 
     /**
      * Container name to generate.
      *
      * @var string
      */
-    public $container = '';
+    public $container;
+
+    /**
+     * Container entity to generate (database table name).
+     *
+     * @var string
+     */
+    public $tableName;
 
     /**
      * The routes files to generate.
@@ -34,14 +44,22 @@ class CreateApiRoutesFilesAction
     ];
 
     /**
-     * @param string $container Contaner name
+     * Create new CreateModelAction instance.
      *
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+        $this->container = studly_case($request->get('is_part_of_package'));
+        $this->tableName = $this->request->get('table_name');
+    }
+
+    /**
      * @return bool
      */
-    public function run(string $container)
+    public function run()
     {
-        $this->container = studly_case($container);
-
         foreach ($this->files as $file) {
             $plural = ($file == "List") ? true : false;
 

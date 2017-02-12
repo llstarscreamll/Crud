@@ -61,16 +61,16 @@ class GeneratorController extends Controller
         $createComposerFileAction->run($request->get('is_part_of_package'));
 
         // generate actions classes
-        $createActionsFilesAction = new CreateActionsFilesAction();
-        $createActionsFilesAction->run($request->get('is_part_of_package'));
+        $createActionsFilesAction = new CreateActionsFilesAction($request);
+        $createActionsFilesAction->run();
 
         // generate tasks classes
         $createTasksFilesAction = new CreateTasksFilesAction($request);
         $createTasksFilesAction->run();
 
         // generate API routes files
-        $createApiRoutesFilesAction = new CreateApiRoutesFilesAction();
-        $createApiRoutesFilesAction->run($request->get('is_part_of_package'));
+        $createApiRoutesFilesAction = new CreateApiRoutesFilesAction($request);
+        $createApiRoutesFilesAction->run();
 
         // generate API request files
         $createApiRequestsFilesAction = new CreateApiRequestsFilesAction($request);

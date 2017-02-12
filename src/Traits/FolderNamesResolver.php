@@ -190,8 +190,8 @@ trait FolderNamesResolver
     public function apiRouteFile(string $route, bool $plural = false)
     {
         $entity = $plural
-            ? str_plural($this->containerName())
-            : $this->containerName();
+            ? str_plural($this->entityName())
+            : $this->entityName();
 
         return $route.$entity.'.v1.private.php';
     }
@@ -199,8 +199,8 @@ trait FolderNamesResolver
     public function apiRequestFile(string $request, bool $plural = false)
     {
         $entity = $plural
-            ? str_plural($this->containerName())
-            : $this->containerName();
+            ? str_plural($this->entityName())
+            : $this->entityName();
 
         return $request.$entity.'Request.php';
     }
@@ -250,8 +250,8 @@ trait FolderNamesResolver
     public function actionFile(string $action, bool $plural = false)
     {
         $entity = $plural
-            ? str_plural($this->containerName())
-            : $this->containerName();
+            ? str_plural($this->entityName())
+            : $this->entityName();
 
         return $action.$entity.'Action.php';
     }
@@ -263,8 +263,8 @@ trait FolderNamesResolver
     public function taskFile(string $task, bool $plural = false)
     {
         $entity = $plural
-            ? str_plural($this->containerName())
-            : $this->containerName();
+            ? str_plural($this->entityName())
+            : $this->entityName();
 
         return $task.$entity.'Task.php';
     }
