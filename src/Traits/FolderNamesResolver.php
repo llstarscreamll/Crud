@@ -12,6 +12,10 @@ trait FolderNamesResolver
         return config('modules.crud.config.templates');
     }
 
+    /**
+     * Entity Names
+     */
+
     public function entityName()
     {
         return studly_case(str_singular($this->tableName));
@@ -49,6 +53,13 @@ trait FolderNamesResolver
     public function dataFolder()
     {
         return $this->containerFolder().'/Data';
+    }
+
+    public function entityModelNamespace()
+    {
+        return 'App\\Containers\\'.
+            $this->containerName().'\\'.
+            'Models\\'.$this->entityName();
     }
 
     public function criteriasFolder()
@@ -111,7 +122,7 @@ trait FolderNamesResolver
             ? str_plural($this->entityName())
             : $this->entityName();
 
-        return $test.$entity.'Test.php';
+        return $test.$entity.'Cest.php';
     }
 
     /**

@@ -1,1 +1,1 @@
-This is de Update Action Class
+<?= "<?php\n" ?>

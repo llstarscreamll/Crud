@@ -1,1 +1,1 @@
-This is de List And Search Action Class
+<?= "<?php\n" ?>

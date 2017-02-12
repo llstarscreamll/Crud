@@ -1,1 +1,1 @@
-This is de Restore Action Class
+<?= "<?php\n" ?>
