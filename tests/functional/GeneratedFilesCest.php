@@ -62,7 +62,9 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($dataDir.'/Seeders'), 'Data/Seeders dir');
 
         // generated Models
-        $I->assertTrue(file_exists(app_path('Containers/'.$this->package.'/Models')), 'Models dir');
+        $modelsDir = app_path('Containers/'.$this->package.'/Models');
+        $I->assertTrue(file_exists($modelsDir), 'Models dir');
+        $I->seeFileFound('Book.php', $modelsDir);
 
         // generated entity Tasks
         $tasksDir = app_path('Containers/'.$this->package."/Tasks/{$this->entity}");

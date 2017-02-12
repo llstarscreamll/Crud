@@ -5,8 +5,36 @@ namespace llstarscreamll\Crud\Traits;
 /**
  * DataGenerator Trait.
  */
+/**
+ * TODO: this trait should be a abstrac class?
+ */
 trait DataGenerator
 {
+    /**
+     * @var boolean
+     */
+    public $hasSoftDeleteColumn = false;
+
+    /**
+     * @var boolean
+     */
+    public $hasLaravelTimestamps = false;
+
+    /**
+     * @var boolean
+     */
+    public $hasCreatedAtColumn = false;
+
+    /**
+     * @var boolean
+     */
+    public $hasUpdatedAtColumn = false;
+
+    /**
+     * @var string
+     */
+    public $primaryKey = '';
+
     public function parseFields($request)
     {
         $fields = array();
@@ -38,9 +66,20 @@ trait DataGenerator
             $field->validation_rules = $field_data['validation_rules'];
 
             $fields[$field->name] = $field;
+
+            // some data checks
+            $field_data['name'] == "created_at" ? ($this->hasCreatedAtColumn = true) : null;
+            $field_data['name'] == "updated_at" ? ($this->hasUpdatedAtColumn = true) : null;
+            $field_data['name'] == "deleted_at" ? ($this->hasSoftDeleteColumn = true) : null;
+            $field_data['key'] == "PRI" ? ($this->primaryKey = $field_data['name']) : null;
         }
 
         $this->fields = $fields;
+
+        // some final checks
+        $this->hasCreatedAtColumn && $this->hasUpdatedAtColumn
+            ? ($this->hasLaravelTimestamps = true)
+            : null;
 
         return $fields;
     }
@@ -109,7 +148,7 @@ trait DataGenerator
     public function getMysqlTableColumnEnumValues(string $column)
     {
         $prefix = config('database.connections.'.env('DB_CONNECTION').'.prefix');
-        
+
         return \DB::select(
             \DB::raw(
                 "SHOW COLUMNS FROM {$prefix}{$this->tableName} WHERE Field = '$column'"

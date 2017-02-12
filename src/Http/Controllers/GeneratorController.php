@@ -24,6 +24,7 @@ use llstarscreamll\Crud\Actions\CreateApiRoutesFilesAction;
 use llstarscreamll\Crud\Actions\CreateApiRequestsFilesAction;
 use llstarscreamll\Crud\Actions\CreateCodeceptionTestsAction;
 use llstarscreamll\Crud\Actions\CreateModelFactoryAction;
+use llstarscreamll\Crud\Actions\CreateModelAction;
 
 class GeneratorController extends Controller
 {
@@ -75,15 +76,22 @@ class GeneratorController extends Controller
         $createApiRequestsFilesAction = new CreateApiRequestsFilesAction($request);
         $createApiRequestsFilesAction->run();
 
-        // generate API request files
+        // generate entity model factory files
         $createModelFactoryAction = new CreateModelFactoryAction($request);
         $createModelFactoryAction->run();
+
+        // generate entity model
+        $createModelAction = new CreateModelAction($request);
+        $createModelAction->run();
 
         // generate Codeception tests files
         $createCodeceptionTestsAction = new CreateCodeceptionTestsAction($request);
         $createCodeceptionTestsAction->run();
 
-        return 'success!!';
+        return redirect()->route(
+            'crud.showOptions',
+            ['table_name' => $request->get('table_name')]
+        );
     }
 
     /**

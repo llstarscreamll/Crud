@@ -64,13 +64,35 @@ trait FolderNamesResolver
 
     public function variableFromNamespace(string $namespace, bool $singular = true)
     {
-        $variable = camel_case(str_plural(class_basename($namespace)));
+        $variable = $this->camelCaseClass($namespace);
 
-        if ($singular) {
+        if (!$singular) {
             $variable = str_plural(class_basename($namespace));
         }
 
         return '$'.$variable;
+    }
+
+    public function camelCaseClass(string $namespace)
+    {
+        return camel_case(class_basename($namespace));
+    }
+
+    public function relationNameFromColumnName($fieldName)
+    {
+        $functionName = camel_case(str_replace('_id', '', $fieldName));
+
+        // singular name
+        if (in_array($functionName, ['belongsTo', 'hasOne'])) {
+            $functionName = str_singular($functionName);
+        }
+
+        // plural name
+        if (in_array($functionName, ['hasMany', 'belongsToMany'])) {
+            $functionName = str_plural($functionName);
+        }
+
+        return $functionName;
     }
 
     public function criteriasFolder()
