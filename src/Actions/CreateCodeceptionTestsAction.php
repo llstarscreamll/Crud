@@ -4,6 +4,7 @@ namespace llstarscreamll\Crud\Actions;
 
 use Illuminate\Http\Request;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
+use llstarscreamll\Crud\Traits\DataGenerator;
 
 /**
  * CreateCodeceptionTestsAction Class.
@@ -12,7 +13,7 @@ use llstarscreamll\Crud\Traits\FolderNamesResolver;
  */
 class CreateCodeceptionTestsAction
 {
-    use FolderNamesResolver;
+    use FolderNamesResolver, DataGenerator;
 
     /**
      * Container name to generate.
@@ -161,7 +162,7 @@ class CreateCodeceptionTestsAction
 
             $content = view($template, [
                 'gen' => $this,
-                'fields' => $this->advanceFields($this->request)
+                'fields' => $this->parseFields($this->request)
                 ]);
 
             file_put_contents($testFile, $content) === false
@@ -178,43 +179,5 @@ class CreateCodeceptionTestsAction
         if (!file_exists($this->apiTestsFolder().'/'.$this->entityName())) {
             mkdir($this->apiTestsFolder().'/'.$this->entityName());
         }
-    }
-
-    public function advanceFields($request)
-    {
-        $fields = array();
-
-        foreach ($request->get('field') as $field_data) {
-            $field = new \stdClass();
-            $field->name = $field_data['name'];
-            $field->label = $field_data['label'];
-            $field->type = $field_data['type'];
-            $field->required = isset($field_data['required']);
-            $field->defValue = $field_data['defValue'];
-            $field->key = $field_data['key'];
-            $field->maxLength = $field_data['maxLength'];
-            $field->namespace = $field_data['namespace'];
-            $field->relation = $field_data['relation'];
-            $field->fillable = isset($field_data['fillable']);
-            $field->hidden = isset($field_data['hidden']);
-            $field->on_index_table = isset($field_data['on_index_table']);
-            $field->on_create_form = isset($field_data['on_create_form']);
-            $field->on_update_form = isset($field_data['on_update_form']);
-            $field->testData = empty($field_data['testData']) ? '""' : $field_data['testData'];
-            if ($field->name == "deleted_at" && empty($field_data['testData'])) {
-                $field->testData = 'null';
-            }
-            $field->testDataUpdate = empty($field_data['testDataUpdate']) ? '""' : $field_data['testDataUpdate'];
-            if ($field->name == "deleted_at" && empty($field_data['testDataUpdate'])) {
-                $field->testDataUpdate = 'null';
-            }
-            $field->validation_rules = $field_data['validation_rules'];
-
-            $fields[$field->name] = $field;
-        }
-
-        $this->fields = $fields;
-
-        return $fields;
     }
 }

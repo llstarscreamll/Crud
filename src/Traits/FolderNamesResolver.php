@@ -62,6 +62,17 @@ trait FolderNamesResolver
             'Models\\'.$this->entityName();
     }
 
+    public function variableFromNamespace(string $namespace, bool $singular = true)
+    {
+        $variable = camel_case(str_plural(class_basename($namespace)));
+
+        if ($singular) {
+            $variable = str_plural(class_basename($namespace));
+        }
+
+        return '$'.$variable;
+    }
+
     public function criteriasFolder()
     {
         return $this->dataFolder().'/Criterias';

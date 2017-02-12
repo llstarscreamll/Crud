@@ -23,6 +23,7 @@ use llstarscreamll\Crud\Actions\CreateTasksFilesAction;
 use llstarscreamll\Crud\Actions\CreateApiRoutesFilesAction;
 use llstarscreamll\Crud\Actions\CreateApiRequestsFilesAction;
 use llstarscreamll\Crud\Actions\CreateCodeceptionTestsAction;
+use llstarscreamll\Crud\Actions\CreateModelFactoriesAction;
 
 class GeneratorController extends Controller
 {
@@ -73,6 +74,10 @@ class GeneratorController extends Controller
         // generate API request files
         $createApiRequestsFilesAction = new CreateApiRequestsFilesAction($request);
         $createApiRequestsFilesAction->run();
+
+        // generate API request files
+        $createModelFactoriesAction = new CreateModelFactoriesAction($request);
+        $createModelFactoriesAction->run();
 
         // generate Codeception tests files
         $createCodeceptionTestsAction = new CreateCodeceptionTestsAction($request);
