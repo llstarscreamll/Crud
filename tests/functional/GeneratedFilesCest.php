@@ -22,7 +22,7 @@ class GeneratedFilesCest
     public function _after(FunctionalTester $I)
     {
         if (file_exists(app_path("/Containers/").$this->package)) {
-            $I->copyDir(app_path('Containers/Book'), '/home/johan/Code/hello/app/Containers/Book');
+            //$I->copyDir(app_path('Containers/Book'), '/home/johan/Code/hello/app/Containers/Book');
             $I->deleteDir(app_path("/Containers/").$this->package);
         }
     }

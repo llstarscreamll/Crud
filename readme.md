@@ -9,7 +9,7 @@ CrudGenerator es un paquete de laravel para la generación de aplicaciones CRUD 
 Clonar el repositorio donde se desee, para este ejemplo estando en el directorio raíz de la instalación de Laravel:
 
 ```bash
-git clone git@github.com:llstarscreamll/CrudGenerator.git packages/llstarscreamll/crud
+git clone git@github.com:llstarscreamll/CrudGenerator.git llstarscreamll/Crud
 ```
 
 Añadir el service provider en `config/app.php`:
