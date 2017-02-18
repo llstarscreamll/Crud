@@ -12,7 +12,7 @@ class CrudServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    const CRUD_VERSION = "2.0";
+    const CRUD_VERSION = '2.0';
 
     /**
      * The policy mappings for the application.
