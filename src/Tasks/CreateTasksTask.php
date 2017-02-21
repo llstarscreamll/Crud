@@ -1,6 +1,6 @@
 <?php
 
-namespace llstarscreamll\Crud\Actions;
+namespace llstarscreamll\Crud\Tasks;
 
 use Illuminate\Http\Request;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
@@ -10,7 +10,7 @@ use llstarscreamll\Crud\Traits\FolderNamesResolver;
  *
  * @author Johan Alvarez <llstarscreamll@hotmail.com>
  */
-class CreateTasksFilesAction
+class CreateTasksTask
 {
     use FolderNamesResolver;
 
@@ -42,7 +42,7 @@ class CreateTasksFilesAction
     ];
 
     /**
-     * Create new CreateTasksFilesAction instance.
+     * Create new CreateTasksTask instance.
      *
      * @param Request $request
      */

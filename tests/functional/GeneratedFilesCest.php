@@ -13,7 +13,7 @@ class GeneratedFilesCest
         $I->amLoggedAs(Page::$adminUser);
 
         $I->amOnPage(Page::route('?table_name='.Page::$tableName));
-        $I->see(Page::$title, Page::$titleElem);
+        //$I->see(Page::$title, Page::$titleElem);
     }
 
     /**
@@ -23,7 +23,7 @@ class GeneratedFilesCest
     {
         if (file_exists(app_path("/Containers/").$this->package)) {
             //$I->copyDir(app_path('Containers/Book'), '/home/johan/Code/hello/app/Containers/Book');
-            $I->deleteDir(app_path("/Containers/").$this->package);
+            //$I->deleteDir(app_path("/Containers"));
         }
     }
 

@@ -1,17 +1,17 @@
 <?php
 
-namespace llstarscreamll\Crud\Actions;
+namespace llstarscreamll\Crud\Tasks;
 
 use Illuminate\Http\Request;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 use llstarscreamll\Crud\Traits\DataGenerator;
 
 /**
- * CreateCodeceptionTestsAction Class.
+ * CreateCodeceptionTestsTask Class.
  *
  * @author Johan Alvarez <llstarscreamll@hotmail.com>
  */
-class CreateCodeceptionTestsAction
+class CreateCodeceptionTestsTask
 {
     use FolderNamesResolver, DataGenerator;
 
@@ -43,7 +43,7 @@ class CreateCodeceptionTestsAction
     ];
 
     /**
-     * Create new CreateCodeceptionTestsAction instance.
+     * Create new CreateCodeceptionTestsTask instance.
      *
      * @param Request $request
      */

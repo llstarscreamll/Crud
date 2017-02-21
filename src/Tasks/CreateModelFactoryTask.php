@@ -1,17 +1,17 @@
 <?php
 
-namespace llstarscreamll\Crud\Actions;
+namespace llstarscreamll\Crud\Tasks;
 
 use Illuminate\Http\Request;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 use llstarscreamll\Crud\Traits\DataGenerator;
 
 /**
- * CreateApiControllerAction Class.
+ * CreateModelFactoryTask Class.
  *
  * @author Johan Alvarez <llstarscreamll@hotmail.com>
  */
-class CreateApiControllerAction
+class CreateModelFactoryTask
 {
     use FolderNamesResolver;
     use DataGenerator;
@@ -31,7 +31,7 @@ class CreateApiControllerAction
     public $tableName;
 
     /**
-     * Create new CreateApiControllerAction instance.
+     * Create new CreateModelFactoryTask instance.
      *
      * @param Request $request
      */
@@ -49,10 +49,10 @@ class CreateApiControllerAction
      */
     public function run()
     {
-        $file = 'Controller';
+        $file = 'Factory';
 
-        $factoryFile = $this->apiControllersFolder()."/Controller.php";
-        $template = $this->templatesDir().'.Porto/UI/API/Controllers/'.$file;
+        $factoryFile = $this->factoriesFolder()."/{$this->entityName()}Factory.php";
+        $template = $this->templatesDir().'.Porto/Data/Factories/'.$file;
 
         $content = view($template, [
             'gen' => $this,
@@ -60,8 +60,8 @@ class CreateApiControllerAction
             ]);
 
         file_put_contents($factoryFile, $content) === false
-            ? session()->push('error', "Error creating api $file file")
-            : session()->push('success', "Api $file creation success");
+            ? session()->push('error', "Error creating $file api test file")
+            : session()->push('success', "$file api test creation success");
 
         return true;
     }

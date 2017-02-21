@@ -1,17 +1,17 @@
 <?php
 
-namespace llstarscreamll\Crud\Actions;
+namespace llstarscreamll\Crud\Tasks;
 
 use Illuminate\Http\Request;
 use llstarscreamll\Crud\Traits\DataGenerator;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 
 /**
- * PortoFoldersGeneration Class.
+ * CreateActionsTask Class.
  *
  * @author Johan Alvarez <llstarscreamll@hotmail.com>
  */
-class CreateActionsFilesAction
+class CreateActionsTask
 {
     use FolderNamesResolver;
     use DataGenerator;

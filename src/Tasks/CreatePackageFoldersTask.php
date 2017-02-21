@@ -1,15 +1,15 @@
 <?php
 
-namespace llstarscreamll\Crud\Actions;
+namespace llstarscreamll\Crud\Tasks;
 
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 
 /**
-* PortoFoldersGeneration Class.
+* CreatePackageFoldersTask Class.
 *
 * @author Johan Alvarez <llstarscreamll@hotmail.com>
 */
-class PortoFoldersGenerationAction
+class CreatePackageFoldersTask
 {
     use FolderNamesResolver;
 

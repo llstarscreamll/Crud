@@ -1,17 +1,17 @@
 <?php
 
-namespace llstarscreamll\Crud\Actions;
+namespace llstarscreamll\Crud\Tasks;
 
 use Illuminate\Http\Request;
 use llstarscreamll\Crud\Traits\DataGenerator;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 
 /**
- * CreateApiRoutesFilesAction Class.
+ * CreateApiRoutesTask Class.
  *
  * @author Johan Alvarez <llstarscreamll@hotmail.com>
  */
-class CreateApiRoutesFilesAction
+class CreateApiRoutesTask
 {
     use FolderNamesResolver;
     use DataGenerator;

@@ -15,29 +15,23 @@ use llstarscreamll\Crud\Providers\RepositoryGenerator;
 use llstarscreamll\Crud\Providers\LangGenerator;
 use llstarscreamll\Crud\Providers\SeedersGenerator;
 use llstarscreamll\Crud\Providers\FurtherTasks;
-
-use llstarscreamll\Crud\Actions\PortoFoldersGenerationAction;
-use llstarscreamll\Crud\Actions\CreateComposerFileAction;
-use llstarscreamll\Crud\Actions\CreateActionsFilesAction;
-use llstarscreamll\Crud\Actions\CreateTasksFilesAction;
-use llstarscreamll\Crud\Actions\CreateApiRoutesFilesAction;
-use llstarscreamll\Crud\Actions\CreateApiRequestsFilesAction;
-use llstarscreamll\Crud\Actions\CreateCodeceptionTestsAction;
-use llstarscreamll\Crud\Actions\CreateModelFactoryAction;
-use llstarscreamll\Crud\Actions\CreateModelAction;
-use llstarscreamll\Crud\Actions\CreateApiControllerAction;
+use llstarscreamll\Crud\Actions\GenerateLaravelPackageAction;
 
 class GeneratorController extends Controller
 {
     /**
+     * Action class for generate Laravel Packages.
+     *
+     * @var llstarscreamll\Crud\Actions\GenerateLaravelPackageAction
+     */
+    private $generateLaravelPackageAction;
+
+    /**
      * Create a new controller instance.
      */
-    public function __construct()
+    public function __construct(GenerateLaravelPackageAction $generateLaravelPackageAction)
     {
-        // el usuario debe tener permisos para acceder al controlador
-        // $this->middleware('checkPermissions', ['except' => ['store', 'update']]);
-        // para evitar problemas con los permisos de ficheros y directorios
-        umask(0);
+        $this->generateLaravelPackageAction = $generateLaravelPackageAction;
     }
 
     /**
@@ -51,54 +45,6 @@ class GeneratorController extends Controller
         return view('crud::wizard.index');
     }
 
-    public function generatePortoContainer(Request $request)
-    {
-        // generate the base folders
-        $portoFoldersGenerationAction = new PortoFoldersGenerationAction();
-        $portoFoldersGenerationAction->run($request->get('is_part_of_package'));
-
-        // generate composer file
-        $createComposerFileAction = new CreateComposerFileAction();
-        $createComposerFileAction->run($request->get('is_part_of_package'));
-
-        // generate actions classes
-        $createActionsFilesAction = new CreateActionsFilesAction($request);
-        $createActionsFilesAction->run();
-
-        // generate tasks classes
-        $createTasksFilesAction = new CreateTasksFilesAction($request);
-        $createTasksFilesAction->run();
-
-        // generate API routes files
-        $createApiRoutesFilesAction = new CreateApiRoutesFilesAction($request);
-        $createApiRoutesFilesAction->run();
-
-        // generate API request files
-        $createApiRequestsFilesAction = new CreateApiRequestsFilesAction($request);
-        $createApiRequestsFilesAction->run();
-
-        // generate API controller
-        $createApiControllerAction = new CreateApiControllerAction($request);
-        $createApiControllerAction->run();
-
-        // generate entity model factory files
-        $createModelFactoryAction = new CreateModelFactoryAction($request);
-        $createModelFactoryAction->run();
-
-        // generate entity model
-        $createModelAction = new CreateModelAction($request);
-        $createModelAction->run();
-
-        // generate Codeception tests files
-        $createCodeceptionTestsAction = new CreateCodeceptionTestsAction($request);
-        $createCodeceptionTestsAction->run();
-
-        return redirect()->route(
-            'crud.showOptions',
-            ['table_name' => $request->get('table_name')]
-        );
-    }
-
     /**
      * Ejecuta los scripts para generar los ficheros necesarios para la CRUD app
      * de la tabla de la base de datos elegida.
@@ -110,7 +56,11 @@ class GeneratorController extends Controller
         // hago que las opciones dadas por el usuario persistan en un archivo de configuración
         // que luego se cargará automaticamente en caso de que se repita el proceso con la
         // misma tabla.
-        $this->generateOptionsArray($request);
+        $this->generateLaravelPackageAction->run($request);
+        return redirect()->route(
+            'crud.showOptions',
+            ['table_name' => $request->get('table_name')]
+        );
 
         // verifico que la tabla especificada existe en la base de datos
         if (!$this->tableExists($request->get('table_name'))) {

@@ -1,16 +1,16 @@
 <?php
 
-namespace llstarscreamll\Crud\Actions;
+namespace llstarscreamll\Crud\Tasks;
 
 use Illuminate\Http\Request;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 
 /**
- * CreateApiRequestsFilesAction Class.
+ * CreateApiRequestsTask Class.
  *
  * @author Johan Alvarez <llstarscreamll@hotmail.com>
  */
-class CreateApiRequestsFilesAction
+class CreateApiRequestsTask
 {
     use FolderNamesResolver;
 
