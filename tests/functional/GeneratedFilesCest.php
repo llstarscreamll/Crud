@@ -27,12 +27,12 @@ class GeneratedFilesCest
         }
     }
 
-    public function checkPortoContainerFilesGeneration(FunctionalTester $I)
+    public function checkLaravelPackageFilesGeneration(FunctionalTester $I)
     {
-        $I->wantTo('generate a Porto Container');
+        $I->wantTo('generate a Laravel Package');
 
         $data = Page::$formData;
-        $data['app_type'] = 'porto_container';
+        $data['app_type'] = 'laravel_package';
         // modify relations namespaces for Porto container convenience
         $data['field[1][namespace]'] = 'App\Containers\Reason\Models\Reason';
         $data['field[12][namespace]'] = 'App\Containers\User\Models\User';
