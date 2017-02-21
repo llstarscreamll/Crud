@@ -38,10 +38,15 @@
             </div>
         @endslot
 
-        <div class="panel panel-default">
-            <div class="panel-body">
+        @component('core::components.box')
+            @slot('title')
+                <h5>Give some options for the CRUD app</h5>
+                @component('core::components.box-tools')
+                @endcomponent
+            @endslot
 
                 @include (config('modules.crud.config.layout-namespace').'partials.notifications')
+
                 {{-- borramos los mensajes generados por el controlador --}}
                 {{ session()->forget(['success', 'error', 'warning']) }}
                 
@@ -76,8 +81,7 @@
 
                 {!! Form::close() !!}
                 
-            </div>
-        </div>
+        @endcomponent
     @endcomponent
 
     <div class="clearfix"></div>

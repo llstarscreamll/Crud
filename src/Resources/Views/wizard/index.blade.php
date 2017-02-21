@@ -17,6 +17,13 @@
         <div class="col-xs-12 col-sm-10 col-md-8">
 
             @component('core::components.box')
+
+                @slot('title')
+                    <h5>Foo Title</h5>
+                    @component('core::components.box-tools')
+                    @endcomponent
+                @endslot
+
                 @include ('core::partials.notifications')
                     
                 {!! Form::open(['route' => 'crud.showOptions', 'method' => 'GET']) !!}
