@@ -13,6 +13,7 @@ use llstarscreamll\Crud\Tasks\CreateCodeceptionTestsTask;
 use llstarscreamll\Crud\Tasks\CreateModelFactoryTask;
 use llstarscreamll\Crud\Tasks\CreateModelTask;
 use llstarscreamll\Crud\Tasks\CreateApiControllerTask;
+use llstarscreamll\Crud\Tasks\RunPhpCsFixerOnDirTask;
 
 /**
  * GenerateLaravelPackageAction Class.
@@ -62,5 +63,9 @@ class GenerateLaravelPackageAction
         // generate Codeception tests files
         $createCodeceptionTestsTask = new CreateCodeceptionTestsTask($request);
         $createCodeceptionTestsTask->run();
+
+        // execute php-cs-fixer on generated folder
+        $runPhpCsFixerOnDirTask = new RunPhpCsFixerOnDirTask($request);
+        $runPhpCsFixerOnDirTask->run();
     }
 }
