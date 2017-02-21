@@ -15,12 +15,12 @@ use llstarscreamll\Crud\Tasks\CreateModelTask;
 use llstarscreamll\Crud\Tasks\CreateApiControllerTask;
 
 /**
-* GenerateLaravelPackageAction Class.
-* @author Johan Alvarez <llstarscreamll@hotmail.com>
-*/
+ * GenerateLaravelPackageAction Class.
+ *
+ * @author Johan Alvarez <llstarscreamll@hotmail.com>
+ */
 class GenerateLaravelPackageAction
 {
-    
     public function run(Request $request)
     {
         // generate the base folders
