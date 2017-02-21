@@ -4,34 +4,33 @@ namespace llstarscreamll\Crud\Http\Controllers;
 
 use Illuminate\Http\Request;
 use llstarscreamll\Crud\Providers\ModelGenerator;
-use llstarscreamll\Crud\Providers\RouteGenerator;
-use llstarscreamll\Crud\Providers\ControllerGenerator;
-use llstarscreamll\Crud\Providers\ViewsGenerator;
-use llstarscreamll\Crud\Providers\TestsGenerator;
-use llstarscreamll\Crud\Providers\ModelFactoryGenerator;
-use llstarscreamll\Crud\Providers\FormRequestGenerator;
-use llstarscreamll\Crud\Providers\ServiceGenerator;
-use llstarscreamll\Crud\Providers\RepositoryGenerator;
-use llstarscreamll\Crud\Providers\LangGenerator;
-use llstarscreamll\Crud\Providers\SeedersGenerator;
-use llstarscreamll\Crud\Providers\FurtherTasks;
 use llstarscreamll\Crud\Actions\GenerateLaravelPackageAction;
+use llstarscreamll\Crud\Actions\GenerateStandardLaravelApp;
 
 class GeneratorController extends Controller
 {
     /**
-     * Action class for generate Laravel Packages.
+     * Generate Laravel Packages Action.
      *
      * @var llstarscreamll\Crud\Actions\GenerateLaravelPackageAction
      */
     private $generateLaravelPackageAction;
 
     /**
+     * Generate Standard Laravel App Action.
+     * @var llstarscreamll\Crud\Actions\GenerateStandardLaravelApp
+     */
+    private $generateStandardLaravelApp;
+
+    /**
      * Create a new controller instance.
      */
-    public function __construct(GenerateLaravelPackageAction $generateLaravelPackageAction)
-    {
+    public function __construct(
+        GenerateLaravelPackageAction $generateLaravelPackageAction,
+        GenerateStandardLaravelApp $generateStandardLaravelApp
+    ) {
         $this->generateLaravelPackageAction = $generateLaravelPackageAction;
+        $this->generateStandardLaravelApp = $generateStandardLaravelApp;
     }
 
     /**
@@ -53,16 +52,10 @@ class GeneratorController extends Controller
      */
     public function generate(Request $request)
     {
-        // hago que las opciones dadas por el usuario persistan en un archivo de configuración
-        // que luego se cargará automaticamente en caso de que se repita el proceso con la
-        // misma tabla.
-        $this->generateLaravelPackageAction->run($request);
-        return redirect()->route(
-            'crud.showOptions',
-            ['table_name' => $request->get('table_name')]
-        );
+        // store the given data for remember this settings in future
+        $this->generateOptionsArray($request);
 
-        // verifico que la tabla especificada existe en la base de datos
+        // check if the given table exists
         if (!$this->tableExists($request->get('table_name'))) {
             return redirect()
                 ->back()
@@ -72,38 +65,20 @@ class GeneratorController extends Controller
                 );
         }
 
-        // si el usuario quiere generar Container de Porto
-        if ($request->get('app_type', 'laravel_app') !== 'laravel_app') {
-            return $this->generatePortoContainer($request);
+        // switch over what type of CRUD app the user wants to generate
+        switch ($request->get('app_type')) {
+            case 'laravel_package':
+                $this->generateLaravelPackageAction->run($request);
+                break;
+            case 'standard_laravel_app':
+                $this->generateStandardLaravelApp->run($request);
+                break;
+            default:
+                session('warning', 'Nothing to generate...');
+                break;
         }
 
-        // las clases que generan la CRUD app
-        $modelGenerator = new ModelGenerator($request);
-        $controllerGenerator = new ControllerGenerator($request);
-        $routeGenerator = new RouteGenerator($request);
-        $viewsGenerator = new ViewsGenerator($request);
-        $testsGenerator = new TestsGenerator($request);
-        $modelFactoryGenerator = new ModelFactoryGenerator($request);
-        $formRequestGenerator = new FormRequestGenerator($request);
-        $serviceGenerator = new ServiceGenerator($request);
-        $reposGenerator = new RepositoryGenerator($request);
-        $langGenerator = new LangGenerator($request);
-        $seedersGenerator = new SeedersGenerator($request);
-        $furtherTasks = new FurtherTasks();
-
-        $seedersGenerator->run();
-        $langGenerator->run();
-        $reposGenerator->run();
-        $serviceGenerator->run();
-        $formRequestGenerator->run();
-        $modelFactoryGenerator->run();
-        $testsGenerator->run();
-        $modelGenerator->run();
-        $controllerGenerator->run();
-        $routeGenerator->run();
-        $viewsGenerator->run();
-        $furtherTasks->run();
-
+        // go to the CRUD settings page
         return redirect()->route(
             'crud.showOptions',
             ['table_name' => $request->get('table_name')]
