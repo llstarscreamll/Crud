@@ -1,53 +1,55 @@
-@extends(config('modules.crud.config.layout'))
+@extends('core::layouts.app-sidebar')
 
-@section('title') Opciones CRUD @stop
+@section('title', 'CRUD Options')
 
 @section('styles')
-<style type="text/css">
-    
-    .input-text-extra-short{
-        width: 4em;
-    }
-    
-    .input-text-short{
-        width: 6em;
-    }
+    <style>
+        .input-text-extra-short{
+            width: 4em;
+        }
+        
+        .input-text-short{
+            width: 6em;
+        }
 
-    .input-text-medium{
-        width: 8em;
-    }
+        .input-text-medium{
+            width: 8em;
+        }
 
-    .table{
-        font-size: 12px;
-        margin-bottom: 20px;
-    }
+        .table{
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
 
-    .table th,
-    .table td{
-        text-align: center;
-        padding: 5px !important;
-    }
-
-</style>
-
+        .table th,
+        .table td{
+            text-align: center;
+            padding: 5px !important;
+        }
+    </style>
 @endsection
 
 @section('content')	
-    <div class="content">
+    @component('core::components.page')
         
-        <div class="panel panel-default">
-            
-            <div class="panel-heading">
-                Crud
+        @slot('title')
+            <div class="col-xs-12">
+                <h2>CRUD Options</h2>
             </div>
+        @endslot
 
+        <div class="panel panel-default">
             <div class="panel-body">
 
                 @include (config('modules.crud.config.layout-namespace').'partials.notifications')
                 {{-- borramos los mensajes generados por el controlador --}}
                 {{ session()->forget(['success', 'error', 'warning']) }}
                 
-                {!! Form::model($options, ['route' => 'crud.generate', 'method' => 'POST', 'name' => 'CRUD-form']) !!}
+                {!! Form::model($options, [
+                    'route' => 'crud.generate',
+                    'method' => 'POST',
+                    'name' => 'CRUD-form'
+                ]) !!}
 
                     {!! Form::hidden('table_name', $table_name) !!}
                     
@@ -76,33 +78,27 @@
                 
             </div>
         </div>
-    </div>
+    @endcomponent
 
     <div class="clearfix"></div>
     
 @endsection
 
 @section('scripts')
-    <!-- iCheck -->
-    <script src="{{ asset('plugins/icheck2/icheck.min.js') }}" type="text/javascript"></script>
-    <link href="{{ asset('plugins/icheck2/square/blue.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('plugins/icheck2/square/red.css') }}" rel="stylesheet" type="text/css" />
-    {{-- BootstrapSwitch --}}
-    @if(env('APP_THEME', '') !== "Limitless")
-    <link href="{{ asset('plugins/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css') }}" rel="stylesheet" type="text/css" />
-    @endif
-    <script src="{{ asset('plugins/bootstrap-switch/dist/js/bootstrap-switch.min.js') }}" type="text/javascript"></script>
-
+    <!-- iCheck skins -->
+    <link href="{{ asset('plugins/icheck/skins/square/blue.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('plugins/icheck/skins/square/red.css') }}" rel="stylesheet" type="text/css" />
+    
     <script type="text/javascript">
         {{-- Inicializa el componente BootstrapSwitch --}}
         $(".bootstrap_switch").bootstrapSwitch();
 
         {{-- Inicializa el componente iCheck --}}
-        $('.icheckbox_square-blue').icheck({
+        $('.icheckbox_square-blue').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue'
         });
-        $('.icheckbox_square-red').icheck({
+        $('.icheckbox_square-red').iCheck({
             checkboxClass: 'icheckbox_square-red',
             radioClass: 'iradio_square-red'
         });

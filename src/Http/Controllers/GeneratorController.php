@@ -207,7 +207,9 @@ class GeneratorController extends Controller
     {
         // verifico que la tabla especificada existe en la base de datos
         if (!$this->tableExists($request->get('table_name', 'null'))) {
-            return redirect()->back()->with('error', 'La tabla '.$request->get('table_name').' no existe en la base de datos.');
+            return redirect()
+                ->back()
+                ->with('error', $request->get('table_name').' table doesn\'t exists');
         }
 
         // si ya he trabajado con la tabla en cuestion, cargo las opciones

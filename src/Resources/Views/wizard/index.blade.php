@@ -1,50 +1,49 @@
-@extends(config('modules.crud.config.layout'))
+@extends('core::layouts.app-sidebar')
 
-@section('title') Generar CRUD @stop
+@section('title', 'CRUD Generator')
 
 @section('style')
-
 @endsection
 
-@section('content')	
-<div class="content col-sm-6">
-    <div class="panel panel-default">
-        
-        <div class="panel-heading">
-            Crud
-        </div>
+@section('content')
 
-        <div class="panel-body">
-            @include (config('modules.crud.config.layout-namespace').'partials.notifications')
-			
-            {!! Form::open(['route' => 'crud.showOptions', 'method' => 'GET']) !!}
-                
-                <div class="col-sm-8 col-sm-offset-2">    
-                    @include('crud::wizard.partials.create-edit-form')
+    @component('core::components.page')
+        @slot('title')
+            <div class="col-xs-12">
+                <h2>CRUD Generator <small>Type your table name</small></h2>
+            </div>
+        @endslot
+
+        <div class="col-xs-12 col-sm-10 col-md-8">
+
+            @component('core::components.box')
+                @include ('core::partials.notifications')
+                    
+                {!! Form::open(['route' => 'crud.showOptions', 'method' => 'GET']) !!}
+                    
+                    <div class="form-group {{ $errors->has('table_name') ? 'has-error' : '' }}">
+                        {!! Form::label('table_name', 'Table name') !!}
+                        {!! Form::text('table_name', null, ['class' => 'form-control']) !!}
+                        {!!$errors->first('table_name', '<span class="text-danger">:message</span>')!!}
+                    </div>
 
                     <div class="clearfix"></div>
-
+                    
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">
-                            Generar
+                            Let's configure the CRUD!!
                         </button>
                     </div>
-                </div>
+                {!! Form::close() !!}
 
-			{!! Form::close() !!}
-			
+                <div class="clearfix"></div>
+            @endcomponent
+
         </div>
-    </div>
-</div>
+
+    @endcomponent
 
 @endsection
 
 @section('script')
-
-    <script type="text/javascript">
-    
-        $(".bootstrap_switch").bootstrapSwitch();
-        
-    </script>
-
 @stop()

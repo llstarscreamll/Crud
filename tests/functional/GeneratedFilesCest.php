@@ -147,7 +147,7 @@ class GeneratedFilesCest
      *
      * @param FunctionalTester $I
      */
-    public function checkLaravelAppFilesGeneration(FunctionalTester $I)
+    /*public function checkLaravelAppFilesGeneration(FunctionalTester $I)
     {
         $I->wantTo('crear aplicacion Laravel App CRUD');
 
@@ -190,5 +190,5 @@ class GeneratedFilesCest
                 );
             }
         }
-    }
+    }*/
 }
