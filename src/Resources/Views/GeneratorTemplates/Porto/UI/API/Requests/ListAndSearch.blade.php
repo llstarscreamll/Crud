@@ -5,9 +5,9 @@ namespace App\Containers\{{ $gen->containerName() }}\UI\API\Requests\{{ $gen->en
 use App\Ship\Parents\Requests\Request;
 
 /**
- * Class {{ str_replace('.php', '', $gen->apiRequestFile('ListAll', $plural = true)) }}.
+ * Class {{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural = true)) }}.
  */
-class {{ str_replace('.php', '', $gen->apiRequestFile('ListAll', $plural = true)) }} extends Request
+class {{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural = true)) }} extends Request
 {
 	/**
      * Define which Roles and/or Permissions has access to this request..

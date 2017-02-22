@@ -35,7 +35,7 @@ class CreateCodeceptionTestsTask
      * @var array
      */
     public $files = [
-        'List',
+        'ListAndSearch',
         'Create',
         'Update',
         'Delete',
@@ -181,7 +181,7 @@ class CreateCodeceptionTestsTask
         $this->createEntityApiTestsFolder();
 
         foreach ($this->files as $file) {
-            $plural = ($file == 'List') ? true : false;
+            $plural = ($file == 'ListAndSearch') ? true : false;
 
             $testFile = $this->apiTestsFolder()."/{$this->entityName()}/".$this->apiTestFile($file, $plural);
             $template = $this->templatesDir().'.Porto/tests/api/'.$file;

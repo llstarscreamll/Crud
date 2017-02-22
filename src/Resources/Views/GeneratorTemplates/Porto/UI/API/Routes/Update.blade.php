@@ -1,6 +1,6 @@
 <?= "<?php\n" ?>
 
-$router->post('{{ str_slug($gen->tableName, $separator = "-") }}/update', [
+$router->put('{{ str_slug($gen->tableName, $separator = "-") }}/{id}', [
     'uses'  => 'Controller@update{{ $gen->entityName() }}',
     'middleware' => [
       'api.auth',

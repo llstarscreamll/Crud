@@ -35,7 +35,7 @@ class CreateApiRequestsTask
      * @var array
      */
     public $files = [
-        'ListAll',
+        'ListAndSearch',
         'Create',
         'Update',
         'Delete',
@@ -64,7 +64,7 @@ class CreateApiRequestsTask
         $this->createEntityApiRequestsFolder();
 
         foreach ($this->files as $file) {
-            $plural = ($file == "ListAll") ? true : false;
+            $plural = ($file == "ListAndSearch") ? true : false;
 
             $actionFile = $this->apiRequestsFolder()."/{$this->entityName()}/".$this->apiRequestFile($file, $plural);
             $template = $this->templatesDir().'.Porto/UI/API/Requests/'.$file;

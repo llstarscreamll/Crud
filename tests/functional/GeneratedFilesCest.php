@@ -81,7 +81,7 @@ class GeneratedFilesCest
         // generated entity Tasks
         $tasksDir = app_path('Containers/'.$this->package."/Tasks/{$this->entity}");
         $I->assertTrue(file_exists($tasksDir), 'Tasks dir');
-        $I->seeFileFound('ListBooksTask.php', $tasksDir);
+        $I->seeFileFound('ListAndSearchBooksTask.php', $tasksDir);
         $I->seeFileFound('CreateBookTask.php', $tasksDir);
         $I->seeFileFound('UpdateBookTask.php', $tasksDir);
         $I->seeFileFound('DeleteBookTask.php', $tasksDir);
@@ -102,7 +102,7 @@ class GeneratedFilesCest
         // API entity tests
         $apiTestsFolder = $testDir.'api/'.$this->entity;
         $I->assertTrue(file_exists($apiTestsFolder), 'entity api tests dir');
-        $I->seeFileFound('List'.str_plural($this->entity).'Cest.php', $apiTestsFolder);
+        $I->seeFileFound('ListAndSearch'.str_plural($this->entity).'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Create'.$this->entity.'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Update'.$this->entity.'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Delete'.$this->entity.'Cest.php', $apiTestsFolder);
@@ -120,7 +120,7 @@ class GeneratedFilesCest
         // generated entity API requests
         $apiRequestsDir = $apiDir.'/Requests';
         $I->assertTrue(file_exists($apiRequestsDir), 'API/Requests dir');
-        $I->seeFileFound('ListAllBooksRequest.php', $apiRequestsDir."/{$this->entity}");
+        $I->seeFileFound('ListAndSearchBooksRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('CreateBookRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('UpdateBookRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('DeleteBookRequest.php', $apiRequestsDir."/{$this->entity}");
@@ -129,7 +129,7 @@ class GeneratedFilesCest
         // generated API routes
         $apiRoutesDir = $apiDir.'/Routes';
         $I->assertTrue(file_exists($apiRoutesDir), 'API/Routes dir');
-        $I->seeFileFound('ListBooks.v1.private.php', $apiRoutesDir);
+        $I->seeFileFound('ListAndSearchBooks.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('CreateBook.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('UpdateBook.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('DeleteBook.v1.private.php', $apiRoutesDir);

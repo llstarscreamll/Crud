@@ -35,7 +35,7 @@ class CreateTasksTask
      * @var array
      */
     public $files = [
-        'List',
+        'ListAndSearch',
         'Create',
         'Update',
         'Delete',
@@ -64,10 +64,10 @@ class CreateTasksTask
         $this->createEntityTasksFolder();
 
         foreach ($this->files as $file) {
-            $plural = ($file == "List") ? true : false;
+            $plural = ($file == "ListAndSearch") ? true : false;
 
             $taskFile = $this->tasksFolder()."/{$this->entityName()}/".$this->taskFile($file, $plural);
-            $template = $this->templatesDir().'.Porto/Tasks/'.$file;
+            $template = $this->templatesDir().'.Porto.Tasks.'.$file;
 
             $content = view($template, [
                 'gen' => $this,

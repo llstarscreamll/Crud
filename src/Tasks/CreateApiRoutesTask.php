@@ -36,7 +36,7 @@ class CreateApiRoutesTask
      * @var array
      */
     public $files = [
-        'List',
+        'ListAndSearch',
         'Create',
         'Update',
         'Delete',
@@ -61,7 +61,7 @@ class CreateApiRoutesTask
     public function run()
     {
         foreach ($this->files as $file) {
-            $plural = ($file == "List") ? true : false;
+            $plural = ($file == "ListAndSearch") ? true : false;
 
             $actionFile = $this->apiRoutesFolder().'/'.$this->apiRouteFile($file, $plural);
             $template = $this->templatesDir().'.Porto/UI/API/Routes/'.$file;

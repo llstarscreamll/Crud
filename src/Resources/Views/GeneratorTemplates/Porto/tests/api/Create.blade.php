@@ -29,7 +29,7 @@ class Create{{ $gen->entityName() }}Cest
     }
 
     public function tryToTestCreate{{ $gen->entityName() }}(ApiTester $I)
-    {        
+    {
         $data = factory({{ $gen->entityName() }}::class)->make();
 @foreach ($fields as $field)
 @if(strpos($field->validation_rules, 'confirmed') !== false)
@@ -39,8 +39,9 @@ class Create{{ $gen->entityName() }}Cest
 
         $I->amBearerAuthenticated($this->user->token);
         $I->sendPOST($this->endpoint, $data->getAttributes());
-        
+
         $I->seeResponseCodeIs(200);
+
 @foreach ($fields as $field)
 @if(!$field->hidden && $field->name !== "id" && !in_array($field->type, ['timestamp', 'datetime', 'date']))
         $I->seeResponseContainsJson(['{{ $field->name }}' => $data->{{ $field->name }}]);
