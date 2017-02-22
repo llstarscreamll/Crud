@@ -15,6 +15,7 @@ use llstarscreamll\Crud\Tasks\CreateModelTask;
 use llstarscreamll\Crud\Tasks\CreateRepositoryTask;
 use llstarscreamll\Crud\Tasks\CreateApiControllerTask;
 use llstarscreamll\Crud\Tasks\RunPhpCsFixerOnDirTask;
+use llstarscreamll\Crud\Tasks\CreateTransformerTask;
 
 /**
  * GenerateLaravelPackageAction Class.
@@ -64,6 +65,10 @@ class GenerateLaravelPackageAction
         // generate entity repository
         $createRepositoryTask = new CreateRepositoryTask($request);
         $createRepositoryTask->run();
+
+        // generate entity transformer
+        $createTransformerTask = new CreateTransformerTask($request);
+        $createTransformerTask->run();
 
         // generate Codeception tests files
         $createCodeceptionTestsTask = new CreateCodeceptionTestsTask($request);

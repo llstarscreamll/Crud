@@ -22,7 +22,7 @@ class {{ $gen->actionClass('Create') }} extends Action
 	public function __construct(
 		{{ $task }} ${{ camel_case($task) }}
 	) {
-		$this->{{ camel_case($task) }} = {{ camel_case($task) }};
+		$this->{{ camel_case($task) }} = ${{ camel_case($task) }};
 	}
 
 	public function run(

@@ -42,6 +42,8 @@ class CreateCodeceptionTestsTask
         'Restore',
     ];
 
+    private $codecept = "/home/vagrant/.composer/vendor/bin/codecept";
+
     /**
      * Create new CreateCodeceptionTestsTask instance.
      *
@@ -62,15 +64,15 @@ class CreateCodeceptionTestsTask
     public function run()
     {
         $this->bootstrapCodeception();
-        $this->generateUserHelper();
 
         $this->createCodeceptApiSuite();
 
         $this->configureCodeceptSuite('api', $this->getApiSuiteModules());
         $this->configureCodeceptSuite('functional', $this->getFunctionalSuiteModules());
+        $this->generateUserHelper();
 
         // builds Codeception suites
-        exec("cd {$this->containerFolder()} && codecept build");
+        exec("cd {$this->containerFolder()} && {$this->codecept} build");
 
         $this->generateApiTests();
 
@@ -83,7 +85,9 @@ class CreateCodeceptionTestsTask
     public function bootstrapCodeception()
     {
         if (!file_exists($this->containerFolder().'/codeception.yml')) {
-            exec("cd {$this->containerFolder()} && codecept bootstrap --namespace=".$this->containerName());
+            exec("cd {$this->containerFolder()} && {$this->codecept} bootstrap --namespace=".$this->containerName()." 2>&1", $output);
+            // to debug!!
+            // dd($output);
         } else {
             session()->push('warning', 'Codeception tests already bootstraped!!');
         }
@@ -95,7 +99,7 @@ class CreateCodeceptionTestsTask
     public function createCodeceptApiSuite()
     {
         if (!file_exists($this->apiTestsFolder())) {
-            exec("cd {$this->containerFolder()} && codecept generate:suite api");
+            exec("cd {$this->containerFolder()} && {$this->codecept} generate:suite api");
         } else {
             session()->push('warning', 'Codeception tests already bootstraped!!');
         }

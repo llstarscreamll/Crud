@@ -2,6 +2,7 @@
 
 namespace App\Containers\{{ $gen->containerName() }}\Tasks\{{ $gen->entityName() }};
 
+use App\Containers\{{ $gen->containerName() }}\Data\Repositories\{{ $gen->entityName() }}Repository;
 use App\Ship\Parents\Tasks\Task;
 
 /**

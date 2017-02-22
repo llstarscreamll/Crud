@@ -21,6 +21,9 @@ class GeneratedFilesCest
     public function _after(FunctionalTester $I)
     {
         if (file_exists(app_path("/Containers/").$this->package)) {
+            // this step should be donde by user, but for testing purposes we do here
+            $migrationFile = base_path("llstarscreamll/Crud/src/Database/Migrations");
+            $I->copyDir($migrationFile, base_path('../hello/app/Containers/Book/Data/Migrations'));
             $I->copyDir(app_path('Containers/Book'), base_path('../hello/app/Containers/Book'));
             $I->deleteDir(app_path("/Containers"));
         }
@@ -128,6 +131,7 @@ class GeneratedFilesCest
         $I->seeFileFound('RestoreBook.v1.private.php', $apiRoutesDir);
 
         $I->assertTrue(file_exists($apiDir.'/Transformers'), 'API/Transformers dir');
+        $I->seeFileFound('BookTransformer.php', $apiDir.'/Transformers');
 
         // WEB folders
         $uiWebDir = app_path('Containers/'.$this->package.'/UI/WEB');

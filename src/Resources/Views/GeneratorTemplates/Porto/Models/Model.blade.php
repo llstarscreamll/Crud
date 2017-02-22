@@ -2,16 +2,16 @@
 
 namespace App\Containers\{{ $gen->containerName() }}\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Ship\Parents\Models\Model;
 @if($gen->hasSoftDeleteColumn)
 use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
 
 class {{ $gen->entityName() }} extends Model
 {
-	@if($gen->hasSoftDeleteColumn)
+@if($gen->hasSoftDeleteColumn)
 	use SoftDeletes;
-	@endif
+@endif
 
 	/**
      * Database connection name.
@@ -92,7 +92,7 @@ class {{ $gen->entityName() }} extends Model
     /**
      * Relation with {{ $field->namespace.".\n" }}
      */
-    public function {{  $gen->relationNameFromColumnName($field->name)  }}()
+    public function {{  $gen->relationNameFromField($field)  }}()
     {
         return $this->{{ $field->relation }}('{{ $field->namespace }}', '{{ $field->name }}');
     }

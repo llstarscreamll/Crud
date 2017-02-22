@@ -17,6 +17,11 @@ class Create{{ $gen->entityName() }}Cest
     public function _before(ApiTester $I)
     {
         $this->user = $I->loginAdminUser();
+@foreach ($fields as $field)
+@if($field->namespace)
+        factory(\{{ $field->namespace }}::class, 4)->create();
+@endif
+@endforeach
     }
 
     public function _after(ApiTester $I)
@@ -24,14 +29,14 @@ class Create{{ $gen->entityName() }}Cest
     }
 
     public function tryToTestCreate{{ $gen->entityName() }}(ApiTester $I)
-    {
+    {        
         $data = factory({{ $gen->entityName() }}::class)->make();
 
-        $I->haveHttpHeader('authorization', 'Bearer '.$this->user->token);
+        $I->amBearerAuthenticated($this->user->token);
 
-        $I->sendPOST($this->endpoint, $data);
+        $I->sendPOST($this->endpoint, $data->getAttributes());
         
         $I->seeResponseCodeIs(200);
-        $I->seeResponseContainsJson($data->toArray());
+        $I->seeResponseContainsJson(['name' => $data->name]);
     }
 }
