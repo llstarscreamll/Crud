@@ -37,6 +37,10 @@ class Create{{ $gen->entityName() }}Cest
         $I->sendPOST($this->endpoint, $data->getAttributes());
         
         $I->seeResponseCodeIs(200);
-        $I->seeResponseContainsJson(['name' => $data->name]);
+@foreach ($fields as $field)
+@if(!$field->hidden && $field->name !== "id" && !in_array($field->type, ['timestamp', 'datetime', 'date']))
+        $I->seeResponseContainsJson(['{{ $field->name }}' => $data->{{ $field->name }}]);
+@endif
+@endforeach
     }
 }
