@@ -4,6 +4,7 @@ namespace llstarscreamll\Crud\Tasks;
 
 use Illuminate\Http\Request;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
+use llstarscreamll\Crud\Traits\DataGenerator;
 
 /**
  * CreateApiRequestsTask Class.
@@ -12,7 +13,7 @@ use llstarscreamll\Crud\Traits\FolderNamesResolver;
  */
 class CreateApiRequestsTask
 {
-    use FolderNamesResolver;
+    use FolderNamesResolver, DataGenerator;
 
     /**
      * Container name to generate.
@@ -68,7 +69,10 @@ class CreateApiRequestsTask
             $actionFile = $this->apiRequestsFolder()."/{$this->entityName()}/".$this->apiRequestFile($file, $plural);
             $template = $this->templatesDir().'.Porto/UI/API/Requests/'.$file;
 
-            $content = view($template, ['gen' => $this]);
+            $content = view($template, [
+                'gen' => $this,
+                'fields' => $this->parseFields($this->request)
+            ]);
 
             file_put_contents($actionFile, $content) === false
                 ? session()->push('error', "Error creating $file api request file")
