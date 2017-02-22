@@ -6,6 +6,12 @@ CrudGenerator es un paquete de laravel para la generación de aplicaciones CRUD 
 
 ## Instalación ##
 
+Debes tener instalado PHP_CodeSniffer:
+
+```bash
+sudo pear install PHP_CodeSniffer
+```
+
 Clonar el repositorio donde se desee, para este ejemplo estando en el directorio raíz de la instalación de Laravel:
 
 ```bash
