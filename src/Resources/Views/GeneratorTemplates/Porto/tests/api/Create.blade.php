@@ -31,9 +31,13 @@ class Create{{ $gen->entityName() }}Cest
     public function tryToTestCreate{{ $gen->entityName() }}(ApiTester $I)
     {        
         $data = factory({{ $gen->entityName() }}::class)->make();
+@foreach ($fields as $field)
+@if(strpos($field->validation_rules, 'confirmed') !== false)
+        $data->{{ $field->name }}_confirmation = $data->{{ $field->name }};
+@endif
+@endforeach
 
         $I->amBearerAuthenticated($this->user->token);
-
         $I->sendPOST($this->endpoint, $data->getAttributes());
         
         $I->seeResponseCodeIs(200);
