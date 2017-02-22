@@ -48,7 +48,7 @@ class Controller extends ApiController
 
 	public function restore{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Restore', $plural = false)) }} $request, {{ $gen->actionClass('Restore') }} $action)
 	{
-		${{ camel_case($gen->entityName()) }} = $action->run();
+		${{ camel_case($gen->entityName()) }} = $action->run($request->id);
 		return $this->response->item(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
 }
