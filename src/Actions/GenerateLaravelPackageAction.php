@@ -12,6 +12,7 @@ use llstarscreamll\Crud\Tasks\CreateApiRequestsTask;
 use llstarscreamll\Crud\Tasks\CreateCodeceptionTestsTask;
 use llstarscreamll\Crud\Tasks\CreateModelFactoryTask;
 use llstarscreamll\Crud\Tasks\CreateModelTask;
+use llstarscreamll\Crud\Tasks\CreateRepositoryTask;
 use llstarscreamll\Crud\Tasks\CreateApiControllerTask;
 use llstarscreamll\Crud\Tasks\RunPhpCsFixerOnDirTask;
 
@@ -59,6 +60,10 @@ class GenerateLaravelPackageAction
         // generate entity model
         $createModelTask = new CreateModelTask($request);
         $createModelTask->run();
+
+        // generate entity repository
+        $createRepositoryTask = new CreateRepositoryTask($request);
+        $createRepositoryTask->run();
 
         // generate Codeception tests files
         $createCodeceptionTestsTask = new CreateCodeceptionTestsTask($request);

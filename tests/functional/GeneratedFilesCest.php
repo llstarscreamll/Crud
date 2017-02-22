@@ -13,7 +13,6 @@ class GeneratedFilesCest
         $I->amLoggedAs(Page::$adminUser);
 
         $I->amOnPage(Page::route('?table_name='.Page::$tableName));
-        //$I->see(Page::$title, Page::$titleElem);
     }
 
     /**
@@ -22,8 +21,8 @@ class GeneratedFilesCest
     public function _after(FunctionalTester $I)
     {
         if (file_exists(app_path("/Containers/").$this->package)) {
-            //$I->copyDir(app_path('Containers/Book'), '/home/johan/Code/hello/app/Containers/Book');
-            //$I->deleteDir(app_path("/Containers"));
+            $I->copyDir(app_path('Containers/Book'), base_path('../hello/app/Containers/Book'));
+            $I->deleteDir(app_path("/Containers"));
         }
     }
 
@@ -63,6 +62,7 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($dataDir.'/Factories'), 'Data/Factories dir');
         $I->assertTrue(file_exists($dataDir.'/Migrations'), 'Data/Migrations dir');
         $I->assertTrue(file_exists($dataDir.'/Repositories'), 'Data/Repositories dir');
+        $I->seeFileFound('BookRepository.php', $dataDir.'/Repositories');
         $I->assertTrue(file_exists($dataDir.'/Seeders'), 'Data/Seeders dir');
 
         // generated Models
@@ -80,17 +80,19 @@ class GeneratedFilesCest
         $I->seeFileFound('RestoreBookTask.php', $tasksDir);
 
         // tests
-        $I->assertTrue(file_exists(app_path('Containers/'.$this->package.'/tests')), 'tests dir');
-        $I->assertTrue(file_exists(app_path('Containers/'.$this->package.'/tests/acceptance')), 'acceptance test');
-        $I->seeFileFound('acceptance.suite.yml', app_path('Containers/'.$this->package.'/tests'));
-        $I->assertTrue(file_exists(app_path('Containers/'.$this->package.'/tests/functional')), 'functional test');
-        $I->seeFileFound('functional.suite.yml', app_path('Containers/'.$this->package.'/tests'));
-        $I->assertTrue(file_exists(app_path('Containers/'.$this->package.'/tests/unit')), 'unit test');
-        $I->seeFileFound('unit.suite.yml', app_path('Containers/'.$this->package.'/tests'));
-        $I->assertTrue(file_exists(app_path('Containers/'.$this->package.'/tests/api')), 'api test');
-        $I->seeFileFound('api.suite.yml', app_path('Containers/'.$this->package.'/tests'));
+        $testDir = app_path('Containers/'.$this->package.'/tests/');
+        $I->assertTrue(file_exists($testDir), 'tests dir');
+        $I->assertTrue(file_exists($testDir.'acceptance'), 'acceptance test');
+        $I->seeFileFound('acceptance.suite.yml', $testDir);
+        $I->seeFileFound('UserHelper.php', $testDir.'_support/Helper');
+        $I->assertTrue(file_exists($testDir.'functional'), 'functional test');
+        $I->seeFileFound('functional.suite.yml', $testDir);
+        $I->assertTrue(file_exists($testDir.'unit'), 'unit test');
+        $I->seeFileFound('unit.suite.yml', $testDir);
+        $I->assertTrue(file_exists($testDir.'api'), 'api test');
+        $I->seeFileFound('api.suite.yml', $testDir);
         // API entity tests
-        $apiTestsFolder = app_path('Containers/'.$this->package.'/tests/api/'.$this->entity);
+        $apiTestsFolder = $testDir.'api/'.$this->entity;
         $I->assertTrue(file_exists($apiTestsFolder), 'entity api tests dir');
         $I->seeFileFound('List'.str_plural($this->entity).'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Create'.$this->entity.'Cest.php', $apiTestsFolder);
