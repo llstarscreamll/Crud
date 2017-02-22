@@ -68,7 +68,10 @@ class CreateActionsTask
             $actionFile = $this->actionsFolder()."/{$this->entityName()}/".$this->actionFile($file, $plural);
             $template = $this->templatesDir().'.Porto/Actions/'.$file;
 
-            $content = view($template, ['gen' => $this]);
+            $content = view($template, [
+                'gen' => $this,
+                'fields' => $this->parseFields($this->request)
+            ]);
 
             file_put_contents($actionFile, $content) === false
                 ? session()->push('error', "Error creating $file action file")
