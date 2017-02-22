@@ -48,6 +48,11 @@ trait FolderNamesResolver
         return $this->containerFolder().'/Actions';
     }
 
+    public function exceptionsFolder()
+    {
+        return $this->containerFolder().'/Exceptions';
+    }
+
     /**
      * Data folders.
      */

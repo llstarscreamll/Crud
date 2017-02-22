@@ -16,6 +16,7 @@ use llstarscreamll\Crud\Tasks\CreateRepositoryTask;
 use llstarscreamll\Crud\Tasks\CreateApiControllerTask;
 use llstarscreamll\Crud\Tasks\RunPhpCsFixerOnDirTask;
 use llstarscreamll\Crud\Tasks\CreateTransformerTask;
+use llstarscreamll\Crud\Tasks\CreateExceptionsTask;
 
 /**
  * GenerateLaravelPackageAction Class.
@@ -37,6 +38,10 @@ class GenerateLaravelPackageAction
         // generate actions classes
         $createActionsTask = new CreateActionsTask($request);
         $createActionsTask->run();
+
+        // generate exceptions classes
+        $createExceptionsTask = new CreateExceptionsTask($request);
+        $createExceptionsTask->run();
 
         // generate tasks classes
         $createTasksTask = new CreateTasksTask($request);

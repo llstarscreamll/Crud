@@ -49,7 +49,6 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists(app_path('Containers/'.$this->package)), 'package container dir');
         
         // generated entity Actions
-        // TODO: actions should be wrapped on entity folder, like Actions/Book/CreateBookAction.php
         $actionsDir = app_path('Containers/'.$this->package.'/Actions/'.$this->entity);
         $I->assertTrue(file_exists($actionsDir), 'Actions dir');
         $I->seeFileFound('ListAndSearchBooksAction.php', $actionsDir);
@@ -67,6 +66,12 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($dataDir.'/Repositories'), 'Data/Repositories dir');
         $I->seeFileFound('BookRepository.php', $dataDir.'/Repositories');
         $I->assertTrue(file_exists($dataDir.'/Seeders'), 'Data/Seeders dir');
+
+        // exceptions
+        $exceptionsDir = app_path('Containers/'.$this->package.'/Exceptions/');
+        $I->assertTrue(file_exists($exceptionsDir), 'Exceptions dir');
+        $I->seeFileFound('BookCreationFailedException.php', $exceptionsDir);
+        $I->seeFileFound('BookNotFoundException.php', $exceptionsDir);
 
         // generated Models
         $modelsDir = app_path('Containers/'.$this->package.'/Models');

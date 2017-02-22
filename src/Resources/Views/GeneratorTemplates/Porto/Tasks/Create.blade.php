@@ -4,6 +4,7 @@ namespace App\Containers\{{ $gen->containerName() }}\Tasks\{{ $gen->entityName()
 
 use App\Containers\{{ $gen->containerName() }}\Data\Repositories\{{ $gen->entityName() }}Repository;
 use App\Ship\Parents\Tasks\Task;
+use App\Containers\{{ $gen->containerName() }}\Exceptions\{{ $gen->entityName() }}CreationFailedException;
 
 /**
  * {{ $gen->taskClass('Create') }} Class.
@@ -28,7 +29,7 @@ class {{ $gen->taskClass('Create') }} extends Task
 		try {
             ${{ $camelEntity = camel_case($gen->entityName()) }} = $this->{{ camel_case($repoClass) }}->create($input);
         } catch (Exception $e) {
-            throw (new AccountFailedException())->debug($e);
+            throw (new {{ $gen->entityName() }}CreationFailedException())->debug($e);
         }
 
         return ${{ $camelEntity }};

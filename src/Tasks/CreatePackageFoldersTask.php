@@ -34,13 +34,18 @@ class CreatePackageFoldersTask
         }
 
         // Generate Porto package container folder
-        if (!file_exists($this->containerFolder($this->container))) {
-            mkdir($this->containerFolder($this->container));
+        if (!file_exists($this->containerFolder())) {
+            mkdir($this->containerFolder());
         }
 
         // Generate Actions folder
         if (!file_exists($this->actionsFolder())) {
             mkdir($this->actionsFolder());
+        }
+
+        // Generate Exceptions folder
+        if (!file_exists($this->exceptionsFolder())) {
+            mkdir($this->exceptionsFolder());
         }
 
         // Generate Data folder
