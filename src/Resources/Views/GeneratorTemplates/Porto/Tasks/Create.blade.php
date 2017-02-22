@@ -24,21 +24,9 @@ class {{ $gen->taskClass('Create') }} extends Task
 		$this->{{ camel_case($repoClass) }} = ${{ camel_case($repoClass) }};
 	}
 
-	public function run(
-		@foreach ($fields->filter(function ($field) { return $field->fillable; }) as $field)
-		@if($field->fillable)
-			${{ $field->name }}@if(!$loop->last){{ ",\n" }}@endif
-		@endif
-		@endforeach
-	) {
+	public function run(array $input) {
 		try {
-            ${{ $camelEntity = camel_case($gen->entityName()) }} = $this->{{ camel_case($repoClass) }}->create([
-@foreach ($fields->filter(function ($field) { return $field->fillable; }) as $field)
-@if($field->fillable)
-					'{{ $field->name }}' => ${{ $field->name }}@if(!$loop->last){{ ",\n" }}@endif
-@endif
-@endforeach
-            {{ "\n" }}]);
+            ${{ $camelEntity = camel_case($gen->entityName()) }} = $this->{{ camel_case($repoClass) }}->create($input);
         } catch (Exception $e) {
             throw (new AccountFailedException())->debug($e);
         }

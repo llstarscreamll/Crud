@@ -25,20 +25,9 @@ class {{ $gen->actionClass('Create') }} extends Action
 		$this->{{ camel_case($task) }} = ${{ camel_case($task) }};
 	}
 
-	public function run(
-@foreach ($fields->filter(function ($field) { return $field->fillable; }) as $field)
-@if($field->fillable)
-			${{ $field->name }}@if(!$loop->last){{ ",\n" }}@endif
-@endif
-@endforeach
-	) {
-		${{ $camelEntity = camel_case($gen->entityName()) }} = $this->{{ camel_case($task) }}->run(
-@foreach ($fields->filter(function ($field) { return $field->fillable; }) as $field)
-@if($field->fillable)
-				${{ $field->name }}@if(!$loop->last){{ ",\n" }}@endif
-@endif
-@endforeach
-		);
+	public function run(array $input)
+	{
+		${{ $camelEntity = camel_case($gen->entityName()) }} = $this->{{ camel_case($task) }}->run($input);
 
 		return ${{ $camelEntity }};
 	}

@@ -23,25 +23,13 @@ class Controller extends ApiController
 
 	public function create{{ $gen->entityName() }}(Request $request, {{ $gen->actionClass('Create') }} $action)
 	{
-		${{ camel_case($gen->entityName()) }} = $action->run(
-		@foreach ($fields->filter(function ($field) { return $field->fillable; }) as $field)
-		@if($field->fillable)
-			$request->get('{{ $field->name }}')@if(!$loop->last){{ ",\n" }}@endif
-		@endif
-		@endforeach
-		);
+		${{ camel_case($gen->entityName()) }} = $action->run($request->all());
 		return $this->response->item(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
 
 	public function update{{ $gen->entityName() }}(Request $request, {{ $gen->actionClass('Update') }} $action)
 	{
-		${{ camel_case($gen->entityName()) }} = $action->run(
-		@foreach ($fields->filter(function ($field) { return $field->fillable; }) as $field)
-		@if($field->fillable)
-					$request->get('{{ $field->name }}')@if(!$loop->last){{ ",\n" }}@endif
-		@endif
-		@endforeach
-				);
+		${{ camel_case($gen->entityName()) }} = $action->run($request->all());
 		return $this->response->item(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
 
