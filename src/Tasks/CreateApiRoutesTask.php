@@ -44,7 +44,7 @@ class CreateApiRoutesTask
     ];
 
     /**
-     * Create new CreateModelAction instance.
+     * Create new CreateApiRoutesTask instance.
      *
      * @param Request $request
      */

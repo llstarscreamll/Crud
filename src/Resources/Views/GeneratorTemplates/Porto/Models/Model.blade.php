@@ -7,6 +7,9 @@ use App\Ship\Parents\Models\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
 
+/**
+ * {{ $gen->entityName() }} Class.
+ */
 class {{ $gen->entityName() }} extends Model
 {
 @if($gen->hasSoftDeleteColumn)
