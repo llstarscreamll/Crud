@@ -110,9 +110,18 @@ trait FolderNamesResolver
         return $this->dataFolder().'/Migrations';
     }
 
+    /**
+     * Repositories.
+     */
+    
     public function repositoriesFolder()
     {
         return $this->dataFolder().'/Repositories';
+    }
+    
+    public function entityRepoClass()
+    {
+        return $this->entityName()."Repository";
     }
 
     public function seedersFolder()
@@ -123,11 +132,6 @@ trait FolderNamesResolver
     public function modelsFolder()
     {
         return $this->containerFolder().'/Models';
-    }
-
-    public function tasksFolder()
-    {
-        return $this->containerFolder().'/Tasks';
     }
 
     public function uiFolder()
@@ -275,5 +279,18 @@ trait FolderNamesResolver
             : $this->entityName();
 
         return $task.$entity.'Task.php';
+    }
+
+    public function tasksFolder()
+    {
+        return $this->containerFolder().'/Tasks';
+    }
+
+    public function taskClass(string $task, bool $plural = false)
+    {
+        $taskFile = $this->taskFile($task, $plural);
+        $taskClass = str_replace('.php', '', $taskFile);
+
+        return $taskClass;
     }
 }

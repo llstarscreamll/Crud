@@ -7,33 +7,55 @@ use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Update') }};
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Delete') }};
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Restore') }};
-use App\Port\Controller\Abstracts\PortApiController;
+use App\Containers\{{ $gen->containerName() }}\UI\API\Transformers\{{ $gen->entityName() }}Transformer;
+use App\Ship\Parents\Controllers\ApiController;
 use Dingo\Api\Http\Request;
 
-class Controller extends PortApiController
+/**
+ * Controller Class.
+ */
+class Controller extends ApiController
 {
-	public function listAll{{ str_plural($gen->entityName()) }}()
+	public function listAll{{ str_plural($gen->entityName()) }}(Request $request, {{ $gen->actionClass('ListAndSearch', $plural = true) }} $action)
 	{
 
 	}
 
-	public function create{{ $gen->entityName() }}()
+	public function create{{ $gen->entityName() }}(Request $request, {{ $gen->actionClass('Create') }} $action)
 	{
-	
+		${{ camel_case($gen->entityName()) }} = $action->run(
+		@foreach ($fields->filter(function ($field) { return $field->fillable; }) as $field)
+		@if($field->fillable)
+			$request->get('{{ $field->name }}')@if(!$loop->last){{ ",\n" }}@endif
+		@endif
+		@endforeach
+		);
+		return $this->response->item(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
 
-	public function update{{ $gen->entityName() }}()
+	public function update{{ $gen->entityName() }}(Request $request, {{ $gen->actionClass('Update') }} $action)
 	{
-	
+		${{ camel_case($gen->entityName()) }} = $action->run(
+		@foreach ($fields->filter(function ($field) { return $field->fillable; }) as $field)
+		@if($field->fillable)
+					$request->get('{{ $field->name }}')@if(!$loop->last){{ ",\n" }}@endif
+		@endif
+		@endforeach
+				);
+		return $this->response->item(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
 
-	public function delete{{ $gen->entityName() }}()
+	public function delete{{ $gen->entityName() }}(Request $request, {{ $gen->actionClass('Delete') }} $action)
 	{
-	
+		${{ camel_case($gen->entityName()) }} = $action->run($request->id);
+		return $this->response->accepted(null, [
+            'message' => '${{ $gen->entityName() }} Deleted Successfully.',
+        ]);
 	}
 
-	public function restore{{ $gen->entityName() }}()
+	public function restore{{ $gen->entityName() }}(Request $request, {{ $gen->actionClass('Restore') }} $action)
 	{
-	
+		${{ camel_case($gen->entityName()) }} = $action->run();
+		return $this->response->item(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
 }

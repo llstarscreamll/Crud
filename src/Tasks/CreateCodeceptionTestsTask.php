@@ -62,6 +62,7 @@ class CreateCodeceptionTestsTask
     public function run()
     {
         $this->bootstrapCodeception();
+        $this->generateUserHelper();
 
         $this->createCodeceptApiSuite();
 
@@ -119,14 +120,34 @@ class CreateCodeceptionTestsTask
     }
 
     /**
+     * [generateUserHelper description]
+     * @return [type] [description]
+     */
+    private function generateUserHelper()
+    {
+        $helperFile = $this->testsFolder()."/_support/Helper/UserHelper.php";
+        $template = $this->templatesDir().'.Porto/tests/_support/Helper/UserHelper';
+
+        $content = view($template, [
+            'gen' => $this,
+            'fields' => $this->parseFields($this->request)
+            ]);
+
+        file_put_contents($helperFile, $content) === false
+            ? session()->push('error', "Error creating UserHelper test file")
+            : session()->push('success', "UserHelper test file creation success");
+    }
+
+    /**
      * Returns the modules to enable on Codeception API suite.
      *
      * @return string
      */
     private function getApiSuiteModules()
     {
-        return "\n ".
-            "       - Asserts\n".
+        return "\n".
+            "        - \\{$this->containerName()}\Helper\UserHelper\n".
+            "        - Asserts\n".
             "        - REST:\n".
             "            depends: Laravel5\n".
             "        - Laravel5:\n".
@@ -142,8 +163,9 @@ class CreateCodeceptionTestsTask
      */
     private function getFunctionalSuiteModules()
     {
-        return "\n ".
-            "       - Asserts\n".
+        return "\n".
+            "        - \\{$this->containerName()}\Helper\UserHelper\n".
+            "        - Asserts\n".
             "        - Laravel5:\n".
             "            environment_file: .env.testing\n".
             "            root: ../../../\n".

@@ -40,11 +40,11 @@ class {{ $gen->entityName() }} extends Model
      * @var array
      */
     protected $fillable = [
-	@foreach($fields as $field)
-	@if($field->fillable)
-        '{{ $field->name }}',
-	@endif
-	@endforeach
+@foreach($fields as $field)
+@if($field->fillable)
+    '{{ $field->name }}',
+@endif
+@endforeach
     ];
 
     /**
@@ -53,11 +53,11 @@ class {{ $gen->entityName() }} extends Model
      * @var array
      */
     protected $hidden = [
-    @foreach ($fields as $field)
-    @if ($field->hidden)
-        '{{ $field->name }}',
-    @endif
-    @endforeach
+@foreach ($fields as $field)
+@if ($field->hidden)
+    '{{ $field->name }}',
+@endif
+@endforeach
     ];
 
     /**
@@ -73,11 +73,11 @@ class {{ $gen->entityName() }} extends Model
      * @var array
      */
     protected $dates = [
-    @foreach ($fields as $field)
-    @if (in_array($field->type, ['datetime', 'timestamp']))
-        '{{ $field->name }}',
-    @endif
-    @endforeach
+@foreach ($fields as $field)
+@if (in_array($field->type, ['datetime', 'timestamp']))
+    '{{ $field->name }}',
+@endif
+@endforeach
     ];
 
     /**
@@ -87,8 +87,8 @@ class {{ $gen->entityName() }} extends Model
      */
     protected $dateFormat = 'Y-m-d H:i:s';
 
-    @foreach ($fields as $field)
-    @if (!empty($field->relation))
+@foreach ($fields as $field)
+@if (!empty($field->relation))
     /**
      * Relation with {{ $field->namespace.".\n" }}
      */
@@ -96,6 +96,6 @@ class {{ $gen->entityName() }} extends Model
     {
         return $this->{{ $field->relation }}('{{ $field->namespace }}', '{{ $field->name }}');
     }
-    @endif
-    @endforeach
+@endif
+@endforeach
 }

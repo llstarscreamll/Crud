@@ -81,7 +81,7 @@ trait DataGenerator
             ? ($this->hasLaravelTimestamps = true)
             : null;
 
-        return $fields;
+        return collect($fields);
     }
 
     public function getFakeData($field, bool $onlyFaker = false)

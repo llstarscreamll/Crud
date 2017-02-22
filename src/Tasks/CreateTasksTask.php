@@ -3,6 +3,7 @@
 namespace llstarscreamll\Crud\Tasks;
 
 use Illuminate\Http\Request;
+use llstarscreamll\Crud\Traits\DataGenerator;
 use llstarscreamll\Crud\Traits\FolderNamesResolver;
 
 /**
@@ -12,7 +13,7 @@ use llstarscreamll\Crud\Traits\FolderNamesResolver;
  */
 class CreateTasksTask
 {
-    use FolderNamesResolver;
+    use FolderNamesResolver, DataGenerator;
 
     /**
      * Container name to generate.
@@ -68,7 +69,10 @@ class CreateTasksTask
             $taskFile = $this->tasksFolder()."/{$this->entityName()}/".$this->taskFile($file, $plural);
             $template = $this->templatesDir().'.Porto/Tasks/'.$file;
 
-            $content = view($template, ['gen' => $this]);
+            $content = view($template, [
+                'gen' => $this,
+                'fields' => $this->parseFields($this->request)
+            ]);
 
             file_put_contents($taskFile, $content) === false
                 ? session()->push('error', "Error creating $file task file")

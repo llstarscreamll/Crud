@@ -43,8 +43,6 @@ class CreateModelTask
     }
 
     /**
-     * @param string $container Contaner name
-     *
      * @return bool
      */
     public function run()
