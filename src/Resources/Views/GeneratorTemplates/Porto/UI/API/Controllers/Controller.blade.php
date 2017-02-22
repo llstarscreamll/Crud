@@ -37,7 +37,7 @@ class Controller extends ApiController
 	{
 		${{ camel_case($gen->entityName()) }} = $action->run($request->id);
 		return $this->response->accepted(null, [
-            'message' => '${{ $gen->entityName() }} Deleted Successfully.',
+            'message' => '{{ $gen->entityName() }} Deleted Successfully.',
         ]);
 	}
 
