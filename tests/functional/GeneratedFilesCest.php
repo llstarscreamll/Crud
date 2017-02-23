@@ -9,6 +9,11 @@ class GeneratedFilesCest
 {
     public function _before(FunctionalTester $I)
     {
+        // delete old generated dirs
+        $I->deleteDir(app_path("/Containers"));
+        $I->deleteDir(app_path("/Angular2"));
+
+        // page setup
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
 
@@ -24,8 +29,13 @@ class GeneratedFilesCest
             // this step should be donde by user, but for testing purposes we do here
             $migrationFile = base_path("llstarscreamll/Crud/src/Database/Migrations");
             $I->copyDir($migrationFile, base_path('../hello/app/Containers/Book/Data/Migrations'));
+            // copy generated container on Hello-API project for test the final app there
             $I->copyDir(app_path('Containers/Book'), base_path('../hello/app/Containers/Book'));
-            $I->deleteDir(app_path("/Containers"));
+        }
+
+        if (file_exists(app_path("/Angular2/Book"))) {
+            // copy generated Angular 2 Moduel on saas-CLI project for test the final app there
+            $I->copyDir(app_path('Angular2/Book'), base_path('../saas-CLI/src/app/modules/book'));
         }
     }
 
@@ -35,6 +45,7 @@ class GeneratedFilesCest
 
         $data = Page::$formData;
         $data['app_type'] = 'laravel_package';
+        $data['create_angular_2_module'] = true;
         // modify relations namespaces for Porto container convenience
         $data['field[1][namespace]'] = 'App\Containers\Reason\Models\Reason';
         $data['field[12][namespace]'] = 'App\Containers\User\Models\User';
@@ -44,6 +55,24 @@ class GeneratedFilesCest
         
         $I->submitForm('form[name=CRUD-form]', $data);
 
+        $this->checkAngular2ModuleGeneration($I);
+        //$this->checkPortoFilesGeneration($I);
+    }
+
+    private function checkAngular2ModuleGeneration($I)
+    {
+        $moduleDir = app_path('Angular2/Book/');
+        $I->assertTrue(file_exists($moduleDir), 'NG Module dir');
+
+        $I->seeFileFound('book.module.ts', $moduleDir);
+        $I->seeFileFound('book-routing.module.ts', $moduleDir);
+        // components
+        $componentsDir = $moduleDir.'components/';
+        $I->assertTrue(file_exists($componentsDir), 'NG components dir');
+    }
+
+    private function checkPortoFilesGeneration(FunctionalTester $I)
+    {
         // los directorios deben estar creados correctamente
         $I->assertTrue(file_exists(app_path('Containers')), 'Containers dir');
         $I->assertTrue(file_exists(app_path('Containers/'.$this->package)), 'package container dir');

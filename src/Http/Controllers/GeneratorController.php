@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use llstarscreamll\Crud\Providers\ModelGenerator;
 use llstarscreamll\Crud\Actions\GenerateLaravelPackageAction;
 use llstarscreamll\Crud\Actions\GenerateStandardLaravelApp;
+use llstarscreamll\Crud\Actions\GenerateAngular2ModuleAction;
 
 class GeneratorController extends Controller
 {
@@ -23,14 +24,22 @@ class GeneratorController extends Controller
     private $generateStandardLaravelApp;
 
     /**
+     * Generate Angular 2 Module Action.
+     * @var llstarscreamll\Crud\Actions\GenerateAngular2ModuleAction
+     */
+    private $generateAngular2ModuleAction;
+
+    /**
      * Create a new controller instance.
      */
     public function __construct(
         GenerateLaravelPackageAction $generateLaravelPackageAction,
-        GenerateStandardLaravelApp $generateStandardLaravelApp
+        GenerateStandardLaravelApp $generateStandardLaravelApp,
+        GenerateAngular2ModuleAction $generateAngular2ModuleAction
     ) {
         $this->generateLaravelPackageAction = $generateLaravelPackageAction;
         $this->generateStandardLaravelApp = $generateStandardLaravelApp;
+        $this->generateAngular2ModuleAction = $generateAngular2ModuleAction;
     }
 
     /**
@@ -66,16 +75,20 @@ class GeneratorController extends Controller
         }
 
         // switch over what type of CRUD app the user wants to generate
-        switch ($request->get('app_type')) {
-            case 'laravel_package':
-                $this->generateLaravelPackageAction->run($request);
-                break;
-            case 'standard_laravel_app':
-                $this->generateStandardLaravelApp->run($request);
-                break;
-            default:
-                session('warning', 'Nothing to generate...');
-                break;
+        // switch ($request->get('app_type')) {
+        //     case 'laravel_package':
+        //         $this->generateLaravelPackageAction->run($request);
+        //         break;
+        //     case 'standard_laravel_app':
+        //         $this->generateStandardLaravelApp->run($request);
+        //         break;
+        //     default:
+        //         session('warning', 'Nothing to generate...');
+        //         break;
+        // }
+
+        if ($request->get('create_angular_2_module', false)) {
+            $this->generateAngular2ModuleAction->run($request);
         }
 
         // go to the CRUD settings page
