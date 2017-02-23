@@ -12,10 +12,10 @@
             Laravel app
         </label>
         <br>
-        <label>
+        {{-- <label>
             {!! Form::radio('app_type', 'laravel_package', null, ['class' => 'icheckbox_square-blue']) !!}
             Laravel Package
-        </label>
+        </label> --}}
         <label>
             {!! Form::radio('app_type', 'porto_container', null, ['class' => 'icheckbox_square-blue']) !!}
             PORTO Container
