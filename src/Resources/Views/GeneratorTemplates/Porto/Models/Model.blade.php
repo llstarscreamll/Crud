@@ -91,7 +91,7 @@ class {{ $gen->entityName() }} extends Model
     protected $dateFormat = 'Y-m-d H:i:s';
 
     /**
-     * Casting de atributos a los tipos de datos nativos.
+     * The attributes that should be casted to native types.
      *
      * @var array
      */
