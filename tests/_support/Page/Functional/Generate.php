@@ -30,6 +30,7 @@ class Generate
         'use_DateTimePicker_on_form_fields' => true,
         'use_x_editable' => false,
         'include_assets' => false,
+        'create_angular_2_module' => false,
 
         // para la columna id
         'field[0][name]' => 'id',

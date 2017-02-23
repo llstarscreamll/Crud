@@ -1,5 +1,5 @@
 <fieldset>
-    <legend>Frontend Components</legend>
+    <legend>Frontend</legend>
     <div class="row">
 
         <div class="form-group col-sm-6 col-md-2">
@@ -26,8 +26,8 @@
             {!! Form::checkbox('use_DateTimePicker_on_form_fields', true, true, [
                 'class' => 'bootstrap_switch',
                 'data-size' => 'mini',
-                'data-on-text' => 'SI',
-                'data-off-text' => 'NO',
+                'data-on-text' => 'Yes',
+                'data-off-text' => 'Not',
             ]) !!}
         </div>
 
@@ -41,8 +41,8 @@
             {!! Form::checkbox('use_modal_confirmation_on_delete', true, true, [
                 'class' => 'bootstrap_switch',
                 'data-size' => 'mini',
-                'data-on-text' => 'SI',
-                'data-off-text' => 'NO',
+                'data-on-text' => 'Yes',
+                'data-off-text' => 'Not',
             ]) !!}
         </div>
 
@@ -54,11 +54,10 @@
             {!! Form::checkbox('use_x_editable', true, false, [
                 'class' => 'bootstrap_switch',
                 'data-size' => 'mini',
-                'data-on-text' => 'SI',
-                'data-off-text' => 'NO',
+                'data-on-text' => 'Yes',
+                'data-off-text' => 'Not',
             ]) !!}
         </div>
-
     </div>
 
     <div class="row">
@@ -70,8 +69,8 @@
             {!! Form::checkbox('include_assets', true, false, [
                 'class' => 'bootstrap_switch',
                 'data-size' => 'mini',
-                'data-on-text' => 'SI',
-                'data-off-text' => 'NO',
+                'data-on-text' => 'Yes',
+                'data-off-text' => 'Not',
             ]) !!}
         </div>
 
@@ -83,6 +82,23 @@
                 null,
                 ['class' => 'form-control']
             ) !!}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="clearfix"></div>
+        <hr>
+        <div class="form-group col-sm-6 col-md-2">
+            <label>
+                Create Angular 2 Module for API?<br>
+            </label>
+            <br>
+            {!! Form::checkbox('create_angular_2_module', true, true, [
+                'class' => 'bootstrap_switch',
+                'data-size' => 'mini',
+                'data-on-text' => 'Yes',
+                'data-off-text' => 'Not',
+            ]) !!}
         </div>
     </div>
 </fieldset>
