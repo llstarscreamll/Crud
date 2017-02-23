@@ -35,11 +35,12 @@ class CreateCodeceptionTestsTask
      * @var array
      */
     public $files = [
-        'ListAndSearch',
         'Create',
+        'Get',
         'Update',
         'Delete',
         'Restore',
+        'ListAndSearch',
     ];
 
     private $codecept = "/home/vagrant/.composer/vendor/bin/codecept";
@@ -86,8 +87,7 @@ class CreateCodeceptionTestsTask
     {
         if (!file_exists($this->containerFolder().'/codeception.yml')) {
             exec("cd {$this->containerFolder()} && {$this->codecept} bootstrap --namespace=".$this->containerName()." 2>&1", $output);
-            // to debug!!
-            // dd($output);
+            // dd($output); // to debug!!
         } else {
             session()->push('warning', 'Codeception tests already bootstraped!!');
         }

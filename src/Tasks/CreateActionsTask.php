@@ -36,11 +36,12 @@ class CreateActionsTask
      * @var array
      */
     public $files = [
-        'ListAndSearch',
         'Create',
+        'Get',
         'Update',
         'Delete',
         'Restore',
+        'ListAndSearch',
     ];
 
     /**

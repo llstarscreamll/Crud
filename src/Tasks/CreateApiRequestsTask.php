@@ -37,6 +37,7 @@ class CreateApiRequestsTask
     public $files = [
         'ListAndSearch',
         'Create',
+        'Get',
         'Update',
         'Delete',
         'Restore',

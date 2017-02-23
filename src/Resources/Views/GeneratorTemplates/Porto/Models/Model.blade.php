@@ -45,7 +45,7 @@ class {{ $gen->entityName() }} extends Model
     protected $fillable = [
 @foreach($fields as $field)
 @if($field->fillable)
-    '{{ $field->name }}',
+        '{{ $field->name }}',
 @endif
 @endforeach
     ];
@@ -58,7 +58,7 @@ class {{ $gen->entityName() }} extends Model
     protected $hidden = [
 @foreach ($fields as $field)
 @if ($field->hidden)
-    '{{ $field->name }}',
+        '{{ $field->name }}',
 @endif
 @endforeach
     ];
@@ -78,7 +78,7 @@ class {{ $gen->entityName() }} extends Model
     protected $dates = [
 @foreach ($fields as $field)
 @if (in_array($field->type, ['datetime', 'timestamp']))
-    '{{ $field->name }}',
+        '{{ $field->name }}',
 @endif
 @endforeach
     ];
@@ -89,6 +89,19 @@ class {{ $gen->entityName() }} extends Model
      * @var string
      */
     protected $dateFormat = 'Y-m-d H:i:s';
+
+    /**
+     * Casting de atributos a los tipos de datos nativos.
+     *
+     * @var array
+     */
+    protected $casts = [
+@foreach ($fields as $field)
+@if(!in_array($field->type, ['datetime', 'timestamp', 'date']))
+        '{{ $field->name }}' => '{{ $gen->getFieldTypeCast($field) }}',
+@endif
+@endforeach
+    ];
 
 @foreach ($fields as $field)
 @if (!empty($field->relation))

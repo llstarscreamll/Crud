@@ -4,10 +4,12 @@ namespace App\Containers\{{ $gen->containerName() }}\UI\API\Controllers;
 
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('ListAndSearch', $plural = true) }};
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Create') }};
+use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Get') }};
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Update') }};
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Delete') }};
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Restore') }};
 use App\Containers\{{ $gen->containerName() }}\UI\API\Requests\{{ $gen->entityName() }}\{{ str_replace('.php', '', $gen->apiRequestFile('Create', $plural = false)) }};
+use App\Containers\{{ $gen->containerName() }}\UI\API\Requests\{{ $gen->entityName() }}\{{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }};
 use App\Containers\{{ $gen->containerName() }}\UI\API\Requests\{{ $gen->entityName() }}\{{ str_replace('.php', '', $gen->apiRequestFile('Delete', $plural = false)) }};
 use App\Containers\{{ $gen->containerName() }}\UI\API\Requests\{{ $gen->entityName() }}\{{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural = true)) }};
 use App\Containers\{{ $gen->containerName() }}\UI\API\Requests\{{ $gen->entityName() }}\{{ str_replace('.php', '', $gen->apiRequestFile('Restore', $plural = false)) }};
@@ -30,6 +32,12 @@ class Controller extends ApiController
 	public function create{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Create', $plural = false)) }} $request, {{ $gen->actionClass('Create') }} $action)
 	{
 		${{ camel_case($gen->entityName()) }} = $action->run($request->all());
+		return $this->response->item(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
+	}
+
+	public function get{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }} $request, {{ $gen->actionClass('Get') }} $action)
+	{
+		${{ camel_case($gen->entityName()) }} = $action->run($request->id);
 		return $this->response->item(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
 

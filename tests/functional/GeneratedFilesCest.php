@@ -53,6 +53,7 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($actionsDir), 'Actions dir');
         $I->seeFileFound('ListAndSearchBooksAction.php', $actionsDir);
         $I->seeFileFound('CreateBookAction.php', $actionsDir);
+        $I->seeFileFound('GetBookAction.php', $actionsDir);
         $I->seeFileFound('UpdateBookAction.php', $actionsDir);
         $I->seeFileFound('DeleteBookAction.php', $actionsDir);
         $I->seeFileFound('RestoreBookAction.php', $actionsDir);
@@ -83,6 +84,7 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($tasksDir), 'Tasks dir');
         $I->seeFileFound('ListAndSearchBooksTask.php', $tasksDir);
         $I->seeFileFound('CreateBookTask.php', $tasksDir);
+        $I->seeFileFound('GetBookTask.php', $tasksDir);
         $I->seeFileFound('UpdateBookTask.php', $tasksDir);
         $I->seeFileFound('DeleteBookTask.php', $tasksDir);
         $I->seeFileFound('RestoreBookTask.php', $tasksDir);
@@ -104,6 +106,7 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($apiTestsFolder), 'entity api tests dir');
         $I->seeFileFound('ListAndSearch'.str_plural($this->entity).'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Create'.$this->entity.'Cest.php', $apiTestsFolder);
+        $I->seeFileFound('Get'.$this->entity.'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Update'.$this->entity.'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Delete'.$this->entity.'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Restore'.$this->entity.'Cest.php', $apiTestsFolder);
@@ -122,6 +125,7 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($apiRequestsDir), 'API/Requests dir');
         $I->seeFileFound('ListAndSearchBooksRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('CreateBookRequest.php', $apiRequestsDir."/{$this->entity}");
+        $I->seeFileFound('GetBookRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('UpdateBookRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('DeleteBookRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('RestoreBookRequest.php', $apiRequestsDir."/{$this->entity}");
