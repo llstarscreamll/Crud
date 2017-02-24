@@ -34,6 +34,11 @@ trait AngularFolderNamesResolver
         return studly_case($entity);
     }
 
+    public function entityNameUppercase($plural = false)
+    {
+        return strtoupper($this->entityName());
+    }
+
     public function slugEntityName($plural = false)
     {
         $entity = $plural
@@ -72,6 +77,11 @@ trait AngularFolderNamesResolver
     public function containersDir()
     {
         return $this->moduleDir().'/containers';
+    }
+
+    public function translationsDir()
+    {
+        return $this->moduleDir().'/translations';
     }
 
     public function containerFile($file, $plural = false)

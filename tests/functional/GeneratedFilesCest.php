@@ -66,7 +66,12 @@ class GeneratedFilesCest
 
         $I->seeFileFound('book.module.ts', $moduleDir);
         $I->seeFileFound('book-routing.module.ts', $moduleDir);
-        
+
+        // translation files
+        $transDir = $moduleDir.'translations/';
+        $I->assertTrue(file_exists($transDir), 'NG translations dir');
+        $I->seeFileFound('es.ts', $transDir);
+
         // components
         $componentsDir = $moduleDir.'components/';
         $I->assertTrue(file_exists($componentsDir), 'NG components dir');
