@@ -9,6 +9,7 @@ use llstarscreamll\Crud\Tasks\CreateNgModulesTask;
 use llstarscreamll\Crud\Tasks\CreateNgContainersTask;
 use llstarscreamll\Crud\Tasks\CreateNgComponentsTask;
 use llstarscreamll\Crud\Tasks\CreateNgTranslationsTask;
+use llstarscreamll\Crud\Tasks\CreateNgModelTask;
 
 /**
  * GenerateAngular2ModuleAction Class.
@@ -38,5 +39,9 @@ class GenerateAngular2ModuleAction
         // generate components
         $createNgComponentsTask = new CreateNgComponentsTask($request);
         $createNgComponentsTask->run();
+
+        // generate models
+        $createNgModelTask = new CreateNgModelTask($request);
+        $createNgModelTask->run();
     }
 }

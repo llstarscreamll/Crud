@@ -17,6 +17,26 @@ trait AngularFolderNamesResolver
         return config('modules.crud.config.templates');
     }
 
+    /**
+     * TODO: this method is duplicated, fix it.
+     */
+    public function relationNameFromField(stdClass $field)
+    {
+        $functionName = camel_case(str_replace('_id', '', $field->name));
+
+        // singular name
+        if (in_array($field->relation, ['belongsTo', 'hasOne'])) {
+            $functionName = str_singular($functionName);
+        }
+
+        // plural name
+        if (in_array($field->relation, ['hasMany', 'belongsToMany'])) {
+            $functionName = str_plural($functionName);
+        }
+
+        return $functionName;
+    }
+
     public function angularDir()
     {
         return app_path('Angular2');
@@ -51,6 +71,11 @@ trait AngularFolderNamesResolver
     public function moduleDir()
     {
         return $this->angularDir().'/'.$this->entityName();
+    }
+
+    public function modelsDir()
+    {
+        return $this->moduleDir().'/models';
     }
 
     public function componentsDir()
