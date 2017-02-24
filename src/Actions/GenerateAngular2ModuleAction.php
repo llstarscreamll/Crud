@@ -8,6 +8,7 @@ use llstarscreamll\Crud\Tasks\CreateAngular2DirsTask;
 use llstarscreamll\Crud\Tasks\CreateNgModulesTask;
 use llstarscreamll\Crud\Tasks\CreateNgContainersTask;
 use llstarscreamll\Crud\Tasks\CreateNgComponentsTask;
+use llstarscreamll\Crud\Tasks\CreateNgTranslationsTask;
 
 /**
  * GenerateAngular2ModuleAction Class.
@@ -26,7 +27,11 @@ class GenerateAngular2ModuleAction
         $createNgModulesTask = new CreateNgModulesTask($request);
         $createNgModulesTask->run();
 
-        // generate components
+        // generate translations
+        $createNgTranslationsTask = new CreateNgTranslationsTask($request);
+        $createNgTranslationsTask->run();
+
+        // generate containers
         $createNgContainersTask = new CreateNgContainersTask($request);
         $createNgContainersTask->run();
 
