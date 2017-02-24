@@ -55,6 +55,11 @@ class CreateAngular2DirsTask
             mkdir($this->componentsDir());
         }
 
+        // generate angular containers folder
+        if (!file_exists($this->containersDir())) {
+            mkdir($this->containersDir());
+        }
+
         return true;
     }
 }

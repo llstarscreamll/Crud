@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use llstarscreamll\Crud\Tasks\CreateAngular2DirsTask;
 use llstarscreamll\Crud\Tasks\CreateNgModulesTask;
+use llstarscreamll\Crud\Tasks\CreateNgContainersTask;
+use llstarscreamll\Crud\Tasks\CreateNgComponentsTask;
 
 /**
  * GenerateAngular2ModuleAction Class.
@@ -23,5 +25,13 @@ class GenerateAngular2ModuleAction
         // generate module and routing module
         $createNgModulesTask = new CreateNgModulesTask($request);
         $createNgModulesTask->run();
+
+        // generate components
+        $createNgContainersTask = new CreateNgContainersTask($request);
+        $createNgContainersTask->run();
+
+        // generate components
+        $createNgComponentsTask = new CreateNgComponentsTask($request);
+        $createNgComponentsTask->run();
     }
 }

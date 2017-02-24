@@ -25,14 +25,22 @@ trait AngularFolderNamesResolver
     /**
      * TODO: this method is duplicated, fix it.
      */
-    public function entityName()
+    public function entityName($plural = false)
     {
-        return studly_case(str_singular($this->tableName));
+        $entity = $plural
+            ? str_plural($this->tableName)
+            : str_singular($this->tableName);
+
+        return studly_case($entity);
     }
 
-    public function slugEntityName()
+    public function slugEntityName($plural = false)
     {
-        return str_slug(str_singular($this->tableName), '-');
+        $entity = $plural
+            ? str_plural($this->tableName)
+            : str_singular($this->tableName);
+
+        return str_slug($entity, '-');
     }
 
     public function moduleDir()
@@ -43,6 +51,59 @@ trait AngularFolderNamesResolver
     public function componentsDir()
     {
         return $this->moduleDir().'/components';
+    }
+
+    public function componentFile($file, $plural = false)
+    {
+        $ext = $this->solveExtentintionFormFile($file);
+        $file = $this->cleanFileName($file);
+        $entity = $this->slugEntityName($plural);
+
+        return $entity.'-'.$file.".component".$ext;
+    }
+
+    public function componentClass($class, $plural = false)
+    {
+        $class = studly_case($class);
+        $entity = $this->entityName($plural);
+        return $entity.$class."Component";
+    }
+
+    public function containersDir()
+    {
+        return $this->moduleDir().'/containers';
+    }
+
+    public function containerFile($file, $plural = false)
+    {
+        $ext = $this->solveExtentintionFormFile($file);
+        $file = $this->cleanFileName($file);
+        $entity = $this->slugEntityName($plural);
+
+        return $file.'-'.$entity.".page".$ext;
+    }
+
+    public function solveExtentintionFormFile($file)
+    {
+        $ext = ".ts";
+
+        $ext = (strpos($file, "-css") === false)
+            ? $ext
+            : ".css";
+
+        $ext = (strpos($file, "-html") === false)
+            ? $ext
+            : ".html";
+
+        return $ext;
+    }
+
+    public function cleanFileName($file)
+    {
+        $file = str_replace('-css', '', $file);
+        $file = str_replace('-html', '', $file);
+
+        return $file;
     }
 
     public function moduleFile($file)
