@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 {{ '@' }}Component({
-  selector: '{{ $gen->componentFile('create', false) }}',
-  templateUrl: './{{ $gen->componentFile('create-html', false) }}',
-  styleUrls: ['./{{ $gen->componentFile('create-css', false) }}']
+  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('create', false)) }}',
+  templateUrl: './{{ $gen->containerFile('create-html', false) }}',
+  styleUrls: ['./{{ $gen->containerFile('create-css', false) }}']
 })
-export class {{ $gen->componentClass('create', $plural = false) }} implements OnInit {
+export class {{ $gen->containerClass('create', $plural = false) }} implements OnInit {
 
   constructor() { }
 

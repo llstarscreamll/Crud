@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 {{ '@' }}Component({
-  selector: '{{ $gen->componentFile('list-and-search', true) }}',
-  templateUrl: './{{ $gen->componentFile('list-and-search-html', true) }}',
-  styleUrls: ['./{{ $gen->componentFile('list-and-search-css', true) }}']
+  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('list-and-search', true)) }}',
+  templateUrl: './{{ $gen->containerFile('list-and-search-html', true) }}',
+  styleUrls: ['./{{ $gen->containerFile('list-and-search-css', true) }}']
 })
-export class {{ $gen->componentClass('list-and-search', $plural = true) }} implements OnInit {
+export class {{ $gen->containerClass('list-and-search', $plural = true) }} implements OnInit {
 
   constructor() { }
 

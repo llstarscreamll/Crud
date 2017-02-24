@@ -83,6 +83,13 @@ trait AngularFolderNamesResolver
         return $file.'-'.$entity.".page".$ext;
     }
 
+    public function containerClass($class, $plural = false)
+    {
+        $class = studly_case($class);
+        $entity = $this->entityName($plural);
+        return $class.$entity."Page";
+    }
+
     public function solveExtentintionFormFile($file)
     {
         $ext = ".ts";
