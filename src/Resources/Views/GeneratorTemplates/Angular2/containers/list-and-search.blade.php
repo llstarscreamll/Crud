@@ -20,7 +20,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
 
   public ngOnInit() {
   	this.{{ camel_case($gen->entityName(true)) }}$ = this.store.select(fromRoot.get{{ $gen->entityName() }}State);
-  	this.store.dispatch(new {{ $actions  }}.LoadAction({}));
+  	this.store.dispatch(new {{ $actions  }}.LoadAction(null));
   }
 
 }

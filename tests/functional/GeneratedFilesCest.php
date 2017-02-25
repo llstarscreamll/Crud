@@ -71,6 +71,7 @@ class GeneratedFilesCest
         $modelsDir = $moduleDir.'models/';
         $I->assertTrue(file_exists($modelsDir), 'NG models dir');
         $I->seeFileFound('book.ts', $modelsDir);
+        $I->seeFileFound('bookPagination.ts', $modelsDir);
 
         // translations
         $transDir = $moduleDir.'translations/';

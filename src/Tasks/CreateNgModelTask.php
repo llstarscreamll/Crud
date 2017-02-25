@@ -46,9 +46,14 @@ class CreateNgModelTask
      */
     public function run()
     {
-        $modelFile = camel_case($this->entityName());
-        $moduleFile = $this->modelsDir()."/$modelFile.ts";
-        $template = $this->templatesDir().'.Angular2/models/model';
+        $this->generateModel('model', camel_case($this->entityName()));
+        $this->generateModel('pagination', camel_case($this->entityName()).'Pagination');
+    }
+
+    public function generateModel($template, $model)
+    {
+        $moduleFile = $this->modelsDir()."/$model.ts";
+        $template = $this->templatesDir().'.Angular2/models/'.$template;
 
         $content = view($template, [
             'gen' => $this,
@@ -56,8 +61,8 @@ class CreateNgModelTask
         ]);
 
         file_put_contents($moduleFile, $content) === false
-            ? session()->push('error', "Error creating Angular Model file")
-            : session()->push('success', "Angular Model creation success");
+            ? session()->push('error', "Error creating Angular Entity Model file")
+            : session()->push('success', "Angular Entity Model creation success");
 
         return true;
     }

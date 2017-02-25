@@ -5,7 +5,8 @@ import 'rxjs/add/operator/catch';
 
 import { Service } from './../../core/abstracts/service';
 import { LocalStorageService } from './../../core/services/localStorage';
-import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
+import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ camel_case($entitySin)."Pagination" }}';
+import { {{ $entitySin }} } from './../models/{{ camel_case($entitySin) }}';
 
 @Injectable()
 export class {{ $entitySin }}Service extends Service {
@@ -23,12 +24,12 @@ export class {{ $entitySin }}Service extends Service {
   /**
    * Process the load {{ $entitySin }} request to the API.
    */
-  public load(): Observable<{{ $entitySin }}[]> {
+  public load(): Observable<{{ $entitySin.'Pagination' }}> {
     console.log('trying to fetch paginated books!!');
 
     return this.http
       .get(this.apiEndpoint(), {headers: this.headers})
-      .map(res => {console.log(res.json().data); return res.json().data as {{ $entitySin }}[]})
+      .map(res => {console.log(res.json()); return res.json()})
       .catch(this.handleError);
   }
 

@@ -12,6 +12,7 @@ import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case
 
 export interface State {
   {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[];
+  pagination: Object;
   {{ camel_case($gen->entityName()) }}: {{ $gen->entityName() }} | null;
   loading: boolean;
   errors: Object
@@ -19,6 +20,7 @@ export interface State {
 
 const initialState: State = {
   {{ $modelPlu = camel_case($gen->entityName(true)) }}: [],
+  pagination: {},
   {{ $modelSin = camel_case($gen->entityName()) }}: null,
   loading: true,
   errors: {}
@@ -29,6 +31,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     case {{ $actions }}.ActionTypes.LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }}: {
       return {
         {{ $modelPlu }}: state.{{ $modelPlu }},
+        pagination: state.pagination,
         {{ $modelSin }}: state.{{ $modelSin }},
         loading: true,
         errors: state.errors
@@ -36,10 +39,12 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.ActionTypes.LOAD_{{ $entitySnakePlu }}_SUCCESS: {
-      let {{ $modelSin }} = action.payload as {{ $gen->entityName() }}[];
+      let {{ $modelSin }} = action.payload.data as {{ $gen->entityName() }}[];
+      let pagination = action.payload.meta.pagination;
       return {
         {{ $modelPlu }}: {{ $modelSin }},
         {{ $modelSin }}: state.{{ $modelSin }},
+        pagination: pagination,
         loading: false,
         errors: state.errors
       };
