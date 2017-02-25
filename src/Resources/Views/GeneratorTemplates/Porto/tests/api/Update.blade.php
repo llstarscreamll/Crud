@@ -39,7 +39,7 @@ class Update{{ $gen->entityName() }}Cest
 @endforeach
 
     	$I->amBearerAuthenticated($this->user->token);
-        $I->sendPUT(str_replace('{id}', $oldData->id, $this->endpoint), $newData->getAttributes());
+        $I->sendPUT(str_replace('{id}', $oldData->getHashedKey(), $this->endpoint), $newData->getAttributes());
 
         $I->seeResponseCodeIs(200);
 

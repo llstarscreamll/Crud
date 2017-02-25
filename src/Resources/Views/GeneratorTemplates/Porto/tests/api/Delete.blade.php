@@ -33,7 +33,7 @@ class Delete{{ $gen->entityName() }}Cest
     	$data = factory({{ $gen->entityName() }}::class)->create();
 
     	$I->amBearerAuthenticated($this->user->token);
-        $I->sendDELETE(str_replace('{id}', $data->id, $this->endpoint));
+        $I->sendDELETE(str_replace('{id}', $data->getHashedKey(), $this->endpoint));
         $I->seeResponseCodeIs(202);
     }
 }

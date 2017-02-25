@@ -25,6 +25,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Update', $plural = false)
      * @var  array
      */
     protected $decode = [
+        'id'
     ];
 
     /**
@@ -34,6 +35,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Update', $plural = false)
      * @var  array
      */
     protected $urlParameters = [
+        'id'
     ];
 
     /**

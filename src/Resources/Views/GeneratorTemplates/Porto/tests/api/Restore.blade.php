@@ -34,7 +34,7 @@ class Restore{{ $gen->entityName() }}Cest
     	{{ $gen->entityName() }}::destroy($data->id);
 
     	$I->amBearerAuthenticated($this->user->token);
-        $I->sendPOST(str_replace('{id}', $data->id, $this->endpoint));
+        $I->sendPOST(str_replace('{id}', $data->getHashedKey(), $this->endpoint));
         $I->seeResponseCodeIs(200);
     }
 }

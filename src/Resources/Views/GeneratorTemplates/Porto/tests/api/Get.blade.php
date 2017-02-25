@@ -33,7 +33,7 @@ class Get{{ $gen->entityName() }}Cest
     	$data = factory({{ $gen->entityName() }}::class)->create();
 
     	$I->amBearerAuthenticated($this->user->token);
-        $I->sendGET(str_replace('{id}', $data->id, $this->endpoint));
+        $I->sendGET(str_replace('{id}', $data->getHashedKey(), $this->endpoint));
 
         $I->seeResponseCodeIs(200);
 
