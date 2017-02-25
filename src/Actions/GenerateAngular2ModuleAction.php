@@ -10,6 +10,10 @@ use llstarscreamll\Crud\Tasks\CreateNgContainersTask;
 use llstarscreamll\Crud\Tasks\CreateNgComponentsTask;
 use llstarscreamll\Crud\Tasks\CreateNgTranslationsTask;
 use llstarscreamll\Crud\Tasks\CreateNgModelTask;
+use llstarscreamll\Crud\Tasks\CreateNgActionsTask;
+use llstarscreamll\Crud\Tasks\CreateNgReducerTask;
+use llstarscreamll\Crud\Tasks\CreateNgEffectsTask;
+use llstarscreamll\Crud\Tasks\CreateNgServiceTask;
 
 /**
  * GenerateAngular2ModuleAction Class.
@@ -40,8 +44,24 @@ class GenerateAngular2ModuleAction
         $createNgComponentsTask = new CreateNgComponentsTask($request);
         $createNgComponentsTask->run();
 
-        // generate models
+        // generate model
         $createNgModelTask = new CreateNgModelTask($request);
         $createNgModelTask->run();
+
+        // generate actions
+        $createNgActionsTask = new CreateNgActionsTask($request);
+        $createNgActionsTask->run();
+
+        // generate reducer
+        $createNgReducerTask = new CreateNgReducerTask($request);
+        $createNgReducerTask->run();
+
+        // generate effects
+        $createNgEffectsTask = new CreateNgEffectsTask($request);
+        $createNgEffectsTask->run();
+
+        // generate service
+        $createNgServiceTask = new CreateNgServiceTask($request);
+        $createNgServiceTask->run();
     }
 }

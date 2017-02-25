@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { {{ $gen->moduleClass('routing') }} } from './{{ str_replace('.ts', '', $gen->moduleFile('routing')) }}';
+import { EffectsModule } from '@ngrx/effects';
 // ng2 Translate
 import { TranslateService, TranslateModule } from 'ng2-translate';
 // shell
@@ -15,10 +16,15 @@ import { {{ $gen->componentClass('table', true) }} } from './components/{{ str_r
 
 // Language files
 import { ES } from './translations/es';
+// ngrx
+import { {{ $gen->entityName() }}Effects } from './effects/{{ camel_case($gen->entityName()) }}.effects';
+// services
+import { {{ $service = $gen->entityName().'Service' }} } from './services/{{ camel_case($gen->entityName()) }}.service';
 
 @NgModule({
   imports: [
     CommonModule,
+    EffectsModule.run({{ $gen->entityName() }}Effects),
     TranslateModule,
     Shell,
     {{ $gen->moduleClass('routing') }},
@@ -29,6 +35,9 @@ import { ES } from './translations/es';
 	  {{ $gen->containerClass('list-and-search', true) }},
 	  {{ $gen->componentClass('form', false) }},
 	  {{ $gen->componentClass('table', true) }},
+  ],
+  providers: [
+    {{ $service }}
   ]
 })
 export class {{ $gen->moduleClass('module') }} {

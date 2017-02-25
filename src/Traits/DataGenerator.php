@@ -2,6 +2,8 @@
 
 namespace llstarscreamll\Crud\Traits;
 
+use stdClass;
+
 /**
  * DataGenerator Trait.
  */
@@ -157,7 +159,8 @@ trait DataGenerator
     }
 
     /**
-     * Optiene el tipo de dato nativo del campo, de la base de datos a PHP.
+     * Obtiene el tipo de dato nativo del campo, de la base de datos a PHP para
+     * mapear casting de atributos de modelos.
      *
      * @param stdClass $field
      *
@@ -207,5 +210,42 @@ trait DataGenerator
         }
 
         return $cast;
+    }
+
+    public function jsDataTypeFromField(stdClass $field)
+    {
+        $stringTypes = [
+            'varchar',
+            'char',
+            'text',
+            'enum',
+            'time',
+            'date'
+        ];
+        $intTypes = ['int', 'bigint'];
+        $boolenTypes = ['tinyint', 'bool', 'boolean'];
+        $dateTimeTypes = ['datetime', 'timestamp'];
+
+        if ($field->type == "json") {
+            return "{}";
+        }
+
+        if (in_array($field->type, $boolenTypes)) {
+            return "boolean";
+        }
+
+        if (in_array($field->type, $stringTypes)) {
+            return "string";
+        }
+
+        if (in_array($field->type, $intTypes)) {
+            return "number";
+        }
+
+        if (in_array($field->type, $dateTimeTypes)) {
+            return "{}";
+        }
+
+        return "null";
     }
 }

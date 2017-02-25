@@ -43,7 +43,7 @@ class Generate
         'field[0][relation]' => '',
         'field[0][fillable]' => false,
         'field[0][hidden]' => false,
-        'field[0][on_index_table]' => true,
+        'field[0][on_index_table]' => false,
         'field[0][on_create_form]' => false,
         'field[0][on_update_form]' => false,
         'field[0][label]' => 'Id',

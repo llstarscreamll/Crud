@@ -67,10 +67,35 @@ class GeneratedFilesCest
         $I->seeFileFound('book.module.ts', $moduleDir);
         $I->seeFileFound('book-routing.module.ts', $moduleDir);
 
-        // translation files
+        // models
+        $modelsDir = $moduleDir.'models/';
+        $I->assertTrue(file_exists($modelsDir), 'NG models dir');
+        $I->seeFileFound('book.ts', $modelsDir);
+
+        // translations
         $transDir = $moduleDir.'translations/';
         $I->assertTrue(file_exists($transDir), 'NG translations dir');
         $I->seeFileFound('es.ts', $transDir);
+
+        // actions
+        $actionsDir = $moduleDir.'actions/';
+        $I->assertTrue(file_exists($actionsDir), 'NG actions dir');
+        $I->seeFileFound('book.actions.ts', $actionsDir);
+
+        // reducers
+        $reducersDir = $moduleDir.'reducers/';
+        $I->assertTrue(file_exists($reducersDir), 'NG reducers dir');
+        $I->seeFileFound('book.reducer.ts', $reducersDir);
+
+        // effects
+        $effectsDir = $moduleDir.'effects/';
+        $I->assertTrue(file_exists($effectsDir), 'NG effects dir');
+        $I->seeFileFound('book.effects.ts', $effectsDir);
+
+        // services
+        $servicesDir = $moduleDir.'services/';
+        $I->assertTrue(file_exists($servicesDir), 'NG services dir');
+        $I->seeFileFound('book.service.ts', $servicesDir);
 
         // components
         $componentsDir = $moduleDir.'components/';

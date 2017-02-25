@@ -65,6 +65,31 @@ class CreateAngular2DirsTask
             mkdir($this->containersDir());
         }
 
+        // generate angular models folder
+        if (!file_exists($this->modelsDir())) {
+            mkdir($this->modelsDir());
+        }
+
+        // generate angular reducers folder
+        if (!file_exists($this->actionsDir())) {
+            mkdir($this->actionsDir());
+        }
+
+        // generate angular reducers folder
+        if (!file_exists($this->reducersDir())) {
+            mkdir($this->reducersDir());
+        }
+
+        // generate angular effects folder
+        if (!file_exists($this->effectsDir())) {
+            mkdir($this->effectsDir());
+        }
+
+        // generate angular services folder
+        if (!file_exists($this->servicesDir())) {
+            mkdir($this->servicesDir());
+        }
+
         return true;
     }
 }

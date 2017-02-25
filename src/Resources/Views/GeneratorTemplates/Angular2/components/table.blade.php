@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { {{ $gen->entityName() }} } from './../models/{{ camel_case($gen->entityName()) }}';
 
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}',
@@ -9,11 +10,13 @@ export class {{ $gen->componentClass('table', $plural = true) }} implements OnIn
 	
 	@Input() columns = [
 @foreach ($fields as $field)
-@if ($field->on_index_table)
+@if ($field->on_index_table && !$field->hidden)
 		'{{ $field->name }}',
 @endif
 @endforeach
 	];
+
+	@Input() {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[] = [];
 
   constructor() { }
 

@@ -74,18 +74,18 @@ class GeneratorController extends Controller
                 );
         }
 
-        // switch over what type of CRUD app the user wants to generate
-        // switch ($request->get('app_type')) {
-        //     case 'laravel_package':
-        //         $this->generateLaravelPackageAction->run($request);
-        //         break;
-        //     case 'standard_laravel_app':
-        //         $this->generateStandardLaravelApp->run($request);
-        //         break;
-        //     default:
-        //         session('warning', 'Nothing to generate...');
-        //         break;
-        // }
+        //switch over what type of CRUD app the user wants to generate
+        switch ($request->get('app_type')) {
+            case 'laravel_package':
+                $this->generateLaravelPackageAction->run($request);
+                break;
+            case 'standard_laravel_app':
+                $this->generateStandardLaravelApp->run($request);
+                break;
+            default:
+                session('warning', 'Nothing to generate...');
+                break;
+        }
 
         if ($request->get('create_angular_2_module', false)) {
             $this->generateAngular2ModuleAction->run($request);

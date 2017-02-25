@@ -59,6 +59,15 @@ trait AngularFolderNamesResolver
         return strtoupper($this->entityName());
     }
 
+    public function entityNameSnakeCase($plural = false)
+    {
+        $entity = $plural
+            ? str_plural($this->tableName)
+            : str_singular($this->tableName);
+
+        return strtoupper(snake_case($entity));
+    }
+
     public function slugEntityName($plural = false)
     {
         $entity = $plural
@@ -76,6 +85,26 @@ trait AngularFolderNamesResolver
     public function modelsDir()
     {
         return $this->moduleDir().'/models';
+    }
+
+    public function actionsDir()
+    {
+        return $this->moduleDir().'/actions';
+    }
+
+    public function reducersDir()
+    {
+        return $this->moduleDir().'/reducers';
+    }
+
+    public function effectsDir()
+    {
+        return $this->moduleDir().'/effects';
+    }
+
+    public function servicesDir()
+    {
+        return $this->moduleDir().'/services';
     }
 
     public function componentsDir()
