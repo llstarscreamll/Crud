@@ -1,5 +1,6 @@
 import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ camel_case($gen->entityName()) }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
+import { Pagination } from './../../core/models/pagination';
 
 /**
  * Reducers can't be executed from child modules, only from main module reducer:
@@ -12,7 +13,7 @@ import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case
 
 export interface State {
   {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[];
-  pagination: Object;
+  pagination: Pagination | {};
   {{ camel_case($gen->entityName()) }}: {{ $gen->entityName() }} | null;
   loading: boolean;
   errors: Object

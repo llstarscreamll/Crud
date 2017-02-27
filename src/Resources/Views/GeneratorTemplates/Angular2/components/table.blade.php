@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { {{ $gen->entityName() }} } from './../models/{{ camel_case($gen->entityName()) }}';
+import { Pagination } from './../../core/models/pagination';
 
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}',
@@ -17,6 +18,7 @@ export class {{ $gen->componentClass('table', $plural = true) }} implements OnIn
 	];
 
 	@Input() {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[] = [];
+  @Input() pagination: Pagination;
 
   constructor() { }
 

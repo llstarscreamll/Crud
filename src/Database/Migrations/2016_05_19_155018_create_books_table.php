@@ -13,13 +13,13 @@ class CreateBooksTable extends Migration
     public function up()
     {
         // resons table for test
-        /*Schema::create('reasons', function (Blueprint $table) {
+        Schema::create('reasons', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('code');
             $table->timestamps();
             $table->softDeletes();
-        });*/
+        });
 
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');

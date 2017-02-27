@@ -8,7 +8,10 @@
 	<app-page-content>
 		<app-box>
 			<app-box-body>
-				<{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }} [{{ camel_case($gen->entityName(true)) }}]="({{ camel_case($gen->entityName(true)) }}$ | async)?.{{ camel_case($gen->entityName(true)) }}"></{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}>
+				<{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}
+					[{{ camel_case($gen->entityName(true)) }}]="({{ $state = camel_case($gen->entityName()).'State$' }} | async)?.{{ camel_case($gen->entityName(true)) }}"
+					[pagination]="({{ $state }} | async)?.pagination">
+				</{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}>
 			</app-box-body>
 		</app-box>
 	</app-page-content>

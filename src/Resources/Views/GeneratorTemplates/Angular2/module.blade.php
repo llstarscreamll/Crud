@@ -4,6 +4,7 @@ import { {{ $gen->moduleClass('routing') }} } from './{{ str_replace('.ts', '', 
 import { EffectsModule } from '@ngrx/effects';
 // ng2 Translate
 import { TranslateService, TranslateModule } from 'ng2-translate';
+import { CoreModule } from './../core/core.module';
 // shell
 import { InspiniaShellModule as Shell } from './../../shells/inspinia/inspinia.module';
 // {{ $gen->entityName() }} containers
@@ -13,7 +14,6 @@ import { {{ $gen->containerClass('list-and-search', true) }} } from './container
 // {{ $gen->entityName() }} components
 import { {{ $gen->componentClass('form', false) }} } from './components/{{ str_replace(['.ts'], [''], $gen->componentFile('form', false)) }}';
 import { {{ $gen->componentClass('table', true) }} } from './components/{{ str_replace(['.ts'], [''], $gen->componentFile('table', true)) }}';
-
 // Language files
 import { ES } from './translations/es';
 // ngrx
@@ -26,6 +26,7 @@ import { {{ $service = $gen->entityName().'Service' }} } from './services/{{ cam
     CommonModule,
     EffectsModule.run({{ $gen->entityName() }}Effects),
     TranslateModule,
+    CoreModule,
     Shell,
     {{ $gen->moduleClass('routing') }},
   ],

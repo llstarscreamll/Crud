@@ -1,3 +1,5 @@
+import { Timestamps } from './../../core/models/date';
+
 export class {{ $gen->entityName() }} {
 @foreach ($fields as $field)
 @if (!$field->hidden)

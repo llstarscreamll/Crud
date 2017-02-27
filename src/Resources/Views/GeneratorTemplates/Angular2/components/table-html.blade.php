@@ -30,3 +30,4 @@
 		</tbody>
 	</table>
 </div>
+<app-pagination [pagination]="pagination"></app-pagination>

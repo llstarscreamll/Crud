@@ -243,7 +243,7 @@ trait DataGenerator
         }
 
         if (in_array($field->type, $dateTimeTypes)) {
-            return "{}";
+            return "Timestamps";
         }
 
         return "null";

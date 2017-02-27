@@ -14,12 +14,12 @@ import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case
 })
 export class {{ $gen->containerClass('list-and-search', $plural = true) }} implements OnInit {
 	
-	public {{ camel_case($gen->entityName(true)) }}$: Observable<{{ $reducer.'.State' }}>;
+	public {{ $state = camel_case($gen->entityName()).'State$' }}: Observable<{{ $reducer.'.State' }}>;
 
   public constructor(private store: Store<fromRoot.State>) { }
 
   public ngOnInit() {
-  	this.{{ camel_case($gen->entityName(true)) }}$ = this.store.select(fromRoot.get{{ $gen->entityName() }}State);
+  	this.{{ $state }} = this.store.select(fromRoot.get{{ $gen->entityName() }}State);
   	this.store.dispatch(new {{ $actions  }}.LoadAction(null));
   }
 
