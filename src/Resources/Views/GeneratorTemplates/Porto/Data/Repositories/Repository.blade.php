@@ -20,7 +20,7 @@ class {{ $gen->entityName() }}Repository extends Repository
 {{-- we should have a property fillable for each filed --}}
 @foreach($fields as $field)
 @if($field->fillable)
-        '{{ $field->name }}',
+        '{{ $field->name }}' => 'like',
 @endif
 @endforeach
     ];
