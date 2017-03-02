@@ -18,18 +18,18 @@ class {{ $gen->entityName() }}Transformer extends Transformer
 	/**
 	 * @var array
 	 */
-	protected $availableIncludes = [];
+	protected $availableIncludes = [
+@foreach ($fields as $field)
+@if($field->namespace)
+        '{{ $gen->relationNameFromField($field) }}',
+@endif
+@endforeach
+    ];
 
 	/**
      * @var array
      */
-    protected $defaultIncludes = [
-@foreach ($fields as $field)
-@if($field->namespace)
-		'{{ $gen->relationNameFromField($field) }}',
-@endif
-@endforeach
-    ];
+    protected $defaultIncludes = [];
 
     /**
      * @param App\Containers\{{ $gen->containerName() }}\Models\{{ $gen->entityName() }} ${{ camel_case($entityClass = $gen->entityName()) }}
