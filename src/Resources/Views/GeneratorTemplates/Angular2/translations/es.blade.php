@@ -5,7 +5,7 @@ export const ES = {
     // form fields
     'fields': {
 @foreach ($fields as $field)
-      '{{ $field->name }}': '{{ $field->label }}',
+      '{{ $gen->tableName.'.'.$field->name }}': '{{ $field->label }}',
 @endforeach
     }
   }

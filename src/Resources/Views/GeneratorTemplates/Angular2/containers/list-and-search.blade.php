@@ -21,18 +21,18 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     filter: [
 @foreach ($fields as $field)
 @if ($field->on_index_table && !$field->hidden)
-      '{{ $field->name }}',
+      '{{ $gen->tableName.'.'.$field->name }}',
 @endif
 @endforeach
     ],
     include: {
 @foreach ($fields as $field)
 @if ($field->namespace && !$field->hidden)
-      '{{ $field->name }}': '{{  $gen->relationNameFromField($field)  }}',
+      '{{ $gen->tableName.'.'.$field->name }}': '{{  $gen->relationNameFromField($field)  }}',
 @endif
 @endforeach
     },
-    orderBy: "created_at",
+    orderBy: "{{ $gen->tableName.'.created_at' }}",
     sortedBy: "asc"
   };
 
