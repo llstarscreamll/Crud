@@ -22,9 +22,10 @@
 					[{{ camel_case($gen->entityName(true)) }}]="({{ $state = camel_case($gen->entityName()).'State$' }} | async)?.{{ camel_case($gen->entityName(true)) }}"
 					[orderBy]="queryData.orderBy"
 					[sortedBy]="queryData.sortedBy"
-					[columns]="queryData.filter"
-					[pagination]="({{ $state }} | async)?.pagination">
+					[columns]="queryData.filter">
 				</{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}>
+				<app-pagination [pagination]="({{ $state }} | async)?.pagination"
+								(pageLinkClicked)="onSearch($event)"></app-pagination>
 			</app-box-body>
 		</app-box>
 	</app-page-content>

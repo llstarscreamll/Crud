@@ -11,7 +11,6 @@ export class {{ $gen->componentClass('table', $plural = true) }} implements OnIn
 	
 	@Input() columns = [];
 	@Input() {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[] = [];
-  @Input() pagination: Pagination;
   @Input() sortedBy: String = '';
   @Input() orderBy: String = '';
   @Output() sortLinkClicked = new EventEmitter<Object>();

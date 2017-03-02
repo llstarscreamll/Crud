@@ -33,7 +33,8 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
 @endforeach
     },
     orderBy: "{{ $gen->tableName.'.created_at' }}",
-    sortedBy: "asc"
+    sortedBy: "asc",
+    page: 1
   };
 
   public constructor(private store: Store<fromRoot.State>) { }
