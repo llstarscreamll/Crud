@@ -31,7 +31,9 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
       '{{ $field->name }}': '{{  $gen->relationNameFromField($field)  }}',
 @endif
 @endforeach
-    }
+    },
+    orderBy: "created_at",
+    sortedBy: "asc"
   };
 
   public constructor(private store: Store<fromRoot.State>) { }

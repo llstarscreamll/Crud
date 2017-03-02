@@ -18,7 +18,10 @@
 				</div>
 
 				<{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}
+					(sortLinkClicked)="onSearch($event)"
 					[{{ camel_case($gen->entityName(true)) }}]="({{ $state = camel_case($gen->entityName()).'State$' }} | async)?.{{ camel_case($gen->entityName(true)) }}"
+					[orderBy]="queryData.orderBy"
+					[sortedBy]="queryData.sortedBy"
 					[columns]="queryData.filter"
 					[pagination]="({{ $state }} | async)?.pagination">
 				</{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}>

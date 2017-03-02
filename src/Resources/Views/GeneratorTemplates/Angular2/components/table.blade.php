@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { {{ $gen->entityName() }} } from './../models/{{ camel_case($gen->entityName()) }}';
 import { Pagination } from './../../core/models/pagination';
 
@@ -12,6 +12,9 @@ export class {{ $gen->componentClass('table', $plural = true) }} implements OnIn
 	@Input() columns = [];
 	@Input() {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[] = [];
   @Input() pagination: Pagination;
+  @Input() sortedBy: String = '';
+  @Input() orderBy: String = '';
+  @Output() sortLinkClicked = new EventEmitter<Object>();
   public translateKey: String = "{{ $gen->entityNameUppercase() }}";
 
   constructor() { }
