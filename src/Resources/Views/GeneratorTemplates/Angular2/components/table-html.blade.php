@@ -4,7 +4,7 @@
             <tr>
                 <ng-container *ngFor="let column of columns">
                 <th *ngIf="showColumn(column)" class="{{ '{{' }} column }}">
-                    <span role="button" (click)="sortLinkClicked.emit({'orderBy': column, 'sortedBy': (sortedBy == 'desc' || sortedBy != column) ? 'asc' : 'desc'})">
+                    <span role="button" (click)="sortLinkClicked.emit({'orderBy': column, 'sortedBy': (sortedBy == 'desc' || orderBy != column) ? 'asc' : 'desc'})">
                         {{ '{{' }} translateKey+'.fields.'+column | translate }}
                         <i *ngIf="orderBy == column"
                             [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
