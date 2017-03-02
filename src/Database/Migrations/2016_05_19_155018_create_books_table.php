@@ -12,15 +12,6 @@ class CreateBooksTable extends Migration
      */
     public function up()
     {
-        // resons table for test
-        Schema::create('reasons', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name');
-            $table->string('code');
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
         Schema::create('books', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('reason_id')->unsigned();
@@ -52,6 +43,5 @@ class CreateBooksTable extends Migration
     public function down()
     {
         Schema::drop('books');
-        Schema::drop('reasons');
     }
 }
