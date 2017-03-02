@@ -22,6 +22,9 @@ class {{ $gen->entityName() }}Repository extends Repository
 @if($field->fillable)
         '{{ $field->name }}' => 'like',
 @endif
+@if ($field->namespace && $field->fillable)
+        '{{ $gen->relationNameFromField($field) }}.name' => 'like',
+@endif
 @endforeach
     ];
 @if($gen->hasSoftDeleteColumn)
