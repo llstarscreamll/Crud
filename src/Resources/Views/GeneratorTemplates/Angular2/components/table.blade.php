@@ -10,9 +10,9 @@ import { Pagination } from './../../core/models/pagination';
 export class {{ $gen->componentClass('table', $plural = true) }} implements OnInit {
 	
 	@Input() columns = [];
-
 	@Input() {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[] = [];
   @Input() pagination: Pagination;
+  public translateKey: String = "{{ $gen->entityNameUppercase() }}";
 
   constructor() { }
 

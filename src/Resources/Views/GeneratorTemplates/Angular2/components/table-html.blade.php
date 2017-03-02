@@ -2,13 +2,11 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-@foreach ($fields as $field)
-@if (!$field->hidden)
-				<th *ngIf="showColumn('{{ $field->name }}')" class="{{ $field->name }}">
-					{{ '{{' }} '{{ $gen->entityNameUppercase() }}.fields.{{ $field->name }}' | translate }}
+				<ng-container *ngFor="let column of columns">
+				<th *ngIf="showColumn(column)" class="{{ '{{' }} column }}">
+					<span role="button">{{ '{{' }} translateKey+'.fields.'+column | translate }}</span>
 				</th>
-@endif
-@endforeach
+				</ng-container>
 			</tr>
 		</thead>
 		<tbody>
