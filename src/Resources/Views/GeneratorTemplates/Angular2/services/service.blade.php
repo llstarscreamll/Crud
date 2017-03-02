@@ -24,11 +24,11 @@ export class {{ $entitySin }}Service extends Service {
   /**
    * Process the load {{ $entitySin }} request to the API.
    */
-  public load(): Observable<{{ $entitySin.'Pagination' }}> {
-    console.log('trying to fetch paginated books!!');
+  public load(data: Object = {}): Observable<{{ $entitySin.'Pagination' }}> {
+    let searchParams = this.parseGetParams(data);
 
     return this.http
-      .get(this.apiEndpoint(), {headers: this.headers})
+      .get(this.apiEndpoint(), { headers: this.headers, search: searchParams })
       .map(res => {console.log(res.json()); return res.json()})
       .catch(this.handleError);
   }

@@ -9,13 +9,7 @@ import { Pagination } from './../../core/models/pagination';
 })
 export class {{ $gen->componentClass('table', $plural = true) }} implements OnInit {
 	
-	@Input() columns = [
-@foreach ($fields as $field)
-@if ($field->on_index_table && !$field->hidden)
-		'{{ $field->name }}',
-@endif
-@endforeach
-	];
+	@Input() columns = [];
 
 	@Input() {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[] = [];
   @Input() pagination: Pagination;

@@ -20,7 +20,7 @@ export const ActionTypes = {
 
 export class LoadAction implements Action {
 	type = ActionTypes.LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }};
-	public constructor(public payload: null) {}
+	public constructor(public payload: any) {}
 }
 
 export class LoadSuccessAction implements Action {

@@ -20,9 +20,9 @@ export class {{ $entitySin }}Effects {
 
   @Effect() load{{ $gen->entityName(true) }}$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.ActionTypes.LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }})
-    //.map((action: Action) => action.payload as LoginCredentials)
-    .switchMap(() => {
-      return this.{{ $service }}.load()
+    .map((action: Action) => action.payload)
+    .switchMap((searchData) => {
+      return this.{{ $service }}.load(searchData)
         .map((data: {{ $entitySin.'Pagination' }}) => { return new {{ $actions }}.LoadSuccessAction(data)})
         .catch((error) => {
           error.type = 'danger';
