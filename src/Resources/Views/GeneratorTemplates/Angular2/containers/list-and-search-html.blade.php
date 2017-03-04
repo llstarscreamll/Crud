@@ -1,7 +1,7 @@
 <app-sidebar-layout>
 	<app-page-header>
 		<div class="col-xs-12">
-			<h2 translate>{{ $gen->entityNameUppercase() }}.module-name-plural</h2>
+			<h2 translate>{{ $upEntity = $gen->entityNameUppercase() }}.module-name-plural</h2>
 		</div>
 	</app-page-header>
 	
@@ -11,6 +11,10 @@
 
 				<div class="row">
 					<div class="col-md-6">
+						<a [routerLink]="[ '/{{ camel_case($gen->entityName()) }}/create' ]" class="btn btn-default">
+							<i class="glyphicon glyphicon-plus"></i>
+							<span translate>{{ $upEntity }}.create</span>
+						</a>
 					</div>
 					<div class="col-md-6">
 						<app-basic-search class="m-b-lg" (search)="onSearch($event)"></app-basic-search>
