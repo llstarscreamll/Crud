@@ -31,6 +31,8 @@ class GeneratedFilesCest
             $I->copyDir($migrationFile, base_path('../hello/app/Containers/Book/Data/Migrations'));
             // copy generated container on Hello-API project for test the final app there
             $I->copyDir(app_path('Containers/Book'), base_path('../hello/app/Containers/Book'));
+            // delete unnecessary copied migration file
+            $I->deleteFile(base_path('../hello/app/Containers/Book/Data/Migrations/2016_03_01_222942_create_reasons_table.php'));
         }
 
         if (file_exists(app_path("/Angular2/Book"))) {
@@ -56,7 +58,7 @@ class GeneratedFilesCest
         $I->submitForm('form[name=CRUD-form]', $data);
 
         $this->checkAngular2ModuleGeneration($I);
-        //$this->checkPortoFilesGeneration($I);
+        $this->checkPortoFilesGeneration($I);
     }
 
     private function checkAngular2ModuleGeneration($I)
@@ -180,6 +182,7 @@ class GeneratedFilesCest
         // API entity tests
         $apiTestsFolder = $testDir.'api/'.$this->entity;
         $I->assertTrue(file_exists($apiTestsFolder), 'entity api tests dir');
+        $I->seeFileFound('BookFormModelCest.php', $apiTestsFolder);
         $I->seeFileFound('ListAndSearch'.str_plural($this->entity).'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Create'.$this->entity.'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Get'.$this->entity.'Cest.php', $apiTestsFolder);
@@ -209,6 +212,7 @@ class GeneratedFilesCest
         // generated API routes
         $apiRoutesDir = $apiDir.'/Routes';
         $I->assertTrue(file_exists($apiRoutesDir), 'API/Routes dir');
+        $I->seeFileFound('BookFormModel.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('ListAndSearchBooks.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('CreateBook.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('UpdateBook.v1.private.php', $apiRoutesDir);

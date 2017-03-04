@@ -23,6 +23,18 @@ trait FolderNamesResolver
         return studly_case(str_singular($this->tableName));
     }
 
+    /**
+     * TODO: duplicated method!! is on AngularFolderNamesResolver too... clean!!
+     */
+    public function slugEntityName($plural = false)
+    {
+        $entity = $plural
+            ? str_plural($this->tableName)
+            : str_singular($this->tableName);
+
+        return str_slug($entity, '-');
+    }
+
     public function containerName()
     {
         return studly_case(str_singular($this->container));
@@ -166,7 +178,15 @@ trait FolderNamesResolver
             ? str_plural($this->entityName())
             : $this->entityName();
 
-        return $test.$entity.'Cest.php';
+        // TODO: may be we should have a method parameter to decide if put the
+        // entity name at the start or the final of the string
+         
+        // for the FormModel test we put the entity name at the string beginning
+        $baseName = $test == "FormModel"
+            ? $entity.$test
+            : $test.$entity;
+
+        return $baseName.'Cest.php';
     }
 
     /**

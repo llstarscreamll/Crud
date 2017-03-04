@@ -41,6 +41,7 @@ class CreateCodeceptionTestsTask
         'Delete',
         'Restore',
         'ListAndSearch',
+        'FormModel',
     ];
 
     private $codecept = "/home/vagrant/.composer/vendor/bin/codecept";
