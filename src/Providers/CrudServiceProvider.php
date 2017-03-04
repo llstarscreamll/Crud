@@ -80,6 +80,9 @@ class CrudServiceProvider extends ServiceProvider
 
         // cargamos las migraciones del paquete
         $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
+
+        // cargamos los archivos de idioma
+        $this->loadTranslationsFrom(__DIR__.'/../Lang', 'crud');
     }
 
     /**
