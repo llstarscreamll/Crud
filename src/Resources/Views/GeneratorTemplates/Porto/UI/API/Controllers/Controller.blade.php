@@ -25,7 +25,7 @@ class Controller extends ApiController
 {
 	public function formModel(Request $request)
 	{
-		$model = config('{{ strtolower($gen->containerName()) }}::formModels.'.$request->model);
+		$model = config('{{ strtolower($gen->containerName()) }}::form-models.'.$request->model);
 
 		if (empty($model) || !array_has((array)$model, 'model')) {
             return $this->response->errorNotFound();
