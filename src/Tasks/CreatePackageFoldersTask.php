@@ -43,6 +43,11 @@ class CreatePackageFoldersTask
             mkdir($this->actionsFolder());
         }
 
+        // Generate Configs folder
+        if (!file_exists($this->configsFolder())) {
+            mkdir($this->configsFolder());
+        }
+
         // Generate Exceptions folder
         if (!file_exists($this->exceptionsFolder())) {
             mkdir($this->exceptionsFolder());

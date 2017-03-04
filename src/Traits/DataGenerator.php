@@ -3,6 +3,7 @@
 namespace llstarscreamll\Crud\Traits;
 
 use stdClass;
+use Illuminate\Support\Collection;
 
 /**
  * DataGenerator Trait.
@@ -84,6 +85,55 @@ trait DataGenerator
             : null;
 
         return collect($fields);
+    }
+
+    public function getFormModelConfigArray(Collection $fields)
+    {
+        $config = [];
+
+        foreach ($fields as $field) {
+            $fieldConfig = [];
+
+            $fieldConfig['type'] = $this->getWidgetType($field);
+
+            $config[$field->name] = $fieldConfig;
+        }
+
+        $config['model'] = $this->slugEntityName();
+
+        return $config;
+    }
+
+    public function getWidgetType($field)
+    {
+        $type = "";
+
+        switch ($field->type) {
+            case 'enum':
+                $type = "radiobutton";
+                break;
+
+            case 'bigint':
+            case 'int':
+            case 'float':
+            case 'double':
+                $type = "number";
+                break;
+
+            case 'tinyint':
+                $type = "checkbox";
+                break;
+
+            case 'text':
+                $type = "textarea";
+                break;
+            
+            default:
+                $type = "text";
+                break;
+        }
+
+        return $type;
     }
 
     public function getFakeData($field, bool $onlyFaker = false)

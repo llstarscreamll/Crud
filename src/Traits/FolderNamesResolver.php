@@ -60,6 +60,11 @@ trait FolderNamesResolver
         return $this->containerFolder().'/Actions';
     }
 
+    public function configsFolder()
+    {
+        return $this->containerFolder().'/Configs';
+    }
+
     public function exceptionsFolder()
     {
         return $this->containerFolder().'/Exceptions';

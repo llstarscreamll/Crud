@@ -136,6 +136,12 @@ class GeneratedFilesCest
         $I->seeFileFound('DeleteBookAction.php', $actionsDir);
         $I->seeFileFound('RestoreBookAction.php', $actionsDir);
 
+        // Configs folder
+        $configsDir = app_path('Containers/'.$this->package.'/Configs');
+        $I->assertTrue(file_exists($configsDir), 'Configs dir');
+        $I->assertTrue(file_exists($configsDir.'/form-models'), 'Configs/form-models dir');
+        $I->seeFileFound('book.php', $configsDir.'/form-models');
+
         // Data folders
         $dataDir = app_path('Containers/'.$this->package.'/Data');
         $I->assertTrue(file_exists($dataDir), 'Data dir');
