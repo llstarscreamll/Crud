@@ -180,7 +180,7 @@ trait FolderNamesResolver
 
         // TODO: may be we should have a method parameter to decide if put the
         // entity name at the start or the final of the string
-         
+
         // for the FormModel test we put the entity name at the string beginning
         $baseName = $test == "FormModel"
             ? $entity.$test
@@ -224,7 +224,14 @@ trait FolderNamesResolver
             ? str_plural($this->entityName())
             : $this->entityName();
 
-        return $route.$entity.'.v1.private.php';
+        // TODO: may be we should have a method parameter to decide if put the
+        // entity name at the start or the final of the string
+
+        $baseName = $route == "FormModel"
+            ? $entity.$route
+            : $route.$entity;
+
+        return $baseName.'.v1.private.php';
     }
 
     public function apiRequestFile(string $request, bool $plural = false)

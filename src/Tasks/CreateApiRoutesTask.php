@@ -42,6 +42,7 @@ class CreateApiRoutesTask
         'Delete',
         'Restore',
         'ListAndSearch',
+        'FormModel'
     ];
 
     /**
