@@ -6,7 +6,9 @@ import { {{ $entitySin.'Pagination' }} } from './../models/{{ camel_case($entity
 export const ActionTypes = {
 	LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }}: type('[{{ $entitySin }}] Load {{ $entityPlu = $gen->entityName(true) }}'),
 	LOAD_{{ $entitySnakePlu }}_SUCCESS: type('[{{ $entitySin }}] Load {{ $entityPlu }} Success'),
-	GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}: type('[{{ $entitySin }}] Get {{ $entitySin }}'),
+	GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}_FORM_MODEL: type('[{{ $entitySin }}] Get {{ $entitySin }} Form Model'),
+	GET_{{ $entitySnakeSin }}_FORM_MODEL_SUCCESS: type('[{{ $entitySin }}] Get {{ $entitySin }} Form Model Success'),
+	GET_{{ $entitySnakeSin}}: type('[{{ $entitySin }}] Get {{ $entitySin }}'),
 	GET_{{ $entitySnakeSin }}_SUCCESS: type('[{{ $entitySin }}] Get {{ $entitySin }} Success'),
 	CREATE_{{ $entitySnakeSin }}: type('[{{ $entitySin }}] Create {{ $entitySin }}'),
 	CREATE_{{ $entitySnakeSin }}_SUCCESS: type('[{{ $entitySin }}] Create {{ $entitySin }} Success'),
@@ -19,7 +21,7 @@ export const ActionTypes = {
 }
 
 export class LoadAction implements Action {
-	type = ActionTypes.LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }};
+	type = ActionTypes.LOAD_{{ $entitySnakePlu }};
 	public constructor(public payload: any) {}
 }
 
@@ -28,8 +30,18 @@ export class LoadSuccessAction implements Action {
 	public constructor(public payload: {{ $entitySin.'Pagination' }} ) {}
 }
 
+export class GetFormModelAction implements Action {
+	type = ActionTypes.GET_{{ $entitySnakeSin }}_FORM_MODEL;
+	public constructor(public payload: null) {}
+}
+
+export class GetFormModelSuccessAction implements Action {
+	type = ActionTypes.GET_{{ $entitySnakeSin }}_FORM_MODEL_SUCCESS;
+	public constructor(public payload: {}) {}
+}
+
 export class GetAction implements Action {
-	type = ActionTypes.GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }};
+	type = ActionTypes.GET_{{ $entitySnakeSin }};
 	public constructor(public payload: null) {}
 }
 
@@ -81,6 +93,8 @@ export class RestoreSuccessAction implements Action {
 export type Actions
 	= LoadAction
 	| LoadSuccessAction
+	| GetFormModelAction
+	| GetFormModelSuccessAction
 	| GetAction
 	| GetSuccessAction
 	| CreateAction

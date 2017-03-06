@@ -12,6 +12,7 @@ import { Pagination } from './../../core/models/pagination';
  */
 
 export interface State {
+  {{ camel_case($gen->entityName()) }}FormModel: Object;
   {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[];
   pagination: Pagination | {};
   {{ camel_case($gen->entityName()) }}: {{ $gen->entityName() }} | null;
@@ -20,6 +21,7 @@ export interface State {
 }
 
 const initialState: State = {
+  {{ camel_case($gen->entityName()) }}FormModel: {},
   {{ $modelPlu = camel_case($gen->entityName(true)) }}: [],
   pagination: {},
   {{ $modelSin = camel_case($gen->entityName()) }}: null,
@@ -30,28 +32,25 @@ const initialState: State = {
 export function reducer(state = initialState, action: {{ $actions }}.Actions): State {
   switch (action.type) {
     case {{ $actions }}.ActionTypes.LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }}: {
-      return {
-        {{ $modelPlu }}: state.{{ $modelPlu }},
-        pagination: state.pagination,
-        {{ $modelSin }}: state.{{ $modelSin }},
-        loading: true,
-        errors: state.errors
-      };
+      return { ...state, loading: true };
     }
 
     case {{ $actions }}.ActionTypes.LOAD_{{ $entitySnakePlu }}_SUCCESS: {
       let {{ $modelSin }} = action.payload.data as {{ $gen->entityName() }}[];
       let pagination = action.payload.meta.pagination;
-      return {
-        {{ $modelPlu }}: {{ $modelSin }},
-        {{ $modelSin }}: state.{{ $modelSin }},
-        pagination: pagination,
-        loading: false,
-        errors: state.errors
-      };
+      return { ...state, {{ $modelPlu }}: {{ $modelSin }}, pagination: pagination, loading: false };
+    }
+    
+    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}_FORM_MODEL: {
+      return { ...state, loading: true };
+    }
+
+    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_FORM_MODEL_SUCCESS: {
+      return { ...state, {{ camel_case($gen->entityName()) }}FormModel: action.payload, loading: false };
     }
 /*
-    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}: {
+
+    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}: {
       return {};
     }
 

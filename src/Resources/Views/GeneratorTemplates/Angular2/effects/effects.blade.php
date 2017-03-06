@@ -30,4 +30,15 @@ export class {{ $entitySin }}Effects {
         })
     });
 
+  @Effect() get{{ $camelEntity }}FormModel$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }}_FORM_MODEL)
+    .switchMap(() => {
+      return this.{{ $service }}.get{{ $gen->entityName() }}FormModel()
+        .map((data) => { return new {{ $actions }}.GetFormModelSuccessAction(data)})
+        .catch((error) => {
+          error.type = 'danger';
+          return of(new appMsgActions.Flash(error))
+        })
+    });
+
 }

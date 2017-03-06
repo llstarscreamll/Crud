@@ -11,7 +11,7 @@
 	<app-page-content>
 		<app-box>
 			<app-box-body>
-				{{-- dynamic form builder --}}
+				<pre>{{ '{{' }} {{ $state = camel_case($gen->entityName()).'State$' }} | async | json }}</pre>
 				<app-dynamic-form></app-dynamic-form>
 			</app-box-body>
 		</app-box>
