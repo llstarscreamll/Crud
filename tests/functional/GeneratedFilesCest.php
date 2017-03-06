@@ -27,10 +27,11 @@ class GeneratedFilesCest
     {
         if (file_exists(app_path("/Containers/").$this->package)) {
             // this step should be donde by user, but for testing purposes we do here
-            $migrationFile = base_path("llstarscreamll/Crud/src/Database/Migrations");
-            $I->copyDir($migrationFile, base_path('../hello/app/Containers/Book/Data/Migrations'));
             // copy generated container on Hello-API project for test the final app there
             $I->copyDir(app_path('Containers/Book'), base_path('../hello/app/Containers/Book'));
+            // copy migration file
+            $migrationFile = base_path("llstarscreamll/Crud/src/Database/Migrations");
+            $I->copyDir($migrationFile, base_path('../hello/app/Containers/Book/Data/Migrations'));
             // delete unnecessary copied migration file
             $I->deleteFile(base_path('../hello/app/Containers/Book/Data/Migrations/2016_03_01_222942_create_reasons_table.php'));
         }
@@ -139,8 +140,7 @@ class GeneratedFilesCest
         // Configs folder
         $configsDir = app_path('Containers/'.$this->package.'/Configs');
         $I->assertTrue(file_exists($configsDir), 'Configs dir');
-        $I->assertTrue(file_exists($configsDir.'/form-models'), 'Configs/form-models dir');
-        $I->seeFileFound('book.php', $configsDir.'/form-models');
+        $I->seeFileFound('book-form-model.php', $configsDir);
 
         // Data folders
         $dataDir = app_path('Containers/'.$this->package.'/Data');

@@ -49,28 +49,18 @@ class CreateFormModelConfigTask
     {
         $file = $this->slugEntityName();
 
-        $factoryFile = $this->createModelFormsConfigDir()."/{$file}.php";
+        $factoryFile = $this->configsFolder()."/{$file}-form-model.php";
         $template = $this->templatesDir().'.Porto.Configs.form-model';
 
         $content = view($template, [
             'gen' => $this,
             'fields' => $this->parseFields($this->request)
-            ]);
+        ]);
 
         file_put_contents($factoryFile, $content) === false
             ? session()->push('error', "Error creating form model config file")
             : session()->push('success', "Form model config creation success");
 
         return true;
-    }
-
-    private function createModelFormsConfigDir()
-    {
-        $dir = $this->configsFolder().'/form-models';
-        if (!file_exists($dir)) {
-            mkdir($dir);
-        }
-
-        return $dir;
     }
 }

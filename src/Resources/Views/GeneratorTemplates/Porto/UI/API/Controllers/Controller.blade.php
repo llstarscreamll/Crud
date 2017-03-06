@@ -25,13 +25,13 @@ class Controller extends ApiController
 {
 	public function formModel(Request $request)
 	{
-		$model = config('{{ strtolower($gen->containerName()) }}::form-models.'.$request->model);
+		$model = config($request->model.'-form-model');
 
 		if (empty($model) || !array_has((array)$model, 'model')) {
             return $this->response->errorNotFound();
         }
 
-		return $this->response->array();
+		return $this->response->array($model);
 	}
 
 	public function listAndSearch{{ str_plural($gen->entityName()) }}({{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural = true)) }} $request, {{ $gen->actionClass('ListAndSearch', $plural = true) }} $action)

@@ -23,7 +23,7 @@ class {{ $gen->entityName() }}FormModelCest
     {
     }
 
-    public function tryToTestCreate{{ $gen->entityName() }}(ApiTester $I)
+    public function tryToRequestFormModelConfig{{ $gen->entityName() }}(ApiTester $I)
     {
         $I->amBearerAuthenticated($this->user->token);
         
