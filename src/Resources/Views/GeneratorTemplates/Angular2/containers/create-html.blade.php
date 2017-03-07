@@ -11,8 +11,8 @@
 	<app-page-content>
 		<app-box>
 			<app-box-body>
-				<pre>{{ '{{' }} {{ $state = camel_case($gen->entityName()).'State$' }} | async | json }}</pre>
-				<app-dynamic-form></app-dynamic-form>
+				<app-dynamic-form [model]="(bookState$ | async)?.bookFormModel"
+								  [controls]="bookForm"></app-dynamic-form>
 			</app-box-body>
 		</app-box>
 	</app-page-content>

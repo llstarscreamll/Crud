@@ -3,6 +3,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
+import { FormModelParser } from './../../core/services/formModelParser';
 
 import * as appMsgActions from './../../core/actions/appMessage';
 import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ camel_case($entitySin)."Pagination" }}';
@@ -16,6 +17,7 @@ export class {{ $entitySin }}Effects {
 	public constructor(
     private actions$: Actions,
     private {{ $service = $camelEntity.'Service' }}: {{ $entitySin }}Service,
+    private formModelParser: FormModelParser
   ) { }
 
   @Effect() load{{ $gen->entityName(true) }}$: Observable<Action> = this.actions$
@@ -34,6 +36,7 @@ export class {{ $entitySin }}Effects {
     .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }}_FORM_MODEL)
     .switchMap(() => {
       return this.{{ $service }}.get{{ $gen->entityName() }}FormModel()
+        .map((data) => this.formModelParser.parse(data, '{{ strtoupper($gen->entityName()) }}.fields.{{ camel_case($gen->entityName(true)) }}.'))
         .map((data) => { return new {{ $actions }}.GetFormModelSuccessAction(data)})
         .catch((error) => {
           error.type = 'danger';
