@@ -17,7 +17,11 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
 	
 	public {{ $state = camel_case($gen->entityName()).'State$' }}: Observable<{{ $reducer.'.State' }}>;
 
+  /**
+   * The search query options.
+   */
   public queryData: Object = {
+    // here we decide what columns to retrive from API
     filter: [
 @foreach ($fields as $field)
 @if ($field->on_index_table && !$field->hidden)
@@ -25,6 +29,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
 @endif
 @endforeach
     ],
+    // the relations map, you know, we need some fields for eager load certain relations
     include: {
 @foreach ($fields as $field)
 @if ($field->namespace && !$field->hidden)
@@ -44,8 +49,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
   	this.onSearch();
   }
 
-  public onSearch(data: Object = {})
-  {
+  public onSearch(data: Object = {}) {
     this.queryData = _.merge({}, this.queryData, data);
     this.store.dispatch(new bookActions.LoadAction(this.queryData));
   }
