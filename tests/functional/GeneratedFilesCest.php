@@ -190,6 +190,7 @@ class GeneratedFilesCest
         $apiTestsFolder = $testDir.'api/'.$this->entity;
         $I->assertTrue(file_exists($apiTestsFolder), 'entity api tests dir');
         $I->seeFileFound('BookFormModelCest.php', $apiTestsFolder);
+        $I->seeFileFound('BookFormDataCest.php', $apiTestsFolder);
         $I->seeFileFound('ListAndSearch'.str_plural($this->entity).'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Create'.$this->entity.'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Get'.$this->entity.'Cest.php', $apiTestsFolder);

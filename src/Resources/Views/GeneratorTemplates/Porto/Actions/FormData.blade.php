@@ -10,17 +10,17 @@ use {{ $gen->namespacedRepoFromModelNamespace($field->namespace) }};
 use App\Ship\Parents\Actions\Action;
 
 /**
- * {{ $gen->actionClass('Get') }} Class.
+ * {{ $gen->actionClass('FormData', false, true) }} Class.
  */
-class {{ $gen->actionClass('Get') }} extends Action
+class {{ $gen->actionClass('FormData', false, true) }} extends Action
 {
 	/**
-	 * Creates new {{ $gen->actionClass('Get') }} class instance.
+	 * Creates new {{ $gen->actionClass('FormData', false, true) }} class instance.
 	 */
 	public function __construct(
-@foreach ($fields as $field)
+@foreach ($fields->filter(function($value) {return $value->namespace;}) as $field)
 @if ($field->namespace)
-		{{ class_basename($namespace = $gen->namespacedRepoFromModelNamespace($field->namespace)) }} {{ $gen->variableFromNamespace($namespace) }},
+		{{ class_basename($namespace = $gen->namespacedRepoFromModelNamespace($field->namespace)) }} {{ $gen->variableFromNamespace($namespace) }} {{ $loop->last === true ? '' : ',' }}
 @endif
 @endforeach
 	) {

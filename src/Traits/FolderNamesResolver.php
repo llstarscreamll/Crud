@@ -184,17 +184,13 @@ trait FolderNamesResolver
         return $this->containerFolder().'/tests/api';
     }
 
-    public function apiTestFile(string $test, bool $plural = false)
+    public function apiTestFile(string $test, bool $plural = false, $atStart)
     {
         $entity = $plural
             ? str_plural($this->entityName())
             : $this->entityName();
 
-        // TODO: may be we should have a method parameter to decide if put the
-        // entity name at the start or the final of the string
-
-        // for the FormModel test we put the entity name at the string beginning
-        $baseName = $test == "FormModel"
+        $baseName = $atStart
             ? $entity.$test
             : $test.$entity;
 
