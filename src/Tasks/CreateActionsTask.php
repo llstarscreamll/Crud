@@ -42,6 +42,7 @@ class CreateActionsTask
         'Delete',
         'Restore',
         'ListAndSearch',
+        'FormData',
     ];
 
     /**
@@ -65,8 +66,9 @@ class CreateActionsTask
         
         foreach ($this->files as $file) {
             $plural = ($file == "ListAndSearch") ? true : false;
+            $atStart = in_array($file, ['FormData']) ? true : false;
 
-            $actionFile = $this->actionsFolder()."/{$this->entityName()}/".$this->actionFile($file, $plural);
+            $actionFile = $this->actionsFolder()."/{$this->entityName()}/".$this->actionFile($file, $plural, $atStart);
             $template = $this->templatesDir().'.Porto/Actions/'.$file;
 
             $content = view($template, [

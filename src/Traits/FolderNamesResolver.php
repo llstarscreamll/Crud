@@ -88,11 +88,11 @@ trait FolderNamesResolver
 
     public function variableFromNamespace(string $namespace, bool $singular = true)
     {
-        if (!$singular) {
-            $variable = str_plural(class_basename($namespace));
-        }
-
         $variable = $this->camelCaseClass($namespace);
+        
+        if (!$singular) {
+            $variable = str_plural($variable);
+        }
 
         return '$'.$variable;
     }
@@ -137,6 +137,13 @@ trait FolderNamesResolver
     /**
      * Repositories.
      */
+    
+    public function namespacedRepoFromModelNamespace(string $namespace)
+    {
+        $repo = str_replace('Models', 'Data\Repositories', $namespace).'Repository';
+
+        return $repo;
+    }
     
     public function repositoriesFolder()
     {

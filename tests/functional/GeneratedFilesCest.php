@@ -131,6 +131,7 @@ class GeneratedFilesCest
         $actionsDir = app_path('Containers/'.$this->package.'/Actions/'.$this->entity);
         $I->assertTrue(file_exists($actionsDir), 'Actions dir');
         $I->seeFileFound('ListAndSearchBooksAction.php', $actionsDir);
+        $I->seeFileFound('BookFormDataAction.php', $actionsDir);
         $I->seeFileFound('CreateBookAction.php', $actionsDir);
         $I->seeFileFound('GetBookAction.php', $actionsDir);
         $I->seeFileFound('UpdateBookAction.php', $actionsDir);
