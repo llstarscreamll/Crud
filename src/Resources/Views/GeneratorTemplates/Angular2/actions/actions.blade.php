@@ -37,7 +37,7 @@ export class GetFormModelAction implements Action {
 
 export class GetFormModelSuccessAction implements Action {
 	type = ActionTypes.GET_{{ $entitySnakeSin }}_FORM_MODEL_SUCCESS;
-	public constructor(public payload: { model: { }, formGroup: { } }) { }
+	public constructor(public payload: Object) { }
 }
 
 export class GetAction implements Action {

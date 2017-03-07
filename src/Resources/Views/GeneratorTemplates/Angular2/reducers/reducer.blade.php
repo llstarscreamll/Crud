@@ -14,7 +14,6 @@ import { Pagination } from './../../core/models/pagination';
 
 export interface State {
   {{ camel_case($gen->entityName()) }}FormModel: Object;
-  {{ camel_case($gen->entityName()) }}FormGroup: FormGroup | null;
   {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[];
   pagination: Pagination | {};
   {{ camel_case($gen->entityName()) }}: {{ $gen->entityName() }} | null;
@@ -24,7 +23,6 @@ export interface State {
 
 const initialState: State = {
   {{ camel_case($gen->entityName()) }}FormModel: {},
-  {{ camel_case($gen->entityName()) }}FormGroup: null,
   {{ $modelPlu = camel_case($gen->entityName(true)) }}: [],
   pagination: {},
   {{ $modelSin = camel_case($gen->entityName()) }}: null,
@@ -49,7 +47,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_FORM_MODEL_SUCCESS: {
-      return { ...state, {{ camel_case($gen->entityName()) }}FormModel: action.payload.model, {{ camel_case($gen->entityName()) }}FormGroup: action.payload.formGroup, loading: false };
+      return { ...state, {{ camel_case($gen->entityName()) }}FormModel: action.payload, loading: false };
     }
 /*
 
@@ -100,7 +98,6 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
  }
 
   export const get{{ $entity = $gen->entityName() }}FormModel = (state: State) => state.{{ camel_case($entity) }}FormModel;
-  export const get{{ $entity }}FormGroup = (state: State) => state.{{ camel_case($entity) }}FormGroup;
 
 /**
   Don't forget to import these reducer on the main app reducer!!
@@ -118,5 +115,4 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
   // Book selectors
   export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
   export const get{{ $entity }}FormModel = createSelector(get{{ $entity }}State, fromBook.get{{ $entity }}FormModel);
-  export const get{{ $entity }}FormGroup = createSelector(get{{ $entity }}State, fromBook.get{{ $entity }}FormGroup);
  */
