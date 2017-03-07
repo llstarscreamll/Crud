@@ -42,6 +42,7 @@ class CreateCodeceptionTestsTask
         'Restore',
         'ListAndSearch',
         'FormModel',
+        'FormData',
     ];
 
     private $codecept = "/home/vagrant/.composer/vendor/bin/codecept";
@@ -183,14 +184,15 @@ class CreateCodeceptionTestsTask
 
         foreach ($this->files as $file) {
             $plural = ($file == 'ListAndSearch') ? true : false;
+            $atStart = in_array($file, ['FormData', 'FormModel']) ? true : false;
 
-            $testFile = $this->apiTestsFolder()."/{$this->entityName()}/".$this->apiTestFile($file, $plural);
+            $testFile = $this->apiTestsFolder()."/{$this->entityName()}/".$this->apiTestFile($file, $plural, $atStart);
             $template = $this->templatesDir().'.Porto/tests/api/'.$file;
 
             $content = view($template, [
                 'gen' => $this,
                 'fields' => $this->parseFields($this->request)
-                ]);
+            ]);
 
             file_put_contents($testFile, $content) === false
                 ? session()->push('error', "Error creating $file api test file")
