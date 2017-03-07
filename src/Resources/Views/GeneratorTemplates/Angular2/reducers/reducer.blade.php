@@ -3,15 +3,6 @@ import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ 
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 import { Pagination } from './../../core/models/pagination';
 
-/**
- * Reducers can't be executed from child modules, only from main module reducer:
- * https://github.com/ngrx/store/issues/211
- * 
- * The community have requested this feature but isn't implemented yet, but it's
- * schedule for @ngrx/store version 3:
- * https://gist.github.com/MikeRyan52/5d361681ed0c81e38775dd2db15ae202
- */
-
 export interface State {
   {{ camel_case($gen->entityName()) }}FormModel: Object;
   {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[];
