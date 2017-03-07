@@ -5,4 +5,5 @@ return [
 	'edit-link' => 'Editar',
 	'delete-link' => 'Borrar',
 	'restore-link' => 'Restaurar',
+	'yes' => 'Si',
 ];
