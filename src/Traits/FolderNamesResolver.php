@@ -287,18 +287,22 @@ trait FolderNamesResolver
      * Actions
      */
 
-    public function actionFile(string $action, bool $plural = false)
+    public function actionFile(string $action, bool $plural = false, bool $atStart = false)
     {
         $entity = $plural
             ? str_plural($this->entityName())
             : $this->entityName();
 
-        return $action.$entity.'Action.php';
+        $baseName = $atStart === true
+            ? $entity.$action
+            : $action.$entity;
+
+        return $baseName.'Action.php';
     }
 
-    public function actionClass(string $action, bool $plural = false)
+    public function actionClass(string $action, bool $plural = false, bool $atStart = false)
     {
-        $actionFile = $this->actionFile($action, $plural);
+        $actionFile = $this->actionFile($action, $plural, $atStart);
         $actionClass = str_replace('.php', '', $actionFile);
 
         return $actionClass;
