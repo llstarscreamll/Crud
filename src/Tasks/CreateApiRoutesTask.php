@@ -42,7 +42,8 @@ class CreateApiRoutesTask
         'Delete',
         'Restore',
         'ListAndSearch',
-        'FormModel'
+        'FormModel',
+        'FormData',
     ];
 
     /**
@@ -64,8 +65,9 @@ class CreateApiRoutesTask
     {
         foreach ($this->files as $file) {
             $plural = ($file == "ListAndSearch") ? true : false;
+            $atStart = in_array($file, ['FormModel', 'FormData',]) ? true : false;
 
-            $actionFile = $this->apiRoutesFolder().'/'.$this->apiRouteFile($file, $plural);
+            $actionFile = $this->apiRoutesFolder().'/'.$this->apiRouteFile($file, $plural, $atStart);
             $template = $this->templatesDir().'.Porto/UI/API/Routes/'.$file;
 
             $content = view($template, ['gen' => $this]);

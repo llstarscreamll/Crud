@@ -219,6 +219,7 @@ class GeneratedFilesCest
         $apiRoutesDir = $apiDir.'/Routes';
         $I->assertTrue(file_exists($apiRoutesDir), 'API/Routes dir');
         $I->seeFileFound('BookFormModel.v1.private.php', $apiRoutesDir);
+        $I->seeFileFound('BookFormData.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('ListAndSearchBooks.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('CreateBook.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('UpdateBook.v1.private.php', $apiRoutesDir);

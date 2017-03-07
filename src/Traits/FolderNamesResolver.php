@@ -223,16 +223,13 @@ trait FolderNamesResolver
         return $this->apiFolder().'/Transformers';
     }
 
-    public function apiRouteFile(string $route, bool $plural = false)
+    public function apiRouteFile(string $route, bool $plural = false, bool $atStart = false)
     {
         $entity = $plural
             ? str_plural($this->entityName())
             : $this->entityName();
 
-        // TODO: may be we should have a method parameter to decide if put the
-        // entity name at the start or the final of the string
-
-        $baseName = $route == "FormModel"
+        $baseName = $atStart === true
             ? $entity.$route
             : $route.$entity;
 
