@@ -27,7 +27,7 @@ class Controller extends ApiController
 	{
 		$model = config($request->model.'-form-model');
 
-		if (empty($model) || !array_has((array)$model, 'model')) {
+		if (empty($model)) {
             return $this->response->errorNotFound();
         }
 
