@@ -9,6 +9,13 @@ export const ES = {
     'fields': {
 @foreach ($fields as $field)
       '{{ $gen->tableName.'.'.$field->name }}': '{{ $field->label }}',
+@if ($field->type == "enum")
+      '{{ $gen->tableName.'.'.$field->name }}-options': {
+@foreach ($gen->getEnumValuesArray($field->name) as $option)
+        '{{ $option }}': '{{ $option }}',
+@endforeach
+      },
+@endif
 @endforeach
     }
   }

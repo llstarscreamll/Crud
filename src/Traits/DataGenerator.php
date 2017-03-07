@@ -43,7 +43,7 @@ trait DataGenerator
         $fields = array();
 
         foreach ($request->get('field') as $field_data) {
-            $field = new \stdClass();
+            $field = new stdClass();
             $field->name = $field_data['name'];
             $field->label = $field_data['label'];
             $field->type = $field_data['type'];
@@ -94,12 +94,37 @@ trait DataGenerator
         foreach ($fields as $field) {
             $fieldConfig = [];
 
+            if (!$field->fillable && $field->hidden) {
+                continue;
+            }
+
             $fieldConfig['type'] = $this->getWidgetType($field);
+
+            if (isset($field->placeholder)) {
+                $fieldConfig['placeholder'] = $field->placeholder;
+            }
+
+            if ($field->namespace) {
+                $fieldConfig['dynamicOptions'] = [
+                    'data' => str_plural(class_basename($field->namespace))
+                ];
+            }
+
+            if ($field->type === 'tinyint') {
+                $fieldConfig['option'] = [
+                    'value' => 'true',
+                    'label' => trans('crud::templates.yes'),
+                ];
+            }
+
+            if ($field->type == "enum") {
+                $fieldConfig['options'] = $this->getEnumValuesArray($field->name);
+            }
 
             $config[$field->name] = $fieldConfig;
         }
 
-        $config['model'] = $this->slugEntityName();
+        $config['_options_'] = ['model' => $this->slugEntityName()];
 
         return $config;
     }
@@ -114,10 +139,17 @@ trait DataGenerator
                 break;
 
             case 'bigint':
-            case 'int':
             case 'float':
             case 'double':
                 $type = "number";
+                break;
+            
+            case 'int': {
+                $type = "number";
+                if ($field->namespace) {
+                    $type = "select";
+                }
+            }
                 break;
 
             case 'tinyint':
@@ -188,6 +220,19 @@ trait DataGenerator
 
         // default
         return '$faker->';
+    }
+
+    /**
+     * @return array
+     */
+    public function getEnumValuesArray(string $column)
+    {
+        $values = $this->getMysqlTableColumnEnumValues($column);
+        $values = str_replace('enum(', '', $values);
+        $values = str_replace('\')', '\'', $values);
+        $values = str_replace('\'', '', $values);
+
+        return explode(',', $values);
     }
 
     /**
