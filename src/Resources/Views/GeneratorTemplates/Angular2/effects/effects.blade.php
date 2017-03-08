@@ -55,4 +55,15 @@ export class {{ $entitySin }}Effects {
         });
     });
 
+    @Effect() createAction$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.ActionTypes.CREATE_{{ $gen->entityNameSnakeCase() }})
+    .map((action: Action) => action.payload)
+    .switchMap((data) => {
+      return this.{{ $service }}.create(data)
+        .map((data) => { return new {{ $actions }}.CreateSuccessAction(data)})
+        .catch((error) => {
+          error.type = 'danger';
+          return of(new appMsgActions.Flash(error))
+        });
+    });
 }

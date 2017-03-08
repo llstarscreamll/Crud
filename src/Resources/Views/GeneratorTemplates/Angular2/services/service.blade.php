@@ -33,6 +33,13 @@ export class {{ $entitySin }}Service extends Service {
       .catch(this.handleError);
   }
 
+  public create(data: Object) {
+    return this.http
+      .post(this.apiEndpoint('create'), data, { headers: this.headers })
+      .map(res => {return res.json()})
+      .catch(this.handleError);
+  }
+
   public get{{ $gen->entityName() }}FormModel() {
     return this.http
       .get(this.apiEndpoint('form-model/{{ $gen->slugEntityName() }}'), { headers: this.headers })

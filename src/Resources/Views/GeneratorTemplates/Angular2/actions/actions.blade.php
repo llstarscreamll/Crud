@@ -64,12 +64,12 @@ export class GetSuccessAction implements Action {
 
 export class CreateAction implements Action {
 	type = ActionTypes.CREATE_{{ $entitySnakeSin }};
-	public constructor(public payload: null) { }
+	public constructor(public payload: Object) { }
 }
 
 export class CreateSuccessAction implements Action {
 	type = ActionTypes.CREATE_{{ $entitySnakeSin }}_SUCCESS;
-	public constructor(public payload: null) { }
+	public constructor(public payload: Object) { }
 }
 
 export class UpdateAction implements Action {

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { FormModelParser } from './../../core/services/formModelParser';
+import * as appMessage from './../../core/reducers/appMessage';
 import * as fromRoot from './../../core/reducers';
 import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../reducers/{{ camel_case($gen->entityName()) }}.reducer';
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../actions/{{ camel_case($gen->entityName()) }}.actions';
@@ -20,14 +21,16 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
 	public {{ $state = camel_case($gen->entityName()).'State$' }}: Observable<{{ $reducer.'.State' }}>;
 	public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
 	private formModelSubscription: Subscription;
+  public appMessage$: Observable<appMessage.State>;
 
-  constructor(
+  public constructor(
   	private store: Store<fromRoot.State>,
   	private formModelParser: FormModelParser
   ) { }
 
-  ngOnInit() {
+  public ngOnInit() {
   	this.{{ $state }} = this.store.select(fromRoot.get{{ $entitySin }}State);
+    this.appMessage$ = this.store.select(fromRoot.getAppMessagesState);
     this.store.dispatch(new {{ $actions }}.GetFormModelAction(null));
   	this.store.dispatch(new {{ $actions }}.GetFormDataAction(null));
 
@@ -37,7 +40,11 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
       });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.formModelSubscription.unsubscribe();
+  }
+
+  public create{{ $gen->entityName() }}() {
+    this.store.dispatch(new {{ $actions }}.CreateAction(this.{{ $form }}.value));
   }
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { {{ $gen->moduleClass('routing') }} } from './{{ str_replace('.ts', '', $gen->moduleFile('routing')) }}';
 import { EffectsModule } from '@ngrx/effects';
 // ng2 Translate
@@ -24,6 +25,7 @@ import { {{ $service = $gen->entityName().'Service' }} } from './services/{{ cam
 @NgModule({
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     EffectsModule.run({{ $gen->entityName() }}Effects),
     TranslateModule,
     CoreModule,

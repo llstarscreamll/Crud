@@ -50,6 +50,14 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_FORM_DATA_SUCCESS: {
       return { ...state, {{ camel_case($gen->entityName()) }}FormData: action.payload, loading: false };
     }
+
+    case {{ $actions }}.ActionTypes.CREATE_{{ $entitySnakeSin }}: {
+      return { ...state, loading: true };
+    }
+
+    case {{ $actions }}.ActionTypes.CREATE_{{ $entitySnakeSin }}_SUCCESS: {
+      return {...state, {{ $modelSin }}: action.payload, loading: false };
+    }
 /*
 
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}: {
@@ -57,14 +65,6 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_SUCCESS: {
-      return {};
-    }
-
-    case {{ $actions }}.ActionTypes.CREATE_{{ $entitySnakeSin }}: {
-      return {};
-    }
-
-    case {{ $actions }}.ActionTypes.CREATE_{{ $entitySnakeSin }}_SUCCESS: {
       return {};
     }
 
