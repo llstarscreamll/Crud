@@ -121,6 +121,10 @@ trait DataGenerator
                 $fieldConfig['options'] = $this->getEnumValuesArray($field->name);
             }
 
+            if ($field->validation_rules) {
+                $fieldConfig['validation'] = explode('|', $field->validation_rules);
+            }
+
             $config[$field->name] = $fieldConfig;
         }
 
