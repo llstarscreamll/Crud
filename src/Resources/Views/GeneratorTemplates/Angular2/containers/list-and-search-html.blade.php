@@ -10,13 +10,13 @@
 			<app-box-body>
 
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-sm-6 col-md-8">
 						<a [routerLink]="[ '/{{ camel_case($gen->entityName()) }}/create' ]" class="btn btn-primary">
 							<i class="glyphicon glyphicon-plus"></i>
 							<span translate>{{ $upEntity }}.create</span>
 						</a>
 					</div>
-					<div class="col-md-6">
+					<div class="col-sm-6 col-md-4">
 						<app-basic-search class="m-b-lg" (search)="onSearch($event)"></app-basic-search>
 					</div>
 				</div>
