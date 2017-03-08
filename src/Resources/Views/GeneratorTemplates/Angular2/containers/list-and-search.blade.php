@@ -38,7 +38,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
 @endforeach
     },
     orderBy: "{{ $gen->tableName.'.created_at' }}",
-    sortedBy: "asc",
+    sortedBy: "desc",
     page: 1
   };
 
