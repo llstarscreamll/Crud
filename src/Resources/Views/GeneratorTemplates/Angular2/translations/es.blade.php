@@ -10,6 +10,9 @@ export const ES = {
     'fields': {
 @foreach ($fields as $field)
       '{{ $gen->tableName.'.'.$field->name }}': '{{ $field->label }}',
+@if (strrpos($field->validation_rules, 'confirmed'))
+      '{{ $gen->tableName.'.'.$field->name.'_confirmation' }}': '{{ trans('crud::templates.confirm_field_prefix').' '.strtolower($field->label) }}',
+@endif
 @if ($field->type == "enum")
       '{{ $gen->tableName.'.'.$field->name }}-options': {
 @foreach ($gen->getEnumValuesArray($field->name) as $option)
