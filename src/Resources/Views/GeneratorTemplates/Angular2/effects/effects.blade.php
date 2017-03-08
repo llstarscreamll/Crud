@@ -3,8 +3,9 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { FormModelParser } from './../../core/services/formModelParser';
+import { go } from '@ngrx/router-store';
 
+import { FormModelParser } from './../../core/services/formModelParser';
 import * as appMsgActions from './../../core/actions/appMessage';
 import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ camel_case($entitySin)."Pagination" }}';
 import { {{ $entitySin }}Service } from './../services/{{ $camelEntity = camel_case($entitySin) }}.service';
@@ -65,5 +66,12 @@ export class {{ $entitySin }}Effects {
           error.type = 'danger';
           return of(new appMsgActions.Flash(error))
         });
+    });
+
+    @Effect() createSuccessAction$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.ActionTypes.CREATE_{{ $gen->entityNameSnakeCase() }}_SUCCESS)
+    .map((action: Action) => action.payload)
+    .map((data) => {
+      return go(['{{ $gen->slugEntityName() }}', data.id, 'edit']);
     });
 }

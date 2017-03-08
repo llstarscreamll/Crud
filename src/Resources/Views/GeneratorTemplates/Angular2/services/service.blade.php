@@ -36,7 +36,7 @@ export class {{ $entitySin }}Service extends Service {
   public create(data: Object) {
     return this.http
       .post(this.apiEndpoint('create'), data, { headers: this.headers })
-      .map(res => {return res.json()})
+      .map(res => {return res.json().data})
       .catch(this.handleError);
   }
 
