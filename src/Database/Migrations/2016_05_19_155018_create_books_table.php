@@ -21,7 +21,7 @@ class CreateBooksTable extends Migration
             $table->string('genre');
             $table->integer('stars');
             $table->date('published_year');
-            $table->boolean('enabled')->default(1);
+            $table->boolean('enabled')->nullable()->default(1);
             $table->enum('status', ['setting_documents', 'waiting_confirmation', 'reviewing', 'approved']);
             $table->string('unlocking_word');
             $table->text('synopsis')->nullable();

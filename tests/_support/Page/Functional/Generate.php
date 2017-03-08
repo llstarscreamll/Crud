@@ -168,7 +168,7 @@ class Generate
         // para la columna enabled
         'field[7][name]' => 'enabled',
         'field[7][type]' => 'tinyint',
-        'field[7][required]' => true,
+        'field[7][required]' => false,
         'field[7][defValue]' => '1',
         'field[7][key]' => '',
         'field[7][maxLength]' => '1',
