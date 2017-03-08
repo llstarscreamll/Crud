@@ -94,7 +94,7 @@ trait DataGenerator
         foreach ($fields as $field) {
             $fieldConfig = [];
 
-            if (!$field->fillable || $field->hidden) {
+            if (!$field->fillable) {
                 continue;
             }
 
