@@ -27,8 +27,10 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
   ) { }
 
   ngOnInit() {
-  	this.bookState$ = this.store.select(fromRoot.getBookState);
-  	this.store.dispatch(new bookActions.GetFormModelAction(null));
+  	this.{{ $state }} = this.store.select(fromRoot.get{{ $entitySin }}State);
+    this.store.dispatch(new {{ $actions }}.GetFormModelAction(null));
+  	this.store.dispatch(new {{ $actions }}.GetFormDataAction(null));
+
   	this.formModelSubscription = this.store.select(fromRoot.get{{ $entitySin }}FormModel)
       .subscribe((model) => {
         this.{{ $form }} = this.formModelParser.toFormGroup(model);

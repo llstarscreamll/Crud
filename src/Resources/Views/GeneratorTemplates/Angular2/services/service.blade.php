@@ -39,4 +39,11 @@ export class {{ $entitySin }}Service extends Service {
       .map(res => {return res.json()})
       .catch(this.handleError);
   }
+
+  public get{{ $gen->entityName() }}FormData() {
+    return this.http
+      .get(this.apiEndpoint('form-data/{{ $gen->slugEntityName() }}'), { headers: this.headers })
+      .map(res => {return res.json()})
+      .catch(this.handleError);
+  }
 }

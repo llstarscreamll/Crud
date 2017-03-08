@@ -29,7 +29,7 @@ export class {{ $entitySin }}Effects {
         .catch((error) => {
           error.type = 'danger';
           return of(new appMsgActions.Flash(error))
-        })
+        });
     });
 
   @Effect() get{{ $camelEntity }}FormModel$: Observable<Action> = this.actions$
@@ -41,7 +41,18 @@ export class {{ $entitySin }}Effects {
         .catch((error) => {
           error.type = 'danger';
           return of(new appMsgActions.Flash(error))
-        })
+        });
+    });
+
+    @Effect() get{{ $camelEntity }}FormData$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }}_FORM_DATA)
+    .switchMap(() => {
+      return this.{{ $service }}.get{{ $gen->entityName() }}FormData()
+        .map((data) => { return new {{ $actions }}.GetFormDataSuccessAction(data)})
+        .catch((error) => {
+          error.type = 'danger';
+          return of(new appMsgActions.Flash(error))
+        });
     });
 
 }

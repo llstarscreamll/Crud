@@ -6,7 +6,9 @@ import { {{ $entitySin.'Pagination' }} } from './../models/{{ camel_case($entity
 export const ActionTypes = {
 	LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }}: type('[{{ $entitySin }}] Load {{ $entityPlu = $gen->entityName(true) }}'),
 	LOAD_{{ $entitySnakePlu }}_SUCCESS: type('[{{ $entitySin }}] Load {{ $entityPlu }} Success'),
-	GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}_FORM_MODEL: type('[{{ $entitySin }}] Get {{ $entitySin }} Form Model'),
+	GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}_FORM_DATA: type('[{{ $entitySin }}] Get {{ $entitySin }} Form Data'),
+	GET_{{ $entitySnakeSin }}_FORM_DATA_SUCCESS: type('[{{ $entitySin }}] Get {{ $entitySin }} Form Data Success'),
+	GET_{{ $entitySnakeSin }}_FORM_MODEL: type('[{{ $entitySin }}] Get {{ $entitySin }} Form Model'),
 	GET_{{ $entitySnakeSin }}_FORM_MODEL_SUCCESS: type('[{{ $entitySin }}] Get {{ $entitySin }} Form Model Success'),
 	GET_{{ $entitySnakeSin}}: type('[{{ $entitySin }}] Get {{ $entitySin }}'),
 	GET_{{ $entitySnakeSin }}_SUCCESS: type('[{{ $entitySin }}] Get {{ $entitySin }} Success'),
@@ -37,6 +39,16 @@ export class GetFormModelAction implements Action {
 
 export class GetFormModelSuccessAction implements Action {
 	type = ActionTypes.GET_{{ $entitySnakeSin }}_FORM_MODEL_SUCCESS;
+	public constructor(public payload: Object) { }
+}
+
+export class GetFormDataAction implements Action {
+	type = ActionTypes.GET_{{ $entitySnakeSin }}_FORM_DATA;
+	public constructor(public payload: null) { }
+}
+
+export class GetFormDataSuccessAction implements Action {
+	type = ActionTypes.GET_{{ $entitySnakeSin }}_FORM_DATA_SUCCESS;
 	public constructor(public payload: Object) { }
 }
 
@@ -95,6 +107,8 @@ export type Actions
 	| LoadSuccessAction
 	| GetFormModelAction
 	| GetFormModelSuccessAction
+	| GetFormDataAction
+	| GetFormDataSuccessAction
 	| GetAction
 	| GetSuccessAction
 	| CreateAction

@@ -5,6 +5,7 @@ import { Pagination } from './../../core/models/pagination';
 
 export interface State {
   {{ camel_case($gen->entityName()) }}FormModel: Object;
+  {{ camel_case($gen->entityName()) }}FormData: Object;
   {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[];
   pagination: Pagination | {};
   {{ camel_case($gen->entityName()) }}: {{ $gen->entityName() }} | null;
@@ -14,6 +15,7 @@ export interface State {
 
 const initialState: State = {
   {{ camel_case($gen->entityName()) }}FormModel: {},
+  {{ camel_case($gen->entityName()) }}FormData: {},
   {{ $modelPlu = camel_case($gen->entityName(true)) }}: [],
   pagination: {},
   {{ $modelSin = camel_case($gen->entityName()) }}: null,
@@ -39,6 +41,14 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
 
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_FORM_MODEL_SUCCESS: {
       return { ...state, {{ camel_case($gen->entityName()) }}FormModel: action.payload, loading: false };
+    }
+    
+    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}_FORM_DATA: {
+      return { ...state, loading: true };
+    }
+
+    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_FORM_DATA_SUCCESS: {
+      return { ...state, {{ camel_case($gen->entityName()) }}FormData: action.payload, loading: false };
     }
 /*
 
