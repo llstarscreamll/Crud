@@ -16,6 +16,8 @@
 
 				<app-dynamic-form [model]="({{ $camelEntity = camel_case($gen->entityName()) }}State$ | async)?.{{ $camelEntity }}FormModel"
 								  [disabled]="true"
+								  [visibility]="'details'"
+								  [debug]="false"
 								  [controls]="{{ $camelEntity }}Form"></app-dynamic-form>
 
 			</app-box-body>

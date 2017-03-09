@@ -94,9 +94,11 @@ trait DataGenerator
         foreach ($fields as $field) {
             $fieldConfig = [];
 
-            if (!$field->fillable) {
-                continue;
-            }
+            $fieldConfig['visibility'] = [
+                'create' => $field->on_create_form,
+                'details' => !$field->hidden,
+                'update' => $field->on_update_form,
+            ];
 
             $fieldConfig['type'] = $this->getWidgetType($field);
 

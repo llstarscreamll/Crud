@@ -20,6 +20,8 @@
 					<app-dynamic-form [model]="({{ $camelEntity }}State$ | async)?.{{ $camelEntity }}FormModel"
 									  [data]="({{ $camelEntity }}State$ | async)?.{{ $camelEntity }}FormData"
 									  [errors]="appMessage$ | async"
+									  [visibility]="'create'"
+									  [debug]="false"
 									  [controls]="{{ $camelEntity }}Form"></app-dynamic-form>
 					
 					<div class="form-group">
