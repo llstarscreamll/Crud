@@ -40,6 +40,18 @@ export class {{ $gen->containerClass('details', false, true) }} implements OnIni
     this.store.dispatch(new {{ $actions }}.GetFormModelAction(null));
   	this.store.dispatch(new {{ $actions }}.GetFormDataAction(null));
 
+  	this.formModelSubscription = this.store.select(fromRoot.get{{ $entitySin }}FormModel)
+      .subscribe((model) => {
+        this.{{ $form }} = this.formModelParser.toFormGroup(model);
+        this.setupformData();
+      });
+  }
+
+  public ngOnDestroy() {
+    this.formModelSubscription.unsubscribe();
+  }
+
+  private setupformData() {
   	this.{{ $bookSubscription }} = this.{{ $book }}
   		.subscribe(({{ camel_case($gen->entityName()) }}) => {
 	      this.route.params.subscribe(params => {
@@ -51,15 +63,6 @@ export class {{ $gen->containerClass('details', false, true) }} implements OnIni
 	        }
 	      });
 	    });
-
-  	this.formModelSubscription = this.store.select(fromRoot.get{{ $entitySin }}FormModel)
-      .subscribe((model) => {
-        this.{{ $form }} = this.formModelParser.toFormGroup(model);
-      });
-  }
-
-  public ngOnDestroy() {
-    this.formModelSubscription.unsubscribe();
   }
 
   private get{{ $gen->entityName() }}FormPatchValues({{ camel_case($gen->entityName()) }}: {{ $entitySin }}) {
@@ -67,7 +70,7 @@ export class {{ $gen->containerClass('details', false, true) }} implements OnIni
   		...{{ camel_case($gen->entityName()) }},
 @foreach ($fields as $field)
 @if ($field->namespace)
-			{{ $field->name }}: {{ camel_case($gen->entityName()) }}.{{ $gen->relationNameFromField($field) }}.data.name,
+			{{ $field->name }}: {{ camel_case($gen->entityName()) }}.{{ $gen->relationNameFromField($field) }} ? {{ camel_case($gen->entityName()) }}.{{ $gen->relationNameFromField($field) }}.data.name : null,
 @endif
 @if (in_array($field->type, ['timestamp', 'datetime']))
 			{{ $field->name }}: {{ camel_case($gen->entityName()) }}.{{ $field->name }} ? {{ camel_case($gen->entityName()) }}.{{ $field->name }}.date : null,
