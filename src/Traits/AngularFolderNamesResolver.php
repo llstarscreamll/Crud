@@ -138,20 +138,29 @@ trait AngularFolderNamesResolver
         return $this->moduleDir().'/translations';
     }
 
-    public function containerFile($file, $plural = false)
+    public function containerFile($file, $plural = false, bool $atStart = false)
     {
         $ext = $this->solveExtentintionFormFile($file);
         $file = $this->cleanFileName($file);
         $entity = $this->slugEntityName($plural);
 
-        return $file.'-'.$entity.".page".$ext;
+        $baseName = $atStart
+            ? $entity.'-'.$file
+            : $file.'-'.$entity;
+
+        return $baseName.".page".$ext;
     }
 
-    public function containerClass($class, $plural = false)
+    public function containerClass($class, $plural = false, bool $atStart = false)
     {
         $class = studly_case($class);
         $entity = $this->entityName($plural);
-        return $class.$entity."Page";
+
+        $baseName = $atStart
+            ? $entity.$class
+            : $class.$entity;
+
+        return $baseName."Page";
     }
 
     public function solveExtentintionFormFile($file)

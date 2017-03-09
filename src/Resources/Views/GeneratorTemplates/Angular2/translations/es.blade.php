@@ -4,6 +4,7 @@ export const ES = {
     'module-name-plural': '{{ $gen->request->get('plural_entity_name') }}',
     'create': '{{ trans('crud::templates.create-link') }}',
     'create-btn': '{{ trans('crud::templates.create-link') }}',
+    'details': '{{ trans('crud::templates.details-link') }}',
     'edit': '{{ trans('crud::templates.edit-link') }}',
     'delete': '{{ trans('crud::templates.delete-link') }}',
     // form fields

@@ -58,16 +58,16 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     case {{ $actions }}.ActionTypes.CREATE_{{ $entitySnakeSin }}_SUCCESS: {
       return {...state, {{ $modelSin }}: action.payload, loading: false };
     }
-/*
 
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}: {
-      return {};
+      return { ...state, loading: true };
     }
 
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_SUCCESS: {
-      return {};
+      return { ...state, {{ camel_case($gen->entityName()) }}: action.payload, loading: false };
     }
 
+/*
     case {{ $actions }}.ActionTypes.UPDATE_{{ $entitySnakeSin }}: {
       return {};
     }
@@ -99,6 +99,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
  }
 
   export const get{{ $entity = $gen->entityName() }}FormModel = (state: State) => state.{{ camel_case($entity) }}FormModel;
+  export const getSelected{{ $entity }} = (state: State) => state.{{ camel_case($entity) }};
 
 /**
   Don't forget to import these reducer on the main app reducer!!
@@ -116,4 +117,5 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
   // Book selectors
   export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
   export const get{{ $entity }}FormModel = createSelector(get{{ $entity }}State, fromBook.get{{ $entity }}FormModel);
+  export const getSelected{{ $entity = $gen->entityName() }} = (state: State) => state.{{ camel_case($entity) }};
  */

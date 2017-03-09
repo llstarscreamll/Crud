@@ -54,12 +54,12 @@ export class GetFormDataSuccessAction implements Action {
 
 export class GetAction implements Action {
 	type = ActionTypes.GET_{{ $entitySnakeSin }};
-	public constructor(public payload: null) { }
+	public constructor(public payload: string) { }
 }
 
 export class GetSuccessAction implements Action {
 	type = ActionTypes.GET_{{ $entitySnakeSin }}_SUCCESS;
-	public constructor(public payload: null) { }
+	public constructor(public payload: Object) { }
 }
 
 export class CreateAction implements Action {

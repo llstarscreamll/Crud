@@ -9,9 +9,10 @@ import { CoreModule } from './../core/core.module';
 // shell
 import { InspiniaShellModule as Shell } from './../../shells/inspinia/inspinia.module';
 // {{ $gen->entityName() }} containers
-import { {{ $gen->containerClass('create', false) }} } from './containers/{{ str_replace(['.ts'], [''], $gen->containerFile('create', false)) }}';
-import { {{ $gen->containerClass('edit', false) }} } from './containers/{{ str_replace(['.ts'], [''], $gen->containerFile('edit', false)) }}';
 import { {{ $gen->containerClass('list-and-search', true) }} } from './containers/{{ str_replace(['.ts'], [''], $gen->containerFile('list-and-search', true)) }}';
+import { {{ $gen->containerClass('create', false) }} } from './containers/{{ str_replace(['.ts'], [''], $gen->containerFile('create', false)) }}';
+import { {{ $gen->containerClass('details', false, true) }} } from './containers/{{ str_replace(['.ts'], [''], $gen->containerFile('details', false, true)) }}';
+import { {{ $gen->containerClass('edit', false) }} } from './containers/{{ str_replace(['.ts'], [''], $gen->containerFile('edit', false)) }}';
 // {{ $gen->entityName() }} components
 import { {{ $gen->componentClass('form', false) }} } from './components/{{ str_replace(['.ts'], [''], $gen->componentFile('form', false)) }}';
 import { {{ $gen->componentClass('table', true) }} } from './components/{{ str_replace(['.ts'], [''], $gen->componentFile('table', true)) }}';
@@ -33,9 +34,10 @@ import { {{ $service = $gen->entityName().'Service' }} } from './services/{{ cam
     {{ $gen->moduleClass('routing') }},
   ],
   declarations: [
-	  {{ $gen->containerClass('create', false) }},
-	  {{ $gen->containerClass('edit', false) }},
 	  {{ $gen->containerClass('list-and-search', true) }},
+    {{ $gen->containerClass('create', false) }},
+    {{ $gen->containerClass('details', false, true) }},
+    {{ $gen->containerClass('edit', false) }},
 	  {{ $gen->componentClass('form', false) }},
 	  {{ $gen->componentClass('table', true) }},
   ],

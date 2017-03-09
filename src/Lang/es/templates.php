@@ -2,6 +2,7 @@
 
 return [
 	'create-link' => 'Crear',
+	'details-link' => 'Detalles',
 	'edit-link' => 'Editar',
 	'delete-link' => 'Borrar',
 	'restore-link' => 'Restaurar',

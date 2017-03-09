@@ -8,7 +8,7 @@ export class {{ $gen->entityName() }} {
 @endforeach
 @foreach ($fields as $field)
 @if (!empty($field->relation))
-	{{  $gen->relationNameFromField($field)  }}: Object;
+	{{  $gen->relationNameFromField($field)  }}: { data: {name: ''} };
 @endif
 @endforeach
 }

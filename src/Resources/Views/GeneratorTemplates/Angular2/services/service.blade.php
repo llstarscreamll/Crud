@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 
@@ -44,6 +44,15 @@ export class {{ $entitySin }}Service extends Service {
     return this.http
       .get(this.apiEndpoint('form-model/{{ $gen->slugEntityName() }}'), { headers: this.headers })
       .map(res => {return res.json()})
+      .catch(this.handleError);
+  }
+
+  public get{{ $gen->entityName() }}(id) {
+    let urlParams: URLSearchParams = new URLSearchParams;
+    urlParams.set('include', '{{ $fields->filter(function ($field) { return !empty($field->namespace); })->transform(function($field) use ($gen) { return $gen->relationNameFromField($field); })->implode(',') }}');
+    return this.http
+      .get(this.apiEndpoint(id), { headers: this.headers, search: urlParams })
+      .map(res => {return res.json().data})
       .catch(this.handleError);
   }
 

@@ -116,6 +116,9 @@ class GeneratedFilesCest
         $I->seeFileFound('create-book.page.ts', $containersDir);
         $I->seeFileFound('create-book.page.css', $containersDir);
         $I->seeFileFound('create-book.page.html', $containersDir);
+        $I->seeFileFound('book-details.page.ts', $containersDir);
+        $I->seeFileFound('book-details.page.css', $containersDir);
+        $I->seeFileFound('book-details.page.html', $containersDir);
         $I->seeFileFound('edit-book.page.ts', $containersDir);
         $I->seeFileFound('edit-book.page.css', $containersDir);
         $I->seeFileFound('edit-book.page.html', $containersDir);

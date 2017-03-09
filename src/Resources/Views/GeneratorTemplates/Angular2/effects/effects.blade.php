@@ -72,6 +72,18 @@ export class {{ $entitySin }}Effects {
     .ofType({{ $actions }}.ActionTypes.CREATE_{{ $gen->entityNameSnakeCase() }}_SUCCESS)
     .map((action: Action) => action.payload)
     .map((data) => {
-      return go(['{{ $gen->slugEntityName() }}', data.id, 'edit']);
+      return go(['{{ $gen->slugEntityName() }}', data.id]);
+    });
+
+    @Effect() getAction$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }})
+    .map((action: Action) => action.payload)
+    .switchMap((id) => {
+      return this.{{ $service }}.get{{ $gen->entityName() }}(id)
+        .map((data) => { return new {{ $actions }}.GetSuccessAction(data)})
+        .catch((error) => {
+          error.type = 'danger';
+          return of(new appMsgActions.Flash(error))
+        });
     });
 }
