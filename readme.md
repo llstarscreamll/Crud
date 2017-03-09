@@ -158,3 +158,21 @@ server {
 
 }
 ```
+
+Some data to test the Angular create/update component:
+
+```javascript
+this.bookForm.patchValue({
+  reason_id: 1,
+  name: 'Johan',
+  author: 'Cristian',
+  genre: 'thriller',
+  stars: 3,
+  published_year: '2012-12-12',
+  enabled: true,
+  status: 'waiting_confirmation',
+  unlocking_word: 'foo',
+  unlocking_word_confirmation: 'foo',
+  synopsis: 'text'
+});
+```
