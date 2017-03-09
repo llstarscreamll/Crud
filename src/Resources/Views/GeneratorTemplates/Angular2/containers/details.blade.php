@@ -43,29 +43,25 @@ export class {{ $gen->containerClass('details', false, true) }} implements OnIni
   	this.formModelSubscription = this.store.select(fromRoot.get{{ $entitySin }}FormModel)
       .subscribe((model) => {
         this.{{ $form }} = this.formModelParser.toFormGroup(model);
-        this.setupformData();
       });
+
+    this.route.params.subscribe(params => {
+        this.id = params['id'];
+        this.store.dispatch(new {{ $actions }}.GetAction(this.id));
+      });
+
+    this.{{ $book }}
+  		.subscribe(({{ camel_case($gen->entityName()) }}) => {
+  			if ({{ camel_case($gen->entityName()) }} != null)
+  			this.{{ $form }}.patchValue(this.get{{ $gen->entityName() }}DetailsFormPatchValues({{ camel_case($gen->entityName()) }}));
+  		});
   }
 
   public ngOnDestroy() {
     this.formModelSubscription.unsubscribe();
   }
 
-  private setupformData() {
-  	this.{{ $bookSubscription }} = this.{{ $book }}
-  		.subscribe(({{ camel_case($gen->entityName()) }}) => {
-	      this.route.params.subscribe(params => {
-	        this.id = params['id'];
-	        if ({{ camel_case($gen->entityName()) }} === null || this.id != {{ camel_case($gen->entityName()) }}.id) {
-	        	this.store.dispatch(new {{ $actions }}.GetAction(this.id));
-	        } else {
-	        	this.{{ $form }}.patchValue(this.get{{ $gen->entityName() }}FormPatchValues({{ camel_case($gen->entityName()) }}));
-	        }
-	      });
-	    });
-  }
-
-  private get{{ $gen->entityName() }}FormPatchValues({{ camel_case($gen->entityName()) }}: {{ $entitySin }}) {
+  private get{{ $gen->entityName() }}DetailsFormPatchValues({{ camel_case($gen->entityName()) }}: {{ $entitySin }}) {
   	return {
   		...{{ camel_case($gen->entityName()) }},
 @foreach ($fields as $field)
