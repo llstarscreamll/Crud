@@ -55,7 +55,9 @@ class {{ $gen->entityName() }}Transformer extends Transformer
 
     public function include{{ studly_case($gen->relationNameFromField($field))  }}({{ $entityClass }} ${{ camel_case($entityClass) }})
     {
-        return $this->{{ in_array($field->relation, ['belongsTo', 'hasOne']) ? 'item' : 'collection' }}(${{ camel_case($entityClass) }}->{{  $gen->relationNameFromField($field)  }}, new {{ class_basename($field->namespace) }}Transformer());
+        return ${{ camel_case($entityClass) }}->{{  $gen->relationNameFromField($field)  }}
+            ? $this->{{ in_array($field->relation, ['belongsTo', 'hasOne']) ? 'item' : 'collection' }}(${{ camel_case($entityClass) }}->{{  $gen->relationNameFromField($field)  }}, new {{ class_basename($field->namespace) }}Transformer())
+            : null;
     }
 @endif
 @endforeach
