@@ -14,8 +14,7 @@
 Route::group(
     [
         'prefix' => 'crud',
-        'middleware' => ['web', 'auth'],
-        'namespace' => 'llstarscreamll\Crud\Http\Controllers',
+        'middleware' => ['web', 'auth']
     ],
     function () {
         Route::get(
