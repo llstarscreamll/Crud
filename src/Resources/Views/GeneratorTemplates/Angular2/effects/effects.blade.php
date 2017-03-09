@@ -71,8 +71,11 @@ export class {{ $entitySin }}Effects {
     @Effect() createSuccessAction$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.ActionTypes.CREATE_{{ $gen->entityNameSnakeCase() }}_SUCCESS)
     .map((action: Action) => action.payload)
-    .map((data) => {
-      return go(['{{ $gen->slugEntityName() }}', data.id]);
+    .mergeMap((data) => {
+      return [
+        new appMsgActions.Flash(this.{{ $service }}.getSuccessCreationMessage()),
+        go(['{{ $gen->slugEntityName() }}', data.id])
+      ];
     });
 
     @Effect() getAction$: Observable<Action> = this.actions$

@@ -9,4 +9,5 @@ return [
 	'yes' => 'Si',
 	'no' => 'No',
 	'confirm_field_prefix' => 'Confirmar',
+	'create_success' => 'El :item ha sido creado correctamente',
 ];

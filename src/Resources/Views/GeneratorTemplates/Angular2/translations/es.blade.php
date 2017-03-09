@@ -7,6 +7,9 @@ export const ES = {
     'details': '{{ trans('crud::templates.details-link') }}',
     'edit': '{{ trans('crud::templates.edit-link') }}',
     'delete': '{{ trans('crud::templates.delete-link') }}',
+    'msg': {
+      'create_succcess': '{{ trans('crud::templates.create_success', ['item' => $gen->entityName()]) }}',
+    },
     // form fields
     'fields': {
 @foreach ($fields as $field)
