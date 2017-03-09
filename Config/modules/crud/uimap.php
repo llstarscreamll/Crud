@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Este archivo es parte de llstarscreamll\Crud, aquí se muestran todas las opciones
+ * Este archivo es parte de App\Containers\Crud, aquí se muestran todas las opciones
  * de configuración del paquete.
  *
  * @license MIT
- * @package llstarscreamll\Crud
+ * @package App\Containers\Crud
  */
 
 return $uimap = [

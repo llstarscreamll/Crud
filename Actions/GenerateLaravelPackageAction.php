@@ -1,23 +1,23 @@
 <?php
 
-namespace llstarscreamll\Crud\Actions;
+namespace App\Containers\Crud\Actions;
 
 use Illuminate\Http\Request;
-use llstarscreamll\Crud\Tasks\CreatePackageFoldersTask;
-use llstarscreamll\Crud\Tasks\CreateComposerFileTask;
-use llstarscreamll\Crud\Tasks\CreateActionsTask;
-use llstarscreamll\Crud\Tasks\CreateTasksTask;
-use llstarscreamll\Crud\Tasks\CreateApiRoutesTask;
-use llstarscreamll\Crud\Tasks\CreateApiRequestsTask;
-use llstarscreamll\Crud\Tasks\CreateCodeceptionTestsTask;
-use llstarscreamll\Crud\Tasks\CreateModelFactoryTask;
-use llstarscreamll\Crud\Tasks\CreateModelTask;
-use llstarscreamll\Crud\Tasks\CreateRepositoryTask;
-use llstarscreamll\Crud\Tasks\CreateApiControllerTask;
-use llstarscreamll\Crud\Tasks\RunPhpCsFixerOnDirTask;
-use llstarscreamll\Crud\Tasks\CreateTransformerTask;
-use llstarscreamll\Crud\Tasks\CreateExceptionsTask;
-use llstarscreamll\Crud\Tasks\CreateFormModelConfigTask;
+use App\Containers\Crud\Tasks\CreatePackageFoldersTask;
+use App\Containers\Crud\Tasks\CreateComposerFileTask;
+use App\Containers\Crud\Tasks\CreateActionsTask;
+use App\Containers\Crud\Tasks\CreateTasksTask;
+use App\Containers\Crud\Tasks\CreateApiRoutesTask;
+use App\Containers\Crud\Tasks\CreateApiRequestsTask;
+use App\Containers\Crud\Tasks\CreateCodeceptionTestsTask;
+use App\Containers\Crud\Tasks\CreateModelFactoryTask;
+use App\Containers\Crud\Tasks\CreateModelTask;
+use App\Containers\Crud\Tasks\CreateRepositoryTask;
+use App\Containers\Crud\Tasks\CreateApiControllerTask;
+use App\Containers\Crud\Tasks\RunPhpCsFixerOnDirTask;
+use App\Containers\Crud\Tasks\CreateTransformerTask;
+use App\Containers\Crud\Tasks\CreateExceptionsTask;
+use App\Containers\Crud\Tasks\CreateFormModelConfigTask;
 
 /**
  * GenerateLaravelPackageAction Class.

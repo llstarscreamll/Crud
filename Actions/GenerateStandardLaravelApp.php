@@ -1,20 +1,20 @@
 <?php
 
-namespace llstarscreamll\Crud\Actions;
+namespace App\Containers\Crud\Actions;
 
 use Illuminate\Http\Request;
-use llstarscreamll\Crud\Providers\ModelGenerator;
-use llstarscreamll\Crud\Providers\RouteGenerator;
-use llstarscreamll\Crud\Providers\ControllerGenerator;
-use llstarscreamll\Crud\Providers\ViewsGenerator;
-use llstarscreamll\Crud\Providers\TestsGenerator;
-use llstarscreamll\Crud\Providers\ModelFactoryGenerator;
-use llstarscreamll\Crud\Providers\FormRequestGenerator;
-use llstarscreamll\Crud\Providers\ServiceGenerator;
-use llstarscreamll\Crud\Providers\RepositoryGenerator;
-use llstarscreamll\Crud\Providers\LangGenerator;
-use llstarscreamll\Crud\Providers\SeedersGenerator;
-use llstarscreamll\Crud\Providers\FurtherTasks;
+use App\Containers\Crud\Providers\ModelGenerator;
+use App\Containers\Crud\Providers\RouteGenerator;
+use App\Containers\Crud\Providers\ControllerGenerator;
+use App\Containers\Crud\Providers\ViewsGenerator;
+use App\Containers\Crud\Providers\TestsGenerator;
+use App\Containers\Crud\Providers\ModelFactoryGenerator;
+use App\Containers\Crud\Providers\FormRequestGenerator;
+use App\Containers\Crud\Providers\ServiceGenerator;
+use App\Containers\Crud\Providers\RepositoryGenerator;
+use App\Containers\Crud\Providers\LangGenerator;
+use App\Containers\Crud\Providers\SeedersGenerator;
+use App\Containers\Crud\Providers\FurtherTasks;
 
 /**
 * GenerateStandardLaravelApp Class.

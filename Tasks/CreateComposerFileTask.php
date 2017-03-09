@@ -1,8 +1,8 @@
 <?php
 
-namespace llstarscreamll\Crud\Tasks;
+namespace App\Containers\Crud\Tasks;
 
-use llstarscreamll\Crud\Traits\FolderNamesResolver;
+use App\Containers\Crud\Traits\FolderNamesResolver;
 
 /**
  * CreateComposerFileTask Class.

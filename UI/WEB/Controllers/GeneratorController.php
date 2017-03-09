@@ -1,31 +1,32 @@
 <?php
 
-namespace llstarscreamll\Crud\Http\Controllers;
+namespace App\Containers\Crud\UI\WEB\Controllers;
 
 use Illuminate\Http\Request;
-use llstarscreamll\Crud\Providers\ModelGenerator;
-use llstarscreamll\Crud\Actions\GenerateLaravelPackageAction;
-use llstarscreamll\Crud\Actions\GenerateStandardLaravelApp;
-use llstarscreamll\Crud\Actions\GenerateAngular2ModuleAction;
+use App\Containers\Crud\Providers\ModelGenerator;
+use App\Containers\Crud\Actions\GenerateLaravelPackageAction;
+use App\Containers\Crud\Actions\GenerateStandardLaravelApp;
+use App\Containers\Crud\Actions\GenerateAngular2ModuleAction;
+use App\Ship\Parents\Controllers\WebController;
 
-class GeneratorController extends Controller
+class GeneratorController extends WebController
 {
     /**
      * Generate Laravel Packages Action.
      *
-     * @var llstarscreamll\Crud\Actions\GenerateLaravelPackageAction
+     * @var App\Containers\Crud\Actions\GenerateLaravelPackageAction
      */
     private $generateLaravelPackageAction;
 
     /**
      * Generate Standard Laravel App Action.
-     * @var llstarscreamll\Crud\Actions\GenerateStandardLaravelApp
+     * @var App\Containers\Crud\Actions\GenerateStandardLaravelApp
      */
     private $generateStandardLaravelApp;
 
     /**
      * Generate Angular 2 Module Action.
-     * @var llstarscreamll\Crud\Actions\GenerateAngular2ModuleAction
+     * @var App\Containers\Crud\Actions\GenerateAngular2ModuleAction
      */
     private $generateAngular2ModuleAction;
 

@@ -1,5 +1,5 @@
 <?php
-/* @var $gen llstarscreamll\Crud\Providers\TestsGenerator */
+/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 /* @var $foreign_keys [] */

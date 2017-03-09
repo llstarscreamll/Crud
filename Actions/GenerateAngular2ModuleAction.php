@@ -1,19 +1,19 @@
 <?php
 
-namespace llstarscreamll\Crud\Actions;
+namespace App\Containers\Crud\Actions;
 
 use Illuminate\Http\Request;
 
-use llstarscreamll\Crud\Tasks\CreateAngular2DirsTask;
-use llstarscreamll\Crud\Tasks\CreateNgModulesTask;
-use llstarscreamll\Crud\Tasks\CreateNgContainersTask;
-use llstarscreamll\Crud\Tasks\CreateNgComponentsTask;
-use llstarscreamll\Crud\Tasks\CreateNgTranslationsTask;
-use llstarscreamll\Crud\Tasks\CreateNgModelTask;
-use llstarscreamll\Crud\Tasks\CreateNgActionsTask;
-use llstarscreamll\Crud\Tasks\CreateNgReducerTask;
-use llstarscreamll\Crud\Tasks\CreateNgEffectsTask;
-use llstarscreamll\Crud\Tasks\CreateNgServiceTask;
+use App\Containers\Crud\Tasks\CreateAngular2DirsTask;
+use App\Containers\Crud\Tasks\CreateNgModulesTask;
+use App\Containers\Crud\Tasks\CreateNgContainersTask;
+use App\Containers\Crud\Tasks\CreateNgComponentsTask;
+use App\Containers\Crud\Tasks\CreateNgTranslationsTask;
+use App\Containers\Crud\Tasks\CreateNgModelTask;
+use App\Containers\Crud\Tasks\CreateNgActionsTask;
+use App\Containers\Crud\Tasks\CreateNgReducerTask;
+use App\Containers\Crud\Tasks\CreateNgEffectsTask;
+use App\Containers\Crud\Tasks\CreateNgServiceTask;
 
 /**
  * GenerateAngular2ModuleAction Class.

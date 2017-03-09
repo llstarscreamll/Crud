@@ -1,6 +1,6 @@
 <?php
 
-namespace llstarscreamll\Crud\Providers;
+namespace App\Containers\Crud\Providers;
 
 class FormRequestGenerator extends BaseGenerator
 {

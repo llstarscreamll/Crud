@@ -1,6 +1,6 @@
 <?php
 
-namespace llstarscreamll\Crud\Traits;
+namespace App\Containers\Crud\Traits;
 
 use stdClass;
 

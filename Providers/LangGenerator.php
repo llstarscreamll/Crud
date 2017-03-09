@@ -1,6 +1,6 @@
 <?php
 
-namespace llstarscreamll\Crud\Providers;
+namespace App\Containers\Crud\Providers;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;

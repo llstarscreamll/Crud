@@ -1,10 +1,10 @@
 <?php
 
-namespace llstarscreamll\Crud\Tasks;
+namespace App\Containers\Crud\Tasks;
 
 use Illuminate\Http\Request;
-use llstarscreamll\Crud\Traits\FolderNamesResolver;
-use llstarscreamll\Crud\Traits\DataGenerator;
+use App\Containers\Crud\Traits\FolderNamesResolver;
+use App\Containers\Crud\Traits\DataGenerator;
 
 /**
  * CreateFormModelConfigTask Class.

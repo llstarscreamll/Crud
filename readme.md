@@ -22,14 +22,14 @@ Añadir el service provider en `config/app.php`:
 
 ```php
 'providers' => [
-        llstarscreamll\Crud\Providers\CrudServiceProvider::class,
+        App\Containers\Crud\Providers\CrudServiceProvider::class,
     ],
 ```
 
 Ejecutar migraciones, publicar configuraciones, vistas, etc..
 
 ```bash
-php artisan vendor:publish --provider="llstarscreamll\Crud\Providers\CrudServiceProvider" --force
+php artisan vendor:publish --provider="App\Containers\Crud\Providers\CrudServiceProvider" --force
 php artisan migrate # para tablas de prueba
 ```
 

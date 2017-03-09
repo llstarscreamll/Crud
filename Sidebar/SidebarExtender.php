@@ -1,6 +1,6 @@
 <?php
 
-namespace llstarscreamll\Crud\Sidebar;
+namespace App\Containers\Crud\Sidebar;
 
 use Maatwebsite\Sidebar\Badge;
 use Maatwebsite\Sidebar\Group;
