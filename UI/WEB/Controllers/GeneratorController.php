@@ -49,7 +49,7 @@ class GeneratorController extends WebController
      *
      * @return Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return view('crud::wizard.index');
     }
@@ -163,10 +163,7 @@ class GeneratorController extends WebController
 
         $data['fields'] = array_values($modelGenerator->fields($request->get('table_name')));
         $data['table_name'] = $request->get('table_name');
-        $data['UI_themes'] = array_combine(
-            config('modules.crud.config.supported_ui_themes'),
-            config('modules.crud.config.supported_ui_themes')
-        );
+        $data['UI_themes'] = [];
 
         return view('crud::wizard.options', $data);
     }
