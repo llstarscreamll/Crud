@@ -1,13 +1,13 @@
-@extends('core::layouts.app-sidebar')
+@extends('theme::Inspinia.layouts.app-sidebar')
 
 @section('title', 'CRUD Generator')
 
-@section('style')
+@section('styles')
 @endsection
 
 @section('content')
 
-    @component('core::components.page')
+    @component('theme::Inspinia.components.page')
         @slot('title')
             <div class="col-xs-12">
                 <h2>CRUD Generator <small>Type your table name</small></h2>
@@ -16,15 +16,15 @@
 
         <div class="col-xs-12 col-sm-10 col-md-8">
 
-            @component('core::components.box')
+            @component('theme::Inspinia.components.box')
 
                 @slot('title')
                     <h5>Foo Title</h5>
-                    @component('core::components.box-tools')
+                    @component('theme::Inspinia.components.box-tools')
                     @endcomponent
                 @endslot
 
-                @include ('core::partials.notifications')
+                @include ('theme::Inspinia.partials.notifications')
                     
                 {!! Form::open(['route' => 'crud.showOptions', 'method' => 'GET']) !!}
                     
@@ -52,5 +52,5 @@
 
 @endsection
 
-@section('script')
+@section('scripts')
 @stop()

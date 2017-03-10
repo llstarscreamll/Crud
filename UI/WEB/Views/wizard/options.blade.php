@@ -1,4 +1,4 @@
-@extends('core::layouts.app-sidebar')
+@extends('theme::Inspinia.layouts.app-sidebar')
 
 @section('title', 'CRUD Options')
 
@@ -30,7 +30,7 @@
 @endsection
 
 @section('content')	
-    @component('core::components.page')
+    @component('theme::Inspinia.components.page')
         
         @slot('title')
             <div class="col-xs-12">
@@ -38,14 +38,14 @@
             </div>
         @endslot
 
-        @component('core::components.box')
+        @component('theme::Inspinia.components.box')
             @slot('title')
                 <h5>Give some options for the CRUD app</h5>
-                @component('core::components.box-tools')
+                @component('theme::Inspinia.components.box-tools')
                 @endcomponent
             @endslot
 
-                @include('core::partials.notifications')
+                @include('theme::Inspinia.partials.notifications')
 
                 {{-- borramos los mensajes generados por el controlador --}}
                 {{ session()->forget(['success', 'error', 'warning']) }}
