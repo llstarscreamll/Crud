@@ -10,8 +10,8 @@ class GeneratedFilesCest
     public function _before(FunctionalTester $I)
     {
         // delete old generated dirs
-        $I->deleteDir(app_path("/Containers"));
-        $I->deleteDir(app_path("/Angular2"));
+        // $I->deleteDir(app_path("/Containers"));
+        // $I->deleteDir(app_path("/Angular2"));
 
         // page setup
         new Page($I);
@@ -25,21 +25,21 @@ class GeneratedFilesCest
      */
     public function _after(FunctionalTester $I)
     {
-        if (file_exists(app_path("/Containers/").$this->package)) {
-            // this step should be donde by user, but for testing purposes we do here
-            // copy generated container on Hello-API project for test the final app there
-            $I->copyDir(app_path('Containers/Book'), base_path('../hello/app/Containers/Book'));
-            // copy migration file
-            $migrationFile = base_path("llstarscreamll/Crud/src/Database/Migrations");
-            $I->copyDir($migrationFile, base_path('../hello/app/Containers/Book/Data/Migrations'));
-            // delete unnecessary copied migration file
-            $I->deleteFile(base_path('../hello/app/Containers/Book/Data/Migrations/2016_03_01_222942_create_reasons_table.php'));
-        }
+        // if (file_exists(app_path("/Containers/").$this->package)) {
+        //     // this step should be donde by user, but for testing purposes we do here
+        //     // copy generated container on Hello-API project for test the final app there
+        //     $I->copyDir(app_path('Containers/Book'), base_path('../hello/app/Containers/Book'));
+        //     // copy migration file
+        //     $migrationFile = base_path("llstarscreamll/Crud/src/Database/Migrations");
+        //     $I->copyDir($migrationFile, base_path('../hello/app/Containers/Book/Data/Migrations'));
+        //     // delete unnecessary copied migration file
+        //     $I->deleteFile(base_path('../hello/app/Containers/Book/Data/Migrations/2016_03_01_222942_create_reasons_table.php'));
+        // }
 
-        if (file_exists(app_path("/Angular2/Book"))) {
-            // copy generated Angular 2 Moduel on saas-CLI project for test the final app there
-            $I->copyDir(app_path('Angular2/Book'), base_path('../saas-CLI/src/app/modules/book'));
-        }
+        // if (file_exists(app_path("/Angular2/Book"))) {
+        //     // copy generated Angular 2 Moduel on saas-CLI project for test the final app there
+        //     $I->copyDir(app_path('Angular2/Book'), base_path('../saas-CLI/src/app/modules/book'));
+        // }
     }
 
     public function checkLaravelPackageFilesGeneration(FunctionalTester $I)
