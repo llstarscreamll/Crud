@@ -13,5 +13,5 @@ modules:
         - Filesystem
         - Laravel5:
             environment_file: .env.testing
-            root: ../../
+            root: ../../../
             run_database_migrations: true
