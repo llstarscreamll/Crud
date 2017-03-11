@@ -8,6 +8,7 @@ use App\Containers\Crud\Actions\GenerateLaravelPackageAction;
 use App\Containers\Crud\Actions\GenerateStandardLaravelApp;
 use App\Containers\Crud\Actions\GenerateAngular2ModuleAction;
 use App\Containers\Crud\Actions\GenerateConfigFileAction;
+use App\Containers\Crud\Actions\LoadOptionsAction;
 use App\Ship\Parents\Controllers\WebController;
 
 class GeneratorController extends WebController
@@ -128,13 +129,9 @@ class GeneratorController extends WebController
                 ->with('error', $request->get('table_name').' table doesn\'t exists');
         }
 
-        // si ya he trabajado con la tabla en cuestion, cargo las opciones
-        // de la última ves en que se genero el CRUD para esa taba
-        if (file_exists(base_path().'/config/modules/crud/generated/'.$request->get('table_name').'.php')) {
-            $data['options'] = config('modules.crud.generated.'.$request->get('table_name'));
-        } else {
-            $data['options'] = [];
-        }
+        // try to retrieve the last given CRUD config options for this table
+        $loadOptionsAction = new LoadOptionsAction();
+        $data['options'] = $loadOptionsAction->run($request->get('table_name'));
 
         $modelGenerator = new ModelGenerator($request);
 
