@@ -15,7 +15,8 @@
 Route::group(['domain' => 'admin.'. env('APP_URL')], function () {
     Route::group(
         [
-            'prefix' => 'crud'
+            'prefix' => 'crud',
+            'middleware' => ['web.auth'],
         ],
         function () {
             Route::get(
