@@ -7,6 +7,7 @@ use App\Containers\Crud\Providers\ModelGenerator;
 use App\Containers\Crud\Actions\GenerateLaravelPackageAction;
 use App\Containers\Crud\Actions\GenerateStandardLaravelApp;
 use App\Containers\Crud\Actions\GenerateAngular2ModuleAction;
+use App\Containers\Crud\Actions\GenerateConfigFileAction;
 use App\Ship\Parents\Controllers\WebController;
 
 class GeneratorController extends WebController
@@ -30,17 +31,21 @@ class GeneratorController extends WebController
      */
     private $generateAngular2ModuleAction;
 
+    private $generateConfigFileAction;
+
     /**
      * Create a new controller instance.
      */
     public function __construct(
         GenerateLaravelPackageAction $generateLaravelPackageAction,
         GenerateStandardLaravelApp $generateStandardLaravelApp,
-        GenerateAngular2ModuleAction $generateAngular2ModuleAction
+        GenerateAngular2ModuleAction $generateAngular2ModuleAction,
+        GenerateConfigFileAction $generateConfigFileAction
     ) {
         $this->generateLaravelPackageAction = $generateLaravelPackageAction;
         $this->generateStandardLaravelApp = $generateStandardLaravelApp;
         $this->generateAngular2ModuleAction = $generateAngular2ModuleAction;
+        $this->generateConfigFileAction = $generateConfigFileAction;
     }
 
     /**
@@ -63,7 +68,7 @@ class GeneratorController extends WebController
     public function generate(Request $request)
     {
         // store the given data for remember this settings in future
-        $this->generateOptionsArray($request);
+        $this->generateConfigFileAction->run($request->except(['_token']));
 
         // check if the given table exists
         if (!$this->tableExists($request->get('table_name'))) {
@@ -107,34 +112,6 @@ class GeneratorController extends WebController
     private function tableExists($table)
     {
         return \Schema::hasTable($table);
-    }
-
-    /**
-     * Genera un archivo con las opciones dadas para generar una CRUD aplicación.
-     *
-     * @return int|bool
-     */
-    private function generateOptionsArray($request)
-    {
-        // no se ha creado la carpeta donde guardo las opciones de los CRUD generados?
-        if (!file_exists($path = base_path().'/config/modules/crud/generated')) {
-            // entonces la creo
-            mkdir($path, 0755, true);
-        }
-
-        $modelFile = $path.'/'.$request->get('table_name').'.php';
-
-        $generator = new ModelGenerator($request);
-
-        $content = view(
-            $generator->templatesDir().'.options',
-            [
-            'request' => $request->except(['_token']),
-            'gen' => $generator,
-            ]
-        );
-
-        return file_put_contents($modelFile, $content);
     }
 
     /**
