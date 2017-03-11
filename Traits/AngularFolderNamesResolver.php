@@ -37,9 +37,20 @@ trait AngularFolderNamesResolver
         return $functionName;
     }
 
+    // duplicated method!
+    public function outputDir()
+    {
+        return config('crudconfig.output_folder');
+    }
+    // duplicated method!
+    public function codeOutputDir()
+    {
+        return $this->outputDir().'code/';
+    }
+
     public function angularDir()
     {
-        return app_path('Angular2');
+        return $this->codeOutputDir().'Angular2';
     }
 
     /**

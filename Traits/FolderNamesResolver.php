@@ -61,13 +61,13 @@ trait FolderNamesResolver
     
     public function portoContainersFolder()
     {
-        return app_path('Containers');
+        return $this->codeOutputDir().'PortoContainers';
     }
 
     public function containerFolder()
     {
         $container = $this->containerName();
-        return app_path('Containers/'.$container);
+        return $this->portoContainersFolder().'/'.$container;
     }
 
     public function actionsFolder()

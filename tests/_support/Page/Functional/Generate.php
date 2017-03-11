@@ -404,7 +404,6 @@ class Generate
     {
         $this->functionalTester = $I;
 
-        $this->createUserRoles();
         $this->createAdminUser();
     }
 
@@ -416,14 +415,6 @@ class Generate
     public static function route($param)
     {
         return static::$URL.$param;
-    }
-
-    /**
-     * Crea los roles de usuario del sistema.
-     */
-    public function createUserRoles()
-    {
-        //\Artisan::call('db:seed', ['--class' => 'RoleTableSeeder']);
     }
 
     /**

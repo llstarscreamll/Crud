@@ -58,7 +58,7 @@ class CreateNgModulesTask
     {
         foreach ($this->files as $file) {
             $moduleFile = $this->moduleDir()."/".$this->moduleFile($file);
-            $template = $this->templatesDir().'.Angular2/'.$file;
+            $template = $this->templatesDir().'.Angular2.'.$file;
 
             $content = view($template, [
                 'gen' => $this,

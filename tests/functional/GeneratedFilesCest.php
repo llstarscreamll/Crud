@@ -57,6 +57,11 @@ class GeneratedFilesCest
         $this->entity = studly_case(str_singular($data['table_name']));
         
         $I->submitForm('form[name=CRUD-form]', $data);
+        $I->seeElement('.alert-success');
+
+        $I->assertTrue(file_exists(storage_path('app/crud/code')), 'code output folder');
+        $I->assertTrue(file_exists(storage_path('app/crud/options')), 'options output folders');
+        $I->seeFileFound('books.php', storage_path('app/crud/options/'));
 
         $this->checkAngular2ModuleGeneration($I);
         $this->checkPortoFilesGeneration($I);
@@ -64,7 +69,7 @@ class GeneratedFilesCest
 
     private function checkAngular2ModuleGeneration($I)
     {
-        $moduleDir = app_path('Angular2/Book/');
+        $moduleDir = storage_path('app/crud/code/Angular2/Book/');
         $I->assertTrue(file_exists($moduleDir), 'NG Module dir');
 
         $I->seeFileFound('book.module.ts', $moduleDir);
@@ -127,11 +132,12 @@ class GeneratedFilesCest
     private function checkPortoFilesGeneration(FunctionalTester $I)
     {
         // los directorios deben estar creados correctamente
-        $I->assertTrue(file_exists(app_path('Containers')), 'Containers dir');
-        $I->assertTrue(file_exists(app_path('Containers/'.$this->package)), 'package container dir');
+        $containersDir = storage_path('app/crud/code/PortoContainers/');
+        $I->assertTrue(file_exists($containersDir), 'Porto Containers dir');
+        $I->assertTrue(file_exists($containersDir.$this->package), 'package container dir');
         
         // generated entity Actions
-        $actionsDir = app_path('Containers/'.$this->package.'/Actions/'.$this->entity);
+        $actionsDir = $containersDir.$this->package.'/Actions/'.$this->entity;
         $I->assertTrue(file_exists($actionsDir), 'Actions dir');
         $I->seeFileFound('ListAndSearchBooksAction.php', $actionsDir);
         $I->seeFileFound('BookFormDataAction.php', $actionsDir);
@@ -142,12 +148,12 @@ class GeneratedFilesCest
         $I->seeFileFound('RestoreBookAction.php', $actionsDir);
 
         // Configs folder
-        $configsDir = app_path('Containers/'.$this->package.'/Configs');
+        $configsDir = $containersDir.$this->package.'/Configs';
         $I->assertTrue(file_exists($configsDir), 'Configs dir');
         $I->seeFileFound('book-form-model.php', $configsDir);
 
         // Data folders
-        $dataDir = app_path('Containers/'.$this->package.'/Data');
+        $dataDir = $containersDir.$this->package.'/Data';
         $I->assertTrue(file_exists($dataDir), 'Data dir');
         $I->assertTrue(file_exists($dataDir.'/Criterias'), 'Data/Criterias dir');
         $I->assertTrue(file_exists($dataDir.'/Factories'), 'Data/Factories dir');
@@ -157,18 +163,18 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($dataDir.'/Seeders'), 'Data/Seeders dir');
 
         // exceptions
-        $exceptionsDir = app_path('Containers/'.$this->package.'/Exceptions/');
+        $exceptionsDir = $containersDir.$this->package.'/Exceptions/';
         $I->assertTrue(file_exists($exceptionsDir), 'Exceptions dir');
         $I->seeFileFound('BookCreationFailedException.php', $exceptionsDir);
         $I->seeFileFound('BookNotFoundException.php', $exceptionsDir);
 
         // generated Models
-        $modelsDir = app_path('Containers/'.$this->package.'/Models');
+        $modelsDir = $containersDir.$this->package.'/Models';
         $I->assertTrue(file_exists($modelsDir), 'Models dir');
         $I->seeFileFound('Book.php', $modelsDir);
 
         // generated entity Tasks
-        $tasksDir = app_path('Containers/'.$this->package."/Tasks/{$this->entity}");
+        $tasksDir = $containersDir.$this->package."/Tasks/{$this->entity}";
         $I->assertTrue(file_exists($tasksDir), 'Tasks dir');
         $I->seeFileFound('ListAndSearchBooksTask.php', $tasksDir);
         $I->seeFileFound('CreateBookTask.php', $tasksDir);
@@ -178,7 +184,7 @@ class GeneratedFilesCest
         $I->seeFileFound('RestoreBookTask.php', $tasksDir);
 
         // tests
-        $testDir = app_path('Containers/'.$this->package.'/tests/');
+        $testDir = $containersDir.$this->package.'/tests/';
         $I->assertTrue(file_exists($testDir), 'tests dir');
         $I->assertTrue(file_exists($testDir.'acceptance'), 'acceptance test');
         $I->seeFileFound('acceptance.suite.yml', $testDir);
@@ -202,10 +208,10 @@ class GeneratedFilesCest
         $I->seeFileFound('Restore'.$this->entity.'Cest.php', $apiTestsFolder);
 
         // UI
-        $I->assertTrue(file_exists(app_path('Containers/'.$this->package.'/UI')), 'UI dir');
+        $I->assertTrue(file_exists($containersDir.$this->package.'/UI'), 'UI dir');
 
         // UI/API
-        $apiDir = app_path('Containers/'.$this->package.'/UI/API');
+        $apiDir = $containersDir.$this->package.'/UI/API';
         $I->assertTrue(file_exists($apiDir), 'UI/API dir');
         $I->assertTrue(file_exists($apiDir.'/Controllers'), 'API/Controllers dir');
         $I->seeFileFound('Controller.php', $apiDir.'/Controllers');
@@ -235,7 +241,7 @@ class GeneratedFilesCest
         $I->seeFileFound('BookTransformer.php', $apiDir.'/Transformers');
 
         // WEB folders
-        $uiWebDir = app_path('Containers/'.$this->package.'/UI/WEB');
+        $uiWebDir = $containersDir.$this->package.'/UI/WEB';
         $I->assertTrue(file_exists($uiWebDir), 'UI/WEB dir');
         $I->assertTrue(file_exists($uiWebDir.'/Controllers'), 'WEB/Controllers dir');
         $I->assertTrue(file_exists($uiWebDir.'/Requests'), 'WEB/Requests dir');
@@ -243,10 +249,10 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($uiWebDir.'/Views'), 'WEB/Views dir');
 
         // CLI folders
-        $I->assertTrue(file_exists(app_path('Containers/'.$this->package.'/UI/CLI')), 'UI/CLI dir');
+        $I->assertTrue(file_exists($containersDir.$this->package.'/UI/CLI'), 'UI/CLI dir');
 
         // Other files
-        $I->seeFileFound('composer.json', app_path('Containers/'.$this->package));
+        $I->seeFileFound('composer.json', $containersDir.$this->package);
     }
 
     /**
