@@ -14,7 +14,7 @@ trait AngularFolderNamesResolver
      */
     public function templatesDir()
     {
-        return config('modules.crud.config.templates');
+        return config('crudconfig.templates');
     }
 
     /**

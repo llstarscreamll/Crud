@@ -11,7 +11,22 @@ trait FolderNamesResolver
 {
     public function templatesDir()
     {
-        return config('modules.crud.config.templates');
+        return config('crudconfig.templates');
+    }
+
+    public function outputDir()
+    {
+        return config('crudconfig.output_folder');
+    }
+
+    public function codeOutputDir()
+    {
+        return $this->outputDir().'code/';
+    }
+
+    public function optionsOutputDir()
+    {
+        return $this->outputDir().'options/';
     }
 
     /**
