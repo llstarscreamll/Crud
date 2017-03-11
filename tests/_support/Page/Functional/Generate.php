@@ -3,8 +3,7 @@
 namespace Crud\Page\Functional;
 
 use Crud\FunctionalTester;
-use llstarscreamll\Core\Models\User;
-use llstarscreamll\Core\Models\Role;
+use App\Containers\User\Models\User;
 
 class Generate
 {
@@ -370,9 +369,9 @@ class Generate
      * @var array
      */
     public static $adminUser = [
-        'name' => 'Travis Orbin',
-        'email' => 'travis.orbin@example.com',
-        'password' => '123456',
+        'name' => 'Admin',
+        'email' => 'admin@admin.com',
+        'password' => 'admin',
     ];
 
     /**
@@ -440,11 +439,6 @@ class Generate
                 ['password' => bcrypt(self::$adminUser['password'])]
             )
         );
-
-        /*$role = Role::where('name', 'admin')->first();
-
-        // añado rol admin al usuario
-        $user->attachRole($role->id);*/
 
         return $user;
     }
