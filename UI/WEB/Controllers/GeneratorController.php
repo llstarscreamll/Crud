@@ -83,7 +83,7 @@ class GeneratorController extends WebController
 
         //switch over what type of CRUD app the user wants to generate
         switch ($request->get('app_type')) {
-            case 'laravel_package':
+            case 'porto_container':
                 $this->generatePortoContainerAction->run($request);
                 break;
             case 'standard_laravel_app':

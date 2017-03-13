@@ -8,16 +8,7 @@
         </label>
         <br>
         <label>
-            {!! Form::radio('app_type', 'laravel_app', true, ['class' => 'icheckbox_square-blue']) !!}
-            Laravel app
-        </label>
-        <br>
-        {{-- <label>
-            {!! Form::radio('app_type', 'laravel_package', null, ['class' => 'icheckbox_square-blue']) !!}
-            Laravel Package
-        </label> --}}
-        <label>
-            {!! Form::radio('app_type', 'porto_container', null, ['class' => 'icheckbox_square-blue']) !!}
+            {!! Form::radio('app_type', 'porto_container', true, ['class' => 'icheckbox_square-blue']) !!}
             PORTO Container
         </label>
     </div>
