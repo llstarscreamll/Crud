@@ -10,8 +10,9 @@ class GeneratedFilesCest
     public function _before(FunctionalTester $I)
     {
         // delete old generated dirs
-        // $I->deleteDir(app_path("/Containers"));
-        // $I->deleteDir(app_path("/Angular2"));
+        $I->deleteDir(storage_path("app/crud/code/Angular2/Book"));
+        $I->deleteDir(storage_path("app/crud/code/PortoContainers/Book"));
+        $I->deleteDir(storage_path("app/crud/options/books.php"));
 
         // page setup
         new Page($I);
@@ -47,7 +48,7 @@ class GeneratedFilesCest
         $I->wantTo('generate a Laravel Package');
 
         $data = Page::$formData;
-        $data['app_type'] = 'laravel_package';
+        $data['app_type'] = 'porto_container';
         $data['create_angular_2_module'] = true;
         // modify relations namespaces for Porto container convenience
         $data['field[1][namespace]'] = 'App\Containers\Reason\Models\Reason';
