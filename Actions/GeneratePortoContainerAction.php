@@ -20,11 +20,11 @@ use App\Containers\Crud\Tasks\CreateExceptionsTask;
 use App\Containers\Crud\Tasks\CreateFormModelConfigTask;
 
 /**
- * GenerateLaravelPackageAction Class.
+ * GeneratePortoContainerAction Class.
  *
  * @author Johan Alvarez <llstarscreamll@hotmail.com>
  */
-class GenerateLaravelPackageAction
+class GeneratePortoContainerAction
 {
     public function run(Request $request)
     {

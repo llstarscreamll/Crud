@@ -4,7 +4,7 @@ namespace App\Containers\Crud\UI\WEB\Controllers;
 
 use Illuminate\Http\Request;
 use App\Containers\Crud\Providers\ModelGenerator;
-use App\Containers\Crud\Actions\GenerateLaravelPackageAction;
+use App\Containers\Crud\Actions\GeneratePortoContainerAction;
 use App\Containers\Crud\Actions\GenerateStandardLaravelApp;
 use App\Containers\Crud\Actions\GenerateAngular2ModuleAction;
 use App\Containers\Crud\Actions\GenerateConfigFileAction;
@@ -16,9 +16,9 @@ class GeneratorController extends WebController
     /**
      * Generate Laravel Packages Action.
      *
-     * @var App\Containers\Crud\Actions\GenerateLaravelPackageAction
+     * @var App\Containers\Crud\Actions\GeneratePortoContainerAction
      */
-    private $generateLaravelPackageAction;
+    private $generatePortoContainerAction;
 
     /**
      * Generate Standard Laravel App Action.
@@ -38,12 +38,12 @@ class GeneratorController extends WebController
      * Create a new controller instance.
      */
     public function __construct(
-        GenerateLaravelPackageAction $generateLaravelPackageAction,
+        GeneratePortoContainerAction $generatePortoContainerAction,
         GenerateStandardLaravelApp $generateStandardLaravelApp,
         GenerateAngular2ModuleAction $generateAngular2ModuleAction,
         GenerateConfigFileAction $generateConfigFileAction
     ) {
-        $this->generateLaravelPackageAction = $generateLaravelPackageAction;
+        $this->generatePortoContainerAction = $generatePortoContainerAction;
         $this->generateStandardLaravelApp = $generateStandardLaravelApp;
         $this->generateAngular2ModuleAction = $generateAngular2ModuleAction;
         $this->generateConfigFileAction = $generateConfigFileAction;
@@ -84,7 +84,7 @@ class GeneratorController extends WebController
         //switch over what type of CRUD app the user wants to generate
         switch ($request->get('app_type')) {
             case 'laravel_package':
-                $this->generateLaravelPackageAction->run($request);
+                $this->generatePortoContainerAction->run($request);
                 break;
             case 'standard_laravel_app':
                 $this->generateStandardLaravelApp->run($request);
