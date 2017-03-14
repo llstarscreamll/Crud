@@ -2,7 +2,7 @@
 
 namespace {{ $gen->entityName() }};
 
-use {{ $gen->entityName() }}\ApiTester;
+use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
 
 class Create{{ $gen->entityName() }}Cest
