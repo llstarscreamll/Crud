@@ -215,7 +215,7 @@ class GeneratedFilesCest
         $apiDir = $containersDir.$this->package.'/UI/API';
         $I->assertTrue(file_exists($apiDir), 'UI/API dir');
         $I->assertTrue(file_exists($apiDir.'/Controllers'), 'API/Controllers dir');
-        $I->seeFileFound('Controller.php', $apiDir.'/Controllers');
+        $I->seeFileFound('BookController.php', $apiDir.'/Controllers');
 
         // generated entity API requests
         $apiRequestsDir = $apiDir.'/Requests';

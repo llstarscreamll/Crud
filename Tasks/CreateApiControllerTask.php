@@ -51,7 +51,7 @@ class CreateApiControllerTask
     {
         $file = 'Controller';
 
-        $factoryFile = $this->apiControllersFolder()."/Controller.php";
+        $factoryFile = $this->apiControllersFolder()."/{$this->entityName()}Controller.php";
         $template = $this->templatesDir().'.Porto/UI/API/Controllers/'.$file;
 
         $content = view($template, [

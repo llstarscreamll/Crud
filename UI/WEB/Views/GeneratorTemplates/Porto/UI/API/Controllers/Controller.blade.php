@@ -22,7 +22,7 @@ use Dingo\Api\Http\Request;
 /**
  * Controller Class.
  */
-class Controller extends ApiController
+class {{ $gen->entityName() }}Controller extends ApiController
 {
 	public function formModel(Request $request)
 	{
