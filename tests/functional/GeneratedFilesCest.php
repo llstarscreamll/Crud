@@ -75,10 +75,11 @@ class GeneratedFilesCest
 
     private function checkAngular2ModuleGeneration($I)
     {
-        $copyedModuleDir = storage_path('app/copyTest/Angular/Book');
+        $copyedModuleDir = storage_path('app/copyTest/Angular/'.camel_case($this->package));
         $I->assertTrue(file_exists($copyedModuleDir), 'Angular copied dir');
 
-        $moduleDir = storage_path('app/crud/code/Angular2/Book/');
+        $camelModule = camel_case($this->package);
+        $moduleDir = storage_path("app/crud/code/Angular2/{$camelModule}/");
         $I->assertTrue(file_exists($moduleDir), 'NG Module dir');
 
         $I->seeFileFound('book.module.ts', $moduleDir);
@@ -140,7 +141,7 @@ class GeneratedFilesCest
 
     private function checkPortoFilesGeneration(FunctionalTester $I)
     {
-        $copyedPortoContainerDir = storage_path('app/copyTest/Porto/Book');
+        $copyedPortoContainerDir = storage_path('app/copyTest/Porto/'.$this->package);
         $I->assertTrue(file_exists($copyedPortoContainerDir), 'Porto container copied dir');
 
         // los directorios deben estar creados correctamente

@@ -88,9 +88,17 @@ trait AngularFolderNamesResolver
         return str_slug($entity, '-');
     }
 
+    /**
+     * TODO: duplicated method!! refactor this!!
+     */
+    public function containerName()
+    {
+        return studly_case(str_singular($this->container));
+    }
+
     public function moduleDir()
     {
-        return $this->angularDir().'/'.$this->entityName();
+        return $this->angularDir().'/'.camel_case($this->containerName());
     }
 
     public function modelsDir()

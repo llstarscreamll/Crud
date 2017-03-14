@@ -15,7 +15,7 @@ class Generate
     public static $formData = [
         'app_type' => 'laravel_app',
         'UI_theme' => 'Inspinia',
-        'is_part_of_package' => 'Books',
+        'is_part_of_package' => 'Library',
         'table_name' => 'books',
         'use_faker' => false,
         'use_base_class' => false,
