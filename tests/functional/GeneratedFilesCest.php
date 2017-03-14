@@ -75,14 +75,13 @@ class GeneratedFilesCest
 
     private function checkAngular2ModuleGeneration($I)
     {
-        $copyedModuleDir = storage_path('app/copyTest/Angular/'.camel_case($this->package));
+        $copyedModuleDir = storage_path('app/copyTest/Angular/'.str_slug($this->package, "-"));
         $I->assertTrue(file_exists($copyedModuleDir), 'Angular copied dir');
 
-        $camelModule = camel_case($this->package);
-        $moduleDir = storage_path("app/crud/code/Angular2/{$camelModule}/");
+        $slugModule = str_slug($this->package, "-");
+        $moduleDir = storage_path("app/crud/code/Angular2/{$slugModule}/");
         $I->assertTrue(file_exists($moduleDir), 'NG Module dir');
 
-        $slugModule = str_slug($this->package, "-");
         $I->seeFileFound($slugModule.'.module.ts', $moduleDir);
         $I->seeFileFound($slugModule.'-routing.module.ts', $moduleDir);
 

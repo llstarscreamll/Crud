@@ -109,7 +109,7 @@ trait AngularFolderNamesResolver
 
     public function moduleDir()
     {
-        return $this->angularDir().'/'.camel_case($this->containerName());
+        return $this->angularDir().'/'.$this->slugModuleName();
     }
 
     public function modelsDir()
