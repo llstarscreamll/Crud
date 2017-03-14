@@ -90,13 +90,13 @@ trait AngularFolderNamesResolver
 
     public function slugModuleName($plural = false)
     {
-        $entity = $plural
+        $module = $plural
             ? str_plural($this->container)
             : str_singular($this->container);
 
-        $entity = str_slug($entity, "-");
+        $module = snake_case($module);
 
-        return str_slug($entity, '-');
+        return str_slug($module, '-');
     }
 
     /**
