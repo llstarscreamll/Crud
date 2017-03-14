@@ -9,6 +9,7 @@ use App\Containers\Crud\Actions\GenerateStandardLaravelApp;
 use App\Containers\Crud\Actions\GenerateAngular2ModuleAction;
 use App\Containers\Crud\Actions\GenerateConfigFileAction;
 use App\Containers\Crud\Actions\LoadOptionsAction;
+use App\Containers\Crud\Actions\CopyDirsAction;
 use App\Ship\Parents\Controllers\WebController;
 
 class GeneratorController extends WebController
@@ -22,17 +23,31 @@ class GeneratorController extends WebController
 
     /**
      * Generate Standard Laravel App Action.
+     *
      * @var App\Containers\Crud\Actions\GenerateStandardLaravelApp
      */
     private $generateStandardLaravelApp;
 
     /**
      * Generate Angular 2 Module Action.
+     *
      * @var App\Containers\Crud\Actions\GenerateAngular2ModuleAction
      */
     private $generateAngular2ModuleAction;
 
+    /**
+     * Generate Config File Action.
+     *
+     * @var App\Containers\Crud\Actions\GenerateConfigFileAction
+     */
     private $generateConfigFileAction;
+    
+    /**
+     * Copy Generated Dirs Action.
+     *
+     * @var App\Containers\Crud\Actions\CopyDirsAction
+     */
+    private $copyDirsAction;
 
     /**
      * Create a new controller instance.
@@ -41,12 +56,14 @@ class GeneratorController extends WebController
         GeneratePortoContainerAction $generatePortoContainerAction,
         GenerateStandardLaravelApp $generateStandardLaravelApp,
         GenerateAngular2ModuleAction $generateAngular2ModuleAction,
-        GenerateConfigFileAction $generateConfigFileAction
+        GenerateConfigFileAction $generateConfigFileAction,
+        CopyDirsAction $copyDirsAction
     ) {
         $this->generatePortoContainerAction = $generatePortoContainerAction;
         $this->generateStandardLaravelApp = $generateStandardLaravelApp;
         $this->generateAngular2ModuleAction = $generateAngular2ModuleAction;
         $this->generateConfigFileAction = $generateConfigFileAction;
+        $this->copyDirsAction = $copyDirsAction;
     }
 
     /**
@@ -97,6 +114,8 @@ class GeneratorController extends WebController
         if ($request->get('create_angular_2_module', false)) {
             $this->generateAngular2ModuleAction->run($request);
         }
+
+        $this->copyDirsAction->run($request);
 
         // go to the CRUD settings page
         return redirect()->route(

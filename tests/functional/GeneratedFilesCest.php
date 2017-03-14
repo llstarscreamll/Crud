@@ -13,6 +13,7 @@ class GeneratedFilesCest
         $I->deleteDir(storage_path("app/crud/code/Angular2/Book"));
         $I->deleteDir(storage_path("app/crud/code/PortoContainers/Book"));
         $I->deleteDir(storage_path("app/crud/options/books.php"));
+        $I->deleteDir(storage_path("app/copyTest"));
 
         // page setup
         new Page($I);
@@ -54,6 +55,10 @@ class GeneratedFilesCest
         $data['field[1][namespace]'] = 'App\Containers\Reason\Models\Reason';
         $data['field[12][namespace]'] = 'App\Containers\User\Models\User';
 
+        // copy the generated files to a folder
+        $data['copy_porto_container_to'] = storage_path('app/copyTest/Porto');
+        $data['copy_angular_module_to'] = storage_path('app/copyTest/Angular');
+
         $this->package = studly_case(str_singular($data['is_part_of_package']));
         $this->entity = studly_case(str_singular($data['table_name']));
         
@@ -70,6 +75,9 @@ class GeneratedFilesCest
 
     private function checkAngular2ModuleGeneration($I)
     {
+        $copyedModuleDir = storage_path('app/copyTest/Angular/Book');
+        $I->assertTrue(file_exists($copyedModuleDir), 'Angular copied dir');
+
         $moduleDir = storage_path('app/crud/code/Angular2/Book/');
         $I->assertTrue(file_exists($moduleDir), 'NG Module dir');
 
@@ -132,6 +140,9 @@ class GeneratedFilesCest
 
     private function checkPortoFilesGeneration(FunctionalTester $I)
     {
+        $copyedPortoContainerDir = storage_path('app/copyTest/Porto/Book');
+        $I->assertTrue(file_exists($copyedPortoContainerDir), 'Porto container copied dir');
+
         // los directorios deben estar creados correctamente
         $containersDir = storage_path('app/crud/code/PortoContainers/');
         $I->assertTrue(file_exists($containersDir), 'Porto Containers dir');
