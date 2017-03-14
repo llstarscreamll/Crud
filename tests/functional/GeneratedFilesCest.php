@@ -82,8 +82,9 @@ class GeneratedFilesCest
         $moduleDir = storage_path("app/crud/code/Angular2/{$camelModule}/");
         $I->assertTrue(file_exists($moduleDir), 'NG Module dir');
 
-        $I->seeFileFound('book.module.ts', $moduleDir);
-        $I->seeFileFound('book-routing.module.ts', $moduleDir);
+        $slugModule = str_slug($this->package, "-");
+        $I->seeFileFound($slugModule.'.module.ts', $moduleDir);
+        $I->seeFileFound($slugModule.'-routing.module.ts', $moduleDir);
 
         // models
         $modelsDir = $moduleDir.'models/';

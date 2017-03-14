@@ -88,6 +88,17 @@ trait AngularFolderNamesResolver
         return str_slug($entity, '-');
     }
 
+    public function slugModuleName($plural = false)
+    {
+        $entity = $plural
+            ? str_plural($this->container)
+            : str_singular($this->container);
+
+        $entity = str_slug($entity, "-");
+
+        return str_slug($entity, '-');
+    }
+
     /**
      * TODO: duplicated method!! refactor this!!
      */
@@ -208,9 +219,9 @@ trait AngularFolderNamesResolver
     public function moduleFile($file)
     {
         $file = $file === "module" ? '' : '-'.$file;
-        $entity = $this->slugEntityName();
+        $module = $this->slugModuleName();
 
-        return $entity.$file.".module.ts";
+        return $module.$file.".module.ts";
     }
 
     public function moduleClass($class)
