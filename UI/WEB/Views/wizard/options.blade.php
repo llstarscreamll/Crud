@@ -71,17 +71,11 @@
                         <legend>Copy Dirs</legend>
                         <div class="form-group col-sm-6">
                             <label for="copy_porto_container_to">Copy PORTO container to</label>
-                            <input  type="text"
-                                    name="copy_porto_container_to"
-                                    id="copy_porto_container_to"
-                                    class="form-control">
+                            {!! Form::text('copy_porto_container_to', null, ['class' => 'form-control']) !!}
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="copy_angular_module_to">Copy Angular module to</label>
-                            <input  type="text"
-                                    name="copy_angular_module_to"
-                                    id="copy_angular_module_to"
-                                    class="form-control">
+                            {!! Form::text('copy_angular_module_to', null, ['class' => 'form-control']) !!}
                         </div>
                     </fieldset>
 
