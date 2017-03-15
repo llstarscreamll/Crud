@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
 import * as fromRoot from './../../../core/reducers';
-import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ camel_case($gen->entityName()) }}.reducer';
+import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
