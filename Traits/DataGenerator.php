@@ -349,4 +349,46 @@ trait DataGenerator
 
         return "null";
     }
+
+    public function setupIndexFile($indexFilePath, $template, $className, $fileName)
+    {
+        if (file_exists($indexFilePath)) {
+            $indexFileContents = file_get_contents($indexFilePath);
+            
+            if (strpos($indexFileContents, $className)) {
+                session()->push('warning', $className.' already added on index file');
+            } else {
+                $replace = $this->indexFileReplacements($className, $fileName);
+
+                $content = str_replace(
+                    $this->indexStrToreplace,
+                    $replace,
+                    $indexFileContents
+                );
+
+                file_put_contents($indexFilePath, $content) === false
+                    ? session()->push('error', $className." index file setup error")
+                    : session()->push('success', $className." index file setup success");
+            }
+            
+            return;
+        }
+
+        $content = view($template, [
+            'gen' => $this,
+            'fields' => $this->parseFields($this->request)
+        ]);
+
+        file_put_contents($indexFilePath, $content) === false
+            ? session()->push('error', "Error on index $className file setup")
+            : session()->push('success', "Index $className setup success");
+    }
+
+    public function indexFileReplacements(string $className, string $fileName)
+    {
+        $classImport = "import { $className } from '$fileName'";
+        $classUsage = $this->indexStrToreplace."\n  $className,";
+
+        return $classImport."\n".$classUsage;
+    }
 }
