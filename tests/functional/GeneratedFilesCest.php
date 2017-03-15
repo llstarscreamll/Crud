@@ -10,8 +10,8 @@ class GeneratedFilesCest
     public function _before(FunctionalTester $I)
     {
         // delete old generated dirs
-        $I->deleteDir(storage_path("app/crud/code/Angular2/Book"));
-        $I->deleteDir(storage_path("app/crud/code/PortoContainers/Book"));
+        $I->deleteDir(storage_path("app/crud/code/Angular2/library"));
+        $I->deleteDir(storage_path("app/crud/code/PortoContainers/library"));
         $I->deleteDir(storage_path("app/crud/options/books.php"));
         $I->deleteDir(storage_path("app/copyTest"));
 
@@ -27,21 +27,6 @@ class GeneratedFilesCest
      */
     public function _after(FunctionalTester $I)
     {
-        // if (file_exists(app_path("/Containers/").$this->package)) {
-        //     // this step should be donde by user, but for testing purposes we do here
-        //     // copy generated container on Hello-API project for test the final app there
-        //     $I->copyDir(app_path('Containers/Book'), base_path('../hello/app/Containers/Book'));
-        //     // copy migration file
-        //     $migrationFile = base_path("llstarscreamll/Crud/src/Database/Migrations");
-        //     $I->copyDir($migrationFile, base_path('../hello/app/Containers/Book/Data/Migrations'));
-        //     // delete unnecessary copied migration file
-        //     $I->deleteFile(base_path('../hello/app/Containers/Book/Data/Migrations/2016_03_01_222942_create_reasons_table.php'));
-        // }
-
-        // if (file_exists(app_path("/Angular2/Book"))) {
-        //     // copy generated Angular 2 Moduel on saas-CLI project for test the final app there
-        //     $I->copyDir(app_path('Angular2/Book'), base_path('../saas-CLI/src/app/modules/book'));
-        // }
     }
 
     public function checkLaravelPackageFilesGeneration(FunctionalTester $I)
@@ -75,10 +60,12 @@ class GeneratedFilesCest
 
     private function checkAngular2ModuleGeneration($I)
     {
-        $copyedModuleDir = storage_path('app/copyTest/Angular/'.str_slug($this->package, "-"));
+        $slugModule = str_slug($this->package, "-");
+        $slugEntity = str_slug($this->entity, "-");
+
+        $copyedModuleDir = storage_path('app/copyTest/Angular/'.$slugModule);
         $I->assertTrue(file_exists($copyedModuleDir), 'Angular copied dir');
 
-        $slugModule = str_slug($this->package, "-");
         $moduleDir = storage_path("app/crud/code/Angular2/{$slugModule}/");
         $I->assertTrue(file_exists($moduleDir), 'NG Module dir');
 
@@ -117,13 +104,13 @@ class GeneratedFilesCest
         $I->seeFileFound('book.service.ts', $servicesDir);
 
         // components
-        $componentsDir = $moduleDir.'components/';
+        $componentsDir = $moduleDir.'components/'.$slugEntity.'/';
         $I->assertTrue(file_exists($componentsDir), 'NG components dir');
         $I->seeFileFound('book-form.component.ts', $componentsDir);
         $I->seeFileFound('books-table.component.ts', $componentsDir);
 
         // containers
-        $containersDir = $moduleDir.'containers/';
+        $containersDir = $moduleDir.'containers/'.$slugEntity.'/';
         $I->assertTrue(file_exists($containersDir), 'NG containers dir');
         $I->seeFileFound('list-and-search-books.page.ts', $containersDir);
         $I->seeFileFound('list-and-search-books.page.css', $containersDir);
