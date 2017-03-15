@@ -17,7 +17,7 @@ export class {{ $entitySin }}Effects {
 
 	public constructor(
     private actions$: Actions,
-    private {{ $service = $camelEntity.'Service' }}: {{ $entitySin }}Service,
+    private {{ $service = camel_case($entitySin).'Service' }}: {{ $entitySin }}Service,
     private formModelParser: FormModelParser
   ) { }
 
@@ -37,7 +37,7 @@ export class {{ $entitySin }}Effects {
     .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }}_FORM_MODEL)
     .switchMap(() => {
       return this.{{ $service }}.get{{ $gen->entityName() }}FormModel()
-        .map((data) => this.formModelParser.parse(data, '{{ strtoupper($gen->entityName()) }}.fields.{{ camel_case($gen->entityName(true)) }}.'))
+        .map((data) => this.formModelParser.parse(data, this.{{ $service }}.fieldsLangNamespace))
         .map((data) => { return new {{ $actions }}.GetFormModelSuccessAction(data)})
         .catch((error) => {
           error.type = 'danger';

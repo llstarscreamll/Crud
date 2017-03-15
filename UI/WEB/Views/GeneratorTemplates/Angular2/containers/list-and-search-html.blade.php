@@ -11,7 +11,7 @@
 
 				<div class="row">
 					<div class="col-sm-6 col-md-8">
-						<a [routerLink]="[ '/{{ camel_case($gen->entityName()) }}/create' ]" class="btn btn-primary">
+						<a [routerLink]="[ '/{{ $gen->slugEntityName() }}/create' ]" class="btn btn-primary">
 							<i class="glyphicon glyphicon-plus"></i>
 							<span translate>{{ $upEntity }}.create</span>
 						</a>
