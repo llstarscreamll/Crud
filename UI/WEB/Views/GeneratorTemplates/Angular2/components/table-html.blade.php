@@ -11,6 +11,7 @@
                     </span>
                 </th>
                 </ng-container>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +29,12 @@
                 </td>
 @endif
 @endforeach
+                <td>
+                    <a [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id]" class="btn btn-sm btn-default">
+                        <i class="glyphicon glyphicon-eye-open"></i>
+                        <span class="sr-only btn-label">Details</span>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
