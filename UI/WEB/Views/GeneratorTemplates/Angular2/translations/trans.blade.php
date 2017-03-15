@@ -1,5 +1,5 @@
-export const ES = {
-  '{{ $gen->entityNameUppercase() }}': {
+export const {{ $gen->entityNameSnakeCase() }} = {
+  '{{ $gen->entityNameSnakeCase() }}': {
     'module-name-singular': '{{ $entity = $gen->request->get('single_entity_name') }}',
     'module-name-plural': '{{ $gen->request->get('plural_entity_name') }}',
     'create': '{{ trans('crud::templates.create-link') }}',

@@ -118,6 +118,15 @@ trait AngularFolderNamesResolver
         return studly_case(str_singular($this->container));
     }
 
+    public function getLanguageKey(bool $upper = false)
+    {
+        $key = $upper
+            ? strtoupper($this->request->get('language_key'))
+            : strtolower($this->request->get('language_key'));
+
+        return $key;
+    }
+
     public function moduleDir()
     {
         return $this->angularDir().'/'.$this->slugModuleName();
@@ -180,7 +189,7 @@ trait AngularFolderNamesResolver
 
     public function translationsDir()
     {
-        return $this->moduleDir().'/translations';
+        return $this->moduleDir().'/translations/'.$this->getLanguageKey();
     }
 
     public function containerFile($file, $plural = false, bool $atStart = false)

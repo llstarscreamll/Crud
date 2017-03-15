@@ -13,7 +13,7 @@ import { CONTAINERS } from './containers';
 // Components
 import { COMPONENTS } from './components';
 // Language files
-import { ES } from './translations/es';
+import { {{ $gen->getLanguageKey(true) }} } from './translations/{{ $gen->getLanguageKey() }}';
 // Effects
 import { EFFECTS } from './effects';
 // services
@@ -40,7 +40,7 @@ import { SERVICES } from './services';
 export class {{ $gen->studlyModuleName() }}Module {
   
   public constructor(translate: TranslateService) {
-    translate.setTranslation('es', ES, true);
+    translate.setTranslation('{{ $gen->getLanguageKey(false) }}', {{ $gen->getLanguageKey(true) }}, true);
   }
 
 }

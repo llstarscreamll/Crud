@@ -1,7 +1,7 @@
 <app-sidebar-layout>
 	<app-page-header>
 		<div class="col-xs-12">
-			<h2 translate>{{ $upEntity = $gen->entityNameUppercase() }}.module-name-plural</h2>
+			<h2 translate>{{ $upEntity = $gen->entityNameSnakeCase() }}.module-name-plural</h2>
 		</div>
 	</app-page-header>
 	

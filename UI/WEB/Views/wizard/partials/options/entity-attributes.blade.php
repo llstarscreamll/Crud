@@ -2,12 +2,12 @@
     <legend>Atributos de Entidad</legend>
     <div class="row">
 
-        <div class="form-group col-sm-4 col-md-2">
+        <div class="form-group col-sm-4 col-md-3">
             {!! Form::label('plural_entity_name', 'Plural Name') !!}
             {!! Form::text('plural_entity_name', null, ['class' => 'form-control']) !!}
         </div>
 
-        <div class="form-group col-sm-4 col-md-2">
+        <div class="form-group col-sm-4 col-md-3">
             {!! Form::label('single_entity_name', 'Singular Name') !!}
             {!! Form::text('single_entity_name', null, ['class' => 'form-control']) !!}
         </div>
@@ -17,7 +17,7 @@
             {!! Form::text('is_part_of_package', null, ['class' => 'form-control']) !!}
         </div>
 
-        <div class="form-group col-sm-4 col-md-3">
+        <div class="form-group col-sm-4 col-md-2">
             {!! Form::label('id_for_user', 'Id for User') !!}
             {!! Form::select(
                 'id_for_user',
@@ -25,6 +25,11 @@
                 isset($names_list['name']) ? $names_list['name'] : null,
                 ['class' => 'form-control']
             ) !!}
+        </div>
+
+        <div class="form-group col-sm-4 col-md-2">
+            <label for="language_key">Languaje key</label>
+            {!! Form::text('language_key', null, ['class' => 'form-control', 'placeholder' => 'en']) !!}
         </div>
 
         <div class="clearfix"></div>

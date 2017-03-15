@@ -35,8 +35,13 @@ class CreateNgTranslationsTask
      * @var array
      */
     public $files = [
-        'es',
+        'trans',
     ];
+
+    /**
+     * @var string
+     */
+    private $indexStrToreplace = "\nexport const EFFECTS = [";
 
     /**
      * Create new CreateNgTranslationsTask instance.
@@ -55,8 +60,15 @@ class CreateNgTranslationsTask
      */
     public function run()
     {
+        $indexFilePath = $this->translationsDir().'/index.ts';
+        $template = $this->templatesDir().'.Angular2/translations/main-index';
+        $className = $this->entityNameSnakeCase();
+        $fileName = './'.$this->slugEntityName();
+
+        $this->setupIndexFile($indexFilePath, $template, $className, $fileName);
+
         foreach ($this->files as $file) {
-            $transFile = $this->translationsDir()."/$file.ts";
+            $transFile = $this->translationsDir()."/{$this->slugEntityName()}.ts";
             $template = $this->templatesDir().'.Angular2.translations.'.$file;
 
             $content = view($template, [

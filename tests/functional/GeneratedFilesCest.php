@@ -33,6 +33,7 @@ class GeneratedFilesCest
 
         $data = Page::$formData;
         $data['app_type'] = 'porto_container';
+        $data['language_key'] = 'es';
         $data['create_angular_2_module'] = true;
         // modify relations namespaces for Porto container convenience
         $data['field[1][namespace]'] = 'App\Containers\Reason\Models\Reason';
@@ -77,9 +78,10 @@ class GeneratedFilesCest
         $I->seeFileFound('bookPagination.ts', $modelsDir);
 
         // translations
-        $transDir = $moduleDir.'translations/';
+        $transDir = $moduleDir.'translations/es/';
         $I->assertTrue(file_exists($transDir), 'NG translations dir');
-        $I->seeFileFound('es.ts', $transDir);
+        $I->seeFileFound('book.ts', $transDir);
+        $I->seeFileFound('index.ts', $transDir);
 
         // actions
         $actionsDir = $moduleDir.'actions/';
