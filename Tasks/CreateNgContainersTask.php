@@ -47,6 +47,7 @@ class CreateNgContainersTask
         'list-and-search',
         'list-and-search-css',
         'list-and-search-html',
+        'index',
     ];
 
     /**

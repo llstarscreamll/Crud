@@ -139,11 +139,15 @@ trait AngularFolderNamesResolver
 
     public function componentsDir()
     {
-        return $this->moduleDir().'/components';
+        return $this->moduleDir().'/components/'.$this->slugEntityName();
     }
 
     public function componentFile($file, $plural = false)
     {
+        if ($file == "index") {
+            return $file.'.ts';
+        }
+
         $ext = $this->solveExtentintionFormFile($file);
         $file = $this->cleanFileName($file);
         $entity = $this->slugEntityName($plural);
@@ -160,7 +164,7 @@ trait AngularFolderNamesResolver
 
     public function containersDir()
     {
-        return $this->moduleDir().'/containers';
+        return $this->moduleDir().'/containers/'.$this->slugEntityName();
     }
 
     public function translationsDir()
@@ -170,6 +174,10 @@ trait AngularFolderNamesResolver
 
     public function containerFile($file, $plural = false, bool $atStart = false)
     {
+        if ($file == "index") {
+            return $file.'.ts';
+        }
+
         $ext = $this->solveExtentintionFormFile($file);
         $file = $this->cleanFileName($file);
         $entity = $this->slugEntityName($plural);

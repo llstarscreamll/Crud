@@ -107,7 +107,12 @@ class GeneratedFilesCest
         $componentsDir = $moduleDir.'components/'.$slugEntity.'/';
         $I->assertTrue(file_exists($componentsDir), 'NG components dir');
         $I->seeFileFound('book-form.component.ts', $componentsDir);
+        $I->seeFileFound('book-form.component.html', $componentsDir);
+        $I->seeFileFound('book-form.component.css', $componentsDir);
         $I->seeFileFound('books-table.component.ts', $componentsDir);
+        $I->seeFileFound('books-table.component.html', $componentsDir);
+        $I->seeFileFound('books-table.component.css', $componentsDir);
+        $I->seeFileFound('index.ts', $componentsDir);
 
         // containers
         $containersDir = $moduleDir.'containers/'.$slugEntity.'/';
@@ -124,6 +129,7 @@ class GeneratedFilesCest
         $I->seeFileFound('edit-book.page.ts', $containersDir);
         $I->seeFileFound('edit-book.page.css', $containersDir);
         $I->seeFileFound('edit-book.page.html', $containersDir);
+        $I->seeFileFound('index.ts', $containersDir);
     }
 
     private function checkPortoFilesGeneration(FunctionalTester $I)

@@ -41,6 +41,7 @@ class CreateNgComponentsTask
         'form',
         'form-css',
         'form-html',
+        'index',
     ];
 
     /**
