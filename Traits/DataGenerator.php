@@ -350,7 +350,19 @@ trait DataGenerator
         return "null";
     }
 
-    public function setupIndexFile($indexFilePath, $template, $className, $fileName)
+    /**
+     * Configures the index file imports for components, effects, containers,
+     * etc... If the file already exists, then append the convenient imports to
+     * the file, if the file does not exist, then creates the file with the
+     * respective imports.
+     *
+     * @param  string $indexFilePath The final index file location
+     * @param  string $template      The index template file to create
+     * @param  string $className     The class name to search for on existing index file
+     * @param  string $fileName      The file name where the above class is located
+     * @return void                
+     */
+    public function setupIndexFile(string $indexFilePath, string $template, string $className, string $fileName)
     {
         if (file_exists($indexFilePath)) {
             $indexFileContents = file_get_contents($indexFilePath);
@@ -384,6 +396,14 @@ trait DataGenerator
             : session()->push('success', "Index $className setup success");
     }
 
+    /**
+     * Prepare the replacements for an existing index file, the result will be
+     * appened to the target file.
+     *
+     * @param  string $className The class name to import
+     * @param  string $fileName  The file name where the above class is located
+     * @return string
+     */
     public function indexFileReplacements(string $className, string $fileName)
     {
         $classImport = "import { $className } from '$fileName'";
