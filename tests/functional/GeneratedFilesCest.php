@@ -10,8 +10,6 @@ class GeneratedFilesCest
     public function _before(FunctionalTester $I)
     {
         // delete old generated dirs
-        //$I->deleteDir(storage_path("app/crud/code/Angular2/library"));
-        //$I->deleteDir(storage_path("app/crud/code/PortoContainers/library"));
         $I->deleteDir(storage_path("app/crud/options/books.php"));
         $I->deleteDir(storage_path("app/copyTest"));
 
