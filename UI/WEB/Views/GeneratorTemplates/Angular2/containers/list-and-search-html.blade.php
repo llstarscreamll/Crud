@@ -23,12 +23,12 @@
 
 				<{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}
 					(sortLinkClicked)="onSearch($event)"
-					[{{ camel_case($gen->entityName(true)) }}]="({{ $state = camel_case($gen->entityName()).'State$' }} | async)?.{{ camel_case($gen->entityName(true)) }}"
+					[{{ camel_case($gen->entityName(true)) }}]="({{ $state = camel_case($gen->entityName()).'State$' }} | async)?.{{ camel_case($gen->entityName(true)) }}Pagination?.data"
 					[orderBy]="queryData.orderBy"
 					[sortedBy]="queryData.sortedBy"
 					[columns]="queryData.filter">
 				</{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}>
-				<app-pagination [pagination]="({{ $state }} | async)?.pagination"
+				<app-pagination [pagination]="({{ $state }} | async)?.{{ camel_case($gen->entityName(true)) }}Pagination?.pagination"
 								(pageLinkClicked)="onSearch($event)"></app-pagination>
 			</app-box-body>
 		</app-box>

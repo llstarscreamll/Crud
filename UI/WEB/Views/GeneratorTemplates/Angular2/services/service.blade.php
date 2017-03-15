@@ -34,14 +34,14 @@ export class {{ $entitySin }}Service extends Service {
 
     return this.http
       .get(this.apiEndpoint(), { headers: this.headers, search: searchParams })
-      .map(res => {return res.json()})
+      .map(res => { return { data: res.json().data, pagination: res.json().meta.pagination } })
       .catch(this.handleError);
   }
 
   public create(data: Object) {
     return this.http
       .post(this.apiEndpoint('create'), data, { headers: this.headers })
-      .map(res => {return res.json().data})
+      .map(res => { return res.json().data })
       .catch(this.handleError);
   }
 
@@ -57,14 +57,14 @@ export class {{ $entitySin }}Service extends Service {
     urlParams.set('include', '{{ $fields->filter(function ($field) { return !empty($field->namespace); })->transform(function($field) use ($gen) { return $gen->relationNameFromField($field); })->implode(',') }}');
     return this.http
       .get(this.apiEndpoint(id), { headers: this.headers, search: urlParams })
-      .map(res => {return res.json().data})
+      .map(res => { return res.json().data })
       .catch(this.handleError);
   }
 
   public get{{ $gen->entityName() }}FormData() {
     return this.http
       .get(this.apiEndpoint('form-data/{{ $gen->slugEntityName() }}'), { headers: this.headers })
-      .map(res => {return res.json()})
+      .map(res => { return res.json() })
       .catch(this.handleError);
   }
 

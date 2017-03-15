@@ -1,24 +1,22 @@
 import { FormGroup } from '@angular/forms';
 import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
-import { Pagination } from './../../core/models/pagination';
+import { {{ $gen->entityName() }}Pagination } from './../models/{{ camel_case($entitySin) }}Pagination';
 
 export interface State {
-  {{ camel_case($gen->entityName()) }}FormModel: Object;
-  {{ camel_case($gen->entityName()) }}FormData: Object;
-  {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[];
-  pagination: Pagination | {};
-  {{ camel_case($gen->entityName()) }}: {{ $gen->entityName() }} | null;
+  {{ $formModel = camel_case($gen->entityName()).'FormModel' }}: Object;
+  {{ $formData = camel_case($gen->entityName()).'FormData' }}: Object;
+  {{ $pagination = camel_case($gen->entityName(true)).'Pagination' }}: {{ $gen->entityName() }}Pagination | null;
+  selected{{ $gen->entityName() }}: {{ $gen->entityName() }} | null;
   loading: boolean;
-  errors: Object
+  errors: Object;
 }
 
 const initialState: State = {
-  {{ camel_case($gen->entityName()) }}FormModel: {},
-  {{ camel_case($gen->entityName()) }}FormData: {},
-  {{ $modelPlu = camel_case($gen->entityName(true)) }}: [],
-  pagination: {},
-  {{ $modelSin = camel_case($gen->entityName()) }}: null,
+  {{ $formModel }}: {},
+  {{ $formData }}: {},
+  {{ $pagination }}: null,
+  selected{{ $gen->entityName() }}: null,
   loading: true,
   errors: {}
 };
@@ -30,9 +28,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.ActionTypes.LOAD_{{ $entitySnakePlu }}_SUCCESS: {
-      let {{ $modelSin }} = action.payload.data as {{ $gen->entityName() }}[];
-      let pagination = action.payload.meta.pagination;
-      return { ...state, {{ $modelPlu }}: {{ $modelSin }}, pagination: pagination, loading: false };
+      return { ...state, {{ $pagination }}: action.payload, loading: false };
     }
     
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}_FORM_MODEL: {
@@ -56,7 +52,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.ActionTypes.CREATE_{{ $entitySnakeSin }}_SUCCESS: {
-      return {...state, {{ $modelSin }}: action.payload, loading: false };
+      return {...state, selected{{ $gen->entityName() }}: action.payload, loading: false };
     }
 
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}: {
@@ -64,7 +60,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_SUCCESS: {
-      return { ...state, {{ camel_case($gen->entityName()) }}: action.payload, loading: false };
+      return { ...state, selected{{ $gen->entityName() }}: action.payload, loading: false };
     }
 
 /*
@@ -99,7 +95,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
  }
 
   export const get{{ $entity = $gen->entityName() }}FormModel = (state: State) => state.{{ camel_case($entity) }}FormModel;
-  export const getSelected{{ $entity }} = (state: State) => state.{{ camel_case($entity) }};
+  export const getSelected{{ $entity }} = (state: State) => state.selected{{ $entity }};
 
 /* -----------------------------------------------------------------------------
 Don't forget to import these reducer on the main app reducer!!
@@ -118,6 +114,6 @@ const reducers = {
 // {{ $gen->entityName() }} selectors
 export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
 export const get{{ $entity }}FormModel = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ $entity }}FormModel);
-export const getSelected{{ $entity }}: any = (state: State) => state.{{ camel_case($entity) }};
+export const getSelected{{ $entity }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getSelected{{ $entity }});
 
 ----------------------------------------------------------------------------- */
