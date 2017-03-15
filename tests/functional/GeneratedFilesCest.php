@@ -10,8 +10,8 @@ class GeneratedFilesCest
     public function _before(FunctionalTester $I)
     {
         // delete old generated dirs
-        $I->deleteDir(storage_path("app/crud/code/Angular2/library"));
-        $I->deleteDir(storage_path("app/crud/code/PortoContainers/library"));
+        //$I->deleteDir(storage_path("app/crud/code/Angular2/library"));
+        //$I->deleteDir(storage_path("app/crud/code/PortoContainers/library"));
         $I->deleteDir(storage_path("app/crud/options/books.php"));
         $I->deleteDir(storage_path("app/copyTest"));
 
@@ -97,6 +97,7 @@ class GeneratedFilesCest
         $effectsDir = $moduleDir.'effects/';
         $I->assertTrue(file_exists($effectsDir), 'NG effects dir');
         $I->seeFileFound('book.effects.ts', $effectsDir);
+        $I->seeFileFound('index.ts', $effectsDir);
 
         // services
         $servicesDir = $moduleDir.'services/';

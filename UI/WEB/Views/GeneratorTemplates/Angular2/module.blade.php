@@ -5,44 +5,37 @@ import { {{ $gen->moduleClass('routing') }} } from './{{ str_replace('.ts', '', 
 import { EffectsModule } from '@ngrx/effects';
 // ng2 Translate
 import { TranslateService, TranslateModule } from 'ng2-translate';
+
 import { CoreModule } from './../core/core.module';
 // shell
 import { InspiniaShellModule as Shell } from './../../shells/inspinia/inspinia.module';
-// {{ $gen->entityName() }} containers
-import { {{ $gen->containerClass('list-and-search', true) }} } from './containers/{{ str_replace(['.ts'], [''], $gen->containerFile('list-and-search', true)) }}';
-import { {{ $gen->containerClass('create', false) }} } from './containers/{{ str_replace(['.ts'], [''], $gen->containerFile('create', false)) }}';
-import { {{ $gen->containerClass('details', false, true) }} } from './containers/{{ str_replace(['.ts'], [''], $gen->containerFile('details', false, true)) }}';
-import { {{ $gen->containerClass('edit', false) }} } from './containers/{{ str_replace(['.ts'], [''], $gen->containerFile('edit', false)) }}';
-// {{ $gen->entityName() }} components
-import { {{ $gen->componentClass('form', false) }} } from './components/{{ str_replace(['.ts'], [''], $gen->componentFile('form', false)) }}';
-import { {{ $gen->componentClass('table', true) }} } from './components/{{ str_replace(['.ts'], [''], $gen->componentFile('table', true)) }}';
+// Containers
+import { CONTAINERS } from './containers';
+// Components
+import { COMPONENTS } from './components';
 // Language files
 import { ES } from './translations/es';
-// ngrx
-import { {{ $gen->entityName() }}Effects } from './effects/{{ camel_case($gen->entityName()) }}.effects';
+// Effects
+import { EFFECTS } from './effects';
 // services
-import { {{ $service = $gen->entityName().'Service' }} } from './services/{{ camel_case($gen->entityName()) }}.service';
+import { SERVICES } from './services';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    EffectsModule.run({{ $gen->entityName() }}Effects),
     TranslateModule,
     CoreModule,
     Shell,
     {{ $gen->moduleClass('routing') }},
+    ...EFFECTS,
   ],
   declarations: [
-	  {{ $gen->containerClass('list-and-search', true) }},
-    {{ $gen->containerClass('create', false) }},
-    {{ $gen->containerClass('details', false, true) }},
-    {{ $gen->containerClass('edit', false) }},
-	  {{ $gen->componentClass('form', false) }},
-	  {{ $gen->componentClass('table', true) }},
+    ...COMPONENTS,
+	  ...CONTAINERS,
   ],
   providers: [
-    {{ $service }}
+    ...SERVICES
   ]
 })
 export class {{ $gen->moduleClass('module') }} {
