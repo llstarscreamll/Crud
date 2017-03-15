@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { {{ $gen->entityName() }} } from './../models/{{ camel_case($gen->entityName()) }}';
-import { Pagination } from './../../core/models/pagination';
+import { {{ $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
+import { Pagination } from './../../../core/models/pagination';
 
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}',

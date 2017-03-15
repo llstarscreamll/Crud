@@ -99,6 +99,17 @@ trait AngularFolderNamesResolver
         return str_slug($module, '-');
     }
 
+    public function studlyModuleName($plural = false)
+    {
+        $module = $plural
+            ? str_plural($this->container)
+            : str_singular($this->container);
+
+        $module = studly_case($module);
+
+        return $module;
+    }
+
     /**
      * TODO: duplicated method!! refactor this!!
      */

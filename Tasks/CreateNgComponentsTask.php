@@ -30,6 +30,11 @@ class CreateNgComponentsTask
     public $tableName;
 
     /**
+     * @var string
+     */
+    private $indexStrToreplace = "\nexport const COMPONENTS = [";
+
+    /**
      * The modules files to generate.
      *
      * @var array
@@ -61,6 +66,14 @@ class CreateNgComponentsTask
      */
     public function run()
     {
+        // generate the main index file for components
+        $indexFilePath = $this->componentsDir().'/../index.ts';
+        $template = $this->templatesDir().'.Angular2/components/main-index';
+        $className = $this->entityName().'Components';
+        $fileName = $this->componentsDir();
+
+        $this->setupIndexFile($indexFilePath, $template, $className, $fileName);
+
         foreach ($this->files as $file) {
             $plural = strpos($file, "table") !== false ? true : false;
 

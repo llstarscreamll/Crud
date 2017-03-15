@@ -30,6 +30,11 @@ class CreateNgContainersTask
     public $tableName;
 
     /**
+     * @var string
+     */
+    private $indexStrToreplace = "\nexport const CONTAINERS = [";
+
+    /**
      * The modules files to generate.
      *
      * @var array
@@ -67,6 +72,14 @@ class CreateNgContainersTask
      */
     public function run()
     {
+        // generate the main index file for containers
+        $indexFilePath = $this->containersDir().'/../index.ts';
+        $template = $this->templatesDir().'.Angular2/containers/main-index';
+        $className = $this->entityName().'Containers';
+        $fileName = $this->containersDir();
+
+        $this->setupIndexFile($indexFilePath, $template, $className, $fileName);
+
         foreach ($this->files as $file) {
             $plural = strpos($file, "list-and-search") !== false ? true : false;
             $atStart = strpos($file, "details") !== false ? true : false;

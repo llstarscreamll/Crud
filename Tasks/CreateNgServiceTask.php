@@ -30,6 +30,11 @@ class CreateNgServiceTask
     public $tableName;
 
     /**
+     * @var string
+     */
+    private $indexStrToreplace = "\nexport const SERVICES = [";
+
+    /**
      * Create new CreateNgServiceTask instance.
      *
      * @param Request $request
@@ -46,7 +51,15 @@ class CreateNgServiceTask
      */
     public function run()
     {
-        $serviceFile = camel_case($this->entityName());
+        $serviceFile = $this->slugEntityName();
+
+        $indexFilePath = $this->servicesDir().'/index.ts';
+        $template = $this->templatesDir().'.Angular2/services/main-index';
+        $className = $this->entityName().'Service';
+        $fileName = "./$serviceFile.service";
+
+        $this->setupIndexFile($indexFilePath, $template, $className, $fileName);
+
         $serviceFile = $this->servicesDir()."/$serviceFile.service.ts";
         $template = $this->templatesDir().'.Angular2/services/service';
 

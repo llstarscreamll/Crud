@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { {{ $gen->moduleClass('routing') }} } from './{{ str_replace('.ts', '', $gen->moduleFile('routing')) }}';
-import { EffectsModule } from '@ngrx/effects';
 // ng2 Translate
 import { TranslateService, TranslateModule } from 'ng2-translate';
 
@@ -38,7 +37,7 @@ import { SERVICES } from './services';
     ...SERVICES
   ]
 })
-export class {{ $gen->moduleClass('module') }} {
+export class {{ $gen->studlyModuleName() }}Module {
   
   public constructor(translate: TranslateService) {
     translate.setTranslation('es', ES, true);

@@ -35,6 +35,11 @@ class CreateNgEffectsTask
     private $indexStrToreplace = "\nexport const EFFECTS = [";
 
     /**
+     * @var string
+     */
+    private $indexClassTemplate = "EffectsModule.run(:class)";
+
+    /**
      * Create new CreateNgEffectsTask instance.
      *
      * @param Request $request
@@ -45,7 +50,7 @@ class CreateNgEffectsTask
         $this->container = studly_case($request->get('is_part_of_package'));
         $this->tableName = $this->request->get('table_name');
 
-        $this->effectFile = camel_case($this->entityName());
+        $this->effectFile = $this->slugEntityName();
     }
 
     /**
@@ -54,9 +59,9 @@ class CreateNgEffectsTask
     public function run()
     {
         $indexFilePath = $this->effectsDir().'/index.ts';
-        $template = $this->templatesDir().'.Angular2/effects/index';
-        $fileName = $this->effectFile.'.effects';
+        $template = $this->templatesDir().'.Angular2/effects/main-index';
         $className = $this->entityName().'Effects';
+        $fileName = './'.$this->effectFile.'.effects';
 
         $this->setupIndexFile($indexFilePath, $template, $className, $fileName);
 

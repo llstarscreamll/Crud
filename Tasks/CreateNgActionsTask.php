@@ -46,7 +46,7 @@ class CreateNgActionsTask
      */
     public function run()
     {
-        $actionFile = camel_case($this->entityName());
+        $actionFile = $this->slugEntityName();
         $actionFile = $this->actionsDir()."/$actionFile.actions.ts";
         $template = $this->templatesDir().'.Angular2/actions/actions';
 

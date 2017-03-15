@@ -7,9 +7,9 @@ import { go } from '@ngrx/router-store';
 
 import { FormModelParser } from './../../core/services/formModelParser';
 import * as appMsgActions from './../../core/actions/appMessage';
-import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ camel_case($entitySin)."Pagination" }}';
-import { {{ $entitySin }}Service } from './../services/{{ $camelEntity = camel_case($entitySin) }}.service';
-import * as {{ $actions = camel_case($gen->entityName()) }} from './../actions/{{ $camelEntity }}.actions';
+import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ $camelEntity = camel_case($entitySin)."Pagination" }}';
+import { {{ $entitySin }}Service } from './../services/{{ $gen->slugEntityName() }}.service';
+import * as {{ $actions = camel_case($gen->entityName()) }} from './../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 
 @Injectable()

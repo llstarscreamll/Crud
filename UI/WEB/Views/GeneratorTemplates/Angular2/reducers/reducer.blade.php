@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ camel_case($gen->entityName()) }}.actions';
+import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 import { Pagination } from './../../core/models/pagination';
 
@@ -101,21 +101,23 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
   export const get{{ $entity = $gen->entityName() }}FormModel = (state: State) => state.{{ camel_case($entity) }}FormModel;
   export const getSelected{{ $entity }} = (state: State) => state.{{ camel_case($entity) }};
 
-/**
-  Don't forget to import these reducer on the main app reducer!!
+/* -----------------------------------------------------------------------------
+Don't forget to import these reducer on the main app reducer!!
 
-  import * as from{{ $entity }} from './../../{{ camel_case($entity) }}/reducers/{{ camel_case($entity).'.reducer' }}';
+import * as from{{ $entity }} from './../../{{ $gen->slugModuleName() }}/reducers/{{ $gen->slugEntityName().'.reducer' }}';
 
-  export interface State {
-    {{ camel_case($entity) }}: from{{ $entity }}.State;
-  }
+export interface State {
+  {{ camel_case($entity) }}: from{{ $entity }}.State;
+}
 
-  const reducers = {
-    {{ camel_case($entity) }}: from{{ $entity }}.reducer,
-  };
+const reducers = {
+  {{ camel_case($entity) }}: from{{ $entity }}.reducer,
+};
 
-  // Book selectors
-  export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
-  export const get{{ $entity }}FormModel = createSelector(get{{ $entity }}State, fromBook.get{{ $entity }}FormModel);
-  export const getSelected{{ $entity = $gen->entityName() }} = (state: State) => state.{{ camel_case($entity) }};
- */
+  
+// {{ $gen->entityName() }} selectors
+export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
+export const get{{ $entity }}FormModel = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ $entity }}FormModel);
+export const getSelected{{ $entity }}: any = (state: State) => state.{{ camel_case($entity) }};
+
+----------------------------------------------------------------------------- */

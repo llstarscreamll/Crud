@@ -46,7 +46,7 @@ class CreateNgReducerTask
      */
     public function run()
     {
-        $reducerFile = camel_case($this->entityName());
+        $reducerFile = $this->slugEntityName();
         $reducerFile = $this->reducersDir()."/$reducerFile.reducer.ts";
         $template = $this->templatesDir().'.Angular2/reducers/reducer';
 

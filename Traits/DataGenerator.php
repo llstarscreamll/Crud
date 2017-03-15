@@ -407,6 +407,11 @@ trait DataGenerator
     public function indexFileReplacements(string $className, string $fileName)
     {
         $classImport = "import { $className } from '$fileName'";
+        
+        if (isset($this->indexClassTemplate)) {
+            $className = str_replace(':class', $className, $this->indexClassTemplate);
+        }
+
         $classUsage = $this->indexStrToreplace."\n  $className,";
 
         return $classImport."\n".$classUsage;

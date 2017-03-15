@@ -3,10 +3,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
-import * as fromRoot from './../../core/reducers';
-import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../reducers/{{ camel_case($gen->entityName()) }}.reducer';
-import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../actions/{{ camel_case($gen->entityName()) }}.actions';
-import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
+import * as fromRoot from './../../../core/reducers';
+import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ camel_case($gen->entityName()) }}.reducer';
+import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
+import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('list-and-search', true)) }}',
@@ -51,6 +51,6 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
 
   public onSearch(data: Object = {}) {
     this.queryData = _.merge({}, this.queryData, data);
-    this.store.dispatch(new bookActions.LoadAction(this.queryData));
+    this.store.dispatch(new {{ $actions }}.LoadAction(this.queryData));
   }
 }

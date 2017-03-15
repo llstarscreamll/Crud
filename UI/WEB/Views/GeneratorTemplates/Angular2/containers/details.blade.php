@@ -5,12 +5,12 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
 
-import { FormModelParser } from './../../core/services/formModelParser';
-import * as appMessage from './../../core/reducers/appMessage';
-import * as fromRoot from './../../core/reducers';
-import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../reducers/{{ camel_case($gen->entityName()) }}.reducer';
-import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../actions/{{ camel_case($gen->entityName()) }}.actions';
-import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
+import { FormModelParser } from './../../../core/services/formModelParser';
+import * as appMessage from './../../../core/reducers/appMessage';
+import * as fromRoot from './../../../core/reducers';
+import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ camel_case($gen->entityName()) }}.reducer';
+import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
+import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('details', false, true)) }}',

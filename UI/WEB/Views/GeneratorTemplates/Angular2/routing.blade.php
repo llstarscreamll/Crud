@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './../auth/guards/auth';
-import { {{ $listCmp = $gen->containerClass('list-and-search', true) }} } from './containers/{{ str_replace('.ts', '', $gen->containerFile('list-and-search', true)) }}';
-import { {{ $createCmp = $gen->containerClass('create', false) }} } from './containers/{{ str_replace('.ts', '', $gen->containerFile('create', false)) }}';
-import { {{ $detailsCmp = $gen->containerClass('details', false, true) }} } from './containers/{{ str_replace('.ts', '', $gen->containerFile('details', false, true)) }}';
-import { {{ $editCmp = $gen->containerClass('edit', false) }} } from './containers/{{ str_replace('.ts', '', $gen->containerFile('edit', false)) }}';
+import { {{ $listCmp = $gen->containerClass('list-and-search', true) }} } from './containers/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('list-and-search', true)) }}';
+import { {{ $createCmp = $gen->containerClass('create', false) }} } from './containers/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('create', false)) }}';
+import { {{ $detailsCmp = $gen->containerClass('details', false, true) }} } from './containers/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('details', false, true)) }}';
+import { {{ $editCmp = $gen->containerClass('edit', false) }} } from './containers/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('edit', false)) }}';
 
 const routes: Routes = [
   {
