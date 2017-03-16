@@ -107,7 +107,7 @@ class GeneratorController extends WebController
         }
 
         if (empty($request->get('app_type', []))) {
-            session('warning', 'Nothing to generate...');
+            session()->flash('warning', 'Nothing to generate...');
         }
 
         $this->copyDirsAction->run($request);
