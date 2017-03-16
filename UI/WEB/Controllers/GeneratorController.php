@@ -94,25 +94,20 @@ class GeneratorController extends WebController
                 ->back()
                 ->with(
                     'error',
-                    'La tabla '.$request->get('table_name').' no existe en la base de datos.'
+                    "The table '.$request->get('table_name').' doesn't exists!!"
                 );
         }
 
-        //switch over what type of CRUD app the user wants to generate
-        switch ($request->get('app_type')) {
-            case 'porto_container':
-                $this->generatePortoContainerAction->run($request);
-                break;
-            case 'standard_laravel_app':
-                $this->generateStandardLaravelApp->run($request);
-                break;
-            default:
-                session('warning', 'Nothing to generate...');
-                break;
+        if (in_array('porto_container', $request->get('app_type', []))) {
+            $this->generatePortoContainerAction->run($request);
         }
 
-        if ($request->get('create_angular_2_module', false)) {
+        if (in_array('angular_2_module', $request->get('app_type', []))) {
             $this->generateAngular2ModuleAction->run($request);
+        }
+
+        if (empty($request->get('app_type', []))) {
+            session('warning', 'Nothing to generate...');
         }
 
         $this->copyDirsAction->run($request);

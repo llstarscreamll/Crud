@@ -84,21 +84,4 @@
             ) !!}
         </div>
     </div>
-
-    <div class="row">
-        <div class="clearfix"></div>
-        <hr>
-        <div class="form-group col-sm-6 col-md-2">
-            <label>
-                Create Angular 2 Module for API?<br>
-            </label>
-            <br>
-            {!! Form::checkbox('create_angular_2_module', true, true, [
-                'class' => 'bootstrap_switch',
-                'data-size' => 'mini',
-                'data-on-text' => 'Yes',
-                'data-off-text' => 'Not',
-            ]) !!}
-        </div>
-    </div>
 </fieldset>

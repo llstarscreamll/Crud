@@ -40,14 +40,14 @@
 
         @component('theme::Inspinia.components.box')
             @slot('title')
-                <h5>Give some options for the CRUD app</h5>
+                <h5>CRUD options</h5>
                 @component('theme::Inspinia.components.box-tools')
                 @endcomponent
             @endslot
 
                 @include('theme::Inspinia.partials.notifications')
 
-                {{-- borramos los mensajes generados por el controlador --}}
+                {{-- delete msgs --}}
                 {{ session()->forget(['success', 'error', 'warning']) }}
                 
                 {!! Form::model($options, [
@@ -62,13 +62,17 @@
                     @include('crud::wizard.partials.options.app-type')
                     
                     <div class="clearfix"></div>
+                    <div class="hidden">
                     @include('crud::wizard.partials.options.tests-and-seeder-options')
+                    </div>
 
+                    <div class="hidden">
                     <div class="clearfix"></div>
                     @include('crud::wizard.partials.options.frontend-components')
+                    </div>
 
                     <fieldset>
-                        <legend>Copy Dirs</legend>
+                        <legend>Copy dirs to...</legend>
                         <div class="form-group col-sm-6">
                             <label for="copy_porto_container_to">Copy PORTO container to</label>
                             {!! Form::text('copy_porto_container_to', null, ['class' => 'form-control']) !!}
@@ -106,10 +110,10 @@
     <link href="{{ asset('plugins/icheck/skins/square/red.css') }}" rel="stylesheet" type="text/css" />
     
     <script type="text/javascript">
-        {{-- Inicializa el componente BootstrapSwitch --}}
+        {{-- init BootstrapSwitch --}}
         $(".bootstrap_switch").bootstrapSwitch();
 
-        {{-- Inicializa el componente iCheck --}}
+        {{-- init iCheck --}}
         $('.icheckbox_square-blue').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue'

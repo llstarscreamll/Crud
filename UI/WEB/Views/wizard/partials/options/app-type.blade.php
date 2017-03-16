@@ -4,12 +4,12 @@
 
 	<div class="form-group col-sm-6 col-md-2">
         <label>
-            Choose the app type to generate<br>
-        </label>
-        <br>
-        <label>
-            {!! Form::radio('app_type', 'porto_container', true, ['class' => 'icheckbox_square-blue']) !!}
+            {!! Form::checkbox('app_type[]', 'porto_container', true, ['class' => 'icheckbox_square-blue']) !!}
             PORTO Container
+        </label>
+        <label>
+            {!! Form::checkbox('app_type[]', 'angular_2_module', true, ['class' => 'icheckbox_square-blue']) !!}
+            Angular 2 Module
         </label>
     </div>
 

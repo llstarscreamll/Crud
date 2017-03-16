@@ -1,5 +1,5 @@
 <fieldset>
-    <legend>Atributos de Entidad</legend>
+    <legend>Entity Attrs</legend>
     <div class="row">
 
         <div class="form-group col-sm-4 col-md-3">
@@ -13,7 +13,7 @@
         </div>
 
         <div class="form-group col-sm-4 col-md-2">
-            {!! Form::label('is_part_of_package', 'Part of package') !!}
+            {!! Form::label('is_part_of_package', 'Container/Module') !!}
             {!! Form::text('is_part_of_package', null, ['class' => 'form-control']) !!}
         </div>
 
@@ -42,7 +42,6 @@
                         <th colspan="3" class="text-center">DB</th>
                         <th colspan="4" class="text-center">Model Attr</th>
                         <th colspan="4" class="text-center">HTML</th>
-                        <th colspan="2" class="text-center">Test Data</th>
                         <th colspan="1" class="text-center">Validation</th>
                     </tr>
                     <tr>
@@ -60,8 +59,6 @@
                         <th>Create?</th>
                         <th>Update?</th>
                         <th>Label</th>
-                        <th>Create</th>
-                        <th>Update</th>
                         <th>Rules</th>
                     </tr>
                 </thead>
@@ -78,8 +75,8 @@
                             {!! Form::checkbox("field[$i][required]", $fields[$i]->required, $fields[$i]->required, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
-                                'data-on-text' => 'SI',
-                                'data-off-text' => 'NO',
+                                'data-on-text' => 'Yes',
+                                'data-off-text' => 'No',
                             ]) !!}
                         </td>
                         <td class="hidden">
@@ -111,50 +108,44 @@
                             {!! Form::checkbox("field[$i][fillable]", true, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
-                                'data-on-text' => 'SI',
-                                'data-off-text' => 'NO',
+                                'data-on-text' => 'Yes',
+                                'data-off-text' => 'No',
                             ]) !!}
                         </td>
                         <td>
                             {!! Form::checkbox("field[$i][hidden]", true, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
-                                'data-on-text' => 'SI',
-                                'data-off-text' => 'NO',
+                                'data-on-text' => 'Yes',
+                                'data-off-text' => 'No',
                             ]) !!}
                         </td>
                         <td>
                             {!! Form::checkbox("field[$i][on_index_table]", true, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
-                                'data-on-text' => 'SI',
-                                'data-off-text' => 'NO',
+                                'data-on-text' => 'Yes',
+                                'data-off-text' => 'No',
                             ]) !!}
                         </td>
                         <td>
                             {!! Form::checkbox("field[$i][on_create_form]", true, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
-                                'data-on-text' => 'SI',
-                                'data-off-text' => 'NO',
+                                'data-on-text' => 'Yes',
+                                'data-off-text' => 'No',
                             ]) !!}
                         </td>
                         <td>
                             {!! Form::checkbox("field[$i][on_update_form]", true, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
-                                'data-on-text' => 'SI',
-                                'data-off-text' => 'NO',
+                                'data-on-text' => 'Yes',
+                                'data-off-text' => 'No',
                             ]) !!}
                         </td>
                         <td>
                             {!! Form::text("field[$i][label]", null, ['class' => 'form-control input-xs', 'required', 'placeholder' => $fields[$i]->name.' label']) !!}
-                        </td>
-                        <td>
-                            {!! Form::text("field[$i][testData]", null, ['class' => 'form-control input-xs', 'placeholder' => 'null']) !!}
-                        </td>
-                        <td>
-                            {!! Form::text("field[$i][testDataUpdate]", null, ['class' => 'form-control input-xs', 'placeholder' => 'null']) !!}
                         </td>
                         <td>
                             {!! Form::text("field[$i][validation_rules]", null, ['class' => 'form-control input-xs', 'placeholder' => $fields[$i]->name.' rules']) !!}
