@@ -100,7 +100,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
 /* -----------------------------------------------------------------------------
 Don't forget to import these reducer on the main app reducer!!
 
-import * as from{{ $entity }} from './../../{{ $gen->slugModuleName() }}/reducers/{{ $gen->slugEntityName().'.reducer' }}';
+import * as from{{ $entity }} from './{{ $gen->slugModuleName() }}/reducers/{{ $gen->slugEntityName().'.reducer' }}';
 
 export interface State {
   {{ camel_case($entity) }}: from{{ $entity }}.State;

@@ -70,7 +70,7 @@ class CreateNgComponentsTask
         $indexFilePath = $this->componentsDir().'/../index.ts';
         $template = $this->templatesDir().'.Angular2/components/main-index';
         $className = $this->entityName().'Components';
-        $fileName = $this->componentsDir();
+        $fileName = './'.$this->slugEntityName().'';
 
         $this->setupIndexFile($indexFilePath, $template, $className, $fileName);
 

@@ -76,7 +76,7 @@ class CreateNgContainersTask
         $indexFilePath = $this->containersDir().'/../index.ts';
         $template = $this->templatesDir().'.Angular2/containers/main-index';
         $className = $this->entityName().'Containers';
-        $fileName = $this->containersDir();
+        $fileName = './'.$this->slugEntityName().'';
 
         $this->setupIndexFile($indexFilePath, $template, $className, $fileName);
 
