@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { FormModelParser } from './../../../core/services/formModelParser';
 import * as appMessage from './../../../core/reducers/appMessage';
-import * as fromRoot from './../../../.../reducers';
+import * as fromRoot from './../../../reducers';
 import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';

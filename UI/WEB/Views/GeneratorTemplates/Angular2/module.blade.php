@@ -5,9 +5,9 @@ import { {{ $gen->moduleClass('routing') }} } from './{{ str_replace('.ts', '', 
 // ng2 Translate
 import { TranslateService, TranslateModule } from 'ng2-translate';
 
-import { CoreModule } from './../core/core.module';
-// shell
-import { InspiniaShellModule as Shell } from './../../shells/inspinia/inspinia.module';
+import { CoreSharedModule } from './../core/core.shared.module';
+// Theme
+import { AdminLTEShellModule as Theme } from './../adminLTE/admin-lte.module';
 // Containers
 import { CONTAINERS } from './containers';
 // Components
@@ -24,8 +24,8 @@ import { SERVICES } from './services';
     CommonModule,
     ReactiveFormsModule,
     TranslateModule,
-    CoreModule,
-    Shell,
+    CoreSharedModule,
+    Theme,
     {{ $gen->moduleClass('routing') }},
     ...EFFECTS,
   ],
