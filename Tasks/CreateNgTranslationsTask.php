@@ -41,7 +41,12 @@ class CreateNgTranslationsTask
     /**
      * @var string
      */
-    private $indexStrToreplace = "\nexport const EFFECTS = [";
+    private $indexStrToreplace = "\nexport const ES = {";
+
+    /**
+     * @var string
+     */
+    private $indexClassTemplate = "...:class";
 
     /**
      * Create new CreateNgTranslationsTask instance.
@@ -61,9 +66,10 @@ class CreateNgTranslationsTask
     public function run()
     {
         $indexFilePath = $this->translationsDir().'/index.ts';
-        $template = $this->templatesDir().'.Angular2/translations/main-index';
+        $template = $this->templatesDir().'.Angular2.translations.main-index';
         $className = $this->entityNameSnakeCase();
         $fileName = './'.$this->slugEntityName();
+
 
         $this->setupIndexFile($indexFilePath, $template, $className, $fileName);
 
