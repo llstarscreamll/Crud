@@ -7,7 +7,7 @@ import { TranslateService, TranslateModule } from 'ng2-translate';
 
 import { CoreSharedModule } from './../core/core.shared.module';
 // Theme
-import { AdminLTEShellModule as Theme } from './../adminLTE/admin-lte.module';
+import { getTheme } from './../theme';
 // Containers
 import { CONTAINERS } from './containers';
 // Components
@@ -25,7 +25,7 @@ import { SERVICES } from './services';
     ReactiveFormsModule,
     TranslateModule,
     CoreSharedModule,
-    Theme,
+    getTheme(),
     {{ $gen->moduleClass('routing') }},
     ...EFFECTS,
   ],
