@@ -92,6 +92,11 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($reducersDir), 'NG reducers dir');
         $I->seeFileFound('book.reducer.ts', $reducersDir);
 
+        // routes
+        $routesDir = $moduleDir.'routes/';
+        $I->seeFileFound('index.ts', $routesDir);
+        $I->seeFileFound('book.routes.ts', $routesDir);
+
         // effects
         $effectsDir = $moduleDir.'effects/';
         $I->assertTrue(file_exists($effectsDir), 'NG effects dir');

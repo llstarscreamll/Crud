@@ -90,6 +90,11 @@ class CreateAngular2DirsTask
             mkdir($this->servicesDir());
         }
 
+        // generate angular services folder
+        if (!file_exists($this->routesDir())) {
+            mkdir($this->routesDir());
+        }
+
         return true;
     }
 }

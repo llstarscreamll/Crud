@@ -152,6 +152,11 @@ trait AngularFolderNamesResolver
         return $this->moduleDir().'/effects';
     }
 
+    public function routesDir()
+    {
+        return $this->moduleDir().'/routes';
+    }
+
     public function servicesDir()
     {
         return $this->moduleDir().'/services';
