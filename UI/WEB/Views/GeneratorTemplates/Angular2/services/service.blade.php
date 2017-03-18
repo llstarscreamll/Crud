@@ -16,6 +16,10 @@ export class {{ $entitySin }}Service extends Service {
 	protected API_ENDPOINT: string = '{{ str_slug($gen->tableName, $separator = "-") }}';
   public langNamespace: string = '{{ $gen->entityNameSnakeCase() }}';
   public fieldsLangNamespace: string = '{{ $gen->entityNameSnakeCase() }}.fields.{{ $gen->tableName }}.';
+  protected required_columns = [
+    '{{ $gen->tableName }}.id',
+    {!! $gen->hasSoftDeleteColumn ? "'".$gen->tableName.".deleted_at'," : null !!}
+  ];
 
 	public constructor(
     private http: Http,

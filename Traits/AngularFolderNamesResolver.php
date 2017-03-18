@@ -263,6 +263,6 @@ trait AngularFolderNamesResolver
         $class = studly_case($class);
         $entity = $this->entityName();
 
-        return $this->entityName().$class."Module";
+        return $this->studlyModuleName().$class."Module";
     }
 }
