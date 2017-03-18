@@ -12,8 +12,8 @@ export const {{ $gen->entityName() }}Routes: Routes = [
 	  path: '{{ $gen->slugEntityName() }}', canActivate: [AuthGuard], children: [
 	      { path: '', component: {{ $listCmp }}, pathMatch: 'full' },
 	      { path: 'create', component: {{ $createCmp }} },
-	      { path: ':id', component: {{ $detailsCmp }} },
-	      { path: ':id/edit', component: {{ $editCmp }} },
+	      { path: ':id/edit', component: {{ $createCmp }} },
+	      { path: ':id/details', component: {{ $createCmp }} },
 	    ]
 	  }
 ];
