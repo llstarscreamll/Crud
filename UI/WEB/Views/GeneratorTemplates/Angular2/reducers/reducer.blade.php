@@ -7,7 +7,7 @@ export interface State {
   {{ $formModel = camel_case($gen->entityName()).'FormModel' }}: Object;
   {{ $formData = camel_case($gen->entityName()).'FormData' }}: Object;
   {{ $pagination = camel_case($gen->entityName(true)).'Pagination' }}: {{ $gen->entityName() }}Pagination | null;
-  selected{{ $gen->entityName() }}: {{ $gen->entityName() }} | null;
+  {{ $selected = 'selected'.$gen->entityName() }}: {{ $gen->entityName() }} | null;
   loading: boolean;
   errors: Object;
 }
@@ -16,7 +16,7 @@ const initialState: State = {
   {{ $formModel }}: {},
   {{ $formData }}: {},
   {{ $pagination }}: null,
-  selected{{ $gen->entityName() }}: null,
+  {{ $selected }}: null,
   loading: true,
   errors: {}
 };
@@ -94,13 +94,17 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
   }
  }
 
-  export const get{{ $entity = $gen->entityName() }}FormModel = (state: State) => state.{{ camel_case($entity) }}FormModel;
-  export const getSelected{{ $entity }} = (state: State) => state.selected{{ $entity }};
+  export const get{{ studly_case($formModel) }} = (state: State) => state.{{ $formModel }};
+  export const get{{ studly_case($formData) }} = (state: State) => state.{{ $formData }};
+  export const get{{ studly_case($pagination) }} = (state: State) => state.{{ $pagination }};
+  export const get{{ studly_case($selected) }} = (state: State) => state.{{ $selected }};
+  export const get{{ studly_case('loading') }} = (state: State) => state.{{ 'loading' }};
+  export const get{{ studly_case('errors') }} = (state: State) => state.{{ 'errors' }};
 
 /* -----------------------------------------------------------------------------
 Don't forget to import these reducer on the main app reducer!!
 
-import * as from{{ $entity }} from './{{ $gen->slugModuleName() }}/reducers/{{ $gen->slugEntityName().'.reducer' }}';
+import * as from{{ $entity = $gen->entityName() }} from './{{ $gen->slugModuleName() }}/reducers/{{ $gen->slugEntityName().'.reducer' }}';
 
 export interface State {
   {{ camel_case($entity) }}: from{{ $entity }}.State;
@@ -113,7 +117,11 @@ const reducers = {
   
 // {{ $gen->entityName() }} selectors
 export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
-export const get{{ $entity }}FormModel = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ $entity }}FormModel);
-export const getSelected{{ $entity }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getSelected{{ $entity }});
+export const get{{ studly_case($formModel) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($formModel) }});
+export const get{{ studly_case($formData) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($formData) }});
+export const get{{ studly_case($pagination) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($pagination) }});
+export const get{{ studly_case($selected) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($selected) }});
+export const get{{ $gen->entityName().studly_case('loading') }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case('loading') }});
+export const get{{ $gen->entityName().studly_case('errors') }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case('errors') }});
 
 ----------------------------------------------------------------------------- */
