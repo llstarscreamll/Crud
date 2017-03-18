@@ -11,46 +11,43 @@
 | to using a Closure or controller method. Build something great!
 |
 */
+Route::group(
+    [
+        'prefix' => 'crud',
+        'middleware' => ['web.auth'],
+    ],
+    function () {
+        Route::get(
+            '/',
+            [
+                'as' => 'crud.index',
+                'uses' => 'GeneratorController@index'
+            ]
+        );
 
-Route::group(['domain' => 'admin.'. env('APP_URL')], function () {
-    Route::group(
-        [
-            'prefix' => 'crud',
-            'middleware' => ['web.auth'],
-        ],
-        function () {
-            Route::get(
-                '/',
-                [
-                    'as' => 'crud.index',
-                    'uses' => 'GeneratorController@index'
-                ]
-            );
+        Route::post(
+            '/fire',
+            [
+                'as' => 'crud.generate',
+                'uses' => 'GeneratorController@generate'
+            ]
+        );
 
-            Route::post(
-                '/fire',
-                [
-                    'as' => 'crud.generate',
-                    'uses' => 'GeneratorController@generate'
-                ]
-            );
+        Route::post(
+            '/generate-porto-container',
+            [
+                'as' => 'crud.generate-porto-container',
+                'uses' => 'GeneratorController@generatePortoContainer'
+            ]
+        );
 
-            Route::post(
-                '/generate-porto-container',
-                [
-                    'as' => 'crud.generate-porto-container',
-                    'uses' => 'GeneratorController@generatePortoContainer'
-                ]
-            );
-
-            Route::get(
-                '/showOptions',
-                [
-                    'as' => 'crud.showOptions',
-                    'uses' => 'GeneratorController@showOptions'
-                ]
-            );
-        }
-    );
-});
+        Route::get(
+            '/showOptions',
+            [
+                'as' => 'crud.showOptions',
+                'uses' => 'GeneratorController@showOptions'
+            ]
+        );
+    }
+);
 
