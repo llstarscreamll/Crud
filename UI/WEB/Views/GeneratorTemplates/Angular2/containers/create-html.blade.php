@@ -17,10 +17,11 @@
 				<form [formGroup]="{{ $camelEntity = camel_case($gen->entityName()) }}Form"
 					  (ngSubmit)="create{{ $gen->entityName() }}()">
 
-					<app-dynamic-form [model]="({{ $camelEntity }}State$ | async)?.{{ $camelEntity }}FormModel"
-									  [data]="({{ $camelEntity }}State$ | async)?.{{ $camelEntity }}FormData"
+					<app-dynamic-form [model]="{{ camel_case($gen->entityName()).'FormModel$' }} | async"
+									  [data]="{{ camel_case($gen->entityName()).'FormData$' }} | async"
 									  [errors]="appMessage$ | async"
-									  [visibility]="'create'"
+									  [visibility]="formType"
+									  [disabled]="formType == 'details'"
 									  [debug]="false"
 									  [controls]="{{ $camelEntity }}Form"></app-dynamic-form>
 					

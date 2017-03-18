@@ -23,8 +23,8 @@ export class {{ $gen->containerClass('details', false, true) }} implements OnIni
 	public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
 	private formModelSubscription: Subscription;
 	public appMessage$: Observable<appMessage.State>;
-	public {{ $book = camel_case($gen->entityName()).'$' }}: Observable<{{ $gen->entityName() }}>;
-	private {{ $bookSubscription = camel_case($gen->entityName()).'Subscription$' }}: Subscription;
+	public {{ $entity = camel_case($gen->entityName()).'$' }}: Observable<{{ $gen->entityName() }}>;
+	private {{ $entitySubscription = camel_case($gen->entityName()).'Subscription$' }}: Subscription;
 	private id;
 
   constructor(
@@ -35,7 +35,7 @@ export class {{ $gen->containerClass('details', false, true) }} implements OnIni
 
   ngOnInit() {
   	this.{{ $state }} = this.store.select(fromRoot.get{{ $entitySin }}State);
-  	this.{{ $book }} = this.store.select(fromRoot.getSelected{{ $entitySin }});
+  	this.{{ $entity }} = this.store.select(fromRoot.getSelected{{ $entitySin }});
     this.appMessage$ = this.store.select(fromRoot.getAppMessagesState);
     this.store.dispatch(new {{ $actions }}.GetFormModelAction(null));
   	this.store.dispatch(new {{ $actions }}.GetFormDataAction(null));
@@ -50,7 +50,7 @@ export class {{ $gen->containerClass('details', false, true) }} implements OnIni
         this.store.dispatch(new {{ $actions }}.GetAction(this.id));
       });
 
-    this.{{ $book }}
+    this.{{ $entity }}
   		.subscribe(({{ camel_case($gen->entityName()) }}) => {
   			if ({{ camel_case($gen->entityName()) }} != null)
   			this.{{ $form }}.patchValue(this.get{{ $gen->entityName() }}DetailsFormPatchValues({{ camel_case($gen->entityName()) }}));
