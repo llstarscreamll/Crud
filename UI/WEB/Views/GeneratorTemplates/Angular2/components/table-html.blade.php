@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-bordered table-hover">
+    <table class="table table-bordered table-hover actions-btns-3">
         <thead>
             <tr>
                 <ng-container *ngFor="let column of columns">
@@ -11,7 +11,7 @@
                     </span>
                 </th>
                 </ng-container>
-                <th></th>
+                <th class="actions"></th>
             </tr>
         </thead>
         <tbody>
@@ -29,10 +29,18 @@
                 </td>
 @endif
 @endforeach
-                <td>
+                <td class="actions">
                     <a [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id]" class="btn btn-sm btn-default">
                         <i class="glyphicon glyphicon-eye-open"></i>
-                        <span class="sr-only btn-label">Details</span>
+                        <span class="sr-only btn-label" translate>translateKey+'.details' }}</span>
+                    </a>
+                    <a [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'edit']" class="btn btn-sm btn-default">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                        <span class="sr-only btn-label" translate>{{ '{{' }} translateKey+'.edit' }}</span>
+                    </a>
+                    <a role="button" class="btn btn-sm btn-default">
+                        <i class="glyphicon glyphicon-trash"></i>
+                        <span class="sr-only btn-label" translate>{{ '{{' }} translateKey+'.delete' }}</span>
                     </a>
                 </td>
             </tr>
