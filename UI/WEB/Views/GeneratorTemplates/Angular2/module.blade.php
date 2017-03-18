@@ -7,7 +7,7 @@ import { TranslateService, TranslateModule } from 'ng2-translate';
 
 import { CoreSharedModule } from './../core/core.shared.module';
 // Theme
-import { getTheme } from './../theme';
+import { ENV } from './../../environments/env';
 // Containers
 import { CONTAINERS } from './containers';
 // Components
@@ -25,7 +25,7 @@ import { SERVICES } from './services';
     ReactiveFormsModule,
     TranslateModule,
     CoreSharedModule,
-    getTheme(),
+    ENV.THEME,
     {{ $gen->moduleClass('routing') }},
     ...EFFECTS,
   ],
