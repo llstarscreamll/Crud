@@ -35,6 +35,8 @@ git clone https://github.com/llstarscreamll/Crud.git app/Containers/Crud
 composer update
 ```
 
+Now go to `hello.dev/crud` to start using the app.
+
 ## Generated files
 
 Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named Library with an table called books, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the package functional tests:
