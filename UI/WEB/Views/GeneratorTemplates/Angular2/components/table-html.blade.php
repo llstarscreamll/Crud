@@ -30,7 +30,7 @@
 @endif
 @endforeach
                 <td class="actions">
-                    <a [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id]" class="btn btn-sm btn-default">
+                    <a [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'details']" class="btn btn-sm btn-default">
                         <i class="glyphicon glyphicon-eye-open"></i>
                         <span class="sr-only btn-label" translate>translateKey+'.details' }}</span>
                     </a>
