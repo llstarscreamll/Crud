@@ -6,6 +6,7 @@ export const {{ $gen->entityNameSnakeCase() }} = {
     'details': '{{ trans('crud::templates.details') }}',
     'edit': '{{ trans('crud::templates.edit') }}',
     'delete': '{{ trans('crud::templates.delete') }}',
+    'see_all': '{{ trans('crud::templates.see_all') }}',
     'msg': {
       'create_succcess': '{{ trans('crud::templates.create_success', ['item' => $gen->request->get('single_entity_name')]) }}',
     },

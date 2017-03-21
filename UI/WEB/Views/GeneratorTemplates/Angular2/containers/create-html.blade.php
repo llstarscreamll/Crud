@@ -34,6 +34,7 @@
 							<i class="glyphicon glyphicon-floppy-disk"></i>
 							<span class="btn-label" translate>{{ $upEntity }}.create</span>
 						</button>
+
 						<button *ngIf="formType == 'edit' || formType == 'details'"
 								(click)="triggerEditBtn()"
 								class="btn"
@@ -43,13 +44,21 @@
 							<i class="glyphicon glyphicon-pencil"></i>
 							<span class="btn-label" translate>{{ $upEntity }}.edit</span>
 						</button>
+
 						<button *ngIf="formType == 'edit' || formType == 'details'"
+								[disabled]="{{ $camelEntity }}Form.get('id') && {{ $camelEntity }}Form.get('id').value == ''"
 								(click)="triggerDeleteBtn()"
 								type="button"
-								class="btn btn-danger">
+								class="btn btn-default">
 							<i class="glyphicon glyphicon-trash"></i>
 							<span class="btn-label" translate>{{ $upEntity }}.delete</span>
 						</button>
+
+						<a  class="btn btn-default" 
+							[routerLink]="['/{{ $gen->slugEntityName() }}']">
+							<i class="glyphicon glyphicon-th-list"></i>
+							<span class="btn-label" translate>{{ $upEntity }}.see_all</span>
+						</a>
 					</div>
 
 					<div class="clearfix"></div>
