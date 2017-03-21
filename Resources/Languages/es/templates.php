@@ -1,11 +1,11 @@
 <?php
 
 return [
-	'create-link' => 'Crear',
-	'details-link' => 'Detalles',
-	'edit-link' => 'Editar',
-	'delete-link' => 'Borrar',
-	'restore-link' => 'Restaurar',
+	'create' => 'Crear',
+	'details' => 'Detalles',
+	'edit' => 'Editar',
+	'delete' => 'Borrar',
+	'restore' => 'Restaurar',
 	'yes' => 'Si',
 	'no' => 'No',
 	'confirm_field_prefix' => 'Confirmar',

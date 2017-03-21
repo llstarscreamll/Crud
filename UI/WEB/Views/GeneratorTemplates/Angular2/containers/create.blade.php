@@ -120,14 +120,27 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
     }
   }
 
+  public submit{{ $gen->entityName() }}Form() {
+    if (this.formType == 'create')
+      this.store.dispatch(new {{ $actions }}.CreateAction(this.{{ $form }}.value));
+  }
+
+  public triggerEditBtn() {
+    if (this.formType != 'edit') {
+      this.formType = 'edit';
+    } else {
+      this.store.dispatch(new {{ $actions }}.UpdateAction(this.{{ $form }}.value));
+    }
+  }
+
+  public triggerDeleteBtn() {
+    this.store.dispatch(new {{ $actions }}.DeleteAction(this.{{ $form }}.get('id').value));
+  }
+
   public ngOnDestroy() {
     this.formModelSubscription.unsubscribe();
     this.activedRouteSubscription ? this.activedRouteSubscription.unsubscribe() : null;
     // clean the selected {{ str_replace('_', ' ', (str_singular($gen->tableName))) }}
     this.store.dispatch(new {{ $actions }}.GetSuccessAction({}));
-  }
-
-  public create{{ $gen->entityName() }}() {
-    this.store.dispatch(new {{ $actions }}.CreateAction(this.{{ $form }}.value));
   }
 }
