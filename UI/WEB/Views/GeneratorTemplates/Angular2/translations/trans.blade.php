@@ -8,7 +8,7 @@ export const {{ $gen->entityNameSnakeCase() }} = {
     'edit': '{{ trans('crud::templates.edit-link') }}',
     'delete': '{{ trans('crud::templates.delete-link') }}',
     'msg': {
-      'create_succcess': '{{ trans('crud::templates.create_success', ['item' => $gen->entityName()]) }}',
+      'create_succcess': '{{ trans('crud::templates.create_success', ['item' => $gen->request->get('single_entity_name')]) }}',
     },
     // form fields
     'fields': {

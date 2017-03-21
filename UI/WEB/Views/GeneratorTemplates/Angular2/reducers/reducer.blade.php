@@ -52,7 +52,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.ActionTypes.CREATE_{{ $entitySnakeSin }}_SUCCESS: {
-      return {...state, selected{{ $gen->entityName() }}: action.payload, loading: false };
+      return {...state, loading: false };
     }
 
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}: {

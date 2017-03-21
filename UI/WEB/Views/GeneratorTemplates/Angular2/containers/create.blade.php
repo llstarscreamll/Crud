@@ -123,6 +123,8 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
   public ngOnDestroy() {
     this.formModelSubscription.unsubscribe();
     this.activedRouteSubscription ? this.activedRouteSubscription.unsubscribe() : null;
+    // clean the selected {{ str_replace('_', ' ', (str_singular($gen->tableName))) }}
+    this.store.dispatch(new {{ $actions }}.GetSuccessAction({}));
   }
 
   public create{{ $gen->entityName() }}() {
