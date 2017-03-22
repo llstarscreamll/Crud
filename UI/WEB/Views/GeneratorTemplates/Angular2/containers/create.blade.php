@@ -80,7 +80,7 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
 
   private patchForm() {
     this.{{ $selected }}.subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
-      if ({{ $model }} != null && {{ $model }}.id) {
+      if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.id)) {
         if (this.formType.includes('edit')) {
           this.{{ $form }}.patchValue({{ $model }});
         }

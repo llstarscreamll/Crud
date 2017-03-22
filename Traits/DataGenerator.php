@@ -315,6 +315,10 @@ trait DataGenerator
 
     public function jsDataTypeFromField(stdClass $field)
     {
+        if ($field->name == 'id') {
+            return 'string';
+        }
+        
         $stringTypes = [
             'varchar',
             'char',

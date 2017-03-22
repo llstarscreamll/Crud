@@ -38,7 +38,7 @@ export class {{ $entitySin }}Effects {
     .switchMap(() => {
       return this.{{ $service }}.get{{ $gen->entityName() }}FormModel()
         .map((data) => this.formModelParser.parse(data, this.{{ $service }}.fieldsLangNamespace))
-        .map((data) => { return new {{ $actions }}.GetFormModelSuccessAction(data)})
+        .map((data: {{ $entitySin }}) => { return new {{ $actions }}.GetFormModelSuccessAction(data)})
         .catch((error) => {
           error.type = 'danger';
           return of(new appMsgActions.Flash(error))

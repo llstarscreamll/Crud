@@ -5,5 +5,4 @@
 	[errors]="errors"
 	[visibility]="formType"
 	[disabled]="formType == 'details'"
-	[debug]="false"
-	></app-dynamic-form>
+	[debug]="false"></app-dynamic-form>

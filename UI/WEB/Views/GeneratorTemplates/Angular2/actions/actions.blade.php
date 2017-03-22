@@ -59,7 +59,7 @@ export class GetAction implements Action {
 
 export class GetSuccessAction implements Action {
 	type = ActionTypes.GET_{{ $entitySnakeSin }}_SUCCESS;
-	public constructor(public payload: Object) { }
+	public constructor(public payload: {{ $entitySin }} | Object) { }
 }
 
 export class CreateAction implements Action {
