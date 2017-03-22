@@ -71,15 +71,15 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
       return { ...state, selected{{ $gen->entityName() }}: action.payload as {{ $entitySin }}, loading: false };
     }
 
-/*
     case {{ $actions }}.ActionTypes.DELETE_{{ $entitySnakeSin }}: {
-      return {};
+      return { ...state, loading: true };
     }
 
     case {{ $actions }}.ActionTypes.DELETE_{{ $entitySnakeSin }}_SUCCESS: {
-      return {};
+      return { ...state, selected{{ $gen->entityName() }}: null };
     }
 
+/*
     case {{ $actions }}.ActionTypes.RESTORE_{{ $entitySnakeSin }}: {
       return {};
     }

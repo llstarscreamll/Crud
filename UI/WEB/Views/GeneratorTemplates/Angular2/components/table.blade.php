@@ -14,6 +14,7 @@ export class {{ $gen->componentClass('table', $plural = true) }} implements OnIn
   @Input() sortedBy: String = '';
   @Input() orderBy: String = '';
   @Output() sortLinkClicked = new EventEmitter<Object>();
+  @Output() deleteBtnClicked = new EventEmitter<string>();
   public translateKey: String = "{{ $gen->entityNameSnakeCase() }}";
 
   constructor() { }

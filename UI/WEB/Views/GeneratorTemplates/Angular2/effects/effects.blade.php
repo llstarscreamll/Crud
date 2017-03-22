@@ -111,4 +111,25 @@ export class {{ $entitySin }}Effects {
         go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
       ];
     });
+
+    @Effect() deleteAction$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.ActionTypes.DELETE_{{ $gen->entityNameSnakeCase() }})
+    .map((action: Action) => action.payload)
+    .switchMap(id => {
+      return this.{{ $service }}.delete(id)
+        .map(() => { return new {{ $actions }}.DeleteSuccessAction()})
+        .catch((error) => {
+          error.type = 'danger';
+          return of(new appMsgActions.Flash(error))
+        });
+    });
+
+    @Effect() deleteSuccessAction$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.ActionTypes.DELETE_{{ $gen->entityNameSnakeCase() }}_SUCCESS)
+    .mergeMap(() => {
+      return [
+        new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('delete')),
+        go(['{{ $gen->slugEntityName() }}'])
+      ];
+    });
 }

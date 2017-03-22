@@ -79,6 +79,13 @@ export class {{ $entitySin }}Service extends Service {
       .catch(this.handleError);
   }
 
+  public delete(id: string) {
+    return this.http
+      .delete(this.apiEndpoint(id), { headers: this.headers })
+      .map(res => { return res.json().data })
+      .catch(this.handleError);
+  }
+
   public getSuccessMessage(type: string = 'create'): AppMessage {
     let msg: string;
 

@@ -12,4 +12,6 @@ return [
 	'confirm_field_prefix' => 'Confirmar',
 	'create_success' => ':item creado correctamente',
 	'update_success' => ':item actualizado correctamente',
+	'delete_success' => ':item eliminado correctamente',
+	'restore_success' => ':item restaurado correctamente',
 ];

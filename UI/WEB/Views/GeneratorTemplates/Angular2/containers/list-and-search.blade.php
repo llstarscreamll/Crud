@@ -53,4 +53,8 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     this.queryData = _.merge({}, this.queryData, data);
     this.store.dispatch(new {{ $actions }}.LoadAction(this.queryData));
   }
+
+  deleteRow(id: string) {
+    this.store.dispatch(new {{ $actions }}.DeleteAction(id));
+  }
 }
