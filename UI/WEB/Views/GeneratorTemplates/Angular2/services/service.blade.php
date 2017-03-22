@@ -56,6 +56,13 @@ export class {{ $entitySin }}Service extends Service {
       .catch(this.handleError);
   }
 
+  public get{{ $gen->entityName() }}FormData() {
+    return this.http
+      .get(this.apiEndpoint('form-data/{{ $gen->slugEntityName() }}'), { headers: this.headers })
+      .map(res => { return res.json() })
+      .catch(this.handleError);
+  }
+
   public get{{ $gen->entityName() }}(id) {
     let urlParams: URLSearchParams = new URLSearchParams;
     urlParams.set('include', '{{ $fields->filter(function ($field) { return !empty($field->namespace); })->transform(function($field) use ($gen) { return $gen->relationNameFromField($field); })->implode(',') }}');
@@ -65,17 +72,17 @@ export class {{ $entitySin }}Service extends Service {
       .catch(this.handleError);
   }
 
-  public get{{ $gen->entityName() }}FormData() {
+  public update(data: {{ $entitySin }}) {
     return this.http
-      .get(this.apiEndpoint('form-data/{{ $gen->slugEntityName() }}'), { headers: this.headers })
-      .map(res => { return res.json() })
+      .put(this.apiEndpoint(data.id), data, { headers: this.headers })
+      .map(res => { return res.json().data })
       .catch(this.handleError);
   }
 
-  public getSuccessCreationMessage(): AppMessage {
+  public getSuccessMessage(type: string = 'create'): AppMessage {
     let msg: string;
 
-    this.translate.get(this.langNamespace + '.msg.create_succcess').subscribe(val => msg = val);
+    this.translate.get(this.langNamespace + '.msg.'+type+'_succcess').subscribe(val => msg = val);
 
     let appMessage: AppMessage = {
       message: msg,

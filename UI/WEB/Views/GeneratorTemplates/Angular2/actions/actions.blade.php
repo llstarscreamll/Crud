@@ -24,7 +24,7 @@ export const ActionTypes = {
 
 export class LoadAction implements Action {
 	type = ActionTypes.LOAD_{{ $entitySnakePlu }};
-	public constructor(public payload: any) { }
+	public constructor(public payload: Object = {}) { }
 }
 
 export class LoadSuccessAction implements Action {
@@ -34,7 +34,7 @@ export class LoadSuccessAction implements Action {
 
 export class GetFormModelAction implements Action {
 	type = ActionTypes.GET_{{ $entitySnakeSin }}_FORM_MODEL;
-	public constructor(public payload: null) { }
+	public constructor(public payload: null = null) { }
 }
 
 export class GetFormModelSuccessAction implements Action {
@@ -44,7 +44,7 @@ export class GetFormModelSuccessAction implements Action {
 
 export class GetFormDataAction implements Action {
 	type = ActionTypes.GET_{{ $entitySnakeSin }}_FORM_DATA;
-	public constructor(public payload: null) { }
+	public constructor(public payload: null = null) { }
 }
 
 export class GetFormDataSuccessAction implements Action {
@@ -74,32 +74,32 @@ export class CreateSuccessAction implements Action {
 
 export class UpdateAction implements Action {
 	type = ActionTypes.UPDATE_{{ $entitySnakeSin }};
-	public constructor(public payload: null) { }
+	public constructor(public payload: {{ $entitySin }}) { }
 }
 
 export class UpdateSuccessAction implements Action {
 	type = ActionTypes.UPDATE_{{ $entitySnakeSin }}_SUCCESS;
-	public constructor(public payload: null) { }
+	public constructor(public payload: {{ $entitySin }}) { }
 }
 
 export class DeleteAction implements Action {
 	type = ActionTypes.DELETE_{{ $entitySnakeSin }};
-	public constructor(public payload: null) { }
+	public constructor(public payload: string) { }
 }
 
 export class DeleteSuccessAction implements Action {
 	type = ActionTypes.DELETE_{{ $entitySnakeSin }}_SUCCESS;
-	public constructor(public payload: null) { }
+	public constructor(public payload: null = null) { }
 }
 
 export class RestoreAction implements Action {
 	type = ActionTypes.RESTORE_{{ $entitySnakeSin }};
-	public constructor(public payload: null) { }
+	public constructor(public payload: string) { }
 }
 
 export class RestoreSuccessAction implements Action {
 	type = ActionTypes.RESTORE_{{ $entitySnakeSin }}_SUCCESS;
-	public constructor(public payload: null) { }
+	public constructor(public payload: null = null) { }
 }
 
 export type Actions

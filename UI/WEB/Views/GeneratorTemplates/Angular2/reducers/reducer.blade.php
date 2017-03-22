@@ -1,7 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
-import { {{ $gen->entityName() }}Pagination } from './../models/{{ camel_case($entitySin) }}Pagination';
+import { {{ $paginationModel = $gen->entityName().'Pagination' }} } from './../models/{{ camel_case($entitySin) }}Pagination';
 
 export interface State {
   {{ $formModel = camel_case($gen->entityName()).'FormModel' }}: Object;
@@ -28,7 +28,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.ActionTypes.LOAD_{{ $entitySnakePlu }}_SUCCESS: {
-      return { ...state, {{ $pagination }}: action.payload, loading: false };
+      return { ...state, {{ $pagination }}: action.payload as {{ $paginationModel }}, loading: false };
     }
     
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}_FORM_MODEL: {
@@ -60,18 +60,18 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_SUCCESS: {
-      return { ...state, selected{{ $gen->entityName() }}: action.payload, loading: false };
+      return { ...state, selected{{ $gen->entityName() }}: action.payload as {{ $entitySin }}, loading: false };
     }
 
-/*
     case {{ $actions }}.ActionTypes.UPDATE_{{ $entitySnakeSin }}: {
-      return {};
+      return { ...state, loading: true };
     }
 
     case {{ $actions }}.ActionTypes.UPDATE_{{ $entitySnakeSin }}_SUCCESS: {
-      return {};
+      return { ...state, selected{{ $gen->entityName() }}: action.payload as {{ $entitySin }}, loading: false };
     }
 
+/*
     case {{ $actions }}.ActionTypes.DELETE_{{ $entitySnakeSin }}: {
       return {};
     }

@@ -11,4 +11,5 @@ return [
 	'no' => 'No',
 	'confirm_field_prefix' => 'Confirmar',
 	'create_success' => ':item creado correctamente',
+	'update_success' => ':item actualizado correctamente',
 ];
