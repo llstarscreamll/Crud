@@ -14,4 +14,5 @@ return [
 	'update_success' => ':item actualizado correctamente',
 	'delete_success' => ':item eliminado correctamente',
 	'restore_success' => ':item restaurado correctamente',
+	'no_rows_found' => 'No se encontraron registros...',
 ];
