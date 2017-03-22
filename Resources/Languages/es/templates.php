@@ -15,4 +15,5 @@ return [
 	'delete_success' => ':item eliminado correctamente',
 	'restore_success' => ':item restaurado correctamente',
 	'no_rows_found' => 'No se encontraron registros...',
+	'form_of' => 'Formulario de :item',
 ];

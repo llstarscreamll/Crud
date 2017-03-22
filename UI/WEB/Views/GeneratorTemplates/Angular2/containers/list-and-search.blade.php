@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
@@ -44,7 +45,14 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     page: 1
   };
 
-  public constructor(private store: Store<fromRoot.State>) { }
+  private title: string = '{{ $gen->request->get('plural_entity_name') }}';
+
+  public constructor(
+    private store: Store<fromRoot.State>,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(this.title);
+  }
 
   public ngOnInit() {
     this.appMessages$ = this.store.select(fromRoot.getAppMessagesState);

@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
@@ -34,12 +35,17 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
   public id: string = null;
   public formConfigured: boolean = false;
 
-  public constructor(
+  private title: string = '{{ trans('crud::templates.form_of', ['item' => $gen->request->get('single_entity_name')]) }}';
+
+  public constructor (
   	private store: Store<fromRoot.State>,
   	private formModelParser: FormModelParser,
     private router: Router,
-    private activedRoute: ActivatedRoute
-  ) { }
+    private activedRoute: ActivatedRoute,
+    private titleService: Title
+  ) {
+    this.titleService.setTitle(this.title);
+  }
 
   public ngOnInit() {
     // trigger the selects
