@@ -24,14 +24,15 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
   public {{ $selected = 'selected'.$gen->entityName().'$' }}: Observable<{{ $gen->entityName() }} | null>;
   public {{ $loading = 'loading$' }}: Observable<boolean>;
   public {{ $errors = 'errors$' }}: Observable<Object>;
-  public appMessage$: Observable<appMessage.State>;
+  public appMessages$: Observable<appMessage.State>;
+
+  private formModelSubscription$: Subscription;
+  private activedRouteSubscription$: Subscription;
   
   public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
   public formType: string = "create";
   public id: string = null;
-
-  private formModelSubscription: Subscription;
-  private activedRouteSubscription: Subscription;
+  public formConfigured: boolean = false;
 
   public constructor(
   	private store: Store<fromRoot.State>,
@@ -42,7 +43,7 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
 
   public ngOnInit() {
     // trigger the selects
-    this.appMessage$ = this.store.select(fromRoot.getAppMessagesState);
+    this.appMessages$ = this.store.select(fromRoot.getAppMessagesState);
     this.{{ $formModel }} = this.store.select(fromRoot.get{{ $gen->entityName().'FormModel' }});
     this.{{ $formData }} = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
     this.{{ $selected }} = this.store.select(fromRoot.get{{ 'Selected'.$gen->entityName() }});
@@ -66,13 +67,20 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
   }
 
   private setupForm() {
-    this.formModelSubscription = this.{{ $formModel }}
+    this.formModelSubscription$ = this.{{ $formModel }}
       .subscribe((model) => {
         this.{{ $form }} = this.formModelParser.toFormGroup(model);
       });
+    if (this.formType == 'details' || this.formType == 'edit') {
+      this.patchForm();
+    } else {
+      this.formConfigured = true;
+    }
+  }
 
+  private patchForm() {
     this.{{ $selected }}.subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
-      if ({{ $model }} != null) {
+      if ({{ $model }} != null && {{ $model }}.id) {
         if (this.formType.includes('edit')) {
           this.{{ $form }}.patchValue({{ $model }});
         }
@@ -90,6 +98,8 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
 @endforeach
           });
         }
+
+        this.formConfigured = true;
       }
     });
   }
@@ -113,7 +123,7 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
 
   private load{{ $gen->entityName() }}() {
     if (this.formType.includes('details') || this.formType.includes('edit')) {
-      this.activedRouteSubscription = this.activedRoute.params.subscribe(params => {
+      this.activedRouteSubscription$ = this.activedRoute.params.subscribe(params => {
         this.id = params['id'];
         this.store.dispatch(new {{ $actions }}.GetAction(this.id));
       });
@@ -123,14 +133,12 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
   public submit{{ $gen->entityName() }}Form() {
     if (this.formType == 'create')
       this.store.dispatch(new {{ $actions }}.CreateAction(this.{{ $form }}.value));
-  }
 
-  public triggerEditBtn() {
-    if (this.formType != 'edit') {
-      this.formType = 'edit';
-    } else {
+    if (this.formType == 'edit')
       this.store.dispatch(new {{ $actions }}.UpdateAction(this.{{ $form }}.value));
-    }
+
+    if (this.formType == 'details')
+      this.formType = 'edit';
   }
 
   public triggerDeleteBtn() {
@@ -138,8 +146,8 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
   }
 
   public ngOnDestroy() {
-    this.formModelSubscription.unsubscribe();
-    this.activedRouteSubscription ? this.activedRouteSubscription.unsubscribe() : null;
+    this.formModelSubscription$.unsubscribe();
+    this.activedRouteSubscription$ ? this.activedRouteSubscription$.unsubscribe() : null;
     // clean the selected {{ str_replace('_', ' ', (str_singular($gen->tableName))) }}
     this.store.dispatch(new {{ $actions }}.GetSuccessAction({}));
   }
