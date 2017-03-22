@@ -9,6 +9,8 @@
 		<app-box>
 			<app-box-body>
 
+				<app-alerts [appMessage]="appMessages$ | async"></app-alerts>
+				
 				<div class="row">
 					<div class="col-sm-6 col-md-8">
 						<a [routerLink]="[ '/{{ $gen->slugEntityName() }}/create' ]" class="btn btn-primary">

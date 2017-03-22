@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
 import * as fromRoot from './../../../reducers';
+import * as appMessage from './../../../core/reducers/appMessage';
 import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
@@ -15,6 +16,7 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
 })
 export class {{ $gen->containerClass('list-and-search', $plural = true) }} implements OnInit {
 	
+  public appMessages$: Observable<appMessage.State>;
 	public {{ $state = camel_case($gen->entityName()).'State$' }}: Observable<{{ $reducer.'.State' }}>;
 
   /**
@@ -45,6 +47,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
   public constructor(private store: Store<fromRoot.State>) { }
 
   public ngOnInit() {
+    this.appMessages$ = this.store.select(fromRoot.getAppMessagesState);
   	this.{{ $state }} = this.store.select(fromRoot.get{{ $gen->entityName() }}State);
   	this.onSearch();
   }

@@ -128,6 +128,7 @@ export class {{ $entitySin }}Effects {
     .ofType({{ $actions }}.ActionTypes.DELETE_{{ $gen->entityNameSnakeCase() }}_SUCCESS)
     .mergeMap(() => {
       return [
+        new {{ $actions }}.LoadAction(),
         new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('delete')),
         go(['{{ $gen->slugEntityName() }}'])
       ];
