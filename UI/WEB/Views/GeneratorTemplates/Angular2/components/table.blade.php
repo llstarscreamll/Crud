@@ -9,12 +9,24 @@ import { Pagination } from './../../../core/models/pagination';
 })
 export class {{ $gen->componentClass('table', $plural = true) }} implements OnInit {
 	
-	@Input() columns = [];
-	@Input() {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[] = [];
-  @Input() sortedBy: String = '';
-  @Input() orderBy: String = '';
-  @Output() sortLinkClicked = new EventEmitter<Object>();
-  @Output() deleteBtnClicked = new EventEmitter<string>();
+	@Input()
+  columns = [];
+
+	@Input()
+  {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[] = [];
+
+  @Input()
+  sortedBy: String = '';
+
+  @Input()
+  orderBy: String = '';
+
+  @Output()
+  sortLinkClicked = new EventEmitter<Object>();
+  
+  @Output()
+  deleteBtnClicked = new EventEmitter<string>();
+  
   public translateKey: String = "{{ $gen->entityNameSnakeCase() }}";
 
   constructor() { }
