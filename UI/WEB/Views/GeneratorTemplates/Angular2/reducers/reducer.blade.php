@@ -13,8 +13,8 @@ export interface State {
 }
 
 const initialState: State = {
-  {{ $formModel }}: {},
-  {{ $formData }}: {},
+  {{ $formModel }}: null,
+  {{ $formData }}: null,
   {{ $pagination }}: null,
   {{ $selected }}: null,
   loading: true,

@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/operator/distinctUntilChanged';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { FormModelParser } from './../../../core/services/formModelParser';
@@ -76,12 +77,13 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
     this.formModelSubscription$ = this.{{ $formModel }}
       .subscribe((model) => {
         this.{{ $form }} = this.formModelParser.toFormGroup(model);
+
+        if (this.formType == 'details' || this.formType == 'edit') {
+          this.patchForm();
+        } else {
+          this.formConfigured = true;
+        }
       });
-    if (this.formType == 'details' || this.formType == 'edit') {
-      this.patchForm();
-    } else {
-      this.formConfigured = true;
-    }
   }
 
   private patchForm() {
@@ -155,6 +157,6 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
     this.formModelSubscription$.unsubscribe();
     this.activedRouteSubscription$ ? this.activedRouteSubscription$.unsubscribe() : null;
     // clean the selected {{ str_replace('_', ' ', (str_singular($gen->tableName))) }}
-    this.store.dispatch(new {{ $actions }}.GetSuccessAction({}));
+    // this.store.dispatch(new {{ $actions }}.GetSuccessAction(null));
   }
 }

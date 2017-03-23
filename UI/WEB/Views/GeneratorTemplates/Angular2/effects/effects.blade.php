@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { go } from '@ngrx/router-store';
+import 'rxjs/add/operator/withLatestFrom'
 
-import { FormModelParser } from './../../core/services/formModelParser';
+import * as fromRoot from './../../reducers';
 import * as appMsgActions from './../../core/actions/appMessage';
+import { FormModelParser } from './../../core/services/formModelParser';
 import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ $camelEntity = camel_case($entitySin) }}Pagination';
 import { {{ $entitySin }}Service } from './../services/{{ $gen->slugEntityName() }}.service';
 import * as {{ $actions = camel_case($gen->entityName()) }} from './../actions/{{ $gen->slugEntityName() }}.actions';
@@ -18,7 +20,8 @@ export class {{ $entitySin }}Effects {
 	public constructor(
     private actions$: Actions,
     private {{ $service = camel_case($entitySin).'Service' }}: {{ $entitySin }}Service,
-    private formModelParser: FormModelParser
+    private formModelParser: FormModelParser,
+    private store: Store<fromRoot.State>
   ) { }
 
   @Effect()
@@ -37,7 +40,13 @@ export class {{ $entitySin }}Effects {
   @Effect()
   get{{ $camelEntity }}FormModel$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }}_FORM_MODEL)
-    .switchMap(() => {
+    .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
+    .switchMap(([action, state]) => {
+      // prevent API call if we have the form model already
+      if (state.{{ camel_case($gen->entityName()) }}FormModel !== null) {
+        return of(new {{ $actions }}.GetFormModelSuccessAction(state.{{ camel_case($gen->entityName()) }}FormModel));
+      }
+
       return this.{{ $service }}.get{{ $gen->entityName() }}FormModel()
         .map((data) => this.formModelParser.parse(data, this.{{ $service }}.fieldsLangNamespace))
         .map((data) => { return new {{ $actions }}.GetFormModelSuccessAction(data)})
@@ -50,7 +59,13 @@ export class {{ $entitySin }}Effects {
     @Effect()
     get{{ $camelEntity }}FormData$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }}_FORM_DATA)
-      .switchMap(() => {
+      .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
+      .switchMap(([action, state]) => {
+        // prevent API call if we have the form data already
+        if (state.{{ camel_case($gen->entityName()) }}FormData !== null) {
+          return of(new {{ $actions }}.GetFormDataSuccessAction(state.{{ camel_case($gen->entityName()) }}FormData));
+        }
+
         return this.{{ $service }}.get{{ $gen->entityName() }}FormData()
           .map((data) => { return new {{ $actions }}.GetFormDataSuccessAction(data)})
           .catch((error) => {
@@ -62,9 +77,14 @@ export class {{ $entitySin }}Effects {
     @Effect()
     getAction$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }})
-      .map((action: Action) => action.payload)
-      .switchMap((id) => {
-        return this.{{ $service }}.get{{ $gen->entityName() }}(id)
+      .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
+      .switchMap(([action, state]) => {
+        // prevent API call if we have the data object already
+        if (state.selected{{ $gen->entityName() }} && action.payload == state.selected{{ $gen->entityName() }}.id) {
+          return of(new {{ $actions }}.GetSuccessAction(state.selected{{ $gen->entityName() }}));
+        }
+
+        return this.{{ $service }}.get{{ $gen->entityName() }}(action.payload)
           .map((data: {{ $entitySin }}) => { return new {{ $actions }}.GetSuccessAction(data)})
           .catch((error) => {
             error.type = 'danger';
