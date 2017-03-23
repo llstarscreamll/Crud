@@ -4,22 +4,19 @@ import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case
 import { {{ $entitySin.'Pagination' }} } from './../models/{{ camel_case($entitySin)."Pagination" }}';
 
 export const ActionTypes = {
-	LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }}: type('[{{ $entitySin }}] Load {{ $entityPlu = $gen->entityName(true) }}'),
-	LOAD_{{ $entitySnakePlu }}_SUCCESS: type('[{{ $entitySin }}] Load {{ $entityPlu }} Success'),
-	GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}_FORM_DATA: type('[{{ $entitySin }}] Get {{ $entitySin }} Form Data'),
-	GET_{{ $entitySnakeSin }}_FORM_DATA_SUCCESS: type('[{{ $entitySin }}] Get {{ $entitySin }} Form Data Success'),
-	GET_{{ $entitySnakeSin }}_FORM_MODEL: type('[{{ $entitySin }}] Get {{ $entitySin }} Form Model'),
-	GET_{{ $entitySnakeSin }}_FORM_MODEL_SUCCESS: type('[{{ $entitySin }}] Get {{ $entitySin }} Form Model Success'),
-	GET_{{ $entitySnakeSin}}: type('[{{ $entitySin }}] Get {{ $entitySin }}'),
-	GET_{{ $entitySnakeSin }}_SUCCESS: type('[{{ $entitySin }}] Get {{ $entitySin }} Success'),
-	CREATE_{{ $entitySnakeSin }}: type('[{{ $entitySin }}] Create {{ $entitySin }}'),
-	CREATE_{{ $entitySnakeSin }}_SUCCESS: type('[{{ $entitySin }}] Create {{ $entitySin }} Success'),
-	UPDATE_{{ $entitySnakeSin }}: type('[{{ $entitySin }}] Update {{ $entitySin }}'),
-	UPDATE_{{ $entitySnakeSin }}_SUCCESS: type('[{{ $entitySin }}] Update {{ $entitySin }} Success'),
-	DELETE_{{ $entitySnakeSin }}: type('[{{ $entitySin }}] Delete {{ $entitySin }}'),
-	DELETE_{{ $entitySnakeSin }}_SUCCESS: type('[{{ $entitySin }}] Delete {{ $entitySin }} Success'),
-	RESTORE_{{ $entitySnakeSin }}: type('[{{ $entitySin }}] Restore {{ $entitySin }}'),
-	RESTORE_{{ $entitySnakeSin }}_SUCCESS: type('[{{ $entitySin }}] Restore {{ $entitySin }} Success'),
+	LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }}: type('[{{ $entitySin }}] Load'),
+	LOAD_{{ $entitySnakePlu }}_SUCCESS: type('[{{ $entitySin }}] Load Success'),
+	GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}_FORM_DATA: type('[{{ $entitySin }}] Get Form Data'),
+	GET_{{ $entitySnakeSin }}_FORM_DATA_SUCCESS: type('[{{ $entitySin }}] Get Form Data Success'),
+	GET_{{ $entitySnakeSin }}_FORM_MODEL: type('[{{ $entitySin }}] Get Form Model'),
+	GET_{{ $entitySnakeSin }}_FORM_MODEL_SUCCESS: type('[{{ $entitySin }}] Get Form Model Success'),
+	CREATE_{{ $entitySnakeSin }}: type('[{{ $entitySin }}] Create'),
+	GET_{{ $entitySnakeSin}}: type('[{{ $entitySin }}] Get'),
+	UPDATE_{{ $entitySnakeSin }}: type('[{{ $entitySin }}] Update'),
+	DELETE_{{ $entitySnakeSin }}: type('[{{ $entitySin }}] Delete'),
+	RESTORE_{{ $entitySnakeSin }}: type('[{{ $entitySin }}] Restore'),
+	SET_SELECTED_{{ $entitySnakeSin }}: type('[{{ $entitySin }}] Set Selected'),
+	SET_{{ $entitySnakeSin }}_ERRORS: type('[{{ $entitySin }}] Set Errors'),
 }
 
 export class LoadAction implements Action {
@@ -57,18 +54,8 @@ export class GetAction implements Action {
 	public constructor(public payload: string) { }
 }
 
-export class GetSuccessAction implements Action {
-	type = ActionTypes.GET_{{ $entitySnakeSin }}_SUCCESS;
-	public constructor(public payload: {{ $entitySin }} | Object) { }
-}
-
 export class CreateAction implements Action {
 	type = ActionTypes.CREATE_{{ $entitySnakeSin }};
-	public constructor(public payload: Object) { }
-}
-
-export class CreateSuccessAction implements Action {
-	type = ActionTypes.CREATE_{{ $entitySnakeSin }}_SUCCESS;
 	public constructor(public payload: Object) { }
 }
 
@@ -77,19 +64,9 @@ export class UpdateAction implements Action {
 	public constructor(public payload: {{ $entitySin }}) { }
 }
 
-export class UpdateSuccessAction implements Action {
-	type = ActionTypes.UPDATE_{{ $entitySnakeSin }}_SUCCESS;
-	public constructor(public payload: {{ $entitySin }}) { }
-}
-
 export class DeleteAction implements Action {
 	type = ActionTypes.DELETE_{{ $entitySnakeSin }};
 	public constructor(public payload: string) { }
-}
-
-export class DeleteSuccessAction implements Action {
-	type = ActionTypes.DELETE_{{ $entitySnakeSin }}_SUCCESS;
-	public constructor(public payload: null = null) { }
 }
 
 export class RestoreAction implements Action {
@@ -97,9 +74,14 @@ export class RestoreAction implements Action {
 	public constructor(public payload: string) { }
 }
 
-export class RestoreSuccessAction implements Action {
-	type = ActionTypes.RESTORE_{{ $entitySnakeSin }}_SUCCESS;
-	public constructor(public payload: null = null) { }
+export class SetSelectedAction implements Action {
+	type = ActionTypes.SET_SELECTED_{{ $entitySnakeSin }};
+	public constructor(public payload: {{ $entitySin }} | Object = null) { }
+}
+
+export class SetErrorsAction implements Action {
+	type = ActionTypes.SET_{{ $entitySnakeSin }}_ERRORS;
+	public constructor(public payload: {{ $entitySin }} | Object = {}) { }
 }
 
 export type Actions
@@ -109,13 +91,10 @@ export type Actions
 	| GetFormModelSuccessAction
 	| GetFormDataAction
 	| GetFormDataSuccessAction
-	| GetAction
-	| GetSuccessAction
 	| CreateAction
-	| CreateSuccessAction
+	| GetAction
 	| UpdateAction
-	| UpdateSuccessAction
 	| DeleteAction
-	| DeleteSuccessAction
 	| RestoreAction
-	| RestoreSuccessAction;
+	| SetSelectedAction
+	| SetErrorsAction;

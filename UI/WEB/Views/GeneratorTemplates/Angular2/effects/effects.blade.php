@@ -13,6 +13,7 @@ import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../model
 import { {{ $entitySin }}Service } from './../services/{{ $gen->slugEntityName() }}.service';
 import * as {{ $actions = camel_case($gen->entityName()) }} from './../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
+import { AppMessage } from './../../core/models/appMessage';
 
 @Injectable()
 export class {{ $entitySin }}Effects {
@@ -31,7 +32,7 @@ export class {{ $entitySin }}Effects {
     .switchMap((searchData) => {
       return this.{{ $service }}.load(searchData)
         .map((data: {{ $entitySin.'Pagination' }}) => { return new {{ $actions }}.LoadSuccessAction(data)})
-        .catch((error) => {
+        .catch((error: AppMessage) => {
           error.type = 'danger';
           return of(new appMsgActions.Flash(error))
         });
@@ -50,7 +51,7 @@ export class {{ $entitySin }}Effects {
       return this.{{ $service }}.get{{ $gen->entityName() }}FormModel()
         .map((data) => this.formModelParser.parse(data, this.{{ $service }}.fieldsLangNamespace))
         .map((data) => { return new {{ $actions }}.GetFormModelSuccessAction(data)})
-        .catch((error) => {
+        .catch((error: AppMessage) => {
           error.type = 'danger';
           return of(new appMsgActions.Flash(error))
         });
@@ -68,99 +69,97 @@ export class {{ $entitySin }}Effects {
 
         return this.{{ $service }}.get{{ $gen->entityName() }}FormData()
           .map((data) => { return new {{ $actions }}.GetFormDataSuccessAction(data)})
-          .catch((error) => {
+          .catch((error: AppMessage) => {
             error.type = 'danger';
             return of(new appMsgActions.Flash(error))
           });
       });
 
     @Effect()
-    getAction$: Observable<Action> = this.actions$
+    get$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }})
       .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
       .switchMap(([action, state]) => {
         // prevent API call if we have the data object already
         if (state.selected{{ $gen->entityName() }} && action.payload == state.selected{{ $gen->entityName() }}.id) {
-          return of(new {{ $actions }}.GetSuccessAction(state.selected{{ $gen->entityName() }}));
+          return of(new {{ $actions }}.SetSelectedAction(state.selected{{ $gen->entityName() }}));
         }
 
         return this.{{ $service }}.get{{ $gen->entityName() }}(action.payload)
-          .map((data: {{ $entitySin }}) => { return new {{ $actions }}.GetSuccessAction(data)})
-          .catch((error) => {
+          .mergeMap((data: {{ $entitySin }}) => {
+            return [
+              new {{ $actions }}.SetSelectedAction(data),
+            ];
+          })
+          .catch((error: AppMessage) => {
             error.type = 'danger';
-            return of(new appMsgActions.Flash(error))
+            return of(new appMsgActions.Flash(error));
           });
       });
 
     @Effect()
-    createAction$: Observable<Action> = this.actions$
+    create$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.ActionTypes.CREATE_{{ $gen->entityNameSnakeCase() }})
       .map((action: Action) => action.payload)
       .switchMap((data) => {
         return this.{{ $service }}.create(data)
-          .map((data: {{ $entitySin }}) => { return new {{ $actions }}.CreateSuccessAction(data)})
-          .catch((error) => {
+          .mergeMap((data: {{ $entitySin }}) => {
+            return [
+              new {{ $actions }}.SetSelectedAction(data),
+              new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('create')),
+              go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
+            ];
+          })
+          .catch((error: AppMessage) => {
             error.type = 'danger';
-            return of(new appMsgActions.Flash(error))
+            return of(error).mergeMap(error => {
+              let actions = [];
+              actions.push(new appMsgActions.Flash(error));
+
+              if (error.status_code === 422) {
+                actions.push(new {{ $actions }}.SetErrorsAction(error.errors));
+              }
+
+              return actions;
+            })
           });
       });
 
     @Effect()
-    createSuccessAction$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.ActionTypes.CREATE_{{ $gen->entityNameSnakeCase() }}_SUCCESS)
-      .map((action: Action) => action.payload)
-      .mergeMap((data: {{ $entitySin }}) => {
-        return [
-          new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('create')),
-          go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
-        ];
-      });
-
-    @Effect()
-    updateAction$: Observable<Action> = this.actions$
+    update$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.ActionTypes.UPDATE_{{ $gen->entityNameSnakeCase() }})
       .map((action: Action) => action.payload)
       .switchMap((data: {{ $entitySin }}) => {
         return this.{{ $service }}.update(data)
-          .map((data: {{ $entitySin }}) => { return new {{ $actions }}.UpdateSuccessAction(data)})
-          .catch((error) => {
+          .mergeMap((data: {{ $entitySin }}) => {
+            return [
+              new {{ $actions }}.SetSelectedAction(data),
+              new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('update')),
+              go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
+            ];
+          })
+          .catch((error: AppMessage) => {
             error.type = 'danger';
             return of(new appMsgActions.Flash(error))
           });
       });
 
     @Effect()
-    updateSuccessAction$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.ActionTypes.UPDATE_{{ $gen->entityNameSnakeCase() }}_SUCCESS)
-      .map((action: Action) => action.payload)
-      .mergeMap((data: {{ $entitySin }}) => {
-        return [
-          new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('update')),
-          go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
-        ];
-      });
-
-    @Effect()
-    deleteAction$: Observable<Action> = this.actions$
+    delete$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.ActionTypes.DELETE_{{ $gen->entityNameSnakeCase() }})
       .map((action: Action) => action.payload)
       .switchMap(id => {
         return this.{{ $service }}.delete(id)
-          .map(() => { return new {{ $actions }}.DeleteSuccessAction()})
-          .catch((error) => {
+          .mergeMap(() => {
+            return [
+              new {{ $actions }}.LoadAction(),
+              new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('delete')),
+              go(['{{ $gen->slugEntityName() }}'])
+            ];
+          })
+          .catch((error: AppMessage) => {
             error.type = 'danger';
             return of(new appMsgActions.Flash(error))
           });
-      });
-
-    @Effect()
-    deleteSuccessAction$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.ActionTypes.DELETE_{{ $gen->entityNameSnakeCase() }}_SUCCESS)
-      .mergeMap(() => {
-        return [
-          new {{ $actions }}.LoadAction(),
-          new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('delete')),
-          go(['{{ $gen->slugEntityName() }}'])
-        ];
       });
 }

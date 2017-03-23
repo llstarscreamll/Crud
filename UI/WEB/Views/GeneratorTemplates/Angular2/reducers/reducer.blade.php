@@ -2,6 +2,7 @@ import { FormGroup } from '@angular/forms';
 import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 import { {{ $paginationModel = $gen->entityName().'Pagination' }} } from './../models/{{ camel_case($entitySin) }}Pagination';
+import { AppMessage } from './../../core/models/appMessage';
 
 export interface State {
   {{ $formModel = camel_case($gen->entityName()).'FormModel' }}: Object;
@@ -51,42 +52,30 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.ActionTypes.CREATE_{{ $entitySnakeSin }}_SUCCESS: {
-      return {...state, loading: false };
-    }
-
     case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}: {
       return { ...state, loading: true };
-    }
-
-    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_SUCCESS: {
-      return { ...state, selected{{ $gen->entityName() }}: action.payload as {{ $entitySin }}, loading: false };
     }
 
     case {{ $actions }}.ActionTypes.UPDATE_{{ $entitySnakeSin }}: {
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.ActionTypes.UPDATE_{{ $entitySnakeSin }}_SUCCESS: {
-      return { ...state, selected{{ $gen->entityName() }}: action.payload as {{ $entitySin }}, loading: false };
-    }
-
     case {{ $actions }}.ActionTypes.DELETE_{{ $entitySnakeSin }}: {
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.ActionTypes.DELETE_{{ $entitySnakeSin }}_SUCCESS: {
-      return { ...state, selected{{ $gen->entityName() }}: null };
-    }
 
-/*
     case {{ $actions }}.ActionTypes.RESTORE_{{ $entitySnakeSin }}: {
-      return {};
+      return { ...state, loading: true };
     }
 
-    case {{ $actions }}.ActionTypes.RESTORE_{{ $entitySnakeSin }}_SUCCESS: {
-      return {};
-    }*/
+    case {{ $actions }}.ActionTypes.SET_SELECTED_{{ $entitySnakeSin }}: {
+      return { ...state, selected{{ $gen->entityName() }}: action.payload as {{ $entitySin }}, loading: false };
+    }
+
+    case {{ $actions }}.ActionTypes.SET_{{ $entitySnakeSin }}_ERRORS: {
+      return { ...state, errors: action.payload };
+    }
 
     default: {
       return state;
