@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { go } from '@ngrx/router-store';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -146,7 +147,7 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
       this.store.dispatch(new {{ $actions }}.UpdateAction(this.{{ $form }}.value));
 
     if (this.formType == 'details')
-      this.formType = 'edit';
+      this.store.dispatch(go(['{{ $gen->slugEntityName() }}', this.id, 'edit']));
   }
 
   public triggerDeleteBtn() {
