@@ -16,11 +16,11 @@ import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './..
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
 {{ '@' }}Component({
-  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('create', false)) }}',
-  templateUrl: './{{ $gen->containerFile('create-html', false) }}',
-  styleUrls: ['./{{ $gen->containerFile('create-css', false) }}']
+  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('form', false, true)) }}',
+  templateUrl: './{{ $gen->containerFile('form-html', false, true) }}',
+  styleUrls: ['./{{ $gen->containerFile('form-css', false, true) }}']
 })
-export class {{ $gen->containerClass('create', $plural = false) }} implements OnInit, OnDestroy {
+export class {{ $gen->containerClass('form', false, true) }} implements OnInit, OnDestroy {
 
   public {{ $formModel = camel_case($gen->entityName()).'FormModel$' }}: Observable<Object>;
   public {{ $formData = camel_case($gen->entityName()).'FormData$' }}: Observable<Object>;

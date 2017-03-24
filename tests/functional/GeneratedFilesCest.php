@@ -130,15 +130,15 @@ class GeneratedFilesCest
         $I->seeFileFound('list-and-search-books.page.ts', $entityContainersDir);
         $I->seeFileFound('list-and-search-books.page.css', $entityContainersDir);
         $I->seeFileFound('list-and-search-books.page.html', $entityContainersDir);
-        $I->seeFileFound('create-book.page.ts', $entityContainersDir);
-        $I->seeFileFound('create-book.page.css', $entityContainersDir);
-        $I->seeFileFound('create-book.page.html', $entityContainersDir);
-        $I->seeFileFound('book-details.page.ts', $entityContainersDir);
-        $I->seeFileFound('book-details.page.css', $entityContainersDir);
-        $I->seeFileFound('book-details.page.html', $entityContainersDir);
-        $I->seeFileFound('edit-book.page.ts', $entityContainersDir);
-        $I->seeFileFound('edit-book.page.css', $entityContainersDir);
-        $I->seeFileFound('edit-book.page.html', $entityContainersDir);
+        $I->seeFileFound('book-form.page.ts', $entityContainersDir);
+        $I->seeFileFound('book-form.page.css', $entityContainersDir);
+        $I->seeFileFound('book-form.page.html', $entityContainersDir);
+        $I->dontSeeFileFound('book-details.page.ts', $entityContainersDir);
+        $I->dontSeeFileFound('book-details.page.css', $entityContainersDir);
+        $I->dontSeeFileFound('book-details.page.html', $entityContainersDir);
+        $I->dontSeeFileFound('edit-book.page.ts', $entityContainersDir);
+        $I->dontSeeFileFound('edit-book.page.css', $entityContainersDir);
+        $I->dontSeeFileFound('edit-book.page.html', $entityContainersDir);
         $I->seeFileFound('index.ts', $entityContainersDir);
     }
 

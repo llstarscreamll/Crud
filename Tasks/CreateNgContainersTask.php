@@ -40,15 +40,9 @@ class CreateNgContainersTask
      * @var array
      */
     public $files = [
-        'create',
-        'create-css',
-        'create-html',
-        'details',
-        'details-css',
-        'details-html',
-        'edit',
-        'edit-css',
-        'edit-html',
+        'form',
+        'form-css',
+        'form-html',
         'list-and-search',
         'list-and-search-css',
         'list-and-search-html',
@@ -82,7 +76,7 @@ class CreateNgContainersTask
 
         foreach ($this->files as $file) {
             $plural = strpos($file, "list-and-search") !== false ? true : false;
-            $atStart = strpos($file, "details") !== false ? true : false;
+            $atStart = strpos($file, "form") !== false ? true : false;
 
             $containerFile = $this->containersDir()."/".$this->containerFile($file, $plural, $atStart);
             $template = $this->templatesDir().'.Angular2.containers.'.$file;
