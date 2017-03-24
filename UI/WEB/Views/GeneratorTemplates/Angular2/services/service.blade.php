@@ -27,13 +27,13 @@ export class {{ $entitySin }}Service extends Service {
     private translate: TranslateService,
   ) {
     super();
-    this.headers.set('authorization', 'Bearer ' + this.localStorageService.getItem('token'));
   }
 
   /**
    * Process the load {{ $entitySin }} request to the API.
    */
   public load(data: Object = {}): Observable<{{ $entitySin.'Pagination' }}> {
+    this.setAuthorizationHeader();
     let searchParams = this.parseGetParams(data);
 
     return this.http
@@ -43,6 +43,8 @@ export class {{ $entitySin }}Service extends Service {
   }
 
   public create(data: Object) {
+    this.setAuthorizationHeader();
+
     return this.http
       .post(this.apiEndpoint('create'), data, { headers: this.headers })
       .map(res => { return res.json().data })
@@ -50,6 +52,8 @@ export class {{ $entitySin }}Service extends Service {
   }
 
   public get{{ $gen->entityName() }}FormModel() {
+    this.setAuthorizationHeader();
+
     return this.http
       .get(this.apiEndpoint('form-model/{{ $gen->slugEntityName() }}'), { headers: this.headers })
       .map(res => {return res.json()})
@@ -57,6 +61,8 @@ export class {{ $entitySin }}Service extends Service {
   }
 
   public get{{ $gen->entityName() }}FormData() {
+    this.setAuthorizationHeader();
+
     return this.http
       .get(this.apiEndpoint('form-data/{{ $gen->slugEntityName() }}'), { headers: this.headers })
       .map(res => { return res.json() })
@@ -64,6 +70,8 @@ export class {{ $entitySin }}Service extends Service {
   }
 
   public get{{ $gen->entityName() }}(id) {
+    this.setAuthorizationHeader();
+
     let urlParams: URLSearchParams = new URLSearchParams;
     urlParams.set('include', '{{ $fields->filter(function ($field) { return !empty($field->namespace); })->transform(function($field) use ($gen) { return $gen->relationNameFromField($field); })->implode(',') }}');
     return this.http
@@ -73,6 +81,8 @@ export class {{ $entitySin }}Service extends Service {
   }
 
   public update(data: {{ $entitySin }}) {
+    this.setAuthorizationHeader();
+
     return this.http
       .put(this.apiEndpoint(data.id), data, { headers: this.headers })
       .map(res => { return res.json().data })
@@ -80,6 +90,8 @@ export class {{ $entitySin }}Service extends Service {
   }
 
   public delete(id: string) {
+    this.setAuthorizationHeader();
+    
     return this.http
       .delete(this.apiEndpoint(id), { headers: this.headers })
       .map(res => { return res.json().data })
