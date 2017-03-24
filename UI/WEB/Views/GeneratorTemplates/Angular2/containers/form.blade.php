@@ -3,6 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { go } from '@ngrx/router-store';
+import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -37,16 +38,19 @@ export class {{ $gen->containerClass('form', false, true) }} implements OnInit, 
   public id: string = null;
   public formConfigured: boolean = false;
 
-  private title: string = '{{ trans('crud::templates.form_of', ['item' => $gen->request->get('single_entity_name')]) }}';
+  private title: string = 'form-page';
 
   public constructor (
-  	private store: Store<fromRoot.State>,
-  	private FormModelParserService: FormModelParserService,
+    private store: Store<fromRoot.State>,
     private router: Router,
     private activedRoute: ActivatedRoute,
-    private titleService: Title
+    private titleService: Title,
+    private translateService: TranslateService,
+    private FormModelParserService: FormModelParserService
   ) {
-    this.titleService.setTitle(this.title);
+    this.translateService
+      .get('{{ $gen->entityNameSnakeCase() }}.' + this.title)
+      .subscribe(val => this.titleService.setTitle(val));
   }
 
   public ngOnInit() {
@@ -157,7 +161,5 @@ export class {{ $gen->containerClass('form', false, true) }} implements OnInit, 
   public ngOnDestroy() {
     this.formModelSubscription$.unsubscribe();
     this.activedRouteSubscription$ ? this.activedRouteSubscription$.unsubscribe() : null;
-    // clean the selected {{ str_replace('_', ' ', (str_singular($gen->tableName))) }}
-    // this.store.dispatch(new {{ $actions }}.GetSuccessAction(null));
   }
 }

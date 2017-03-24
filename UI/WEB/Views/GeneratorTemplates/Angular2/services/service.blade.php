@@ -24,7 +24,7 @@ export class {{ $entitySin }}Service extends Service {
 	public constructor(
     private http: Http,
     private localStorageService: LocalStorageService,
-    private translate: TranslateService,
+    private translateService: TranslateService,
   ) {
     super();
   }
@@ -101,7 +101,7 @@ export class {{ $entitySin }}Service extends Service {
   public getSuccessMessage(type: string = 'create'): AppMessage {
     let msg: string;
 
-    this.translate.get(this.langNamespace + '.msg.'+type+'_succcess').subscribe(val => msg = val);
+    this.translateService.get(this.langNamespace + '.msg.'+type+'_succcess').subscribe(val => msg = val);
 
     let appMessage: AppMessage = {
       message: msg,

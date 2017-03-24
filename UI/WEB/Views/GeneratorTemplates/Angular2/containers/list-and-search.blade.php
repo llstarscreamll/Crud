@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
+import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
 
@@ -45,13 +46,16 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     page: 1
   };
 
-  private title: string = '{{ $gen->request->get('plural_entity_name') }}';
+  private title: string = 'module-name-plural';
 
   public constructor(
     private store: Store<fromRoot.State>,
-    private titleService: Title
+    private titleService: Title,
+    private translateService: TranslateService,
   ) {
-    this.titleService.setTitle(this.title);
+    this.translateService
+      .get('{{ $gen->entityNameSnakeCase() }}.' + this.title)
+      .subscribe(val => this.titleService.setTitle(val));
   }
 
   public ngOnInit() {

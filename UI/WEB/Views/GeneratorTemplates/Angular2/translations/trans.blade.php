@@ -1,7 +1,10 @@
 export const {{ $gen->entityNameSnakeCase() }} = {
   '{{ $gen->entityNameSnakeCase() }}': {
-    'module-name-singular': '{{ $entity = $gen->request->get('single_entity_name') }}',
     'module-name-plural': '{{ $gen->request->get('plural_entity_name') }}',
+    'module-name-singular': '{{ $entity = $gen->request->get('single_entity_name') }}',
+
+    'form-page': '{{ trans('crud::templates.form_of', ['item' => $gen->request->get('single_entity_name')]) }}',
+
     'create': '{{ trans('crud::templates.create') }}',
     'details': '{{ trans('crud::templates.details') }}',
     'edit': '{{ trans('crud::templates.edit') }}',
