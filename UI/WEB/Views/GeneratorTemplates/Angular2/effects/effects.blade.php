@@ -7,8 +7,8 @@ import { go } from '@ngrx/router-store';
 import 'rxjs/add/operator/withLatestFrom'
 
 import * as fromRoot from './../../reducers';
-import * as appMsgActions from './../../core/actions/appMessage';
-import { FormModelParser } from './../../core/services/formModelParser';
+import * as appMsgActions from './../../core/actions/app-message.actions';
+import { FormModelParserService } from './../../core/services/form-model-parser.service';
 import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ $camelEntity = camel_case($entitySin) }}Pagination';
 import { {{ $entitySin }}Service } from './../services/{{ $gen->slugEntityName() }}.service';
 import * as {{ $actions = camel_case($gen->entityName()) }} from './../actions/{{ $gen->slugEntityName() }}.actions';
@@ -21,7 +21,7 @@ export class {{ $entitySin }}Effects {
 	public constructor(
     private actions$: Actions,
     private {{ $service = camel_case($entitySin).'Service' }}: {{ $entitySin }}Service,
-    private formModelParser: FormModelParser,
+    private FormModelParserService: FormModelParserService,
     private store: Store<fromRoot.State>
   ) { }
 
@@ -49,7 +49,7 @@ export class {{ $entitySin }}Effects {
       }
 
       return this.{{ $service }}.get{{ $gen->entityName() }}FormModel()
-        .map((data) => this.formModelParser.parse(data, this.{{ $service }}.fieldsLangNamespace))
+        .map((data) => this.FormModelParserService.parse(data, this.{{ $service }}.fieldsLangNamespace))
         .map((data) => { return new {{ $actions }}.GetFormModelSuccessAction(data)})
         .catch((error: AppMessage) => {
           error.type = 'danger';

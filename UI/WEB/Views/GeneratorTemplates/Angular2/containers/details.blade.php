@@ -5,8 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
 
-import { FormModelParser } from './../../../core/services/formModelParser';
-import * as appMessage from './../../../core/reducers/appMessage';
+import { FormModelParserService } from './../../../core/services/form-model-parser.service';
+import * as appMessage from './../../../core/reducers/app-message.reducer';
 import * as fromRoot from './../../../reducers';
 import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
@@ -29,7 +29,7 @@ export class {{ $gen->containerClass('details', false, true) }} implements OnIni
 
   constructor(
   	private store: Store<fromRoot.State>,
-  	private formModelParser: FormModelParser,
+  	private FormModelParserService: FormModelParserService,
   	private route: ActivatedRoute
   ) { }
 
@@ -42,7 +42,7 @@ export class {{ $gen->containerClass('details', false, true) }} implements OnIni
 
   	this.formModelSubscription = this.store.select(fromRoot.get{{ $entitySin }}FormModel)
       .subscribe((model) => {
-        this.{{ $form }} = this.formModelParser.toFormGroup(model);
+        this.{{ $form }} = this.FormModelParserService.toFormGroup(model);
       });
 
     this.route.params.subscribe(params => {

@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { TranslateService } from 'ng2-translate';
 
-import { Service } from './../../core/abstracts/service';
-import { LocalStorageService } from './../../core/services/localStorage';
+import { Service } from './../../core/services/abstract.service';
+import { LocalStorageService } from './../../core/services/local-storage.service';
 import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ camel_case($entitySin)."Pagination" }}';
 import { {{ $entitySin }} } from './../models/{{ camel_case($entitySin) }}';
 import { AppMessage } from './../../core/models/appMessage';

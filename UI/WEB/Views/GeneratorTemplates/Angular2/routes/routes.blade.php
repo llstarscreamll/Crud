@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 
-import { AuthGuard } from './../../auth/guards/auth';
+import { AuthGuard } from './../../auth/guards/auth.guard';
 
 import { {{ $listCmp = $gen->containerClass('list-and-search', true) }} } from './../containers/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('list-and-search', true)) }}';
 import { {{ $createCmp = $gen->containerClass('create', false) }} } from './../containers/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('create', false)) }}';

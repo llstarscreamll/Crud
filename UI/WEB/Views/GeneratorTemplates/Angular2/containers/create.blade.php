@@ -8,8 +8,8 @@ import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { FormModelParser } from './../../../core/services/formModelParser';
-import * as appMessage from './../../../core/reducers/appMessage';
+import { FormModelParserService } from './../../../core/services/form-model-parser.service';
+import * as appMessage from './../../../core/reducers/app-message.reducer';
 import * as fromRoot from './../../../reducers';
 import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
@@ -41,7 +41,7 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
 
   public constructor (
   	private store: Store<fromRoot.State>,
-  	private formModelParser: FormModelParser,
+  	private FormModelParserService: FormModelParserService,
     private router: Router,
     private activedRoute: ActivatedRoute,
     private titleService: Title
@@ -77,7 +77,7 @@ export class {{ $gen->containerClass('create', $plural = false) }} implements On
   private setupForm() {
     this.formModelSubscription$ = this.{{ $formModel }}
       .subscribe((model) => {
-        this.{{ $form }} = this.formModelParser.toFormGroup(model);
+        this.{{ $form }} = this.FormModelParserService.toFormGroup(model);
 
         if (this.formType == 'details' || this.formType == 'edit') {
           this.patchForm();
