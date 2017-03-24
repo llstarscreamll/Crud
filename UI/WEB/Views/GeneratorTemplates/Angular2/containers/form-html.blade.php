@@ -3,7 +3,7 @@
     <div class="col-xs-12">
       <h2>
         {{ '{{' }} '{{ $upEntity = $gen->entityNameSnakeCase() }}.module-name-plural' | translate }}
-        <small> / {{ '{{' }} '{{ $upEntity.'.create' }}' | translate }}</small>
+        <small> / {{ '{{' }} '{{ $upEntity.'.' }}'+formType | translate }}</small>
       </h2>
     </div>
   </app-page-header>
