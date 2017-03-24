@@ -114,9 +114,9 @@ class GeneratedFilesCest
         $I->seeFileFound('index.ts', $componentsDir);
         $entityComponentsDir = $componentsDir.$slugEntity.'/';
         $I->assertTrue(file_exists($entityComponentsDir), 'NG components dir');
-        $I->seeFileFound('book-form.component.ts', $entityComponentsDir);
-        $I->seeFileFound('book-form.component.html', $entityComponentsDir);
-        $I->seeFileFound('book-form.component.css', $entityComponentsDir);
+        $I->seeFileFound('book-form-fields.component.ts', $entityComponentsDir);
+        $I->seeFileFound('book-form-fields.component.html', $entityComponentsDir);
+        $I->seeFileFound('book-form-fields.component.css', $entityComponentsDir);
         $I->seeFileFound('books-table.component.ts', $entityComponentsDir);
         $I->seeFileFound('books-table.component.html', $entityComponentsDir);
         $I->seeFileFound('books-table.component.css', $entityComponentsDir);

@@ -17,13 +17,13 @@
           <form [formGroup]="{{ $camelEntity = camel_case($gen->entityName()) }}Form"
             (ngSubmit)="submit{{ $gen->entityName() }}Form()">
 
-            <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form', false)) }} *ngIf="formConfigured"
+            <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form-fields', false)) }} *ngIf="formConfigured"
               [{{ $form = camel_case($gen->entityName()).'Form' }}]="{{ $camelEntity = camel_case($gen->entityName()) }}Form"
               [{{ $formModel = camel_case($gen->entityName().'FormModel') }}]="{{ camel_case($gen->entityName()).'FormModel$' }} | async"
               [{{ $formData = camel_case($gen->entityName()).'FormData' }}]="{{ camel_case($gen->entityName()).'FormData$' }} | async"
               [errors]="errors$ | async"
               [formType]="formType">
-            </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form', false)) }}>
+            </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form-fields', false)) }}>
 
             <div class="form-group">
               <button *ngIf="formType == 'create'"

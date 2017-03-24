@@ -43,9 +43,9 @@ class CreateNgComponentsTask
         'table',
         'table-css',
         'table-html',
-        'form',
-        'form-css',
-        'form-html',
+        'form-fields',
+        'form-fields-css',
+        'form-fields-html',
         'index',
     ];
 

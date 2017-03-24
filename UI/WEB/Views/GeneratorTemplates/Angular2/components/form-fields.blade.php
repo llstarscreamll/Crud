@@ -4,11 +4,11 @@ import { FormGroup } from '@angular/forms';
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
 {{ '@' }}Component({
-  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form', false)) }}',
-  templateUrl: './{{ $gen->componentFile('form-html', false) }}',
-  styleUrls: ['./{{ $gen->componentFile('form-css', false) }}']
+  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form-fields', false)) }}',
+  templateUrl: './{{ $gen->componentFile('form-fields-html', false) }}',
+  styleUrls: ['./{{ $gen->componentFile('form-fields-css', false) }}']
 })
-export class {{ $gen->componentClass('form', $plural = false) }} implements OnInit {
+export class {{ $gen->componentClass('form-fields', $plural = false) }} implements OnInit {
 
   @Input()
   public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
