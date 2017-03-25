@@ -155,6 +155,17 @@ Library/
         └── Views
 ```
 
+*Note:* maybe you will need to update the generated `api.suite.yml` file acording to your `API_DOMAIN` .env variable from Dingo API. This package asumes that you use no custom domain for API endpoints, but if you do, make this change will work (taking from the apiato defaults):
+
+```yml
+# other modules here...
+        - Laravel5:
+            environment_file: .env.testing
+            root: ../../../
+            run_database_migrations: true
+            url: "http://api.apiato.dev" # chanhe your api url here
+```
+
 ### Angular 2 Module
 
 This module is intended to work with this [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) application, the generated module should be copied on the `src/app/modules` folder, then you should declare the component on the main module and reducers on the `Core/reducers/index.ts` module folder. The generated module intends to follow all the best practices on the Angular 2 world based on the [ngrx example app](https://github.com/ngrx/example-app), [Yatrum](https://github.com/aviabird/yatrum) and many other resources. Some libraries used on the generated code are:
