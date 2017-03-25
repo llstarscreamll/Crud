@@ -159,7 +159,6 @@ class CreateCodeceptionTestsTask
             "        - Laravel5:\n".
             "            environment_file: .env.testing\n".
             "            root: ../../../\n".
-            "            url: \"http://api.hello.dev\"\n".
             '            run_database_migrations: true';
     }
 
