@@ -11,6 +11,14 @@ import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './..
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
+interface QueryData {
+  filter: string[];
+  include: {};
+  orderBy: string;
+  sortedBy: string;
+  page: number;
+}
+
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('list-and-search', true)) }}',
   templateUrl: './{{ $gen->containerFile('list-and-search-html', true) }}',
@@ -24,7 +32,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
   /**
    * The search query options.
    */
-  public queryData: Object = {
+  public queryData: QueryData = {
     // here we decide what columns to retrive from API
     filter: [
 @foreach ($fields as $field)
