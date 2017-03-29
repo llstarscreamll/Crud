@@ -28,7 +28,7 @@ export class {{ $gen->componentClass('table', $plural = true) }} implements OnIn
   @Output()
   public deleteBtnClicked = new EventEmitter<string>();
   
-  public translateKey: string = '{{ $gen->entityNameSnakeCase() }}';
+  public translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
 
   public constructor() { }
 

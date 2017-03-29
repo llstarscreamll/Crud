@@ -55,7 +55,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     page: 1
   };
 
-  public translateKey: string = '{{ $gen->entityNameSnakeCase() }}';
+  public translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
   private title: string = 'module-name-plural';
   private deleteAlert: any;
 
@@ -65,11 +65,11 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     private translateService: TranslateService,
   ) {
     this.translateService
-      .get(this.translateKey + '.' + this.title)
+      .get(this.translateKey + this.title)
       .subscribe(val => this.titleService.setTitle(val));
 
     this.translateService
-      .get(this.translateKey + '.delete-alert')
+      .get(this.translateKey + 'delete-alert')
       .subscribe(val => this.deleteAlert = val);
   }
 

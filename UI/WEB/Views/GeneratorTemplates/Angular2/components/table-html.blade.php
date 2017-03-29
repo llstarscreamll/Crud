@@ -5,7 +5,7 @@
           <ng-container *ngFor="let column of columns">
           <th *ngIf="showColumn(column)" class="{{ '{{' }} column }}">
             <span role="button" (click)="sortLinkClicked.emit({'orderBy': column, 'sortedBy': (sortedBy == 'desc' || orderBy != column) ? 'asc' : 'desc'})">
-                {{ '{{' }} translateKey+'.fields.'+column | translate }}
+                {{ '{{' }} translateKey + 'fields.'+column | translate }}
                 <i *ngIf="orderBy == column"
                     [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
             </span>
@@ -33,15 +33,15 @@
           <td class="actions">
             <a [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'details']" class="btn btn-sm btn-default">
               <i class="glyphicon glyphicon-eye-open"></i>
-              <span class="sr-only btn-label" translate>translateKey+'.details' }}</span>
+              <span class="sr-only btn-label" translate>translateKey + 'details' }}</span>
             </a>
             <a [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'edit']" class="btn btn-sm btn-default">
               <i class="glyphicon glyphicon-pencil"></i>
-              <span class="sr-only btn-label" translate>{{ '{{' }} translateKey+'.edit' }}</span>
+              <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'edit' }}</span>
             </a>
             <a role="button" class="btn btn-sm btn-default" (click)="deleteBtnClicked.emit({{ $var }}.id)">
               <i class="glyphicon glyphicon-trash"></i>
-              <span class="sr-only btn-label" translate>{{ '{{' }} translateKey+'.delete' }}</span>
+              <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'delete' }}</span>
             </a>
           </td>
         </tr>
@@ -50,7 +50,7 @@
         <ng-container *ngIf="!{{ $items }} || {{ $items }}.length == 0">
         <tr>
           <td [attr.colspan]="columns.length + 1">
-            <div class="alert alert-warning" translate>{{ '{{' }} translateKey+'.msg.no_rows_found' }}</div>
+            <div class="alert alert-warning" translate>{{ '{{' }} translateKey + 'msg.no_rows_found' }}</div>
           </td>
         </tr>
         </ng-container>

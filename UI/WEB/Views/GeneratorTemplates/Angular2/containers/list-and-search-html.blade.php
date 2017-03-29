@@ -1,7 +1,7 @@
 <app-sidebar-layout>
 	<app-page-header>
 		<div class="col-xs-12">
-			<h2 translate>{{ $upEntity = $gen->entityNameSnakeCase() }}.module-name-plural</h2>
+			<h2 translate>{{ '{{' }}translateKey + 'module-name-plural' }}</h2>
 		</div>
 	</app-page-header>
 	
@@ -15,7 +15,7 @@
 					<div class="col-sm-6 col-md-8">
 						<a [routerLink]="[ '/{{ $gen->slugEntityName() }}/create' ]" class="btn btn-primary">
 							<i class="glyphicon glyphicon-plus"></i>
-							<span translate>{{ $upEntity }}.create</span>
+							<span translate>{{ '{{' }} translateKey + 'create' }}</span>
 						</a>
 					</div>
 					<div class="col-sm-6 col-md-4">
