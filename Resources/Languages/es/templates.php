@@ -20,4 +20,6 @@ return [
 	'confirm_delete_text' => 'El registro y toda su información asociada serán eliminados...',
 	'confirm_delete_btn_text' => 'Si, Eliminar',
 	'confirm_cancel_btn_text' => 'Cancelar',
+	'search_field_placeholder' => 'Buscar...',
+	'search_btn' => 'Buscar',
 ];
