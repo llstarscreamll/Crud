@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { TranslateService } from 'ng2-translate';
+
 import { {{ $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
 import { Pagination } from './../../../core/models/pagination';
+import swal from 'sweetalert2';
 
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}',
@@ -16,25 +19,43 @@ export class {{ $gen->componentClass('table', $plural = true) }} implements OnIn
   {{ camel_case($gen->entityName(true)) }}: {{ $gen->entityName() }}[] = [];
 
   @Input()
-  sortedBy: String = '';
+  public sortedBy: string = '';
 
   @Input()
-  orderBy: String = '';
+  public orderBy: string = '';
 
   @Output()
-  sortLinkClicked = new EventEmitter<Object>();
+  public sortLinkClicked = new EventEmitter<Object>();
   
   @Output()
-  deleteBtnClicked = new EventEmitter<string>();
+  public deleteBtnClicked = new EventEmitter<string>();
   
-  public translateKey: String = "{{ $gen->entityNameSnakeCase() }}";
+  public translateKey: string = '{{ $gen->entityNameSnakeCase() }}';
+  private deleteAlert: Object;
 
-  constructor() { }
+  public constructor(private translateService: TranslateService) { }
 
-  ngOnInit() { }
+  public ngOnInit() {
+    this.translateService
+      .get(this.translateKey+'.delete-alert')
+      .subscribe(val => this.deleteAlert = val);
+  }
 
-  showColumn(column): boolean {
+  public showColumn(column): boolean {
   	return this.columns.indexOf(column) > -1;
   }
 
+  public deleteBtnClick(id) {
+    swal({
+      title: this.deleteAlert.title,
+      text: this.deleteAlert.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: this.deleteAlert.confirm_btn_text,
+      cancelButtonText: this.deleteAlert.cancel_btn_text,
+      confirmButtonColor: '#ed5565'
+    }).then(() => {
+      this.deleteBtnClicked.emit(id);
+    }).catch(swal.noop);
+  }
 }

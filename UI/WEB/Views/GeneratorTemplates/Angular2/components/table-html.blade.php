@@ -39,7 +39,7 @@
               <i class="glyphicon glyphicon-pencil"></i>
               <span class="sr-only btn-label" translate>{{ '{{' }} translateKey+'.edit' }}</span>
             </a>
-            <a role="button" class="btn btn-sm btn-default" (click)="deleteBtnClicked.emit({{ $var }}.id)">
+            <a role="button" class="btn btn-sm btn-default" (click)="deleteBtnClick({{ $var }}.id)">
               <i class="glyphicon glyphicon-trash"></i>
               <span class="sr-only btn-label" translate>{{ '{{' }} translateKey+'.delete' }}</span>
             </a>

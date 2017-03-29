@@ -17,6 +17,14 @@ export const {{ $gen->entityNameSnakeCase() }} = {
       'restore_succcess': '{{ trans('crud::templates.restore_success', ['item' => $gen->request->get('single_entity_name')]) }}',
       'no_rows_found': '{{ trans('crud::templates.no_rows_found') }}',
     },
+
+    'delete-alert': {
+      'title': '{{ trans('crud::templates.confirm_title') }}',
+      'text': '{{ trans('crud::templates.confirm_delete_text') }}',
+      'confirm_btn_text': '{{ trans('crud::templates.confirm_delete_btn_text') }}',
+      'cancel_btn_text': '{{ trans('crud::templates.confirm_cancel_btn_text') }}',
+    },
+    
     // form fields
     'fields': {
 @foreach ($fields as $field)

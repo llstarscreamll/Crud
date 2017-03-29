@@ -16,4 +16,8 @@ return [
 	'restore_success' => ':item restaurado correctamente',
 	'no_rows_found' => 'No se encontraron registros...',
 	'form_of' => 'Formulario de :item',
+	'confirm_title' => 'Estás seguro?',
+	'confirm_delete_text' => 'El registro y toda su información asociada serán eliminados...',
+	'confirm_delete_btn_text' => 'Si, Eliminar',
+	'confirm_cancel_btn_text' => 'Cancelar',
 ];
