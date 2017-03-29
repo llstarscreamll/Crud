@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs/Observable';
 import * as _ from 'lodash';
+import swal from 'sweetalert2';
 
 import * as fromRoot from './../../../reducers';
 import * as appMessage from './../../../core/reducers/app-message.reducer';
@@ -54,7 +55,9 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     page: 1
   };
 
+  public translateKey: string = '{{ $gen->entityNameSnakeCase() }}';
   private title: string = 'module-name-plural';
+  private deleteAlert: any;
 
   public constructor(
     private store: Store<fromRoot.State>,
@@ -62,8 +65,12 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     private translateService: TranslateService,
   ) {
     this.translateService
-      .get('{{ $gen->entityNameSnakeCase() }}.' + this.title)
+      .get(this.translateKey + '.' + this.title)
       .subscribe(val => this.titleService.setTitle(val));
+
+    this.translateService
+      .get(this.translateKey + '.delete-alert')
+      .subscribe(val => this.deleteAlert = val);
   }
 
   public ngOnInit() {
@@ -78,6 +85,16 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
   }
 
   deleteRow(id: string) {
-    this.store.dispatch(new {{ $actions }}.DeleteAction(id));
+    swal({
+      title: this.deleteAlert.title,
+      text: this.deleteAlert.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: this.deleteAlert.confirm_btn_text,
+      cancelButtonText: this.deleteAlert.cancel_btn_text,
+      confirmButtonColor: '#ed5565'
+    }).then(() => {
+      this.store.dispatch(new {{ $actions }}.DeleteAction(id));
+    }).catch(swal.noop);
   }
 }
