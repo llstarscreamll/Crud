@@ -2,6 +2,7 @@
     <table class="table table-hover actions-btns-3">
       <thead>
         <tr>
+          <th><input type="checkbox" name="select_all_items"></th>
           <ng-container *ngFor="let column of columns">
           <th *ngIf="showColumn(column)" class="{{ '{{' }} column }}">
             <span role="button" (click)="sortLinkClicked.emit({'orderBy': column, 'sortedBy': (sortedBy == 'desc' || orderBy != column) ? 'asc' : 'desc'})">
@@ -17,6 +18,7 @@
       <tbody>
         <ng-container *ngIf="{{ $items = camel_case($gen->entityName(true)) }} && {{ $items }}.length > 0">
         <tr *ngFor="let {{ $var = camel_case($gen->entityName()) }} of {{ $items }}">
+          <td><input type="checkbox" name="item[]" value="{{ $var }}.id"></td>
 @foreach ($fields as $field)
 @if (!$field->hidden)
           <td *ngIf="showColumn('{{ $gen->tableName.'.'.$field->name }}')" class="{{ $field->name }}">
