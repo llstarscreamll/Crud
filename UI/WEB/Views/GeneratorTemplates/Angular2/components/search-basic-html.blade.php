@@ -6,6 +6,10 @@
 	      <i class="glyphicon glyphicon-search"></i>
 	      <span class="sr-only" translate>{{ $gen->entityNameSnakeCase() }}.search_btn</span>
 	    </button>
+	    <button type="button" class="btn btn-default" (click)="filterBtnClick.emit()">
+	    	<i class="fa fa-filter" aria-hidden="true"></i>
+	    	<span class="sr-only" translate>{{ $gen->entityNameSnakeCase() }}.search_options</span>
+	    </button>
 	  </div>
 	</div>
 </form>

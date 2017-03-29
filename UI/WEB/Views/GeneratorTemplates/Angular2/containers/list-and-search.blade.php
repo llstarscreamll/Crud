@@ -55,6 +55,8 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     page: 1
   };
 
+  public showSearchOptions: boolean = false;
+
   public translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
   private title: string = 'module-name-plural';
   private deleteAlert: any;

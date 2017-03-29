@@ -22,4 +22,5 @@ return [
 	'confirm_cancel_btn_text' => 'Cancelar',
 	'search_field_placeholder' => 'Buscar...',
 	'search_btn' => 'Buscar',
+	'search_options' => 'Opciones de búsqueda'
 ];

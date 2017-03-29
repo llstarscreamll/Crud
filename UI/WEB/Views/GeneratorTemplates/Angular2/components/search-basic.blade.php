@@ -12,6 +12,9 @@ export class {{ $gen->componentClass('search-basic', $plural = false) }} impleme
   
   @Output()
   public search = new EventEmitter<{}>();
+
+  @Output()
+  public filterBtnClick = new EventEmitter<null>();
   
   public searchForm: FormGroup;
 

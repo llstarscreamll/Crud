@@ -12,6 +12,7 @@ export const {{ $gen->entityNameSnakeCase() }} = {
     'see_all': '{{ trans('crud::templates.see_all') }}',
     'search_field_placeholder': '{{ trans('crud::templates.search_field_placeholder') }}',
     'search_btn': '{{ trans('crud::templates.search_btn') }}',
+    'search_options': '{{ trans('crud::templates.search_options') }}',
     'msg': {
       'create_succcess': '{{ trans('crud::templates.create_success', ['item' => $gen->request->get('single_entity_name')]) }}',
       'update_succcess': '{{ trans('crud::templates.update_success', ['item' => $gen->request->get('single_entity_name')]) }}',
