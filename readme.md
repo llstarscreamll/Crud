@@ -1,6 +1,6 @@
-# CRUD Container for Hello-API
+# CRUD Container for apiato
 
-This is a [PORTO](https://github.com/Porto-SAP/Documentation) Container for [Hello-API](https://github.com/Porto-SAP/Hello-API) to scaffold you applications, at the moment the package generates the API routes only, and generates an Angular 2 module that consumes the generated API. There is a lot of work to do, pull requests are very welcome!! ^_^
+This is a [PORTO](https://github.com/Porto-SAP/Documentation) Container for [apiato](https://github.com/apiato/apiato) to scaffold you applications, at the moment the package generates the API routes only, and generates an Angular 2 module that consumes the generated API. There is a lot of work to do, pull requests are very welcome!! ^_^
 
 ## Install
 
@@ -28,7 +28,7 @@ sudo ln -s ~/vagrant/.composer/vendor/bin/codecept /usr/local/bin/codecept
 
 > Replace `~/vagrant/.composer/vendor/bin/codecept`with the global Composer path, to know where is that path execute`composer config --list --global | grep home`, you will see the home path for composer.
 
-Now from the Hello-API root folder:
+Now from the apiato root folder:
 
 ```bash
 git clone https://github.com/llstarscreamll/Crud.git app/Containers/Crud
@@ -39,11 +39,15 @@ Now go to `hello.dev/crud` to start using the app.
 
 ## Generated files
 
-Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named Library with an table called books, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the package functional tests:
+Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named Library with an table called books, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the package functional tests, so with the following setup:
 
-### Hello-API Container
+[[https://cloud.githubusercontent.com/assets/2442445/24436152/7fb42e92-13ff-11e7-95e7-89eefd7892db.png|alt=CRUD Setup GUI]]
 
-The generated container intends to follow the [PORTO](https://github.com/Porto-SAP/Documentation) architectural pattern. A small difference with the Hello-API containers is that tests are generated with [Codeception](http://codeception.com/) unless **phpunit**, these tests are name spaced with the container name. The generated API has some end points useful to work with the generated Angular 2 module, e.g. serving a entity "Form Model" to build forms from server without update the Angular module, and serve the form data dependencies like some DB users list options or something else.
+The generated file will be:
+
+### APIato Container
+
+The generated container intends to follow the [PORTO](https://github.com/Porto-SAP/Documentation) architectural pattern. A small difference with the apiato containers is that tests are generated with [Codeception](http://codeception.com/) unless **phpunit**, these tests are name spaced with the container name. The generated API has some end points useful to work with the generated Angular 2 module, e.g. serving a entity "Form Model" to build forms from server without update the Angular module, and serve the form data dependencies like some DB users list options or something else.
 
 ```bash
 Library/
@@ -179,7 +183,7 @@ This module is intended to work with this [Hello-Angular](https://github.com/lls
 - etc...
 
 ```bash
-library
+library/
 ├── actions
 │   └── book.actions.ts
 ├── components
@@ -187,6 +191,9 @@ library
 │   │   ├── book-form.component.css
 │   │   ├── book-form.component.html
 │   │   ├── book-form.component.ts
+│   │   ├── book-form-fields.component.css
+│   │   ├── book-form-fields.component.html
+│   │   ├── book-form-fields.component.ts
 │   │   ├── books-table.component.css
 │   │   ├── books-table.component.html
 │   │   ├── books-table.component.ts
@@ -194,15 +201,9 @@ library
 │   └── index.ts
 ├── containers
 │   ├── book
-│   │   ├── book-details.page.css
-│   │   ├── book-details.page.html
-│   │   ├── book-details.page.ts
-│   │   ├── create-book.page.css
-│   │   ├── create-book.page.html
-│   │   ├── create-book.page.ts
-│   │   ├── edit-book.page.css
-│   │   ├── edit-book.page.html
-│   │   ├── edit-book.page.ts
+│   │   ├── book-form.page.css
+│   │   ├── book-form.page.html
+│   │   ├── book-form.page.ts
 │   │   ├── index.ts
 │   │   ├── list-and-search-books.page.css
 │   │   ├── list-and-search-books.page.html
@@ -218,14 +219,16 @@ library
 │   └── book.ts
 ├── reducers
 │   └── book.reducer.ts
+├── routes
+│   ├── book.routes.ts
+│   └── index.ts
 ├── services
 │   ├── book.service.ts
 │   └── index.ts
 └── translations
-    ├── es
-    │   ├── book.ts
-    │   └── index.ts
-    └── es.ts
+    └── es
+        ├── book.ts
+        └── index.ts
 ```
 
 ## Tests
