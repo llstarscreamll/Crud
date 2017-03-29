@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { Router, ActivatedRoute } from '@angular/router';
+import swal from 'sweetalert2';
 
 import { FormModelParserService } from './../../../core/services/form-model-parser.service';
 import * as appMessage from './../../../core/reducers/app-message.reducer';
@@ -38,7 +39,9 @@ export class {{ $gen->containerClass('form', false, true) }} implements OnInit, 
   public id: string = null;
   public formConfigured: boolean = false;
 
+  public translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
   private title: string = 'form-page';
+  private deleteAlert: any;
 
   public constructor (
     private store: Store<fromRoot.State>,
@@ -49,8 +52,12 @@ export class {{ $gen->containerClass('form', false, true) }} implements OnInit, 
     private FormModelParserService: FormModelParserService
   ) {
     this.translateService
-      .get('{{ $gen->entityNameSnakeCase() }}.' + this.title)
+      .get(this.translateKey + this.title)
       .subscribe(val => this.titleService.setTitle(val));
+
+    this.translateService
+      .get(this.translateKey + 'delete-alert')
+      .subscribe(val => this.deleteAlert = val);
   }
 
   public ngOnInit() {
@@ -155,7 +162,17 @@ export class {{ $gen->containerClass('form', false, true) }} implements OnInit, 
   }
 
   public triggerDeleteBtn() {
-    this.store.dispatch(new {{ $actions }}.DeleteAction(this.{{ $form }}.get('id').value));
+    swal({
+      title: this.deleteAlert.title,
+      text: this.deleteAlert.text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: this.deleteAlert.confirm_btn_text,
+      cancelButtonText: this.deleteAlert.cancel_btn_text,
+      confirmButtonColor: '#ed5565'
+    }).then(() => {
+      this.store.dispatch(new {{ $actions }}.DeleteAction(this.{{ $form }}.get('id').value));
+    }).catch(swal.noop);
   }
 
   public ngOnDestroy() {
