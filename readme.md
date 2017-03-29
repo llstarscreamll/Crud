@@ -41,7 +41,7 @@ Now go to `hello.dev/crud` to start using the app.
 
 Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named Library with an table called books, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the package functional tests, so with the following setup:
 
-[[https://cloud.githubusercontent.com/assets/2442445/24436152/7fb42e92-13ff-11e7-95e7-89eefd7892db.png|alt=CRUD Setup GUI]]
+![CRUD Setup GUI](https://cloud.githubusercontent.com/assets/2442445/24436152/7fb42e92-13ff-11e7-95e7-89eefd7892db.png "CRUD Setup GUI")
 
 The generated file will be:
 
