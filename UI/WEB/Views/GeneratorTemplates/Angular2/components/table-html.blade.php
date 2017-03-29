@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-bordered table-hover actions-btns-3">
+    <table class="table table-hover actions-btns-3">
       <thead>
         <tr>
           <ng-container *ngFor="let column of columns">
