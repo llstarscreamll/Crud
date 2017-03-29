@@ -19,7 +19,7 @@
 						</a>
 					</div>
 					<div class="col-sm-6 col-md-4">
-						<app-basic-search class="m-b-lg" (search)="onSearch($event)"></app-basic-search>
+						<{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }} class="m-b-lg" (search)="onSearch($event)"></{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}>
 					</div>
 				</div>
 

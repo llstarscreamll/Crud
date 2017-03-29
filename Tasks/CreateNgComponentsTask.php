@@ -46,6 +46,9 @@ class CreateNgComponentsTask
         'form-fields',
         'form-fields-css',
         'form-fields-html',
+        'search-basic',
+        'search-basic-css',
+        'search-basic-html',
         'index',
     ];
 
