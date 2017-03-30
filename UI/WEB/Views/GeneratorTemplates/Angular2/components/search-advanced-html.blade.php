@@ -7,12 +7,13 @@
         <span translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.search_tab_title</span>
       </template>
     	<div class="panel-body">
-	    	<dynamic-search-form
-	    		class="dynamic-search-form"
+	    	<dynamic-form-fields
+	    		class="dynamic-form-fields"
 	    		[formModel]="formModel"
 	    		[formData]="formData"
-	    		[formGroup]="formGroup"
-	    		></dynamic-search-form>
+	    		[form]="form"
+          [visibility]="'search'"
+	    		></dynamic-form-fields>
     	</div>
     </tab>
 
@@ -30,23 +31,23 @@
     <!-- debug info -->
     <tab *ngIf="debug">
       <template tabHeading>
+        <span>FormValues</span>
+      </template>
+      <pre>{{ '{{ ' }} form.value | json }}</pre>
+    </tab>
+
+    <tab *ngIf="debug">
+      <template tabHeading>
         <span>FormModel</span>
       </template>
-      <pre>{{ formModel | json }}</pre>
+      <pre>{{ '{{ ' }} formModel | json }}</pre>
     </tab>
 
     <tab *ngIf="debug">
       <template tabHeading>
         <span>FormData</span>
       </template>
-      <pre>{{ formData | json }}</pre>
-    </tab>
-
-    <tab *ngIf="debug">
-      <template tabHeading>
-        <span>FormValues</span>
-      </template>
-      <pre>{{ formGroup.value | json }}</pre>
+      <pre>{{ '{{ ' }} formData | json }}</pre>
     </tab>
 
   </tabset>

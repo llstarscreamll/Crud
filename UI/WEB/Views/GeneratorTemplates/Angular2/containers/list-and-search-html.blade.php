@@ -35,7 +35,7 @@
 						tabindex="-1"
 						role="dialog"
 						aria-hidden="true">
-					  <div class="modal-dialog">
+					  <div class="modal-dialog modal-lg">
 					    <div class="modal-content">
 					      
 					      <div class="modal-header">
@@ -50,7 +50,8 @@
 					        	class="advanced-search-form"
 					        	[formModel]="{{ $formModel = camel_case($gen->entityName()).'FormModel$' }} | async"
 					        	[formData]="{{ $formData = camel_case($gen->entityName()).'FormData$' }} | async"
-					        	[formGroup]="{{ $form = camel_case($gen->entityName()).'Form' }}">
+					        	[form]="{{ $form = camel_case($gen->entityName()).'Form' }}"
+					        	[debug]="true">
 					        </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
 					      </div>
 

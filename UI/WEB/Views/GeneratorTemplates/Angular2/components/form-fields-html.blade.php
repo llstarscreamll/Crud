@@ -1,8 +1,8 @@
-<app-dynamic-form
-	[model]="{{ camel_case($gen->entityName()).'FormModel' }}"
-	[controls]="{{ camel_case($gen->entityName()) }}Form"
-	[data]="{{ camel_case($gen->entityName()).'FormData' }}"
-	[errors]="errors"
+<dynamic-form-fields
+	class="dynamic-form-fields"
+	[formModel]="{{ camel_case($gen->entityName()).'FormModel' }}"
+	[formData]="{{ camel_case($gen->entityName()).'FormData' }}"
+	[form]="{{ camel_case($gen->entityName()) }}Form"
 	[visibility]="formType"
-	[disabled]="formType == 'details'"
-	[debug]="false"></app-dynamic-form>
+	[debug]="true"
+	></dynamic-form-fields>

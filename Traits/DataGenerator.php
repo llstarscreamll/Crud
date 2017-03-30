@@ -99,6 +99,7 @@ trait DataGenerator
             $fieldConfig['value'] = '';
             $fieldConfig['min'] = '';
             $fieldConfig['max'] = '';
+
             // style classes
             $fieldConfig['mainWrapperClass'] = '';
             $fieldConfig['labelClass'] = '';
@@ -144,6 +145,10 @@ trait DataGenerator
     public function getWidgetType($field)
     {
         $type = "";
+
+        if ($field->key == 'PRI') {
+            return 'text';
+        }
 
         switch ($field->type) {
             case 'enum':

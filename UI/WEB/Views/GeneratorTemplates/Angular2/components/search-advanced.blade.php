@@ -17,7 +17,7 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
   public formData: any;
 
   @Input()
-  public formGroup: FormGroup;
+  public form: FormGroup;
 
   @Output()
   public search = new EventEmitter<{}>();
