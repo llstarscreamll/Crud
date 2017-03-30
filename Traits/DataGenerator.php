@@ -109,6 +109,7 @@ trait DataGenerator
                 'create' => $field->on_create_form,
                 'details' => !$field->hidden,
                 'edit' => $field->on_update_form,
+                'search' => !$field->hidden,
             ];
 
             if ($field->namespace) {
