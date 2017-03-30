@@ -34,6 +34,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
 	public {{ $state = camel_case($gen->entityName()).'State$' }}: Observable<{{ $reducer.'.State' }}>;
   public {{ $formModel = camel_case($gen->entityName()).'FormModel$' }}: Observable<Object>;
   public {{ $formData = camel_case($gen->entityName()).'FormData$' }}: Observable<Object>;
+  public {{ $errors = 'errors$' }}: Observable<Object>;
 
   private formModelSubscription$: Subscription;
 
@@ -78,6 +79,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
   ) {
     this.{{ $formModel }} = this.store.select(fromRoot.get{{ $gen->entityName().'FormModel' }});
     this.{{ $formData }} = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
+    this.{{ $errors }} = this.store.select(fromRoot.get{{ $gen->entityName().'Errors' }});
 
     // download the form model
     this.store.dispatch(new {{ $actions }}.GetFormModelAction(null));

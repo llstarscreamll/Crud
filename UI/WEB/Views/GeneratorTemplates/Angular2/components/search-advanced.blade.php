@@ -19,6 +19,9 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
   @Input()
   public form: FormGroup;
 
+  @Input()
+  public errors: Object = {};
+
   @Output()
   public search = new EventEmitter<{}>();
 
@@ -31,9 +34,6 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
   public constructor(private fb: FormBuilder) { }
 
   public ngOnInit() {
-  	/*this.form = this.fb.group({
-      search: [''],
-      page: [1]
-    });*/
+  	this.form.addControl('page', new FormControl(1));
   }
 }

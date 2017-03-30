@@ -9,10 +9,12 @@
     	<div class="panel-body">
 	    	<dynamic-form-fields
 	    		class="dynamic-form-fields"
-	    		[formModel]="formModel"
-	    		[formData]="formData"
 	    		[form]="form"
+          [formModel]="formModel"
+          [formData]="formData"
+          [errors]="errors"
           [visibility]="'search'"
+          [debug]="true"
 	    		></dynamic-form-fields>
     	</div>
     </tab>
