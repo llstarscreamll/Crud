@@ -48,8 +48,8 @@
 					      <div class="modal-body">
 					        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}
 					        	class="advanced-search-form"
-					        	[formModel]="{{ $formModel = camel_case($gen->entityName()).'FormModel$' }}"
-					        	[formData]="{{ $formData = camel_case($gen->entityName()).'FormData$' }}"
+					        	[formModel]="{{ $formModel = camel_case($gen->entityName()).'FormModel$' }} | async"
+					        	[formData]="{{ $formData = camel_case($gen->entityName()).'FormData$' }} | async"
 					        	[formGroup]="{{ $form = camel_case($gen->entityName()).'Form' }}">
 					        </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
 					      </div>

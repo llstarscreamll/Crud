@@ -26,5 +26,28 @@
       	<strong>Show options for show/hide columns here!!</strong>
       </div>
     </tab>
+
+    <!-- debug info -->
+    <tab *ngIf="debug">
+      <template tabHeading>
+        <span>FormModel</span>
+      </template>
+      <pre>{{ formModel | json }}</pre>
+    </tab>
+
+    <tab *ngIf="debug">
+      <template tabHeading>
+        <span>FormData</span>
+      </template>
+      <pre>{{ formData | json }}</pre>
+    </tab>
+
+    <tab *ngIf="debug">
+      <template tabHeading>
+        <span>FormValues</span>
+      </template>
+      <pre>{{ formGroup.value | json }}</pre>
+    </tab>
+
   </tabset>
 </div>

@@ -24,6 +24,9 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
 
   @Output()
   public filterBtnClick = new EventEmitter<null>();
+
+  @Input()
+  public debug: boolean = false;
   
   public constructor(private fb: FormBuilder) { }
 
