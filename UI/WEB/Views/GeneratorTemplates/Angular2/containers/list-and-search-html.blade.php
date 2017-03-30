@@ -26,17 +26,25 @@
 					</div>
 
 					<!-- search options modal -->
-					<div *ngIf="showSearchOptions" [config]="{ show: true }" (onHidden)="showSearchOptions = !showSearchOptions" bsModal #autoShownModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+					<div *ngIf="showSearchOptions"
+						bsModal
+						#staticModal="bs-modal"
+						[config]="{ show: true }"
+						(onHidden)="showSearchOptions = !showSearchOptions"
+						class="modal fade"
+						tabindex="-1"
+						role="dialog"
+						aria-hidden="true">
 					  <div class="modal-dialog">
 					    <div class="modal-content">
 					      <div class="modal-header">
 					        <h4 class="modal-title pull-left" translate>{{ '{{ ' }}translateKey + 'search_options' }}</h4>
-					        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+					        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
 					      </div>
 					      <div class="modal-body">
-					        <strong>Here should be the search options!!</strong>
+					        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}></{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
 					      </div>
 					    </div>
 					  </div>

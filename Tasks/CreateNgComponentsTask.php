@@ -49,6 +49,9 @@ class CreateNgComponentsTask
         'search-basic',
         'search-basic-css',
         'search-basic-html',
+        'search-advanced',
+        'search-advanced-css',
+        'search-advanced-html',
         'index',
     ];
 

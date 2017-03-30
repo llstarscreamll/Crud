@@ -120,6 +120,9 @@ class GeneratedFilesCest
         $I->seeFileFound('book-search-basic.component.ts', $entityComponentsDir);
         $I->seeFileFound('book-search-basic.component.html', $entityComponentsDir);
         $I->seeFileFound('book-search-basic.component.css', $entityComponentsDir);
+        $I->seeFileFound('book-search-advanced.component.ts', $entityComponentsDir);
+        $I->seeFileFound('book-search-advanced.component.html', $entityComponentsDir);
+        $I->seeFileFound('book-search-advanced.component.css', $entityComponentsDir);
         $I->seeFileFound('books-table.component.ts', $entityComponentsDir);
         $I->seeFileFound('books-table.component.html', $entityComponentsDir);
         $I->seeFileFound('books-table.component.css', $entityComponentsDir);

@@ -51,7 +51,7 @@
 
         <ng-container *ngIf="!{{ $items }} || {{ $items }}.length == 0">
         <tr>
-          <td [attr.colspan]="columns.length + 1">
+          <td [attr.colspan]="columns.length + 2">
             <div class="alert alert-warning" translate>{{ '{{' }} translateKey + 'msg.no_rows_found' }}</div>
           </td>
         </tr>
