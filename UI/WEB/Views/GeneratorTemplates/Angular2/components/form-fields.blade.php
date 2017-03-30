@@ -28,5 +28,4 @@ export class {{ $gen->componentClass('form-fields', $plural = false) }} implemen
   constructor() { }
 
   ngOnInit() { }
-
 }
