@@ -93,18 +93,23 @@ trait DataGenerator
 
         foreach ($fields as $field) {
             $fieldConfig = [];
+            $fieldConfig['name'] = $field->name;
+            $fieldConfig['type'] = $this->getWidgetType($field);
+            $fieldConfig['placeholder'] = '';
+            $fieldConfig['value'] = '';
+            $fieldConfig['min'] = '';
+            $fieldConfig['max'] = '';
+            // style classes
+            $fieldConfig['mainWrapperClass'] = '';
+            $fieldConfig['labelClass'] = '';
+            $fieldConfig['controlWrapperClass'] = '';
+            $fieldConfig['controlClass'] = '';
 
             $fieldConfig['visibility'] = [
                 'create' => $field->on_create_form,
                 'details' => !$field->hidden,
                 'edit' => $field->on_update_form,
             ];
-
-            $fieldConfig['type'] = $this->getWidgetType($field);
-
-            if (isset($field->placeholder)) {
-                $fieldConfig['placeholder'] = $field->placeholder;
-            }
 
             if ($field->namespace) {
                 $fieldConfig['dynamicOptions'] = [
