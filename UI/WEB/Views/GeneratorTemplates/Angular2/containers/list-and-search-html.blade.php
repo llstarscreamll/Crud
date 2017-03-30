@@ -26,7 +26,7 @@
 					</div>
 
 					<!-- search options modal -->
-					<div *ngIf="showSearchOptions"
+					<div *ngIf="showSearchOptions && formConfigured"
 						bsModal
 						#staticModal="bs-modal"
 						[config]="{ show: true }"
@@ -46,7 +46,11 @@
 					      </div>
 					      
 					      <div class="modal-body">
-					        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
+					        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}
+					        	class="advanced-search-form"
+					        	[formModel]="{{ $formModel = camel_case($gen->entityName()).'FormModel$' }}"
+					        	[formData]="{{ $formData = camel_case($gen->entityName()).'FormData$' }}"
+					        	[formGroup]="{{ $form = camel_case($gen->entityName()).'Form' }}">
 					        </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
 					      </div>
 

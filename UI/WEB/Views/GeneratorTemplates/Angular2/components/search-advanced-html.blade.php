@@ -1,4 +1,4 @@
-<form class="row" [formGroup]="searchForm" (ngSubmit)="search.emit(searchForm.value)">
+<div class="row">
 	<tabset class="tabs-container">
 		<!-- advanced search -->
     <tab>
@@ -7,7 +7,12 @@
         <span translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.search_tab_title</span>
       </template>
     	<div class="panel-body">
-	    	<strong>Show advanced search form here!!</strong>
+	    	<dynamic-search-form
+	    		class="dynamic-search-form"
+	    		[formModel]="formModel"
+	    		[formData]="formData"
+	    		[formGroup]="formGroup"
+	    		></dynamic-search-form>
     	</div>
     </tab>
 
@@ -22,4 +27,4 @@
       </div>
     </tab>
   </tabset>
-</form>
+</div>

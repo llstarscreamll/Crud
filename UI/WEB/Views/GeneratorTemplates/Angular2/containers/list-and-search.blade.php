@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TranslateService } from 'ng2-translate';
 import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
 import * as _ from 'lodash';
 import swal from 'sweetalert2';
 
 import * as fromRoot from './../../../reducers';
 import * as appMessage from './../../../core/reducers/app-message.reducer';
+import { FormModelParserService } from './../../../core/services/form-model-parser.service';
 import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
@@ -29,6 +32,10 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
 	
   public appMessages$: Observable<appMessage.State>;
 	public {{ $state = camel_case($gen->entityName()).'State$' }}: Observable<{{ $reducer.'.State' }}>;
+  public {{ $formModel = camel_case($gen->entityName()).'FormModel$' }}: Observable<Object>;
+  public {{ $formData = camel_case($gen->entityName()).'FormData$' }}: Observable<Object>;
+
+  private formModelSubscription$: Subscription;
 
   /**
    * The search query options.
@@ -55,7 +62,9 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     page: 1
   };
 
-  public showSearchOptions: boolean = false;
+  public showSearchOptions: boolean = true;
+  public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
+  public formConfigured: boolean = false;
 
   public translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
   private title: string = 'module-name-plural';
@@ -65,7 +74,18 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     private store: Store<fromRoot.State>,
     private titleService: Title,
     private translateService: TranslateService,
+    private FormModelParserService: FormModelParserService
   ) {
+    this.{{ $formModel }} = this.store.select(fromRoot.get{{ $gen->entityName().'FormModel' }});
+    this.{{ $formData }} = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
+
+    // download the form model
+    this.store.dispatch(new {{ $actions }}.GetFormModelAction(null));
+    // download the form data
+    this.store.dispatch(new {{ $actions }}.GetFormDataAction(null));
+
+    this.setupForm();
+
     this.translateService
       .get(this.translateKey + this.title)
       .subscribe(val => this.titleService.setTitle(val));
@@ -79,6 +99,16 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     this.appMessages$ = this.store.select(fromRoot.getAppMessagesState);
   	this.{{ $state }} = this.store.select(fromRoot.get{{ $gen->entityName() }}State);
   	this.onSearch();
+  }
+
+  private setupForm() {
+    this.formModelSubscription$ = this.{{ $formModel }}
+      .subscribe((model) => {
+        if (model) {
+          this.{{ $form }} = this.FormModelParserService.toFormGroup(model);
+          this.formConfigured = true;
+        }
+      });
   }
 
   public onSearch(data: Object = {}) {

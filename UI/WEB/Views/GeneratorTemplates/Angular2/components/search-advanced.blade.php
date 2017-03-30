@@ -10,20 +10,27 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
 })
 export class {{ $gen->componentClass('search-advanced', $plural = false) }} implements OnInit {
   
+  @Input()
+  public formModel: any;
+
+  @Input()
+  public formData: any;
+
+  @Input()
+  public formGroup: FormGroup;
+
   @Output()
   public search = new EventEmitter<{}>();
 
   @Output()
   public filterBtnClick = new EventEmitter<null>();
   
-  public searchForm: FormGroup;
-
   public constructor(private fb: FormBuilder) { }
 
   public ngOnInit() {
-  	this.searchForm = this.fb.group({
+  	/*this.form = this.fb.group({
       search: [''],
       page: [1]
-    });
+    });*/
   }
 }
