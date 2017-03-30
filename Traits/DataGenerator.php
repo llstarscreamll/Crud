@@ -160,6 +160,19 @@ trait DataGenerator
             case 'double':
                 $type = "number";
                 break;
+
+            case 'timestamp':
+            case 'datetime':
+                $type = "datetime-local";
+                break;
+
+            case 'date':
+                $type = "date";
+                break;
+
+            case 'time':
+                $type = "time";
+                break;
             
             case 'int': {
                 $type = "number";
