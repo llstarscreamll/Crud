@@ -22,5 +22,8 @@ return [
 	'confirm_cancel_btn_text' => 'Cancelar',
 	'search_field_placeholder' => 'Buscar...',
 	'search_btn' => 'Buscar',
-	'search_options' => 'Opciones de búsqueda'
+	'advanced_search' => 'Búsqueda Avanzada',
+	'cancel_modal_btn' => 'Cancelar',
+	'columns_tab_title' => 'Columnas',
+	'search_tab_title' => 'Buscar',
 ];

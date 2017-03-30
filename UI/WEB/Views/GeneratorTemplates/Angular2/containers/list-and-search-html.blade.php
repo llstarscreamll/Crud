@@ -37,15 +37,24 @@
 						aria-hidden="true">
 					  <div class="modal-dialog">
 					    <div class="modal-content">
+					      
 					      <div class="modal-header">
-					        <h4 class="modal-title pull-left" translate>{{ '{{ ' }}translateKey + 'search_options' }}</h4>
+					        <h4 class="modal-title pull-left" translate>{{ '{{ ' }}translateKey + 'advanced_search.title' }}</h4>
 					        <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
 					      </div>
+					      
 					      <div class="modal-body">
-					        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}></{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
+					        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
+					        </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
 					      </div>
+
+						    <div class="modal-footer">
+						    	<button type="button" class="btn btn-primary" translate>{{ '{{' }} translateKey + 'search_btn' }}</button>
+						    	<button type="button" class="btn btn-default" (click)="staticModal.hide()" translate>{{ '{{' }} translateKey + 'cancel_modal_btn' }}</button>
+						    </div>
+
 					    </div>
 					  </div>
 					</div>
