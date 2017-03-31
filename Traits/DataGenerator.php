@@ -90,6 +90,7 @@ trait DataGenerator
     public function getFormModelConfigArray(Collection $fields)
     {
         $config = [];
+        $dividers = 0;
 
         foreach ($fields as $field) {
             $fieldConfig = [];
@@ -101,10 +102,12 @@ trait DataGenerator
             $fieldConfig['max'] = '';
 
             // style classes
-            $fieldConfig['mainWrapperClass'] = '';
+            $fieldConfig['mainWrapperClass'] = 'col-sm-6';
             $fieldConfig['labelClass'] = '';
             $fieldConfig['controlWrapperClass'] = '';
             $fieldConfig['controlClass'] = '';
+            // add a divider after the id field
+            $fieldConfig['break'] = in_array($field->name, ['id']) ? true : false ;
 
             $fieldConfig['visibility'] = [
                 'create' => $field->on_create_form,

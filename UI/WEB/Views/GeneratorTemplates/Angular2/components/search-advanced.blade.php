@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
+import { FormModelParserService } from './../../../core/services/form-model-parser.service';
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
 {{ '@' }}Component({
@@ -31,9 +32,11 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
   @Input()
   public debug: boolean = false;
   
-  public constructor(private fb: FormBuilder) { }
+  public constructor(private fb: FormBuilder, private fmp: FormModelParserService) { }
 
   public ngOnInit() {
-  	this.form.addControl('page', new FormControl(1));
+  	this.formModel = this.fmp.parseToSearch(this.formModel);
+    this.form = this.fmp.toFormGroup(this.formModel);
+    this.form.addControl('page', new FormControl(1));
   }
 }

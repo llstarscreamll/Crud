@@ -56,7 +56,7 @@ export class {{ $entitySin }}Service extends Service {
 
     return this.http
       .get(this.apiEndpoint('form-model/{{ $gen->slugEntityName() }}'), { headers: this.headers })
-      .map(res => {return res.json()})
+      .map(res => { return res.json() })
       .catch(this.handleError);
   }
 
