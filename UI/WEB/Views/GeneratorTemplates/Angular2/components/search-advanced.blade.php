@@ -10,7 +10,15 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
   styleUrls: ['./{{ $gen->componentFile('search-advanced-css', false) }}']
 })
 export class {{ $gen->componentClass('search-advanced', $plural = false) }} implements OnInit {
-  
+  @Input()
+  translateKey: string;
+
+  @Input()
+  public allTableColumns: string[];
+
+  @Input()
+  public selectedTableColumns: string[];
+
   @Input()
   public formModel: any;
 
@@ -35,7 +43,7 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
   public constructor(private fb: FormBuilder, private fmp: FormModelParserService) { }
 
   public ngOnInit() {
-  	this.formModel = this.fmp.parseToSearch(this.formModel);
+  	this.formModel = this.fmp.parseToSearch(this.formModel, this.allTableColumns, this.translateKey);
     this.form = this.fmp.toFormGroup(this.formModel);
     this.form.addControl('page', new FormControl(1));
   }

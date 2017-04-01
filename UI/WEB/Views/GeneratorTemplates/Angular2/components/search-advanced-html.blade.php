@@ -1,5 +1,24 @@
 <div class="row">
 	<tabset class="tabs-container">
+    <!-- columns options -->
+    <tab>
+      <template tabHeading>
+        <i class="fa fa-columns" aria-hidden="true"></i>
+        <span translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.columns_tab_title</span>
+      </template>
+      <div class="panel-body">
+        <dynamic-form-fields
+          class="dynamic-form-fields"
+          [form]="form.get('options')"
+          [formModel]="formModel.options.controls"
+          [formData]="{}"
+          [errors]="errors"
+          [visibility]="'search'"
+          [debug]="true"
+          ></dynamic-form-fields>
+      </div>
+    </tab>
+    
 		<!-- advanced search -->
     <tab>
     	<template tabHeading>
@@ -9,25 +28,14 @@
     	<div class="panel-body">
 	    	<dynamic-form-fields
 	    		class="dynamic-form-fields"
-	    		[form]="form"
-          [formModel]="formModel"
+	    		[form]="form.get('search')"
+          [formModel]="formModel.search.controls"
           [formData]="formData"
           [errors]="errors"
           [visibility]="'search'"
           [debug]="true"
 	    		></dynamic-form-fields>
     	</div>
-    </tab>
-
-		<!-- columns options -->
-    <tab>
-    	<template tabHeading>
-        <i class="fa fa-columns" aria-hidden="true"></i>
-        <span translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.columns_tab_title</span>
-      </template>
-      <div class="panel-body">
-      	<strong>Show options for show/hide columns here!!</strong>
-      </div>
     </tab>
 
     <!-- debug info -->

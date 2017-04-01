@@ -38,6 +38,14 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
 
   private formModelSubscription$: Subscription;
 
+  public allTableColumns = [
+@foreach ($fields as $field)
+@if (!$field->hidden)
+      '{{ $gen->tableName.'.'.$field->name }}',
+@endif
+@endforeach
+  ];
+
   /**
    * The search query options.
    */

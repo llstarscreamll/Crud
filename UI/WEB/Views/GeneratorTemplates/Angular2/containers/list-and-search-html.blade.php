@@ -48,6 +48,9 @@
 					      <div class="modal-body">
 					        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}
 					        	class="advanced-search-form"
+					        	[translateKey]="translateKey"
+					        	[allTableColumns]="allTableColumns"
+					        	[selectedTableColumns]="queryData.filter"
 					        	[formModel]="{{ $formModel = camel_case($gen->entityName()).'FormModel$' }} | async"
 					        	[formData]="{{ $formData = camel_case($gen->entityName()).'FormData$' }} | async"
 					        	[form]="{{ $form = camel_case($gen->entityName()).'Form' }}"
@@ -55,11 +58,6 @@
 					        	[debug]="true">
 					        </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
 					      </div>
-
-						    <div class="modal-footer">
-						    	<button type="button" class="btn btn-primary" translate>{{ '{{' }} translateKey + 'search_btn' }}</button>
-						    	<button type="button" class="btn btn-default" (click)="staticModal.hide()" translate>{{ '{{' }} translateKey + 'cancel_modal_btn' }}</button>
-						    </div>
 
 					    </div>
 					  </div>
