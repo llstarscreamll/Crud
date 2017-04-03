@@ -46,7 +46,7 @@ class CreateActionsTask
     ];
 
     /**
-     * Create new CreateModelAction instance.
+     * Create new CreateActionsTask instance.
      *
      * @param Request $request
      */
