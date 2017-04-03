@@ -29,6 +29,9 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
   public form: FormGroup;
 
   @Input()
+  public selected: Object = {};
+
+  @Input()
   public errors: Object = {};
 
   @Input()
@@ -42,6 +45,8 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
   public ngOnInit() {
   	this.formModel = this.fmp.parseToSearch(this.formModel, this.allTableColumns, this.translateKey);
     this.form = this.fmp.toFormGroup(this.formModel);
+    this.form.get('options').patchValue(this.selected);
+    this.form.get('search').patchValue(this.selected);
   }
 
   public onSubmit() {
@@ -55,6 +60,6 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
       Object.assign(options, this.form.get('options').value);
     }
 
-    return this.search.emit(options);
+    this.search.emit(options);
   }
 }

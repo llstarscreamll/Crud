@@ -59,7 +59,7 @@
       </tab>
     </tabset>
     
-    <button class="btn btn-lg btn-primary btn-block m-t-xs" translate>Apply</button>
+    <button type="submit" class="btn btn-lg btn-primary btn-block m-t-xs" translate>Apply</button>
 
   </form>
 </div>

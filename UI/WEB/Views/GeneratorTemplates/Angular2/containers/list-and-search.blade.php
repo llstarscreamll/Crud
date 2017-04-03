@@ -122,7 +122,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
   }
 
   public onSearch(data: Object = {}) {
-    this.queryData = _.merge({}, this.queryData, data);
+    this.queryData = _.merge({}, this.queryData, data, { advanced_search: false });
     this.store.dispatch(new {{ $actions }}.LoadAction(this.queryData));
   }
 
