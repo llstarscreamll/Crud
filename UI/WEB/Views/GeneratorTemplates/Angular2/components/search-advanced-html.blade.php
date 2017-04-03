@@ -41,24 +41,19 @@
     <!-- debug info -->
     <tab *ngIf="debug">
       <template tabHeading>
-        <span>FormValues</span>
+        <i class="fa fa-bug" aria-hidden="true"></i>
+        <span>Debug</span>
       </template>
-      <pre>{{ '{{ ' }} form.value | json }}</pre>
+      <div class="col-sm-6">
+        <strong>Form Values</strong>
+        <pre>{{ '{{ ' }} form.value | json }}</pre>
+        <strong>Form Data</strong>
+        <pre>{{ '{{ ' }} formData | json }}</pre>
+      </div>
+      <div class="col-sm-6">
+        <strong>Form Model</strong>
+        <pre>{{ '{{ ' }} formModel | json }}</pre>
+      </div>
     </tab>
-
-    <tab *ngIf="debug">
-      <template tabHeading>
-        <span>FormModel</span>
-      </template>
-      <pre>{{ '{{ ' }} formModel | json }}</pre>
-    </tab>
-
-    <tab *ngIf="debug">
-      <template tabHeading>
-        <span>FormData</span>
-      </template>
-      <pre>{{ '{{ ' }} formData | json }}</pre>
-    </tab>
-
   </tabset>
 </div>
