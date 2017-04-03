@@ -11,7 +11,7 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
 })
 export class {{ $gen->componentClass('search-advanced', $plural = false) }} implements OnInit {
   @Input()
-  translateKey: string;
+  public translateKey: string;
 
   @Input()
   public allTableColumns: string[];
@@ -31,20 +31,30 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
   @Input()
   public errors: Object = {};
 
-  @Output()
-  public search = new EventEmitter<{}>();
-
-  @Output()
-  public filterBtnClick = new EventEmitter<null>();
-
   @Input()
   public debug: boolean = false;
+
+  @Output()
+  public search = new EventEmitter<Object>();
   
   public constructor(private fb: FormBuilder, private fmp: FormModelParserService) { }
 
   public ngOnInit() {
   	this.formModel = this.fmp.parseToSearch(this.formModel, this.allTableColumns, this.translateKey);
     this.form = this.fmp.toFormGroup(this.formModel);
-    this.form.addControl('page', new FormControl(1));
+  }
+
+  public onSubmit() {
+    let options = {};
+
+    if (!this.form.get('search').pristine) {
+      Object.assign(options, this.form.get('search').value, { advanced_search: true, page: 1 });
+    }
+
+    if (!this.form.get('options').pristine) {
+      Object.assign(options, this.form.get('options').value);
+    }
+
+    return this.search.emit(options);
   }
 }

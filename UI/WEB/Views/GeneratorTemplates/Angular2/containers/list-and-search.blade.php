@@ -126,7 +126,14 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     this.store.dispatch(new {{ $actions }}.LoadAction(this.queryData));
   }
 
-  deleteRow(id: string) {
+  public onAdvancedSearch(data: Object = {}) {
+    if (!_.isEmpty(data)) {
+      this.queryData = _.assign({}, this.queryData, data);
+      this.store.dispatch(new documentTypeActions.LoadAction(this.queryData));
+    }
+  }
+
+  public deleteRow(id: string) {
     swal({
       title: this.deleteAlert.title,
       text: this.deleteAlert.text,
