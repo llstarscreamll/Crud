@@ -35,7 +35,7 @@
                 <span class="btn-label" translate>{{ $upEntity }}.create</span>
               </button>
 
-              <button *ngIf="formType == 'edit' || formType == 'details'"
+              <button *ngIf="(formType == 'edit' || formType == 'details'){{ $gen->hasSoftDeleteColumn ? ' && !('.($selected = 'selected'.$gen->entityName().'$').' | async)?.deleted_at' : null }}"
                   class="btn"
                   type="submit"
                   [disabled]="!{{ $camelEntity }}Form.valid"
@@ -44,7 +44,7 @@
                 <span class="btn-label" translate>{{ $upEntity }}.edit</span>
               </button>
 
-              <button *ngIf="formType == 'edit' || formType == 'details'"
+              <button *ngIf="(formType == 'edit' || formType == 'details'){{ $gen->hasSoftDeleteColumn ? ' && !('.($selected = 'selected'.$gen->entityName().'$').' | async)?.deleted_at' : null }}"
                   [disabled]="{{ $camelEntity }}Form.get('id') && {{ $camelEntity }}Form.get('id').value == ''"
                   (click)="triggerDeleteBtn()"
                   type="button"
