@@ -26,6 +26,9 @@ export const {{ $gen->entityNameSnakeCase() }} = {
       'delete_succcess': '{{ trans('crud::templates.delete_success', ['item' => $gen->request->get('single_entity_name')]) }}',
       'restore_succcess': '{{ trans('crud::templates.restore_success', ['item' => $gen->request->get('single_entity_name')]) }}',
       'no_rows_found': '{{ trans('crud::templates.no_rows_found') }}',
+@if($gen->hasSoftDeleteColumn)
+      'softdeleted_rows_info': '{{ trans('crud::templates.softdeleted_rows_info') }}',
+@endif
     },
 
     'delete-alert': {

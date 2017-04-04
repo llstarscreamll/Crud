@@ -17,7 +17,7 @@
       </thead>
       <tbody>
         <ng-container *ngIf="{{ $items = camel_case($gen->entityName(true)) }} && {{ $items }}.length > 0">
-        <tr *ngFor="let {{ $var = camel_case($gen->entityName()) }} of {{ $items }}">
+        <tr *ngFor="let {{ $var = camel_case($gen->entityName()) }} of {{ $items }}" @if($gen->hasSoftDeleteColumn) [ngClass]="{'danger': {{ $var }}.deleted_at }" @endif>
           <td><input type="checkbox" name="item[]" value="{{ $var }}.id"></td>
 @foreach ($fields as $field)
 @if (!$field->hidden)
@@ -41,7 +41,7 @@
               <i class="glyphicon glyphicon-pencil"></i>
               <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'edit' }}</span>
             </a>
-            <a role="button" class="btn btn-sm btn-default" (click)="deleteBtnClicked.emit({{ $var }}.id)">
+            <a {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!} role="button" class="btn btn-sm btn-default" (click)="deleteBtnClicked.emit({{ $var }}.id)">
               <i class="glyphicon glyphicon-trash"></i>
               <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'delete' }}</span>
             </a>
@@ -59,3 +59,8 @@
       </tbody>
     </table>
 </div>
+@if($gen->hasSoftDeleteColumn)
+<div>
+  <p class="text-muted" translate>{{ '{{' }} translateKey + 'msg.softdeleted_rows_info' }}</p>
+</div>
+@endif

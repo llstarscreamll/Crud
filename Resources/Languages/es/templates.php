@@ -26,4 +26,5 @@ return [
 	'cancel_modal_btn' => 'Cancelar',
 	'columns_tab_title' => 'Columnas',
 	'search_tab_title' => 'Buscar',
+	'softdeleted_rows_info' => 'Las filas resaltadas en rojo están en la papelera',
 ];
