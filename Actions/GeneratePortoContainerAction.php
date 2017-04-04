@@ -18,6 +18,7 @@ use App\Containers\Crud\Tasks\RunPhpCsFixerOnDirTask;
 use App\Containers\Crud\Tasks\CreateTransformerTask;
 use App\Containers\Crud\Tasks\CreateExceptionsTask;
 use App\Containers\Crud\Tasks\CreateFormModelConfigTask;
+use App\Containers\Crud\Tasks\CreatePortoCriteriasTask;
 
 /**
  * GeneratePortoContainerAction Class.
@@ -43,6 +44,10 @@ class GeneratePortoContainerAction
         // generate exceptions classes
         $createExceptionsTask = new CreateExceptionsTask($request);
         $createExceptionsTask->run();
+
+        // generate criteria classes
+        $createPortoCriteriasTask = new CreatePortoCriteriasTask($request);
+        $createPortoCriteriasTask->run();
 
         // generate tasks classes
         $createTasksTask = new CreateTasksTask($request);

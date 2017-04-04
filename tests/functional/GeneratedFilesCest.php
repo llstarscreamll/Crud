@@ -178,6 +178,7 @@ class GeneratedFilesCest
         $dataDir = $containersDir.$this->package.'/Data';
         $I->assertTrue(file_exists($dataDir), 'Data dir');
         $I->assertTrue(file_exists($dataDir.'/Criterias'), 'Data/Criterias dir');
+        $I->seeFileFound('AdvancedBookSearchCriteria.php', $dataDir.'/Criterias');
         $I->assertTrue(file_exists($dataDir.'/Factories'), 'Data/Factories dir');
         $I->assertTrue(file_exists($dataDir.'/Migrations'), 'Data/Migrations dir');
         $I->assertTrue(file_exists($dataDir.'/Repositories'), 'Data/Repositories dir');

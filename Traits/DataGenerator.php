@@ -447,4 +447,37 @@ trait DataGenerator
 
         return $classImport."\n".$classUsage;
     }
+
+    /**
+     * Devuelve string con clausula para el Query Builder de Eloquent.
+     *
+     * @param stdClass $field
+     * @param string   $value
+     *
+     * @return string
+     */
+    public function getConditionStr($field, $value = null)
+    {
+        $columnName = $field->name == 'id' ? 'ids' : $field->name;
+
+        // cláusula por defecto
+        $string = "'{$field->name}', \$this->input->get('{$columnName}')";
+
+        // para búsquedas de tipo texto
+        if (in_array($field->type, ['varchar', 'text'])) {
+            $string = "'{$field->name}', 'like', '%'.\$this->input->get('{$columnName}').'%'";
+        }
+
+        // para búsquedas en campos de tipo enum
+        if ($field->type == 'enum') {
+            $string = "'{$field->name}', \$this->input->get('$columnName')";
+        }
+
+        // para búsqueda en campos de tipo boolean
+        if ($field->type == 'tinyint') {
+            $string = "'{$field->name}', $value";
+        }
+
+        return $string;
+    }
 }

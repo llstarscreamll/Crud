@@ -318,6 +318,16 @@ trait FolderNamesResolver
         return $baseName.'Action.php';
     }
 
+    public function criteriaFile(string $criteria, bool $plural = false) {
+        $entity = $plural
+            ? str_plural($this->entityName())
+            : $this->entityName();
+
+        $baseName = str_replace(':entity:', $this->entityName(), $criteria);
+
+        return $baseName.'Criteria.php';
+    }
+
     public function actionClass(string $action, bool $plural = false, bool $atStart = false)
     {
         $actionFile = $this->actionFile($action, $plural, $atStart);
