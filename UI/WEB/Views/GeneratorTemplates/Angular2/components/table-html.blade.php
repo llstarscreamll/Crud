@@ -37,10 +37,12 @@
               <i class="glyphicon glyphicon-eye-open"></i>
               <span class="sr-only btn-label" translate>translateKey + 'details' }}</span>
             </a>
-            <a [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'edit']" class="btn btn-sm btn-default">
+
+            <a {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!} [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'edit']" class="btn btn-sm btn-default">
               <i class="glyphicon glyphicon-pencil"></i>
               <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'edit' }}</span>
             </a>
+            
             <a {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!} role="button" class="btn btn-sm btn-default" (click)="deleteBtnClicked.emit({{ $var }}.id)">
               <i class="glyphicon glyphicon-trash"></i>
               <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'delete' }}</span>
