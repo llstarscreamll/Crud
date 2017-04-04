@@ -25,8 +25,8 @@ class {{ $gen->taskClass('Get') }} extends Task
 		$this->{{ camel_case($repoClass) }} = ${{ camel_case($repoClass) }};
 	}
 
-	public function run(int $id) {
-        ${{ $camelEntity = camel_case($gen->entityName()) }} = $this->{{ camel_case($repoClass) }}->find($id);
+	public function run(string $id) {
+        ${{ $camelEntity = camel_case($gen->entityName()) }} = $this->{{ camel_case($repoClass) }}@if($gen->hasSoftDeleteColumn)->makeModel()->withTrashed()@endif->find($id);
         return ${{ $camelEntity }};
 	}
 }
