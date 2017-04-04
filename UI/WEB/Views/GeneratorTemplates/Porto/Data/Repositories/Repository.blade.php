@@ -30,10 +30,10 @@ class {{ $gen->entityName() }}Repository extends Repository
 
     /**
      * Restores a softdeleted row.
-     * @param  string $id
+     * @param  int $id
      * @return App\Containers\{{ $gen->containerName() }}\Models\{{ $gen->entityName() }} ${{ camel_case($entityClass = $gen->entityName()) }}
      */
-    public function restore(string $id)
+    public function restore(int $id)
     {
         $this->model->withTrashed()->find($id)->restore();
         return $this->model->find($id);
