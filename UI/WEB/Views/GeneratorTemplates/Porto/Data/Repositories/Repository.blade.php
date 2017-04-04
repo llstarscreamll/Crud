@@ -17,7 +17,6 @@ class {{ $gen->entityName() }}Repository extends Repository
      * @var array
      */
     protected $fieldSearchable = [
-{{-- we should have a property fillable for each filed --}}
 @foreach($fields as $field)
 @if($field->fillable)
         '{{ $field->name }}' => 'like',
@@ -28,12 +27,13 @@ class {{ $gen->entityName() }}Repository extends Repository
 @endforeach
     ];
 @if($gen->hasSoftDeleteColumn)
+
     /**
      * Restores a softdeleted row.
-     * @param  int $id
+     * @param  string $id
      * @return App\Containers\{{ $gen->containerName() }}\Models\{{ $gen->entityName() }} ${{ camel_case($entityClass = $gen->entityName()) }}
      */
-    public function restore(int $id)
+    public function restore(string $id)
     {
         $this->model->withTrashed()->find($id)->restore();
         return $this->model->find($id);
