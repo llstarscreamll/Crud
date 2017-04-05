@@ -31,31 +31,39 @@ class {{ $criteria }} extends Criteria
      */
 	public function apply($model, PrettusRepositoryInterface $repository)
     {
-    	$model = $model->query();
-
 @foreach ($fields as $field)
 @if (!$field->hidden)
 @if ($field->type == 'tinyint')
-        $this->input->has('{{ $field->name }}_true') && $model->where({{ $gen->getConditionStr($field, 'true') }});
-        ($this->input->has('{{ $field->name }}_false') && !$this->input->has('{{ $field->name }}_true')) && $model->where({{ $gen->getConditionStr($field, 'false') }});
-        ($this->input->has('{{ $field->name }}_false') && $this->input->has('{{ $field->name }}_true')) && $model->orWhere({{ $gen->getConditionStr($field, 'false') }});
+        $model = $this->input->has('{{ $field->name }}_true')
+            ? $model->where({{ $gen->getConditionStr($field, 'true') }})
+            : $model;
+
+        $model = $this->input->has('{{ $field->name }}_false' && !$this->input->has('{{ $field->name }}_true')
+            ? $model->where({{ $gen->getConditionStr($field, 'false') }})
+            : $model;
+
+        $model = $this->input->has('{{ $field->name }}_false') && $this->input->has('{{ $field->name }}_true')
+            ? $model->orWhere({{ $gen->getConditionStr($field, 'false') }})
+            : $model;
 
 @elseif ($field->type == 'enum' || $field->key == 'MUL' || $field->key == 'PRI')
-        $this->input->has('{{ $field->name == 'id' ? 'id' : $field->name }}') && $model->whereIn({!! $gen->getConditionStr($field) !!});
+        $model = $this->input->has('{{ $field->name == 'id' ? 'id' : $field->name }}')
+            ? $model->whereIn({!! $gen->getConditionStr($field) !!})
+            : $model;
 
 @elseif ($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime')
-        $this->input->has('{{ $field->name }}') && $model->whereBetween('{{ $field->name }}', $this->input->get('{{ $field->name }}'));
+        $model = $this->input->has('{{ $field->name }}')
+            ? $model->whereBetween('{{ $field->name }}', $this->input->get('{{ $field->name }}'))
+            : $model;
 
 @else
-        $this->input->has('{{ $field->name }}') && $model->where({!! $gen->getConditionStr($field) !!});
+        $model = $this->input->has('{{ $field->name }}')
+            ? $model->where({!! $gen->getConditionStr($field) !!})
+            : $model;
 
 @endif
 @endif
 @endforeach
-@if ($gen->hasSoftDeleteColumn)
-        // trashed records
-        $this->input->has('trashed') && $model->{$this->input->get('trashed')}();
-@endif
         // sort resutls
         $model->orderBy($this->input->get('orderBy', '{{ $gen->hasLaravelTimestamps ? 'created_at' : 'name' }}'), $this->input->get('sortedBy', 'desc'));
 
