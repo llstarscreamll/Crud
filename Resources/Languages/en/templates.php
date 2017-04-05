@@ -27,4 +27,6 @@ return [
 	'columns_tab_title' => 'Columns',
 	'search_tab_title' => 'Search',
 	'softdeleted_rows_info' => 'The rows highlighted with red color are trashed',
+	'actions_table_header' => 'Actions',
+	'advanced_search_apply_btn' => 'Apply',
 ];

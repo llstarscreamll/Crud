@@ -13,11 +13,13 @@ export const {{ $gen->entityNameSnakeCase() }} = {
     'search_field_placeholder': '{{ trans('crud::templates.search_field_placeholder') }}',
     'search_btn': '{{ trans('crud::templates.search_btn') }}',
     'cancel_modal_btn': '{{ trans('crud::templates.cancel_modal_btn') }}',
+    'actions_table_header': '{{ trans('crud::templates.actions_table_header') }}',
 
     'advanced_search': {
       'title': '{{ trans('crud::templates.advanced_search') }}',
       'columns_tab_title': '{{ trans('crud::templates.columns_tab_title') }}',
       'search_tab_title': '{{ trans('crud::templates.search_tab_title') }}',
+      'apply_btn': '{{ trans('crud::templates.advanced_search_apply_btn') }}'
     },
 
     'msg': {

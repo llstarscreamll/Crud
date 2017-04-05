@@ -2,7 +2,7 @@
     <table class="table table-hover actions-btns-3">
       <thead>
         <tr>
-          <th><input type="checkbox" name="select_all_items"></th>
+          <th style="width: 1em;"><input type="checkbox" name="select_all_items"></th>
           <ng-container *ngFor="let column of columns">
           <th *ngIf="showColumn(column)" class="{{ '{{' }} column }}">
             <span role="button" (click)="sortLinkClicked.emit({'orderBy': column, 'sortedBy': (sortedBy == 'desc' || orderBy != column) ? 'asc' : 'desc'})">
@@ -12,7 +12,7 @@
             </span>
           </th>
           </ng-container>
-          <th class="actions"></th>
+          <th class="actions" translate>{{ '{{' }} translateKey + 'actions_table_header' }}</th>
         </tr>
       </thead>
       <tbody>

@@ -57,7 +57,7 @@
       </tab>
     </tabset>
     
-    <button type="submit" class="btn btn-lg btn-primary btn-block m-t-xs" translate>Apply</button>
+    <button type="submit" class="btn btn-lg btn-primary btn-block m-t-xs" translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.apply_btn</button>
 
   </form>
 </div>

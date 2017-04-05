@@ -27,4 +27,6 @@ return [
 	'columns_tab_title' => 'Columnas',
 	'search_tab_title' => 'Buscar',
 	'softdeleted_rows_info' => 'Las filas resaltadas en rojo están en la papelera',
+	'actions_table_header' => 'Acciones',
+	'advanced_search_apply_btn' => 'Aplicar',
 ];
