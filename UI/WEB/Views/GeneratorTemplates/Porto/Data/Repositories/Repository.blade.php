@@ -2,7 +2,9 @@
 
 namespace App\Containers\{{ $gen->containerName() }}\Data\Repositories;
 
+use Illuminate\Http\Request;
 use App\Ship\Parents\Repositories\Repository;
+use App\Ship\Features\Criterias\Eloquent\TrashedCriteria;
 
 class {{ $gen->entityName() }}Repository extends Repository
 {
@@ -27,6 +29,15 @@ class {{ $gen->entityName() }}Repository extends Repository
 @endforeach
     ];
 @if($gen->hasSoftDeleteColumn)
+    
+    /**
+     * Push the parent and Trashed criterias.
+     */
+    public function boot()
+    {
+        parent::boot();
+        $this->pushCriteria(new TrashedCriteria(app(Request::class)->get('trashed', '')));
+    }
 
     /**
      * Restores a softdeleted row.
