@@ -16,7 +16,6 @@
             [formData]="{}"
             [errors]="errors"
             [visibility]="'search'"
-            [debug]="true"
             ></dynamic-form-fields>
         </div>
       </tab>
@@ -35,7 +34,6 @@
             [formData]="formData"
             [errors]="errors"
             [visibility]="'search'"
-            [debug]="true"
   	    		></dynamic-form-fields>
       	</div>
       </tab>

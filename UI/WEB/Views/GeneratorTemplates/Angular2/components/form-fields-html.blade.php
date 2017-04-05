@@ -6,5 +6,4 @@
 	[errors]="errors"
 	[visibility]="formType"
 	[disabled]="formType == 'details'"
-	[debug]="true"
 	></dynamic-form-fields>

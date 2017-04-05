@@ -71,7 +71,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
     page: 1
   };
 
-  public showSearchOptions: boolean = true;
+  public showSearchOptions: boolean = false;
   public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
   public formConfigured: boolean = false;
 

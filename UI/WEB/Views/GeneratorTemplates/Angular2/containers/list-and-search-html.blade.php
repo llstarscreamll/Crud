@@ -57,7 +57,7 @@
 					        	[form]="{{ $form = camel_case($gen->entityName()).'Form' }}"
 					        	[selected]="queryData"
 					        	[errors]="{{ $errors = 'errors$' }} | async"
-					        	[debug]="true">
+					        	[debug]="false">
 					        </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
 					      </div>
 
