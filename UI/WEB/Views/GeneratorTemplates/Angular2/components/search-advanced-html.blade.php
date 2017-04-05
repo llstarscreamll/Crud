@@ -6,7 +6,7 @@
       <tab>
         <template tabHeading>
           <i class="fa fa-columns" aria-hidden="true"></i>
-          <span translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.columns_tab_title</span>
+          <span translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.options_tab_title</span>
         </template>
         <div class="panel-body">
           <dynamic-form-fields

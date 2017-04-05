@@ -17,7 +17,7 @@ export const {{ $gen->entityNameSnakeCase() }} = {
 
     'advanced_search': {
       'title': '{{ trans('crud::templates.advanced_search') }}',
-      'columns_tab_title': '{{ trans('crud::templates.columns_tab_title') }}',
+      'options_tab_title': '{{ trans('crud::templates.options_tab_title') }}',
       'search_tab_title': '{{ trans('crud::templates.search_tab_title') }}',
       'apply_btn': '{{ trans('crud::templates.advanced_search_apply_btn') }}'
     },
