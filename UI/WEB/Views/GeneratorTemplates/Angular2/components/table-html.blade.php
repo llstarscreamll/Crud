@@ -23,7 +23,7 @@
 @if (!$field->hidden)
           <td *ngIf="showColumn('{{ $gen->tableName.'.'.$field->name }}')" class="{{ $field->name }}">
 @if (in_array($field->type, ['datetime', 'timestamp']))
-            {{ '{{' }} {{ $var }}?.{{ $field->name }}?.date | date:'shortDate' }}
+            {{ '{{' }} {{ $var }}?.{{ $field->name }}?.date | date:'y-MM-dd HH:mm' }}
 @elseif ($field->namespace)
             {{ '{{' }} {{ $var }}?.{{  $gen->relationNameFromField($field)  }}?.data?.name }}
 @else
