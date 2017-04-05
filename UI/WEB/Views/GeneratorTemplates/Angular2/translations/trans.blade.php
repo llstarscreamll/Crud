@@ -55,6 +55,13 @@ export const {{ $gen->entityNameSnakeCase() }} = {
       },
 @endif
 @endforeach
-    }
-  }
+    },
+
+    'paginator': {
+      'first_text': '{{ trans('crud::templates.paginator.first_text') }}',
+      'last_text': '{{ trans('crud::templates.paginator.last_text') }}',
+      'next_text': '{{ trans('crud::templates.paginator.next_text') }}',
+      'previous_text': '{{ trans('crud::templates.paginator.previous_text') }}',
+    },
+  },
 }

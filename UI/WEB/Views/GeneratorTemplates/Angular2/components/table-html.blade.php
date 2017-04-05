@@ -81,6 +81,11 @@
       [itemsPerPage]="pagination?.per_page"
       [maxSize]="5"
       [boundaryLinks]="true"
-      (pageChanged)="updateSearch.emit($event)"></pagination>
+      (pageChanged)="updateSearch.emit($event)"
+      [firstText]="translateKey + 'paginator.first_text' | translate"
+      [lastText]="translateKey + 'paginator.last_text' | translate"
+      [nextText]="translateKey + 'paginator.next_text' | translate"
+      [previousText]="translateKey + 'paginator.previous_text' | translate"
+      ></pagination>
   </div>
 </div>

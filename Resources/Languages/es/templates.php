@@ -29,4 +29,10 @@ return [
 	'softdeleted_rows_info' => 'Las filas resaltadas en rojo están en la papelera',
 	'actions_table_header' => 'Acciones',
 	'advanced_search_apply_btn' => 'Aplicar',
+	'paginator' => [
+		'first_text' => 'Primero',
+		'last_text' => 'Último',
+		'next_text' => 'Siguiente',
+		'previous_text' => 'Anterior',
+	]
 ];
