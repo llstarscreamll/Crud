@@ -129,7 +129,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
   public onAdvancedSearch(data: Object = {}) {
     if (!_.isEmpty(data)) {
       this.queryData = _.assign({}, this.queryData, data);
-      this.store.dispatch(new documentTypeActions.LoadAction(this.queryData));
+      this.store.dispatch(new {{ $actions }}.LoadAction(this.queryData));
     }
   }
 
