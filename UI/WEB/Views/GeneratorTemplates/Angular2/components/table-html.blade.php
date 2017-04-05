@@ -5,7 +5,7 @@
           <th style="width: 1em;"><input type="checkbox" name="select_all_items"></th>
           <ng-container *ngFor="let column of columns">
           <th *ngIf="showColumn(column)" class="{{ '{{' }} column }}">
-            <span role="button" (click)="sortLinkClicked.emit({'orderBy': column, 'sortedBy': (sortedBy == 'desc' || orderBy != column) ? 'asc' : 'desc'})">
+            <span role="button" (click)="updateSearch.emit({'orderBy': column, 'sortedBy': (sortedBy == 'desc' || orderBy != column) ? 'asc' : 'desc'})">
                 {{ '{{' }} translateKey + 'fields.'+column | translate }}
                 <i *ngIf="orderBy == column"
                     [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
@@ -70,8 +70,17 @@
       </tbody>
     </table>
 </div>
-@if($gen->hasSoftDeleteColumn)
-<div>
-  <p class="text-muted" translate>{{ '{{' }} translateKey + 'msg.softdeleted_rows_info' }}</p>
+
+<!-- paginator -->
+<div class="row">
+  <div class="col-xs-12">
+    <pagination
+      class="pull-right"
+      [(ngModel)]="currentPage"
+      [totalItems]="pagination?.total"
+      [itemsPerPage]="pagination?.per_page"
+      [maxSize]="5"
+      [boundaryLinks]="true"
+      (pageChanged)="updateSearch.emit($event)"></pagination>
+  </div>
 </div>
-@endif

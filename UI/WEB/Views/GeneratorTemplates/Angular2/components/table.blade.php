@@ -20,15 +20,22 @@ export class {{ $gen->componentClass('table', $plural = true) }} implements OnIn
   public sortedBy: string = '';
 
   @Input()
+  public pagination: Pagination;
+
+  @Input()
   public orderBy: string = '';
 
   @Output()
-  public sortLinkClicked = new EventEmitter<Object>();
+  public updateSearch = new EventEmitter<Object>();
   
   @Output()
   public deleteBtnClicked = new EventEmitter<string>();
   
   public translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
+
+  get currentPage() {
+    return this.pagination ? this.pagination.current_page : 1;
+  }
 
   public constructor() { }
 
