@@ -48,7 +48,7 @@
 					      <div class="modal-body">
 					        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}
 					        	class="advanced-search-form"
-					        	(search)="onAdvancedSearch($event)"
+					        	(search)="onAdvancedSearch($event); staticModal.hide();"
 					        	[translateKey]="translateKey"
 					        	[allTableColumns]="allTableColumns"
 					        	[selectedTableColumns]="queryData.filter"
