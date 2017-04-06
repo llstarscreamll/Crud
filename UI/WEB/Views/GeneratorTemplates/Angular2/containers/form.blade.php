@@ -6,7 +6,7 @@ import { go } from '@ngrx/router-store';
 import { TranslateService } from 'ng2-translate';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { FormModelParserService } from './../../../core/services/form-model-parser.service';
+import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 import * as appMessage from './../../../core/reducers/app-message.reducer';
 import * as fromRoot from './../../../reducers';
 import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';

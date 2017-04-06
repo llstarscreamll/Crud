@@ -8,7 +8,7 @@ import 'rxjs/add/operator/withLatestFrom'
 
 import * as fromRoot from './../../reducers';
 import * as appMsgActions from './../../core/actions/app-message.actions';
-import { FormModelParserService } from './../../core/services/form-model-parser.service';
+import { FormModelParserService } from './../../dynamic-form/services/form-model-parser.service';
 import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ $camelEntity = camel_case($entitySin) }}Pagination';
 import { {{ $entitySin }}Service } from './../services/{{ $gen->slugEntityName() }}.service';
 import * as {{ $actions = camel_case($gen->entityName()) }} from './../actions/{{ $gen->slugEntityName() }}.actions';

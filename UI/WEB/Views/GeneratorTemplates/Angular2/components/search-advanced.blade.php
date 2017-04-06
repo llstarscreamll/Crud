@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { FormModelParserService } from './../../../core/services/form-model-parser.service';
+import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
 {{ '@' }}Component({
