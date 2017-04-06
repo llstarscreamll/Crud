@@ -37,6 +37,10 @@ export class {{ $gen->componentClass('table', $plural = true) }} implements OnIn
     return this.pagination ? this.pagination.current_page : 1;
   }
 
+  set currentPage(val) {
+    val ? val : this.pagination.current_page;
+  }
+
   public constructor() { }
 
   public ngOnInit() { }

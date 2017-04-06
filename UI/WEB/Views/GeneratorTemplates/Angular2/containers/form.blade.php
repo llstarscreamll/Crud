@@ -171,7 +171,7 @@ export class {{ $gen->containerClass('form', false, true) }} implements OnInit, 
       cancelButtonText: this.deleteAlert.cancel_btn_text,
       confirmButtonColor: '#ed5565'
     }).then(() => {
-      this.store.dispatch(new {{ $actions }}.DeleteAction({ id: this.{{ $form }}.get('id').value, reloadListQuery: null}));
+      this.store.dispatch(new {{ $actions }}.DeleteAction({ id: this.{{ $form }}.get('id').value, reloadListQuery: null }));
     }).catch(swal.noop);
   }
 
