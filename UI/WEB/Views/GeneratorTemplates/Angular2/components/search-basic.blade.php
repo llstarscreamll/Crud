@@ -9,7 +9,6 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
   styleUrls: ['./{{ $gen->componentFile('search-basic-css', false) }}']
 })
 export class {{ $gen->componentClass('search-basic', $plural = false) }} implements OnInit {
-  
   @Output()
   public search = new EventEmitter<{}>();
 

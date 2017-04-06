@@ -9,7 +9,6 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
   styleUrls: ['./{{ $gen->componentFile('form-fields-css', false) }}']
 })
 export class {{ $gen->componentClass('form-fields', $plural = false) }} implements OnInit {
-
   @Input()
   public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
 	

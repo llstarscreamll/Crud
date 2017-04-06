@@ -1,8 +1,6 @@
-import { FormGroup } from '@angular/forms';
 import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 import { {{ $paginationModel = $gen->entityName().'Pagination' }} } from './../models/{{ camel_case($entitySin) }}Pagination';
-import { AppMessage } from './../../core/models/appMessage';
 
 export interface State {
   {{ $formModel = camel_case($gen->entityName()).'FormModel' }}: Object;
@@ -64,7 +62,6 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
       return { ...state, loading: true };
     }
 
-
     case {{ $actions }}.ActionTypes.RESTORE_{{ $entitySnakeSin }}: {
       return { ...state, loading: true };
     }
@@ -83,12 +80,12 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
   }
  }
 
-  export const get{{ studly_case($formModel) }} = (state: State) => state.{{ $formModel }};
-  export const get{{ studly_case($formData) }} = (state: State) => state.{{ $formData }};
-  export const get{{ studly_case($pagination) }} = (state: State) => state.{{ $pagination }};
-  export const get{{ studly_case($selected) }} = (state: State) => state.{{ $selected }};
-  export const get{{ studly_case('loading') }} = (state: State) => state.{{ 'loading' }};
-  export const get{{ studly_case('errors') }} = (state: State) => state.{{ 'errors' }};
+export const get{{ studly_case($formModel) }} = (state: State) => state.{{ $formModel }};
+export const get{{ studly_case($formData) }} = (state: State) => state.{{ $formData }};
+export const get{{ studly_case($pagination) }} = (state: State) => state.{{ $pagination }};
+export const get{{ studly_case($selected) }} = (state: State) => state.{{ $selected }};
+export const get{{ studly_case('loading') }} = (state: State) => state.{{ 'loading' }};
+export const get{{ studly_case('errors') }} = (state: State) => state.{{ 'errors' }};
 
 /* -----------------------------------------------------------------------------
 Don't forget to import these reducer on the main app reducer!!

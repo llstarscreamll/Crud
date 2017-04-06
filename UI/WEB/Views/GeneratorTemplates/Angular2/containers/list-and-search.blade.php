@@ -62,16 +62,12 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
   public ngOnInit() {
     this.setDocumentTitle();
     this.setupStoreSelects();
+    this.initForm();
     this.setupForm();
   	this.onSearch();
   }
 
   private setupForm() {
-    // download the form model
-    this.store.dispatch(new {{ $actions }}.GetFormModelAction(null));
-    // download the form data
-    this.store.dispatch(new {{ $actions }}.GetFormDataAction(null));
-
     this.formModelSubscription$ = this.{{ $formModel = camel_case($gen->entityName()).'FormModel$' }}
       .subscribe((model) => {
         if (model) {

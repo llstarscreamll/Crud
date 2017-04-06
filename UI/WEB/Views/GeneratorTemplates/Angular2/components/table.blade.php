@@ -9,7 +9,6 @@ import { Pagination } from './../../../core/models/pagination';
   styleUrls: ['./{{ $gen->componentFile('table-css', $plural = true) }}']
 })
 export class {{ $gen->componentClass('table', $plural = true) }} implements OnInit {
-	
 	@Input()
   columns = [];
 

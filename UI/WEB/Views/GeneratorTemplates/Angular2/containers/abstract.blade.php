@@ -78,11 +78,8 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
 
     // if form type is details|update, then download the {{ $gen->entityName() }} data from API by the given id
     this.load{{ $gen->entityName() }}();
-
-    // download the form data depending on the form type (create|update)
-    this.downloadFormData();
     
-    // download the form model
+    this.store.dispatch(new {{ $actions }}.GetFormDataAction(null));
     this.store.dispatch(new {{ $actions }}.GetFormModelAction(null));
   }
 
@@ -95,12 +92,6 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
     
     if (this.router.url.search(/{{ $gen->slugEntityName() }}\/create$/i) > -1)
       this.formType = "create";
-  }
-
-  private downloadFormData() {
-    if (this.formType.includes('create') || this.formType.includes('edit')) {
-      this.store.dispatch(new {{ $actions }}.GetFormDataAction(null));
-    }
   }
 
   private load{{ $gen->entityName() }}() {
