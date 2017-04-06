@@ -25,7 +25,7 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   protected abstract store: Store<fromRoot.State>;
   protected abstract titleService: Title;
   protected abstract translateService: TranslateService;
-  protected abstract FormModelParserService: FormModelParserService;
+  protected abstract formModelParserService: FormModelParserService;
   protected router: Router;
   protected activedRoute: ActivatedRoute;
   

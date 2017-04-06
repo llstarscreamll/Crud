@@ -29,7 +29,7 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
     protected store: Store<fromRoot.State>,
     protected titleService: Title,
     protected translateService: TranslateService,
-    protected FormModelParserService: FormModelParserService,
+    protected formModelParserService: FormModelParserService,
     protected router: Router,
     protected activedRoute: ActivatedRoute,
   ) { super(); }
@@ -45,7 +45,7 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
     this.formModelSubscription$ = this.{{ $formModel = camel_case($gen->entityName()).'FormModel$' }}
       .subscribe((model) => {
         if (model) {
-          this.{{ $form }} = this.FormModelParserService.toFormGroup(model);
+          this.{{ $form }} = this.formModelParserService.toFormGroup(model);
 
           if (this.formType == 'details' || this.formType == 'edit') {
             this.patchForm();

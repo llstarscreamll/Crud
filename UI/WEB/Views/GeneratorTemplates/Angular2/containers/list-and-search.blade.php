@@ -56,7 +56,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
     protected router: Router,
     protected titleService: Title,
     protected translateService: TranslateService,
-    protected FormModelParserService: FormModelParserService
+    protected formModelParserService: FormModelParserService
   ) { super(); }
 
   public ngOnInit() {
@@ -71,7 +71,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
     this.formModelSubscription$ = this.{{ $formModel = camel_case($gen->entityName()).'FormModel$' }}
       .subscribe((model) => {
         if (model) {
-          this.{{ $form }} = this.FormModelParserService.toFormGroup(model);
+          this.{{ $form }} = this.formModelParserService.toFormGroup(model);
           this.formConfigured = true;
         }
       });
