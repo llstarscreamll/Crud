@@ -46,7 +46,7 @@
 
               <button *ngIf="(formType == 'edit' || formType == 'details'){{ $gen->hasSoftDeleteColumn ? ' && !('.($selected = 'selected'.$gen->entityName().'$').' | async)?.deleted_at' : null }}"
                   [disabled]="{{ $camelEntity }}Form.get('id') && {{ $camelEntity }}Form.get('id').value == ''"
-                  (click)="triggerDeleteBtn()"
+                  (click)="deleteRow(id)"
                   type="button"
                   class="btn btn-default">
                 <i class="glyphicon glyphicon-trash"></i>

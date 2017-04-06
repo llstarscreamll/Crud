@@ -46,6 +46,7 @@ class CreateNgContainersTask
         'list-and-search',
         'list-and-search-css',
         'list-and-search-html',
+        'abstract',
         'index',
     ];
 
@@ -75,8 +76,13 @@ class CreateNgContainersTask
         $this->setupIndexFile($indexFilePath, $template, $className, $fileName);
 
         foreach ($this->files as $file) {
-            $plural = strpos($file, "list-and-search") !== false ? true : false;
-            $atStart = strpos($file, "form") !== false ? true : false;
+            $plural = strpos($file, "list-and-search") !== false
+                ? true
+                : false;
+
+            $atStart = strpos($file, "form") !== false || strpos($file, "abstract") !== false
+                ? true
+                : false;
 
             $containerFile = $this->containersDir()."/".$this->containerFile($file, $plural, $atStart);
             $template = $this->templatesDir().'.Angular2.containers.'.$file;

@@ -50,12 +50,12 @@
 					        	class="advanced-search-form"
 					        	(search)="onAdvancedSearch($event); staticModal.hide();"
 					        	[translateKey]="translateKey"
-					        	[allTableColumns]="allTableColumns"
-					        	[selectedTableColumns]="queryData.filter"
+					        	[tableColumns]="tableColumns"
+					        	[selectedTableColumns]="searchQuery.filter"
 					        	[formModel]="{{ $formModel = camel_case($gen->entityName()).'FormModel$' }} | async"
 					        	[formData]="{{ $formData = camel_case($gen->entityName()).'FormData$' }} | async"
 					        	[form]="{{ $form = camel_case($gen->entityName()).'Form' }}"
-					        	[selected]="queryData"
+					        	[selected]="searchQuery"
 					        	[errors]="{{ $errors = 'errors$' }} | async"
 					        	[debug]="false">
 					        </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
@@ -68,11 +68,11 @@
 
 				<{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}
 					(updateSearch)="onSearch($event)"
-					[{{ camel_case($gen->entityName(true)) }}]="({{ $state = camel_case($gen->entityName()).'State$' }} | async)?.{{ camel_case($gen->entityName(true)) }}Pagination?.data"
-					[pagination]="({{ $state = camel_case($gen->entityName()).'State$' }} | async)?.{{ camel_case($gen->entityName(true)) }}Pagination?.pagination"
-					[orderBy]="queryData.orderBy"
-					[sortedBy]="queryData.sortedBy"
-					[columns]="queryData.filter"
+					[{{ camel_case($gen->entityName(true)) }}]="({{ camel_case($gen->entityName(true)) }}Pagination$ | async)?.data"
+					[pagination]="({{ camel_case($gen->entityName(true)) }}Pagination$ | async)?.pagination"
+					[orderBy]="searchQuery.orderBy"
+					[sortedBy]="searchQuery.sortedBy"
+					[columns]="searchQuery.filter"
 					(deleteBtnClicked)="deleteRow($event)">
 				</{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}>
 			</app-box-body>

@@ -133,18 +133,13 @@ class GeneratedFilesCest
         $I->seeFileFound('index.ts', $containersDir);
         $entityContainersDir = $containersDir.$slugEntity.'/';
         $I->assertTrue(file_exists($entityContainersDir), 'NG containers dir');
+        $I->seeFileFound('book-abstract.page.ts', $entityContainersDir);
         $I->seeFileFound('list-and-search-books.page.ts', $entityContainersDir);
         $I->seeFileFound('list-and-search-books.page.css', $entityContainersDir);
         $I->seeFileFound('list-and-search-books.page.html', $entityContainersDir);
         $I->seeFileFound('book-form.page.ts', $entityContainersDir);
         $I->seeFileFound('book-form.page.css', $entityContainersDir);
         $I->seeFileFound('book-form.page.html', $entityContainersDir);
-        $I->dontSeeFileFound('book-details.page.ts', $entityContainersDir);
-        $I->dontSeeFileFound('book-details.page.css', $entityContainersDir);
-        $I->dontSeeFileFound('book-details.page.html', $entityContainersDir);
-        $I->dontSeeFileFound('edit-book.page.ts', $entityContainersDir);
-        $I->dontSeeFileFound('edit-book.page.css', $entityContainersDir);
-        $I->dontSeeFileFound('edit-book.page.html', $entityContainersDir);
         $I->seeFileFound('index.ts', $entityContainersDir);
     }
 

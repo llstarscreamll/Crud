@@ -14,7 +14,7 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
   public translateKey: string;
 
   @Input()
-  public allTableColumns: string[];
+  public tableColumns: string[];
 
   @Input()
   public selectedTableColumns: string[];
@@ -43,7 +43,7 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
   public constructor(private fb: FormBuilder, private fmp: FormModelParserService) { }
 
   public ngOnInit() {
-  	this.formModel = this.fmp.parseToSearch(this.formModel, this.allTableColumns, this.translateKey);
+  	this.formModel = this.fmp.parseToSearch(this.formModel, this.tableColumns, this.translateKey);
     this.form = this.fmp.toFormGroup(this.formModel);
     this.form.get('options').patchValue(this.selected);
     this.form.get('search').patchValue(this.selected);
