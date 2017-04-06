@@ -143,7 +143,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} imple
       cancelButtonText: this.deleteAlert.cancel_btn_text,
       confirmButtonColor: '#ed5565'
     }).then(() => {
-      this.store.dispatch(new {{ $actions }}.DeleteAction(id));
+      this.store.dispatch(new {{ $actions }}.DeleteAction({ id: id, reloadListQuery: this.queryData }));
     }).catch(swal.noop);
   }
 }

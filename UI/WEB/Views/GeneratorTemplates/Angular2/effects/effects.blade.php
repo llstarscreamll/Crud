@@ -148,14 +148,19 @@ export class {{ $entitySin }}Effects {
     delete$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.ActionTypes.DELETE_{{ $gen->entityNameSnakeCase() }})
       .map((action: Action) => action.payload)
-      .switchMap(id => {
-        return this.{{ $service }}.delete(id)
+      .switchMap(action => {
+        return this.{{ $service }}.delete(action.id)
           .mergeMap(() => {
-            return [
-              new {{ $actions }}.LoadAction(),
+            let actions = [
               new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('delete')),
               go(['{{ $gen->slugEntityName() }}'])
             ];
+
+            if(action.reloadListQuery) {
+              actions.push(new {{ $actions }}.LoadAction(action.reloadListQuery));
+            }
+
+            return actions;
           })
           .catch((error: AppMessage) => {
             error.type = 'danger';

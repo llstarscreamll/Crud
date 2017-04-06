@@ -66,7 +66,7 @@ export class UpdateAction implements Action {
 
 export class DeleteAction implements Action {
 	type = ActionTypes.DELETE_{{ $entitySnakeSin }};
-	public constructor(public payload: string) { }
+	public constructor(public payload: { id: string, reloadListQuery: Object }) { }
 }
 
 export class RestoreAction implements Action {
