@@ -20,14 +20,11 @@ class GeneratedFilesCest
         $I->amOnPage(Page::route('?table_name='.Page::$tableName));
     }
 
-    /**
-     * Cleans the generated Container directory.
-     */
     public function _after(FunctionalTester $I)
     {
     }
 
-    public function checkLaravelPackageFilesGeneration(FunctionalTester $I)
+    public function checkFilesGeneration(FunctionalTester $I)
     {
         $I->wantTo('generate a Laravel Package');
 
@@ -274,7 +271,7 @@ class GeneratedFilesCest
     }
 
     /**
-     * Comprueba la funcionalidad de crear los ficheros requeridos para la CRUD app.
+     * Standard Laravel app generation.
      *
      * @param FunctionalTester $I
      */
