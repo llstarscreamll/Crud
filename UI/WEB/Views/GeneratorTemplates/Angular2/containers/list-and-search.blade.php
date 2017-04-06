@@ -21,7 +21,6 @@ import { {{ $abstractClass = $gen->containerClass('abstract', false, true) }}, S
 })
 export class {{ $gen->containerClass('list-and-search', $plural = true) }} extends {{ $abstractClass }} implements OnInit {
   protected title: string = 'module-name-plural';
-
   public formType: string = 'search';
   public showSearchOptions: boolean = false;
   public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
@@ -63,9 +62,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
   public ngOnInit() {
     this.setDocumentTitle();
     this.setupStoreSelects();
-
     this.setupForm();
-
   	this.onSearch();
   }
 
@@ -78,14 +75,10 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
     this.formModelSubscription$ = this.{{ $formModel = camel_case($gen->entityName()).'FormModel$' }}
       .subscribe((model) => {
         if (model) {
-          this.setupFormForSearch(model);
+          this.{{ $form }} = this.FormModelParserService.toFormGroup(model);
+          this.formConfigured = true;
         }
       });
-  }
-
-  public setupFormForSearch(model) {
-    this.{{ $form }} = this.FormModelParserService.toFormGroup(model);
-    this.formConfigured = true;
   }
 
   public onSearch(data: Object = {}) {

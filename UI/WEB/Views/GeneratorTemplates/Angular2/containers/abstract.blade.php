@@ -44,7 +44,7 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   protected deleteAlertOptions: any;
 
   public translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
-  public searchQuery: SearchQuery | {} = {};
+  public searchQuery: SearchQuery = null;
   public formType: string = 'search';
   public id: string = null;
   public tableColumns = [

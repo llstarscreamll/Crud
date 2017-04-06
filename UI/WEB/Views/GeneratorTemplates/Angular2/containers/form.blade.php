@@ -21,7 +21,6 @@ import { {{ $abstractClass = $gen->containerClass('abstract', false, true) }} } 
 })
 export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {  
   protected title: string = 'form-page';
-  
   public formType: string = 'create';
   public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
   public formConfigured: boolean = false;
@@ -39,19 +38,20 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
     this.setDocumentTitle();
     this.setupStoreSelects();
     this.initForm();
-  
     this.setupForm();
   }
 
   private setupForm() {
     this.formModelSubscription$ = this.{{ $formModel = camel_case($gen->entityName()).'FormModel$' }}
       .subscribe((model) => {
-        this.{{ $form }} = this.FormModelParserService.toFormGroup(model);
+        if (model) {
+          this.{{ $form }} = this.FormModelParserService.toFormGroup(model);
 
-        if (this.formType == 'details' || this.formType == 'edit') {
-          this.patchForm();
-        } else {
-          this.formConfigured = true;
+          if (this.formType == 'details' || this.formType == 'edit') {
+            this.patchForm();
+          } else {
+            this.formConfigured = true;
+          }
         }
       });
   }
