@@ -23,10 +23,10 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
   protected title: string = 'module-name-plural';
   public formType: string = 'search';
   public showSearchOptions: boolean = false;
-  public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
-  public advancedSearchFormModel: Object;
-  public advancedSearchForm: FormGroup;
   public formConfigured: boolean = false;
+  public advancedSearchFormModel: Object;
+  public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
+  public advancedSearchForm: FormGroup;
 
   /**
    * The search query options.
