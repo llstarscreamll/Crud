@@ -49,13 +49,9 @@
 					        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}
 					        	class="advanced-search-form"
 					        	(search)="onAdvancedSearch($event); staticModal.hide();"
-					        	[translateKey]="translateKey"
-					        	[tableColumns]="tableColumns"
-					        	[selectedTableColumns]="searchQuery.filter"
-					        	[formModel]="{{ $formModel = camel_case($gen->entityName()).'FormModel$' }} | async"
+					        	[formModel]="advancedSearchFormModel"
 					        	[formData]="{{ $formData = camel_case($gen->entityName()).'FormData$' }} | async"
-					        	[form]="{{ $form = camel_case($gen->entityName()).'Form' }}"
-					        	[selected]="searchQuery"
+					        	[form]="advancedSearchForm"
 					        	[errors]="{{ $errors = 'errors$' }} | async"
 					        	[debug]="false">
 					        </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>

@@ -11,25 +11,13 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
 })
 export class {{ $gen->componentClass('search-advanced', $plural = false) }} implements OnInit {
   @Input()
-  public translateKey: string;
+  public formModel: Object;
 
   @Input()
-  public tableColumns: string[];
-
-  @Input()
-  public selectedTableColumns: string[];
-
-  @Input()
-  public formModel: any;
-
-  @Input()
-  public formData: any;
+  public formData: Object;
 
   @Input()
   public form: FormGroup;
-
-  @Input()
-  public selected: Object = {};
 
   @Input()
   public errors: Object = {};
@@ -38,28 +26,9 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} impl
   public debug: boolean = false;
 
   @Output()
-  public search = new EventEmitter<Object>();
+  public search = new EventEmitter<null>();
   
-  public constructor(private fb: FormBuilder, private fmp: FormModelParserService) { }
+  public constructor() { }
 
-  public ngOnInit() {
-  	this.formModel = this.fmp.parseToSearch(this.formModel, this.tableColumns, this.translateKey);
-    this.form = this.fmp.toFormGroup(this.formModel);
-    this.form.get('options').patchValue(this.selected);
-    this.form.get('search').patchValue(this.selected);
-  }
-
-  public onSubmit() {
-    let options = {};
-
-    if (!this.form.get('search').pristine) {
-      Object.assign(options, this.form.get('search').value, { advanced_search: true, page: 1 });
-    }
-
-    if (!this.form.get('options').pristine) {
-      Object.assign(options, this.form.get('options').value);
-    }
-
-    this.search.emit(options);
-  }
+  public ngOnInit() { }
 }

@@ -1,5 +1,5 @@
 <div class="row">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" (ngSubmit)="search.emit()">
   
   	<tabset class="tabs-container">
       <!-- columns options -->

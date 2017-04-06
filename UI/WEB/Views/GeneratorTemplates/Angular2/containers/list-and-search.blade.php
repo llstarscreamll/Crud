@@ -24,6 +24,8 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
   public formType: string = 'search';
   public showSearchOptions: boolean = false;
   public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
+  public advancedSearchFormModel: Object;
+  public advancedSearchForm: FormGroup;
   public formConfigured: boolean = false;
 
   /**
@@ -72,9 +74,17 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
       .subscribe((model) => {
         if (model) {
           this.{{ $form }} = this.formModelParserService.toFormGroup(model);
+          this.setupAdvancedSearchForm(model);
           this.formConfigured = true;
         }
       });
+  }
+
+  public setupAdvancedSearchForm(model: Object) {
+    this.advancedSearchFormModel = this.formModelParserService.parseToSearch(model, this.tableColumns, this.translateKey);
+    this.advancedSearchForm = this.formModelParserService.toFormGroup(this.advancedSearchFormModel);
+    this.advancedSearchForm.get('options').patchValue(this.searchQuery);
+    this.advancedSearchForm.get('search').patchValue(this.searchQuery);
   }
 
   public onSearch(data: Object = {}) {
@@ -82,9 +92,19 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
     this.store.dispatch(new {{ $actions }}.LoadAction(this.searchQuery));
   }
 
-  public onAdvancedSearch(data: Object = {}) {
-    if (!isEmpty(data)) {
-      this.searchQuery = Object.assign({}, this.searchQuery, data);
+  public onAdvancedSearch() {
+    let options = {};
+
+    if (!this.advancedSearchForm.get('search').pristine) {
+      Object.assign(options, this.advancedSearchForm.get('search').value, { advanced_search: true, page: 1 });
+    }
+
+    if (!this.advancedSearchForm.get('options').pristine) {
+      Object.assign(options, this.advancedSearchForm.get('options').value);
+    }
+
+    if (!isEmpty(options)) {
+      this.searchQuery = Object.assign({}, this.searchQuery, options);
       this.store.dispatch(new {{ $actions }}.LoadAction(this.searchQuery));
     }
   }
