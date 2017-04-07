@@ -103,7 +103,7 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
     }
   }
 
-  protected deleteRow(id: string) {
+  public deleteRow(id: string) {
     this.translateService
       .get(this.translateKey + 'delete-alert')
       .subscribe(val => this.deleteAlertOptions = val);

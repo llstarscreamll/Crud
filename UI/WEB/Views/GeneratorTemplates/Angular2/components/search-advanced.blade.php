@@ -11,10 +11,10 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
 })
 export class {{ $gen->componentClass('search-advanced', $plural = false) }} implements OnInit {
   @Input()
-  public formModel: Object;
+  public formModel: any;
 
   @Input()
-  public formData: Object;
+  public formData: any;
 
   @Input()
   public form: FormGroup;
