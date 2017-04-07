@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { isEmpty } from 'lodash';
 
 import * as fromRoot from './../../../reducers';

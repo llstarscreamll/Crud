@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { go } from '@ngrx/router-store';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';

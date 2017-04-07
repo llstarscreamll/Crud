@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
-import { TranslateService } from 'ng2-translate';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Service } from './../../core/services/abstract.service';
 import { LocalStorageService } from './../../core/services/local-storage.service';
