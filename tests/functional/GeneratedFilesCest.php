@@ -112,15 +112,19 @@ class GeneratedFilesCest
         $entityComponentsDir = $componentsDir.$slugEntity.'/';
         $I->assertTrue(file_exists($entityComponentsDir), 'NG components dir');
         $I->seeFileFound('book-form-fields.component.ts', $entityComponentsDir);
+        $I->seeFileFound('book-form-fields.component.spec.ts', $entityComponentsDir);
         $I->seeFileFound('book-form-fields.component.html', $entityComponentsDir);
         $I->seeFileFound('book-form-fields.component.css', $entityComponentsDir);
         $I->seeFileFound('book-search-basic.component.ts', $entityComponentsDir);
+        $I->seeFileFound('book-search-basic.component.spec.ts', $entityComponentsDir);
         $I->seeFileFound('book-search-basic.component.html', $entityComponentsDir);
         $I->seeFileFound('book-search-basic.component.css', $entityComponentsDir);
         $I->seeFileFound('book-search-advanced.component.ts', $entityComponentsDir);
+        $I->seeFileFound('book-search-advanced.component.spec.ts', $entityComponentsDir);
         $I->seeFileFound('book-search-advanced.component.html', $entityComponentsDir);
         $I->seeFileFound('book-search-advanced.component.css', $entityComponentsDir);
         $I->seeFileFound('books-table.component.ts', $entityComponentsDir);
+        $I->seeFileFound('books-table.component.spec.ts', $entityComponentsDir);
         $I->seeFileFound('books-table.component.html', $entityComponentsDir);
         $I->seeFileFound('books-table.component.css', $entityComponentsDir);
         $I->seeFileFound('index.ts', $entityComponentsDir);
@@ -132,12 +136,18 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($entityContainersDir), 'NG containers dir');
         $I->seeFileFound('book-abstract.page.ts', $entityContainersDir);
         $I->seeFileFound('list-and-search-books.page.ts', $entityContainersDir);
+        $I->seeFileFound('list-and-search-books.page.spec.ts', $entityContainersDir);
         $I->seeFileFound('list-and-search-books.page.css', $entityContainersDir);
         $I->seeFileFound('list-and-search-books.page.html', $entityContainersDir);
         $I->seeFileFound('book-form.page.ts', $entityContainersDir);
+        $I->seeFileFound('book-form.page.spec.ts', $entityContainersDir);
         $I->seeFileFound('book-form.page.css', $entityContainersDir);
         $I->seeFileFound('book-form.page.html', $entityContainersDir);
         $I->seeFileFound('index.ts', $entityContainersDir);
+
+        // utils folder
+        $utilsDir = $moduleDir.'utils/';
+        $I->seeFileFound('book-testing.util.ts', $utilsDir);
     }
 
     private function checkPortoFilesGeneration(FunctionalTester $I)

@@ -15,6 +15,7 @@ use App\Containers\Crud\Tasks\CreateNgReducerTask;
 use App\Containers\Crud\Tasks\CreateNgEffectsTask;
 use App\Containers\Crud\Tasks\CreateNgServiceTask;
 use App\Containers\Crud\Tasks\CreateNgRoutesTask;
+use App\Containers\Crud\Tasks\CreateNgUtilsTask;
 
 /**
  * GenerateAngular2ModuleAction Class.
@@ -68,5 +69,9 @@ class GenerateAngular2ModuleAction
         // generate routes
         $createNgRoutesTask = new CreateNgRoutesTask($request);
         $createNgRoutesTask->run();
+
+        // generate utils
+        $createNgUtilsTask = new CreateNgUtilsTask($request);
+        $createNgUtilsTask->run();
     }
 }

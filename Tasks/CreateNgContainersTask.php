@@ -43,9 +43,11 @@ class CreateNgContainersTask
         'form',
         'form-css',
         'form-html',
+        'form-spec',
         'list-and-search',
         'list-and-search-css',
         'list-and-search-html',
+        'list-and-search-spec',
         'abstract',
         'index',
     ];
