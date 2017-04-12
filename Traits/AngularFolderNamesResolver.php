@@ -142,6 +142,19 @@ trait AngularFolderNamesResolver
         return $this->moduleDir().'/actions';
     }
 
+    public function utilsDir()
+    {
+        return $this->moduleDir().'/utils';
+    }
+
+    public function utilFile(string $file)
+    {
+        $entity = $this->slugEntityName();
+        $file = str_replace(':entity:', $entity, $file);
+
+        return $file.'.util.ts';
+    }
+
     public function reducersDir()
     {
         return $this->moduleDir().'/reducers';
@@ -173,11 +186,11 @@ trait AngularFolderNamesResolver
             return $file.'.ts';
         }
 
-        $ext = $this->solveExtentintionFormFile($file);
+        $ext = $this->solveExtentionFormFile($file, '.component');
         $file = $this->cleanFileName($file);
         $entity = $this->slugEntityName($plural);
 
-        return $entity.'-'.$file.".component".$ext;
+        return $entity.'-'.$file.$ext;
     }
 
     public function componentClass($class, $plural = false)
@@ -203,7 +216,7 @@ trait AngularFolderNamesResolver
             return $file.'.ts';
         }
 
-        $ext = $this->solveExtentintionFormFile($file);
+        $ext = $this->solveExtentionFormFile($file, ".page");
         $file = $this->cleanFileName($file);
         $entity = $this->slugEntityName($plural);
 
@@ -211,7 +224,7 @@ trait AngularFolderNamesResolver
             ? $entity.'-'.$file
             : $file.'-'.$entity;
 
-        return $baseName.".page".$ext;
+        return $baseName.$ext;
     }
 
     public function containerClass($class, $plural = false, bool $atStart = false)
@@ -226,9 +239,13 @@ trait AngularFolderNamesResolver
         return $baseName."Page";
     }
 
-    public function solveExtentintionFormFile($file)
+    public function solveExtentionFormFile($file, $prefix = '.component')
     {
         $ext = ".ts";
+
+        $ext = (strpos($file, "-spec") === false)
+            ? $ext
+            : ".spec.ts";
 
         $ext = (strpos($file, "-css") === false)
             ? $ext
@@ -238,13 +255,14 @@ trait AngularFolderNamesResolver
             ? $ext
             : ".html";
 
-        return $ext;
+        return $prefix.$ext;
     }
 
     public function cleanFileName($file)
     {
         $file = str_replace('-css', '', $file);
         $file = str_replace('-html', '', $file);
+        $file = str_replace('-spec', '', $file);
 
         return $file;
     }

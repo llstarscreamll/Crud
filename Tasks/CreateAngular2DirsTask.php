@@ -95,6 +95,11 @@ class CreateAngular2DirsTask
             mkdir($this->routesDir());
         }
 
+        // generate angular utils folder
+        if (!file_exists($this->utilsDir())) {
+            mkdir($this->utilsDir());
+        }
+
         return true;
     }
 }

@@ -1,0 +1,1 @@
+export const FORM_MODEL = {!! json_encode($gen->getFormModelConfigArray($fields)) !!};
