@@ -2,12 +2,13 @@
 import { async, ComponentFixture, fakeAsync, TestBed, inject, getTestBed, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Http, HttpModule, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import * as fromRoot from './../../../reducers';
 import { DynamicFormModule } from './../../../dynamic-form/dynamic-form.module';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
+import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
 
 import { {{ $cmpClass = $gen->componentClass('form-fields', $plural = false) }} } from './{{ str_replace('.ts', '', $gen->componentFile('form-fields', false)) }}';
 
@@ -42,6 +43,12 @@ describe('{{ $cmpClass }}', () => {
     component.{{ $formData = camel_case($gen->entityName()).'FormData' }} = {};
     component.formType = 'create';
     component.errors = {};
+  }));
+
+  beforeEach(inject([TranslateService], (translateService: TranslateService) => {
+    translateService.setTranslation('es', ES, true);
+    translateService.setDefaultLang('es');
+    translateService.use('es');
   }));
 
   it('should create', () => {

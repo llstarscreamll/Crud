@@ -1,17 +1,18 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, fakeAsync, TestBed, getTestBed, tick } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, TestBed, getTestBed, inject, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Http, HttpModule, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { CoreModule } from './../../../core/core.module';
 import * as fromRoot from './../../../reducers';
 
+import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
+import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
 import { {{ $cpmClass = $gen->containerClass('form', false, true) }} } from './{{ str_replace('.ts', '', $gen->containerFile('form', false, true)) }}';
 import { {{ $module = $gen->studlyModuleName().'Module' }} } from './../../{{ $gen->slugModuleName(false) }}.module';
-import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
 
 describe('{{ $cpmClass }}', () => {
   let mockBackend: MockBackend;
@@ -45,6 +46,12 @@ describe('{{ $cpmClass }}', () => {
     store = getTestBed().get(Store);
     mockBackend = getTestBed().get(MockBackend);
     utils.setupMockBackend(mockBackend);
+  }));
+
+  beforeEach(inject([TranslateService], (translateService: TranslateService) => {
+    translateService.setTranslation('es', ES, true);
+    translateService.setDefaultLang('es');
+    translateService.use('es');
   }));
 
   it('should create', () => {
