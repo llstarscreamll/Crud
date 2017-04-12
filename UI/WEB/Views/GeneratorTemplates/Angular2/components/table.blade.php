@@ -19,10 +19,10 @@ export class {{ $gen->componentClass('table', $plural = true) }} implements OnIn
   public sortedBy: string = '';
 
   @Input()
-  public pagination: Pagination;
+  public orderBy: string = '';
 
   @Input()
-  public orderBy: string = '';
+  public pagination: Pagination;
 
   @Output()
   public updateSearch = new EventEmitter<Object>();
