@@ -55,4 +55,25 @@ describe('{{ $cmpClass }}', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
+
+  it('should have certain fields on create form', () => {
+    fixture.detectChanges();
+
+@foreach ($fields as $field)
+@if ($field->on_create_form)
+    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]')).not.toBeNull('{{ $field->name }} field');
+@endif
+@endforeach
+  });
+
+  it('should have certain disabled fields on details form', () => {
+    component.formType = 'details';
+    fixture.detectChanges();
+
+@foreach ($fields as $field)
+@if (!$field->hidden)
+    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]:disabled')).not.toBeNull('{{ $field->name }} field');
+@endif
+@endforeach
+  });
 });
