@@ -58,4 +58,17 @@ describe('{{ $cmpClass }}', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
+
+  it('should have the search fields', () => {
+    fixture.detectChanges();
+
+@foreach ($fields as $field)
+@if (!$field->hidden && in_array($field->type, ['datetime', 'timestamp']))
+    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}_from]')).not.toBeNull('{{ $field->name }}_from field');
+    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}_to]')).not.toBeNull('{{ $field->name }}_to field');
+@else
+    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]')).not.toBeNull('{{ $field->name }} field');
+@endif
+@endforeach
+  });
 });
