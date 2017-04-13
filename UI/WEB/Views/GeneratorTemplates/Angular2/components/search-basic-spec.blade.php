@@ -43,4 +43,35 @@ describe('{{ $cmpClass }}', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
+
+  it('should emit event on search btn click', () => {
+    fixture.detectChanges();
+    let searchField = fixture.nativeElement.querySelector('input[name=search]');
+    let searchBtn = fixture.nativeElement.querySelector('button[type=submit]');
+
+    expect(searchBtn).not.toBeNull();
+    expect(searchField).not.toBeNull();
+    
+    searchField.value = 'foo search';
+    searchBtn.click;
+    
+    fixture.detectChanges();
+
+    component.search.subscribe(val => {
+      expect(val).toContain({search: 'foo search', page: 1});
+    });
+  });
+
+  it('should emit event on advanced search btn click', () => {    
+    spyOn(component.filterBtnClick, 'emit');
+    fixture.detectChanges();
+    let advancedSearchBtn = fixture.nativeElement.querySelector('button[type=button].advanced-search-btn');
+
+    expect(advancedSearchBtn).not.toBeNull();
+
+    advancedSearchBtn.dispatchEvent(new Event('click'));
+    fixture.detectChanges();
+
+    expect(component.filterBtnClick.emit).toHaveBeenCalledWith();
+  });
 });
