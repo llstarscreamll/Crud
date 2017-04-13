@@ -47,6 +47,9 @@ class {{ $gen->entityName() }}Transformer extends Transformer
 @if(!$field->hidden && $field->name !== "id")
 			'{{ $field->name }}' => ${{ camel_case($entityClass) }}->{{ $field->name }},
 @endif
+@if(!$field->hidden && in_array($field->type, ['datetime', 'timestamp']))
+            '{{ $field->name }}' => ${{ camel_case($entityClass) }}->{{ $field->name }} ? ${{ camel_case($entityClass) }}->{{ $field->name }}->toDateTimeString() : null,
+@endif
 @endforeach
     	];
     }

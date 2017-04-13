@@ -70,9 +70,6 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
 @if ($field->namespace)
             {{ $field->name }}: {{ camel_case($gen->entityName()) }}.{{ $gen->relationNameFromField($field) }} ? {{ camel_case($gen->entityName()) }}.{{ $gen->relationNameFromField($field) }}.data.name : null,
 @endif
-@if (in_array($field->type, ['timestamp', 'datetime']))
-            {{ $field->name }}: {{ camel_case($gen->entityName()) }}.{{ $field->name }} ? {{ camel_case($gen->entityName()) }}.{{ $field->name }}.date : null,
-@endif
 @endforeach
           });
         }

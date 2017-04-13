@@ -352,7 +352,9 @@ trait DataGenerator
             'text',
             'enum',
             'time',
-            'date'
+            'date',
+            'datetime',
+            'timestamp'
         ];
         $intTypes = ['int', 'bigint'];
         $boolenTypes = ['tinyint', 'bool', 'boolean'];
@@ -374,9 +376,9 @@ trait DataGenerator
             return "number";
         }
 
-        if (in_array($field->type, $dateTimeTypes)) {
+        /*if (in_array($field->type, $dateTimeTypes)) {
             return "Timestamps";
-        }
+        }*/
 
         return "null";
     }

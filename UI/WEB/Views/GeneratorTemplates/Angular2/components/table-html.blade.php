@@ -1,10 +1,11 @@
 <div class="table-responsive">
     <table class="table table-hover actions-btns-3">
+      
       <thead>
         <tr>
           <th style="width: 1em;"><input type="checkbox" name="select_all_items"></th>
           <ng-container *ngFor="let column of columns">
-          <th *ngIf="showColumn(column)" class="{{ '{{' }} column }}">
+          <th class="{{ '{{' }} column }}">
             <span role="button" (click)="updateSearch.emit({'orderBy': column, 'sortedBy': (sortedBy == 'desc' || orderBy != column) ? 'asc' : 'desc'})">
                 {{ '{{' }} translateKey + 'fields.'+column | translate }}
                 <i *ngIf="orderBy == column"
@@ -15,16 +16,16 @@
           <th class="actions" translate>{{ '{{' }} translateKey + 'actions_table_header' }}</th>
         </tr>
       </thead>
+
       <tbody>
+
         <ng-container *ngIf="{{ $items = camel_case($gen->entityName(true)) }} && {{ $items }}.length > 0">
         <tr *ngFor="let {{ $var = camel_case($gen->entityName()) }} of {{ $items }}" @if($gen->hasSoftDeleteColumn) [ngClass]="{'danger': {{ $var }}.deleted_at }" @endif>
           <td><input type="checkbox" name="item[]" value="{{ $var }}.id"></td>
 @foreach ($fields as $field)
 @if (!$field->hidden)
           <td *ngIf="showColumn('{{ $gen->tableName.'.'.$field->name }}')" class="{{ $field->name }}">
-@if (in_array($field->type, ['datetime', 'timestamp']))
-            {{ '{{' }} {{ $var }}?.{{ $field->name }}?.date | date:'y-MM-dd HH:mm' }}
-@elseif ($field->namespace)
+@if ($field->namespace)
             {{ '{{' }} {{ $var }}?.{{  $gen->relationNameFromField($field)  }}?.data?.name }}
 @else
             {{ '{{' }} {{ $var }}?.{{ $field->name }} }}
@@ -41,7 +42,8 @@
               <span class="sr-only btn-label" translate>translateKey + 'details' }}</span>
             </a>
 
-            <a {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
+            <a
+              {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
               [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'edit']"
               tooltip="{{ '{{' }} translateKey + 'edit' | translate }}"
               class="btn btn-sm btn-default">
@@ -49,7 +51,8 @@
               <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'edit' }}</span>
             </a>
             
-            <a {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
+            <a
+              {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
               role="button" class="btn btn-sm btn-default"
               tooltip="{{ '{{' }} translateKey + 'delete' | translate }}"
               (click)="deleteBtnClicked.emit({{ $var }}.id)">
@@ -67,7 +70,9 @@
           </td>
         </tr>
         </ng-container>
+
       </tbody>
+
     </table>
 </div>
 
