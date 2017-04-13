@@ -12,7 +12,7 @@ import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->
 
 import { {{ $cmpClass = $gen->componentClass('table', $plural = true) }} } from './{{ str_replace('.ts', '', $gen->componentFile('table', true)) }}';
 
-describe('{{ $cmpClass }}', () => {
+fdescribe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }};
 
@@ -32,6 +32,7 @@ describe('{{ $cmpClass }}', () => {
     fixture = getTestBed().createComponent({{ $cmpClass }});
     component = fixture.componentInstance;
 
+    component.{{ $camelModelPlural = camel_case($gen->entityName(true)) }} = [];
     component.columns = utils.tableColumns;
     component.translateKey = utils.translateKey;
     component.sortedBy = 'desc';
@@ -58,5 +59,43 @@ describe('{{ $cmpClass }}', () => {
   it('should create', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
+  });
+
+  it('should show alert msg on empty list', () => {
+    fixture.detectChanges();
+    let elem = fixture.nativeElement.querySelector('div.alert');
+
+    expect(elem).not.toBeNull();
+    expect(elem.textContent).toContain('{{ trans('crud::templates.no_rows_found') }}');
+  });
+
+  it('should have a table', () => {
+    fixture.detectChanges();
+    let table = fixture.nativeElement.querySelector('table.table-hover');
+
+    // the table should exists
+    expect(table).not.toBeNull();
+
+    // and should have entity attributes as headings
+@foreach ($fields as $field)
+@if (!$field->hidden)
+    expect(table.querySelector('thead tr th.{{ $field->name }}'));
+@endif
+@endforeach
+    
+    // should have a "actions" column
+    expect(table.querySelector('thead tr th.action'));
+  });
+
+  it('should have table with action links/buttons', () => {
+    component.{{ $camelModelPlural }} = utils.{{ $gen->entityName(false) }}List;
+    fixture.detectChanges();
+
+    let table = fixture.nativeElement.querySelector('table.table-hover');
+
+    expect(table.querySelector('tbody').children.length).toEqual(2);
+    expect(table.querySelector('tbody tr td a.details-link')).not.toBeNull();
+    expect(table.querySelector('tbody tr td a.edit-link')).not.toBeNull();
+    expect(table.querySelector('tbody tr td a.delete-link')).not.toBeNull();
   });
 });

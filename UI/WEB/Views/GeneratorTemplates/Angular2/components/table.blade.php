@@ -45,6 +45,6 @@ export class {{ $gen->componentClass('table', $plural = true) }} implements OnIn
   public ngOnInit() { }
 
   public showColumn(column): boolean {
-  	return this.columns.indexOf(column) > -1;
+    return this.columns.indexOf(column) > -1;
   }
 }

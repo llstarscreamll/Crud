@@ -37,23 +37,24 @@
             <a
               [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'details']"
               tooltip="{{ '{{' }} translateKey + 'details' | translate }}"
-              class="btn btn-sm btn-default">
+              class="btn btn-sm btn-default details-link">
               <i class="glyphicon glyphicon-eye-open"></i>
-              <span class="sr-only btn-label" translate>translateKey + 'details' }}</span>
+              <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'details' }}</span>
             </a>
 
             <a
               {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
               [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'edit']"
               tooltip="{{ '{{' }} translateKey + 'edit' | translate }}"
-              class="btn btn-sm btn-default">
+              class="btn btn-sm btn-default edit-link">
               <i class="glyphicon glyphicon-pencil"></i>
               <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'edit' }}</span>
             </a>
             
             <a
               {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
-              role="button" class="btn btn-sm btn-default"
+              class="btn btn-sm btn-default delete-link"
+              role="button"
               tooltip="{{ '{{' }} translateKey + 'delete' | translate }}"
               (click)="deleteBtnClicked.emit({{ $var }}.id)">
               <i class="glyphicon glyphicon-trash"></i>
