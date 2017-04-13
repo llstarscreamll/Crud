@@ -12,7 +12,7 @@ import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->
 
 import { {{ $cmpClass = $gen->componentClass('table', $plural = true) }} } from './{{ str_replace('.ts', '', $gen->componentFile('table', true)) }}';
 
-fdescribe('{{ $cmpClass }}', () => {
+describe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }};
 
