@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -26,7 +27,7 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   protected abstract titleService: Title;
   protected abstract translateService: TranslateService;
   protected abstract formModelParserService: FormModelParserService;
-  protected router: Router;
+  protected location: Location;
   protected activedRoute: ActivatedRoute;
   
   public {{ $formModel = camel_case($gen->entityName()).'FormModel$' }}: Observable<Object>;
@@ -84,13 +85,15 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   }
 
   protected setFormType() {
-    if (this.router.url.search(/{{ $gen->slugEntityName() }}\/+[a-z0-9]+\/details+$/i) > -1)
+    let url: string = this.location.path();
+    
+    if (url.search(/{{ $gen->slugEntityName() }}\/+[a-z0-9]+\/details+$/i) > -1)
       this.formType = "details";
     
-    if (this.router.url.search(/{{ $gen->slugEntityName() }}\/+[a-z0-9]+\/edit+$/i) > -1)
+    if (url.search(/{{ $gen->slugEntityName() }}\/+[a-z0-9]+\/edit+$/i) > -1)
       this.formType = "edit";
     
-    if (this.router.url.search(/{{ $gen->slugEntityName() }}\/create$/i) > -1)
+    if (url.search(/{{ $gen->slugEntityName() }}\/create$/i) > -1)
       this.formType = "create";
   }
 

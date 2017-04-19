@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { FormGroup } from '@angular/forms';
@@ -30,7 +31,7 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
     protected titleService: Title,
     protected translateService: TranslateService,
     protected formModelParserService: FormModelParserService,
-    protected router: Router,
+    protected location: Location,
     protected activedRoute: ActivatedRoute,
   ) { super(); }
 

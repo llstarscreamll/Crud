@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
@@ -55,7 +56,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
 
   public constructor(
     protected store: Store<fromRoot.State>,
-    protected router: Router,
+    protected location: Location,
     protected titleService: Title,
     protected translateService: TranslateService,
     protected formModelParserService: FormModelParserService
