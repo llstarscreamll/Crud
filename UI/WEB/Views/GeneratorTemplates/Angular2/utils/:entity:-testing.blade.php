@@ -23,10 +23,31 @@ export let {{ $gen->entityName() }}List: {{ $model }}[] = [
 
 export function setupMockBackend(mockBackend: MockBackend) {
 	mockBackend.connections.subscribe((connection: MockConnection) => {
-	  if (connection.request.url.includes('form-model')) {
+	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/form-model/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
-	      body: JSON.stringify(FORM_MODEL)
+	      body: JSON.stringify(FORM_MODEL),
+	      status: 200,
+	      statusText: "OK",
 	    })));
+	    return;
+	  }
+
+	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/a1/i) > -1) {
+	    connection.mockRespond(new Response(new ResponseOptions({
+	      body: JSON.stringify({data: {{ $gen->entityName() }}One}),
+	      status: 200,
+	      statusText: "OK",
+	    })));
+	    return;
+	  }
+
+	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/b2/i) > -1) {
+	    connection.mockRespond(new Response(new ResponseOptions({
+	      body: JSON.stringify({data: {{ $gen->entityName() }}Two}),
+	      status: 200,
+	      statusText: "OK",
+	    })));
+	    return;
 	  }
 	});
 }
