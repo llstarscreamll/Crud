@@ -118,7 +118,8 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
       showCancelButton: true,
       confirmButtonText: this.deleteAlertOptions.confirm_btn_text,
       cancelButtonText: this.deleteAlertOptions.cancel_btn_text,
-      confirmButtonColor: '#ed5565'
+      confirmButtonColor: '#ed5565',
+      target: 'app-page-content'
     }).then(() => {
       this.store.dispatch(new {{ $actions }}.DeleteAction({ id: id, reloadListQuery: this.searchQuery }));
     }).catch(swal.noop);
