@@ -27,6 +27,7 @@ import { {{ $components = $gen->entityName().'Components' }} } from './../../com
 import { {{ $containers = $gen->entityName().'Containers' }} } from './../../containers/{{ $gen->slugEntityName().'' }}';
 import { EFFECTS } from './../../effects/';
 import { SERVICES } from './../../services';
+import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
 
 fdescribe('{{ $cpmClass }}', () => {
   let mockBackend: MockBackend;
@@ -36,6 +37,7 @@ fdescribe('{{ $cpmClass }}', () => {
   let router: Router;
   let location: Location;
   let authGuard: AuthGuard;
+  let service: {{ $service }};
   let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
 
   beforeEach(async(() => {
@@ -75,6 +77,7 @@ fdescribe('{{ $cpmClass }}', () => {
     router = getTestBed().get(Router);
     location = getTestBed().get(Location);
     authGuard = getTestBed().get(AuthGuard);
+    service = getTestBed().get({{ $service }});
 
     mockBackend = getTestBed().get(MockBackend);
     utils.setupMockBackend(mockBackend);
@@ -173,5 +176,48 @@ fdescribe('{{ $cpmClass }}', () => {
     expect(fixture.nativeElement.querySelector('form button.btn.edit-row')).not.toBeNull('edit form btn should exists');
     expect(fixture.nativeElement.querySelector('form button.btn.delete-row')).not.toBeNull('delete form btn should exists');
     expect(fixture.nativeElement.querySelector('form a.btn.show-all-rows')).not.toBeNull('show all form link should exists');
+  }));
+
+  it('should make certains {{ $gen->entityName() }}Service calls on create form init', fakeAsync(() => {
+    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/create');
+    spyOn(service, 'get{{ $gen->entityName() }}FormModel').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
+
+    fixture.detectChanges();
+    tick();
+
+    // should make form model/data api service calls
+    expect(service.get{{ $gen->entityName() }}FormModel).toHaveBeenCalled();
+    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
+  }));
+
+  it('should make certains {{ $gen->entityName() }}Service calls on details form init', fakeAsync(() => {
+    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/details');
+    spyOn(service, 'get{{ $gen->entityName() }}FormModel').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'get{{ $gen->entityName() }}').and.returnValue(Observable.from([{}]));
+
+    fixture.detectChanges();
+    tick();
+
+    // should make form model/data/row api service calls
+    expect(service.get{{ $gen->entityName() }}FormModel).toHaveBeenCalled();
+    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
+    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
+  }));
+
+  it('should make certains {{ $gen->entityName() }}Service calls on edit form init', fakeAsync(() => {
+    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/edit');
+    spyOn(service, 'get{{ $gen->entityName() }}FormModel').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'get{{ $gen->entityName() }}').and.returnValue(Observable.from([{}]));
+
+    fixture.detectChanges();
+    tick();
+
+    // should make form model/data/row api service calls
+    expect(service.get{{ $gen->entityName() }}FormModel).toHaveBeenCalled();
+    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
+    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
   }));
 });
