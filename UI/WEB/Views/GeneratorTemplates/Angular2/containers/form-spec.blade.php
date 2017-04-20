@@ -38,6 +38,7 @@ fdescribe('{{ $cpmClass }}', () => {
   let location: Location;
   let authGuard: AuthGuard;
   let service: {{ $service }};
+  let http: Http;
   let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
 
   beforeEach(async(() => {
@@ -77,6 +78,7 @@ fdescribe('{{ $cpmClass }}', () => {
     router = getTestBed().get(Router);
     location = getTestBed().get(Location);
     authGuard = getTestBed().get(AuthGuard);
+    http = getTestBed().get(Http);
     service = getTestBed().get({{ $service }});
 
     mockBackend = getTestBed().get(MockBackend);
@@ -219,5 +221,72 @@ fdescribe('{{ $cpmClass }}', () => {
     expect(service.get{{ $gen->entityName() }}FormModel).toHaveBeenCalled();
     expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
     expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
+  }));
+
+  it('should make create api call when create form submitted', fakeAsync(() => {
+    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/create');
+    spyOn(service, 'create').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'getSuccessMessage');
+
+    fixture.detectChanges();
+    tick();
+    
+    expect(component.{{ $form = camel_case($gen->entityName()).'Form' }}.valid).toBe(false);
+    component.{{ $form }}.patchValue(testModel);
+
+    fixture.detectChanges();
+
+    expect(component.{{ $form }}.valid).toBe(true);
+    fixture.nativeElement.querySelector('form button.create-row').click();
+
+    fixture.detectChanges();
+    tick();
+
+    // should make create post api call
+    expect(service.create).toHaveBeenCalled();
+    expect(service.getSuccessMessage).toHaveBeenCalledWith('create');
+  }));
+
+  it('should make update api call when edit form submitted', fakeAsync(() => {
+    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/edit');
+    spyOn(service, 'update').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'getSuccessMessage');
+
+    fixture.detectChanges();
+    tick();
+    
+    expect(component.{{ $form }}.valid).toBe(true);
+    fixture.nativeElement.querySelector('form button.edit-row').click();
+
+    fixture.detectChanges();
+    tick();
+
+    // should make edit post api call
+    expect(service.update).toHaveBeenCalled();
+    expect(service.getSuccessMessage).toHaveBeenCalledWith('update');
+  }));
+
+  it('should make delete api call when delete btn clicked', fakeAsync(() => {
+    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/edit');
+    spyOn(service, 'delete').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'getSuccessMessage');
+
+    fixture.detectChanges();
+    tick();
+    
+    expect(component.{{ $form }}.valid).toBe(true);
+    fixture.nativeElement.querySelector('form button.delete-row').click();
+
+    fixture.detectChanges();
+
+    // should open sweetalert2 for confirmation
+    fixture.nativeElement.querySelector('button.swal2-confirm').click();
+
+    fixture.detectChanges();
+    tick(200);
+
+    // should make edit post api call
+    expect(service.delete).toHaveBeenCalled();
+    expect(service.getSuccessMessage).toHaveBeenCalledWith('delete');
   }));
 });
