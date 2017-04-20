@@ -25,7 +25,6 @@ import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->
 import { {{ $cpmClass = $gen->containerClass('form', false, true) }} } from './{{ str_replace('.ts', '', $gen->containerFile('form', false, true)) }}';
 import { {{ $components = $gen->entityName().'Components' }} } from './../../components/{{ $gen->slugEntityName().'' }}';
 import { {{ $containers = $gen->entityName().'Containers' }} } from './../../containers/{{ $gen->slugEntityName().'' }}';
-import { {{ $routes = $gen->entityName().'Routes' }} } from './../../routes/{{ $gen->slugEntityName().'' }}.routes';
 import { EFFECTS } from './../../effects/';
 import { SERVICES } from './../../services';
 
@@ -97,7 +96,7 @@ fdescribe('{{ $cpmClass }}', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have correct setup for create', fakeAsync(() => {
+  it('should have certain setup for create form', fakeAsync(() => {
     spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/create');
 
     fixture.detectChanges();
@@ -111,9 +110,13 @@ fdescribe('{{ $cpmClass }}', () => {
     expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]')).not.toBeNull('{{ $field->name }} field');
 @endif
 @endforeach
+
+    // form links/buttons
+    expect(fixture.nativeElement.querySelector('form button.btn.create-row')).not.toBeNull('create form btn should exists');
+    expect(fixture.nativeElement.querySelector('form a.btn.show-all-rows')).not.toBeNull('show all form link should exists');
   }));
 
-  it('should have correct setup for details', fakeAsync(() => {
+  it('should have certain setup for details form', fakeAsync(() => {
     spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/details');
 
     fixture.detectChanges();
@@ -128,9 +131,14 @@ fdescribe('{{ $cpmClass }}', () => {
     expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]:disabled').value).toBe(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
 @endif
 @endforeach
+
+    // form links/buttons
+    expect(fixture.nativeElement.querySelector('form button.btn.edit-row')).not.toBeNull('edit form btn should exists');
+    expect(fixture.nativeElement.querySelector('form button.btn.delete-row')).not.toBeNull('delete form btn should exists');
+    expect(fixture.nativeElement.querySelector('form a.btn.show-all-rows')).not.toBeNull('show all form link should exists');
   }));
 
-  it('should have correct setup for edit', fakeAsync(() => {
+  it('should have certain setup for edit form', fakeAsync(() => {
     spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/edit');
 
     fixture.detectChanges();
@@ -145,5 +153,10 @@ fdescribe('{{ $cpmClass }}', () => {
     expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]').value).toBe(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
 @endif
 @endforeach
+    
+    // form links/buttons
+    expect(fixture.nativeElement.querySelector('form button.btn.edit-row')).not.toBeNull('edit form btn should exists');
+    expect(fixture.nativeElement.querySelector('form button.btn.delete-row')).not.toBeNull('delete form btn should exists');
+    expect(fixture.nativeElement.querySelector('form a.btn.show-all-rows')).not.toBeNull('show all form link should exists');
   }));
 });

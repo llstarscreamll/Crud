@@ -29,7 +29,7 @@
 
             <div class="form-group">
               <button *ngIf="formType == 'create'"
-                  class="btn"
+                  class="btn create-row"
                   type="submit"
                   [disabled]="!{{ $camelEntity }}Form.valid"
                   [ngClass]="{'btn-primary': {{ $camelEntity }}Form.valid, 'btn-default': !{{ $camelEntity }}Form.valid}">
@@ -38,7 +38,7 @@
               </button>
 
               <button *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.($selected = 'selected'.$gen->entityName().'$').' | async)?.deleted_at' : null !!}"
-                  class="btn"
+                  class="btn edit-row"
                   type="submit"
                   [disabled]="!{{ $camelEntity }}Form.valid"
                   [ngClass]="{'btn-warning': {{ $camelEntity }}Form.valid, 'btn-default': !{{ $camelEntity }}Form.valid}">
@@ -50,12 +50,12 @@
                   [disabled]="{{ $camelEntity }}Form.get('id') && {{ $camelEntity }}Form.get('id').value == ''"
                   (click)="deleteRow(id)"
                   type="button"
-                  class="btn btn-default">
+                  class="btn btn-default delete-row">
                 <i class="glyphicon glyphicon-trash"></i>
                 <span class="btn-label" translate>{{ $upEntity }}.delete</span>
               </button>
 
-              <a  class="btn btn-default" 
+              <a  class="btn btn-default show-all-rows" 
                 [routerLink]="['/{{ $gen->slugEntityName() }}']">
                 <i class="glyphicon glyphicon-th-list"></i>
                 <span class="btn-label" translate>{{ $upEntity }}.see_all</span>
