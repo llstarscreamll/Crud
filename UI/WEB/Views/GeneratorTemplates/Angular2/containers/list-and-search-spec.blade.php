@@ -1,51 +1,64 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, fakeAsync, TestBed, getTestBed, inject, tick } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Http, HttpModule, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
+import { Location } from '@angular/common';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Http } from '@angular/http';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MockBackend, MockConnection } from '@angular/http/testing';
+import { Observable } from 'rxjs/Observable';
 
-import { CoreModule } from './../../../core/core.module';
 import * as fromRoot from './../../../reducers';
+import { AuthGuard } from './../../../auth/guards/auth.guard';
 
 import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
+import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
 import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
 import { {{ $cpmClass = $gen->containerClass('list-and-search', true) }} } from './{{ str_replace('.ts', '', $gen->containerFile('list-and-search', true)) }}';
-import { {{ $module = $gen->studlyModuleName().'Module' }} } from './../../{{ $gen->slugModuleName(false) }}.module';
+import { {{ $components = $gen->entityName().'Components' }} } from './../../components/{{ $gen->slugEntityName().'' }}';
+import { {{ $containers = $gen->entityName().'Containers' }} } from './../../containers/{{ $gen->slugEntityName().'' }}';
+import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
 
 describe('{{ $cpmClass }}', () => {
   let mockBackend: MockBackend;
   let store: Store<fromRoot.State>;
   let fixture: ComponentFixture<{{ $cpmClass }}>;
   let component: {{ $cpmClass }};
+  let router: Router;
+  let location: Location;
+  let authGuard: AuthGuard;
+  let service: {{ $service }};
+  let http: Http;
+  let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      declarations: [
+        ...{{ $components }},
+        ...{{ $containers }},
+      ],
       imports: [
-        RouterTestingModule,
-        HttpModule,
-        StoreModule.provideStore(fromRoot.reducer),
-        TranslateModule.forRoot(),
-        CoreModule,
-        {{ $module }},
+        ...utils.CONTAINERS_IMPORTS,
       ],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        {
-          provide: Http,
-          useFactory: (backend, defaultOptions) => new Http(backend, defaultOptions),
-          deps: [MockBackend, BaseRequestOptions]
-        },
+        ...utils.CONTAINERS_PROVIDERS,
       ]
     }).compileComponents();
 
-    fixture = getTestBed().createComponent({{ $cpmClass }});
-    component = fixture.componentInstance;
     store = getTestBed().get(Store);
+    router = getTestBed().get(Router);
+    location = getTestBed().get(Location);
+    authGuard = getTestBed().get(AuthGuard);
+    http = getTestBed().get(Http);
+    service = getTestBed().get({{ $service }});
+
     mockBackend = getTestBed().get(MockBackend);
     utils.setupMockBackend(mockBackend);
+    
+    fixture = getTestBed().createComponent({{ $cpmClass }});
+    component = fixture.componentInstance;
+
+    spyOn(authGuard, 'canActivate').and.returnValue(true);
   }));
 
   beforeEach(inject([TranslateService], (translateService: TranslateService) => {
@@ -58,4 +71,75 @@ describe('{{ $cpmClass }}', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
+
+  it('should have certain html components', fakeAsync(() => {
+    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}');
+    spyOn(service, 'load').and.returnValue(Observable.from([{}]));
+
+    fixture.detectChanges();
+    tick();
+
+    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-basic-component')).not.toBeNull('basic search component');
+    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).toBeNull('advanced search component');
+    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName(true) }}-table-component')).not.toBeNull('table list component');
+
+    // click btn to display advanced search form
+    fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-basic-component form button.advanced-search-btn').click();
+
+    fixture.detectChanges();
+    tick(500);
+
+    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).not.toBeNull('advanced search component');
+  }));
+
+  it('should navigate on create btn click', fakeAsync(() => {
+    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}');
+    spyOn(service, 'load').and.returnValue(Observable.from([{}]));
+
+    fixture.detectChanges();
+    tick();
+
+    spyOn(router, 'navigateByUrl');
+    fixture.nativeElement.querySelector('a.btn i.glyphicon-plus').click();
+
+    fixture.detectChanges();
+
+    expect(router.navigateByUrl).toHaveBeenCalledWith(
+      jasmine.stringMatching('/{{ $gen->slugEntityName() }}/create'),
+      { skipLocationChange: false, replaceUrl: false }
+    );
+  }));
+
+  it('should show advanced search form on btn click', fakeAsync(() => {
+    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}');
+    spyOn(service, 'load').and.returnValue(Observable.from([{}]));
+
+    fixture.detectChanges();
+    tick();
+
+    expect(component.showSearchOptions).toBe(false);
+    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).toBeNull('advanced search component');
+
+    fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-basic-component form button.advanced-search-btn').click();
+
+    fixture.detectChanges();
+    tick(500);
+
+    expect(component.showSearchOptions).toBe(true);
+    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).not.toBeNull('advanced search component');
+  }));
+
+  it('should make certain {{ $service }} calls on ngOnInit', fakeAsync(() => {
+    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}');
+    spyOn(service, 'load').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'get{{ $gen->entityName() }}FormModel').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
+
+    fixture.detectChanges();
+    tick();
+
+    expect(service.load).toHaveBeenCalled();
+    expect(service.get{{ $gen->entityName() }}FormModel).toHaveBeenCalled();
+    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
+  }));
 });
