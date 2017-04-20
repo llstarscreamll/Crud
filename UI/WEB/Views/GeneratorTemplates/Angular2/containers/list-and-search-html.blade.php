@@ -1,7 +1,7 @@
 <app-sidebar-layout>
 	<app-page-header>
 		<div class="col-xs-12">
-			<h2 translate>{{ '{{' }} translateKey + 'module-name-plural' }}</h2>
+			<h1 translate>{{ '{{' }} translateKey + 'module-name-plural' }}</h1>
 		</div>
 	</app-page-header>
 	

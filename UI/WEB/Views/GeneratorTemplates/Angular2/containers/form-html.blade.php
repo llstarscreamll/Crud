@@ -1,10 +1,10 @@
 <app-sidebar-layout>
   <app-page-header>
     <div class="col-xs-12">
-      <h2>
+      <h1>
         {{ '{{' }} '{{ $upEntity = $gen->entityNameSnakeCase() }}.module-name-plural' | translate }}
         <small> / {{ '{{' }} '{{ $upEntity.'.' }}'+formType | translate }}</small>
-      </h2>
+      </h1>
     </div>
   </app-page-header>
 
