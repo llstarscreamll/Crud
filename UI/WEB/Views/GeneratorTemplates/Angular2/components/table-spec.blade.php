@@ -1,6 +1,7 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, fakeAsync, TestBed, inject, getTestBed, tick } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Http, HttpModule, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +16,7 @@ import { {{ $cmpClass = $gen->componentClass('table', $plural = true) }} } from 
 describe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }};
+  let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -31,6 +33,7 @@ describe('{{ $cmpClass }}', () => {
 
     fixture = getTestBed().createComponent({{ $cmpClass }});
     component = fixture.componentInstance;
+    router = getTestBed().get(Router);
 
     component.{{ $camelModelPlural = camel_case($gen->entityName(true)) }} = [];
     component.columns = utils.tableColumns;
@@ -97,5 +100,45 @@ describe('{{ $cmpClass }}', () => {
     expect(table.querySelector('tbody tr td a.details-link')).not.toBeNull();
     expect(table.querySelector('tbody tr td a.edit-link')).not.toBeNull();
     expect(table.querySelector('tbody tr td a.delete-link')).not.toBeNull();
+  });
+
+  it('should emit event/navigate on links click', () => {
+    component.{{ $camelModelPlural }} = utils.{{ $gen->entityName(false) }}List;
+    fixture.detectChanges();
+    spyOn(router, 'navigateByUrl');
+    spyOn(component.deleteBtnClicked, 'emit');
+    spyOn(component.updateSearch, 'emit');
+
+    let table = fixture.nativeElement.querySelector('table.table-hover');
+
+    // table heading links
+    table.querySelector('thead tr:first-child th.{{ $gen->tableName }}\\.name span').click();
+    fixture.detectChanges();
+    
+    expect(component.updateSearch.emit).toHaveBeenCalledWith({ orderBy: '{{ $gen->tableName }}.name', sortedBy: 'asc' });
+
+    // details button
+    table.querySelector('tbody tr:first-child td a.details-link').click();
+    fixture.detectChanges();
+    
+    expect(router.navigateByUrl).toHaveBeenCalledWith(
+      jasmine.stringMatching('/{{ $gen->slugEntityName() }}/' + component.{{ $camelModelPlural }}[0].id + '/details'),
+      { skipLocationChange: false, replaceUrl: false }
+    );
+
+    // edit button
+    table.querySelector('tbody tr:first-child td a.edit-link').click();
+    fixture.detectChanges();
+    
+    expect(router.navigateByUrl).toHaveBeenCalledWith(
+      jasmine.stringMatching('/{{ $gen->slugEntityName() }}/' + component.{{ $camelModelPlural }}[0].id + '/edit'),
+      { skipLocationChange: false, replaceUrl: false }
+    );
+
+    // delete button
+    table.querySelector('tbody tr:first-child td a.delete-link').click();
+    fixture.detectChanges();
+    
+    expect(component.deleteBtnClicked.emit).toHaveBeenCalledWith(component.{{ $camelModelPlural }}[0].id);
   });
 });
