@@ -289,4 +289,23 @@ fdescribe('{{ $cpmClass }}', () => {
     expect(service.delete).toHaveBeenCalled();
     expect(service.getSuccessMessage).toHaveBeenCalledWith('delete');
   }));
+
+  it('should navigate when show all btn clicked', fakeAsync(() => {
+    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/edit');
+    spyOn(service, 'delete').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'getSuccessMessage');
+
+    fixture.detectChanges();
+    tick();
+
+    spyOn(router, 'navigateByUrl');
+    fixture.nativeElement.querySelector('a.btn.show-all-rows').click();
+
+    fixture.detectChanges();
+
+    expect(router.navigateByUrl).toHaveBeenCalledWith(
+      jasmine.stringMatching('/{{ $gen->slugEntityName() }}'),
+      Object({ skipLocationChange: false, replaceUrl: false })
+      );
+  }));
 });
