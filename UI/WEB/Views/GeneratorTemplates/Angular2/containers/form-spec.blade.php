@@ -101,6 +101,11 @@ fdescribe('{{ $cpmClass }}', () => {
 
     fixture.detectChanges();
     tick();
+
+    expect(fixture.nativeElement.querySelector('h1')).not.toBeNull('should have h1 heading');
+    expect(fixture.nativeElement.querySelector('h1').textContent).toContain('{{ $gen->request->get('plural_entity_name') }}');
+    expect(fixture.nativeElement.querySelector('h1 small')).not.toBeNull('should have small heading');
+    expect(fixture.nativeElement.querySelector('h1 small').textContent).toContain('{{ trans('crud::templates.create') }}');
     
     expect(component.formType).toBe('create');
     expect(fixture.nativeElement.querySelector('form')).not.toBeNull('create form should exists');
@@ -121,6 +126,11 @@ fdescribe('{{ $cpmClass }}', () => {
 
     fixture.detectChanges();
     tick();
+
+    expect(fixture.nativeElement.querySelector('h1')).not.toBeNull('should have h1 heading');
+    expect(fixture.nativeElement.querySelector('h1').textContent).toContain('{{ $gen->request->get('plural_entity_name') }}');
+    expect(fixture.nativeElement.querySelector('h1 small')).not.toBeNull('should have small heading');
+    expect(fixture.nativeElement.querySelector('h1 small').textContent).toContain('{{ trans('crud::templates.details') }}');
     
     expect(component.formType).toBe('details');
     expect(fixture.nativeElement.querySelector('form')).not.toBeNull('details form should exists');
@@ -143,6 +153,11 @@ fdescribe('{{ $cpmClass }}', () => {
 
     fixture.detectChanges();
     tick();
+
+    expect(fixture.nativeElement.querySelector('h1')).not.toBeNull('should have h1 heading');
+    expect(fixture.nativeElement.querySelector('h1').textContent).toContain('{{ $gen->request->get('plural_entity_name') }}');
+    expect(fixture.nativeElement.querySelector('h1 small')).not.toBeNull('should have small heading');
+    expect(fixture.nativeElement.querySelector('h1 small').textContent).toContain('{{ trans('crud::templates.edit') }}');
     
     expect(component.formType).toBe('edit');
     expect(fixture.nativeElement.querySelector('form')).not.toBeNull('edit form should exists');
