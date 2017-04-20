@@ -276,7 +276,7 @@ describe('{{ $cpmClass }}', () => {
 
     expect(router.navigateByUrl).toHaveBeenCalledWith(
       jasmine.stringMatching('/{{ $gen->slugEntityName() }}'),
-      Object({ skipLocationChange: false, replaceUrl: false })
-      );
+      { skipLocationChange: false, replaceUrl: false }
+    );
   }));
 });
