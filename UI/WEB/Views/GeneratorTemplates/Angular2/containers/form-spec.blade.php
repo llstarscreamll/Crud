@@ -1,23 +1,15 @@
 /* tslint:disable:no-unused-variable */
-import { Component } from '@angular/core';
-import { Location } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Ng2BootstrapModule } from 'ngx-bootstrap';
 import { async, ComponentFixture, fakeAsync, TestBed, getTestBed, inject, tick } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Http, HttpModule, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
+import { Http } from '@angular/http';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Observable } from 'rxjs/Observable';
 
-import { environment } from './../../../../environments/environment';
-import { CoreModule } from './../../../core/core.module';
-import { DynamicFormModule } from './../../../dynamic-form/dynamic-form.module';
 import * as fromRoot from './../../../reducers';
 import { AuthGuard } from './../../../auth/guards/auth.guard';
-import { AuthService } from './../../../auth/services/auth.service';
 
 import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
 import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
@@ -25,11 +17,9 @@ import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->
 import { {{ $cpmClass = $gen->containerClass('form', false, true) }} } from './{{ str_replace('.ts', '', $gen->containerFile('form', false, true)) }}';
 import { {{ $components = $gen->entityName().'Components' }} } from './../../components/{{ $gen->slugEntityName().'' }}';
 import { {{ $containers = $gen->entityName().'Containers' }} } from './../../containers/{{ $gen->slugEntityName().'' }}';
-import { EFFECTS } from './../../effects/';
-import { SERVICES } from './../../services';
 import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
 
-fdescribe('{{ $cpmClass }}', () => {
+describe('{{ $cpmClass }}', () => {
   let mockBackend: MockBackend;
   let store: Store<fromRoot.State>;
   let fixture: ComponentFixture<{{ $cpmClass }}>;
@@ -48,29 +38,10 @@ fdescribe('{{ $cpmClass }}', () => {
         ...{{ $containers }},
       ],
       imports: [
-        RouterTestingModule,
-        HttpModule,
-        StoreModule.provideStore(fromRoot.reducer),
-        ...EFFECTS,
-        TranslateModule.forRoot(),
-        CoreModule,
-        environment.theme,
-        ReactiveFormsModule,
-        Ng2BootstrapModule.forRoot(),
-        DynamicFormModule,
+        ...utils.CONTAINERS_IMPORTS,
       ],
       providers: [
-        MockBackend,
-        BaseRequestOptions,
-        AuthGuard,
-        AuthService,
-        {
-          provide: Http,
-          useFactory: (backend, defaultOptions) => new Http(backend, defaultOptions),
-          deps: [MockBackend, BaseRequestOptions]
-        },
-        { provide: ActivatedRoute, useValue: { 'params': Observable.from([{ 'id': testModel.id }]) } },
-        ...SERVICES
+        ...utils.CONTAINERS_PROVIDERS,
       ]
     }).compileComponents();
 
