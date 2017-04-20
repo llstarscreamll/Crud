@@ -14,7 +14,9 @@
 
         <app-alerts [appMessage]="appMessages$ | async"></app-alerts>
           
-          <form [formGroup]="{{ $camelEntity = camel_case($gen->entityName()) }}Form"
+          <form
+            *ngIf="formConfigured"
+            [formGroup]="{{ $camelEntity = camel_case($gen->entityName()) }}Form"
             (ngSubmit)="submit{{ $gen->entityName() }}Form()">
 
             <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form-fields', false)) }} *ngIf="formConfigured"
@@ -35,7 +37,7 @@
                 <span class="btn-label" translate>{{ $upEntity }}.create</span>
               </button>
 
-              <button *ngIf="(formType == 'edit' || formType == 'details'){{ $gen->hasSoftDeleteColumn ? ' && !('.($selected = 'selected'.$gen->entityName().'$').' | async)?.deleted_at' : null }}"
+              <button *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.($selected = 'selected'.$gen->entityName().'$').' | async)?.deleted_at' : null !!}"
                   class="btn"
                   type="submit"
                   [disabled]="!{{ $camelEntity }}Form.valid"
@@ -44,7 +46,7 @@
                 <span class="btn-label" translate>{{ $upEntity }}.edit</span>
               </button>
 
-              <button *ngIf="(formType == 'edit' || formType == 'details'){{ $gen->hasSoftDeleteColumn ? ' && !('.($selected = 'selected'.$gen->entityName().'$').' | async)?.deleted_at' : null }}"
+              <button *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.($selected = 'selected'.$gen->entityName().'$').' | async)?.deleted_at' : null !!}"
                   [disabled]="{{ $camelEntity }}Form.get('id') && {{ $camelEntity }}Form.get('id').value == ''"
                   (click)="deleteRow(id)"
                   type="button"

@@ -28,7 +28,7 @@ import { {{ $gen->moduleClass('routing') }} } from './{{ str_replace('.ts', '', 
   ],
   declarations: [
     ...COMPONENTS,
-	  ...CONTAINERS,
+    ...CONTAINERS,
   ],
   providers: [
     ...SERVICES
