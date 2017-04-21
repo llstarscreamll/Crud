@@ -72,9 +72,11 @@ class {{ $gen->entityName() }}Controller extends ApiController
 		return $this->accepted('{{ $gen->entityName() }} Deleted Successfully.');
 	}
 
+@if($gen->hasSoftDeleteColumn)
 	public function restore{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Restore', $plural = false)) }} $request)
 	{
 		${{ camel_case($gen->entityName()) }} = $this->call({{ $gen->actionClass('Restore') }}::class, [$request->id]);
 		return $this->transform(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
+@endif
 }
