@@ -32,10 +32,13 @@ trait FolderNamesResolver
     /**
      * Entity Names
      */
-
-    public function entityName()
+    public function entityName($plural = false)
     {
-        return studly_case(str_singular($this->tableName));
+        $entity = $plural
+            ? str_plural($this->tableName)
+            : str_singular($this->tableName);
+
+        return studly_case($entity);
     }
 
     /**
