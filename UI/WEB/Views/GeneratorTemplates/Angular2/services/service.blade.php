@@ -13,7 +13,7 @@ import { AppMessage } from './../../core/models/appMessage';
 @Injectable()
 export class {{ $entitySin }}Service extends Service {
 	
-	protected API_ENDPOINT: string = '{{ str_slug($gen->tableName, $separator = "-") }}';
+	protected API_ENDPOINT: string = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}';
   public langNamespace: string = '{{ $gen->entityNameSnakeCase() }}';
   public fieldsLangNamespace: string = '{{ $gen->entityNameSnakeCase() }}.fields.{{ $gen->tableName }}.';
   protected required_columns = [
