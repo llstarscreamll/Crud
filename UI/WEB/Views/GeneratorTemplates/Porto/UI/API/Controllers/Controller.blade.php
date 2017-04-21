@@ -35,46 +35,46 @@ class {{ $gen->entityName() }}Controller extends ApiController
 		return $model;
 	}
 
-	public function {{ camel_case($gen->entityName()) }}FormData({{ $gen->actionClass('FormData', false, true) }} $action)
+	public function {{ camel_case($gen->entityName()) }}FormData()
 	{
-		$data = $action->run();
+		$data = $this->call({{ $gen->actionClass('FormData', false, true) }}::class);
 
 		return $data;
 	}
 
-	public function listAndSearch{{ str_plural($gen->entityName()) }}({{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural = true)) }} $request, {{ $gen->actionClass('ListAndSearch', $plural = true) }} $action)
+	public function listAndSearch{{ str_plural($gen->entityName()) }}({{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural = true)) }} $request)
 	{
-		${{ camel_case(str_plural($gen->entityName())) }} = $action->run($request);
+		${{ camel_case(str_plural($gen->entityName())) }} = $this->call({{ $gen->actionClass('ListAndSearch', $plural = true) }}::class, [$request]);
 		return $this->transform(${{ camel_case(str_plural($gen->entityName())) }}, new {{ $gen->entityName() }}Transformer());
 	}
 
-	public function create{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Create', $plural = false)) }} $request, {{ $gen->actionClass('Create') }} $action)
+	public function create{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Create', $plural = false)) }} $request)
 	{
-		${{ camel_case($gen->entityName()) }} = $action->run($request->all());
+		${{ camel_case($gen->entityName()) }} = $this->call({{ $gen->actionClass('Create') }}::class, [$request->all()]);
 		return $this->transform(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
 
-	public function get{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }} $request, {{ $gen->actionClass('Get') }} $action)
+	public function get{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }} $request)
 	{
-		${{ camel_case($gen->entityName()) }} = $action->run($request->id);
+		${{ camel_case($gen->entityName()) }} = $this->call({{ $gen->actionClass('Get') }}::class, [$request->id]);
 		return $this->transform(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
 
-	public function update{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Update', $plural = false)) }} $request, {{ $gen->actionClass('Update') }} $action)
+	public function update{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Update', $plural = false)) }} $request)
 	{
-		${{ camel_case($gen->entityName()) }} = $action->run($request->id, $request->all());
+		${{ camel_case($gen->entityName()) }} = $this->call({{ $gen->actionClass('Update') }}::class, [$request->id, $request->all()]);
 		return $this->transform(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
 
-	public function delete{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Delete', $plural = false)) }} $request, {{ $gen->actionClass('Delete') }} $action)
+	public function delete{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Delete', $plural = false)) }} $request)
 	{
-		${{ camel_case($gen->entityName()) }} = $action->run($request->id);
+		${{ camel_case($gen->entityName()) }} = $this->call({{ $gen->actionClass('Delete') }}::class, [$request->id]);
 		return $this->accepted('{{ $gen->entityName() }} Deleted Successfully.');
 	}
 
-	public function restore{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Restore', $plural = false)) }} $request, {{ $gen->actionClass('Restore') }} $action)
+	public function restore{{ $gen->entityName() }}({{ str_replace('.php', '', $gen->apiRequestFile('Restore', $plural = false)) }} $request)
 	{
-		${{ camel_case($gen->entityName()) }} = $action->run($request->id);
+		${{ camel_case($gen->entityName()) }} = $this->call({{ $gen->actionClass('Restore') }}::class, [$request->id]);
 		return $this->transform(${{ camel_case($gen->entityName()) }}, new {{ $gen->entityName() }}Transformer());
 	}
 }
