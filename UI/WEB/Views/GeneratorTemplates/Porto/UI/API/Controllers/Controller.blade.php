@@ -34,7 +34,7 @@ class {{ $gen->entityName() }}Controller extends ApiController
 		$model = config($request->model.'-form-model');
 
 		if (empty($model)) {
-            return abort(404, 'No Data Found.');
+            return abort(404, 'Form Model Not Found.');
         }
 
 		return $model;
