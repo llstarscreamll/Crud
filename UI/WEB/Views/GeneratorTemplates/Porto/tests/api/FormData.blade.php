@@ -7,7 +7,7 @@ use {{ $gen->entityModelNamespace() }};
 
 class {{ $gen->entityName() }}FormDataCest
 {
-    private $endpoint = 'api/{{ str_slug($gen->tableName, $separator = "-") }}/form-data/{{ $gen->slugEntityName() }}';
+    private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/form-data/{{ $gen->slugEntityName() }}';
 
     /**
      * @var App\Containers\User\Models\User
@@ -30,7 +30,6 @@ class {{ $gen->entityName() }}FormDataCest
 
     public function tryToTestCreate{{ $gen->entityName() }}(ApiTester $I)
     {
-        $I->amBearerAuthenticated($this->user->token);
         $I->sendGET($this->endpoint);
 
         $I->seeResponseCodeIs(200);

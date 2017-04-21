@@ -14,7 +14,7 @@
 Route::group(
     [
         'prefix' => 'crud',
-        'middleware' => ['web.auth'],
+        'middleware' => ['auth:web'],
     ],
     function () {
         Route::get(

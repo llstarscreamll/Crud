@@ -7,7 +7,7 @@ use {{ $gen->entityModelNamespace() }};
 
 class Update{{ $gen->entityName() }}Cest
 {
-	private $endpoint = 'api/{{ str_slug($gen->tableName, $separator = "-") }}/{id}';
+	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/{id}';
 
     /**
      * @var App\Containers\User\Models\User
@@ -38,7 +38,6 @@ class Update{{ $gen->entityName() }}Cest
 @endif
 @endforeach
 
-    	$I->amBearerAuthenticated($this->user->token);
         $I->sendPUT(str_replace('{id}', $oldData->getHashedKey(), $this->endpoint), $newData->getAttributes());
 
         $I->seeResponseCodeIs(200);

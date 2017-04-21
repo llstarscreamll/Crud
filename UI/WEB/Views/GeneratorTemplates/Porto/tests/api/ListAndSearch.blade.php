@@ -7,7 +7,7 @@ use {{ $gen->entityModelNamespace() }};
 
 class ListAndSearch{{ $gen->entityName() }}Cest
 {
-	private $endpoint = 'api/{{ str_slug($gen->tableName, $separator = "-") }}';
+	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}';
 
     /**
      * @var App\Containers\User\Models\User
@@ -32,7 +32,6 @@ class ListAndSearch{{ $gen->entityName() }}Cest
     {
     	$data = factory({{ $gen->entityName() }}::class, 10)->create();
 
-        $I->amBearerAuthenticated($this->user->token);
         $I->sendGET($this->endpoint);
 
         $I->seeResponseCodeIs(200);

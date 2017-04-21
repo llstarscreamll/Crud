@@ -7,7 +7,7 @@ use {{ $gen->entityModelNamespace() }};
 
 class Get{{ $gen->entityName() }}Cest
 {
-	private $endpoint = 'api/{{ str_slug($gen->tableName, $separator = "-") }}/{id}';
+	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/{id}';
 
     /**
      * @var App\Containers\User\Models\User
@@ -32,7 +32,6 @@ class Get{{ $gen->entityName() }}Cest
     {
     	$data = factory({{ $gen->entityName() }}::class)->create();
 
-    	$I->amBearerAuthenticated($this->user->token);
         $I->sendGET(str_replace('{id}', $data->getHashedKey(), $this->endpoint));
 
         $I->seeResponseCodeIs(200);

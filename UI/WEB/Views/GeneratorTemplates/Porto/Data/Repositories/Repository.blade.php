@@ -4,7 +4,7 @@ namespace App\Containers\{{ $gen->containerName() }}\Data\Repositories;
 
 use Illuminate\Http\Request;
 use App\Ship\Parents\Repositories\Repository;
-use App\Ship\Features\Criterias\Eloquent\TrashedCriteria;
+use App\Ship\Criterias\Eloquent\TrashedCriteria;
 
 class {{ $gen->entityName() }}Repository extends Repository
 {

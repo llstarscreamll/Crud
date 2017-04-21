@@ -30,7 +30,11 @@ class UserHelper extends \Codeception\Module
      */
     public function loginUser(UserModel $user)
     {
-        return app(ApiLoginThisUserObjectTask::class)->run($user);
+        $driver = 'api';
+        app('auth')->guard($driver)->setUser($user);
+        app('auth')->shouldUse($driver);
+        
+        return $user;
     }
 
     /**

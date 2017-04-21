@@ -7,7 +7,7 @@ use {{ $gen->entityModelNamespace() }};
 
 class Create{{ $gen->entityName() }}Cest
 {
-    private $endpoint = 'api/{{ str_slug($gen->tableName, $separator = "-") }}/create';
+    private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/create';
 
     /**
      * @var App\Containers\User\Models\User
@@ -37,7 +37,6 @@ class Create{{ $gen->entityName() }}Cest
 @endif
 @endforeach
 
-        $I->amBearerAuthenticated($this->user->token);
         $I->sendPOST($this->endpoint, $data->getAttributes());
 
         $I->seeResponseCodeIs(200);

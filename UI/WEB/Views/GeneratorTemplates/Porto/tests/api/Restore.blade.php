@@ -7,7 +7,7 @@ use {{ $gen->entityModelNamespace() }};
 
 class Restore{{ $gen->entityName() }}Cest
 {
-	private $endpoint = 'api/{{ str_slug($gen->tableName, $separator = "-") }}/{id}/restore';
+	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/{id}/restore';
 
     /**
      * @var App\Containers\User\Models\User
@@ -33,7 +33,6 @@ class Restore{{ $gen->entityName() }}Cest
     	$data = factory({{ $gen->entityName() }}::class)->create();
     	{{ $gen->entityName() }}::destroy($data->id);
 
-    	$I->amBearerAuthenticated($this->user->token);
         $I->sendPOST(str_replace('{id}', $data->getHashedKey(), $this->endpoint));
         $I->seeResponseCodeIs(200);
     }
