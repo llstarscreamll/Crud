@@ -57,6 +57,8 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Update', $plural = false)
      */
     public function authorize()
     {
-        return $this->hasAccess();
+        return $this->check([
+            'hasAccess',
+        ]);
     }
 }

@@ -50,6 +50,8 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural =
      */
     public function authorize()
     {
-        return $this->hasAccess();
+        return $this->check([
+            'hasAccess',
+        ]);
     }
 }
