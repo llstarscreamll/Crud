@@ -45,7 +45,7 @@ Here are a quick overview of the generated folders/files to give you the big ide
 
 ![CRUD Setup GUI](https://cloud.githubusercontent.com/assets/2442445/24436152/7fb42e92-13ff-11e7-95e7-89eefd7892db.png "CRUD Setup GUI")
 
-The generated file will be:
+The generated code will be:
 
 ### [apiato 4.0.2](https://github.com/apiato/apiato) Container
 
