@@ -15,10 +15,14 @@ class CopyDirsAction
 {
 	public function run(Request $request)
 	{
-		$copyAngularModuleTask = new CopyAngularModuleTask($request);
-		$copyAngularModuleTask->run($request->get('copy_angular_module_to', ''));
+		if (!empty($request->get('copy_angular_module_to'))) {
+			$copyAngularModuleTask = new CopyAngularModuleTask($request);
+			$copyAngularModuleTask->run($request->get('copy_angular_module_to', ''));
+		}
 
-		$copyPortoContainerTask = new CopyPortoContainerTask($request);
-		$copyPortoContainerTask->run($request->get('copy_porto_container_to', ''));
+		if (!empty($request->get('copy_porto_container_to'))) {
+			$copyPortoContainerTask = new CopyPortoContainerTask($request);
+			$copyPortoContainerTask->run($request->get('copy_porto_container_to', ''));
+		}
 	}
 }
