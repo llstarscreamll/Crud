@@ -1,6 +1,8 @@
-# CRUD Container for apiato
+# CRUD Container for [apiato 4.0.2](https://github.com/apiato/apiato)
 
-This is a [PORTO](https://github.com/Porto-SAP/Documentation) Container for [apiato](https://github.com/apiato/apiato) to scaffold you applications, at the moment the package generates the API routes only, and generates an Angular 2 module that consumes the generated API. There is a lot of work to do, pull requests are very welcome!! ^_^
+This is a [PORTO](https://github.com/Porto-SAP/Documentation) Container for [apiato 4.0.2](https://github.com/apiato/apiato) to scaffold you applications, at the moment the package generates the API routes only, and generates an Angular 2+ module that consumes the generated API. There is a lot of work to do, pull requests are very welcome!! ^_^
+
+If you don't know apiato already, go to the [apiato DOCS site](http://apiato.io/) and give it a try, it's an amazing project!!
 
 ## Install
 
@@ -35,7 +37,7 @@ git clone https://github.com/llstarscreamll/Crud.git app/Containers/Crud
 composer update
 ```
 
-Now go to `hello.dev/crud` to start using the app.
+Now go to `apiato.dev/crud` to start using the app.
 
 ## Generated files
 
@@ -45,9 +47,9 @@ Here are a quick overview of the generated folders/files to give you the big ide
 
 The generated file will be:
 
-### APIato Container
+### [apiato 4.0.2](https://github.com/apiato/apiato) Container
 
-The generated container intends to follow the [PORTO](https://github.com/Porto-SAP/Documentation) architectural pattern. A small difference with the apiato containers is that tests are generated with [Codeception](http://codeception.com/) unless **phpunit**, these tests are name spaced with the container name. The generated API has some end points useful to work with the generated Angular 2 module, e.g. serving a entity "Form Model" to build forms from server without update the Angular module, and serve the form data dependencies like some DB users list options or something else.
+The generated container intends to follow the [PORTO](https://github.com/Porto-SAP/Documentation) architectural pattern. A small difference with the **apiato** containers is that tests are generated with [Codeception](http://codeception.com/) unless **phpunit**, these tests are name spaced with the container name. The generated API has some end points useful to work with the generated Angular 2+ module, e.g. serving a entity "Form Model" to build forms from server without update the Angular module, and serve the form data dependencies like some DB users list options or something else. Obviosly the from builder on the Angular side is providen by the [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) project, the generated Angular module fits very well with this project.
 
 ```bash
 Library/
@@ -159,76 +161,83 @@ Library/
         └── Views
 ```
 
-*Note:* maybe you will need to update the generated `api.suite.yml` file acording to your `API_DOMAIN` .env variable from Dingo API. This package asumes that you use no custom domain for API endpoints, but if you do, make this change will work (taking from the apiato defaults):
+### Angular 2+ Module
 
-```yml
-# other modules here...
-        - Laravel5:
-            environment_file: .env.testing
-            root: ../../../
-            run_database_migrations: true
-            url: "http://api.apiato.dev" # chanhe your api url here
-```
+> **NOTE:**
+> To generate your Angular 2+ module you must have the generated apiato Container placed on the `app/Containers` folder. Why? Because the generator create fake data with the generated container factories on the Angular module tests.
 
-### Angular 2 Module
-
-This module is intended to work with this [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) application, the generated module should be copied on the `src/app/modules` folder, then you should declare the component on the main module and reducers on the `Core/reducers/index.ts` module folder. The generated module intends to follow all the best practices on the Angular 2 world based on the [ngrx example app](https://github.com/ngrx/example-app), [Yatrum](https://github.com/aviabird/yatrum) and many other resources. Some libraries used on the generated code are:
+This module is intended to work with this [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) application, the generated module should be copied on the `src/app/modules` folder, then you should declare the module on the main modules array `src/app/modules.ts` file and reducers on the `src/app/reducers.ts` file. The generated module intends to follow all the best practices on the Angular 2+ world based on the [ngrx example app](https://github.com/ngrx/example-app), [Yatrum](https://github.com/aviabird/yatrum) and many other resources. Some libraries used on the generated code are:
 
 - @ngrx/store
 - @ngrx/effects
 - @ngrx/router-store
 - ReactiveForms
-- ng2-translate
-- ng2-bootstrap
+- @ngx-translate/core
+- ngx-bootstrap
 - etc...
 
+The generated Angular module has many tests, you should execute these tests to ensure that everything it's working as intendet.
+
 ```bash
-library/
-├── actions
-│   └── book.actions.ts
-├── components
-│   ├── book
-│   │   ├── book-form.component.css
-│   │   ├── book-form.component.html
-│   │   ├── book-form.component.ts
-│   │   ├── book-form-fields.component.css
-│   │   ├── book-form-fields.component.html
-│   │   ├── book-form-fields.component.ts
-│   │   ├── books-table.component.css
-│   │   ├── books-table.component.html
-│   │   ├── books-table.component.ts
-│   │   └── index.ts
-│   └── index.ts
-├── containers
-│   ├── book
-│   │   ├── book-form.page.css
-│   │   ├── book-form.page.html
-│   │   ├── book-form.page.ts
-│   │   ├── index.ts
-│   │   ├── list-and-search-books.page.css
-│   │   ├── list-and-search-books.page.html
-│   │   └── list-and-search-books.page.ts
-│   └── index.ts
-├── effects
-│   ├── book.effects.ts
-│   └── index.ts
-├── library.module.ts
-├── library-routing.module.ts
-├── models
-│   ├── bookPagination.ts
-│   └── book.ts
-├── reducers
-│   └── book.reducer.ts
-├── routes
-│   ├── book.routes.ts
-│   └── index.ts
-├── services
-│   ├── book.service.ts
-│   └── index.ts
-└── translations
-    └── es
-        ├── book.ts
-        └── index.ts
+├── library
+    ├── actions
+    │   └── book.actions.ts
+    ├── components
+    │   ├── book
+    │   │   ├── book-form-fields.component.css
+    │   │   ├── book-form-fields.component.html
+    │   │   ├── book-form-fields.component.spec.ts
+    │   │   ├── book-form-fields.component.ts
+    │   │   ├── book-search-advanced.component.css
+    │   │   ├── book-search-advanced.component.html
+    │   │   ├── book-search-advanced.component.spec.ts
+    │   │   ├── book-search-advanced.component.ts
+    │   │   ├── book-search-basic.component.css
+    │   │   ├── book-search-basic.component.html
+    │   │   ├── book-search-basic.component.spec.ts
+    │   │   ├── book-search-basic.component.ts
+    │   │   ├── books-table.component.css
+    │   │   ├── books-table.component.html
+    │   │   ├── books-table.component.spec.ts
+    │   │   ├── books-table.component.ts
+    │   │   └── index.ts
+    │   └── index.ts
+    ├── containers
+    │   ├── book
+    │   │   ├── book-abstract.page.ts
+    │   │   ├── book-form.page.css
+    │   │   ├── book-form.page.html
+    │   │   ├── book-form.page.spec.ts
+    │   │   ├── book-form.page.ts
+    │   │   ├── index.ts
+    │   │   ├── list-and-search-books.page.css
+    │   │   ├── list-and-search-books.page.html
+    │   │   ├── list-and-search-books.page.spec.ts
+    │   │   └── list-and-search-books.page.ts
+    │   └── index.ts
+    ├── effects
+    │   ├── book.effects.ts
+    │   └── index.ts
+    ├── library.module.ts
+    ├── library-routing.module.ts
+    ├── models
+    │   ├── bookPagination.ts
+    │   └── book.ts
+    ├── reducers
+    │   └── book.reducer.ts
+    ├── routes
+    │   ├── book.routes.ts
+    │   └── index.ts
+    ├── services
+    │   ├── book.service.ts
+    │   └── index.ts
+    ├── translations
+    │   └── es
+    │       ├── book.ts
+    │       └── index.ts
+    └── utils
+        ├── book-testing-util.ts
+        └── book-testing.util.ts
 ```
 
 ## Tests
@@ -239,7 +248,7 @@ To execute the packages tests, go to the package `app/Containers/Crud` folder an
 codecept run functional
 ```
 
-Here are some quick data to test the generated Angular 2 create/update components from the functional tests:
+Here are some quick data to test the generated Angular 2+ create/update components from the functional tests:
 
 ```javascript
 this.bookForm.patchValue({
