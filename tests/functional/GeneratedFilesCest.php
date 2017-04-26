@@ -41,6 +41,10 @@ class GeneratedFilesCest
 
         $this->package = studly_case(str_singular($data['is_part_of_package']));
         $this->entity = studly_case(str_singular($data['table_name']));
+
+        // put session var to prevent create data with model factories on the
+        // angular module
+        $data['skip_angular_test_models'] = true;
         
         $I->submitForm('form[name=CRUD-form]', $data);
         $I->seeElement('.alert-success');
@@ -254,13 +258,14 @@ class GeneratedFilesCest
         // generated API routes
         $apiRoutesDir = $apiDir.'/Routes';
         $I->assertTrue(file_exists($apiRoutesDir), 'API/Routes dir');
-        $I->seeFileFound('BookFormModel.v1.private.php', $apiRoutesDir);
-        $I->seeFileFound('BookFormData.v1.private.php', $apiRoutesDir);
-        $I->seeFileFound('ListAndSearchBooks.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('CreateBook.v1.private.php', $apiRoutesDir);
-        $I->seeFileFound('UpdateBook.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('DeleteBook.v1.private.php', $apiRoutesDir);
+        $I->seeFileFound('FormDataFromBook.v1.private.php', $apiRoutesDir);
+        $I->seeFileFound('FormModelFromBook.v1.private.php', $apiRoutesDir);
+        $I->seeFileFound('GetBook.v1.private.php', $apiRoutesDir);
+        $I->seeFileFound('ListAndSearchBooks.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('RestoreBook.v1.private.php', $apiRoutesDir);
+        $I->seeFileFound('UpdateBook.v1.private.php', $apiRoutesDir);
 
         $I->assertTrue(file_exists($apiDir.'/Transformers'), 'API/Transformers dir');
         $I->seeFileFound('BookTransformer.php', $apiDir.'/Transformers');
