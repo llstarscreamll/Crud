@@ -14,16 +14,21 @@ import { {{ $entitySin }}Service } from './../services/{{ $gen->slugEntityName()
 import * as {{ $actions = camel_case($gen->entityName()) }} from './../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 import { AppMessage } from './../../core/models/appMessage';
+import { Effects } from './../../core/effects/abstract.effects';
 
 @Injectable()
-export class {{ $entitySin }}Effects {
+export class {{ $entitySin }}Effects extends Effects {
 
 	public constructor(
     private actions$: Actions,
     private {{ $service = camel_case($entitySin).'Service' }}: {{ $entitySin }}Service,
     private FormModelParserService: FormModelParserService,
     private store: Store<fromRoot.State>
-  ) { }
+  ) { super(); }
+
+  protected setErrors(error: AppMessage): Action {
+    return new {{ $actions }}.SetErrorsAction(error.errors);
+  }
 
   @Effect()
   load{{ $gen->entityName(true) }}$: Observable<Action> = this.actions$
@@ -32,10 +37,7 @@ export class {{ $entitySin }}Effects {
     .switchMap((searchData) => {
       return this.{{ $service }}.load(searchData)
         .map((data: {{ $entitySin.'Pagination' }}) => { return new {{ $actions }}.LoadSuccessAction(data)})
-        .catch((error: AppMessage) => {
-          error.type = 'danger';
-          return of(new appMsgActions.Flash(error))
-        });
+        .catch((error: AppMessage) => this.handleError(error));
     });
 
   @Effect()
@@ -51,10 +53,7 @@ export class {{ $entitySin }}Effects {
       return this.{{ $service }}.get{{ $gen->entityName() }}FormModel()
         .map((data) => this.FormModelParserService.parse(data, this.{{ $service }}.fieldsLangNamespace))
         .map((data) => { return new {{ $actions }}.GetFormModelSuccessAction(data)})
-        .catch((error: AppMessage) => {
-          error.type = 'danger';
-          return of(new appMsgActions.Flash(error))
-        });
+        .catch((error: AppMessage) => this.handleError(error));
     });
 
     @Effect()
@@ -69,10 +68,7 @@ export class {{ $entitySin }}Effects {
 
         return this.{{ $service }}.get{{ $gen->entityName() }}FormData()
           .map((data) => { return new {{ $actions }}.GetFormDataSuccessAction(data)})
-          .catch((error: AppMessage) => {
-            error.type = 'danger';
-            return of(new appMsgActions.Flash(error))
-          });
+          .catch((error: AppMessage) => this.handleError(error));
       });
 
     @Effect()
@@ -91,10 +87,7 @@ export class {{ $entitySin }}Effects {
               new {{ $actions }}.SetSelectedAction(data),
             ];
           })
-          .catch((error: AppMessage) => {
-            error.type = 'danger';
-            return of(new appMsgActions.Flash(error));
-          });
+          .catch((error: AppMessage) => this.handleError(error));
       });
 
     @Effect()
@@ -110,19 +103,7 @@ export class {{ $entitySin }}Effects {
               go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
             ];
           })
-          .catch((error: AppMessage) => {
-            error.type = 'danger';
-            return of(error).mergeMap(error => {
-              let actions = [];
-              actions.push(new appMsgActions.Flash(error));
-
-              if (error.status_code === 422) {
-                actions.push(new {{ $actions }}.SetErrorsAction(error.errors));
-              }
-
-              return actions;
-            })
-          });
+          .catch((error: AppMessage) => this.handleError(error));
       });
 
     @Effect()
@@ -138,10 +119,7 @@ export class {{ $entitySin }}Effects {
               go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
             ];
           })
-          .catch((error: AppMessage) => {
-            error.type = 'danger';
-            return of(new appMsgActions.Flash(error))
-          });
+          .catch((error: AppMessage) => this.handleError(error));
       });
 
     @Effect()
@@ -162,9 +140,6 @@ export class {{ $entitySin }}Effects {
 
             return actions;
           })
-          .catch((error: AppMessage) => {
-            error.type = 'danger';
-            return of(new appMsgActions.Flash(error))
-          });
+          .catch((error: AppMessage) => this.handleError(error));
       });
 }
