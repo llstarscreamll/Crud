@@ -7,7 +7,7 @@ use {{ $gen->entityModelNamespace() }};
 
 class {{ $gen->entityName() }}FormModelCest
 {
-    private $endpoint = 'v1/{{ $gen->slugEntityName(true) }}/form-model/{{ $gen->slugEntityName() }}';
+    private $endpoint = 'v1/{{ $gen->slugEntityName(true) }}/form-model';
 
     /**
      * @var App\Containers\User\Models\User

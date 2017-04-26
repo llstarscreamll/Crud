@@ -7,7 +7,7 @@ use {{ $gen->entityModelNamespace() }};
 
 class {{ $gen->entityName() }}FormDataCest
 {
-    private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/form-data/{{ $gen->slugEntityName() }}';
+    private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/form-data';
 
     /**
      * @var App\Containers\User\Models\User
