@@ -16,10 +16,10 @@ class UserHelper extends \Codeception\Module
      *
      * @return App\Containers\User\Models\User
      */
-    public function loginAdminUser()
+    public function loginAdminUser(string $driver = 'api')
     {
         $user = $this->createAdminUser();
-        return $this->loginUser($user);
+        return $this->loginUser($user, $driver);
     }
 
     /**
@@ -28,9 +28,8 @@ class UserHelper extends \Codeception\Module
      * @param  UserModel $user
      * @return App\Containers\User\Models\User
      */
-    public function loginUser(UserModel $user)
+    public function loginUser(UserModel $user, string $driver = 'api')
     {
-        $driver = 'api';
         app('auth')->guard($driver)->setUser($user);
         app('auth')->shouldUse($driver);
         
