@@ -16,34 +16,34 @@ class {{ $gen->entityName() }}PermissionsSeeder extends Seeder
         $permissions = collect([]);
 
         $permissions->push(Permission::create([
-            'name' => '{{ $gen->slugEntityName() }}.index',
-            'display_name' => 'Listar {{ $request->get('plural_entity_name') }}',
+            'name' => '{{ $gen->slugEntityName() }}.list_and_search',
+            'display_name' => '{{ trans('crud::templates.list_and_search') }} {{ strtolower($request->get('plural_entity_name')) }}',
         ]));
             
         $permissions->push(Permission::create([
             'name' => '{{ $gen->slugEntityName() }}.create',
-            'display_name' => 'Crear {{ $request->get('single_entity_name') }}',
+            'display_name' => '{{ trans('crud::templates.create') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
             
         $permissions->push(Permission::create([
-            'name' => '{{ $gen->slugEntityName() }}.show',
-            'display_name' => 'Ver {{ $request->get('single_entity_name') }}',
+            'name' => '{{ $gen->slugEntityName() }}.details',
+            'display_name' => '{{ trans('crud::templates.details') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
             
         $permissions->push(Permission::create([
             'name' => '{{ $gen->slugEntityName() }}.edit',
-            'display_name' => 'Actualizar {{ $request->get('single_entity_name') }}',
+            'display_name' => '{{ trans('crud::templates.edit') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
         
         $permissions->push(Permission::create([
             'name' => '{{ $gen->slugEntityName() }}.destroy',
-            'display_name' => 'Eliminar {{ $request->get('single_entity_name') }}',
+            'display_name' => '{{ trans('crud::templates.delete') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
 @if ($gen->hasSoftDeleteColumn)
         
         $permissions->push(Permission::create([
             'name' => '{{ $gen->slugEntityName() }}.restore',
-            'display_name' => 'Restaurar {{ $request->get('single_entity_name') }}',
+            'display_name' => '{{ trans('crud::templates.restore') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
 @endif
     

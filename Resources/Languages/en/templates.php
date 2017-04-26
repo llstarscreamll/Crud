@@ -7,6 +7,7 @@ return [
 	'delete' => 'Delete',
 	'restore' => 'Restore',
 	'see_all' => 'See All',
+	'list_and_search' => 'List and search',
 	'yes' => 'Yes',
 	'no' => 'No',
 	'confirm_field_prefix' => 'Confirm',
@@ -29,4 +30,10 @@ return [
 	'softdeleted_rows_info' => 'The rows highlighted with red color are trashed',
 	'actions_table_header' => 'Actions',
 	'advanced_search_apply_btn' => 'Apply',
+	'paginator' => [
+		'first_text' => 'First',
+		'last_text' => 'Last',
+		'next_text' => 'Next',
+		'previous_text' => 'Previos',
+	],
 ];

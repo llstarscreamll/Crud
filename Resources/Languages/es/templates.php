@@ -7,6 +7,7 @@ return [
 	'delete' => 'Borrar',
 	'restore' => 'Restaurar',
 	'see_all' => 'Ver todos',
+	'list_and_search' => 'Listar y buscar',
 	'yes' => 'Si',
 	'no' => 'No',
 	'confirm_field_prefix' => 'Confirmar',
@@ -34,5 +35,5 @@ return [
 		'last_text' => 'Último',
 		'next_text' => 'Siguiente',
 		'previous_text' => 'Anterior',
-	]
+	],
 ];
