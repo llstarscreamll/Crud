@@ -31,7 +31,7 @@ class {{ $gen->entityName() }}Controller extends ApiController
 	 */
 	public function formModel(Request $request)
 	{
-		$model = config($request->model.'-form-model');
+		$model = config('{{ $gen->slugEntityName() }}-form-model');
 
 		if (empty($model)) {
             return abort(404, 'Form Model Not Found.');
