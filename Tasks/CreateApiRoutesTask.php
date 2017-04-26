@@ -36,14 +36,14 @@ class CreateApiRoutesTask
      * @var array
      */
     public $files = [
-        'Create',
-        'Get',
-        'Update',
-        'Delete',
-        'Restore',
-        'ListAndSearch',
-        'FormModel',
-        'FormData',
+        'Create:entity:',
+        'Delete:entity:',
+        'FormDataFrom:entity:',
+        'FormModelFrom:entity:',
+        'Get:entity:',
+        'ListAndSearch:entity:',
+        'Restore:entity:',
+        'Update:entity:',
     ];
 
     /**
@@ -65,14 +65,14 @@ class CreateApiRoutesTask
     {
         foreach ($this->files as $file) {
             $plural = ($file == "ListAndSearch") ? true : false;
-            $atStart = in_array($file, ['FormModel', 'FormData',]) ? true : false;
+            $atStart = in_array($file, ['_FormModel', '_FormData',]) ? true : false;
 
-            $actionFile = $this->apiRoutesFolder().'/'.$this->apiRouteFile($file, $plural, $atStart);
+            $routeFile = $this->apiRoutesFolder().'/'.$this->apiRouteFile($file, $plural);
             $template = $this->templatesDir().'.Porto/UI/API/Routes/'.$file;
 
             $content = view($template, ['gen' => $this]);
 
-            file_put_contents($actionFile, $content) === false
+            file_put_contents($routeFile, $content) === false
                 ? session()->push('error', "Error creating $file task file")
                 : session()->push('success', "$file task creation success");
         }
