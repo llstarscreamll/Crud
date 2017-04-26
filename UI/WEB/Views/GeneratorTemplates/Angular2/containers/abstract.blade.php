@@ -13,6 +13,7 @@ import * as fromRoot from './../../../reducers';
 
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
+import { {{ $pagModel = $entitySin.'Pagination' }} } from './../../models/{{ camel_case($entitySin) }}Pagination';
 
 export interface SearchQuery {
   filter: string[];
@@ -32,7 +33,7 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   
   public {{ $formModel = camel_case($gen->entityName()).'FormModel$' }}: Observable<Object>;
   public {{ $formData = camel_case($gen->entityName()).'FormData$' }}: Observable<Object>;
-  public {{ $pagination = camel_case($gen->entityName(true)).'Pagination$' }}: Observable<Object>;
+  public {{ $pagination = camel_case($gen->entityName(true)).'Pagination$' }}: Observable<{{ $pagModel }}>;
   public {{ $selected = 'selected'.$gen->entityName().'$' }}: Observable<{{ $gen->entityName() }} | null>;
   public {{ $loading = 'loading$' }}: Observable<boolean>;
   public {{ $errors = 'errors$' }}: Observable<Object>;
