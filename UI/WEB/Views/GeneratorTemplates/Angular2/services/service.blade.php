@@ -55,7 +55,7 @@ export class {{ $entitySin }}Service extends Service {
     this.setAuthorizationHeader();
 
     return this.http
-      .get(this.apiEndpoint('form-model/{{ $gen->slugEntityName() }}'), { headers: this.headers })
+      .get(this.apiEndpoint('form-model'), { headers: this.headers })
       .map(res => { return res.json() })
       .catch(this.handleError);
   }
@@ -64,7 +64,7 @@ export class {{ $entitySin }}Service extends Service {
     this.setAuthorizationHeader();
 
     return this.http
-      .get(this.apiEndpoint('form-data/{{ $gen->slugEntityName() }}'), { headers: this.headers })
+      .get(this.apiEndpoint('form-data'), { headers: this.headers })
       .map(res => { return res.json() })
       .catch(this.handleError);
   }
