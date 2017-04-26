@@ -178,6 +178,17 @@ trait FolderNamesResolver
         return $this->dataFolder().'/Seeders';
     }
 
+    public function seederFile(string $file, bool $plural = false)
+    {
+        $entity = $plural
+            ? str_plural($this->entityName())
+            : $this->entityName();
+
+        $baseName = str_replace(':entity:', $entity, $file);
+
+        return $baseName.'.php';
+    }
+
     public function modelsFolder()
     {
         return $this->containerFolder().'/Models';

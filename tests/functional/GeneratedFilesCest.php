@@ -189,7 +189,10 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($dataDir.'/Migrations'), 'Data/Migrations dir');
         $I->assertTrue(file_exists($dataDir.'/Repositories'), 'Data/Repositories dir');
         $I->seeFileFound('BookRepository.php', $dataDir.'/Repositories');
+
+        // seeders
         $I->assertTrue(file_exists($dataDir.'/Seeders'), 'Data/Seeders dir');
+        $I->seeFileFound('BookPermissionsSeeder.php', $dataDir.'/Seeders');
 
         // exceptions
         $exceptionsDir = $containersDir.$this->package.'/Exceptions/';

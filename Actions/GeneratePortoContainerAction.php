@@ -19,6 +19,7 @@ use App\Containers\Crud\Tasks\CreateTransformerTask;
 use App\Containers\Crud\Tasks\CreateExceptionsTask;
 use App\Containers\Crud\Tasks\CreateFormModelConfigTask;
 use App\Containers\Crud\Tasks\CreatePortoCriteriasTask;
+use App\Containers\Crud\Tasks\CreateSeedersTask;
 
 /**
  * GeneratePortoContainerAction Class.
@@ -84,6 +85,10 @@ class GeneratePortoContainerAction
         // generate entity form model
         $createFormModelConfigTask = new CreateFormModelConfigTask($request);
         $createFormModelConfigTask->run();
+
+        // generate entity permissions seeder
+        $createSeedersTask = new CreateSeedersTask($request);
+        $createSeedersTask->run();
 
         // generate Codeception tests files
         $createCodeceptionTestsTask = new CreateCodeceptionTestsTask($request);
