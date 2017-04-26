@@ -244,15 +244,13 @@ trait FolderNamesResolver
         return $this->apiFolder().'/Transformers';
     }
 
-    public function apiRouteFile(string $route, bool $plural = false, bool $atStart = false)
+    public function apiRouteFile(string $route, bool $plural = false)
     {
         $entity = $plural
             ? str_plural($this->entityName())
             : $this->entityName();
 
-        $baseName = $atStart === true
-            ? $entity.$route
-            : $route.$entity;
+        $baseName = str_replace(':entity:', $entity, $route);
 
         return $baseName.'.v1.private.php';
     }
