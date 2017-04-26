@@ -61,6 +61,7 @@ class CreateNgUtilsTask
 
             $content = view($template, [
                 'gen' => $this,
+                'request' => $this->request,
                 'fields' => $this->parseFields($this->request)
             ]);
 
