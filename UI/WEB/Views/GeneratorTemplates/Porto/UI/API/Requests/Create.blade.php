@@ -16,7 +16,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Create', $plural = false)
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => '',
+        'permissions' => '{{ $gen->slugEntityName() }}.create',
     ];
 
     /**

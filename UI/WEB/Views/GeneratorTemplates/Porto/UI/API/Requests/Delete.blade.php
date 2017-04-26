@@ -17,7 +17,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Delete', $plural = false)
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => '',
+        'permissions' => '{{ $gen->slugEntityName() }}.delete',
     ];
 
     /**
