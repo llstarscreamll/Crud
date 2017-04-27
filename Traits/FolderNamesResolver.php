@@ -162,6 +162,13 @@ trait FolderNamesResolver
 
         return $repo;
     }
+
+    public function namespacedTransformerFromModelNamespace(string $namespace)
+    {
+        $repo = str_replace('Models', 'UI\API\Transformers', $namespace).'Transformer';
+
+        return $repo;
+    }
     
     public function repositoriesFolder()
     {
