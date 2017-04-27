@@ -4,6 +4,7 @@ namespace {{ $gen->entityName() }};
 
 use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
+use Vinkla\Hashids\Facades\Hashids;
 
 /**
  * Update{{ $gen->entityName() }}Cest Class.
@@ -39,6 +40,9 @@ class Update{{ $gen->entityName() }}Cest
 @if(strpos($field->validation_rules, 'confirmed') !== false)
         $newData->{{ $field->name }}_confirmation = $newData->{{ $field->name }};
 @endif
+@if($field->namespace)
+        $newData->{{ $field->name }} = Hashids::encode($newData->getAttributes()['{{ $field->name }}']);
+@endif
 @endforeach
 
         $I->sendPUT(str_replace('{id}', $oldData->getHashedKey(), $this->endpoint), $newData->getAttributes());
@@ -46,7 +50,9 @@ class Update{{ $gen->entityName() }}Cest
         $I->seeResponseCodeIs(200);
 
 @foreach ($fields as $field)
-@if(!$field->hidden && $field->name !== "id" && !in_array($field->type, ['timestamp', 'datetime', 'date']))
+@if(!$field->hidden && $field->namespace)
+        $I->seeResponseContainsJson(['{{ $field->name }}' => $newData->getAttributes()['{{ $field->name }}']]);
+@elseif(!$field->hidden && $field->name !== "id" && !in_array($field->type, ['timestamp', 'datetime', 'date']))
         $I->seeResponseContainsJson(['{{ $field->name }}' => $newData->{{ $field->name }}]);
 @endif
 @endforeach

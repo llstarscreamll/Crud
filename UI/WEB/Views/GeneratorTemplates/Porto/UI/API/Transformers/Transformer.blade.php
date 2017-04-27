@@ -44,7 +44,9 @@ class {{ $gen->entityName() }}Transformer extends Transformer
 @if ($field->name === "id")
 			'{{ $field->name }}' => ${{ camel_case($entityClass) }}->getHashedKey(),
 @endif
-@if(!$field->hidden && $field->name !== "id")
+@if(!$field->hidden && $field->namespace)
+            '{{ $field->name }}' => ${{ camel_case($entityClass) }}->{{ $gen->relationNameFromField($field) }} ? ${{ camel_case($entityClass) }}->{{ $gen->relationNameFromField($field) }}->getHashedKey() : null,
+@elseif(!$field->hidden && $field->name !== "id")
 			'{{ $field->name }}' => ${{ camel_case($entityClass) }}->{{ $field->name }},
 @endif
 @if(!$field->hidden && in_array($field->type, ['datetime', 'timestamp']))

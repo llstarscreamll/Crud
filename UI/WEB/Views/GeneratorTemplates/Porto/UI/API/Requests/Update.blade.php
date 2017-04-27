@@ -25,7 +25,12 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Update', $plural = false)
      * @var  array
      */
     protected $decode = [
-        'id'
+        'id',
+@foreach ($fields as $field)
+@if($field->namespace)
+        '{{ $field->name }}',
+@endif
+@endforeach
     ];
 
     /**

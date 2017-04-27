@@ -4,6 +4,7 @@ namespace {{ $gen->entityName() }};
 
 use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
+use Vinkla\Hashids\Facades\Hashids;
 
 /**
  * Get{{ $gen->entityName() }}Cest Class.
@@ -40,7 +41,9 @@ class Get{{ $gen->entityName() }}Cest
         $I->seeResponseCodeIs(200);
 
 @foreach ($fields as $field)
-@if(!$field->hidden && $field->name !== "id" && !in_array($field->type, ['timestamp', 'datetime', 'date']))
+@if(!$field->hidden && $field->namespace)
+        $I->seeResponseContainsJson(['{{ $field->name }}' => Hashids::encode($data->getAttributes()['{{ $field->name }}'])]);
+@elseif(!$field->hidden && $field->name !== "id" && !in_array($field->type, ['timestamp', 'datetime', 'date']))
         $I->seeResponseContainsJson(['{{ $field->name }}' => $data->{{ $field->name }}]);
 @endif
 @endforeach
