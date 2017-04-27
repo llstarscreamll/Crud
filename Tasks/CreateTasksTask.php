@@ -65,6 +65,11 @@ class CreateTasksTask
         $this->createEntityTasksFolder();
 
         foreach ($this->files as $file) {
+            // prevent to create Restore test if table hasn't SoftDelete column
+            if (str_contains($file, ['Restore']) && !$this->hasSoftDeleteColumn) {
+                continue;
+            }
+            
             $plural = ($file == "ListAndSearch") ? true : false;
 
             $taskFile = $this->tasksFolder()."/{$this->entityName()}/".$this->taskFile($file, $plural);

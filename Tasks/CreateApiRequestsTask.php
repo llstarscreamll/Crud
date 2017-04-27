@@ -65,6 +65,10 @@ class CreateApiRequestsTask
         $this->createEntityApiRequestsFolder();
 
         foreach ($this->files as $file) {
+            // prevent to create Restore test if table hasn't SoftDelete column
+            if (str_contains($file, ['Restore']) && !$this->hasSoftDeleteColumn) {
+                continue;
+            }
             $plural = ($file == "ListAndSearch") ? true : false;
 
             $actionFile = $this->apiRequestsFolder()."/{$this->entityName()}/".$this->apiRequestFile($file, $plural);

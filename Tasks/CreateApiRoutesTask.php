@@ -64,6 +64,11 @@ class CreateApiRoutesTask
     public function run()
     {
         foreach ($this->files as $file) {
+            // prevent to create Restore route if table hasn't SoftDelete column
+            if (str_contains($file, ['Restore']) && !$this->hasSoftDeleteColumn) {
+                continue;
+            }
+
             $plural = ($file == "ListAndSearch") ? true : false;
             $atStart = in_array($file, ['_FormModel', '_FormData',]) ? true : false;
 

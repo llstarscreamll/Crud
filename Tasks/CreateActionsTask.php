@@ -65,6 +65,11 @@ class CreateActionsTask
         $this->createEntityActionsFolder();
         
         foreach ($this->files as $file) {
+            // prevent to create Restore test if table hasn't SoftDelete column
+            if (str_contains($file, ['Restore']) && !$this->hasSoftDeleteColumn) {
+                continue;
+            }
+            
             $plural = ($file == "ListAndSearch") ? true : false;
             $atStart = in_array($file, ['FormData']) ? true : false;
 
