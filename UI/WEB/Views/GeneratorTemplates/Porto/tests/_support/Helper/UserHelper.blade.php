@@ -18,7 +18,7 @@ class UserHelper extends \Codeception\Module
      */
     public function loginAdminUser(string $driver = 'api')
     {
-        $user = $this->createAdminUser();
+        $user = UserModel::where('email', 'admin@admin.com')->first();
         return $this->loginUser($user, $driver);
     }
 
@@ -34,23 +34,5 @@ class UserHelper extends \Codeception\Module
         app('auth')->shouldUse($driver);
         
         return $user;
-    }
-
-    /**
-     * Create the admin user.
-     *
-     * @return App\Containers\User\Models\User
-     */
-    public function createAdminUser()
-    {
-        $role = Role::create(['name' => 'admin']);
-        $user = UserModel::create([
-            'name' => 'Admin',
-            'email' => 'admin@admin.com',
-            'password' => bcrypt('admin'),
-        ]);
-        $user->assignRole($role);
-
-        return $user->fresh();
     }
 }
