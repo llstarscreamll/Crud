@@ -4,6 +4,7 @@ namespace App\Containers\Crud\Traits;
 
 use stdClass;
 use Illuminate\Support\Collection;
+use Vinkla\Hashids\Facades\Hashids;
 
 /**
  * DataGenerator Trait.
@@ -481,5 +482,20 @@ trait DataGenerator
         }
 
         return $string;
+    }
+
+    public function getRelatedModelDataFromfields($fields): array
+    {
+        $data = [];
+
+        foreach ($fields as $field) {
+            if ($field->namespace) {
+                $id = Hashids::encode(1);
+                $data[$this->relationNameFromField($field)]['data'] = factory($field->namespace)->make()->getAttributes() + ['id' => $id];
+                $data[$field->name] = $id;
+            }
+        }
+
+        return $data;
     }
 }

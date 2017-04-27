@@ -34,8 +34,8 @@ export let tableColumns = [
 
 // Testing Models
 @if($request->get('skip_angular_test_models', false) === false)
-export let {{ $gen->entityName() }}One: {{ $model }} = {!! json_encode(['id' => 'a1'] + factory('App\Containers\\'.$gen->containerName().'\\Models\\'.$gen->entityName())->make()->toArray()) !!};
-export let {{ $gen->entityName() }}Two: {{ $model }} = {!! json_encode(['id' => 'b2'] + factory('App\Containers\\'.$gen->containerName().'\\Models\\'.$gen->entityName())->make()->toArray()) !!};
+export let {{ $gen->entityName() }}One: {{ $model }} = {!! json_encode(['id' => 'a1'] + factory('App\Containers\\'.$gen->containerName().'\\Models\\'.$gen->entityName())->make()->toArray()+ $gen->getRelatedModelDataFromfields($fields)) !!};
+export let {{ $gen->entityName() }}Two: {{ $model }} = {!! json_encode(['id' => 'b2'] + factory('App\Containers\\'.$gen->containerName().'\\Models\\'.$gen->entityName())->make()->toArray() + $gen->getRelatedModelDataFromfields($fields)) !!};
 export let {{ $gen->entityName() }}List: {{ $model }}[] = [
 	{{ $gen->entityName() }}One,
 	{{ $gen->entityName() }}Two,
