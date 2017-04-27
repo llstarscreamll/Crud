@@ -5,6 +5,9 @@ namespace {{ $gen->entityName() }};
 use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
 
+/**
+ * Update{{ $gen->entityName() }}Cest Class.
+ */
 class Update{{ $gen->entityName() }}Cest
 {
 	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/{id}';

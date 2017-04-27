@@ -6,7 +6,7 @@ use App\Ship\Parents\Exceptions\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class {{ $gen->entityName() }}NotFoundException.
+ * {{ $gen->entityName() }}NotFoundException Class.
  */
 class {{ $gen->entityName() }}NotFoundException extends Exception
 {

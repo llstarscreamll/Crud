@@ -14,7 +14,7 @@ class {{ $criteria }} extends Criteria
 	private $input;
 
     /**
-     * Crea nueva instancia de {{ $criteria }}.
+     * Create new {{ $criteria }} instance.
      *
      * @param  Request $request
      */
@@ -64,7 +64,7 @@ class {{ $criteria }} extends Criteria
 @endif
 @endif
 @endforeach
-        // sort resutls
+        // sort results
         $model->orderBy($this->input->get('orderBy', '{{ $gen->hasLaravelTimestamps ? 'created_at' : 'name' }}'), $this->input->get('sortedBy', 'desc'));
 
         return $model;

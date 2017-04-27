@@ -5,6 +5,9 @@ namespace {{ $gen->entityName() }};
 use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
 
+/**
+ * {{ $gen->entityName() }}FormModelCest Class.
+ */
 class {{ $gen->entityName() }}FormModelCest
 {
     private $endpoint = 'v1/{{ $gen->slugEntityName(true) }}/form-model';

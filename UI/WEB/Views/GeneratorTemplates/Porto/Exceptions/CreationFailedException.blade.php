@@ -6,7 +6,7 @@ use App\Ship\Parents\Exceptions\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class {{ $gen->entityName() }}CreationFailedException.
+ * {{ $gen->entityName() }}CreationFailedException Class.
  */
 class {{ $gen->entityName() }}CreationFailedException extends Exception
 {

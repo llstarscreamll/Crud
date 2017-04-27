@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Ship\Parents\Repositories\Repository;
 use App\Ship\Criterias\Eloquent\TrashedCriteria;
 
+/**
+ * {{ $gen->entityName() }}Repository Class.
+ */
 class {{ $gen->entityName() }}Repository extends Repository
 {
 	/**
