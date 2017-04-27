@@ -31,12 +31,12 @@ class {{ $gen->entityName() }}PermissionsSeeder extends Seeder
         ]));
             
         $permissions->push(Permission::create([
-            'name' => '{{ $gen->slugEntityName() }}.edit',
+            'name' => '{{ $gen->slugEntityName() }}.update',
             'display_name' => '{{ trans('crud::templates.edit') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
         
         $permissions->push(Permission::create([
-            'name' => '{{ $gen->slugEntityName() }}.destroy',
+            'name' => '{{ $gen->slugEntityName() }}.delete',
             'display_name' => '{{ trans('crud::templates.delete') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
 @if ($gen->hasSoftDeleteColumn)
