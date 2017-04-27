@@ -160,6 +160,8 @@ class CreateCodeceptionTestsTask
             "            environment_file: .env.testing\n".
             "            root: ../../../\n".
             "            run_database_migrations: true\n".
+            "            run_database_seeder: true\n".
+            "            database_seeder_class: 'DatabaseSeeder'\n".
             '            url: "'.env('API_URL').'"';
     }
 
