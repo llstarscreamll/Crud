@@ -12,7 +12,7 @@ modules:
         - Asserts
         - Filesystem
         - Laravel5:
-            environment_file: .env.testing
+            environment_file: .env.mysql.testing
             root: ../../../
             run_database_migrations: true
             url: "http://admin.hello.dev"
