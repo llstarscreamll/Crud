@@ -1,4 +1,5 @@
 <dynamic-form-fields
+	*ngIf="{{ camel_case($gen->entityName()).'FormModel' }} && {{ camel_case($gen->entityName()).'FormData' }}"
 	class="dynamic-form-fields row"
 	[form]="{{ camel_case($gen->entityName()) }}Form"
 	[formModel]="{{ camel_case($gen->entityName()).'FormModel' }}"
