@@ -114,7 +114,7 @@ describe('{{ $cpmClass }}', () => {
 @foreach ($fields as $field)
 @if (!$field->hidden)
     expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]:disabled')).not.toBeNull('{{ $field->name }} field should exists');
-    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]:disabled').value).toBe(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
+    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]:disabled').value).toContain(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
 @endif
 @endforeach
 
@@ -141,7 +141,7 @@ describe('{{ $cpmClass }}', () => {
 @foreach ($fields as $field)
 @if (!$field->hidden && $field->on_update_form)
     expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]')).not.toBeNull('{{ $field->name }} field should exists');
-    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]').value).toBe(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
+    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]').value).toContain(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
 @endif
 @endforeach
     
