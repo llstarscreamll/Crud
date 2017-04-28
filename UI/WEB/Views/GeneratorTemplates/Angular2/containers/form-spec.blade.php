@@ -74,6 +74,7 @@ describe('{{ $cpmClass }}', () => {
 
   it('should have certain setup for create form', fakeAsync(() => {
     spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/create');
+    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
 
     fixture.detectChanges();
     tick();
@@ -99,6 +100,7 @@ describe('{{ $cpmClass }}', () => {
 
   it('should have certain setup for details form', fakeAsync(() => {
     spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/details');
+    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
 
     fixture.detectChanges();
     tick();
@@ -113,8 +115,8 @@ describe('{{ $cpmClass }}', () => {
 
 @foreach ($fields as $field)
 @if (!$field->hidden)
-    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]:disabled')).not.toBeNull('{{ $field->name }} field should exists');
-    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]:disabled').value).toContain(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
+    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]{{ $field->key == 'MUL' || $field->type == 'enum' ? null : ':disabled' }}')).not.toBeNull('{{ $field->name }} field should exists');
+    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]{{ $field->key == 'MUL' || $field->type == 'enum' ? null : ':disabled' }}').{!! $field->key == 'MUL' || $field->type == 'enum' ? "getAttribute('value')" : 'value' !!}).toContain(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
 @endif
 @endforeach
 
@@ -126,6 +128,7 @@ describe('{{ $cpmClass }}', () => {
 
   it('should have certain setup for edit form', fakeAsync(() => {
     spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/edit');
+    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
 
     fixture.detectChanges();
     tick();
@@ -141,7 +144,7 @@ describe('{{ $cpmClass }}', () => {
 @foreach ($fields as $field)
 @if (!$field->hidden && $field->on_update_form)
     expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]')).not.toBeNull('{{ $field->name }} field should exists');
-    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]').value).toContain(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
+    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]').{!! $field->key == 'MUL' || $field->type == 'enum' ? "getAttribute('value')" : 'value' !!}).toContain(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
 @endif
 @endforeach
     

@@ -49,7 +49,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
 @endif
 @endforeach
     },
-    orderBy: "{{ $gen->tableName.'.created_at' }}",
+    orderBy: "{{ $gen->hasLaravelTimestamps ? $gen->tableName.'.created_at' : $gen->tableName.'.id' }}",
     sortedBy: "desc",
     page: 1
   };

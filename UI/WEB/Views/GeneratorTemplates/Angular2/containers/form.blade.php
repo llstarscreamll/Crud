@@ -60,21 +60,7 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
   private patchForm() {
     this.{{ $selected = 'selected'.$gen->entityName().'$' }}.subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
       if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.id)) {
-        if (this.formType.includes('edit')) {
-          this.{{ $form }}.patchValue({{ $model }});
-        }
-
-        if (this.formType.includes('details')) {
-          this.{{ $form }}.patchValue({
-            ...{{ camel_case($gen->entityName()) }},
-@foreach ($fields as $field)
-@if ($field->namespace)
-            {{ $field->name }}: {{ camel_case($gen->entityName()) }}.{{ $gen->relationNameFromField($field) }} ? {{ camel_case($gen->entityName()) }}.{{ $gen->relationNameFromField($field) }}.data.name : null,
-@endif
-@endforeach
-          });
-        }
-
+        this.{{ $form }}.patchValue({{ $model }});
         this.formConfigured = true;
       }
     });

@@ -72,7 +72,7 @@ describe('{{ $cmpClass }}', () => {
 
 @foreach ($fields as $field)
 @if (!$field->hidden)
-    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]:disabled')).not.toBeNull('{{ $field->name }} field');
+    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]{{ $field->key == 'MUL' || $field->type == 'enum' ? null : ':disabled' }}')).not.toBeNull('{{ $field->name }} field');
 @endif
 @endforeach
   });
