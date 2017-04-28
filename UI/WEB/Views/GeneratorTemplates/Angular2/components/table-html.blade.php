@@ -4,15 +4,17 @@
       <thead>
         <tr>
           <th style="width: 1em;"><input type="checkbox" name="select_all_items"></th>
-          <ng-container *ngFor="let column of columns">
-          <th class="{{ '{{' }} column }}">
-            <span role="button" (click)="updateSearch.emit({'orderBy': column, 'sortedBy': (sortedBy == 'desc' || orderBy != column) ? 'asc' : 'desc'})">
-                {{ '{{' }} translateKey + 'fields.'+column | translate }}
-                <i *ngIf="orderBy == column"
+@foreach ($fields as $field)
+@if (!$field->hidden)
+          <th *ngIf="showColumn('{{ $gen->tableName.'.'.$field->name }}')" class="{{ $gen->tableName.'.'.$field->name }}">
+            <span role="button" (click)="updateSearch.emit({'orderBy': '{{ $gen->tableName.'.'.$field->name }}', 'sortedBy': (sortedBy == 'desc' || orderBy != '{{ $gen->tableName.'.'.$field->name }}') ? 'asc' : 'desc'})">
+                {{ '{{' }} translateKey + 'fields.'+'{{ $gen->tableName.'.'.$field->name }}' | translate }}
+                <i *ngIf="orderBy == '{{ $gen->tableName.'.'.$field->name }}'"
                     [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
             </span>
           </th>
-          </ng-container>
+@endif
+@endforeach
           <th class="actions" translate>{{ '{{' }} translateKey + 'actions_table_header' }}</th>
         </tr>
       </thead>

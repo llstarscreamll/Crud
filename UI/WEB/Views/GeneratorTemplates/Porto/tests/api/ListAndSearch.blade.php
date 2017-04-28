@@ -8,7 +8,7 @@ use {{ $gen->entityModelNamespace() }};
 /**
  * ListAndSearch{{ $gen->entityName() }}Cest Class.
  */
-class ListAndSearch{{ $gen->entityName() }}Cest
+class ListAndSearch{{ $gen->entityName(true) }}Cest
 {
 	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}';
 
