@@ -45,7 +45,7 @@ class {{ $gen->entityName() }}Transformer extends Transformer
 			'{{ $field->name }}' => ${{ camel_case($entityClass) }}->getHashedKey(),
 @endif
 @if(!$field->hidden && $field->namespace)
-            '{{ $field->name }}' => ${{ camel_case($entityClass) }}->{{ $gen->relationNameFromField($field) }} ? ${{ camel_case($entityClass) }}->{{ $gen->relationNameFromField($field) }}->getHashedKey() : null,
+            '{{ $field->name }}' => $this->hashKey(${{ camel_case($entityClass) }}->{{ $field->name }}),
 @elseif(!$field->hidden && $field->name !== "id")
 			'{{ $field->name }}' => ${{ camel_case($entityClass) }}->{{ $field->name }},
 @endif
