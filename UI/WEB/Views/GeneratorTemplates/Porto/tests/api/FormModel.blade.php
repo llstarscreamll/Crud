@@ -20,6 +20,8 @@ class {{ $gen->entityName() }}FormModelCest
     public function _before(ApiTester $I)
     {
         $this->user = $I->loginAdminUser();
+        
+        $I->haveHttpHeader('Accept', 'application/json');
     }
 
     public function _after(ApiTester $I)

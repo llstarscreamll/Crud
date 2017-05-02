@@ -25,6 +25,8 @@ class {{ $gen->entityName() }}FormDataCest
         factory(\{{ $field->namespace }}::class, 4)->create();
 @endif
 @endforeach
+
+        $I->haveHttpHeader('Accept', 'application/json');
     }
 
     public function _after(ApiTester $I)
