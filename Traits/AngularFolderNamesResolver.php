@@ -90,11 +90,9 @@ trait AngularFolderNamesResolver
 
     public function ngSlugModuleFromNamespace(string $namespace, bool $plural = false)
     {
-        // $namespace = "App\Containers\ColombianSetting\Models\DocumentType";
         $module = str_replace('App\Containers\\', '', $namespace);
         $start = strpos($module, '\\');
         $module = substr($module, 0, $start);
-        //dd($namespace, $start, $module, substr($module, 0, $start));
 
         $module = $plural
             ? str_plural($module)
