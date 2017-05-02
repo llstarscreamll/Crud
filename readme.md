@@ -163,7 +163,7 @@ The generated container intends to follow the [PORTO](https://github.com/Porto-S
             └── Views
 ```
 
-If the given table has the `deleted_at` column, the model will append a `TrashedCriteria` on de repository, so you will need the next file in the repective path:
+If the given table has the `deleted_at` column, the model will append a `TrashedCriteria` on the repository, so you will need the next file in the repective path:
 
 ```php
 <?php
