@@ -209,6 +209,10 @@ trait DataGenerator
             return 'null';
         }
 
+        if (str_contains($field->validation_rules, 'email')) {
+            return '$faker->email';
+        }
+
         if ($field->type == 'timestamp' || $field->type == 'datetime') {
             return $onlyFaker ? '$faker->date(\'Y-m-d H:i:s\')' : '$date->toDateTimeString()';
         }
