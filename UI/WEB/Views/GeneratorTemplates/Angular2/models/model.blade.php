@@ -1,7 +1,7 @@
 import { Timestamps } from './../../core/models/date';
-@foreach ($fields as $field)
+@foreach ($fields->unique('namespace') as $field)
 @if (!empty($field->relation))
-import { {{ class_basename($field->namespace) }} } from './../../{{ $gen->slugModuleName() }}/models/{{ camel_case(class_basename($field->namespace)) }}';
+import { {{ class_basename($field->namespace) }} } from './../../{{ $gen->ngSlugModuleFromNamespace($field->namespace) }}/models/{{ camel_case(class_basename($field->namespace)) }}';
 @endif
 @endforeach
 
