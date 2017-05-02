@@ -2,7 +2,7 @@
 
 namespace App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }};
 
-@foreach ($fields as $field)
+@foreach ($fields->unique('namespace') as $field)
 @if ($field->namespace)
 use {{ $gen->namespacedRepoFromModelNamespace($field->namespace) }};
 use {{ $gen->namespacedTransformerFromModelNamespace($field->namespace) }};
@@ -20,23 +20,23 @@ class {{ $gen->actionClass('FormData', false, true) }} extends Action
 	 * Creates new {{ $gen->actionClass('FormData', false, true) }} class instance.
 	 */
 	public function __construct(
-@foreach ($fields->filter(function($value) {return $value->namespace;}) as $field)
+@foreach ($fields->filter(function($value) {return $value->namespace;})->unique('namespace') as $field)
 @if ($field->namespace)
 		{{ class_basename($namespace = $gen->namespacedRepoFromModelNamespace($field->namespace)) }} {{ $gen->variableFromNamespace($namespace) }} {{ $loop->last === true ? '' : ',' }}
 @endif
 @endforeach
 	) {
-@foreach ($fields as $field)
+@foreach ($fields->unique('namespace') as $field)
 @if ($field->namespace)
 		{!! str_replace('$', '$this->', $gen->variableFromNamespace($namespace = $gen->namespacedRepoFromModelNamespace($field->namespace))) !!} = {{ $gen->variableFromNamespace($namespace) }};
 @endif
-@endforeach	
+@endforeach
 	}
 
 	public function run()
 	{
 		return [
-@foreach ($fields as $field)
+@foreach ($fields->unique('namespace') as $field)
 @if ($field->namespace)
 			'{!! studly_case(str_replace(['$'], [''], $gen->variableFromNamespace($field->namespace, false))) !!}' => Fractal::create(
 				app({{ class_basename($gen->namespacedRepoFromModelNamespace($field->namespace)) }}::class)->all(['id', 'name']),

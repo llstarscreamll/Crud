@@ -3,7 +3,7 @@
 namespace App\Containers\{{ $gen->containerName() }}\UI\API\Transformers;
 
 use App\Ship\Parents\Transformers\Transformer;
-@foreach ($fields as $field)
+@foreach ($fields->unique('namespace') as $field)
 @if ($field->namespace)
 use {{ str_replace('Models', 'UI\API\Transformers', $field->namespace) }}Transformer;
 @endif
