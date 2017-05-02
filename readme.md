@@ -1,6 +1,6 @@
 # CRUD Container for [apiato 4.0.2](https://github.com/apiato/apiato)
 
-This is a [PORTO](https://github.com/Porto-SAP/Documentation) Container for [apiato 4.0.2](https://github.com/apiato/apiato) to scaffold you applications, at the moment the package generates the API routes only, and generates an Angular 2+ module that consumes the generated API. There is a lot of work to do, pull requests are very welcome!! ^_^
+This is a [PORTO](https://github.com/Porto-SAP/Documentation) Container for [apiato 4.0.2](https://github.com/apiato/apiato) to scaffold you applications, at the moment the package generates the API stuff only, and generates an Angular 2+ module that consumes the generated API. There is a lot of work to do, pull requests are very welcome!! ^_^
 
 If you don't know apiato already, go to the [apiato DOCS site](http://apiato.io/) and give it a try, it's an amazing project!!
 
@@ -52,113 +52,174 @@ The generated code will be:
 The generated container intends to follow the [PORTO](https://github.com/Porto-SAP/Documentation) architectural pattern. A small difference with the **apiato** containers is that tests are generated with [Codeception](http://codeception.com/) unless **phpunit**, these tests are name spaced with the container name. The generated API has some end points useful to work with the generated Angular 2+ module, e.g. serving a entity "Form Model" to build forms from server without update the Angular module, and serve the form data dependencies like some DB users list options or something else. Obviosly the from builder on the Angular side is providen by the [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) project, the generated Angular module fits very well with this project.
 
 ```bash
-Library/
-├── Actions
-│   └── Book
-│       ├── BookFormDataAction.php
-│       ├── CreateBookAction.php
-│       ├── DeleteBookAction.php
-│       ├── GetBookAction.php
-│       ├── ListAndSearchBooksAction.php
-│       ├── RestoreBookAction.php
-│       └── UpdateBookAction.php
-├── codeception.yml
-├── composer.json
-├── Configs
-│   └── book-form-model.php
-├── Data
-│   ├── Criterias
-│   ├── Factories
-│   │   └── BookFactory.php
-│   ├── Migrations
-│   ├── Repositories
-│   │   └── BookRepository.php
-│   └── Seeders
-├── Exceptions
-│   ├── BookCreationFailedException.php
-│   └── BookNotFoundException.php
-├── Models
-│   └── Book.php
-├── Tasks
-│   └── Book
-│       ├── CreateBookTask.php
-│       ├── DeleteBookTask.php
-│       ├── GetBookTask.php
-│       ├── ListAndSearchBooksTask.php
-│       ├── RestoreBookTask.php
-│       └── UpdateBookTask.php
-├── tests
-│   ├── acceptance
-│   │   └── _bootstrap.php
-│   ├── acceptance.suite.yml
-│   ├── api
-│   │   ├── Book
-│   │   │   ├── BookFormDataCest.php
-│   │   │   ├── BookFormModelCest.php
-│   │   │   ├── CreateBookCest.php
-│   │   │   ├── DeleteBookCest.php
-│   │   │   ├── GetBookCest.php
-│   │   │   ├── ListAndSearchBooksCest.php
-│   │   │   ├── RestoreBookCest.php
-│   │   │   └── UpdateBookCest.php
-│   │   └── _bootstrap.php
-│   ├── api.suite.yml
-│   ├── _bootstrap.php
-│   ├── _data
-│   │   └── dump.sql
-│   ├── _envs
-│   ├── functional
-│   │   └── _bootstrap.php
-│   ├── functional.suite.yml
-│   ├── _output
-│   ├── _support
-│   │   ├── AcceptanceTester.php
-│   │   ├── ApiTester.php
-│   │   ├── FunctionalTester.php
-│   │   ├── _generated
-│   │   │   ├── AcceptanceTesterActions.php
-│   │   │   ├── ApiTesterActions.php
-│   │   │   ├── FunctionalTesterActions.php
-│   │   │   └── UnitTesterActions.php
-│   │   ├── Helper
-│   │   │   ├── Acceptance.php
-│   │   │   ├── Api.php
-│   │   │   ├── Functional.php
-│   │   │   ├── Unit.php
-│   │   │   └── UserHelper.php
-│   │   └── UnitTester.php
-│   ├── unit
-│   │   └── _bootstrap.php
-│   └── unit.suite.yml
-└── UI
-    ├── API
-    │   ├── Controllers
-    │   │   └── BookController.php
-    │   ├── Requests
-    │   │   └── Book
-    │   │       ├── CreateBookRequest.php
-    │   │       ├── DeleteBookRequest.php
-    │   │       ├── GetBookRequest.php
-    │   │       ├── ListAndSearchBooksRequest.php
-    │   │       ├── RestoreBookRequest.php
-    │   │       └── UpdateBookRequest.php
-    │   ├── Routes
-    │   │   ├── BookFormData.v1.private.php
-    │   │   ├── BookFormModel.v1.private.php
-    │   │   ├── CreateBook.v1.private.php
-    │   │   ├── DeleteBook.v1.private.php
-    │   │   ├── GetBook.v1.private.php
-    │   │   ├── ListAndSearchBooks.v1.private.php
-    │   │   ├── RestoreBook.v1.private.php
-    │   │   └── UpdateBook.v1.private.php
-    │   └── Transformers
-    │       └── BookTransformer.php
-    ├── CLI
-    └── WEB
-        ├── Controllers
-        ├── Requests
-        ├── Routes
-        └── Views
+|─── Library
+    ├── Actions
+    │   └── Book
+    │       ├── BookFormDataAction.php
+    │       ├── CreateBookAction.php
+    │       ├── DeleteBookAction.php
+    │       ├── GetBookAction.php
+    │       ├── ListAndSearchBooksAction.php
+    │       ├── RestoreBookAction.php
+    │       └── UpdateBookAction.php
+    ├── codeception.yml
+    ├── composer.json
+    ├── Configs
+    │   └── book-form-model.php
+    ├── Data
+    │   ├── Criterias
+    │   │   └── Book
+    │   │       └── AdvancedBookSearchCriteria.php
+    │   ├── Factories
+    │   │   └── BookFactory.php
+    │   ├── Migrations
+    │   ├── Repositories
+    │   │   └── BookRepository.php
+    │   └── Seeders
+    ├── Exceptions
+    │   ├── BookCreationFailedException.php
+    │   └── BookNotFoundException.php
+    ├── Models
+    │   └── Book.php
+    ├── Tasks
+    │   └── Book
+    │       ├── CreateBookTask.php
+    │       ├── DeleteBookTask.php
+    │       ├── GetBookTask.php
+    │       ├── ListAndSearchBooksTask.php
+    │       ├── RestoreBookTask.php
+    │       └── UpdateBookTask.php
+    ├── tests
+    │   ├── acceptance
+    │   │   └── _bootstrap.php
+    │   ├── acceptance.suite.yml
+    │   ├── api
+    │   │   ├── Book
+    │   │   │   ├── BookFormDataCest.php
+    │   │   │   ├── BookFormModelCest.php
+    │   │   │   ├── CreateBookCest.php
+    │   │   │   ├── DeleteBookCest.php
+    │   │   │   ├── GetBookCest.php
+    │   │   │   ├── ListAndSearchBooksCest.php
+    │   │   │   ├── RestoreBookCest.php
+    │   │   │   └── UpdateBookCest.php
+    │   │   └── _bootstrap.php
+    │   ├── api.suite.yml
+    │   ├── _bootstrap.php
+    │   ├── _data
+    │   │   └── dump.sql
+    │   ├── _envs
+    │   ├── functional
+    │   │   └── _bootstrap.php
+    │   ├── functional.suite.yml
+    │   ├── _output
+    │   ├── _support
+    │   │   ├── AcceptanceTester.php
+    │   │   ├── ApiTester.php
+    │   │   ├── FunctionalTester.php
+    │   │   ├── _generated
+    │   │   │   ├── AcceptanceTesterActions.php
+    │   │   │   ├── ApiTesterActions.php
+    │   │   │   ├── FunctionalTesterActions.php
+    │   │   │   └── UnitTesterActions.php
+    │   │   ├── Helper
+    │   │   │   ├── Acceptance.php
+    │   │   │   ├── Api.php
+    │   │   │   ├── Functional.php
+    │   │   │   ├── Unit.php
+    │   │   │   └── UserHelper.php
+    │   │   └── UnitTester.php
+    │   ├── unit
+    │   │   └── _bootstrap.php
+    │   └── unit.suite.yml
+    └── UI
+        ├── API
+        │   ├── Controllers
+        │   │   └── BookController.php
+        │   ├── Requests
+        │   │   └── Book
+        │   │       ├── CreateBookRequest.php
+        │   │       ├── DeleteBookRequest.php
+        │   │       ├── GetBookRequest.php
+        │   │       ├── ListAndSearchBooksRequest.php
+        │   │       ├── RestoreBookRequest.php
+        │   │       └── UpdateBookRequest.php
+        │   ├── Routes
+        │   │   ├── BookFormData.v1.private.php
+        │   │   ├── BookFormModel.v1.private.php
+        │   │   ├── CreateBook.v1.private.php
+        │   │   ├── DeleteBook.v1.private.php
+        │   │   ├── GetBook.v1.private.php
+        │   │   ├── ListAndSearchBooks.v1.private.php
+        │   │   ├── RestoreBook.v1.private.php
+        │   │   └── UpdateBook.v1.private.php
+        │   └── Transformers
+        │       └── BookTransformer.php
+        ├── CLI
+        └── WEB
+            ├── Controllers
+            ├── Requests
+            ├── Routes
+            └── Views
+```
+
+If the given table has the `deleted_at` column, the model will append a `TrashedCriteria` on de repository, so you will need the next file in the repective path:
+
+```php
+<?php
+
+namespace App\Ship\Criterias\Eloquent;
+
+use App\Ship\Parents\Criterias\Criteria;
+use Illuminate\Support\Facades\DB;
+use Prettus\Repository\Contracts\RepositoryInterface as PrettusRepositoryInterface;
+
+/**
+ * Class TrashedCriteria
+ *
+ * @author Johan Alvarez <llstarscreaml@hotmail.com>
+ */
+class TrashedCriteria extends Criteria
+{
+
+    /**
+     * @var
+     */
+    private $trashed;
+
+    /**
+     * ThisFieldCriteria constructor.
+     *
+     * @param $trashed
+     */
+    public function __construct($trashed)
+    {
+        $this->trashed = $trashed;
+    }
+
+    /**
+     * @param                                                   $model
+     * @param \Prettus\Repository\Contracts\RepositoryInterface $repository
+     *
+     * @return  mixed
+     */
+    public function apply($model, PrettusRepositoryInterface $repository)
+    {
+        switch ($this->trashed) {
+            case 'withTrashed':
+                return $model->withTrashed();
+                break;
+
+            case 'onlyTrashed':
+                return $model->onlyTrashed();
+                break;
+            
+            default:
+                return $model;
+                break;
+        }
+    }
+}
 ```
 
 ### Angular 2+ Module
@@ -246,22 +307,4 @@ To execute the packages tests, go to the package `app/Containers/Crud` folder an
 
 ```bash
 codecept run functional
-```
-
-Here are some quick data to test the generated Angular 2+ create/update components from the functional tests:
-
-```javascript
-this.bookForm.patchValue({
-  reason_id: 1,
-  name: 'Foo',
-  author: 'Bar',
-  genre: 'thriller',
-  stars: 3,
-  published_year: '2012-12-12',
-  enabled: true,
-  status: 'waiting_confirmation',
-  unlocking_word: 'foo',
-  unlocking_word_confirmation: 'foo',
-  synopsis: 'text'
-});
 ```
