@@ -149,7 +149,7 @@ class GeneratorController extends WebController
 
         $modelGenerator = new ModelGenerator($request);
 
-        $data['fields'] = array_values($modelGenerator->fields($request->get('table_name')));
+        $data['fields'] = $modelGenerator->fields($request->get('table_name'));
         $data['table_name'] = $request->get('table_name');
         $data['UI_themes'] = [];
 

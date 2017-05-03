@@ -63,16 +63,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for($i = 0; $i < count($fields); $i++)
+                    @foreach($fields as $field => $fieldData)
                     <tr>
                         <td>
-                            {!! Form::text("field[$i][name]", $fields[$i]->name, ['class' => 'form-control input-xs']) !!}
+                            {!! Form::text("field[$field][name]", $field, ['class' => 'form-control input-xs']) !!}
                         </td>
                         <td>
-                            {!! Form::text("field[$i][type]", $fields[$i]->type, ['class' => 'form-control input-xs input-text-medium']) !!}
+                            {!! Form::text("field[$field][type]", $fieldData->type, ['class' => 'form-control input-xs input-text-medium']) !!}
                         </td>
                         <td>
-                            {!! Form::checkbox("field[$i][required]", $fields[$i]->required, $fields[$i]->required, [
+                            {!! Form::checkbox("field[$field][required]", $fieldData->required, $fieldData->required, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
                                 'data-on-text' => 'Yes',
@@ -80,19 +80,19 @@
                             ]) !!}
                         </td>
                         <td class="hidden">
-                            {!! Form::text("field[$i][defValue]", $fields[$i]->defValue, ['class' => 'form-control input-xs input-text-short']) !!}
+                            {!! Form::text("field[$field][defValue]", $fieldData->defValue, ['class' => 'form-control input-xs input-text-short']) !!}
                         </td>
                         <td class="hidden">
-                            {!! Form::text("field[$i][key]", $fields[$i]->key, ['class' => 'form-control input-xs input-text-extra-short', 'maxlength' => 3]) !!}
+                            {!! Form::text("field[$field][key]", $fieldData->key, ['class' => 'form-control input-xs input-text-extra-short', 'maxlength' => 3]) !!}
                         </td>
                         <td class="hidden">
-                            {!! Form::number("field[$i][maxLength]", $fields[$i]->maxLength, ['class' => 'form-control input-xs']) !!}
+                            {!! Form::number("field[$field][maxLength]", $fieldData->maxLength, ['class' => 'form-control input-xs']) !!}
                         </td>
                         <td>
-                            {!! Form::text("field[$i][namespace]", null, ['class' => 'form-control input-xs']) !!}
+                            {!! Form::text("field[$field][namespace]", null, ['class' => 'form-control input-xs']) !!}
                         </td>
                         <td>
-                            {!! Form::select("field[$i][relation]",
+                            {!! Form::select("field[$field][relation]",
                                 [
                                 '' => '---',
                                 'hasOne' => 'hasOne',
@@ -105,7 +105,7 @@
                             ) !!}
                         </td>
                         <td>
-                            {!! Form::checkbox("field[$i][fillable]", true, null, [
+                            {!! Form::checkbox("field[$field][fillable]", true, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
                                 'data-on-text' => 'Yes',
@@ -113,7 +113,7 @@
                             ]) !!}
                         </td>
                         <td>
-                            {!! Form::checkbox("field[$i][hidden]", true, null, [
+                            {!! Form::checkbox("field[$field][hidden]", true, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
                                 'data-on-text' => 'Yes',
@@ -121,7 +121,7 @@
                             ]) !!}
                         </td>
                         <td>
-                            {!! Form::checkbox("field[$i][on_index_table]", true, null, [
+                            {!! Form::checkbox("field[$field][on_index_table]", true, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
                                 'data-on-text' => 'Yes',
@@ -129,7 +129,7 @@
                             ]) !!}
                         </td>
                         <td>
-                            {!! Form::checkbox("field[$i][on_create_form]", true, null, [
+                            {!! Form::checkbox("field[$field][on_create_form]", true, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
                                 'data-on-text' => 'Yes',
@@ -137,7 +137,7 @@
                             ]) !!}
                         </td>
                         <td>
-                            {!! Form::checkbox("field[$i][on_update_form]", true, null, [
+                            {!! Form::checkbox("field[$field][on_update_form]", true, null, [
                                 'class' => 'bootstrap_switch',
                                 'data-size' => 'mini',
                                 'data-on-text' => 'Yes',
@@ -145,13 +145,13 @@
                             ]) !!}
                         </td>
                         <td>
-                            {!! Form::text("field[$i][label]", null, ['class' => 'form-control input-xs', 'required', 'placeholder' => $fields[$i]->name.' label']) !!}
+                            {!! Form::text("field[$field][label]", null, ['class' => 'form-control input-xs', 'required', 'placeholder' => $field.' label']) !!}
                         </td>
                         <td>
-                            {!! Form::text("field[$i][validation_rules]", null, ['class' => 'form-control input-xs', 'placeholder' => $fields[$i]->name.' rules']) !!}
+                            {!! Form::text("field[$field][validation_rules]", null, ['class' => 'form-control input-xs', 'placeholder' => $field.' rules']) !!}
                         </td>
                     </tr>
-                    @endfor
+                    @endforeach
                 </tbody>
                 <tfoot>
                 </tfoot>
