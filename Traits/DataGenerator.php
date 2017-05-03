@@ -98,7 +98,7 @@ trait DataGenerator
             $fieldConfig['name'] = $field->name;
             $fieldConfig['type'] = $this->getWidgetType($field);
             $fieldConfig['placeholder'] = '';
-            $fieldConfig['value'] = '';
+            $fieldConfig['value'] = $field->defValue;
             $fieldConfig['min'] = '';
             $fieldConfig['max'] = '';
 
