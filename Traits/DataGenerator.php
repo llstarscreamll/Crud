@@ -156,7 +156,7 @@ trait DataGenerator
 
         switch ($field->type) {
             case 'enum':
-                $type = "radiobutton";
+                $type = "radio";
                 break;
 
             case 'bigint':
