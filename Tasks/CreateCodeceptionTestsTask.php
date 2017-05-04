@@ -73,6 +73,7 @@ class CreateCodeceptionTestsTask
         $this->configureCodeceptSuite('api', $this->getApiSuiteModules());
         $this->configureCodeceptSuite('functional', $this->getFunctionalSuiteModules());
         $this->copyRootBoostrapFile();
+        $this->generateEntityHelper();
 
         // builds Codeception suites
         exec("cd {$this->containerFolder()} && {$this->codecept} build");
@@ -128,12 +129,26 @@ class CreateCodeceptionTestsTask
 
     public function copyRootBoostrapFile()
     {
-        $fileContents = view($this->templatesDir().'.Porto/tests/_bootstrap', [
-                'gen' => $this,
-                'fields' => $this->parseFields($this->request)
-            ]);
+        $fileContents = view($this->templatesDir().'.Porto.tests._bootstrap', [
+            'gen' => $this,
+            'fields' => $this->parseFields($this->request)
+        ]);
 
         file_put_contents($this->testsFolder().'/_bootstrap.php', $fileContents);
+    }
+
+    public function generateEntityHelper()
+    {
+        $template = $this->templatesDir().'.Porto.tests._support.Helper.-entity-Helper';
+        $fileName = str_replace('-entity-', $this->entityName(), '-entity-Helper.php');
+        $filePath = $this->testsFolder().'/_support/Helper/'.$fileName;
+        
+        $fileContents = view($template, [
+            'gen' => $this,
+            'fields' => $this->parseFields($this->request)
+        ]);
+
+        file_put_contents($filePath, $fileContents);
     }
 
     /**
@@ -144,6 +159,7 @@ class CreateCodeceptionTestsTask
     private function getApiSuiteModules()
     {
         return "\n".
+            "        - \\{$this->containerName()}\Helper\\{$this->entityName()}Helper\n".
             "        - \App\Ship\Tests\Codeception\UserHelper\n".
             "        - Asserts\n".
             "        - REST:\n".

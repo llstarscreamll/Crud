@@ -20,12 +20,7 @@ class {{ $gen->entityName() }}FormDataCest
     public function _before(ApiTester $I)
     {
         $this->user = $I->loginAdminUser();
-@foreach ($fields as $field)
-@if($field->namespace)
-        factory(\{{ $field->namespace }}::class, 4)->create();
-@endif
-@endforeach
-
+        $this->initData();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 
