@@ -179,7 +179,8 @@ class CreateCodeceptionTestsTask
     private function getFunctionalSuiteModules()
     {
         return "\n".
-            "        - \\{$this->containerName()}\Helper\UserHelper\n".
+            "        - \\{$this->containerName()}\Helper\\{$this->entityName()}Helper\n".
+            "        - \App\Ship\Tests\Codeception\UserHelper\n".
             "        - Asserts\n".
             "        - Laravel5:\n".
             "            environment_file: .env.testing\n".
