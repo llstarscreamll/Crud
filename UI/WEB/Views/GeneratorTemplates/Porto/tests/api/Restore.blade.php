@@ -20,7 +20,7 @@ class Restore{{ $gen->entityName() }}Cest
     public function _before(ApiTester $I)
     {
     	$this->user = $I->loginAdminUser();
-        $this->initData();
+        $I->initData();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 
