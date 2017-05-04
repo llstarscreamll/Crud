@@ -72,7 +72,7 @@ class CreateCodeceptionTestsTask
 
         $this->configureCodeceptSuite('api', $this->getApiSuiteModules());
         $this->configureCodeceptSuite('functional', $this->getFunctionalSuiteModules());
-        $this->generateUserHelper();
+        $this->copyRootBoostrapFile();
 
         // builds Codeception suites
         exec("cd {$this->containerFolder()} && {$this->codecept} build");
@@ -117,7 +117,8 @@ class CreateCodeceptionTestsTask
     {
         $suiteContent = file_get_contents($this->containerFolder()."/tests/$suite.suite.yml");
 
-        if (strpos($suiteContent, $modules) === false) {
+        // if the suit content has enabled the Laravel5 module, don't modify the file
+        if (strpos($suiteContent, '- Laravel5:') === false) {
             $suiteContent .= $modules;
             file_put_contents($this->containerFolder()."/tests/$suite.suite.yml", $suiteContent);
         } else {
@@ -125,23 +126,14 @@ class CreateCodeceptionTestsTask
         }
     }
 
-    /**
-     * [generateUserHelper description]
-     * @return [type] [description]
-     */
-    private function generateUserHelper()
+    public function copyRootBoostrapFile()
     {
-        $helperFile = $this->testsFolder()."/_support/Helper/UserHelper.php";
-        $template = $this->templatesDir().'.Porto/tests/_support/Helper/UserHelper';
-
-        $content = view($template, [
-            'gen' => $this,
-            'fields' => $this->parseFields($this->request)
+        $fileContents = view($this->templatesDir().'.Porto/tests/_bootstrap', [
+                'gen' => $this,
+                'fields' => $this->parseFields($this->request)
             ]);
 
-        file_put_contents($helperFile, $content) === false
-            ? session()->push('error', "Error creating UserHelper test file")
-            : session()->push('success', "UserHelper test file creation success");
+        file_put_contents($this->testsFolder().'/_bootstrap.php', $fileContents);
     }
 
     /**
@@ -152,7 +144,7 @@ class CreateCodeceptionTestsTask
     private function getApiSuiteModules()
     {
         return "\n".
-            "        - \\{$this->containerName()}\Helper\UserHelper\n".
+            "        - \App\Ship\Tests\Codeception\UserHelper\n".
             "        - Asserts\n".
             "        - REST:\n".
             "            depends: Laravel5\n".
