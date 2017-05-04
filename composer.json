@@ -1,6 +1,6 @@
 {
-    "name":    "llstarscreamll/CrudGenerator",
-    "version": "2.0",
+    "name":    "llstarscreamll/Crud",
+    "version": "3.0",
     "type":    "php-library",
     "license": "MIT",
     "description": "Generador de aplicaciones CRUD para Laravel 5.4",
@@ -22,11 +22,6 @@
         "laravelcollective/html": "5.4.*"
     },
     "require-dev": {},
-    "autoload": {
-        "psr-4": {
-            "llstarscreamll\\Crud\\": "src/"
-        }
-    },
     "minimum-stability": "stable",
     "prefer-stable": true
 }
