@@ -28,7 +28,7 @@ class {{ $gen->entityName() }}FormDataCest
     {
     }
 
-    public function tryToTestCreate{{ $gen->entityName() }}(ApiTester $I)
+    public function tryToGet{{ $gen->entityName() }}FormData(ApiTester $I)
     {
         $I->sendGET($this->endpoint);
 

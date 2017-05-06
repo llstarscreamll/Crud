@@ -49,6 +49,13 @@ class CreateNgTranslationsTask
     private $indexClassTemplate = "...:class";
 
     /**
+     * The parsed fields from request.
+     *
+     * @var Illuminate\Support\Collection
+     */
+    public $parsedFields;
+
+    /**
      * Create new CreateNgTranslationsTask instance.
      *
      * @param Request $request
@@ -58,6 +65,7 @@ class CreateNgTranslationsTask
         $this->request = $request;
         $this->container = studly_case($request->get('is_part_of_package'));
         $this->tableName = $this->request->get('table_name');
+        $this->parsedFields = $this->parseFields($this->request);
     }
 
     /**
@@ -70,7 +78,6 @@ class CreateNgTranslationsTask
         $className = $this->entityNameSnakeCase();
         $fileName = './'.$this->slugEntityName();
 
-
         $this->setupIndexFile($indexFilePath, $template, $className, $fileName);
 
         foreach ($this->files as $file) {
@@ -79,7 +86,7 @@ class CreateNgTranslationsTask
 
             $content = view($template, [
                 'gen' => $this,
-                'fields' => $this->parseFields($this->request)
+                'fields' => $this->parsedFields
             ]);
 
             file_put_contents($transFile, $content) === false

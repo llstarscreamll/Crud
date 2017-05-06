@@ -45,7 +45,19 @@ class CreateCodeceptionTestsTask
         'FormData',
     ];
 
+    /**
+     * Codeception Executable path.
+     *
+     * @var string
+     */
     private $codecept = "/home/vagrant/.composer/vendor/bin/codecept";
+
+    /**
+     * The parsed fields from request.
+     *
+     * @var Illuminate\Support\Collection
+     */
+    public $parsedFields;
 
     /**
      * Create new CreateCodeceptionTestsTask instance.
@@ -57,6 +69,7 @@ class CreateCodeceptionTestsTask
         $this->request = $request;
         $this->container = studly_case($request->get('is_part_of_package'));
         $this->tableName = $this->request->get('table_name');
+        $this->parsedFields = $this->parseFields($this->request);
     }
 
     /**
@@ -131,7 +144,7 @@ class CreateCodeceptionTestsTask
     {
         $fileContents = view($this->templatesDir().'.Porto.tests._bootstrap', [
             'gen' => $this,
-            'fields' => $this->parseFields($this->request)
+            'fields' => $this->parsedFields
         ]);
 
         file_put_contents($this->testsFolder().'/_bootstrap.php', $fileContents);
@@ -145,7 +158,7 @@ class CreateCodeceptionTestsTask
         
         $fileContents = view($template, [
             'gen' => $this,
-            'fields' => $this->parseFields($this->request)
+            'fields' => $this->parsedFields
         ]);
 
         file_put_contents($filePath, $fileContents);
@@ -206,7 +219,7 @@ class CreateCodeceptionTestsTask
 
             $content = view($template, [
                 'gen' => $this,
-                'fields' => $this->parseFields($this->request)
+                'fields' => $this->parsedFields
             ]);
 
             file_put_contents($testFile, $content) === false

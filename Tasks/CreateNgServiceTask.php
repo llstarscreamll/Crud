@@ -35,6 +35,13 @@ class CreateNgServiceTask
     private $indexStrToreplace = "\nexport const SERVICES = [";
 
     /**
+     * The parsed fields from request.
+     *
+     * @var Illuminate\Support\Collection
+     */
+    public $parsedFields;
+
+    /**
      * Create new CreateNgServiceTask instance.
      *
      * @param Request $request
@@ -44,6 +51,7 @@ class CreateNgServiceTask
         $this->request = $request;
         $this->container = studly_case($request->get('is_part_of_package'));
         $this->tableName = $this->request->get('table_name');
+        $this->parsedFields = $this->parseFields($this->request);
     }
 
     /**
@@ -65,7 +73,7 @@ class CreateNgServiceTask
 
         $content = view($template, [
             'gen' => $this,
-            'fields' => $this->parseFields($this->request)
+            'fields' => $this->parsedFields
         ]);
 
         file_put_contents($serviceFile, $content) === false

@@ -39,6 +39,13 @@ class CreateNgUtilsTask
     ];
 
     /**
+     * The parsed fields from request.
+     *
+     * @var Illuminate\Support\Collection
+     */
+    public $parsedFields;
+
+    /**
      * Create new CreateNgUtilsTask instance.
      *
      * @param Request $request
@@ -48,6 +55,7 @@ class CreateNgUtilsTask
         $this->request = $request;
         $this->container = studly_case($request->get('is_part_of_package'));
         $this->tableName = $this->request->get('table_name');
+        $this->parsedFields = $this->parseFields($this->request);
     }
 
     /**
@@ -62,7 +70,7 @@ class CreateNgUtilsTask
             $content = view($template, [
                 'gen' => $this,
                 'request' => $this->request,
-                'fields' => $this->parseFields($this->request)
+                'fields' => $this->parsedFields
             ]);
 
             file_put_contents($containerFile, $content) === false

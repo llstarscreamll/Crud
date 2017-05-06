@@ -28,7 +28,7 @@ class {{ $gen->entityName() }}FormModelCest
     {
     }
 
-    public function tryToRequestFormModelConfig{{ $gen->entityName() }}(ApiTester $I)
+    public function tryToGetFormModelConfig{{ $gen->entityName() }}(ApiTester $I)
     {        
         $I->sendGET($this->endpoint);
 
