@@ -273,6 +273,7 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($apiDir.'/Transformers'), 'API/Transformers dir');
         $I->seeFileFound('BookTransformer.php', $apiDir.'/Transformers');
 
+        /* nothing generated here...
         // WEB folders
         $uiWebDir = $containersDir.$this->package.'/UI/WEB';
         $I->assertTrue(file_exists($uiWebDir), 'UI/WEB dir');
@@ -280,6 +281,7 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($uiWebDir.'/Requests'), 'WEB/Requests dir');
         $I->assertTrue(file_exists($uiWebDir.'/Routes'), 'WEB/Routes dir');
         $I->assertTrue(file_exists($uiWebDir.'/Views'), 'WEB/Views dir');
+        */
 
         // CLI folders
         $I->assertTrue(file_exists($containersDir.$this->package.'/UI/CLI'), 'UI/CLI dir');

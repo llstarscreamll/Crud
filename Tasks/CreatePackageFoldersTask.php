@@ -132,7 +132,7 @@ class CreatePackageFoldersTask
         if (!file_exists($this->cliFolder())) {
             mkdir($this->cliFolder());
         }
-
+/*
         // Generate UI/WEB folder
         if (!file_exists($this->webFolder())) {
             mkdir($this->webFolder());
@@ -157,7 +157,7 @@ class CreatePackageFoldersTask
         if (!file_exists($this->webViewsFolder())) {
             mkdir($this->webViewsFolder());
         }
-
+*/
         return true;
     }
 }
