@@ -34,10 +34,18 @@ Now from the apiato root folder:
 
 ```bash
 git clone https://github.com/llstarscreamll/Crud.git app/Containers/Crud
-# this will add a Codeception Helper and Trashed criteira on Ship folder
-php artisan vendor:publish --provider="App\Containers\Crud\Providers\MainServiceProvider"
+# this will add a Codeception UserHelper and TrashedCriteira on Ship folder
+php artisan vendor:publish --provider="App\Containers\Crud\Providers\MainServiceProvider" --tag=classes
 composer update
 ```
+
+If you want to customize the code templates, run this command:
+
+```bash
+php artisan vendor:publish --provider="App\Containers\Crud\Providers\MainServiceProvider" --tag=templates
+```
+
+And go to `apiato/resources/vendor/crud` and make your convinience modifications.
 
 Now go to `apiato.dev/crud` to start using the app.
 

@@ -40,13 +40,22 @@ class MainServiceProvider extends MainProvider
         parent::boot();
 
         if ($this->app->runningInConsole()) {
-            $stubs = __DIR__.'/../Stubs';
-            // stubs
+            $classes = __DIR__.'/../Stubs';
+            $generatorTemplates = __DIR__.'/../UI/WEB/Views/GeneratorTemplates';
+
+            // classes
             $this->publishes(
                 [
-                    $stubs => base_path(),
+                    $classes => base_path(),
                 ],
                 'classes'
+            );
+
+            $this->publishes(
+                [
+                    $generatorTemplates => resource_path('views/vendor/crud/GeneratorTemplates')
+                ],
+                'templates'
             );
         }
     }
