@@ -2,7 +2,7 @@
 
 namespace App\Containers\{{ $gen->containerName() }}\Data\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Ship\Parents\Seeders\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
