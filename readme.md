@@ -34,6 +34,8 @@ Now from the apiato root folder:
 
 ```bash
 git clone https://github.com/llstarscreamll/Crud.git app/Containers/Crud
+# this will add a Codeception Helper and Trashed criteira on Ship folder
+php artisan vendor:publish --provider="App\Containers\Crud\Providers\MainServiceProvider"
 composer update
 ```
 
@@ -161,65 +163,6 @@ The generated container intends to follow the [PORTO](https://github.com/Porto-S
             ├── Requests
             ├── Routes
             └── Views
-```
-
-If the given table has the `deleted_at` column, the model will append a `TrashedCriteria` on the repository, so you will need the next file in the repective path:
-
-```php
-<?php
-
-namespace App\Ship\Criterias\Eloquent;
-
-use App\Ship\Parents\Criterias\Criteria;
-use Illuminate\Support\Facades\DB;
-use Prettus\Repository\Contracts\RepositoryInterface as PrettusRepositoryInterface;
-
-/**
- * Class TrashedCriteria
- *
- * @author Johan Alvarez <llstarscreaml@hotmail.com>
- */
-class TrashedCriteria extends Criteria
-{
-
-    /**
-     * @var
-     */
-    private $trashed;
-
-    /**
-     * ThisFieldCriteria constructor.
-     *
-     * @param $trashed
-     */
-    public function __construct($trashed)
-    {
-        $this->trashed = $trashed;
-    }
-
-    /**
-     * @param                                                   $model
-     * @param \Prettus\Repository\Contracts\RepositoryInterface $repository
-     *
-     * @return  mixed
-     */
-    public function apply($model, PrettusRepositoryInterface $repository)
-    {
-        switch ($this->trashed) {
-            case 'withTrashed':
-                return $model->withTrashed();
-                break;
-
-            case 'onlyTrashed':
-                return $model->onlyTrashed();
-                break;
-            
-            default:
-                return $model;
-                break;
-        }
-    }
-}
 ```
 
 ### Angular 2+ Module

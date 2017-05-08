@@ -8,8 +8,6 @@ use Collective\Html\HtmlServiceProvider;
 /**
  * Class MainServiceProvider.
  *
- * The Main Service Provider of this container, it will be automatically registered in the framework.
- *
  * @author  Johan Alvarez <llstarscreamll@hotmail.com>
  */
 class MainServiceProvider extends MainProvider
@@ -34,4 +32,22 @@ class MainServiceProvider extends MainProvider
         'Html' => \Collective\Html\HtmlFacade::class,
     ];
 
+    /**
+     * Perform post-registration booting of services.
+     */
+    public function boot()
+    {
+        parent::boot();
+
+        if ($this->app->runningInConsole()) {
+            $stubs = __DIR__.'/../Stubs';
+            // stubs
+            $this->publishes(
+                [
+                    $stubs => base_path(),
+                ],
+                'classes'
+            );
+        }
+    }
 }
