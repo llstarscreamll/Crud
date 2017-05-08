@@ -173,6 +173,19 @@ The generated container intends to follow the [PORTO](https://github.com/Porto-S
             └── Views
 ```
 
+If you have foreign keys on your table, the generated transformer will try to hash that foreign keys with this method that you must put in `App\Ship\Parents\Transformers\Transformer` abstract class:
+
+```php
+    public function hashKey($id)
+    {
+        if (config('apiato.hash-id')) {
+            return Hashids::encode($id);
+        }
+
+        return $id;
+    }
+```
+
 ### Angular 2+ Module
 
 > **NOTE:**
