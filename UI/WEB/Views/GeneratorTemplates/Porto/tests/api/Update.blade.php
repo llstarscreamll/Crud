@@ -40,7 +40,7 @@ class Update{{ $gen->entityName() }}Cest
         $newData->{{ $field->name }}_confirmation = $newData->{{ $field->name }};
 @endif
 @if($field->namespace)
-        $newData->{{ $field->name }} = Hashids::encode($newData->getAttributes()['{{ $field->name }}']);
+        $newData->{{ $field->name }} = $I->hashKey($newData->getAttributes()['{{ $field->name }}']);
 @endif
 @endforeach
 

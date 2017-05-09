@@ -39,7 +39,7 @@ class Create{{ $gen->entityName() }}Cest
         $data->{{ $field->name }}_confirmation = $data->{{ $field->name }};
 @endif
 @if($field->namespace)
-        $data->{{ $field->name }} = Hashids::encode($data->getAttributes()['{{ $field->name }}']);
+        $data->{{ $field->name }} = $I->hashKey($data->getAttributes()['{{ $field->name }}']);
 @endif
 @endforeach
 

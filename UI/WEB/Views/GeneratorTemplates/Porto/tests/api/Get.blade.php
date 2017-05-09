@@ -41,7 +41,7 @@ class Get{{ $gen->entityName() }}Cest
 
 @foreach ($fields as $field)
 @if(!$field->hidden && $field->namespace)
-        $I->seeResponseContainsJson(['{{ $field->name }}' => Hashids::encode($data->getAttributes()['{{ $field->name }}'])]);
+        $I->seeResponseContainsJson(['{{ $field->name }}' => $I->hashKey($data->getAttributes()['{{ $field->name }}'])]);
 @elseif(!$field->hidden && $field->name !== "id" && !in_array($field->type, ['timestamp', 'datetime', 'date']))
         $I->seeResponseContainsJson(['{{ $field->name }}' => $data->{{ $field->name }}]);
 @endif
