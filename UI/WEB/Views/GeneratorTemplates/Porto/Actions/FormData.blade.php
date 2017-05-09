@@ -25,7 +25,7 @@ class {{ $gen->actionClass('FormData', false, true) }} extends Action
 @if ($field->namespace)
 			'{!! studly_case(str_replace(['$'], [''], $gen->variableFromNamespace($field->namespace, false))) !!}' => Fractal::create(
 				app({{ class_basename($gen->namespacedRepoFromModelNamespace($field->namespace)) }}::class)->all(['id', 'name']),
-				{{ class_basename($gen->namespacedTransformerFromModelNamespace($field->namespace)) }}::class
+				new {{ class_basename($gen->namespacedTransformerFromModelNamespace($field->namespace)) }}()
 			)->toArray()['data'],
 @endif
 @endforeach	
