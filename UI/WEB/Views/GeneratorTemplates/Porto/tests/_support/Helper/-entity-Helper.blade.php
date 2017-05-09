@@ -12,6 +12,8 @@ use Artisan;
 
 /**
  * {{ $gen->entityName() }}Helper Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->entityName() }}Helper extends \Codeception\Module
 {

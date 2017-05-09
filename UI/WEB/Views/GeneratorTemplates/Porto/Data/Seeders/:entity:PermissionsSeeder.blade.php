@@ -8,6 +8,8 @@ use Spatie\Permission\Models\Role;
 
 /**
  * {{ $gen->entityName() }}PermissionsSeeder Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->entityName() }}PermissionsSeeder extends Seeder
 {

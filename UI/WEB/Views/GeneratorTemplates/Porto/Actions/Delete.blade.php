@@ -7,6 +7,8 @@ use App\Ship\Parents\Actions\Action;
 
 /**
  * {{ $gen->actionClass('Delete') }} Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->actionClass('Delete') }} extends Action
 {

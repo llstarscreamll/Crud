@@ -7,6 +7,8 @@ use App\Ship\Parents\Tasks\Task;
 
 /**
  * {{ $gen->taskClass('Delete') }} Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->taskClass('Delete') }} extends Task
 {

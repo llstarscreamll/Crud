@@ -13,6 +13,8 @@ use Fractal;
 
 /**
  * {{ $gen->actionClass('FormData', false, true) }} Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->actionClass('FormData', false, true) }} extends Action
 {

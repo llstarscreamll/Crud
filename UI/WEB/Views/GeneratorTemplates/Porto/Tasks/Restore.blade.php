@@ -7,6 +7,8 @@ use App\Ship\Parents\Tasks\Task;
 
 /**
  * {{ $gen->taskClass('Restore') }} Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->taskClass('Restore') }} extends Task
 {

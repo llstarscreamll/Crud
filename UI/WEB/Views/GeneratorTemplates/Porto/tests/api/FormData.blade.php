@@ -7,6 +7,8 @@ use {{ $gen->entityModelNamespace() }};
 
 /**
  * {{ $gen->entityName() }}FormDataCest Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->entityName() }}FormDataCest
 {

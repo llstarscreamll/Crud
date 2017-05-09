@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * {{ $gen->entityName() }}CreationFailedException Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->entityName() }}CreationFailedException extends Exception
 {

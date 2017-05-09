@@ -6,6 +6,8 @@ use App\Ship\Parents\Requests\Request;
 
 /**
  * {{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }} Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }} extends Request
 {

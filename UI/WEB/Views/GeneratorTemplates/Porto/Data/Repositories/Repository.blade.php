@@ -8,6 +8,8 @@ use App\Ship\Criterias\Eloquent\TrashedCriteria;
 
 /**
  * {{ $gen->entityName() }}Repository Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->entityName() }}Repository extends Repository
 {

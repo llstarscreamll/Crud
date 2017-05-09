@@ -7,6 +7,8 @@ use App\Ship\Parents\Actions\Action;
 
 /**
  * {{ $gen->actionClass('Get') }} Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->actionClass('Get') }} extends Action
 {

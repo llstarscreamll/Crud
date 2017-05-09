@@ -12,6 +12,8 @@ use App\Containers\{{ $gen->containerName() }}\Models\{{ $gen->entityName() }};
 
 /**
  * {{ $gen->entityName() }}Transformer Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->entityName() }}Transformer extends Transformer
 {

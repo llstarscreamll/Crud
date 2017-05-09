@@ -8,6 +8,8 @@ use App\Containers\{{ $gen->containerName() }}\Exceptions\{{ $gen->entityName() 
 
 /**
  * {{ $gen->taskClass('Create') }} Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->taskClass('Create') }} extends Task
 {

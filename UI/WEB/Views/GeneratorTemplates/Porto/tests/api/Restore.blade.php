@@ -7,6 +7,8 @@ use {{ $gen->entityModelNamespace() }};
 
 /**
  * Restore{{ $gen->entityName() }}Cest Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class Restore{{ $gen->entityName() }}Cest
 {

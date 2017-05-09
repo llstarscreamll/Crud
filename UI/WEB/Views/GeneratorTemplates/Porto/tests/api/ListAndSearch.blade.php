@@ -7,6 +7,8 @@ use {{ $gen->entityModelNamespace() }};
 
 /**
  * ListAndSearch{{ $gen->entityName() }}Cest Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class ListAndSearch{{ $gen->entityName(true) }}Cest
 {

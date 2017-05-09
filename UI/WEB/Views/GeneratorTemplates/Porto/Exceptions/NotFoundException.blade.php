@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * {{ $gen->entityName() }}NotFoundException Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->entityName() }}NotFoundException extends Exception
 {

@@ -7,6 +7,8 @@ use {{ $gen->entityModelNamespace() }};
 
 /**
  * Delete{{ $gen->entityName() }}Cest Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class Delete{{ $gen->entityName() }}Cest
 {

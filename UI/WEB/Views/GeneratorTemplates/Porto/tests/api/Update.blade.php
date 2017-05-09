@@ -8,6 +8,8 @@ use Vinkla\Hashids\Facades\Hashids;
 
 /**
  * Update{{ $gen->entityName() }}Cest Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class Update{{ $gen->entityName() }}Cest
 {

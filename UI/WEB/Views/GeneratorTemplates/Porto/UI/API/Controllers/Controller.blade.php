@@ -21,6 +21,8 @@ use Illuminate\Http\Request;
 
 /**
  * {{ $gen->entityName() }}Controller Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->entityName() }}Controller extends ApiController
 {

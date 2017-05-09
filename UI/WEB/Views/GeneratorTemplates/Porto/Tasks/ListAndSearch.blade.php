@@ -9,6 +9,8 @@ use Prettus\Repository\Criteria\RequestCriteria;
 
 /**
  * {{ $gen->taskClass('ListAndSearch', $plural = true) }} Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $gen->taskClass('ListAndSearch', $plural = true) }} extends Task
 {

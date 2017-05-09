@@ -8,6 +8,8 @@ use App\Ship\Parents\Criterias\Criteria;
 
 /**
  * {{ $criteria = str_replace('.php', '', $gen->criteriaFile('Advanced:entity:Search')) }} Class.
+ * 
+ * @author [name] <[<email address>]>
  */
 class {{ $criteria }} extends Criteria
 {
