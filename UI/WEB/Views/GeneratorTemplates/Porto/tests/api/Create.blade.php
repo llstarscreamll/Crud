@@ -38,7 +38,7 @@ class Create{{ $gen->entityName() }}Cest
 @if(strpos($field->validation_rules, 'confirmed') !== false)
         $data->{{ $field->name }}_confirmation = $data->{{ $field->name }};
 @endif
-@if($field->namespace)
+@if($field->namespace && $field->fillable)
         $data->{{ $field->name }} = $I->hashKey($data->getAttributes()['{{ $field->name }}']);
 @endif
 @endforeach
@@ -48,8 +48,10 @@ class Create{{ $gen->entityName() }}Cest
         $I->seeResponseCodeIs(200);
 
 @foreach ($fields as $field)
-@if(!$field->hidden && $field->namespace)
+@if(!$field->hidden && $field->namespace && $field->fillable)
         $I->seeResponseContainsJson(['{{ $field->name }}' => $data->getAttributes()['{{ $field->name }}']]);
+@elseif(!$field->hidden && !$field->fillable)
+        $I->seeResponseJsonMatchesXpath('{{ $field->name }}');
 @elseif(!$field->hidden && $field->name !== "id" && !in_array($field->type, ['timestamp', 'datetime', 'date']))
         $I->seeResponseContainsJson(['{{ $field->name }}' => $data->{{ $field->name }}]);
 @endif

@@ -29,7 +29,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Update', $plural = false)
     protected $decode = [
         'id',
 @foreach ($fields as $field)
-@if($field->namespace)
+@if($field->namespace && $field->fillable)
         '{{ $field->name }}',
 @endif
 @endforeach

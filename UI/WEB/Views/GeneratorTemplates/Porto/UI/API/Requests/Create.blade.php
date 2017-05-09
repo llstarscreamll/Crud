@@ -28,7 +28,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Create', $plural = false)
      */
     protected $decode = [
 @foreach ($fields as $field)
-@if($field->namespace)
+@if($field->namespace && $field->fillable)
         '{{ $field->name }}',
 @endif
 @endforeach
