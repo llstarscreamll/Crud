@@ -16,6 +16,11 @@ import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case
 import { AppMessage } from './../../core/models/appMessage';
 import { Effects } from './../../core/effects/abstract.effects';
 
+/**
+ * {{ $entitySin }}Effects Class.
+ *
+ * @author [name] <[<email address>]>
+ */
 @Injectable()
 export class {{ $entitySin }}Effects extends Effects {
 

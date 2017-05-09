@@ -2,6 +2,12 @@ import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ 
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 import { {{ $paginationModel = $gen->entityName().'Pagination' }} } from './../models/{{ camel_case($entitySin) }}Pagination';
 
+/**
+ * {{ $gen->entityName() }} Reducer.
+ *
+ * @author [name] <[<email address>]>
+ */
+
 export interface State {
   {{ $formModel = camel_case($gen->entityName()).'FormModel' }}: Object;
   {{ $formData = camel_case($gen->entityName()).'FormData' }}: Object;

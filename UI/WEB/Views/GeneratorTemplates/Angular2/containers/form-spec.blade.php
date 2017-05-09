@@ -19,6 +19,11 @@ import { {{ $components = $gen->entityName().'Components' }} } from './../../com
 import { {{ $containers = $gen->entityName().'Containers' }} } from './../../containers/{{ $gen->slugEntityName().'' }}';
 import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
 
+/**
+ * {{ $gen->containerClass('form', false, true) }} Tests.
+ *
+ * @author [name] <[<email address>]>
+ */
 describe('{{ $cpmClass }}', () => {
   let mockBackend: MockBackend;
   let store: Store<fromRoot.State>;

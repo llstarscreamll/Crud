@@ -5,6 +5,11 @@ import { {{ class_basename($field->namespace) }} } from './../../{{ $gen->ngSlug
 @endif
 @endforeach
 
+/**
+ * {{ $gen->entityName() }} Class.
+ *
+ * @author [name] <[<email address>]>
+ */
 export class {{ $gen->entityName() }} {
 @foreach ($fields as $field)
 @if (!$field->hidden)

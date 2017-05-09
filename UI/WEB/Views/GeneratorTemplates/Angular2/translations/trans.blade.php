@@ -1,3 +1,8 @@
+/**
+ * {{ $gen->entityName() }} {{ $gen->getLanguageKey(true) }} Translations.
+ *
+ * @author [name] <[<email address>]>
+ */
 export const {{ $gen->entityNameSnakeCase() }} = {
   '{{ $gen->entityNameSnakeCase() }}': {
     'module-name-plural': '{{ $gen->request->get('plural_entity_name') }}',

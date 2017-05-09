@@ -3,6 +3,12 @@ import { type } from './../../core/util';
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 import { {{ $entitySin.'Pagination' }} } from './../models/{{ camel_case($entitySin)."Pagination" }}';
 
+/**
+ * {{ $gen->entityName() }} Actions.
+ *
+ * @author [name] <[<email address>]>
+ */
+
 export const ActionTypes = {
 	LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }}: type('[{{ $entitySin }}] Load'),
 	LOAD_{{ $entitySnakePlu }}_SUCCESS: type('[{{ $entitySin }}] Load Success'),

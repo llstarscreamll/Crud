@@ -14,6 +14,11 @@ import { EFFECTS } from './effects';
 import { SERVICES } from './services';
 import { {{ $gen->moduleClass('routing') }} } from './{{ str_replace('.ts', '', $gen->moduleFile('routing')) }}';
 
+/**
+ * {{ $gen->studlyModuleName() }}Module Class.
+ *
+ * @author [name] <[<email address>]>
+ */
 @NgModule({
   imports: [
     CommonModule,

@@ -21,6 +21,12 @@ import { {{ $model = $gen->entityName() }} } from './../models/{{ camel_case($ge
 import { EFFECTS } from './../effects/';
 import { SERVICES } from './../services';
 
+/**
+ * {{ $gen->entityName() }} Test Utils.
+ *
+ * @author [name] <[<email address>]>
+ */
+
 export const FORM_MODEL = {!! json_encode($gen->getFormModelConfigArray($fields)) !!};
 
 export let translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';

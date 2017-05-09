@@ -13,6 +13,11 @@ import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->
 
 import { {{ $cmpClass = $gen->componentClass('table', $plural = true) }} } from './{{ str_replace('.ts', '', $gen->componentFile('table', true)) }}';
 
+/**
+ * {{ $gen->componentClass('table', $plural = true) }} Tests.
+ *
+ * @author [name] <[<email address>]>
+ */
 describe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }};

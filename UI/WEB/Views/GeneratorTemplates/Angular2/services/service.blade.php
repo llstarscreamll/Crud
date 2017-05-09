@@ -10,6 +10,11 @@ import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../model
 import { {{ $entitySin }} } from './../models/{{ camel_case($entitySin) }}';
 import { AppMessage } from './../../core/models/appMessage';
 
+/**
+ * {{ $entitySin }}Service Class.
+ *
+ * @author [name] <[<email address>]>
+ */
 @Injectable()
 export class {{ $entitySin }}Service extends Service {
 	

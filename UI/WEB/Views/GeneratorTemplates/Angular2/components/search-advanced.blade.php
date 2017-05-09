@@ -4,6 +4,11 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angul
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
+/**
+ * {{ $gen->componentClass('search-advanced', $plural = false) }} Class.
+ *
+ * @author [name] <[<email address>]>
+ */
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}',
   templateUrl: './{{ $gen->componentFile('search-advanced-html', false) }}',

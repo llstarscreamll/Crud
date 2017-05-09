@@ -15,6 +15,11 @@ import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './..
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 import { {{ $abstractClass = $gen->containerClass('abstract', false, true) }}, SearchQuery } from './{{ str_replace('.ts', '', $gen->containerFile('abstract', false, true)) }}';
 
+/**
+ * {{ $gen->containerClass('list-and-search', $plural = true) }} Class.
+ *
+ * @author [name] <[<email address>]>
+ */
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('list-and-search', true)) }}',
   templateUrl: './{{ $gen->containerFile('list-and-search-html', true) }}',

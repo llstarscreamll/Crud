@@ -14,6 +14,11 @@ import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->
 
 import { {{ $cmpClass = $gen->componentClass('search-advanced', $plural = false) }} } from './{{ str_replace('.ts', '', $gen->componentFile('search-advanced', false)) }}';
 
+/**
+ * {{ $gen->componentClass('search-advanced', $plural = false) }} Tests.
+ *
+ * @author [name] <[<email address>]>
+ */
 describe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }};

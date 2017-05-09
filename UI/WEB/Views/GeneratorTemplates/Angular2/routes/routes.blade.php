@@ -5,6 +5,11 @@ import { AuthGuard } from './../../auth/guards/auth.guard';
 import { {{ $listCmp = $gen->containerClass('list-and-search', true) }} } from './../containers/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('list-and-search', true)) }}';
 import { {{ $formCmp = $gen->containerClass('form', false, true) }} } from './../containers/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('form', false, true)) }}';
 
+/**
+ * {{ $gen->entityName() }}Routes.
+ *
+ * @author [name] <[<email address>]>
+ */
 export const {{ $gen->entityName() }}Routes: Routes = [
 	{
 	  path: '{{ $gen->slugEntityName() }}', canActivate: [AuthGuard], children: [

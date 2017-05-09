@@ -12,6 +12,11 @@ import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->
 
 import { {{ $cmpClass = $gen->componentClass('form-fields', $plural = false) }} } from './{{ str_replace('.ts', '', $gen->componentFile('form-fields', false)) }}';
 
+/**
+ * {{ $gen->componentClass('form-fields', $plural = false) }} Tests.
+ *
+ * @author [name] <[<email address>]>
+ */
 describe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }}

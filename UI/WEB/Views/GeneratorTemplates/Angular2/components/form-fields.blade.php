@@ -3,6 +3,11 @@ import { FormGroup } from '@angular/forms';
 
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
+/**
+ * {{ $gen->componentClass('form-fields', $plural = false) }} Class.
+ *
+ * @author [name] <[<email address>]>
+ */
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form-fields', false)) }}',
   templateUrl: './{{ $gen->componentFile('form-fields-html', false) }}',

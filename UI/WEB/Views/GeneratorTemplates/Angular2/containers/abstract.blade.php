@@ -23,6 +23,11 @@ export interface SearchQuery {
   page: number;
 }
 
+/**
+ * {{ $gen->containerClass('abstract', false, true) }} Abstract Class.
+ *
+ * @author [name] <[<email address>]>
+ */
 export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   protected abstract store: Store<fromRoot.State>;
   protected abstract titleService: Title;

@@ -3,6 +3,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { {{ $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
 import { Pagination } from './../../../core/models/pagination';
 
+/**
+ * {{ $gen->componentClass('table', $plural = true) }} Class.
+ *
+ * @author [name] <[<email address>]>
+ */
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}',
   templateUrl: './{{ $gen->componentFile('table-html', $plural = true) }}',

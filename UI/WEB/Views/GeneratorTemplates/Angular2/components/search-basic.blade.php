@@ -3,6 +3,11 @@ import { FormGroup, FormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
+/**
+ * {{ $gen->componentClass('search-basic', $plural = false) }} Class.
+ *
+ * @author [name] <[<email address>]>
+ */
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}',
   templateUrl: './{{ $gen->componentFile('search-basic-html', false) }}',
