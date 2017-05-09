@@ -174,6 +174,7 @@ class CreateCodeceptionTestsTask
         return "\n".
             "        - \\{$this->containerName()}\Helper\\{$this->entityName()}Helper\n".
             "        - \App\Ship\Tests\Codeception\UserHelper\n".
+            "        - \App\Ship\Tests\Codeception\HashidsHelper\n".
             "        - Asserts\n".
             "        - REST:\n".
             "            depends: Laravel5\n".
