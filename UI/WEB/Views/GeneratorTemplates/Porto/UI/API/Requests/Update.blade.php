@@ -51,7 +51,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Update', $plural = false)
         return [
 @foreach ($fields as $field)
 @if(!empty($field->validation_rules) && $field->fillable)
-			'{{ $field->name }}' => '{{ str_replace('required|', '', $field->validation_rules) }}',
+			'{{ $field->name }}' => '{{ $field->validation_rules }}',
 @endif
 @endforeach
         ];
