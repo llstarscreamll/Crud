@@ -101,15 +101,15 @@ class GeneratorController extends WebController
                 );
         }
 
-        if (in_array('porto_container', $request->get('app_type', []))) {
+        if ($request->get('generate_porto_container', false)) {
             $this->generatePortoContainerAction->run($request);
         }
 
-        if (in_array('angular_2_module', $request->get('app_type', []))) {
+        if ($request->get('generated_angular_module', false)) {
             $this->generateAngular2ModuleAction->run($request);
         }
 
-        if (empty($request->get('app_type', []))) {
+        if (!$request->get('generated_angular_module', false) && !$request->get('generate_porto_container', false)) {
             session()->flash('warning', 'Nothing to generate...');
         }
 

@@ -1,18 +1,18 @@
-@extends('theme::Inspinia.layouts.app-sidebar')
+@extends('crud::layouts.top-navbar')
 
 @section('title', 'CRUD Options')
 
 @section('styles')
     <style>
-        .input-text-extra-short{
+        .column-width-extra-short{
             width: 4em;
         }
         
-        .input-text-short{
+        .column-width-short{
             width: 6em;
         }
 
-        .input-text-medium{
+        .column-width-medium{
             width: 8em;
         }
 
@@ -30,21 +30,15 @@
 @endsection
 
 @section('content')	
-    @component('theme::Inspinia.components.page')
         
-        @slot('title')
-            <div class="col-xs-12">
-                <h2>CRUD Options for <strong>{{ request('table_name', null) }}</strong> table</h2>
-            </div>
-        @endslot
+        {{-- page title --}}
+        <div class="page-header">
+            <h1>CRUD Options for <strong>{{ request('table_name', null) }}</strong> table</h1>
+        </div>
 
-        @component('theme::Inspinia.components.box')
-            @slot('title')
-                <h5>{{ request('table_name', null) }} <small>table</small></h5>
-                @component('theme::Inspinia.components.box-tools')
-                @endcomponent
-            @endslot
-
+        {{-- panel with main content --}}
+        <div class="panel panel-default">
+            <div class="panel-body">
                 {!! Form::model($options, [
                     'method' => 'GET',
                     'name' => 'update-table-form',
@@ -69,7 +63,7 @@
                         </div>
                     </div>
 
-                    @include('theme::Inspinia.partials.notifications')
+                    @include('crud::partials.notifications')
 
                     {{-- delete msgs --}}
                     {{ session()->forget(['success', 'error', 'warning']) }}
@@ -115,9 +109,10 @@
                     @include('crud::wizard.partials.options-submit-btn')
 
                 {!! Form::close() !!}
+
+            </div>
                 
-        @endcomponent
-    @endcomponent
+        </div>
 
     <div class="clearfix"></div>
     
@@ -125,8 +120,11 @@
 
 @section('scripts')
     <!-- iCheck skins -->
-    <link href="{{ asset('plugins/icheck/skins/square/blue.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('plugins/icheck/skins/square/red.css') }}" rel="stylesheet" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/icheck.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/iCheck/1.0.2/skins/square/blue.css" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
     
     <script type="text/javascript">
         {{-- init BootstrapSwitch --}}
@@ -136,10 +134,6 @@
         $('.icheckbox_square-blue').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue'
-        });
-        $('.icheckbox_square-red').iCheck({
-            checkboxClass: 'icheckbox_square-red',
-            radioClass: 'iradio_square-red'
         });
     </script>
 

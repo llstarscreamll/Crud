@@ -51,10 +51,10 @@
                     </tr>
                     <tr>
                         <th>Name</th>
-                        <th>Type</th>
-                        <th>Required?</th>
-                        <th class="hidden">DefaultValue</th>
-                        <th class="hidden">Key</th>
+                        <th class="column-width-medium">Type</th>
+                        <th class="column-width-short">Required?</th>
+                        <th class="column-width-short hidden">DefaultValue</th>
+                        <th class="column-width-extra-short hidden">Key</th>
                         <th class="hidden">MaxLen.</th>
                         <th>Namespace</th>
                         <th>Relation</th>
@@ -74,7 +74,7 @@
                             {!! Form::text("field[$field][name]", $field, ['class' => 'form-control input-xs']) !!}
                         </td>
                         <td>
-                            {!! Form::text("field[$field][type]", $fieldData->type, ['class' => 'form-control input-xs input-text-medium']) !!}
+                            {!! Form::text("field[$field][type]", $fieldData->type, ['class' => 'form-control input-xs']) !!}
                         </td>
                         <td>
                             {!! Form::checkbox("field[$field][required]", $fieldData->required, $fieldData->required, [
@@ -85,10 +85,10 @@
                             ]) !!}
                         </td>
                         <td class="hidden">
-                            {!! Form::text("field[$field][defValue]", $fieldData->defValue, ['class' => 'form-control input-xs input-text-short']) !!}
+                            {!! Form::text("field[$field][defValue]", $fieldData->defValue, ['class' => 'form-control input-xs']) !!}
                         </td>
                         <td class="hidden">
-                            {!! Form::text("field[$field][key]", $fieldData->key, ['class' => 'form-control input-xs input-text-extra-short', 'maxlength' => 3]) !!}
+                            {!! Form::text("field[$field][key]", $fieldData->key, ['class' => 'form-control input-xs', 'maxlength' => 3]) !!}
                         </td>
                         <td class="hidden">
                             {!! Form::number("field[$field][maxLength]", $fieldData->maxLength, ['class' => 'form-control input-xs']) !!}

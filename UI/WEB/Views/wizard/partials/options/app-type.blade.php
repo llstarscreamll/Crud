@@ -5,13 +5,15 @@
         <div class="form-group col-sm-6 col-md-4">
             <div class="radio">
                 <label>
-                    {!! Form::checkbox('app_type[]', 'porto_container', true, ['class' => 'icheckbox_square-blue']) !!}
+                    {!! Form::hidden('generate_porto_container', false, ['class' => '']) !!}
+                    {!! Form::checkbox('generate_porto_container', true, null, ['class' => 'icheckbox_square-blue']) !!}
                     PORTO Container
                 </label>
             </div>
             <div class="radio">
                 <label>
-                    {!! Form::checkbox('app_type[]', 'angular_2_module', true, ['class' => 'icheckbox_square-blue']) !!}
+                    {!! Form::hidden('generated_angular_module', false) !!}
+                    {!! Form::checkbox('generated_angular_module', true, null, ['class' => 'icheckbox_square-blue']) !!}
                     Angular Module
                 </label>
             </div>
