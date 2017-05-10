@@ -26,21 +26,14 @@
 
                 @include ('theme::Inspinia.partials.notifications')
                     
-                {!! Form::open(['route' => 'crud.showOptions', 'method' => 'GET']) !!}
+                {!! Form::open(['route' => 'crud.showOptions', 'method' => 'GET', 'id' => 'update-table-form']) !!}
                     
                     <div class="form-group {{ $errors->has('table_name') ? 'has-error' : '' }}">
                         {!! Form::label('table_name', 'Table name') !!}
-                        {!! Form::text('table_name', null, ['class' => 'form-control']) !!}
+                        @include('crud::wizard.partials.table-list-control', ['palceholder' => 'Type the table name'])
                         {!!$errors->first('table_name', '<span class="text-danger">:message</span>')!!}
                     </div>
 
-                    <div class="clearfix"></div>
-                    
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">
-                            Let's configure the CRUD!!
-                        </button>
-                    </div>
                 {!! Form::close() !!}
 
                 <div class="clearfix"></div>

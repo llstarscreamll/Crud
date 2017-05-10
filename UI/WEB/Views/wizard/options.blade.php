@@ -34,27 +34,45 @@
         
         @slot('title')
             <div class="col-xs-12">
-                <h2>CRUD Options</h2>
+                <h2>CRUD Options for <strong>{{ request('table_name', null) }}</strong> table</h2>
             </div>
         @endslot
 
         @component('theme::Inspinia.components.box')
             @slot('title')
-                <h5>CRUD options</h5>
+                <h5>{{ request('table_name', null) }} <small>table</small></h5>
                 @component('theme::Inspinia.components.box-tools')
                 @endcomponent
             @endslot
 
-                @include('theme::Inspinia.partials.notifications')
+                {!! Form::model($options, [
+                    'method' => 'GET',
+                    'name' => 'update-table-form',
+                    'id' => 'update-table-form',
+                ]) !!}
 
-                {{-- delete msgs --}}
-                {{ session()->forget(['success', 'error', 'warning']) }}
+                {!! Form::close() !!}
                 
                 {!! Form::model($options, [
                     'route' => 'crud.generate',
                     'method' => 'POST',
                     'name' => 'CRUD-form'
                 ]) !!}
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            @include('crud::wizard.partials.table-list-control')
+                        </div>
+
+                        <div class="col-md-6">
+                            @include('crud::wizard.partials.options-submit-btn')
+                        </div>
+                    </div>
+
+                    @include('theme::Inspinia.partials.notifications')
+
+                    {{-- delete msgs --}}
+                    {{ session()->forget(['success', 'error', 'warning']) }}
 
                     {!! Form::hidden('table_name', $table_name) !!}
                     
@@ -72,7 +90,7 @@
                     </div>
 
                     <fieldset>
-                        <legend>Copy dirs to...</legend>
+                        <legend>Copy generated container/module to...</legend>
                         <div class="row">
                             <div class="form-group col-sm-6">
                                 <label for="copy_porto_container_to">Copy PORTO container to</label>
@@ -94,12 +112,7 @@
 
                     <div class="clearfix"></div>
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary">
-                            <span class="fa fa-magic"></span>
-                            <span>Generar</span>
-                        </button>
-                    </div>
+                    @include('crud::wizard.partials.options-submit-btn')
 
                 {!! Form::close() !!}
                 

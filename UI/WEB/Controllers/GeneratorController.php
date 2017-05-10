@@ -2,15 +2,16 @@
 
 namespace App\Containers\Crud\UI\WEB\Controllers;
 
-use Illuminate\Http\Request;
-use App\Containers\Crud\Providers\ModelGenerator;
-use App\Containers\Crud\Actions\GeneratePortoContainerAction;
-use App\Containers\Crud\Actions\GenerateStandardLaravelApp;
+use App\Containers\Crud\Actions\CopyDirsAction;
 use App\Containers\Crud\Actions\GenerateAngular2ModuleAction;
 use App\Containers\Crud\Actions\GenerateConfigFileAction;
+use App\Containers\Crud\Actions\GeneratePortoContainerAction;
+use App\Containers\Crud\Actions\GenerateStandardLaravelApp;
 use App\Containers\Crud\Actions\LoadOptionsAction;
-use App\Containers\Crud\Actions\CopyDirsAction;
+use App\Containers\Crud\Providers\ModelGenerator;
 use App\Ship\Parents\Controllers\WebController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GeneratorController extends WebController
 {
@@ -74,7 +75,9 @@ class GeneratorController extends WebController
      */
     public function index(Request $request)
     {
-        return view('crud::wizard.index');
+        $data['tables'] = DB::connection()->getDoctrineSchemaManager()->listTableNames();
+
+        return view('crud::wizard.index', $data);
     }
 
     /**
@@ -152,6 +155,7 @@ class GeneratorController extends WebController
         $data['fields'] = $modelGenerator->fields($request->get('table_name'));
         $data['table_name'] = $request->get('table_name');
         $data['UI_themes'] = [];
+        $data['tables'] = DB::connection()->getDoctrineSchemaManager()->listTableNames();
 
         return view('crud::wizard.options', $data);
     }
