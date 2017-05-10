@@ -55,7 +55,7 @@ Now go to `apiato.dev/crud` to start using the app.
 
 Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named _Library_ with an migration table called _books_, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the package functional tests, so with the following setup:
 
-![CRUD Setup GUI](https://cloud.githubusercontent.com/assets/2442445/25890815/98712f6a-3534-11e7-82c5-2a6d1b3d6b32.png "CRUD Setup GUI")
+![CRUD Setup GUI](https://cloud.githubusercontent.com/assets/2442445/25891986/93ccc538-3538-11e7-8c35-087736c8aa9f.png "CRUD Setup GUI")
 
 The generated code will be:
 
