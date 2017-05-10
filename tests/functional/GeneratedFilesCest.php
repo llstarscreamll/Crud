@@ -29,11 +29,6 @@ class GeneratedFilesCest
         $I->wantTo('generate a Laravel Package');
 
         $data = Page::$formData;
-        $data['app_type'] = ['porto_container', 'angular_2_module'];
-        $data['language_key'] = 'es';
-        // modify relations namespaces for Porto container convenience
-        $data['field[1][namespace]'] = 'App\Containers\Reason\Models\Reason';
-        $data['field[12][namespace]'] = 'App\Containers\User\Models\User';
 
         // copy the generated files to a folder
         $data['copy_porto_container_to'] = storage_path('app/copyTest/Porto');
