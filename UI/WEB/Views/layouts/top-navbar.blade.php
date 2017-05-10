@@ -42,7 +42,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li class=""><a href="/dashboard">Dashboard</a></li>
-            <li class=""><a href="/crud">CRUD Generator</a></li>
+            <li class=""><a href="{{ route('crud.index') }}">CRUD Generator</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li id="fat-menu" class="dropdown">
@@ -51,7 +51,7 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="drop3">
                 <li><a href="/">Home</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="{{ route('get_admin_dashboard_page') }}">Dashboard</a></li>
                 <li role="separator" class="divider"></li>
                 <li>
                   {!! Form::open(['route' => 'post_admin_logout_form', 'method' => 'POST']) !!}

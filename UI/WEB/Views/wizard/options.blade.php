@@ -41,6 +41,7 @@
             <div class="panel-body">
                 {!! Form::model($options, [
                     'method' => 'GET',
+                    'route' => 'crud.showOptions',
                     'name' => 'update-table-form',
                     'id' => 'update-table-form',
                 ]) !!}
