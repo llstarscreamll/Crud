@@ -1,12 +1,14 @@
-# CRUD Container for [apiato 4.0.2](https://github.com/apiato/apiato)
+# CRUD PORTO and Angular Generator Container for [apiato 4.0.2](https://github.com/apiato/apiato)
 
-This is a [PORTO](https://github.com/Porto-SAP/Documentation) Container for [apiato 4.0.2](https://github.com/apiato/apiato) to scaffold you applications, at the moment the package generates the API stuff only, and generates an Angular 2+ module that consumes the generated API. There is a lot of work to do, pull requests are very welcome!! ^_^
+This is a [PORTO](https://github.com/Porto-SAP/Documentation) Container for [apiato 4.0.2](https://github.com/apiato/apiato) to scaffold you applications, at the moment the package generates the API stuff only, and generates an Angular 2+ module that consumes the generated container API. There is a lot of work to do, pull requests are very welcome!! ^_^
 
 If you don't know apiato already, go to the [apiato DOCS site](http://apiato.io/) and give it a try, it's an amazing project!!
 
 ## Install
 
-This container needs a base layout, at the moment the package works with this [Theme Container](https://github.com/llstarscreamll/Theme), go there and check the install process, it's very quick!!.
+>*NOTES:*
+>This container doesn't need a external base layout anymore!!
+>This container is tested on [Laravel Homestead](https://laravel.com/docs/5.4/homestead), so I sugest you to use Homestead as your development environment.
 
 You must have [PHP_CodeSniffer](https://pear.php.net/package/PHP_CodeSniffer) installed:
 
@@ -22,7 +24,7 @@ composer global require "codeception/specify=*"
 composer global require "codeception/verify=*"
 ```
 
-If your development environment is Homestead, then these requirements are done. But if not you should:
+If your development environment is Homestead, then these requirements are done. But if not, you should:
 
 ```bash
 sudo ln -s ~/vagrant/.composer/vendor/bin/codecept /usr/local/bin/codecept
@@ -34,7 +36,7 @@ Now from the apiato root folder:
 
 ```bash
 git clone https://github.com/llstarscreamll/Crud.git app/Containers/Crud
-# this will add a Codeception UserHelper and TrashedCriteira on Ship folder
+# this will add some Codeception helpers and TrashedCriteira on Ship folder
 php artisan vendor:publish --provider="App\Containers\Crud\Providers\MainServiceProvider" --tag=classes
 composer update
 ```
@@ -49,17 +51,17 @@ And go to `apiato/resources/vendor/crud` and make your convinience modifications
 
 Now go to `apiato.dev/crud` to start using the app.
 
-## Generated files
+## What is Generated?
 
-Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named Library with an table called books, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the package functional tests, so with the following setup:
+Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named _Library_ with an migration table called _books_, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the package functional tests, so with the following setup:
 
-![CRUD Setup GUI](https://cloud.githubusercontent.com/assets/2442445/24436152/7fb42e92-13ff-11e7-95e7-89eefd7892db.png "CRUD Setup GUI")
+![CRUD Setup GUI](https://cloud.githubusercontent.com/assets/2442445/25890815/98712f6a-3534-11e7-82c5-2a6d1b3d6b32.png "CRUD Setup GUI")
 
 The generated code will be:
 
 ### [apiato 4.0.2](https://github.com/apiato/apiato) Container
 
-The generated container intends to follow the [PORTO](https://github.com/Porto-SAP/Documentation) architectural pattern. A small difference with the **apiato** containers is that tests are generated with [Codeception](http://codeception.com/) unless **phpunit**, these tests are name spaced with the container name. The generated API has some end points useful to work with the generated Angular 2+ module, e.g. serving a entity "Form Model" to build forms from server without update the Angular module, and serve the form data dependencies like some DB users list options or something else. Obviosly the from builder on the Angular side is providen by the [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) project, the generated Angular module fits very well with this project.
+The generated container intends to follow the [PORTO](https://github.com/Mahmoudz/Porto) architectural pattern. A small difference with the **apiato** containers is that tests are generated with [Codeception](http://codeception.com/) unless **phpunit**, these tests are [namespaced](http://codeception.com/docs/08-Customization#Namespaces) with the container name. The generated API has some end points useful to work with the generated Angular module forms, e.g. serving a entity "Form Model/Data" to build forms from server without update the Angular module, and serve the form data dependencies like some DB users list options or something else. Obviosly the form builder on the Angular side is providen by the [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) project, the generated Angular module fits very well with this project, but you can use it on your own main Angular project, just make sure to satisfy the dependencies from the generated module.
 
 ```bash
 |─── Library
@@ -215,12 +217,46 @@ If you have foreign keys and you will use the `{Entity}FormDataAction` class, ad
     }
 ```
 
-### Angular 2+ Module
+You should run the generated tests executing this command inside of the container to make sure that all is ok:
+
+```bash
+codecept run api
+```
+
+### Angular Module
 
 > **NOTE:**
-> To generate your Angular 2+ module you must have the generated apiato Container placed on the `app/Containers` folder. Why? Because the generator create fake data with the generated container factories on the Angular module tests.
+> To generate your Angular module you must have the generated apiato Container placed on the `app/Containers` folder. Why? Because the generator create fake data with the generated container factories on the Angular module tests.
 
-This module is intended to work with this [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) application, the generated module should be copied on the `src/app/modules` folder, then you should declare the module on the main modules array `src/app/modules.ts` file and reducers on the `src/app/reducers.ts` file. The generated module intends to follow all the best practices on the Angular 2+ world based on the [ngrx example app](https://github.com/ngrx/example-app), [Yatrum](https://github.com/aviabird/yatrum) and many other resources. Some libraries used on the generated code are:
+This module is intended to work with this [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) application, the generated module should be copied on the `src/app` folder, then you must declare the module on the main modules array `src/app/modules.ts` file and reducers on the `src/app/reducers.ts` file, the reducers setup is commented on the generated `entity.reducers.ts` file to make things easy, following the _Library/books_ examĺe, looks something like this:
+
+```javascript
+/* -----------------------------------------------------------------------------
+Don't forget to import these reducer on the main app reducer!!
+--------------------------------------------------------------------------------
+import * as fromBook from './library/reducers/book.reducer';
+
+export interface State {
+  book: fromBook.State;
+}
+
+const reducers = {
+  book: fromBook.reducer,
+};
+
+  
+// Book selectors
+export const getBookState = (state: State) => state.book;
+export const getBookFormModel = createSelector(getBookState, fromBook.getBookFormModel);
+export const getBookFormData = createSelector(getBookState, fromBook.getBookFormData);
+export const getBooksPagination = createSelector(getBookState, fromBook.getBooksPagination);
+export const getSelectedBook = createSelector(getBookState, fromBook.getSelectedBook);
+export const getBookLoading = createSelector(getBookState, fromBook.getLoading);
+export const getBookErrors = createSelector(getBookState, fromBook.getErrors);
+----------------------------------------------------------------------------- */
+```
+
+The generated module intends to follow all the best practices on the Angular world based on the [ngrx example app](https://github.com/ngrx/example-app), [Yatrum](https://github.com/aviabird/yatrum) and many other resources. Some libraries used on the generated code are:
 
 - @ngrx/store
 - @ngrx/effects
@@ -230,7 +266,7 @@ This module is intended to work with this [Hello-Angular](https://github.com/lls
 - ngx-bootstrap
 - etc...
 
-The generated Angular module has many tests, you should execute these tests to ensure that everything it's working as intendet.
+The generated Angular module has many tests, you should execute these tests to ensure that everything is working as intendet by running `ng test`.
 
 ```bash
 ├── library
@@ -296,7 +332,7 @@ The generated Angular module has many tests, you should execute these tests to e
 
 ## Tests
 
-To execute the packages tests, go to the package `app/Containers/Crud` folder and execute:
+To execute this packages tests, go to the package `app/Containers/Crud` folder and execute:
 
 ```bash
 codecept run functional
