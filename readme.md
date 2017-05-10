@@ -186,6 +186,35 @@ If you have foreign keys on your table, the generated transformer will try to ha
     }
 ```
 
+If you have foreign keys and you will use the `{Entity}FormDataAction` class, add this method on `App\Ship\Parents\Repositories\Repository`:
+
+```php
+    /**
+     * Return model list to be used on selects. The $key and $value parameters
+     * says what the array item keys names should be. Example with $key = 'id'
+     * and $value = 'label':
+     * [
+     *     [ 'id' => 1, 'label' => 'Foo' ],
+     *     [ 'id' => 2, 'label' => 'Bar' ],
+     * ]
+     *
+     * @param  string $key
+     * @param  string $value
+     * @return array
+     */
+    public function selectList(string $key = 'id', string $value = 'text')
+    {
+        return $this->model
+            ->all(['id', 'name'])
+            ->map(function ($item) use($key, $value) {
+                return [
+                    $key => $item->getHashedKey(),
+                    $value => $item->name, // add more info for you convinience, if any
+                ];
+            })->all();
+    }
+```
+
 ### Angular 2+ Module
 
 > **NOTE:**
