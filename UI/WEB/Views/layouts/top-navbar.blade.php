@@ -17,6 +17,12 @@
     <![endif]-->
 
     @yield('styles')
+
+    <style type="text/css">
+      .btn-on-dropdown {
+        padding: 3px 20px;
+      }
+    </style>
   </head>
 
   <body>
@@ -39,7 +45,21 @@
             <li class=""><a href="/crud">CRUD Generator</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Default</a></li>
+            <li id="fat-menu" class="dropdown">
+              <a href="#" class="dropdown-toggle" id="drop3" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              {{ Auth::user()->name }} <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="drop3">
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li role="separator" class="divider"></li>
+                <li>
+                  {!! Form::open(['route' => 'post_admin_logout_form', 'method' => 'POST']) !!}
+                  <button class="btn-on-dropdown btn-link" href="#">Logout</button>
+                  {!! Form::close() !!}
+                </li>
+              </ul>
+            </li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
