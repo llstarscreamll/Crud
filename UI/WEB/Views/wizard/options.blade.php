@@ -90,13 +90,13 @@
                             <div class="form-group col-sm-6">
                                 <label for="copy_porto_container_to">Copy PORTO container to</label>
                                 {!! Form::text('copy_porto_container_to', null, ['class' => 'form-control']) !!}
-                                <span class="help-block">The destination folder to copy the generated container.</span>
+                                <span class="help-block">The absolute path to copy the generated container.</span>
                                 <span class="help-block">The default folder output is <code>{{ storage_path('app/crud/code/PortoContainers') }}</code>.</span>
                             </div>
                             <div class="form-group col-sm-6">
                                 <label for="copy_angular_module_to">Copy Angular module to</label>
                                 {!! Form::text('copy_angular_module_to', null, ['class' => 'form-control']) !!}
-                                <span class="help-block">The destination folder to copy the generated module.</span>
+                                <span class="help-block">The absolute path to copy the generated module.</span>
                                 <span class="help-block">The default folder output is <code>{{ storage_path('app/crud/code/Angular2') }}</code>.</span>
                             </div>
                         </div>
