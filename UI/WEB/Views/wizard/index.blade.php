@@ -1,30 +1,22 @@
-@extends('theme::Inspinia.layouts.app-sidebar')
+@extends('crud::layouts.top-navbar')
 
 @section('title', 'CRUD Generator')
 
-@section('styles')
-@endsection
-
 @section('content')
 
-    @component('theme::Inspinia.components.page')
-        @slot('title')
-            <div class="col-xs-12">
-                <h2>CRUD Generator <small>Type your table name</small></h2>
-            </div>
-        @endslot
+    
+    {{-- page title --}}
+    <div class="page-header">
+        <h2 class="text-center">CRUD Generator <br><small>Type your table name</small></h2>
+    </div>
 
-        <div class="col-xs-12 col-sm-10 col-md-8">
+    <div class="col-xs-12 col-sm-6 col-md-offset-3">
 
-            @component('theme::Inspinia.components.box')
+        {{-- panel with main content --}}
+        <div class="panel panel-default">
+            <div class="panel-body">
 
-                @slot('title')
-                    <h5>Foo Title</h5>
-                    @component('theme::Inspinia.components.box-tools')
-                    @endcomponent
-                @endslot
-
-                @include ('theme::Inspinia.partials.notifications')
+                @include('crud::partials.notifications')
                     
                 {!! Form::open(['route' => 'crud.showOptions', 'method' => 'GET', 'id' => 'update-table-form']) !!}
                     
@@ -37,13 +29,9 @@
                 {!! Form::close() !!}
 
                 <div class="clearfix"></div>
-            @endcomponent
-
+            </div>
         </div>
 
-    @endcomponent
+    </div>
 
 @endsection
-
-@section('scripts')
-@stop()
