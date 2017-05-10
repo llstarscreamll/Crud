@@ -35,5 +35,11 @@ class {{ $gen->entityName() }}FormModelCest
         $I->sendGET($this->endpoint);
 
         $I->seeResponseCodeIs(200);
+
+@foreach($fields as $field)
+@if($field->on_index_table || $field->on_create_form || $field->on_update_form)
+        $I->seeResponseJsonMatchesXpath('{{ $field->name }}');
+@endif
+@endforeach
     }
 }
