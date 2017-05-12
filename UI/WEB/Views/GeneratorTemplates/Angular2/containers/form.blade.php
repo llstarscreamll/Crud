@@ -25,13 +25,35 @@ import { {{ $abstractClass = $gen->containerClass('abstract', false, true) }} } 
   templateUrl: './{{ $gen->containerFile('form-html', false, true) }}',
   styleUrls: ['./{{ $gen->containerFile('form-css', false, true) }}']
 })
-export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {  
+export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
+  /**
+   * Language key to page title.
+   * @type string
+   */
   protected title: string = 'form-page';
   
+  /**
+   * {{ ucfirst(str_replace('_', '', $gen->tableName)) }} form group.
+   * @type FormGroup
+   */
   public form: FormGroup;
+
+  /**
+   * Form type to render (create|update|details). Because some fields could not
+   * be shown based on the form type.
+   * @type string
+   */
   public formType: string = 'create';
+
+  /**
+   * Flag that tell as if the form is ready to br rendered or not.
+   * @type boolean
+   */
   public formConfigured: boolean = false;
 
+  /**
+   * {{ $gen->containerClass('form', false, true) }} constructor.
+   */
   public constructor(
     protected store: Store<fromRoot.State>,
     protected titleService: Title,
@@ -41,6 +63,11 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
     protected activedRoute: ActivatedRoute,
   ) { super(); }
 
+  /**
+   * The component is ready, this is called after the constructor and after the
+   * first ngOnChanges(). This is invoked only once when the component is
+   * instantiated.
+   */
   public ngOnInit() {
     this.setDocumentTitle();
     this.setupStoreSelects();
@@ -48,6 +75,9 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
     this.setupForm();
   }
 
+  /**
+   * Parse the form model to form group.
+   */
   private setupForm() {
     this.formModelSubscription$ = this.formModel$
       .subscribe((model) => {
@@ -63,6 +93,9 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
       });
   }
 
+  /**
+   * Patch the form group values with the selected item data.
+   */
   private patchForm() {
     this.selectedItem$.subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
       if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.id)) {
@@ -72,6 +105,9 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
     });
   }
 
+  /**
+   * Hadle the form submition based on the actual form type.
+   */
   public submitForm() {
     if (this.formType == 'create')
       this.store.dispatch(new {{ $actions }}.CreateAction(this.form.value));
@@ -83,6 +119,10 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
       this.store.dispatch(go(['{{ $gen->slugEntityName() }}', this.id, 'edit']));
   }
 
+  /**
+   * Clean the component canceling the background taks. This is called before the
+   * component instance is funally destroyed.
+   */
   public ngOnDestroy() {
     this.formModelSubscription$.unsubscribe();
     this.activedRouteSubscription$ ? this.activedRouteSubscription$.unsubscribe() : null;
