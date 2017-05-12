@@ -15,16 +15,16 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
 })
 export class {{ $gen->componentClass('form-fields', $plural = false) }} implements OnInit {
   @Input()
-  public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
+  public form: FormGroup;
 	
 	@Input()
-	public {{ $formModel = camel_case($gen->entityName()).'FormModel' }}: Object;
+	public formModel: Object;
 
   @Input()
-  public {{ $formData = camel_case($gen->entityName()).'FormData' }}: Object;
+  public formData: Object;
 
   @Input()
-  public {{ $errors = 'errors' }}: Object;
+  public errors: Object;
 
   @Input()
   public formType: string = 'create';

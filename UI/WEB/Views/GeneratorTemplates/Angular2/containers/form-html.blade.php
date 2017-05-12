@@ -16,41 +16,47 @@
           
           <form
             *ngIf="formConfigured"
-            [formGroup]="{{ $camelEntity = camel_case($gen->entityName()) }}Form"
-            (ngSubmit)="submit{{ $gen->entityName() }}Form()">
+            [formGroup]="form"
+            (ngSubmit)="submitForm()">
 
-            <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form-fields', false)) }} *ngIf="formConfigured"
-              [{{ $form = camel_case($gen->entityName()).'Form' }}]="{{ $camelEntity = camel_case($gen->entityName()) }}Form"
-              [{{ $formModel = camel_case($gen->entityName().'FormModel') }}]="{{ camel_case($gen->entityName()).'FormModel$' }} | async"
-              [{{ $formData = camel_case($gen->entityName()).'FormData' }}]="{{ camel_case($gen->entityName()).'FormData$' }} | async"
+            <dynamic-form-fields
+              *ngIf="formConfigured"
+              class="dynamic-form-fields row"
+              [form]="form"
+              [formModel]="formModel$ | async"
+              [formData]="formData$ | async"
               [errors]="errors$ | async"
-              [formType]="formType">
-            </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form-fields', false)) }}>
+              [visibility]="formType"
+              [disabled]="formType == 'details'">
+            </dynamic-form-fields>
 
             <div class="form-group">
-              <button *ngIf="formType == 'create'"
-                  class="btn create-row"
-                  type="submit"
-                  [disabled]="!{{ $camelEntity }}Form.valid"
-                  [ngClass]="{'btn-primary': {{ $camelEntity }}Form.valid, 'btn-default': !{{ $camelEntity }}Form.valid}">
+              <button
+                *ngIf="formType == 'create'"
+                class="btn create-row"
+                type="submit"
+                [disabled]="!form.valid"
+                [ngClass]="{'btn-primary': form.valid, 'btn-default': !form.valid}">
                 <i class="glyphicon glyphicon-floppy-disk"></i>
                 <span class="btn-label" translate>{{ $upEntity }}.create</span>
               </button>
 
-              <button *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.($selected = 'selected'.$gen->entityName().'$').' | async)?.deleted_at' : null !!}"
-                  class="btn edit-row"
-                  type="submit"
-                  [disabled]="!{{ $camelEntity }}Form.valid"
-                  [ngClass]="{'btn-warning': {{ $camelEntity }}Form.valid, 'btn-default': !{{ $camelEntity }}Form.valid}">
+              <button
+                *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.('selectedItem$').' | async)?.deleted_at' : null !!}"
+                class="btn edit-row"
+                type="submit"
+                [disabled]="!form.valid"
+                [ngClass]="{'btn-warning': form.valid, 'btn-default': !form.valid}">
                 <i class="glyphicon glyphicon-pencil"></i>
                 <span class="btn-label" translate>{{ $upEntity }}.edit</span>
               </button>
 
-              <button *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.($selected = 'selected'.$gen->entityName().'$').' | async)?.deleted_at' : null !!}"
-                  [disabled]="{{ $camelEntity }}Form.get('id') && {{ $camelEntity }}Form.get('id').value == ''"
-                  (click)="deleteRow(id)"
-                  type="button"
-                  class="btn btn-default delete-row">
+              <button
+                *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.('selectedItem$').' | async)?.deleted_at' : null !!}"
+                [disabled]="form.get('id') && form.get('id').value == ''"
+                (click)="deleteRow(id)"
+                type="button"
+                class="btn btn-default delete-row">
                 <i class="glyphicon glyphicon-trash"></i>
                 <span class="btn-label" translate>{{ $upEntity }}.delete</span>
               </button>

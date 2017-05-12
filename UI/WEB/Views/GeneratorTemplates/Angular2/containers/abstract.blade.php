@@ -36,19 +36,19 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   protected location: Location;
   protected activedRoute: ActivatedRoute;
   
-  public {{ $formModel = camel_case($gen->entityName()).'FormModel$' }}: Observable<Object>;
-  public {{ $formData = camel_case($gen->entityName()).'FormData$' }}: Observable<Object>;
-  public {{ $pagination = camel_case($gen->entityName(true)).'Pagination$' }}: Observable<{{ $pagModel }}>;
-  public {{ $selected = 'selected'.$gen->entityName().'$' }}: Observable<{{ $gen->entityName() }} | null>;
-  public {{ $loading = 'loading$' }}: Observable<boolean>;
-  public {{ $errors = 'errors$' }}: Observable<Object>;
+  public formModel$: Observable<Object>;
+  public formData$: Observable<Object>;
+  public itemsList$: Observable<{{ $pagModel }}>;
+  public selectedItem$: Observable<{{ $gen->entityName() }} | null>;
+  public loading$: Observable<boolean>;
+  public errors$: Observable<Object>;
   public appMessages$: Observable<appMessage.State>;
 
   protected formModelSubscription$: Subscription;
   protected activedRouteSubscription$: Subscription;
 
   protected abstract title: string;
-  protected deleteAlertOptions: any;
+  protected swalOptions: any;
 
   public translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
   public searchQuery: SearchQuery = null;
@@ -65,12 +65,12 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   public constructor() { }
 
   public setupStoreSelects() {
-    this.{{ $formModel }} = this.store.select(fromRoot.get{{ $gen->entityName().'FormModel' }});
-    this.{{ $formData }} = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
-    this.{{ $pagination }} = this.store.select(fromRoot.get{{ studly_case($gen->entityName(true)).'Pagination' }});
-    this.{{ $selected }} = this.store.select(fromRoot.get{{ 'Selected'.$gen->entityName() }});
-    this.{{ $loading }} = this.store.select(fromRoot.get{{ $gen->entityName().'Loading' }});
-    this.{{ $errors }} = this.store.select(fromRoot.get{{ $gen->entityName().'Errors' }});
+    this.formModel$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormModel' }});
+    this.formData$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
+    this.itemsList$ = this.store.select(fromRoot.get{{ studly_case($gen->entityName(true)).'Pagination' }});
+    this.selectedItem$ = this.store.select(fromRoot.get{{ 'Selected'.$gen->entityName() }});
+    this.loading$ = this.store.select(fromRoot.get{{ $gen->entityName().'Loading' }});
+    this.errors$ = this.store.select(fromRoot.get{{ $gen->entityName().'Errors' }});
     this.appMessages$ = this.store.select(fromRoot.getAppMessagesState);
   }
 
@@ -115,15 +115,15 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   public deleteRow(id: string) {
     this.translateService
       .get(this.translateKey + 'delete-alert')
-      .subscribe(val => this.deleteAlertOptions = val);
+      .subscribe(val => this.swalOptions = val);
 
     swal({
-      title: this.deleteAlertOptions.title,
-      text: this.deleteAlertOptions.text,
+      title: this.swalOptions.title,
+      text: this.swalOptions.text,
       type: 'warning',
       showCancelButton: true,
-      confirmButtonText: this.deleteAlertOptions.confirm_btn_text,
-      cancelButtonText: this.deleteAlertOptions.cancel_btn_text,
+      confirmButtonText: this.swalOptions.confirm_btn_text,
+      cancelButtonText: this.swalOptions.cancel_btn_text,
       confirmButtonColor: '#ed5565',
       target: 'app-page-content'
     }).then(() => {

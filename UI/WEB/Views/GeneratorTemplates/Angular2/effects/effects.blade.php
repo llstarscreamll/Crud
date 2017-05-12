@@ -23,7 +23,10 @@ import { Effects } from './../../core/effects/abstract.effects';
  */
 @Injectable()
 export class {{ $entitySin }}Effects extends Effects {
-
+  
+  /**
+   * {{ $entitySin }}Effects contructor.
+   */
 	public constructor(
     private actions$: Actions,
     private {{ $service = camel_case($entitySin).'Service' }}: {{ $entitySin }}Service,
@@ -36,7 +39,7 @@ export class {{ $entitySin }}Effects extends Effects {
   }
 
   @Effect()
-  load{{ $gen->entityName(true) }}$: Observable<Action> = this.actions$
+  load$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.ActionTypes.LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }})
     .map((action: Action) => action.payload)
     .switchMap((searchData) => {
@@ -46,7 +49,7 @@ export class {{ $entitySin }}Effects extends Effects {
     });
 
   @Effect()
-  get{{ $camelEntity }}FormModel$: Observable<Action> = this.actions$
+  getFormModel$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }}_FORM_MODEL)
     .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
     .switchMap(([action, state]) => {
@@ -55,14 +58,14 @@ export class {{ $entitySin }}Effects extends Effects {
         return of(new {{ $actions }}.GetFormModelSuccessAction(state.{{ camel_case($gen->entityName()) }}FormModel));
       }
 
-      return this.{{ $service }}.get{{ $gen->entityName() }}FormModel()
-        .map((data) => this.FormModelParserService.parse(data, this.{{ $service }}.fieldsLangNamespace))
+      return this.{{ $service }}.getFormModel()
+        .map((data) => this.FormModelParserService.parse(data, this.{{ $service }}.fieldsLangKey))
         .map((data) => { return new {{ $actions }}.GetFormModelSuccessAction(data)})
         .catch((error: AppMessage) => this.handleError(error));
     });
 
     @Effect()
-    get{{ $camelEntity }}FormData$: Observable<Action> = this.actions$
+    getFormData$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }}_FORM_DATA)
       .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
       .switchMap(([action, state]) => {
@@ -71,7 +74,7 @@ export class {{ $entitySin }}Effects extends Effects {
           return of(new {{ $actions }}.GetFormDataSuccessAction(state.{{ camel_case($gen->entityName()) }}FormData));
         }
 
-        return this.{{ $service }}.get{{ $gen->entityName() }}FormData()
+        return this.{{ $service }}.getFormData()
           .map((data) => { return new {{ $actions }}.GetFormDataSuccessAction(data)})
           .catch((error: AppMessage) => this.handleError(error));
       });
@@ -86,7 +89,7 @@ export class {{ $entitySin }}Effects extends Effects {
           return of(new {{ $actions }}.SetSelectedAction(state.selected{{ $gen->entityName() }}));
         }
 
-        return this.{{ $service }}.get{{ $gen->entityName() }}(action.payload)
+        return this.{{ $service }}.get(action.payload)
           .mergeMap((data: {{ $entitySin }}) => {
             return [
               new {{ $actions }}.SetSelectedAction(data),
@@ -104,7 +107,7 @@ export class {{ $entitySin }}Effects extends Effects {
           .mergeMap((data: {{ $entitySin }}) => {
             return [
               new {{ $actions }}.SetSelectedAction(data),
-              new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('create')),
+              new appMsgActions.Flash(this.{{ $service }}.getMessage('create')),
               go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
             ];
           })
@@ -120,7 +123,7 @@ export class {{ $entitySin }}Effects extends Effects {
           .mergeMap((data: {{ $entitySin }}) => {
             return [
               new {{ $actions }}.SetSelectedAction(data),
-              new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('update')),
+              new appMsgActions.Flash(this.{{ $service }}.getMessage('update')),
               go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
             ];
           })
@@ -135,7 +138,7 @@ export class {{ $entitySin }}Effects extends Effects {
         return this.{{ $service }}.delete(action.id)
           .mergeMap(() => {
             let actions = [
-              new appMsgActions.Flash(this.{{ $service }}.getSuccessMessage('delete')),
+              new appMsgActions.Flash(this.{{ $service }}.getMessage('delete')),
               go(['{{ $gen->slugEntityName() }}'])
             ];
 

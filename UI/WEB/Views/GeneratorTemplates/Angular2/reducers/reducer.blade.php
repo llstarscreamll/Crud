@@ -7,7 +7,6 @@ import { {{ $paginationModel = $gen->entityName().'Pagination' }} } from './../m
  *
  * @author [name] <[<email address>]>
  */
-
 export interface State {
   {{ $formModel = camel_case($gen->entityName()).'FormModel' }}: Object;
   {{ $formData = camel_case($gen->entityName()).'FormData' }}: Object;
@@ -106,7 +105,6 @@ const reducers = {
   {{ camel_case($entity) }}: from{{ $entity }}.reducer,
 };
 
-  
 // {{ $gen->entityName() }} selectors
 export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
 export const get{{ studly_case($formModel) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($formModel) }});

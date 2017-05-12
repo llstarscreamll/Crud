@@ -27,8 +27,9 @@ import { {{ $abstractClass = $gen->containerClass('abstract', false, true) }} } 
 })
 export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {  
   protected title: string = 'form-page';
+  
+  public form: FormGroup;
   public formType: string = 'create';
-  public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
   public formConfigured: boolean = false;
 
   public constructor(
@@ -48,10 +49,10 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
   }
 
   private setupForm() {
-    this.formModelSubscription$ = this.{{ $formModel = camel_case($gen->entityName()).'FormModel$' }}
+    this.formModelSubscription$ = this.formModel$
       .subscribe((model) => {
         if (model) {
-          this.{{ $form }} = this.formModelParserService.toFormGroup(model);
+          this.form = this.formModelParserService.toFormGroup(model);
 
           if (this.formType == 'details' || this.formType == 'edit') {
             this.patchForm();
@@ -63,20 +64,20 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
   }
 
   private patchForm() {
-    this.{{ $selected = 'selected'.$gen->entityName().'$' }}.subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
+    this.selectedItem$.subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
       if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.id)) {
-        this.{{ $form }}.patchValue({{ $model }});
+        this.form.patchValue({{ $model }});
         this.formConfigured = true;
       }
     });
   }
 
-  public submit{{ $gen->entityName() }}Form() {
+  public submitForm() {
     if (this.formType == 'create')
-      this.store.dispatch(new {{ $actions }}.CreateAction(this.{{ $form }}.value));
+      this.store.dispatch(new {{ $actions }}.CreateAction(this.form.value));
 
     if (this.formType == 'edit')
-      this.store.dispatch(new {{ $actions }}.UpdateAction(this.{{ $form }}.value));
+      this.store.dispatch(new {{ $actions }}.UpdateAction(this.form.value));
 
     if (this.formType == 'details')
       this.store.dispatch(go(['{{ $gen->slugEntityName() }}', this.id, 'edit']));

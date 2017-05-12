@@ -31,7 +31,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
   public showSearchOptions: boolean = false;
   public formConfigured: boolean = false;
   public advancedSearchFormModel: Object;
-  public {{ $form = camel_case($gen->entityName()).'Form' }}: FormGroup;
+  public form: FormGroup;
   public advancedSearchForm: FormGroup;
 
   /**
@@ -76,10 +76,10 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
   }
 
   private setupForm() {
-    this.formModelSubscription$ = this.{{ $formModel = camel_case($gen->entityName()).'FormModel$' }}
+    this.formModelSubscription$ = this.formModel$
       .subscribe((model) => {
         if (model) {
-          this.{{ $form }} = this.formModelParserService.toFormGroup(model);
+          this.form = this.formModelParserService.toFormGroup(model);
           this.setupAdvancedSearchForm(model);
           this.formConfigured = true;
         }

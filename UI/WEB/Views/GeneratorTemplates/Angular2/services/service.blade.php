@@ -17,25 +17,68 @@ import { AppMessage } from './../../core/models/appMessage';
  */
 @Injectable()
 export class {{ $entitySin }}Service extends Service {
-	
+	/**
+   * API endpoint.
+   * @type string
+   */
 	protected API_ENDPOINT: string = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}';
-  public langNamespace: string = '{{ $gen->entityNameSnakeCase() }}';
-  public fieldsLangNamespace: string = '{{ $gen->entityNameSnakeCase() }}.fields.{{ $gen->tableName }}.';
+
+  /**
+   * The key to access language strings.
+   * @type string
+   */
+  public langKey: string = '{{ $gen->entityNameSnakeCase() }}';
+
+  /**
+   * Langage key to access form fields translations.
+   * @type string
+   */
+  public fieldsLangKey: string = this.langKey + '.fields.{{ $gen->tableName }}.';
+
+  /**
+   * The required columns to include on each API call.
+   * @type Array<string>
+   */
   protected required_columns = [
     '{{ $gen->tableName }}.id',
     {!! $gen->hasSoftDeleteColumn ? "'".$gen->tableName.".deleted_at'," : null !!}
   ];
 
+  /**
+   * {{ $entitySin }}Service contructor.
+   */
 	public constructor(
     private http: Http,
     private localStorageService: LocalStorageService,
     private translateService: TranslateService,
-  ) {
-    super();
+  ) { super(); }
+
+  /**
+   * Get the {{ $gen->entityName() }} form model.
+   */
+  public getFormModel(): Observable<Object> {
+    this.setAuthorizationHeader();
+
+    return this.http
+      .get(this.apiEndpoint('form-model'), { headers: this.headers })
+      .map(res => { return res.json() })
+      .catch(this.handleError);
   }
 
   /**
-   * Process the load {{ $entitySin }} request to the API.
+   * Get the {{ $gen->entityName() }} form data.
+   */
+  public getFormData(): Observable<Object> {
+    this.setAuthorizationHeader();
+
+    return this.http
+      .get(this.apiEndpoint('form-data'), { headers: this.headers })
+      .map(res => { return res.json() })
+      .catch(this.handleError);
+  }
+
+  /**
+   * Load {{ $gen->entityName(true) }}.
    */
   public load(data: Object = {}): Observable<{{ $entitySin.'Pagination' }}> {
     this.setAuthorizationHeader();
@@ -47,7 +90,10 @@ export class {{ $entitySin }}Service extends Service {
       .catch(this.handleError);
   }
 
-  public create(data: Object) {
+  /**
+   * Create {{ $gen->entityName() }}.
+   */
+  public create(data: Object): Observable<{{ $entitySin }}> {
     this.setAuthorizationHeader();
 
     return this.http
@@ -56,25 +102,10 @@ export class {{ $entitySin }}Service extends Service {
       .catch(this.handleError);
   }
 
-  public get{{ $gen->entityName() }}FormModel() {
-    this.setAuthorizationHeader();
-
-    return this.http
-      .get(this.apiEndpoint('form-model'), { headers: this.headers })
-      .map(res => { return res.json() })
-      .catch(this.handleError);
-  }
-
-  public get{{ $gen->entityName() }}FormData() {
-    this.setAuthorizationHeader();
-
-    return this.http
-      .get(this.apiEndpoint('form-data'), { headers: this.headers })
-      .map(res => { return res.json() })
-      .catch(this.handleError);
-  }
-
-  public get{{ $gen->entityName() }}(id) {
+  /**
+   * Get {{ $gen->entityName() }} by id.
+   */
+  public get(id): Observable<{{ $entitySin }}> {
     this.setAuthorizationHeader();
 
     let urlParams: URLSearchParams = new URLSearchParams;
@@ -85,7 +116,10 @@ export class {{ $entitySin }}Service extends Service {
       .catch(this.handleError);
   }
 
-  public update(data: {{ $entitySin }}) {
+  /**
+   * Update {{ $gen->entityName() }}.
+   */
+  public update(data: {{ $entitySin }}): Observable<{{ $entitySin }}> {
     this.setAuthorizationHeader();
 
     return this.http
@@ -94,7 +128,10 @@ export class {{ $entitySin }}Service extends Service {
       .catch(this.handleError);
   }
 
-  public delete(id: string) {
+  /**
+   * Delete {{ $gen->entityName() }} by id.
+   */
+  public delete(id: string): Observable<any> {
     this.setAuthorizationHeader();
     
     return this.http
@@ -103,10 +140,15 @@ export class {{ $entitySin }}Service extends Service {
       .catch(this.handleError);
   }
 
-  public getSuccessMessage(type: string = 'create'): AppMessage {
+  /**
+   * Get translated message.
+   */
+  public getMessage(type: string = 'create'): AppMessage {
     let msg: string;
 
-    this.translateService.get(this.langNamespace + '.msg.'+type+'_succcess').subscribe(val => msg = val);
+    this.translateService
+      .get(this.langKey + '.msg.' + type + '_succcess')
+      .subscribe(trans => msg = trans);
 
     let appMessage: AppMessage = {
       message: msg,

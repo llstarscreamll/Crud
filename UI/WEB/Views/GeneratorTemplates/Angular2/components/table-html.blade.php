@@ -21,8 +21,8 @@
 
       <tbody>
 
-        <ng-container *ngIf="{{ $items = camel_case($gen->entityName(true)) }} && {{ $items }}.length > 0">
-        <tr *ngFor="let {{ $var = camel_case($gen->entityName()) }} of {{ $items }}" @if($gen->hasSoftDeleteColumn) [ngClass]="{'danger': {{ $var }}.deleted_at }" @endif>
+        <ng-container *ngIf="itemsList && itemsList.length > 0">
+        <tr *ngFor="let {{ $var = camel_case($gen->entityName()) }} of itemsList" @if($gen->hasSoftDeleteColumn) [ngClass]="{'danger': {{ $var }}.deleted_at }" @endif>
           <td><input type="checkbox" name="item[]" value="{{ $var }}.id"></td>
 @foreach ($fields as $field)
 @if (!$field->hidden)
@@ -66,7 +66,7 @@
         </tr>
         </ng-container>
 
-        <ng-container *ngIf="!{{ $items }} || {{ $items }}.length == 0">
+        <ng-container *ngIf="!itemsList || itemsList.length == 0">
         <tr>
           <td [attr.colspan]="columns.length + 2">
             <div class="alert alert-warning" translate>{{ '{{' }} translateKey + 'msg.no_rows_found' }}</div>
