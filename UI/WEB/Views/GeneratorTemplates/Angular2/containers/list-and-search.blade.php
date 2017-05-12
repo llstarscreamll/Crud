@@ -26,12 +26,42 @@ import { {{ $abstractClass = $gen->containerClass('abstract', false, true) }}, S
   styleUrls: ['./{{ $gen->containerFile('list-and-search-css', true) }}']
 })
 export class {{ $gen->containerClass('list-and-search', $plural = true) }} extends {{ $abstractClass }} implements OnInit {
+  /**
+   * Page title.
+   * @type string
+   */
   protected title: string = 'module-name-plural';
+
+  /**
+   * Form type to render (create|update|details). Because some fields could not
+   * be shown based on the form type.
+   * @type string
+   */
   public formType: string = 'search';
-  public showSearchOptions: boolean = false;
+
+  /**
+   * Flag that tell as if the advanced search form should be shown or not.
+   * @type boolean
+   */
+  public showAdvancedSearchForm: boolean = false;
+
+  /**
+   * Flag that tell as if the form is ready to be shown or not.
+   * @type boolean
+   */
   public formConfigured: boolean = false;
+
+  /**
+   * Advanced search form model, this form is based on the main form model. Have
+   * the object config fields to show on advanced search form.
+   * @type Object
+   */
   public advancedSearchFormModel: Object;
-  public form: FormGroup;
+  
+  /**
+   * Advanced search form group.
+   * @type FormGrop
+   */
   public advancedSearchForm: FormGroup;
 
   /**
@@ -59,6 +89,9 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
     page: 1
   };
 
+  /**
+   * {{ $gen->containerClass('list-and-search', $plural = true) }} constructor.
+   */
   public constructor(
     protected store: Store<fromRoot.State>,
     protected location: Location,
@@ -67,6 +100,11 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
     protected formModelParserService: FormModelParserService
   ) { super(); }
 
+  /**
+   * The component is ready, this is called after the constructor and after the
+   * first ngOnChanges(). This is invoked only once when the component is
+   * instantiated.
+   */
   public ngOnInit() {
     this.setDocumentTitle();
     this.setupStoreSelects();
@@ -75,40 +113,54 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
   	this.onSearch();
   }
 
+  /**
+   * Parse the default form model to advanced search form model and parse the
+   * last one to form group.
+   */
   private setupForm() {
     this.formModelSubscription$ = this.formModel$
       .subscribe((model) => {
         if (model) {
-          this.form = this.formModelParserService.toFormGroup(model);
-          this.setupAdvancedSearchForm(model);
+          // parse form model to advenced search form model
+          this.advancedSearchFormModel = this.formModelParserService
+            .parseToSearch(model, this.tableColumns, this.translateKey);
+          this.advancedSearchForm = this.formModelParserService
+            .toFormGroup(this.advancedSearchFormModel);
+          
+          // patch form values
+          this.advancedSearchForm.get('options').patchValue(this.searchQuery);
+          this.advancedSearchForm.get('search').patchValue(this.searchQuery);
+
           this.formConfigured = true;
         }
       });
   }
 
-  public setupAdvancedSearchForm(model: Object) {
-    this.advancedSearchFormModel = this.formModelParserService.parseToSearch(model, this.tableColumns, this.translateKey);
-    this.advancedSearchForm = this.formModelParserService.toFormGroup(this.advancedSearchFormModel);
-    this.advancedSearchForm.get('options').patchValue(this.searchQuery);
-    this.advancedSearchForm.get('search').patchValue(this.searchQuery);
-  }
-
+  /**
+   * Trigger the basic search based on the given data.
+   */
   public onSearch(data: Object = {}) {
     this.searchQuery = Object.assign({}, this.searchQuery, data, { advanced_search: false });
     this.store.dispatch(new {{ $actions }}.LoadAction(this.searchQuery));
   }
 
+  /**
+   * Trigger the advenced search based on the given data.
+   */
   public onAdvancedSearch() {
     let options = {};
 
+    // any advanced search field have changed?
     if (!this.advancedSearchForm.get('search').pristine) {
       Object.assign(options, this.advancedSearchForm.get('search').value, { advanced_search: true, page: 1 });
     }
 
+    // any option search field have changed?
     if (!this.advancedSearchForm.get('options').pristine) {
       Object.assign(options, this.advancedSearchForm.get('options').value);
     }
 
+    // are there something to search?
     if (!isEmpty(options)) {
       this.searchQuery = Object.assign({}, this.searchQuery, options);
       this.store.dispatch(new {{ $actions }}.LoadAction(this.searchQuery));

@@ -24,16 +24,16 @@
           <div class="col-sm-6 col-md-4 m-b-md">
             <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}
               (search)="onSearch($event)"
-              (filterBtnClick)="showSearchOptions = !showSearchOptions">
+              (filterBtnClick)="showAdvancedSearchForm = !showAdvancedSearchForm">
               </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}>
           </div>
 
           <!-- search options modal -->
-          <div *ngIf="showSearchOptions && formConfigured"
+          <div *ngIf="showAdvancedSearchForm && formConfigured"
             bsModal
             #staticModal="bs-modal"
             [config]="{ show: true }"
-            (onHidden)="showSearchOptions = !showSearchOptions"
+            (onHidden)="showAdvancedSearchForm = !showAdvancedSearchForm"
             class="modal fade"
             tabindex="-1"
             role="dialog"
