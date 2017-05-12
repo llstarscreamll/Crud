@@ -1,20 +1,20 @@
-<div class="row">
-  <form [formGroup]="form" (ngSubmit)="search.emit()">
+<div *ngIf="formConfigured" class="row">
+  <form [formGroup]="form" (ngSubmit)="onAdvancedSearch(); search.emit()">
   
   	<tabset class="tabs-container">
       <!-- columns options -->
       <tab>
-        <template tabHeading>
+        <ng-template tabHeading>
           <i class="fa fa-columns" aria-hidden="true"></i>
           <span translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.options_tab_title</span>
-        </template>
+        </ng-template>
         <div class="panel-body">
           <dynamic-form-fields
             class="dynamic-form-fields"
             [form]="form.get('options')"
             [formModel]="formModel.options.controls"
             [formData]="{}"
-            [errors]="errors"
+            [errors]="errors$ | async"
             [visibility]="'search'"
             ></dynamic-form-fields>
         </div>
@@ -22,17 +22,17 @@
       
   		<!-- advanced search -->
       <tab>
-      	<template tabHeading>
+      	<ng-template tabHeading>
           <i class="fa fa-search-plus" aria-hidden="true"></i>
           <span translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.search_tab_title</span>
-        </template>
+        </ng-template>
       	<div class="panel-body">
   	    	<dynamic-form-fields
   	    		class="dynamic-form-fields"
   	    		[form]="form.get('search')"
             [formModel]="formModel.search.controls"
-            [formData]="formData"
-            [errors]="errors"
+            [formData]="formData$ | async"
+            [errors]="errors$ | async"
             [visibility]="'search'"
   	    		></dynamic-form-fields>
       	</div>
@@ -40,19 +40,19 @@
 
       <!-- debug info -->
       <tab *ngIf="debug">
-        <template tabHeading>
+        <ng-template tabHeading>
           <i class="fa fa-bug" aria-hidden="true"></i>
           <span>Debug</span>
-        </template>
+        </ng-template>
         <div class="col-sm-6">
           <strong>Form Values</strong>
           <pre>{{ '{{ ' }} form.value | json }}</pre>
           <strong>Form Data</strong>
-          <pre>{{ '{{ ' }} formData | json }}</pre>
+          <pre>{{ '{{ ' }} formData$ | async | json }}</pre>
         </div>
         <div class="col-sm-6">
           <strong>Form Model</strong>
-          <pre>{{ '{{ ' }} formModel | json }}</pre>
+          <pre>{{ '{{ ' }} formModel$ | async | json }}</pre>
         </div>
       </tab>
     </tabset>

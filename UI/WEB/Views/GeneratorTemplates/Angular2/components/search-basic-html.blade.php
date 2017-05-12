@@ -1,4 +1,4 @@
-<form [formGroup]="searchForm" (ngSubmit)="search.emit(searchForm.value)">
+<form [formGroup]="searchForm" (ngSubmit)="onSearch(searchForm.value)">
 	<div class="input-group">
 	 
 	  <input name="search" formControlName="search" class="form-control" placeholder="{{ '{{ ' }}'{{ $gen->entityNameSnakeCase() }}.search_field_placeholder' | translate }}">

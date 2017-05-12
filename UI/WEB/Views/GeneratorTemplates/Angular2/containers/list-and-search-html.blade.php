@@ -8,8 +8,6 @@
   <app-page-content>
     <app-box>
       <app-box-body>
-
-        <app-alerts [appMessage]="appMessages$ | async"></app-alerts>
         
         <div class="row">
           <!-- buttons -->
@@ -23,13 +21,12 @@
           <!-- basic search -->
           <div class="col-sm-6 col-md-4 m-b-md">
             <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}
-              (search)="onSearch($event)"
               (filterBtnClick)="showAdvancedSearchForm = !showAdvancedSearchForm">
               </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}>
           </div>
 
           <!-- search options modal -->
-          <div *ngIf="showAdvancedSearchForm && formConfigured"
+          <div *ngIf="showAdvancedSearchForm"
             bsModal
             #staticModal="bs-modal"
             [config]="{ show: true }"
@@ -51,11 +48,7 @@
                 <div class="modal-body">
                   <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}
                     class="advanced-search-form"
-                    (search)="onAdvancedSearch($event); staticModal.hide();"
-                    [formModel]="advancedSearchFormModel"
-                    [formData]="formData$ | async"
-                    [form]="advancedSearchForm"
-                    [errors]="errors$ | async"
+                    (search)="staticModal.hide()"
                     [debug]="false">
                   </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
                 </div>
@@ -65,14 +58,7 @@
           </div>
         </div>
 
-        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}
-          (updateSearch)="onSearch($event)"
-          [itemsList]="(itemsList$ | async)?.data"
-          [pagination]="(itemsList$ | async)?.pagination"
-          [orderBy]="searchQuery.orderBy"
-          [sortedBy]="searchQuery.sortedBy"
-          [columns]="searchQuery.filter"
-          (deleteBtnClicked)="deleteRow($event)">
+        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}>
         </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}>
       </app-box-body>
     </app-box>

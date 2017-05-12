@@ -40,6 +40,9 @@ class CreateNgComponentsTask
      * @var array
      */
     public $files = [
+        'abstract',
+        'form',
+        'form-html',
         'table',
         'table-spec',
         'table-html',

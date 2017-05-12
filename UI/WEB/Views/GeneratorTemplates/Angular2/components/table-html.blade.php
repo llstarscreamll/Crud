@@ -8,21 +8,21 @@
 @if (!$field->hidden)
           <th *ngIf="showColumn('{{ $gen->tableName.'.'.$field->name }}')" class="{{ $gen->tableName.'.'.$field->name }}">
             <span role="button" (click)="updateSearch.emit({'orderBy': '{{ $gen->tableName.'.'.$field->name }}', 'sortedBy': (sortedBy == 'desc' || orderBy != '{{ $gen->tableName.'.'.$field->name }}') ? 'asc' : 'desc'})">
-                {{ '{{' }} translateKey + 'fields.'+'{{ $gen->tableName.'.'.$field->name }}' | translate }}
+                {{ '{{' }} langKey + 'fields.'+'{{ $gen->tableName.'.'.$field->name }}' | translate }}
                 <i *ngIf="orderBy == '{{ $gen->tableName.'.'.$field->name }}'"
                     [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
             </span>
           </th>
 @endif
 @endforeach
-          <th class="actions" translate>{{ '{{' }} translateKey + 'actions_table_header' }}</th>
+          <th class="actions" translate>{{ '{{' }} langKey + 'actions_table_header' }}</th>
         </tr>
       </thead>
 
       <tbody>
 
-        <ng-container *ngIf="itemsList && itemsList.length > 0">
-        <tr *ngFor="let {{ $var = camel_case($gen->entityName()) }} of itemsList" @if($gen->hasSoftDeleteColumn) [ngClass]="{'danger': {{ $var }}.deleted_at }" @endif>
+        <ng-container *ngIf="(itemsList$ | async)?.data.length > 0">
+        <tr *ngFor="let {{ $var = camel_case($gen->entityName()) }} of (itemsList$ | async)?.data" @if($gen->hasSoftDeleteColumn) [ngClass]="{'danger': {{ $var }}.deleted_at }" @endif>
           <td><input type="checkbox" name="item[]" value="{{ $var }}.id"></td>
 @foreach ($fields as $field)
 @if (!$field->hidden)
@@ -38,38 +38,38 @@
           <td class="actions">
             <a
               [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'details']"
-              tooltip="{{ '{{' }} translateKey + 'details' | translate }}"
+              tooltip="{{ '{{' }} langKey + 'details' | translate }}"
               class="btn btn-sm btn-default details-link">
               <i class="glyphicon glyphicon-eye-open"></i>
-              <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'details' }}</span>
+              <span class="sr-only btn-label" translate>{{ '{{' }} langKey + 'details' }}</span>
             </a>
 
             <a
               {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
               [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'edit']"
-              tooltip="{{ '{{' }} translateKey + 'edit' | translate }}"
+              tooltip="{{ '{{' }} langKey + 'edit' | translate }}"
               class="btn btn-sm btn-default edit-link">
               <i class="glyphicon glyphicon-pencil"></i>
-              <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'edit' }}</span>
+              <span class="sr-only btn-label" translate>{{ '{{' }} langKey + 'edit' }}</span>
             </a>
             
             <a
               {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
               class="btn btn-sm btn-default delete-link"
               role="button"
-              tooltip="{{ '{{' }} translateKey + 'delete' | translate }}"
+              tooltip="{{ '{{' }} langKey + 'delete' | translate }}"
               (click)="deleteBtnClicked.emit({{ $var }}.id)">
               <i class="glyphicon glyphicon-trash"></i>
-              <span class="sr-only btn-label" translate>{{ '{{' }} translateKey + 'delete' }}</span>
+              <span class="sr-only btn-label" translate>{{ '{{' }} langKey + 'delete' }}</span>
             </a>
           </td>
         </tr>
         </ng-container>
 
-        <ng-container *ngIf="!itemsList || itemsList.length == 0">
+        <ng-container *ngIf="(itemsList$ | async)?.data.length == 0">
         <tr>
           <td [attr.colspan]="columns.length + 2">
-            <div class="alert alert-warning" translate>{{ '{{' }} translateKey + 'msg.no_rows_found' }}</div>
+            <div class="alert alert-warning" translate>{{ '{{' }} langKey + 'msg.no_rows_found' }}</div>
           </td>
         </tr>
         </ng-container>
@@ -90,10 +90,10 @@
       [maxSize]="5"
       [boundaryLinks]="true"
       (pageChanged)="updateSearch.emit($event)"
-      [firstText]="translateKey + 'paginator.first_text' | translate"
-      [lastText]="translateKey + 'paginator.last_text' | translate"
-      [nextText]="translateKey + 'paginator.next_text' | translate"
-      [previousText]="translateKey + 'paginator.previous_text' | translate"
+      [firstText]="langKey + 'paginator.first_text' | translate"
+      [lastText]="langKey + 'paginator.last_text' | translate"
+      [nextText]="langKey + 'paginator.next_text' | translate"
+      [previousText]="langKey + 'paginator.previous_text' | translate"
       ></pagination>
   </div>
 </div>

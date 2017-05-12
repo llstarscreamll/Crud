@@ -8,5 +8,5 @@ import { {{ $gen->entityName() }} } from './{{ camel_case($gen->entityName()) }}
  */
 export class {{ $gen->entityName() }}Pagination {
 	public data: {{ $gen->entityName() }}[];
-	public pagination: { pagination: Pagination };
+	public pagination: Pagination;
 }
