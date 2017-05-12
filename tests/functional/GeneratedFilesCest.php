@@ -113,19 +113,15 @@ class GeneratedFilesCest
         $I->seeFileFound('book-form-fields.component.ts', $entityComponentsDir);
         $I->seeFileFound('book-form-fields.component.spec.ts', $entityComponentsDir);
         $I->seeFileFound('book-form-fields.component.html', $entityComponentsDir);
-        $I->seeFileFound('book-form-fields.component.css', $entityComponentsDir);
         $I->seeFileFound('book-search-basic.component.ts', $entityComponentsDir);
         $I->seeFileFound('book-search-basic.component.spec.ts', $entityComponentsDir);
         $I->seeFileFound('book-search-basic.component.html', $entityComponentsDir);
-        $I->seeFileFound('book-search-basic.component.css', $entityComponentsDir);
         $I->seeFileFound('book-search-advanced.component.ts', $entityComponentsDir);
         $I->seeFileFound('book-search-advanced.component.spec.ts', $entityComponentsDir);
         $I->seeFileFound('book-search-advanced.component.html', $entityComponentsDir);
-        $I->seeFileFound('book-search-advanced.component.css', $entityComponentsDir);
         $I->seeFileFound('books-table.component.ts', $entityComponentsDir);
         $I->seeFileFound('books-table.component.spec.ts', $entityComponentsDir);
         $I->seeFileFound('books-table.component.html', $entityComponentsDir);
-        $I->seeFileFound('books-table.component.css', $entityComponentsDir);
         $I->seeFileFound('index.ts', $entityComponentsDir);
 
         // containers
@@ -136,11 +132,9 @@ class GeneratedFilesCest
         $I->seeFileFound('book-abstract.page.ts', $entityContainersDir);
         $I->seeFileFound('list-and-search-books.page.ts', $entityContainersDir);
         $I->seeFileFound('list-and-search-books.page.spec.ts', $entityContainersDir);
-        $I->seeFileFound('list-and-search-books.page.css', $entityContainersDir);
         $I->seeFileFound('list-and-search-books.page.html', $entityContainersDir);
         $I->seeFileFound('book-form.page.ts', $entityContainersDir);
         $I->seeFileFound('book-form.page.spec.ts', $entityContainersDir);
-        $I->seeFileFound('book-form.page.css', $entityContainersDir);
         $I->seeFileFound('book-form.page.html', $entityContainersDir);
         $I->seeFileFound('index.ts', $entityContainersDir);
 

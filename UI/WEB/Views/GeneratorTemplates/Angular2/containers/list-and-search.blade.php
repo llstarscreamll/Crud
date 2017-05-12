@@ -23,7 +23,6 @@ import { {{ $abstractClass = $gen->containerClass('abstract', false, true) }}, S
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('list-and-search', true)) }}',
   templateUrl: './{{ $gen->containerFile('list-and-search-html', true) }}',
-  styleUrls: ['./{{ $gen->containerFile('list-and-search-css', true) }}']
 })
 export class {{ $gen->containerClass('list-and-search', $plural = true) }} extends {{ $abstractClass }} implements OnInit {
   /**

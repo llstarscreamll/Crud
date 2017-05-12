@@ -22,8 +22,7 @@ import { {{ $abstractClass = $gen->containerClass('abstract', false, true) }} } 
  */
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('form', false, true)) }}',
-  templateUrl: './{{ $gen->containerFile('form-html', false, true) }}',
-  styleUrls: ['./{{ $gen->containerFile('form-css', false, true) }}']
+  templateUrl: './{{ $gen->containerFile('form-html', false, true) }}'
 })
 export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
   /**

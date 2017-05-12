@@ -10,8 +10,7 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
  */
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form-fields', false)) }}',
-  templateUrl: './{{ $gen->componentFile('form-fields-html', false) }}',
-  styleUrls: ['./{{ $gen->componentFile('form-fields-css', false) }}']
+  templateUrl: './{{ $gen->componentFile('form-fields-html', false) }}'
 })
 export class {{ $gen->componentClass('form-fields', $plural = false) }} implements OnInit {
   @Input()

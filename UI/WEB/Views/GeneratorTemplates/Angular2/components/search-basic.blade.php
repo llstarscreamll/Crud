@@ -11,7 +11,6 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
 {{ '@' }}Component({
   selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}',
   templateUrl: './{{ $gen->componentFile('search-basic-html', false) }}',
-  styleUrls: ['./{{ $gen->componentFile('search-basic-css', false) }}']
 })
 export class {{ $gen->componentClass('search-basic', $plural = false) }} implements OnInit {
   @Output()
