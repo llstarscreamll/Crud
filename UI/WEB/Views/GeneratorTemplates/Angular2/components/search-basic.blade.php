@@ -9,8 +9,9 @@ import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_c
  * @author [name] <[<email address>]>
  */
 {{ '@' }}Component({
-  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}',
+  selector: '{{ $selector = str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}',
   templateUrl: './{{ $gen->componentFile('search-basic-html', false) }}',
+  exportAs: '{{ str_replace('-component', '', $selector) }}',
 })
 export class {{ $gen->componentClass('search-basic', $plural = false) }} implements OnInit {
   @Output()

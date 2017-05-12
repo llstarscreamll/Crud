@@ -9,8 +9,9 @@ import { Pagination } from './../../../core/models/pagination';
  * @author [name] <[<email address>]>
  */
 {{ '@' }}Component({
-  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}',
+  selector: '{{ $selector = str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}',
   templateUrl: './{{ $gen->componentFile('table-html', $plural = true) }}',
+  exportAs: '{{ str_replace('-component', '', $selector) }}',
 })
 export class {{ $gen->componentClass('table', $plural = true) }} implements OnInit {
 	@Input()
