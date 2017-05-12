@@ -53,8 +53,22 @@ export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abs
     return this.searchQuery.filter.indexOf(column) > -1;
   }
 
+  public onSort(column: string) {
+    let orderBy = column;
+    let sortedBy = this.sortedBy == 'desc' || this.orderBy != column
+      ? 'asc'
+      : 'desc';
+
+    this.store.dispatch(new {{ $actions }}.SetSearchQueryAction({ 'orderBy': orderBy, 'sortedBy': sortedBy }));
+    this.updateSearch.emit();
+  }
+
   get orderBy() {
     return this.searchQuery.orderBy;
+  }
+
+  get sortedBy() {
+    return this.searchQuery.sortedBy;
   }
 
   get columns() {

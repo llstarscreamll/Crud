@@ -50,6 +50,12 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   public formData$: Observable<Object>;
 
   /**
+   * Search query.
+   * @type Observable<SearchQuery>
+   */
+  public searchQuery$: Observable<SearchQuery>;
+
+  /**
    * Items list pagination loaded from API.
    * @type Observable<{{ $pagModel }}>
    */
@@ -80,27 +86,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   /**
    * The search query options.
    */
-  public searchQuery: SearchQuery = {
-    // columns to retrive from API
-    filter: [
-@foreach ($fields as $field)
-@if ($field->on_index_table && !$field->hidden)
-      '{{ $gen->tableName.'.'.$field->name }}',
-@endif
-@endforeach
-    ],
-    // the relations map, we need some fields for eager load certain relations
-    include: {
-@foreach ($fields as $field)
-@if ($field->namespace && !$field->hidden)
-      '{{ $gen->tableName.'.'.$field->name }}': '{{  $gen->relationNameFromField($field)  }}',
-@endif
-@endforeach
-    },
-    orderBy: "{{ $gen->hasLaravelTimestamps ? $gen->tableName.'.created_at' : $gen->tableName.'.id' }}",
-    sortedBy: "desc",
-    page: 1
-  };
+  public searchQuery: SearchQuery;
 
   /**
    * The sweet alert options.
@@ -136,19 +122,22 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   public setupStoreSelects() {
     this.formModel$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormModel' }});
     this.formData$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
+    this.searchQuery$ = this.store.select(fromRoot.get{{ $gen->entityName().'SearchQuery' }});
     this.itemsList$ = this.store.select(fromRoot.get{{ studly_case($gen->entityName(true)).'Pagination' }});
     this.selectedItem$ = this.store.select(fromRoot.get{{ 'Selected'.$gen->entityName() }});
     this.loading$ = this.store.select(fromRoot.get{{ $gen->entityName().'Loading' }});
     this.errors$ = this.store.select(fromRoot.get{{ $gen->entityName().'Errors' }});
     this.appMessages$ = this.store.select(fromRoot.getAppMessagesState);
+
+    this.searchQuery$.subscribe(query => this.searchQuery = query);
   }
 
   /**
    * Trigger the basic search based on the given data.
    */
   public onSearch(data: Object = {}) {
-    this.searchQuery = Object.assign({}, this.searchQuery, data, { advanced_search: false });
-    this.store.dispatch(new {{ $actions }}.LoadAction(this.searchQuery));
+    let query = Object.assign({}, this.searchQuery, data, { advanced_search: false });
+    this.store.dispatch(new {{ $actions }}.SetSearchQueryAction(query));
   }
 
   /**

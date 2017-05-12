@@ -39,18 +39,8 @@ export class {{ $entitySin }}Effects extends Effects {
   }
 
   @Effect()
-  load$: Observable<Action> = this.actions$
-    .ofType({{ $actions }}.ActionTypes.LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }})
-    .map((action: Action) => action.payload)
-    .switchMap((searchData) => {
-      return this.{{ $service }}.load(searchData)
-        .map((data: {{ $entitySin.'Pagination' }}) => { return new {{ $actions }}.LoadSuccessAction(data)})
-        .catch((error: AppMessage) => this.handleError(error));
-    });
-
-  @Effect()
   getFormModel$: Observable<Action> = this.actions$
-    .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }}_FORM_MODEL)
+    .ofType({{ $actions }}.GET_FORM_MODEL)
     .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
     .switchMap(([action, state]) => {
       // prevent API call if we have the form model already
@@ -66,7 +56,7 @@ export class {{ $entitySin }}Effects extends Effects {
 
     @Effect()
     getFormData$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }}_FORM_DATA)
+      .ofType({{ $actions }}.GET_FORM_DATA)
       .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
       .switchMap(([action, state]) => {
         // prevent API call if we have the form data already
@@ -79,9 +69,26 @@ export class {{ $entitySin }}Effects extends Effects {
           .catch((error: AppMessage) => this.handleError(error));
       });
 
+  @Effect()
+  setSearchQuery$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.SET_SEARCH_QUERY)
+    .map((action: Action) => action.payload)
+    .map((searchQuery) => new {{ $actions }}.LoadAction());
+
+  @Effect()
+  load$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.LOAD)
+    .map((action: Action) => action.payload)
+    .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
+    .switchMap(([action, state]) => {
+      return this.{{ $service }}.load(state.searchQuery)
+        .map((data: {{ $entitySin.'Pagination' }}) => { return new {{ $actions }}.LoadSuccessAction(data)})
+        .catch((error: AppMessage) => this.handleError(error));
+    });
+
     @Effect()
     get$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.ActionTypes.GET_{{ $gen->entityNameSnakeCase() }})
+      .ofType({{ $actions }}.GET)
       .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
       .switchMap(([action, state]) => {
         // prevent API call if we have the data object already
@@ -100,7 +107,7 @@ export class {{ $entitySin }}Effects extends Effects {
 
     @Effect()
     create$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.ActionTypes.CREATE_{{ $gen->entityNameSnakeCase() }})
+      .ofType({{ $actions }}.CREATE)
       .map((action: Action) => action.payload)
       .switchMap((data) => {
         return this.{{ $service }}.create(data)
@@ -116,7 +123,7 @@ export class {{ $entitySin }}Effects extends Effects {
 
     @Effect()
     update$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.ActionTypes.UPDATE_{{ $gen->entityNameSnakeCase() }})
+      .ofType({{ $actions }}.UPDATE)
       .map((action: Action) => action.payload)
       .switchMap((data: {{ $entitySin }}) => {
         return this.{{ $service }}.update(data)
@@ -132,7 +139,7 @@ export class {{ $entitySin }}Effects extends Effects {
 
     @Effect()
     delete$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.ActionTypes.DELETE_{{ $gen->entityNameSnakeCase() }})
+      .ofType({{ $actions }}.DELETE)
       .map((action: Action) => action.payload)
       .switchMap(action => {
         return this.{{ $service }}.delete(action.id)

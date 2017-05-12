@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import * as fromRoot from './../../../reducers';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
+import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
 
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 

@@ -7,7 +7,7 @@
 @foreach ($fields as $field)
 @if (!$field->hidden)
           <th *ngIf="showColumn('{{ $gen->tableName.'.'.$field->name }}')" class="{{ $gen->tableName.'.'.$field->name }}">
-            <span role="button" (click)="updateSearch.emit({'orderBy': '{{ $gen->tableName.'.'.$field->name }}', 'sortedBy': (sortedBy == 'desc' || orderBy != '{{ $gen->tableName.'.'.$field->name }}') ? 'asc' : 'desc'})">
+            <span role="button" (click)="onSort('{{ $gen->tableName.'.'.$field->name }}')">
                 {{ '{{' }} langKey + 'fields.'+'{{ $gen->tableName.'.'.$field->name }}' | translate }}
                 <i *ngIf="orderBy == '{{ $gen->tableName.'.'.$field->name }}'"
                     [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
@@ -58,7 +58,7 @@
               class="btn btn-sm btn-default delete-link"
               role="button"
               tooltip="{{ '{{' }} langKey + 'delete' | translate }}"
-              (click)="deleteBtnClicked.emit({{ $var }}.id)">
+              (click)="deleteRow({{ $var }}.id)">
               <i class="glyphicon glyphicon-trash"></i>
               <span class="sr-only btn-label" translate>{{ '{{' }} langKey + 'delete' }}</span>
             </a>

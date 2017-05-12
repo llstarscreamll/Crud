@@ -2,6 +2,8 @@ import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ 
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 import { {{ $paginationModel = $gen->entityName().'Pagination' }} } from './../models/{{ camel_case($entitySin) }}Pagination';
 
+import { SearchQuery } from './../components/{{ $gen->slugEntityName() }}/{{ str_replace('.ts', '', $gen->componentFile('abstract', false, true)) }}';
+
 /**
  * {{ $gen->entityName() }} Reducer.
  *
@@ -12,6 +14,7 @@ export interface State {
   {{ $formData = camel_case($gen->entityName()).'FormData' }}: Object;
   {{ $pagination = camel_case($gen->entityName(true)).'Pagination' }}: {{ $gen->entityName() }}Pagination | null;
   {{ $selected = 'selected'.$gen->entityName() }}: {{ $gen->entityName() }} | null;
+  searchQuery: SearchQuery;
   loading: boolean;
   errors: Object;
 }
@@ -21,61 +24,87 @@ const initialState: State = {
   {{ $formData }}: null,
   {{ $pagination }}: null,
   {{ $selected }}: null,
+  searchQuery: {
+    // columns to retrive from API
+    filter: [
+@foreach ($fields as $field)
+@if ($field->on_index_table && !$field->hidden)
+      '{{ $gen->tableName.'.'.$field->name }}',
+@endif
+@endforeach
+    ],
+    // the relations map, we need some fields for eager load certain relations
+    include: {
+@foreach ($fields as $field)
+@if ($field->namespace && !$field->hidden)
+      '{{ $gen->tableName.'.'.$field->name }}': '{{  $gen->relationNameFromField($field)  }}',
+@endif
+@endforeach
+    },
+    orderBy: "{{ $gen->hasLaravelTimestamps ? $gen->tableName.'.created_at' : $gen->tableName.'.id' }}",
+    sortedBy: "desc",
+    page: 1
+  },
   loading: true,
   errors: {}
 };
 
 export function reducer(state = initialState, action: {{ $actions }}.Actions): State {
   switch (action.type) {
-    case {{ $actions }}.ActionTypes.LOAD_{{ $entitySnakePlu = $gen->entityNameSnakeCase(true) }}: {
+    case {{ $actions }}.GET_FORM_MODEL: {
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.ActionTypes.LOAD_{{ $entitySnakePlu }}_SUCCESS: {
-      return { ...state, {{ $pagination }}: action.payload as {{ $paginationModel }}, loading: false };
-    }
-    
-    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}_FORM_MODEL: {
-      return { ...state, loading: true };
-    }
-
-    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_FORM_MODEL_SUCCESS: {
+    case {{ $actions }}.GET_FORM_MODEL_SUCCESS: {
       return { ...state, {{ camel_case($gen->entityName()) }}FormModel: action.payload, loading: false };
     }
     
-    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin = $gen->entityNameSnakeCase() }}_FORM_DATA: {
+    case {{ $actions }}.GET_FORM_DATA: {
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}_FORM_DATA_SUCCESS: {
+    case {{ $actions }}.GET_FORM_DATA_SUCCESS: {
       return { ...state, {{ camel_case($gen->entityName()) }}FormData: action.payload, loading: false };
     }
 
-    case {{ $actions }}.ActionTypes.CREATE_{{ $entitySnakeSin }}: {
+    case {{ $actions }}.SET_SEARCH_QUERY: {
+      let searchQuery = Object.assign({}, state.searchQuery, action.payload);
+      return { ...state, searchQuery: searchQuery };
+    }
+
+    case {{ $actions }}.LOAD: {
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.ActionTypes.GET_{{ $entitySnakeSin }}: {
+    case {{ $actions }}.LOAD_SUCCESS: {
+      return { ...state, {{ $pagination }}: action.payload as {{ $paginationModel }}, loading: false };
+    }
+    
+    case {{ $actions }}.CREATE: {
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.ActionTypes.UPDATE_{{ $entitySnakeSin }}: {
+    case {{ $actions }}.GET: {
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.ActionTypes.DELETE_{{ $entitySnakeSin }}: {
+    case {{ $actions }}.UPDATE: {
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.ActionTypes.RESTORE_{{ $entitySnakeSin }}: {
+    case {{ $actions }}.DELETE: {
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.ActionTypes.SET_SELECTED_{{ $entitySnakeSin }}: {
+    case {{ $actions }}.RESTORE: {
+      return { ...state, loading: true };
+    }
+
+    case {{ $actions }}.SET_SELECTED: {
       return { ...state, selected{{ $gen->entityName() }}: action.payload as {{ $entitySin }}, loading: false };
     }
 
-    case {{ $actions }}.ActionTypes.SET_{{ $entitySnakeSin }}_ERRORS: {
+    case {{ $actions }}.SET_ERRORS: {
       return { ...state, errors: action.payload };
     }
 
@@ -89,6 +118,7 @@ export const get{{ studly_case($formModel) }} = (state: State) => state.{{ $form
 export const get{{ studly_case($formData) }} = (state: State) => state.{{ $formData }};
 export const get{{ studly_case($pagination) }} = (state: State) => state.{{ $pagination }};
 export const get{{ studly_case($selected) }} = (state: State) => state.{{ $selected }};
+export const getSearchQuery = (state: State) => state.searchQuery;
 export const get{{ studly_case('loading') }} = (state: State) => state.{{ 'loading' }};
 export const get{{ studly_case('errors') }} = (state: State) => state.{{ 'errors' }};
 
@@ -107,6 +137,7 @@ const reducers = {
 
 // {{ $gen->entityName() }} selectors
 export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
+export const get{{ $entity }}SearchQuery = createSelector(get{{ $entity }}State, from{{ $entity }}.getSearchQuery);
 export const get{{ studly_case($formModel) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($formModel) }});
 export const get{{ studly_case($formData) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($formData) }});
 export const get{{ studly_case($pagination) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($pagination) }});

@@ -105,8 +105,7 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} exte
 
     // are there something to search?
     if (!isEmpty(options)) {
-      this.searchQuery = Object.assign({}, this.searchQuery, options);
-      this.store.dispatch(new {{ $actions }}.LoadAction(this.searchQuery));
+      this.store.dispatch(new {{ $actions }}.SetSearchQueryAction(options));
     }
   }
 
