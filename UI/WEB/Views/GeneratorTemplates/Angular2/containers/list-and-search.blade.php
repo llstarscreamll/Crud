@@ -123,7 +123,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
         if (model) {
           // parse form model to advenced search form model
           this.advancedSearchFormModel = this.formModelParserService
-            .parseToSearch(model, this.tableColumns, this.translateKey);
+            .parseToSearch(model, this.tableColumns, this.langKey);
           this.advancedSearchForm = this.formModelParserService
             .toFormGroup(this.advancedSearchFormModel);
           

@@ -29,6 +29,9 @@ export interface SearchQuery {
  * @author [name] <[<email address>]>
  */
 export abstract class {{ $gen->containerClass('abstract', false, true) }} {
+  /**
+   * Dependencies.
+   */
   protected abstract store: Store<fromRoot.State>;
   protected abstract titleService: Title;
   protected abstract translateService: TranslateService;
@@ -36,21 +39,60 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   protected location: Location;
   protected activedRoute: ActivatedRoute;
   
+  /**
+   * Form model.
+   * @type Observable<Object>
+   */
   public formModel$: Observable<Object>;
+
+  /**
+   * Form data loaded from API.
+   * @type Observable<Object>
+   */
   public formData$: Observable<Object>;
+
+  /**
+   * Items list pagination loaded from API.
+   * @type Observable<{{ $pagModel }}>
+   */
   public itemsList$: Observable<{{ $pagModel }}>;
+
+  /**
+   * Selected item loaded from API.
+   * @type Observable<{{ $gen->entityName() }} | null>
+   */
   public selectedItem$: Observable<{{ $gen->entityName() }} | null>;
+
+  /**
+   * Loading state.
+   * @type Observable<boolean>
+   */
   public loading$: Observable<boolean>;
+
+  /**
+   * The errors from this entity, like validation errors, etc.
+   * @type Observable<Object>
+   */
   public errors$: Observable<Object>;
+
   public appMessages$: Observable<appMessage.State>;
 
   protected formModelSubscription$: Subscription;
   protected activedRouteSubscription$: Subscription;
 
+  /**
+   * Page title.
+   * @type string
+   */
   protected abstract title: string;
+
+  /**
+   * The sweet alert options.
+   * @type any
+   */
   protected swalOptions: any;
 
-  public translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
+  public langKey: string = '{{ $gen->entityNameSnakeCase() }}.';
   public searchQuery: SearchQuery = null;
   public formType: string = 'search';
   public id: string = null;
@@ -62,8 +104,14 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
 @endforeach
   ];
 
+  /**
+   * {{ $gen->containerClass('abstract', false, true) }} constructor.
+   */
   public constructor() { }
 
+  /**
+   * Init the store selects.
+   */
   public setupStoreSelects() {
     this.formModel$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormModel' }});
     this.formData$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
@@ -74,22 +122,31 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
     this.appMessages$ = this.store.select(fromRoot.getAppMessagesState);
   }
 
+  /**
+   * Set the document title.
+   */
   protected setDocumentTitle() {
     this.translateService
-      .get(this.translateKey + this.title)
+      .get(this.langKey + this.title)
       .subscribe(val => this.titleService.setTitle(val));
   }
 
+  /**
+   * Load the form model and form data.
+   */
   public initForm() {
     this.setFormType();
 
     // if form type is details|update, then download the {{ $gen->entityName() }} data from API by the given id
-    this.load{{ $gen->entityName() }}();
+    this.loadSelectedItem();
     
     this.store.dispatch(new {{ $actions }}.GetFormDataAction(null));
     this.store.dispatch(new {{ $actions }}.GetFormModelAction(null));
   }
 
+  /**
+   * Set the form type based on the actual location path.
+   */
   protected setFormType() {
     let url: string = this.location.path();
     
@@ -103,7 +160,10 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
       this.formType = "create";
   }
 
-  private load{{ $gen->entityName() }}() {
+  /**
+   * Load {{ str_replace('_', '', $gen->tableName) }} by the given id on url, if any.
+   */
+  private loadSelectedItem() {
     if (this.formType.includes('details') || this.formType.includes('edit')) {
       this.activedRouteSubscription$ = this.activedRoute.params.subscribe(params => {
         this.id = params['id'];
@@ -112,9 +172,12 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
     }
   }
 
+  /**
+   * Delete item by the given id. Show an sweet alert to confirm the action.
+   */
   public deleteRow(id: string) {
     this.translateService
-      .get(this.translateKey + 'delete-alert')
+      .get(this.langKey + 'delete-alert')
       .subscribe(val => this.swalOptions = val);
 
     swal({

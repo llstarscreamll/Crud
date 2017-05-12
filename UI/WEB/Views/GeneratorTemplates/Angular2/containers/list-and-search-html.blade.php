@@ -1,7 +1,7 @@
 <app-sidebar-layout>
   <app-page-header>
     <div class="col-xs-12">
-      <h1 translate>{{ '{{' }} translateKey + 'module-name-plural' }}</h1>
+      <h1 translate>{{ '{{' }} langKey + 'module-name-plural' }}</h1>
     </div>
   </app-page-header>
   
@@ -16,7 +16,7 @@
           <div class="col-sm-6 col-md-8 m-b-md">
             <a [routerLink]="[ '/{{ $gen->slugEntityName() }}/create' ]" class="btn btn-primary">
               <i class="glyphicon glyphicon-plus"></i>
-              <span translate>{{ '{{' }} translateKey + 'create' }}</span>
+              <span translate>{{ '{{' }} langKey + 'create' }}</span>
             </a>
           </div>
 
@@ -42,7 +42,7 @@
               <div class="modal-content">
                 
                 <div class="modal-header">
-                  <h4 class="modal-title pull-left" translate>{{ '{{ ' }}translateKey + 'advanced_search.title' }}</h4>
+                  <h4 class="modal-title pull-left" translate>{{ '{{ ' }}langKey + 'advanced_search.title' }}</h4>
                   <button type="button" class="close pull-right" aria-label="Close" (click)="staticModal.hide()">
                     <span aria-hidden="true">&times;</span>
                   </button>
