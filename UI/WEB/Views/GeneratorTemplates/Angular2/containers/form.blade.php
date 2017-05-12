@@ -46,7 +46,7 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
   public formType: string = 'create';
 
   /**
-   * Flag that tell as if the form is ready to br rendered or not.
+   * Flag that tell as if the form is ready to be shown or not.
    * @type boolean
    */
   public formConfigured: boolean = false;
