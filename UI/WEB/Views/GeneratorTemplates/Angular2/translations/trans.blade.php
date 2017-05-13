@@ -20,6 +20,7 @@ export const {{ $gen->entityNameSnakeCase() }} = {
     'cancel_modal_btn': '{{ trans('crud::templates.cancel_modal_btn') }}',
     'actions_table_header': '{{ trans('crud::templates.actions_table_header') }}',
     'loading_items_list': '{{ trans('crud::templates.loading_items_list', ['entity' => strtolower($gen->request->get('plural_entity_name'))]) }}',
+    'loading_form': '{{ trans('crud::templates.loading_form', ['entity' => strtolower($gen->request->get('plural_entity_name'))]) }}',
 
     'advanced_search': {
       'title': '{{ trans('crud::templates.advanced_search') }}',

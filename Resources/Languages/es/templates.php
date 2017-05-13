@@ -32,6 +32,7 @@ return [
 	'advanced_search_apply_btn' => 'Aplicar',
 	'item_trashed' => 'Este :entity se encuentra en la papelera!!',
 	'loading_items_list' => 'Cargando :entity',
+	'loading_form' => 'Cargando formulario de :entity',
 	'paginator' => [
 		'first_text' => 'Primero',
 		'last_text' => 'Último',

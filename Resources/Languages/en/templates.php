@@ -32,6 +32,7 @@ return [
 	'advanced_search_apply_btn' => 'Apply',
 	'item_trashed' => 'This :entity is trashed!!',
 	'loading_items_list' => 'Loading :entity',
+	'loading_form' => 'Loading :entity form',
 	'paginator' => [
 		'first_text' => 'First',
 		'last_text' => 'Last',
