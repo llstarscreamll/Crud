@@ -114,13 +114,13 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
   }
  }
 
-export const get{{ studly_case($formModel) }} = (state: State) => state.{{ $formModel }};
-export const get{{ studly_case($formData) }} = (state: State) => state.{{ $formData }};
-export const get{{ studly_case($pagination) }} = (state: State) => state.{{ $pagination }};
-export const get{{ studly_case($selected) }} = (state: State) => state.{{ $selected }};
+export const getFormModel = (state: State) => state.{{ $formModel }};
+export const getFormData = (state: State) => state.{{ $formData }};
+export const getLoading = (state: State) => state.{{ 'loading' }};
+export const getItemsList = (state: State) => state.{{ $pagination }};
+export const getSelectedItem = (state: State) => state.{{ $selected }};
 export const getSearchQuery = (state: State) => state.searchQuery;
-export const get{{ studly_case('loading') }} = (state: State) => state.{{ 'loading' }};
-export const get{{ studly_case('errors') }} = (state: State) => state.{{ 'errors' }};
+export const getErrors = (state: State) => state.{{ 'errors' }};
 
 /* -----------------------------------------------------------------------------
 Don't forget to import these reducer on the main app reducer!!
@@ -138,11 +138,11 @@ const reducers = {
 // {{ $gen->entityName() }} selectors
 export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
 export const get{{ $entity }}SearchQuery = createSelector(get{{ $entity }}State, from{{ $entity }}.getSearchQuery);
-export const get{{ studly_case($formModel) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($formModel) }});
-export const get{{ studly_case($formData) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($formData) }});
-export const get{{ studly_case($pagination) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($pagination) }});
-export const get{{ studly_case($selected) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case($selected) }});
-export const get{{ $gen->entityName().studly_case('loading') }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case('loading') }});
-export const get{{ $gen->entityName().studly_case('errors') }} = createSelector(get{{ $entity }}State, from{{ $entity }}.get{{ studly_case('errors') }});
+export const get{{ studly_case($formModel) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getFormModel);
+export const get{{ studly_case($formData) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getFormData);
+export const get{{ studly_case($pagination) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsList);
+export const get{{ studly_case($selected) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getSelectedItem);
+export const get{{ $gen->entityName().studly_case('loading') }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getLoading);
+export const get{{ $gen->entityName().studly_case('errors') }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getErrors);
 
 ----------------------------------------------------------------------------- */
