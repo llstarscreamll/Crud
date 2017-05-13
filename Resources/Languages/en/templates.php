@@ -30,6 +30,7 @@ return [
 	'softdeleted_rows_info' => 'The rows highlighted with red color are trashed',
 	'actions_table_header' => 'Actions',
 	'advanced_search_apply_btn' => 'Apply',
+	'item_trashed' => 'This :entity is trashed!!',
 	'paginator' => [
 		'first_text' => 'First',
 		'last_text' => 'Last',

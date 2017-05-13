@@ -143,18 +143,18 @@ export class {{ $entitySin }}Service extends Service {
   /**
    * Get translated message.
    */
-  public getMessage(type: string = 'create'): AppMessage {
+  public getMessage(msgKey: string = 'create_success', type: string = 'success'): AppMessage {
     let msg: string;
 
     this.translateService
-      .get(this.langKey + '.msg.' + type + '_succcess')
+      .get(this.langKey + '.msg.' + msgKey)
       .subscribe(trans => msg = trans);
 
     let appMessage: AppMessage = {
       message: msg,
       date: new Date(),
       errors: {},
-      type: 'success',
+      type: type,
       status_code: 200
     };
 

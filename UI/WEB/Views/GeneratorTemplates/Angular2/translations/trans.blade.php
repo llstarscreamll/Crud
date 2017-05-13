@@ -28,12 +28,13 @@ export const {{ $gen->entityNameSnakeCase() }} = {
     },
 
     'msg': {
-      'create_succcess': '{{ trans('crud::templates.create_success', ['item' => $gen->request->get('single_entity_name')]) }}',
-      'update_succcess': '{{ trans('crud::templates.update_success', ['item' => $gen->request->get('single_entity_name')]) }}',
-      'delete_succcess': '{{ trans('crud::templates.delete_success', ['item' => $gen->request->get('single_entity_name')]) }}',
-      'restore_succcess': '{{ trans('crud::templates.restore_success', ['item' => $gen->request->get('single_entity_name')]) }}',
+      'create_success': '{{ trans('crud::templates.create_success', ['item' => $gen->request->get('single_entity_name')]) }}',
+      'update_success': '{{ trans('crud::templates.update_success', ['item' => $gen->request->get('single_entity_name')]) }}',
+      'delete_success': '{{ trans('crud::templates.delete_success', ['item' => $gen->request->get('single_entity_name')]) }}',
+      'restore_success': '{{ trans('crud::templates.restore_success', ['item' => $gen->request->get('single_entity_name')]) }}',
       'no_rows_found': '{{ trans('crud::templates.no_rows_found') }}',
 @if($gen->hasSoftDeleteColumn)
+      'item_trashed': '{{ trans('crud::templates.item_trashed', ['entity' => strtolower($gen->request->get('single_entity_name'))]) }}',
       'softdeleted_rows_info': '{{ trans('crud::templates.softdeleted_rows_info') }}',
 @endif
     },

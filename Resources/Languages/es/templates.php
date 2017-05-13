@@ -30,6 +30,7 @@ return [
 	'softdeleted_rows_info' => 'Las filas resaltadas en rojo están en la papelera',
 	'actions_table_header' => 'Acciones',
 	'advanced_search_apply_btn' => 'Aplicar',
+	'item_trashed' => 'Este :entity se encuentra en la papelera!!',
 	'paginator' => [
 		'first_text' => 'Primero',
 		'last_text' => 'Último',

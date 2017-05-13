@@ -4,6 +4,7 @@ import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { go } from '@ngrx/router-store';
+import { empty } from 'rxjs/observable/empty';
 import 'rxjs/add/operator/withLatestFrom'
 
 import * as fromRoot from './../../reducers';
@@ -86,12 +87,44 @@ export class {{ $entitySin }}Effects extends Effects {
         .catch((error: AppMessage) => this.handleError(error));
     });
 
+@if ($gen->hasSoftDeleteColumn)
+  @Effect()
+    setSelectedItem$: Observable<Action> = this.actions$
+      .ofType({{ $actions }}.SET_SELECTED)
+      .map((action: Action) => action.payload)
+      .switchMap((item: {{ $entitySin }}) => {
+        // if the selected item is trashed, then flash a msg to notify the user
+        if(item.deleted_at) {
+          let msg = this.{{ $service }}.getMessage('item_trashed', 'warning');
+          return of(new {{ $actions }}.SetMessagesAction(msg));
+        }
+
+        return empty();
+      });
+@endif
+
+    @Effect()
+    create$: Observable<Action> = this.actions$
+      .ofType({{ $actions }}.CREATE)
+      .map((action: Action) => action.payload)
+      .switchMap((data) => {
+        return this.{{ $service }}.create(data)
+          .mergeMap((data: {{ $entitySin }}) => {
+            return [
+              new {{ $actions }}.SetSelectedAction(data),
+              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('create_success')),
+              go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
+            ];
+          })
+          .catch((error: AppMessage) => this.handleError(error));
+      });
+
     @Effect()
     get$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.GET)
       .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
       .switchMap(([action, state]) => {
-        // prevent API call if we have the data object already
+        // prevent API call if we have the selected item object in the store already
         if (state.selected{{ $gen->entityName() }} && action.payload == state.selected{{ $gen->entityName() }}.id) {
           return of(new {{ $actions }}.SetSelectedAction(state.selected{{ $gen->entityName() }}));
         }
@@ -106,22 +139,6 @@ export class {{ $entitySin }}Effects extends Effects {
       });
 
     @Effect()
-    create$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.CREATE)
-      .map((action: Action) => action.payload)
-      .switchMap((data) => {
-        return this.{{ $service }}.create(data)
-          .mergeMap((data: {{ $entitySin }}) => {
-            return [
-              new {{ $actions }}.SetSelectedAction(data),
-              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('create')),
-              go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
-            ];
-          })
-          .catch((error: AppMessage) => this.handleError(error));
-      });
-
-    @Effect()
     update$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.UPDATE)
       .map((action: Action) => action.payload)
@@ -130,7 +147,7 @@ export class {{ $entitySin }}Effects extends Effects {
           .mergeMap((data: {{ $entitySin }}) => {
             return [
               new {{ $actions }}.SetSelectedAction(data),
-              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('update')),
+              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('update_success')),
               go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
             ];
           })
@@ -145,7 +162,7 @@ export class {{ $entitySin }}Effects extends Effects {
         return this.{{ $service }}.delete(action.id)
           .mergeMap(() => {
             let actions = [
-              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('delete')),
+              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('delete_success')),
               go(['{{ $gen->slugEntityName() }}'])
             ];
 
