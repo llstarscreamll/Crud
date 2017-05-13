@@ -91,7 +91,7 @@
       [itemsPerPage]="pagination?.per_page"
       [maxSize]="5"
       [boundaryLinks]="true"
-      (pageChanged)="updateSearch.emit($event)"
+      (pageChanged)="pageChanged($event)"
       [firstText]="langKey + 'paginator.first_text' | translate"
       [lastText]="langKey + 'paginator.last_text' | translate"
       [nextText]="langKey + 'paginator.next_text' | translate"

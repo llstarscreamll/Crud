@@ -42,11 +42,13 @@ export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abs
   public ngOnInit() {
     this.setupStoreSelects();
     this.onSearch();
-    this.itemsList$.subscribe((itemsList:DocumentTypePagination) => {
-      if (itemsList) {
-        this.pagination = itemsList.pagination;
-      }
-    });
+
+    this.itemsListSubscription$ = this.itemsList$
+      .subscribe((itemsList: {{ $gen->entityName() }}Pagination) => {
+        if (itemsList) {
+          this.pagination = itemsList.pagination;
+        }
+      });
   }
 
   public showColumn(column): boolean {
@@ -81,6 +83,10 @@ export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abs
 
   set currentPage(val) {
     val ? val : this.pagination.current_page;
+  }
+
+  pageChanged(data: {page: number,itemsPerPage: number}) {
+    this.store.dispatch(new documentTypeActions.SetSearchQueryAction({page: data.page}));
   }
 
   /**

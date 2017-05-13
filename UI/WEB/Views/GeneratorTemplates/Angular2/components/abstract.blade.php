@@ -38,6 +38,9 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   // subscriptions
   protected activedRouteSubscription$: Subscription;
   protected formModelSubscription$: Subscription;
+  protected itemsListSubscription$: Subscription;
+  protected searchQuerySubscription$: Subscription;
+  protected selectedItemSubscription$: Subscription;
   
   /**
    * Form model.
@@ -146,7 +149,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
     this.loading$ = this.store.select(fromRoot.get{{ $gen->entityName().'Loading' }});
     this.messages$ = this.store.select(fromRoot.get{{ $gen->entityName().'Messages' }});
 
-    this.searchQuery$.subscribe(query => this.searchQuery = query);
+    this.searchQuerySubscription$ = this.searchQuery$.subscribe(query => this.searchQuery = query);
   }
 
   /**
@@ -217,6 +220,9 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
    */
   public ngOnDestroy() {
     this.cleanMessages();
+    this.activedRouteSubscription$ ? this.activedRouteSubscription$.unsubscribe() : null;
     this.formModelSubscription$ ? this.formModelSubscription$.unsubscribe() : null;
+    this.searchQuerySubscription$ ? this.searchQuerySubscription$.unsubscribe() : null;
+    this.selectedItemSubscription$ ? this.selectedItemSubscription$.unsubscribe() : null;
   }
 }

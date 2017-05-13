@@ -83,12 +83,13 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
    * Patch the form group values with the selected item data.
    */
   private patchForm() {
-    this.selectedItem$.subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
-      if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.selectedItemId)) {
-        this.form.patchValue({{ $model }});
-        this.formConfigured = true;
-      }
-    });
+    this.selectedItemSubscription$ = this.selectedItem$
+      .subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
+        if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.selectedItemId)) {
+          this.form.patchValue({{ $model }});
+          this.formConfigured = true;
+        }
+      });
   }
 
   /**
