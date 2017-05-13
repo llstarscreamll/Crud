@@ -4,10 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import * as fromRoot from './../../../reducers';
-import * as appMessage from './../../../core/reducers/app-message.reducer';
-import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
-import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 import { {{ $abstractClass = $gen->containerClass('abstract', false, true) }}, SearchQuery } from './{{ str_replace('.ts', '', $gen->containerFile('abstract', false, true)) }}';
 
 /**
@@ -31,10 +27,6 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
    * @type boolean
    */
   public showAdvancedSearchForm: boolean = false;
-
-
-  public appMessages$;
-
   
   /**
    * {{ $gen->containerClass('list-and-search', $plural = true) }} constructor.
