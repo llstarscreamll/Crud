@@ -1,7 +1,7 @@
-<app-loader *ngIf="!formModel || !form || !formConfigured; else searchForm" loader="ball-grid-pulse">{{ '{{' }} langKey + 'loading_form' | translate }}</app-loader>
+<app-loader *ngIf="!formModel || !(formData$ | async) || !form || !formConfigured; else searchForm" loader="ball-grid-pulse">{{ '{{' }} langKey + 'loading_form' | translate }}</app-loader>
 
 <ng-template #searchForm>
-  <div *ngIf="formConfigured" class="row">
+  <div class="row">
 
     <form [formGroup]="form" (ngSubmit)="onAdvancedSearch(); search.emit()">
 
