@@ -217,7 +217,7 @@ trait AngularFolderNamesResolver
 
     public function containersDir()
     {
-        return $this->moduleDir().'/containers/'.$this->slugEntityName();
+        return $this->moduleDir().'/pages/'.$this->slugEntityName();
     }
 
     public function translationsDir()

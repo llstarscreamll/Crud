@@ -32,7 +32,7 @@ class CreateNgContainersTask
     /**
      * @var string
      */
-    private $indexStrToreplace = "\nexport const CONTAINERS = [";
+    private $indexStrToreplace = "\nexport const PAGES = [";
 
     /**
      * The modules files to generate.
@@ -75,10 +75,10 @@ class CreateNgContainersTask
      */
     public function run()
     {
-        // generate the main index file for containers
+        // generate the main index file for pages
         $indexFilePath = $this->containersDir().'/../index.ts';
-        $template = $this->templatesDir().'.Angular2/containers/main-index';
-        $className = $this->entityName().'Containers';
+        $template = $this->templatesDir().'.Angular2.pages.main-index';
+        $className = $this->entityName().'Pages';
         $fileName = './'.$this->slugEntityName().'';
 
         $this->setupIndexFile($indexFilePath, $template, $className, $fileName);
@@ -93,7 +93,7 @@ class CreateNgContainersTask
                 : false;
 
             $containerFile = $this->containersDir()."/".$this->containerFile($file, $plural, $atStart);
-            $template = $this->templatesDir().'.Angular2.containers.'.$file;
+            $template = $this->templatesDir().'.Angular2.pages.'.$file;
 
             $content = view($template, [
                 'gen' => $this,

@@ -124,19 +124,19 @@ class GeneratedFilesCest
         $I->seeFileFound('books-table.component.html', $entityComponentsDir);
         $I->seeFileFound('index.ts', $entityComponentsDir);
 
-        // containers
-        $containersDir = $moduleDir.'containers/';
-        $I->seeFileFound('index.ts', $containersDir);
-        $entityContainersDir = $containersDir.$slugEntity.'/';
-        $I->assertTrue(file_exists($entityContainersDir), 'NG containers dir');
-        $I->seeFileFound('book-abstract.page.ts', $entityContainersDir);
-        $I->seeFileFound('list-and-search-books.page.ts', $entityContainersDir);
-        $I->seeFileFound('list-and-search-books.page.spec.ts', $entityContainersDir);
-        $I->seeFileFound('list-and-search-books.page.html', $entityContainersDir);
-        $I->seeFileFound('book-form.page.ts', $entityContainersDir);
-        $I->seeFileFound('book-form.page.spec.ts', $entityContainersDir);
-        $I->seeFileFound('book-form.page.html', $entityContainersDir);
-        $I->seeFileFound('index.ts', $entityContainersDir);
+        // pages
+        $pagesDir = $moduleDir.'pages/';
+        $I->seeFileFound('index.ts', $pagesDir);
+        $entitypagesDir = $pagesDir.$slugEntity.'/';
+        $I->assertTrue(file_exists($entitypagesDir), 'NG pages dir');
+        $I->seeFileFound('book-abstract.page.ts', $entitypagesDir);
+        $I->seeFileFound('list-and-search-books.page.ts', $entitypagesDir);
+        $I->seeFileFound('list-and-search-books.page.spec.ts', $entitypagesDir);
+        $I->seeFileFound('list-and-search-books.page.html', $entitypagesDir);
+        $I->seeFileFound('book-form.page.ts', $entitypagesDir);
+        $I->seeFileFound('book-form.page.spec.ts', $entitypagesDir);
+        $I->seeFileFound('book-form.page.html', $entitypagesDir);
+        $I->seeFileFound('index.ts', $entitypagesDir);
 
         // utils folder
         $utilsDir = $moduleDir.'utils/';

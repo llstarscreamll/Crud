@@ -2,8 +2,8 @@ import { Routes } from '@angular/router';
 
 import { AuthGuard } from './../../auth/guards/auth.guard';
 
-import { {{ $listCmp = $gen->containerClass('list-and-search', true) }} } from './../containers/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('list-and-search', true)) }}';
-import { {{ $formCmp = $gen->containerClass('form', false, true) }} } from './../containers/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('form', false, true)) }}';
+import { {{ $listCmp = $gen->containerClass('list-and-search', true) }} } from './../pages/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('list-and-search', true)) }}';
+import { {{ $formCmp = $gen->containerClass('form', false, true) }} } from './../pages/{{ $gen->slugEntityName().'/'.str_replace('.ts', '', $gen->containerFile('form', false, true)) }}';
 
 /**
  * {{ $gen->entityName() }}Routes.
