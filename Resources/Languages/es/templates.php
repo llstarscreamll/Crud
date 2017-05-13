@@ -31,6 +31,7 @@ return [
 	'actions_table_header' => 'Acciones',
 	'advanced_search_apply_btn' => 'Aplicar',
 	'item_trashed' => 'Este :entity se encuentra en la papelera!!',
+	'loading_items_list' => 'Cargando :entity',
 	'paginator' => [
 		'first_text' => 'Primero',
 		'last_text' => 'Último',

@@ -31,6 +31,7 @@ return [
 	'actions_table_header' => 'Actions',
 	'advanced_search_apply_btn' => 'Apply',
 	'item_trashed' => 'This :entity is trashed!!',
+	'loading_items_list' => 'Loading :entity',
 	'paginator' => [
 		'first_text' => 'First',
 		'last_text' => 'Last',

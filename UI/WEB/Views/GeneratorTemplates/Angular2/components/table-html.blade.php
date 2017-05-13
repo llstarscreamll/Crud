@@ -1,6 +1,9 @@
 <app-alerts [appMessage]="messages$ | async" (closed)="cleanMessages()"></app-alerts>
 
-<div class="table-responsive">
+<app-loader *ngIf="!(itemsList$ | async); else dataTable" loader="ball-grid-pulse">{{ '{{' }} langKey + 'loading_items_list' | translate }}</app-loader>
+
+<ng-template #dataTable>
+  <div class="table-responsive">
     <table class="table table-hover actions-btns-3">
       
       <thead>
@@ -79,23 +82,24 @@
       </tbody>
 
     </table>
-</div>
-
-<!-- paginator -->
-<div class="row">
-  <div class="col-xs-12">
-    <pagination
-      class="pull-right"
-      [(ngModel)]="currentPage"
-      [totalItems]="pagination?.total"
-      [itemsPerPage]="pagination?.per_page"
-      [maxSize]="5"
-      [boundaryLinks]="true"
-      (pageChanged)="pageChanged($event)"
-      [firstText]="langKey + 'paginator.first_text' | translate"
-      [lastText]="langKey + 'paginator.last_text' | translate"
-      [nextText]="langKey + 'paginator.next_text' | translate"
-      [previousText]="langKey + 'paginator.previous_text' | translate"
-      ></pagination>
   </div>
-</div>
+
+  <!-- paginator -->
+  <div class="row">
+    <div class="col-xs-12">
+      <pagination
+        class="pull-right"
+        [(ngModel)]="currentPage"
+        [totalItems]="pagination?.total"
+        [itemsPerPage]="pagination?.per_page"
+        [maxSize]="5"
+        [boundaryLinks]="true"
+        (pageChanged)="pageChanged($event)"
+        [firstText]="langKey + 'paginator.first_text' | translate"
+        [lastText]="langKey + 'paginator.last_text' | translate"
+        [nextText]="langKey + 'paginator.next_text' | translate"
+        [previousText]="langKey + 'paginator.previous_text' | translate"
+        ></pagination>
+    </div>
+  </div>
+</ng-template>
