@@ -1,4 +1,4 @@
-<app-alerts [appMessage]="appMessages$ | async"></app-alerts>
+<app-alerts [appMessage]="messages$ | async" (closed)="cleanMessages()"></app-alerts>
           
 <form
   *ngIf="formConfigured"
@@ -11,7 +11,7 @@
     [form]="form"
     [formModel]="formModel$ | async"
     [formData]="formData$ | async"
-    [errors]="errors$ | async"
+    [errors]="(messages$ | async)?.errors || {}"
     [visibility]="formType"
     [disabled]="formType == 'details'">
   </dynamic-form-fields>
@@ -40,7 +40,7 @@
     <button
       *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.('selectedItem$').' | async)?.deleted_at' : null !!}"
       [disabled]="form.get('id') && form.get('id').value == ''"
-      (click)="deleteRow(id)"
+      (click)="deleteRow(selectedItemId)"
       type="button"
       class="btn btn-default delete-row">
       <i class="glyphicon glyphicon-trash"></i>

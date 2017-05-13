@@ -1,5 +1,7 @@
 <div *ngIf="formConfigured" class="row">
   <form [formGroup]="form" (ngSubmit)="onAdvancedSearch(); search.emit()">
+
+    <app-alerts [appMessage]="messages$ | async" (closed)="cleanMessages()"></app-alerts>
   
   	<tabset class="tabs-container">
       <!-- columns options -->
@@ -14,7 +16,7 @@
             [form]="form.get('options')"
             [formModel]="formModel.options.controls"
             [formData]="{}"
-            [errors]="errors$ | async"
+            [errors]="(messages$ | async)?.errors || {}"
             [visibility]="'search'"
             ></dynamic-form-fields>
         </div>
@@ -32,7 +34,7 @@
   	    		[form]="form.get('search')"
             [formModel]="formModel.search.controls"
             [formData]="formData$ | async"
-            [errors]="errors$ | async"
+            [errors]="(messages$ | async)?.errors || {}"
             [visibility]="'search'"
   	    		></dynamic-form-fields>
       	</div>

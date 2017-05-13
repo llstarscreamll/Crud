@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
 
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
+import { AppMessage } from './../../../core/models/appMessage';
 import * as appMessage from './../../../core/reducers/app-message.reducer';
 import * as fromRoot from './../../../reducers';
 
@@ -27,15 +28,16 @@ export interface SearchQuery {
  * @author [name] <[<email address>]>
  */
 export abstract class {{ $gen->componentClass('abstract', false, true) }} {
-  /**
-   * Dependencies.
-   */
+
+  // Dependencies.
   protected abstract store: Store<fromRoot.State>;
   protected abstract translateService: TranslateService;
   protected abstract formModelParserService: FormModelParserService;
   protected activedRoute: ActivatedRoute;
 
+  // subscriptions
   protected activedRouteSubscription$: Subscription;
+  protected formModelSubscription$: Subscription;
   
   /**
    * Form model.
@@ -74,14 +76,10 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   public loading$: Observable<boolean>;
 
   /**
-   * The errors from this entity, like validation errors, etc.
-   * @type Observable<Object>
+   * The messages from this entity, like validation errors, warnings, etc.
+   * @type Observable<AppMessage>
    */
-  public errors$: Observable<Object>;
-
-  public appMessages$: Observable<appMessage.State>;
-
-  protected formModelSubscription$: Subscription;
+  public messages$: Observable<AppMessage>;
 
   /**
    * The search query options.
@@ -100,10 +98,30 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
    */
   public formConfigured: boolean = false;
 
+  /**
+   * Language key access.
+   * @type string
+   */
   public langKey: string = '{{ $gen->entityNameSnakeCase() }}.';
+
+  /**
+   * Form type (create|details|update). Used as an @Input() param on components.
+   * @type string
+   */
   public formType: string = 'create';
-  public id: string = null;
-  public tableColumns = [
+
+  /**
+   * The item id to load. Mainly given by the {id} url param, but is used as an
+   * @Input() param too on components.
+   * @type string
+   */
+  public selectedItemId: string;
+
+  /**
+   * Available table columns to show.
+   * @type Array<string>
+   */
+  public tableColumns: Array<string> = [
 @foreach ($fields as $field)
 @if (!$field->hidden)
       '{{ $gen->tableName.'.'.$field->name }}',
@@ -126,8 +144,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
     this.itemsList$ = this.store.select(fromRoot.get{{ studly_case($gen->entityName(true)).'Pagination' }});
     this.selectedItem$ = this.store.select(fromRoot.get{{ 'Selected'.$gen->entityName() }});
     this.loading$ = this.store.select(fromRoot.get{{ $gen->entityName().'Loading' }});
-    this.errors$ = this.store.select(fromRoot.get{{ $gen->entityName().'Errors' }});
-    this.appMessages$ = this.store.select(fromRoot.getAppMessagesState);
+    this.messages$ = this.store.select(fromRoot.get{{ $gen->entityName().'Messages' }});
 
     this.searchQuery$.subscribe(query => this.searchQuery = query);
   }
@@ -152,15 +169,16 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   }
 
   /**
-   * Load {{ str_replace('_', '', $gen->tableName) }} by the given id on url, if any.
+   * Load {{ str_replace('_', ' ', $gen->tableName) }} by the given id on url, if any.
    */
   private loadSelectedItem() {
-    if (this.formType.includes('details') || this.formType.includes('edit')) {
+    if ((this.formType.includes('details') || this.formType.includes('edit')) && !this.selectedItemId) {
       this.activedRouteSubscription$ = this.activedRoute.params.subscribe(params => {
-        this.id = params['id'];
-        this.store.dispatch(new {{ $actions }}.GetAction(this.id));
+        this.selectedItemId = params['id'];
       });
     }
+
+    this.store.dispatch(new {{ $actions }}.GetAction(this.selectedItemId));
   }
 
   /**
@@ -183,5 +201,22 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
     }).then(() => {
       this.store.dispatch(new {{ $actions }}.DeleteAction({ id: id, reloadListQuery: this.searchQuery }));
     }).catch(swal.noop);
+  }
+
+  /**
+   * Clean messages. Mainly called when <app-alerts> trigger the closed event or
+   * ngOnDestroy() hook.
+   */
+  public cleanMessages(){
+    this.store.dispatch(new documentTypeActions.SetMessagesAction(null));
+  }
+
+  /**
+   * Clean the component canceling the background taks. This is called before the
+   * component instance is funally destroyed.
+   */
+  public ngOnDestroy() {
+    this.cleanMessages();
+    this.formModelSubscription$ ? this.formModelSubscription$.unsubscribe() : null;
   }
 }

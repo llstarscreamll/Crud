@@ -27,15 +27,15 @@ export class {{ $entitySin }}Effects extends Effects {
   /**
    * {{ $entitySin }}Effects contructor.
    */
-	public constructor(
+  public constructor(
     private actions$: Actions,
     private {{ $service = camel_case($entitySin).'Service' }}: {{ $entitySin }}Service,
     private FormModelParserService: FormModelParserService,
     private store: Store<fromRoot.State>
   ) { super(); }
 
-  protected setErrors(error: AppMessage): Action {
-    return new {{ $actions }}.SetErrorsAction(error.errors);
+  protected setMessages(message: AppMessage): Action {
+    return new {{ $actions }}.SetMessagesAction(message);
   }
 
   @Effect()
@@ -114,7 +114,7 @@ export class {{ $entitySin }}Effects extends Effects {
           .mergeMap((data: {{ $entitySin }}) => {
             return [
               new {{ $actions }}.SetSelectedAction(data),
-              new appMsgActions.Flash(this.{{ $service }}.getMessage('create')),
+              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('create')),
               go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
             ];
           })
@@ -130,7 +130,7 @@ export class {{ $entitySin }}Effects extends Effects {
           .mergeMap((data: {{ $entitySin }}) => {
             return [
               new {{ $actions }}.SetSelectedAction(data),
-              new appMsgActions.Flash(this.{{ $service }}.getMessage('update')),
+              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('update')),
               go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
             ];
           })
@@ -145,7 +145,7 @@ export class {{ $entitySin }}Effects extends Effects {
         return this.{{ $service }}.delete(action.id)
           .mergeMap(() => {
             let actions = [
-              new appMsgActions.Flash(this.{{ $service }}.getMessage('delete')),
+              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('delete')),
               go(['{{ $gen->slugEntityName() }}'])
             ];
 

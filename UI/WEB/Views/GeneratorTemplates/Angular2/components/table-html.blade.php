@@ -1,3 +1,5 @@
+<app-alerts [appMessage]="messages$ | async" (closed)="cleanMessages()"></app-alerts>
+
 <div class="table-responsive">
     <table class="table table-hover actions-btns-3">
       

@@ -2,6 +2,7 @@ import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ 
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 import { {{ $paginationModel = $gen->entityName().'Pagination' }} } from './../models/{{ camel_case($entitySin) }}Pagination';
 
+import { AppMessage } from './../../core/models/appMessage';
 import { SearchQuery } from './../components/{{ $gen->slugEntityName() }}/{{ str_replace('.ts', '', $gen->componentFile('abstract', false, true)) }}';
 
 /**
@@ -16,7 +17,7 @@ export interface State {
   {{ $selected = 'selected'.$gen->entityName() }}: {{ $gen->entityName() }} | null;
   searchQuery: SearchQuery;
   loading: boolean;
-  errors: Object;
+  messages: AppMessage;
 }
 
 const initialState: State = {
@@ -46,7 +47,7 @@ const initialState: State = {
     page: 1
   },
   loading: true,
-  errors: {}
+  messages: null
 };
 
 export function reducer(state = initialState, action: {{ $actions }}.Actions): State {
@@ -104,8 +105,21 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
       return { ...state, selected{{ $gen->entityName() }}: action.payload as {{ $entitySin }}, loading: false };
     }
 
-    case {{ $actions }}.SET_ERRORS: {
-      return { ...state, errors: action.payload };
+    case {{ $actions }}.SET_MESSAGES: {
+      let msg = action.payload;
+
+      // if messages already exists and you want to clean that messages,
+      // exists messages must have been shown at least for 2 seconds
+      // before they can be removed
+      if(state.messages && state.messages.date && !msg) {
+        let endTime = new Date().getTime();
+        let startTime = state.messages.date.getTime();
+
+        // at least 2 seconds must have happened to set the messages no null
+        msg = ((endTime - startTime) / 1000 > 2) ? msg : state.messages ;
+      }
+
+      return { ...state, messages: msg };
     }
 
     default: {
@@ -120,7 +134,7 @@ export const getLoading = (state: State) => state.{{ 'loading' }};
 export const getItemsList = (state: State) => state.{{ $pagination }};
 export const getSelectedItem = (state: State) => state.{{ $selected }};
 export const getSearchQuery = (state: State) => state.searchQuery;
-export const getErrors = (state: State) => state.{{ 'errors' }};
+export const getMessages = (state: State) => state.messages;
 
 /* -----------------------------------------------------------------------------
 Don't forget to import these reducer on the main app reducer!!
@@ -143,6 +157,6 @@ export const get{{ studly_case($formData) }} = createSelector(get{{ $entity }}St
 export const get{{ studly_case($pagination) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsList);
 export const get{{ studly_case($selected) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getSelectedItem);
 export const get{{ $gen->entityName().studly_case('loading') }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getLoading);
-export const get{{ $gen->entityName().studly_case('errors') }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getErrors);
+export const get{{ $gen->entityName().studly_case('messages') }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getMessages);
 
 ----------------------------------------------------------------------------- */

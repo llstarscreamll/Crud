@@ -88,5 +88,6 @@ export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abs
    * component instance is funally destroyed.
    */
   public ngOnDestroy() {
+    super.ngOnDestroy();
   }
 }

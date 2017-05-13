@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 import { {{ $entitySin.'Pagination' }} } from './../models/{{ camel_case($entitySin)."Pagination" }}';
+import { AppMessage } from './../../core/models/appMessage';
 
 /**
  * {{ $gen->entityName() }} Actions.
@@ -20,7 +21,7 @@ export const UPDATE = '[{{ $entitySin }}] Update';
 export const DELETE = '[{{ $entitySin }}] Delete';
 export const RESTORE = '[{{ $entitySin }}] Restore';
 export const SET_SELECTED = '[{{ $entitySin }}] Set Selected';
-export const SET_ERRORS = '[{{ $entitySin }}] Set Errors';
+export const SET_MESSAGES = '[{{ $entitySin }}] Set Errors';
 
 export class GetFormModelAction implements Action {
   readonly type = GET_FORM_MODEL;
@@ -64,7 +65,7 @@ export class GetAction implements Action {
 
 export class CreateAction implements Action {
   readonly type = CREATE;
-  public constructor(public payload: Object) { }
+  public constructor(public payload: {{ $entitySin }}) { }
 }
 
 export class UpdateAction implements Action {
@@ -74,22 +75,22 @@ export class UpdateAction implements Action {
 
 export class DeleteAction implements Action {
   readonly type = DELETE;
-  public constructor(public payload: { id: string, reloadListQuery: Object }) { }
+  public constructor(public payload: { id: string, reloadListQuery: Object | null }) { }
 }
 
 export class RestoreAction implements Action {
   readonly type = RESTORE;
-  public constructor(public payload: string) { }
+  public constructor(public payload: { id: string, reloadListQuery: Object | null }) { }
 }
 
 export class SetSelectedAction implements Action {
   readonly type = SET_SELECTED;
-  public constructor(public payload: {{ $entitySin }} | Object = null) { }
+  public constructor(public payload: {{ $entitySin }} = null) { }
 }
 
-export class SetErrorsAction implements Action {
-  readonly type = SET_ERRORS;
-  public constructor(public payload: {{ $entitySin }} | Object = {}) { }
+export class SetMessagesAction implements Action {
+  readonly type = SET_MESSAGES;
+  public constructor(public payload: AppMessage = null) { }
 }
 
 export type Actions
@@ -106,4 +107,4 @@ export type Actions
   | DeleteAction
   | RestoreAction
   | SetSelectedAction
-  | SetErrorsAction;
+  | SetMessagesAction;

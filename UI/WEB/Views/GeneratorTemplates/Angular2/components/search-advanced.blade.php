@@ -114,6 +114,6 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} exte
    * component instance is funally destroyed.
    */
   public ngOnDestroy() {
-    this.formModelSubscription$.unsubscribe();
+    super.ngOnDestroy();
   }
 }

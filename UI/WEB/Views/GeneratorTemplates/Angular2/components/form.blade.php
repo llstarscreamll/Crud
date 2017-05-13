@@ -27,7 +27,7 @@ import { {{ $abstractClass = $gen->componentClass('abstract', false, true) }} } 
 })
 export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
   /**
-   * {{ ucfirst(str_replace('_', '', $gen->tableName)) }} form group.
+   * {{ ucfirst(str_replace('_', ' ', $gen->tableName)) }} form group.
    * @type FormGroup
    */
   public form: FormGroup;
@@ -84,7 +84,7 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
    */
   private patchForm() {
     this.selectedItem$.subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
-      if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.id)) {
+      if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.selectedItemId)) {
         this.form.patchValue({{ $model }});
         this.formConfigured = true;
       }
@@ -102,7 +102,7 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
       this.store.dispatch(new {{ $actions }}.UpdateAction(this.form.value));
 
     if (this.formType == 'details')
-      this.store.dispatch(go(['{{ $gen->slugEntityName() }}', this.id, 'edit']));
+      this.store.dispatch(go(['{{ $gen->slugEntityName() }}', this.selectedItemId, 'edit']));
   }
 
   /**
@@ -110,6 +110,6 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
    * component instance is funally destroyed.
    */
   public ngOnDestroy() {
-    this.formModelSubscription$.unsubscribe();
+    super.ngOnDestroy();
   }
 }
