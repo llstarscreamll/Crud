@@ -211,7 +211,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
    * ngOnDestroy() hook.
    */
   public cleanMessages(){
-    this.store.dispatch(new documentTypeActions.SetMessagesAction(null));
+    this.store.dispatch(new {{ $actions }}.SetMessagesAction(null));
   }
 
   /**

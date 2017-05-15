@@ -86,7 +86,7 @@ export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abs
   }
 
   pageChanged(data: {page: number,itemsPerPage: number}) {
-    this.store.dispatch(new documentTypeActions.SetSearchQueryAction({page: data.page}));
+    this.store.dispatch(new {{ $actions }}.SetSearchQueryAction({page: data.page}));
   }
 
   /**
