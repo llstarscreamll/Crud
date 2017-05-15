@@ -10,9 +10,7 @@ import * as appMessage from './../../../core/reducers/app-message.reducer';
 import * as fromRoot from './../../../reducers';
 import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
-
 import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
-
 import { {{ $abstractClass = $gen->componentClass('abstract', false, true) }} } from './{{ str_replace('.ts', '', $gen->componentFile('abstract', false, true)) }}';
 
 /**
