@@ -25,16 +25,16 @@ import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util'
  *
  * @author [name] <[<email address>]>
  */
-fdescribe('{{ $cmpClass }}', () => {
+describe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }}
   let formModel;
-  let testModel: DocumentType = utils.DocumentTypeOne;
+  let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
   let reactiveForm;
   let mockBackend: MockBackend;
   let store: Store<fromRoot.State>;
   let authGuard: AuthGuard;
-  let service: DocumentTypeService;
+  let service: {{ $gen->entityName() }}Service;
   let http: Http;
   let router: Router;
   let location: Location;
