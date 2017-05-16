@@ -21,7 +21,7 @@
           <!-- basic search -->
           <div class="col-sm-6 col-md-4 m-b-md">
             <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}
-              (filterBtnClick)="showAdvancedSearchForm = !showAdvancedSearchForm">
+              (advancedSearchBtnClick)="showAdvancedSearchForm = !showAdvancedSearchForm">
               </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}>
           </div>
 

@@ -16,7 +16,7 @@ import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case(
 import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
 import { {{ $cpmClass = $gen->containerClass('list-and-search', true) }} } from './{{ str_replace('.ts', '', $gen->containerFile('list-and-search', true)) }}';
 import { {{ $components = $gen->entityName().'Components' }} } from './../../components/{{ $gen->slugEntityName().'' }}';
-import { {{ $containers = $gen->entityName().'Containers' }} } from './../../containers/{{ $gen->slugEntityName().'' }}';
+import { {{ $pages = $gen->entityName().'Pages' }} } from './../../pages/{{ $gen->slugEntityName().'' }}';
 import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
 
 /**
@@ -24,7 +24,7 @@ import { {{ $service = $gen->entityName().'Service' }} } from './../../services/
  *
  * @author [name] <[<email address>]>
  */
-describe('{{ $cpmClass }}', () => {
+fdescribe('{{ $cpmClass }}', () => {
   let mockBackend: MockBackend;
   let store: Store<fromRoot.State>;
   let fixture: ComponentFixture<{{ $cpmClass }}>;
@@ -40,13 +40,13 @@ describe('{{ $cpmClass }}', () => {
     TestBed.configureTestingModule({
       declarations: [
         ...{{ $components }},
-        ...{{ $containers }},
+        ...{{ $pages }},
       ],
       imports: [
-        ...utils.CONTAINERS_IMPORTS,
+        ...utils.IMPORTS,
       ],
       providers: [
-        ...utils.CONTAINERS_PROVIDERS,
+        ...utils.PROVIDERS,
       ]
     }).compileComponents();
 
@@ -78,28 +78,28 @@ describe('{{ $cpmClass }}', () => {
   });
 
   it('should have certain html components', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}');
-    spyOn(service, 'load').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'load').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
 
     fixture.detectChanges();
     tick();
 
-    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-basic-component')).not.toBeNull('basic search component');
-    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).toBeNull('advanced search component');
-    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName(true) }}-table-component')).not.toBeNull('table list component');
+    let html = fixture.nativeElement;
+
+    expect(html.querySelector('{{ $gen->slugEntityName() }}-search-basic-component')).not.toBeNull('basic search component');
+    expect(html.querySelector('{{ $gen->slugEntityName(true) }}-table-component')).not.toBeNull('table list component');
+    expect(html.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).toBeNull('advanced search component');
 
     // click btn to display advanced search form
-    fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-basic-component form button.advanced-search-btn').click();
+    html.querySelector('{{ $gen->slugEntityName() }}-search-basic-component form button.advanced-search-btn').click();
 
     fixture.detectChanges();
     tick(500);
 
-    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).not.toBeNull('advanced search component');
+    expect(html.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).not.toBeNull('advanced search component');
   }));
 
   it('should navigate on create btn click', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}');
-    spyOn(service, 'load').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'load').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
 
     fixture.detectChanges();
     tick();
@@ -116,13 +116,12 @@ describe('{{ $cpmClass }}', () => {
   }));
 
   it('should show advanced search form on btn click', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}');
-    spyOn(service, 'load').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'load').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
 
     fixture.detectChanges();
     tick();
 
-    expect(component.showSearchOptions).toBe(false);
+    expect(component.showAdvancedSearchForm).toBe(false);
     expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).toBeNull('advanced search component');
 
     fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-basic-component form button.advanced-search-btn').click();
@@ -130,21 +129,7 @@ describe('{{ $cpmClass }}', () => {
     fixture.detectChanges();
     tick(500);
 
-    expect(component.showSearchOptions).toBe(true);
+    expect(component.showAdvancedSearchForm).toBe(true);
     expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).not.toBeNull('advanced search component');
-  }));
-
-  it('should make certain {{ $service }} calls on ngOnInit', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}');
-    spyOn(service, 'load').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'get{{ $gen->entityName() }}FormModel').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
-
-    fixture.detectChanges();
-    tick();
-
-    expect(service.load).toHaveBeenCalled();
-    expect(service.get{{ $gen->entityName() }}FormModel).toHaveBeenCalled();
-    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
   }));
 });

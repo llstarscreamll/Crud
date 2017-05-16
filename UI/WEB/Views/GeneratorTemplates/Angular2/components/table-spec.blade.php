@@ -25,7 +25,7 @@ import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util'
  *
  * @author [name] <[<email address>]>
  */
-fdescribe('{{ $cmpClass }}', () => {
+describe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }};
   let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
