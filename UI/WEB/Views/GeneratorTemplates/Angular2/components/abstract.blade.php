@@ -164,9 +164,6 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
    * Load the form model and form data.
    */
   public initForm() {
-    // if form type is details|update, then download the {{ $gen->entityName() }} data from API by the given id
-    this.loadSelectedItem();
-    
     this.store.dispatch(new {{ $actions }}.GetFormDataAction(null));
     this.store.dispatch(new {{ $actions }}.GetFormModelAction(null));
   }
@@ -174,7 +171,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   /**
    * Load {{ str_replace('_', ' ', $gen->tableName) }} by the given id on url, if any.
    */
-  private loadSelectedItem() {
+  public loadSelectedItem() {
     if ((this.formType.includes('details') || this.formType.includes('edit')) && !this.selectedItemId) {
       this.activedRouteSubscription$ = this.activedRoute.params.subscribe(params => {
         this.selectedItemId = params['id'];

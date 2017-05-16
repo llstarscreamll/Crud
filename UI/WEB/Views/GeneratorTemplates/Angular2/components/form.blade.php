@@ -55,6 +55,8 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
    */
   public ngOnInit() {
     this.setupStoreSelects();
+    // if form type is details|update, then download the {{ $gen->entityName() }} data from API by the given id
+    this.loadSelectedItem();
     this.initForm();
     this.setupForm();
   }
