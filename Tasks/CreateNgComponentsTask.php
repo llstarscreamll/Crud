@@ -43,6 +43,7 @@ class CreateNgComponentsTask
         'abstract',
         'form',
         'form-html',
+        'form-spec',
         'table',
         'table-spec',
         'table-html',
