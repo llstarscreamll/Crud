@@ -2,7 +2,7 @@
 	
 	<legend>App Type</legend>
     <div class="row">
-        <div class="form-group col-sm-6 col-md-4">
+        <div class="form-group col-xs-12">
             <div class="radio">
                 <label>
                     {!! Form::hidden('generate_porto_container', false, ['class' => '']) !!}

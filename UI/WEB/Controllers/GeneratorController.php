@@ -12,6 +12,7 @@ use App\Containers\Crud\Providers\ModelGenerator;
 use App\Ship\Parents\Controllers\WebController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class GeneratorController extends WebController
 {
@@ -76,8 +77,41 @@ class GeneratorController extends WebController
     public function index(Request $request)
     {
         $data['tables'] = DB::connection()->getDoctrineSchemaManager()->listTableNames();
+        $data['config_files'] = [];
+
+        $savedConfigsPath =  storage_path('app/crud/options/');
+
+        if (File::isDirectory($savedConfigsPath)) {
+            $files = File::allFiles($savedConfigsPath);
+            $files = array_sort($files, function($file) { return $file->getFilename(); });
+            foreach ($files as $file) {
+                $data['config_files'][] = str_replace('.php', '', $file->getFileName());
+            }
+        }
 
         return view('crud::wizard.index', $data);
+    }
+
+    public function generateMany(Request $request)
+    {
+        foreach($request->get('config') as $config) {
+            $savedConfigsPath = storage_path('app/crud/options/');
+            $data = require_once $savedConfigsPath . $config . ".php";
+            
+            $data = collect($request->except('_token') + $data);
+
+            if ($request->get('generate_porto_container', false)) {
+                $this->generatePortoContainerAction->run($data);
+            }
+
+            if ($request->get('generated_angular_module', false)) {
+                $this->generateAngular2ModuleAction->run($data);
+            }
+
+            $this->copyDirsAction->run($data);
+        }
+
+        return redirect()->back()->withInput();
     }
 
     /**
@@ -101,19 +135,21 @@ class GeneratorController extends WebController
                 );
         }
 
+        $data = collect($request->except('_token'));
+
         if ($request->get('generate_porto_container', false)) {
-            $this->generatePortoContainerAction->run($request);
+            $this->generatePortoContainerAction->run($data);
         }
 
         if ($request->get('generated_angular_module', false)) {
-            $this->generateAngular2ModuleAction->run($request);
+            $this->generateAngular2ModuleAction->run($data);
         }
 
         if (!$request->get('generated_angular_module', false) && !$request->get('generate_porto_container', false)) {
             session()->flash('warning', 'Nothing to generate...');
         }
 
-        $this->copyDirsAction->run($request);
+        $this->copyDirsAction->run($data);
 
         // go to the CRUD settings page
         return redirect()->route(

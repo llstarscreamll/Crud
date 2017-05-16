@@ -34,6 +34,14 @@ Route::group(
         );
 
         Route::post(
+            '/generate-many',
+            [
+                'as' => 'crud.generate-many',
+                'uses' => 'GeneratorController@generateMany'
+            ]
+        );
+
+        Route::post(
             '/generate-porto-container',
             [
                 'as' => 'crud.generate-porto-container',
