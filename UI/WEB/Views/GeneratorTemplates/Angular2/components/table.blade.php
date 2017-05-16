@@ -25,12 +25,9 @@ import { {{ $abstractClass = $gen->componentClass('abstract', false, true) }}, S
   exportAs: '{{ str_replace('-component', '', $selector) }}',
 })
 export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
-  @Output()
-  public updateSearch = new EventEmitter<Object>();
-  
-  @Output()
-  public deleteBtnClicked = new EventEmitter<string>();
-
+  /**
+   * Pagination info.
+   */
   pagination: any;
 
   public constructor(
@@ -51,10 +48,16 @@ export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abs
       });
   }
 
+  /**
+   * Should a certain column be shown?.
+   */
   public showColumn(column): boolean {
     return this.searchQuery.filter.indexOf(column) > -1;
   }
 
+  /**
+   * Update the search query with the new sortBy and sortedBy data.
+   */
   public onSort(column: string) {
     let orderBy = column;
     let sortedBy = this.sortedBy == 'desc' || this.orderBy != column
@@ -62,7 +65,13 @@ export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abs
       : 'desc';
 
     this.store.dispatch(new {{ $actions }}.SetSearchQueryAction({ 'orderBy': orderBy, 'sortedBy': sortedBy }));
-    this.updateSearch.emit();
+  }
+
+  /**
+   * Update the search query with the new page data.
+   */
+  public pageChanged(data: {page: number,itemsPerPage: number}) {
+    this.store.dispatch(new {{ $actions }}.SetSearchQueryAction({page: data.page}));
   }
 
   get orderBy() {
@@ -83,10 +92,6 @@ export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abs
 
   set currentPage(val) {
     val ? val : this.pagination.current_page;
-  }
-
-  pageChanged(data: {page: number,itemsPerPage: number}) {
-    this.store.dispatch(new {{ $actions }}.SetSearchQueryAction({page: data.page}));
   }
 
   /**
