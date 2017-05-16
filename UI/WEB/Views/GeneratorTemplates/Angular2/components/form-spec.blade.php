@@ -7,7 +7,6 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 
 import * as fromRoot from './../../../reducers';
 import { AuthGuard } from './../../../auth/guards/auth.guard';
@@ -25,7 +24,7 @@ import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util'
  *
  * @author [name] <[<email address>]>
  */
-describe('{{ $cmpClass }}', () => {
+fdescribe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }}
   let formModel;
@@ -37,7 +36,6 @@ describe('{{ $cmpClass }}', () => {
   let service: {{ $gen->entityName() }}Service;
   let http: Http;
   let router: Router;
-  let location: Location;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -52,7 +50,6 @@ describe('{{ $cmpClass }}', () => {
 
     store = getTestBed().get(Store);
     router = getTestBed().get(Router);
-    location = getTestBed().get(Location);
     authGuard = getTestBed().get(AuthGuard);
     http = getTestBed().get(Http);
     service = getTestBed().get({{ $gen->entityName() }}Service);
@@ -80,7 +77,6 @@ describe('{{ $cmpClass }}', () => {
   });
 
   it('should have certain elements on create form', fakeAsync(() => {
-    spyOn(service, 'getFormData').and.returnValue(Observable.from([{}]));
     component.formType = 'create';
 
     fixture.detectChanges();
@@ -101,7 +97,6 @@ describe('{{ $cmpClass }}', () => {
   }));
 
   it('should have certain elements on details form', fakeAsync(() => {
-    spyOn(service, 'getFormData').and.returnValue(Observable.from([{}]));
     component.formType = 'details';
 
     fixture.detectChanges();
@@ -123,7 +118,6 @@ describe('{{ $cmpClass }}', () => {
   }));
 
   it('should have certain elements on edit form', fakeAsync(() => {
-    spyOn(service, 'getFormData').and.returnValue(Observable.from([{}]));
     component.formType = 'edit';
 
     fixture.detectChanges();
@@ -189,7 +183,6 @@ describe('{{ $cmpClass }}', () => {
   }));
 
   it('should make api call when create form submitted', fakeAsync(() => {
-    spyOn(service, 'getFormData').and.returnValue(Observable.from([{}]));
     spyOn(service, 'create').and.returnValue(Observable.from([{}]));
     spyOn(service, 'getMessage');
     component.formType = 'create';
@@ -212,5 +205,65 @@ describe('{{ $cmpClass }}', () => {
     // should make create post api call
     expect(service.create).toHaveBeenCalled();
     expect(service.getMessage).toHaveBeenCalledWith('create_success');
+  }));
+
+  it('should make update api call when edit form submitted', fakeAsync(() => {
+    spyOn(service, 'update').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'getMessage');
+    component.formType = 'edit';
+
+    fixture.detectChanges();
+    tick();
+    
+    expect(component.form.valid).toBe(true);
+    fixture.nativeElement.querySelector('form button.edit-row').click();
+
+    fixture.detectChanges();
+    tick();
+
+    // should make edit post api call
+    expect(service.update).toHaveBeenCalled();
+    expect(service.getMessage).toHaveBeenCalledWith('update_success');
+  }));
+
+  it('should make delete api call when delete btn clicked', fakeAsync(() => {
+    spyOn(service, 'delete').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'getMessage');
+    component.formType = 'details';
+
+    fixture.detectChanges();
+    tick();
+    
+    expect(component.form.valid).toBe(true);
+    fixture.nativeElement.querySelector('form button.delete-row').click();
+
+    fixture.detectChanges();
+
+    // should open sweetalert2 for confirmation
+    fixture.nativeElement.querySelector('button.swal2-confirm').click();
+
+    fixture.detectChanges();
+    tick(200);
+
+    // should make delete api call on service
+    expect(service.delete).toHaveBeenCalled();
+    expect(service.getMessage).toHaveBeenCalledWith('delete_success');
+  }));
+
+  it('should navigate when show all btn clicked', fakeAsync(() => {
+    component.formType = 'details';
+
+    fixture.detectChanges();
+    tick();
+
+    spyOn(router, 'navigateByUrl');
+    fixture.nativeElement.querySelector('a.btn.show-all-rows').click();
+
+    fixture.detectChanges();
+
+    expect(router.navigateByUrl).toHaveBeenCalledWith(
+      jasmine.stringMatching('/{{ $gen->slugEntityName() }}'),
+      { skipLocationChange: false, replaceUrl: false }
+    );
   }));
 });

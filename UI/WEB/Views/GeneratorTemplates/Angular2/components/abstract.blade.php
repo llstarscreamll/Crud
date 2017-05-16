@@ -200,7 +200,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
       confirmButtonText: this.swalOptions.confirm_btn_text,
       cancelButtonText: this.swalOptions.cancel_btn_text,
       confirmButtonColor: '#ed5565',
-      target: 'app-page-content'
+      target: 'form#{{ $gen->slugEntityName() }}-form'
     }).then(() => {
       this.store.dispatch(new {{ $actions }}.DeleteAction({ id: id, reloadListQuery: this.searchQuery }));
     }).catch(swal.noop);

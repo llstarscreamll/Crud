@@ -4,6 +4,7 @@
 
 <ng-template #dynamicForm>
   <form
+    id="{{ $gen->slugEntityName() }}-form"
     [formGroup]="form"
     (ngSubmit)="submitForm()">
 
