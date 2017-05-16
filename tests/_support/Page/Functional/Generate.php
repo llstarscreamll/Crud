@@ -15,7 +15,7 @@ class Generate
     public static $formData = array (
           'table_name' => 'books',
           'generate_porto_container' => '1',
-          'generated_angular_module' => '1',
+          'generate_angular_module' => '1',
           'create_permissions' => '1',
           'checkbox_component_on_index_table' => 'iCheck',
           'use_DateTimePicker_on_form_fields' => '1',

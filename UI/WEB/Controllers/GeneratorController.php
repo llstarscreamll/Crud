@@ -104,7 +104,7 @@ class GeneratorController extends WebController
                 $this->generatePortoContainerAction->run($data);
             }
 
-            if ($request->get('generated_angular_module', false)) {
+            if ($request->get('generate_angular_module', false)) {
                 $this->generateAngular2ModuleAction->run($data);
             }
 
@@ -141,11 +141,11 @@ class GeneratorController extends WebController
             $this->generatePortoContainerAction->run($data);
         }
 
-        if ($request->get('generated_angular_module', false)) {
+        if ($request->get('generate_angular_module', false)) {
             $this->generateAngular2ModuleAction->run($data);
         }
 
-        if (!$request->get('generated_angular_module', false) && !$request->get('generate_porto_container', false)) {
+        if (!$request->get('generate_angular_module', false) && !$request->get('generate_porto_container', false)) {
             session()->flash('warning', 'Nothing to generate...');
         }
 

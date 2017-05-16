@@ -12,8 +12,8 @@
             </div>
             <div class="radio">
                 <label>
-                    {!! Form::hidden('generated_angular_module', false) !!}
-                    {!! Form::checkbox('generated_angular_module', true, null, ['class' => 'icheckbox_square-blue']) !!}
+                    {!! Form::hidden('generate_angular_module', false) !!}
+                    {!! Form::checkbox('generate_angular_module', true, null, ['class' => 'icheckbox_square-blue']) !!}
                     Angular Module
                 </label>
             </div>

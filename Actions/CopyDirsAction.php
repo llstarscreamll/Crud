@@ -15,7 +15,7 @@ class CopyDirsAction
 {
 	public function run(Collection $request)
 	{
-		if (!empty($request->get('copy_angular_module_to')) && $request->get('generated_angular_module', false)) {
+		if (!empty($request->get('copy_angular_module_to')) && $request->get('generate_angular_module', false)) {
 			$copyAngularModuleTask = new CopyAngularModuleTask($request);
 			$copyAngularModuleTask->run($request->get('copy_angular_module_to', ''));
 		}
