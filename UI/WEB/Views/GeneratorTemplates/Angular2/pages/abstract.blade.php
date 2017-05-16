@@ -37,15 +37,16 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   protected location: Location;
   protected activedRoute: ActivatedRoute;
 
+  /**
+   * Subscriptions.
+   */
   protected activedRouteSubscription$: Subscription;
 
-
-
-
-  public formType: string = 'search';
-
-
-
+  /**
+   * The form type to render.
+   * @type string
+   */
+  public formType: string = 'create';
 
   /**
    * Page title.
@@ -53,6 +54,10 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
    */
   protected abstract title: string;
 
+  /**
+   * Language key access.
+   * @type string
+   */
   public langKey: string = '{{ $gen->entityNameSnakeCase() }}.';
 
   /**

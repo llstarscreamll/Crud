@@ -16,7 +16,7 @@ import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case(
 import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
 import { {{ $cpmClass = $gen->containerClass('form', false, true) }} } from './{{ str_replace('.ts', '', $gen->containerFile('form', false, true)) }}';
 import { {{ $components = $gen->entityName().'Components' }} } from './../../components/{{ $gen->slugEntityName().'' }}';
-import { {{ $containers = $gen->entityName().'Containers' }} } from './../../containers/{{ $gen->slugEntityName().'' }}';
+import { {{ $pages = $gen->entityName().'Pages' }} } from './../../pages/{{ $gen->slugEntityName().'' }}';
 import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
 
 /**
@@ -24,7 +24,7 @@ import { {{ $service = $gen->entityName().'Service' }} } from './../../services/
  *
  * @author [name] <[<email address>]>
  */
-describe('{{ $cpmClass }}', () => {
+fdescribe('{{ $cpmClass }}', () => {
   let mockBackend: MockBackend;
   let store: Store<fromRoot.State>;
   let fixture: ComponentFixture<{{ $cpmClass }}>;
@@ -40,13 +40,13 @@ describe('{{ $cpmClass }}', () => {
     TestBed.configureTestingModule({
       declarations: [
         ...{{ $components }},
-        ...{{ $containers }},
+        ...{{ $pages }},
       ],
       imports: [
-        ...utils.CONTAINERS_IMPORTS,
+        ...utils.IMPORTS,
       ],
       providers: [
-        ...utils.CONTAINERS_PROVIDERS,
+        ...utils.PROVIDERS,
       ]
     }).compileComponents();
 
@@ -77,214 +77,51 @@ describe('{{ $cpmClass }}', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have certain setup for create form', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/create');
-    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
-
+  it('should have certain elements', () => {
     fixture.detectChanges();
-    tick();
+    let html = fixture.nativeElement;
 
-    expect(fixture.nativeElement.querySelector('h1')).not.toBeNull('should have h1 heading');
-    expect(fixture.nativeElement.querySelector('h1').textContent).toContain('{{ $gen->request->get('plural_entity_name') }}');
-    expect(fixture.nativeElement.querySelector('h1 small')).not.toBeNull('should have small heading');
-    expect(fixture.nativeElement.querySelector('h1 small').textContent).toContain('{{ trans('crud::templates.create') }}');
-    
+    // should have sidebar-layout
+    expect(html.querySelector('app-sidebar-layout')).not.toBeNull();
+
+    // should have page header
+    expect(html.querySelector('app-page-header')).not.toBeNull();
+
+    // should have page content
+    expect(html.querySelector('app-page-content')).not.toBeNull();
+
+    // should have box where the form is located
+    expect(html.querySelector('app-box app-box-body')).not.toBeNull();
+
+    // should have form component inside app-box-body
+    expect(html.querySelector('app-box-body {{ $gen->slugEntityName() }}-form-component')).not.toBeNull();
+  });
+
+  it('should have default form type = create', () => {
+    //spyOn(location, 'path').and.returnValue('{{ $gen->slugEntityName() }}/create');
+    fixture.detectChanges();
+
     expect(component.formType).toBe('create');
-    expect(fixture.nativeElement.querySelector('form')).not.toBeNull('create form should exists');
+  });
 
-@foreach ($fields as $field)
-@if ($field->on_create_form)
-    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]')).not.toBeNull('{{ $field->name }} field');
-@endif
-@endforeach
-
-    // form links/buttons
-    expect(fixture.nativeElement.querySelector('form button.btn.create-row')).not.toBeNull('create form btn should exists');
-    expect(fixture.nativeElement.querySelector('form a.btn.show-all-rows')).not.toBeNull('show all form link should exists');
-  }));
-
-  it('should have certain setup for details form', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/details');
-    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
-
+  it('should set form type = create based on current url', () => {
+    spyOn(location, 'path').and.returnValue('{{ $gen->slugEntityName() }}/create');
     fixture.detectChanges();
-    tick();
 
-    expect(fixture.nativeElement.querySelector('h1')).not.toBeNull('should have h1 heading');
-    expect(fixture.nativeElement.querySelector('h1').textContent).toContain('{{ $gen->request->get('plural_entity_name') }}');
-    expect(fixture.nativeElement.querySelector('h1 small')).not.toBeNull('should have small heading');
-    expect(fixture.nativeElement.querySelector('h1 small').textContent).toContain('{{ trans('crud::templates.details') }}');
-    
+    expect(component.formType).toBe('create');
+  });
+
+  it('should set form type = details based on current url', () => {
+    spyOn(location, 'path').and.returnValue('{{ $gen->slugEntityName() }}/a1/details');
+    fixture.detectChanges();
+
     expect(component.formType).toBe('details');
-    expect(fixture.nativeElement.querySelector('form')).not.toBeNull('details form should exists');
+  });
 
-@foreach ($fields as $field)
-@if (!$field->hidden)
-    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]{{ $field->key == 'MUL' || $field->type == 'enum' ? null : ':disabled' }}')).not.toBeNull('{{ $field->name }} field should exists');
-    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]{{ $field->key == 'MUL' || $field->type == 'enum' ? null : ':disabled' }}').{!! $field->key == 'MUL' || $field->type == 'enum' ? "getAttribute('value')" : 'value' !!}).to{{ in_array($field->type, ['double', 'int', 'float', 'bigint']) ? 'Contain' : 'Be' }}(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
-@endif
-@endforeach
-
-    // form links/buttons
-    expect(fixture.nativeElement.querySelector('form button.btn.edit-row')).not.toBeNull('edit form btn should exists');
-    expect(fixture.nativeElement.querySelector('form button.btn.delete-row')).not.toBeNull('delete form btn should exists');
-    expect(fixture.nativeElement.querySelector('form a.btn.show-all-rows')).not.toBeNull('show all form link should exists');
-  }));
-
-  it('should have certain setup for edit form', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/edit');
-    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
-
+  it('should set form type = edit based on current url', () => {
+    spyOn(location, 'path').and.returnValue('{{ $gen->slugEntityName() }}/a1/edit');
     fixture.detectChanges();
-    tick();
 
-    expect(fixture.nativeElement.querySelector('h1')).not.toBeNull('should have h1 heading');
-    expect(fixture.nativeElement.querySelector('h1').textContent).toContain('{{ $gen->request->get('plural_entity_name') }}');
-    expect(fixture.nativeElement.querySelector('h1 small')).not.toBeNull('should have small heading');
-    expect(fixture.nativeElement.querySelector('h1 small').textContent).toContain('{{ trans('crud::templates.edit') }}');
-    
     expect(component.formType).toBe('edit');
-    expect(fixture.nativeElement.querySelector('form')).not.toBeNull('edit form should exists');
-
-@foreach ($fields as $field)
-@if (!$field->hidden && $field->on_update_form)
-    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]')).not.toBeNull('{{ $field->name }} field should exists');
-    expect(fixture.nativeElement.querySelector('[name={{ $field->name }}]').{!! $field->key == 'MUL' || $field->type == 'enum' ? "getAttribute('value')" : 'value' !!}).to{{ in_array($field->type, ['double', 'int', 'float', 'bigint']) ? 'Contain' : 'Be' }}(testModel.{{ $field->name }} ? testModel.{{ $field->name }} : '', '{{ $field->name }} field value');
-@endif
-@endforeach
-    
-    // form links/buttons
-    expect(fixture.nativeElement.querySelector('form button.btn.edit-row')).not.toBeNull('edit form btn should exists');
-    expect(fixture.nativeElement.querySelector('form button.btn.delete-row')).not.toBeNull('delete form btn should exists');
-    expect(fixture.nativeElement.querySelector('form a.btn.show-all-rows')).not.toBeNull('show all form link should exists');
-  }));
-
-  it('should make certains {{ $gen->entityName() }}Service calls on create form init', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/create');
-    spyOn(service, 'get{{ $gen->entityName() }}FormModel').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
-
-    fixture.detectChanges();
-    tick();
-
-    // should make form model/data api service calls
-    expect(service.get{{ $gen->entityName() }}FormModel).toHaveBeenCalled();
-    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
-  }));
-
-  it('should make certains {{ $gen->entityName() }}Service calls on details form init', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/details');
-    spyOn(service, 'get{{ $gen->entityName() }}FormModel').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'get{{ $gen->entityName() }}').and.returnValue(Observable.from([{}]));
-
-    fixture.detectChanges();
-    tick();
-
-    // should make form model/data/row api service calls
-    expect(service.get{{ $gen->entityName() }}FormModel).toHaveBeenCalled();
-    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
-    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
-  }));
-
-  it('should make certains {{ $gen->entityName() }}Service calls on edit form init', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/edit');
-    spyOn(service, 'get{{ $gen->entityName() }}FormModel').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'get{{ $gen->entityName() }}FormData').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'get{{ $gen->entityName() }}').and.returnValue(Observable.from([{}]));
-
-    fixture.detectChanges();
-    tick();
-
-    // should make form model/data/row api service calls
-    expect(service.get{{ $gen->entityName() }}FormModel).toHaveBeenCalled();
-    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
-    expect(service.get{{ $gen->entityName() }}FormData).toHaveBeenCalled();
-  }));
-
-  it('should make create api call when create form submitted', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/create');
-    spyOn(service, 'create').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'getSuccessMessage');
-
-    fixture.detectChanges();
-    tick();
-    
-    expect(component.{{ $form = camel_case($gen->entityName()).'Form' }}.valid).toBe(false);
-    component.{{ $form }}.patchValue(testModel);
-
-    fixture.detectChanges();
-
-    expect(component.{{ $form }}.valid).toBe(true);
-    fixture.nativeElement.querySelector('form button.create-row').click();
-
-    fixture.detectChanges();
-    tick();
-
-    // should make create post api call
-    expect(service.create).toHaveBeenCalled();
-    expect(service.getSuccessMessage).toHaveBeenCalledWith('create');
-  }));
-
-  it('should make update api call when edit form submitted', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/edit');
-    spyOn(service, 'update').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'getSuccessMessage');
-
-    fixture.detectChanges();
-    tick();
-    
-    expect(component.{{ $form }}.valid).toBe(true);
-    fixture.nativeElement.querySelector('form button.edit-row').click();
-
-    fixture.detectChanges();
-    tick();
-
-    // should make edit post api call
-    expect(service.update).toHaveBeenCalled();
-    expect(service.getSuccessMessage).toHaveBeenCalledWith('update');
-  }));
-
-  it('should make delete api call when delete btn clicked', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/edit');
-    spyOn(service, 'delete').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'getSuccessMessage');
-
-    fixture.detectChanges();
-    tick();
-    
-    expect(component.{{ $form }}.valid).toBe(true);
-    fixture.nativeElement.querySelector('form button.delete-row').click();
-
-    fixture.detectChanges();
-
-    // should open sweetalert2 for confirmation
-    fixture.nativeElement.querySelector('button.swal2-confirm').click();
-
-    fixture.detectChanges();
-    tick(200);
-
-    // should make edit post api call
-    expect(service.delete).toHaveBeenCalled();
-    expect(service.getSuccessMessage).toHaveBeenCalledWith('delete');
-  }));
-
-  it('should navigate when show all btn clicked', fakeAsync(() => {
-    spyOn(location, 'path').and.returnValue('/{{ $gen->slugEntityName() }}/' + testModel.id + '/edit');
-    spyOn(service, 'delete').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'getSuccessMessage');
-
-    fixture.detectChanges();
-    tick();
-
-    spyOn(router, 'navigateByUrl');
-    fixture.nativeElement.querySelector('a.btn.show-all-rows').click();
-
-    fixture.detectChanges();
-
-    expect(router.navigateByUrl).toHaveBeenCalledWith(
-      jasmine.stringMatching('/{{ $gen->slugEntityName() }}'),
-      { skipLocationChange: false, replaceUrl: false }
-    );
-  }));
+  });
 });
