@@ -2,7 +2,7 @@
 
 namespace App\Containers\Crud\Actions;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Containers\Crud\Tasks\CopyAngularModuleTask;
 use App\Containers\Crud\Tasks\CopyPortoContainerTask;
 
@@ -13,7 +13,7 @@ use App\Containers\Crud\Tasks\CopyPortoContainerTask;
 */
 class CopyDirsAction
 {
-	public function run(Request $request)
+	public function run(Collection $request)
 	{
 		if (!empty($request->get('copy_angular_module_to')) && $request->get('generated_angular_module', false)) {
 			$copyAngularModuleTask = new CopyAngularModuleTask($request);

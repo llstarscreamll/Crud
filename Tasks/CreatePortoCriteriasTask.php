@@ -2,7 +2,7 @@
 
 namespace App\Containers\Crud\Tasks;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use App\Containers\Crud\Traits\DataGenerator;
 use App\Containers\Crud\Traits\FolderNamesResolver;
 
@@ -49,9 +49,9 @@ class CreatePortoCriteriasTask
     /**
      * Create new CreatePortoCriteriasTask instance.
      *
-     * @param Request $request
+     * @param Collection $request
      */
-    public function __construct(Request $request)
+    public function __construct(Collection $request)
     {
         $this->request = $request;
         $this->container = studly_case($request->get('is_part_of_package'));

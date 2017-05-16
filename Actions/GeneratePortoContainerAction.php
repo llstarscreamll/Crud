@@ -2,24 +2,24 @@
 
 namespace App\Containers\Crud\Actions;
 
-use Illuminate\Http\Request;
-use App\Containers\Crud\Tasks\CreatePackageFoldersTask;
-use App\Containers\Crud\Tasks\CreateComposerFileTask;
 use App\Containers\Crud\Tasks\CreateActionsTask;
-use App\Containers\Crud\Tasks\CreateTasksTask;
-use App\Containers\Crud\Tasks\CreateApiRoutesTask;
-use App\Containers\Crud\Tasks\CreateApiRequestsTask;
-use App\Containers\Crud\Tasks\CreateCodeceptionTestsTask;
-use App\Containers\Crud\Tasks\CreateModelFactoryTask;
-use App\Containers\Crud\Tasks\CreateModelTask;
-use App\Containers\Crud\Tasks\CreateRepositoryTask;
 use App\Containers\Crud\Tasks\CreateApiControllerTask;
-use App\Containers\Crud\Tasks\RunPhpCsFixerOnDirTask;
-use App\Containers\Crud\Tasks\CreateTransformerTask;
+use App\Containers\Crud\Tasks\CreateApiRequestsTask;
+use App\Containers\Crud\Tasks\CreateApiRoutesTask;
+use App\Containers\Crud\Tasks\CreateCodeceptionTestsTask;
+use App\Containers\Crud\Tasks\CreateComposerFileTask;
 use App\Containers\Crud\Tasks\CreateExceptionsTask;
 use App\Containers\Crud\Tasks\CreateFormModelConfigTask;
+use App\Containers\Crud\Tasks\CreateModelFactoryTask;
+use App\Containers\Crud\Tasks\CreateModelTask;
+use App\Containers\Crud\Tasks\CreatePackageFoldersTask;
 use App\Containers\Crud\Tasks\CreatePortoCriteriasTask;
+use App\Containers\Crud\Tasks\CreateRepositoryTask;
 use App\Containers\Crud\Tasks\CreateSeedersTask;
+use App\Containers\Crud\Tasks\CreateTasksTask;
+use App\Containers\Crud\Tasks\CreateTransformerTask;
+use App\Containers\Crud\Tasks\RunPhpCsFixerOnDirTask;
+use Illuminate\Support\Collection;
 
 /**
  * GeneratePortoContainerAction Class.
@@ -28,7 +28,7 @@ use App\Containers\Crud\Tasks\CreateSeedersTask;
  */
 class GeneratePortoContainerAction
 {
-    public function run(Request $request)
+    public function run(Collection $request)
     {
         // generate the base folders
         $createPackageFoldersTask = new CreatePackageFoldersTask();

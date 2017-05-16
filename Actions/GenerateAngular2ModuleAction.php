@@ -2,8 +2,7 @@
 
 namespace App\Containers\Crud\Actions;
 
-use Illuminate\Http\Request;
-
+use Illuminate\Support\Collection;
 use App\Containers\Crud\Tasks\CreateAngular2DirsTask;
 use App\Containers\Crud\Tasks\CreateNgModulesTask;
 use App\Containers\Crud\Tasks\CreateNgContainersTask;
@@ -24,7 +23,7 @@ use App\Containers\Crud\Tasks\CreateNgUtilsTask;
  */
 class GenerateAngular2ModuleAction
 {
-    public function run(Request $request)
+    public function run(Collection $request)
     {
         // generate the base folders
         $createAngular2DirsTask = new CreateAngular2DirsTask($request);
