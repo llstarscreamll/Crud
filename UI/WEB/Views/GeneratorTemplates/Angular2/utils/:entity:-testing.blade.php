@@ -28,6 +28,7 @@ import { SERVICES } from './../services';
  */
 
 export const FORM_MODEL = {!! json_encode($gen->getFormModelConfigArray($fields)) !!};
+export const FORM_DATA = {};
 
 export let translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
 export let tableColumns = [
@@ -60,6 +61,15 @@ export function setupMockBackend(mockBackend: MockBackend) {
 	    return;
 	  }
 
+	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/form-data/i) > -1) {
+	    connection.mockRespond(new Response(new ResponseOptions({
+	      body: JSON.stringify(FORM_DATA),
+	      status: 200,
+	      statusText: "OK",
+	    })));
+	    return;
+	  }
+
 	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/a1/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
 	      body: JSON.stringify({data: {{ $gen->entityName() }}One}),
@@ -81,7 +91,7 @@ export function setupMockBackend(mockBackend: MockBackend) {
 }
 
 // Containers Testbed Imports
-export const CONTAINERS_IMPORTS = [
+export const IMPORTS = [
 	RouterTestingModule,
   HttpModule,
   StoreModule.provideStore(fromRoot.reducer),
@@ -94,7 +104,7 @@ export const CONTAINERS_IMPORTS = [
   DynamicFormModule,
 ];
 
-export const CONTAINERS_PROVIDERS = [
+export const PROVIDERS = [
 	MockBackend,
   BaseRequestOptions,
   AuthGuard,
