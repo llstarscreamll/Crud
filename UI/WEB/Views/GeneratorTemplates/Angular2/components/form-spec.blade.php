@@ -61,7 +61,6 @@ describe('{{ $cmpClass }}', () => {
     
     fixture = getTestBed().createComponent({{ $cmpClass }});
     component = fixture.componentInstance;
-
   }));
 
   // setup language translations

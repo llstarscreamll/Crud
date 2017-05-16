@@ -24,7 +24,7 @@ import { {{ $service = $gen->entityName().'Service' }} } from './../../services/
  *
  * @author [name] <[<email address>]>
  */
-fdescribe('{{ $cpmClass }}', () => {
+describe('{{ $cpmClass }}', () => {
   let mockBackend: MockBackend;
   let store: Store<fromRoot.State>;
   let fixture: ComponentFixture<{{ $cpmClass }}>;

@@ -23,10 +23,7 @@ import { {{ $abstractClass = $gen->componentClass('abstract', false, true) }}, S
 })
 export class {{ $gen->componentClass('search-basic', $plural = false) }} extends {{ $abstractClass }} implements OnInit {
   @Output()
-  public search = new EventEmitter<{}>();
-
-  @Output()
-  public filterBtnClick = new EventEmitter<null>();
+  public advancedSearchBtnClick = new EventEmitter<null>();
   
   public searchForm: FormGroup;
 

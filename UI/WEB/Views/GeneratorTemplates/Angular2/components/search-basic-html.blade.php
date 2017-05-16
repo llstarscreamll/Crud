@@ -16,7 +16,7 @@
 	    	type="button"
 	    	tooltip="{{ '{{' }} '{{ $gen->entityNameSnakeCase() }}.advanced_search.title' | translate }}"
 	    	class="btn btn-default advanced-search-btn"
-	    	(click)="filterBtnClick.emit()">
+	    	(click)="advancedSearchBtnClick.emit()">
 	    	<i class="fa fa-filter" aria-hidden="true"></i>
 	    	<span class="sr-only" translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.title</span>
 	    </button>

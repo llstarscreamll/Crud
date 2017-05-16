@@ -27,7 +27,6 @@ import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util'
 describe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }};
-  let formModel;
   let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
   let reactiveForm;
   let mockBackend: MockBackend;

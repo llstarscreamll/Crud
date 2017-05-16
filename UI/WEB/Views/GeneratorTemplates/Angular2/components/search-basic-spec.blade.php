@@ -3,36 +3,60 @@ import { async, ComponentFixture, fakeAsync, TestBed, inject, getTestBed, tick }
 import { RouterTestingModule } from '@angular/router/testing';
 import { Http, HttpModule, BaseRequestOptions, Response, ResponseOptions } from '@angular/http';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { Ng2BootstrapModule } from 'ngx-bootstrap';
+import { MockBackend, MockConnection } from '@angular/http/testing';
+import { Observable } from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import * as fromRoot from './../../../reducers';
-import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
-import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
+import { AuthGuard } from './../../../auth/guards/auth.guard';
+import { DynamicFormModule } from './../../../dynamic-form/dynamic-form.module';
+import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 
 import { {{ $cmpClass = $gen->componentClass('search-basic', $plural = false) }} } from './{{ str_replace('.ts', '', $gen->componentFile('search-basic', false)) }}';
+import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
+import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
+import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
+import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
 
 /**
  * {{ $gen->componentClass('search-basic', $plural = false) }} Tests.
  *
  * @author [name] <[<email address>]>
  */
-describe('{{ $cmpClass }}', () => {
+fdescribe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }};
+  let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
+  let reactiveForm;
+  let mockBackend: MockBackend;
+  let store: Store<fromRoot.State>;
+  let authGuard: AuthGuard;
+  let service: {{ $gen->entityName() }}Service;
+  let http: Http;
+  let router: Router;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [{{ $cmpClass }}],
       imports: [
-        RouterTestingModule,
-        HttpModule,
-        TranslateModule.forRoot(),
-        ReactiveFormsModule,
-        Ng2BootstrapModule.forRoot(),
+        utils.IMPORTS
       ],
-      providers: []
+      providers: [
+        utils.PROVIDERS
+      ]
     }).compileComponents();
+
+    store = getTestBed().get(Store);
+    router = getTestBed().get(Router);
+    authGuard = getTestBed().get(AuthGuard);
+    http = getTestBed().get(Http);
+    service = getTestBed().get({{ $gen->entityName() }}Service);
+
+    spyOn(authGuard, 'canActivate').and.returnValue(true);
+
+    mockBackend = getTestBed().get(MockBackend);
+    utils.setupMockBackend(mockBackend);
 
     fixture = getTestBed().createComponent({{ $cmpClass }});
     component = fixture.componentInstance;
@@ -49,8 +73,10 @@ describe('{{ $cmpClass }}', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should emit event on search btn click', () => {
+  it('should make {{ $gen->entityName() }}Service load call on form submit', fakeAsync(() => {
+    spyOn(service, 'load').and.returnValue(Observable.from([{}]));
     fixture.detectChanges();
+
     let searchField = fixture.nativeElement.querySelector('input[name=search]');
     let searchBtn = fixture.nativeElement.querySelector('button[type=submit]');
 
@@ -58,17 +84,16 @@ describe('{{ $cmpClass }}', () => {
     expect(searchField).not.toBeNull();
     
     searchField.value = 'foo search';
-    searchBtn.click;
+    searchBtn.click();
     
     fixture.detectChanges();
+    tick();
 
-    component.search.subscribe(val => {
-      expect(val).toContain({search: 'foo search', page: 1});
-    });
-  });
+    expect(service.load).toHaveBeenCalled();
+  }));
 
   it('should emit event on advanced search btn click', () => {    
-    spyOn(component.filterBtnClick, 'emit');
+    spyOn(component.advancedSearchBtnClick, 'emit');
     fixture.detectChanges();
     let advancedSearchBtn = fixture.nativeElement.querySelector('button[type=button].advanced-search-btn');
 
@@ -77,6 +102,6 @@ describe('{{ $cmpClass }}', () => {
     advancedSearchBtn.dispatchEvent(new Event('click'));
     fixture.detectChanges();
 
-    expect(component.filterBtnClick.emit).toHaveBeenCalledWith();
+    expect(component.advancedSearchBtnClick.emit).toHaveBeenCalledWith();
   });
 });
