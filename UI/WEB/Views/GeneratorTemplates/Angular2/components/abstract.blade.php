@@ -172,13 +172,12 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
    * Load {{ str_replace('_', ' ', $gen->tableName) }} by the given id on url, if any.
    */
   public loadSelectedItem() {
-    if ((this.formType.includes('details') || this.formType.includes('edit')) && !this.selectedItemId) {
+    if ((this.formType == 'details' || this.formType == 'edit')) {
       this.activedRouteSubscription$ = this.activedRoute.params.subscribe(params => {
-        this.selectedItemId = params['id'];
+        this.selectedItemId = !this.selectedItemId ? params['id'] : this.selectedItemId;
+        this.store.dispatch(new {{ $actions }}.GetAction(this.selectedItemId));
       });
     }
-
-    this.store.dispatch(new {{ $actions }}.GetAction(this.selectedItemId));
   }
 
   /**

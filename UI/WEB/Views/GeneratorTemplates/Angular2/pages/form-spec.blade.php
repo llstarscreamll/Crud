@@ -98,9 +98,7 @@ describe('{{ $cpmClass }}', () => {
   });
 
   it('should have default form type = create', () => {
-    //spyOn(location, 'path').and.returnValue('{{ $gen->slugEntityName() }}/create');
     fixture.detectChanges();
-
     expect(component.formType).toBe('create');
   });
 

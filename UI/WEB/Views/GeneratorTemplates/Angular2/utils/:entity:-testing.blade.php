@@ -28,7 +28,7 @@ import { SERVICES } from './../services';
  */
 
 export const FORM_MODEL = {!! json_encode($gen->getFormModelConfigArray($fields)) !!};
-export const FORM_DATA = null;
+export const FORM_DATA = {};
 
 export let translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
 export let tableColumns = [
