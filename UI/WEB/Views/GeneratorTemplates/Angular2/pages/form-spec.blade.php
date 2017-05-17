@@ -9,7 +9,6 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from './../../../reducers';
-import { AuthGuard } from './../../../auth/guards/auth.guard';
 
 import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
 import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
@@ -31,7 +30,6 @@ describe('{{ $cpmClass }}', () => {
   let component: {{ $cpmClass }};
   let router: Router;
   let location: Location;
-  let authGuard: AuthGuard;
   let service: {{ $service }};
   let http: Http;
   let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
@@ -53,7 +51,6 @@ describe('{{ $cpmClass }}', () => {
     store = getTestBed().get(Store);
     router = getTestBed().get(Router);
     location = getTestBed().get(Location);
-    authGuard = getTestBed().get(AuthGuard);
     http = getTestBed().get(Http);
     service = getTestBed().get({{ $service }});
 
@@ -62,8 +59,6 @@ describe('{{ $cpmClass }}', () => {
     
     fixture = getTestBed().createComponent({{ $cpmClass }});
     component = fixture.componentInstance;
-
-    spyOn(authGuard, 'canActivate').and.returnValue(true);
   }));
 
   beforeEach(inject([TranslateService], (translateService: TranslateService) => {

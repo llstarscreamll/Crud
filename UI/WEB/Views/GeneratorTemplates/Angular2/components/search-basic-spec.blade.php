@@ -9,7 +9,6 @@ import { Store } from '@ngrx/store';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import * as fromRoot from './../../../reducers';
-import { AuthGuard } from './../../../auth/guards/auth.guard';
 import { DynamicFormModule } from './../../../dynamic-form/dynamic-form.module';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 
@@ -31,7 +30,6 @@ describe('{{ $cmpClass }}', () => {
   let reactiveForm;
   let mockBackend: MockBackend;
   let store: Store<fromRoot.State>;
-  let authGuard: AuthGuard;
   let service: {{ $gen->entityName() }}Service;
   let http: Http;
   let router: Router;
@@ -49,11 +47,8 @@ describe('{{ $cmpClass }}', () => {
 
     store = getTestBed().get(Store);
     router = getTestBed().get(Router);
-    authGuard = getTestBed().get(AuthGuard);
     http = getTestBed().get(Http);
     service = getTestBed().get({{ $gen->entityName() }}Service);
-
-    spyOn(authGuard, 'canActivate').and.returnValue(true);
 
     mockBackend = getTestBed().get(MockBackend);
     utils.setupMockBackend(mockBackend);
