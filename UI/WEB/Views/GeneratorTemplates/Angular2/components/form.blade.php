@@ -104,6 +104,9 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
 
     if (this.formType == 'details')
       this.store.dispatch(go(['{{ $gen->slugEntityName() }}', this.selectedItemId, 'edit']));
+
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
   }
 
   /**
