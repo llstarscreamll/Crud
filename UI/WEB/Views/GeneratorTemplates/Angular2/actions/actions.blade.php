@@ -65,12 +65,12 @@ export class GetAction implements Action {
 
 export class CreateAction implements Action {
   readonly type = CREATE;
-  public constructor(public payload: {{ $entitySin }}) { }
+  public constructor(public payload: { item: {{ $entitySin }}, redirect: boolean }) { }
 }
 
 export class UpdateAction implements Action {
   readonly type = UPDATE;
-  public constructor(public payload: {{ $entitySin }}) { }
+  public constructor(public payload: { item: {{ $entitySin }}, redirect: boolean }) { }
 }
 
 export class DeleteAction implements Action {

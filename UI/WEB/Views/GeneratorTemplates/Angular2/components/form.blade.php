@@ -38,6 +38,12 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
   @Input()
   public formType: string = 'create';
 
+  @Input()
+  public selectedItemId: string;
+
+  @Input()
+  public redirect: boolean = true;
+
   /**
    * {{ $gen->componentClass('form', $plural = false) }} constructor.
    */
@@ -96,11 +102,13 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
    * Hadle the form submition based on the actual form type.
    */
   public submitForm() {
+    let payload = { item: this.form.value, redirect: this.redirect };
+
     if (this.formType == 'create')
-      this.store.dispatch(new {{ $actions }}.CreateAction(this.form.value));
+      this.store.dispatch(new {{ $actions }}.CreateAction(payload));
 
     if (this.formType == 'edit')
-      this.store.dispatch(new {{ $actions }}.UpdateAction(this.form.value));
+      this.store.dispatch(new {{ $actions }}.UpdateAction(payload));
 
     if (this.formType == 'details')
       this.store.dispatch(go(['{{ $gen->slugEntityName() }}', this.selectedItemId, 'edit']));

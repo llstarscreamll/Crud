@@ -107,14 +107,21 @@ export class {{ $entitySin }}Effects extends Effects {
     create$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.CREATE)
       .map((action: Action) => action.payload)
-      .switchMap((data) => {
-        return this.{{ $service }}.create(data)
-          .mergeMap((data: {{ $entitySin }}) => {
-            return [
-              new {{ $actions }}.SetSelectedAction(data),
-              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('create_success')),
-              go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
-            ];
+      .switchMap((payload: { item: {{ $entitySin }}, redirect: boolean}) => {
+        let actions: Array<Action> = [];
+
+        return this.{{ $service }}.create(payload.item)
+          .mergeMap((createdItem: {{ $entitySin }}) => {
+            actions.push(
+              new {{ $actions }}.SetSelectedAction(createdItem),
+              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('create_success'))
+            );
+
+            if (payload.redirect === true) {
+              actions.push(go(['{{ $gen->slugEntityName() }}', createdItem.id, 'details']));
+            }
+
+            return actions;
           })
           .catch((error: AppMessage) => this.handleError(error));
       });
@@ -142,14 +149,22 @@ export class {{ $entitySin }}Effects extends Effects {
     update$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.UPDATE)
       .map((action: Action) => action.payload)
-      .switchMap((data: {{ $entitySin }}) => {
-        return this.{{ $service }}.update(data)
-          .mergeMap((data: {{ $entitySin }}) => {
-            return [
-              new {{ $actions }}.SetSelectedAction(data),
-              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('update_success')),
-              go(['{{ $gen->slugEntityName() }}', data.id, 'details'])
-            ];
+      .switchMap((payload: { item: {{ $entitySin }}, redirect: boolean}) => {
+        let actions: Array<Action> = [];
+
+        return this.{{ $service }}.update(payload.item)
+          .mergeMap((updatedItem: {{ $entitySin }}) => {
+            actions.push(
+              new {{ $actions }}.SetSelectedAction(updatedItem),
+              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('update_success'))
+            );
+
+            // make redirection to details page if desired
+            if (payload.redirect === true) {
+              actions.push(go(['{{ $gen->slugEntityName() }}', updatedItem.id, 'details']));
+            }
+
+            return actions;
           })
           .catch((error: AppMessage) => this.handleError(error));
       });
