@@ -82,7 +82,7 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} exte
           this.form.get('options').patchValue(this.searchQuery);
           this.form.get('search').patchValue(this.searchQuery);
 
-          this.formConfigured = true;
+          this.formReady = true;
         }
       });
   }

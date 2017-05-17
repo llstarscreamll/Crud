@@ -1,4 +1,4 @@
-<app-loader *ngIf="!formModel || !(formData$ | async) || !form || !formConfigured; else searchForm" loader="ball-grid-pulse">{{ '{{' }} langKey + 'loading_form' | translate }}</app-loader>
+<app-loader *ngIf="!formModel || !(formData$ | async) || !form || !formReady; else searchForm" loader="ball-grid-pulse">{{ '{{' }} langKey + 'loading_form' | translate }}</app-loader>
 
 <ng-template #searchForm>
   <div class="row">

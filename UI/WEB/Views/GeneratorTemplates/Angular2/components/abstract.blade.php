@@ -99,7 +99,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
    * Flag that tell as if the form is ready to be shown or not.
    * @type boolean
    */
-  public formConfigured: boolean = false;
+  public formReady: boolean = false;
 
   /**
    * Language key access.

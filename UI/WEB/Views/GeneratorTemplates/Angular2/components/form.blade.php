@@ -73,7 +73,7 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
           if (this.formType == 'details' || this.formType == 'edit') {
             this.patchForm();
           } else {
-            this.formConfigured = true;
+            this.formReady = true;
           }
         }
       });
@@ -87,7 +87,7 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
       .subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
         if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.selectedItemId)) {
           this.form.patchValue({{ $model }});
-          this.formConfigured = true;
+          this.formReady = true;
         }
       });
   }
