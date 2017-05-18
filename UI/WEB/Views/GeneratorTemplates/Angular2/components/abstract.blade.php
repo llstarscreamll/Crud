@@ -175,7 +175,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
     if ((this.formType == 'details' || this.formType == 'edit')) {
       this.activedRouteSubscription$ = this.activedRoute.params.subscribe(params => {
         this.selectedItemId = !this.selectedItemId ? params['id'] : this.selectedItemId;
-        this.store.dispatch(new {{ $actions }}.GetAction(this.selectedItemId));
+        this.store.dispatch(new {{ $actions }}.GetByIdAction(this.selectedItemId));
       });
     }
   }

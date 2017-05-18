@@ -127,8 +127,8 @@ export class {{ $entitySin }}Effects extends Effects {
       });
 
     @Effect()
-    get$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.GET)
+    getById$: Observable<Action> = this.actions$
+      .ofType({{ $actions }}.GET_BY_ID)
       .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
       .switchMap(([action, state]) => {
         // prevent API call if we have the selected item object in the store already
@@ -136,10 +136,10 @@ export class {{ $entitySin }}Effects extends Effects {
           return of(new {{ $actions }}.SetSelectedAction(state.selected{{ $gen->entityName() }}));
         }
 
-        return this.{{ $service }}.get(action.payload)
-          .mergeMap((data: {{ $entitySin }}) => {
+        return this.{{ $service }}.getById(action.payload)
+          .mergeMap((item: {{ $entitySin }}) => {
             return [
-              new {{ $actions }}.SetSelectedAction(data),
+              new {{ $actions }}.SetSelectedAction(item),
             ];
           })
           .catch((error: AppMessage) => this.handleError(error));
@@ -149,10 +149,10 @@ export class {{ $entitySin }}Effects extends Effects {
     update$: Observable<Action> = this.actions$
       .ofType({{ $actions }}.UPDATE)
       .map((action: Action) => action.payload)
-      .switchMap((payload: { item: {{ $entitySin }}, redirect: boolean}) => {
+      .switchMap((payload: { id: string | number, item: {{ $entitySin }}, redirect: boolean}) => {
         let actions: Array<Action> = [];
 
-        return this.{{ $service }}.update(payload.item)
+        return this.{{ $service }}.update(payload.id, payload.item)
           .mergeMap((updatedItem: {{ $entitySin }}) => {
             actions.push(
               new {{ $actions }}.SetSelectedAction(updatedItem),

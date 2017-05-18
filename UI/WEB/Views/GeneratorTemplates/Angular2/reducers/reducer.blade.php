@@ -85,7 +85,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.GET: {
+    case {{ $actions }}.GET_BY_ID: {
       return { ...state, loading: true };
     }
 

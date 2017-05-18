@@ -80,9 +80,9 @@ export class {{ $entitySin }}Service extends Service {
   /**
    * Load {{ $gen->entityName(true) }}.
    */
-  public load(data: Object = {}): Observable<{{ $entitySin.'Pagination' }}> {
+  public load(query: Object = {}): Observable<{{ $entitySin.'Pagination' }}> {
     this.setAuthorizationHeader();
-    let searchParams = this.parseGetParams(data);
+    let searchParams = this.parseGetParams(query);
 
     return this.http
       .get(this.apiEndpoint(), { headers: this.headers, search: searchParams })
@@ -93,11 +93,11 @@ export class {{ $entitySin }}Service extends Service {
   /**
    * Create {{ $gen->entityName() }}.
    */
-  public create(data: Object): Observable<{{ $entitySin }}> {
+  public create(item: {{ $entitySin }}): Observable<{{ $entitySin }}> {
     this.setAuthorizationHeader();
 
     return this.http
-      .post(this.apiEndpoint('create'), data, { headers: this.headers })
+      .post(this.apiEndpoint('create'), item, { headers: this.headers })
       .map(res => { return res.json().data })
       .catch(this.handleError);
   }
@@ -105,7 +105,7 @@ export class {{ $entitySin }}Service extends Service {
   /**
    * Get {{ $gen->entityName() }} by id.
    */
-  public get(id): Observable<{{ $entitySin }}> {
+  public getById(id: string | number): Observable<{{ $entitySin }}> {
     this.setAuthorizationHeader();
 
     let urlParams: URLSearchParams = new URLSearchParams;
@@ -119,11 +119,11 @@ export class {{ $entitySin }}Service extends Service {
   /**
    * Update {{ $gen->entityName() }}.
    */
-  public update(data: {{ $entitySin }}): Observable<{{ $entitySin }}> {
+  public update(id: string | number, item: {{ $entitySin }}): Observable<{{ $entitySin }}> {
     this.setAuthorizationHeader();
 
     return this.http
-      .put(this.apiEndpoint(data.id), data, { headers: this.headers })
+      .put(this.apiEndpoint(id), item, { headers: this.headers })
       .map(res => { return res.json().data })
       .catch(this.handleError);
   }

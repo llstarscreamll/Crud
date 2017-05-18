@@ -107,14 +107,18 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
   public submitForm() {
     let payload = { item: this.form.value, redirect: this.redirect };
 
-    if (this.formType == 'create')
+    if (this.formType == 'create') {
       this.store.dispatch(new {{ $actions }}.CreateAction(payload));
+    }
 
-    if (this.formType == 'edit')
-      this.store.dispatch(new {{ $actions }}.UpdateAction(payload));
+    if (this.formType == 'edit') {
+      this.store.dispatch(new {{ $actions }}.UpdateAction({ ...payload, id: this.selectedItemId }));
+    }
 
-    if (this.formType == 'details')
+    if (this.formType == 'details') {
       this.store.dispatch(go(['{{ $gen->slugEntityName() }}', this.selectedItemId, 'edit']));
+      return;
+    }
 
     this.form.markAsPristine();
     this.form.markAsUntouched();

@@ -16,7 +16,7 @@ export const SET_SEARCH_QUERY = '[{{ $entitySin }}] Set Search Query';
 export const LOAD = '[{{ $entitySin }}] Load';
 export const LOAD_SUCCESS = '[{{ $entitySin }}] Load Success';
 export const CREATE = '[{{ $entitySin }}] Create';
-export const GET = '[{{ $entitySin }}] Get';
+export const GET_BY_ID = '[{{ $entitySin }}] Get';
 export const UPDATE = '[{{ $entitySin }}] Update';
 export const DELETE = '[{{ $entitySin }}] Delete';
 export const RESTORE = '[{{ $entitySin }}] Restore';
@@ -58,8 +58,8 @@ export class LoadSuccessAction implements Action {
   public constructor(public payload: {{ $entitySin.'Pagination' }} ) { }
 }
 
-export class GetAction implements Action {
-  readonly type = GET;
+export class GetByIdAction implements Action {
+  readonly type = GET_BY_ID;
   public constructor(public payload: string) { }
 }
 
@@ -70,7 +70,7 @@ export class CreateAction implements Action {
 
 export class UpdateAction implements Action {
   readonly type = UPDATE;
-  public constructor(public payload: { item: {{ $entitySin }}, redirect: boolean }) { }
+  public constructor(public payload: { id: string | number, item: {{ $entitySin }}, redirect: boolean }) { }
 }
 
 export class DeleteAction implements Action {
@@ -102,7 +102,7 @@ export type Actions
   | LoadAction
   | LoadSuccessAction
   | CreateAction
-  | GetAction
+  | GetByIdAction
   | UpdateAction
   | DeleteAction
   | RestoreAction
