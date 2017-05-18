@@ -76,7 +76,7 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} exte
           this.formModel = this.formModelParserService
             .parseToSearch(model, this.tableColumns, this.langKey);
           this.form = this.formModelParserService
-            .toFormGroup(this.formModel);
+            .toFormGroup(this.formModel, this.formType);
           
           // patch form values
           this.form.get('options').patchValue(this.searchQuery);

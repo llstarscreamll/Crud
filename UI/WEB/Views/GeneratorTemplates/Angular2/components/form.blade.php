@@ -41,6 +41,9 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
   @Input()
   public selectedItemId: string;
 
+  /**
+   * Call redirect action from ngrx/router-store in create/update effects?
+   */
   @Input()
   public redirect: boolean = true;
 
@@ -74,7 +77,7 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
     this.formModelSubscription$ = this.formModel$
       .subscribe((model) => {
         if (model) {
-          this.form = this.formModelParserService.toFormGroup(model);
+          this.form = this.formModelParserService.toFormGroup(model, this.formType);
 
           if (this.formType == 'details' || this.formType == 'edit') {
             this.patchForm();

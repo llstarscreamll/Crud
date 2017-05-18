@@ -111,7 +111,7 @@ describe('{{ $cmpClass }}', () => {
     expect(service.getFormData).toHaveBeenCalled();
   }));
 
-  it('should make {{ $gen->entityName() }}Service load call on form submit', fakeAsync(() => {
+  it('should make {{ $gen->entityName() }}Service load call on form submission', fakeAsync(() => {
     spyOn(service, 'load').and.returnValue(Observable.from([{}]));
 
     fixture.detectChanges();
