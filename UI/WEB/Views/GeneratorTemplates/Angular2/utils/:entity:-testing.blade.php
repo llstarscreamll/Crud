@@ -52,6 +52,27 @@ export let {{ $gen->entityName() }}List: {{ $model }}[] = [
 // Mockbackend settings
 export function setupMockBackend(mockBackend: MockBackend) {
 	mockBackend.connections.subscribe((connection: MockConnection) => {
+		// POST create item request
+		if (connection.request.method === 1 && connection.request.url.search(/{{ $gen->slugEntityName(true) }}/i) > -1) {
+	    connection.mockRespond(new Response(new ResponseOptions({
+	      body: JSON.stringify({ data: JSON.parse(connection.request.getBody()) }),
+	      status: 200,
+	      statusText: "OK",
+	    })));
+	    return;
+	  }
+
+	  // POST update 'a1' ({{ $gen->entityName() }}One) item request
+		if (connection.request.method === 1 && connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/a1/i) > -1) {
+	    connection.mockRespond(new Response(new ResponseOptions({
+	      body: JSON.stringify({ data: {{ $gen->entityName() }}One }),
+	      status: 200,
+	      statusText: "OK",
+	    })));
+	    return;
+	  }
+
+		// GET form model request
 	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/form-model/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
 	      body: JSON.stringify(FORM_MODEL),
@@ -61,6 +82,7 @@ export function setupMockBackend(mockBackend: MockBackend) {
 	    return;
 	  }
 
+	  // GET form data request
 	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/form-data/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
 	      body: JSON.stringify(FORM_DATA),
@@ -70,6 +92,7 @@ export function setupMockBackend(mockBackend: MockBackend) {
 	    return;
 	  }
 
+	  // GET 'a1' ({{ $gen->entityName() }}One) item data request
 	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/a1/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
 	      body: JSON.stringify({data: {{ $gen->entityName() }}One}),
@@ -79,6 +102,7 @@ export function setupMockBackend(mockBackend: MockBackend) {
 	    return;
 	  }
 
+	  // GET 'b2' ({{ $gen->entityName() }}Two) item data request
 	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/b2/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
 	      body: JSON.stringify({data: {{ $gen->entityName() }}Two}),
