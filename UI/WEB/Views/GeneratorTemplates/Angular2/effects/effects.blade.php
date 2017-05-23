@@ -94,7 +94,7 @@ export class {{ $entitySin }}Effects extends Effects {
       .map((action: Action) => action.payload)
       .switchMap((item: {{ $entitySin }}) => {
         // if the selected item is trashed, then flash a msg to notify the user
-        if(item.deleted_at) {
+        if(item && item.deleted_at) {
           let msg = this.{{ $service }}.getMessage('item_trashed', 'warning');
           return of(new {{ $actions }}.SetMessagesAction(msg));
         }

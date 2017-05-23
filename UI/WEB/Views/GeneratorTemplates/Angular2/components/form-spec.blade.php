@@ -158,7 +158,7 @@ describe('{{ $cmpClass }}', () => {
     // should make form model/data/item api service calls
     expect(service.getFormModel).toHaveBeenCalled();
     expect(service.getFormData).toHaveBeenCalled();
-    expect(service.get).toHaveBeenCalled();
+    expect(service.getById).toHaveBeenCalled();
   }));
 
   it('should make certains {{ $gen->entityName() }}Service calls on edit form init', fakeAsync(() => {
@@ -173,7 +173,7 @@ describe('{{ $cmpClass }}', () => {
     // should make form model/data/item api service calls
     expect(service.getFormModel).toHaveBeenCalled();
     expect(service.getFormData).toHaveBeenCalled();
-    expect(service.get).toHaveBeenCalled();
+    expect(service.getById).toHaveBeenCalled();
   }));
 
   it('should make api call when create form submitted', fakeAsync(() => {
