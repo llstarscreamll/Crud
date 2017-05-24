@@ -24,7 +24,7 @@
         *ngIf="formType == 'create'"
         class="btn create-row"
         type="submit"
-        [disabled]="!form.valid"
+        [disabled]="!form.valid || (loading$ | async)"
         [ngClass]="{'btn-primary': form.valid, 'btn-default': !form.valid}">
         <i class="glyphicon glyphicon-floppy-disk"></i>
         <span class="btn-label" translate>{{ $upEntity = $gen->entityNameSnakeCase() }}.create</span>
@@ -34,7 +34,7 @@
         *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.('selectedItem$').' | async)?.deleted_at' : null !!}"
         class="btn edit-row"
         type="submit"
-        [disabled]="!form.valid"
+        [disabled]="!form.valid || (loading$ | async)"
         [ngClass]="{'btn-warning': form.valid, 'btn-default': !form.valid}">
         <i class="glyphicon glyphicon-pencil"></i>
         <span class="btn-label" translate>{{ $upEntity }}.edit</span>
@@ -42,7 +42,7 @@
 
       <button
         *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.('selectedItem$').' | async)?.deleted_at' : null !!}"
-        [disabled]="form.get('id') && form.get('id').value == ''"
+        [disabled]="!selectedItemId || (loading$ | async)"
         (click)="deleteRow(selectedItemId)"
         type="button"
         class="btn btn-default delete-row">
