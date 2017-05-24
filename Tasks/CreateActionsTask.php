@@ -42,7 +42,7 @@ class CreateActionsTask
         'Delete',
         'Restore',
         'ListAndSearch',
-        'FormData',
+        'SelectListFrom',
     ];
 
     /**

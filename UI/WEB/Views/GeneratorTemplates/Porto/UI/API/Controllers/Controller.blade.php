@@ -8,7 +8,7 @@ use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Update') }};
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Delete') }};
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Restore') }};
-use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('FormData', false, true) }};
+use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('SelectListFrom', false, false) }};
 use App\Containers\{{ $gen->containerName() }}\UI\API\Requests\{{ $gen->entityName() }}\{{ str_replace('.php', '', $gen->apiRequestFile('Create', $plural = false)) }};
 use App\Containers\{{ $gen->containerName() }}\UI\API\Requests\{{ $gen->entityName() }}\{{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }};
 use App\Containers\{{ $gen->containerName() }}\UI\API\Requests\{{ $gen->entityName() }}\{{ str_replace('.php', '', $gen->apiRequestFile('Delete', $plural = false)) }};
@@ -28,6 +28,7 @@ class {{ $gen->entityName() }}Controller extends ApiController
 {
 	/**
 	 * Returns the array entity form model.
+	 *
 	 * @param  Request $request
 	 * @return Illuminate\Http\Response
 	 */
@@ -43,19 +44,22 @@ class {{ $gen->entityName() }}Controller extends ApiController
 	}
 
 	/**
-	 * Returns the form data dependencies to create/update a resource.
+	 * Returns list of all records on DB with only id and name columns, mainly
+	 * to be used on select dropdowns.
+	 *
 	 * @param  Request $request
 	 * @return Illuminate\Http\Response
 	 */
-	public function {{ camel_case($gen->entityName()) }}FormData()
+	public function selectListFrom{{ $gen->entityName() }}()
 	{
-		$data = $this->call({{ $gen->actionClass('FormData', false, true) }}::class);
+		$data = $this->call({{ $gen->actionClass('SelectListFrom', false, false) }}::class);
 
 		return $data;
 	}
 
 	/**
 	 * List and search resources from storage.
+	 *
 	 * @param {{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural = true)) }} $request
 	 * @return Illuminate\Http\Response
 	 */
@@ -67,6 +71,7 @@ class {{ $gen->entityName() }}Controller extends ApiController
 
 	/**
 	 * Store a newly created resource in storage.
+	 *
 	 * @param {{ str_replace('.php', '', $gen->apiRequestFile('Create', $plural = false)) }} $request
 	 * @return Illuminate\Http\Response
 	 */
@@ -78,6 +83,7 @@ class {{ $gen->entityName() }}Controller extends ApiController
 
 	/**
 	 * Returns the specified resource.
+	 *
 	 * @param {{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }} $request
 	 * @return Illuminate\Http\Response
 	 */
@@ -89,6 +95,7 @@ class {{ $gen->entityName() }}Controller extends ApiController
 
 	/**
 	 * Update the specified resource in storage.
+	 *
 	 * @param {{ str_replace('.php', '', $gen->apiRequestFile('Update', $plural = false)) }} $request
 	 * @return Illuminate\Http\Response
 	 */
@@ -100,6 +107,7 @@ class {{ $gen->entityName() }}Controller extends ApiController
 
 	/**
 	 * {{ $gen->hasSoftDeleteColumn ? 'Soft' : null }}Delete the specified resource from storage.
+	 *
 	 * @param {{ str_replace('.php', '', $gen->apiRequestFile('Delete', $plural = false)) }} $request
 	 * @return Illuminate\Http\Response
 	 */
@@ -112,6 +120,7 @@ class {{ $gen->entityName() }}Controller extends ApiController
 @if($gen->hasSoftDeleteColumn)
 	/**
 	 * Restore the specified softDeleted resource from storage.
+	 *
 	 * @param {{ str_replace('.php', '', $gen->apiRequestFile('Restore', $plural = false)) }} $request
 	 * @return Illuminate\Http\Response
 	 */

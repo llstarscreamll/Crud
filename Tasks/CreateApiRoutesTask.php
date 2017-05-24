@@ -38,7 +38,7 @@ class CreateApiRoutesTask
     public $files = [
         'Create:entity:',
         'Delete:entity:',
-        'FormDataFrom:entity:',
+        'SelectListFrom:entity:',
         'FormModelFrom:entity:',
         'Get:entity:',
         'ListAndSearch:entity:',

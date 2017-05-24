@@ -8,7 +8,7 @@ use {{ $field->namespace }};
 @endif
 @endforeach
 use App\Containers\{{ $gen->containerName() }}\Data\Seeders\{{ $gen->entityName() }}PermissionsSeeder;
-use Artisan;
+use Illuminate\Support\Facades\Artisan;
 
 /**
  * {{ $gen->entityName() }}Helper Class.

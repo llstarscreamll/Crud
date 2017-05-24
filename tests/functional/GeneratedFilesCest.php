@@ -26,7 +26,7 @@ class GeneratedFilesCest
 
     public function checkFilesGeneration(FunctionalTester $I)
     {
-        $I->wantTo('generate a Laravel Package');
+        $I->wantTo('generate PORTO container and Angular Module');
 
         $data = Page::$formData;
 
@@ -221,7 +221,7 @@ class GeneratedFilesCest
         $apiTestsFolder = $testDir.'api/'.$this->entity;
         $I->assertTrue(file_exists($apiTestsFolder), 'entity api tests dir');
         $I->seeFileFound('BookFormModelCest.php', $apiTestsFolder);
-        $I->seeFileFound('BookFormDataCest.php', $apiTestsFolder);
+        $I->seeFileFound('SelectListFromBookCest.php', $apiTestsFolder);
         $I->seeFileFound('ListAndSearch'.str_plural($this->entity).'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Create'.$this->entity.'Cest.php', $apiTestsFolder);
         $I->seeFileFound('Get'.$this->entity.'Cest.php', $apiTestsFolder);
@@ -253,11 +253,11 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($apiRoutesDir), 'API/Routes dir');
         $I->seeFileFound('CreateBook.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('DeleteBook.v1.private.php', $apiRoutesDir);
-        $I->seeFileFound('FormDataFromBook.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('FormModelFromBook.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('GetBook.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('ListAndSearchBooks.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('RestoreBook.v1.private.php', $apiRoutesDir);
+        $I->seeFileFound('SelectListFromBook.v1.private.php', $apiRoutesDir);
         $I->seeFileFound('UpdateBook.v1.private.php', $apiRoutesDir);
 
         $I->assertTrue(file_exists($apiDir.'/Transformers'), 'API/Transformers dir');

@@ -42,7 +42,7 @@ class CreateCodeceptionTestsTask
         'Restore',
         'ListAndSearch',
         'FormModel',
-        'FormData',
+        'SelectListFrom',
     ];
 
     /**
@@ -213,7 +213,7 @@ class CreateCodeceptionTestsTask
             }
 
             $plural = ($file == 'ListAndSearch') ? true : false;
-            $atStart = in_array($file, ['FormData', 'FormModel']) ? true : false;
+            $atStart = in_array($file, ['FormModel']) ? true : false;
 
             $testFile = $this->apiTestsFolder()."/{$this->entityName()}/".$this->apiTestFile($file, $plural, $atStart);
             $template = $this->templatesDir().'.Porto/tests/api/'.$file;

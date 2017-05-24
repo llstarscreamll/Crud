@@ -47,7 +47,7 @@ class CreateAngular2DirsTask
 
         // generate angular module folder
         if (!file_exists($this->moduleDir())) {
-            mkdir($this->moduleDir());
+            mkdir($this->moduleDir(), null, true);
         }
 
         // generate angular translations folder

@@ -6,13 +6,13 @@ use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
 
 /**
- * {{ $gen->entityName() }}FormDataCest Class.
+ * SelectListFrom{{ $gen->entityName() }}Cest Class.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ $gen->entityName() }}FormDataCest
+class SelectListFrom{{ $gen->entityName() }}Cest
 {
-    private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/form-data';
+    private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/form/select-list';
 
     /**
      * @var App\Containers\User\Models\User
@@ -30,16 +30,14 @@ class {{ $gen->entityName() }}FormDataCest
     {
     }
 
-    public function tryToGet{{ $gen->entityName() }}FormData(ApiTester $I)
+    public function getSelectListFrom{{ $gen->entityName() }}(ApiTester $I)
     {
+        $data = factory({{ $gen->entityName() }}::class, 5)->create();
         $I->sendGET($this->endpoint);
 
         $I->seeResponseCodeIs(200);
 
-@foreach($fields as $field)
-@if($field->namespace && ($field->on_index_table || $field->on_create_form || $field->on_update_form))
-        $I->seeResponseJsonMatchesXpath('{{ str_plural(class_basename($field->namespace)) }}');
-@endif
-@endforeach
+        $response = json_decode($I->grabResponse());
+        $I->assertCount(5, $response);
     }
 }
