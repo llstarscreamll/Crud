@@ -48,7 +48,7 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists(storage_path('app/crud/options')), 'options output folders');
         $I->seeFileFound('books.php', storage_path('app/crud/options/'));
 
-        $this->checkAngular2ModuleGeneration($I);
+        //$this->checkAngular2ModuleGeneration($I);
         $this->checkPortoFilesGeneration($I);
     }
 
@@ -238,11 +238,12 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($apiDir.'/Controllers'), 'API/Controllers dir');
         $I->seeFileFound('BookController.php', $apiDir.'/Controllers');
 
-        // generated entity API requests
+        // generated entity API form requests
         $apiRequestsDir = $apiDir.'/Requests';
         $I->assertTrue(file_exists($apiRequestsDir), 'API/Requests dir');
         $I->seeFileFound('ListAndSearchBooksRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('CreateBookRequest.php', $apiRequestsDir."/{$this->entity}");
+        $I->seeFileFound('SelectListFromBookRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('GetBookRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('UpdateBookRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('DeleteBookRequest.php', $apiRequestsDir."/{$this->entity}");

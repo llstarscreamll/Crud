@@ -35,12 +35,13 @@ class CreateApiRequestsTask
      * @var array
      */
     public $files = [
-        'ListAndSearch',
         'Create',
-        'Get',
-        'Update',
         'Delete',
+        'Get',
+        'ListAndSearch',
+        'SelectListFrom',
         'Restore',
+        'Update',
     ];
 
     /**
