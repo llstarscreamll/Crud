@@ -13,7 +13,7 @@ export const GET_FORM_MODEL_SUCCESS = '[{{ $entitySin }}] Get Form Model Success
 export const GET_FORM_DATA = '[{{ $entitySin }}] Get Form Data';
 export const GET_FORM_DATA_SUCCESS = '[{{ $entitySin }}] Get Form Data Success';
 export const SET_SEARCH_QUERY = '[{{ $entitySin }}] Set Search Query';
-export const LOAD = '[{{ $entitySin }}] Load';
+export const PAGINATE = '[{{ $entitySin }}] Paginate';
 export const LOAD_SUCCESS = '[{{ $entitySin }}] Load Success';
 export const CREATE = '[{{ $entitySin }}] Create';
 export const GET_BY_ID = '[{{ $entitySin }}] Get';
@@ -48,8 +48,8 @@ export class SetSearchQueryAction implements Action {
   public constructor(public payload: Object = {}) { }
 }
 
-export class LoadAction implements Action {
-  readonly type = LOAD;
+export class PaginateAction implements Action {
+  readonly type = PAGINATE;
   public constructor(public payload: Object = {}) { }
 }
 
@@ -99,7 +99,7 @@ export type Actions
   | GetFormDataAction
   | GetFormDataSuccessAction
   | SetSearchQueryAction
-  | LoadAction
+  | PaginateAction
   | LoadSuccessAction
   | CreateAction
   | GetByIdAction

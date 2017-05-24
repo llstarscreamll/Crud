@@ -64,7 +64,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
    * Items list pagination loaded from API.
    * @type Observable<{{ $pagModel }}>
    */
-  public itemsList$: Observable<{{ $pagModel }}>;
+  public itemsPagination$: Observable<{{ $pagModel }}>;
 
   /**
    * Selected item loaded from API.
@@ -144,7 +144,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
     this.formModel$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormModel' }});
     this.formData$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
     this.searchQuery$ = this.store.select(fromRoot.get{{ $gen->entityName().'SearchQuery' }});
-    this.itemsList$ = this.store.select(fromRoot.get{{ studly_case($gen->entityName(true)).'Pagination' }});
+    this.itemsPagination$ = this.store.select(fromRoot.get{{ studly_case($gen->entityName(true)).'Pagination' }});
     this.selectedItem$ = this.store.select(fromRoot.get{{ 'Selected'.$gen->entityName() }});
     this.loading$ = this.store.select(fromRoot.get{{ $gen->entityName().'Loading' }});
     this.messages$ = this.store.select(fromRoot.get{{ $gen->entityName().'Messages' }});

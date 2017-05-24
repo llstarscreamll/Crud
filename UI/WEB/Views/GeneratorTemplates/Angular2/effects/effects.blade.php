@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { go } from '@ngrx/router-store';
 import { empty } from 'rxjs/observable/empty';
-import 'rxjs/add/operator/withLatestFrom'
+import 'rxjs/add/operator/withLatestFrom';
 
 import * as fromRoot from './../../reducers';
 import * as appMsgActions from './../../core/actions/app-message.actions';

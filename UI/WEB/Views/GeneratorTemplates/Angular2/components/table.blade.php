@@ -40,7 +40,7 @@ export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abs
     this.setupStoreSelects();
     this.onSearch();
 
-    this.itemsListSubscription$ = this.itemsList$
+    this.itemsListSubscription$ = this.itemsPagination$
       .subscribe((itemsList: {{ $gen->entityName() }}Pagination) => {
         if (itemsList) {
           this.pagination = itemsList.pagination;

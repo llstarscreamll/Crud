@@ -1,6 +1,6 @@
 <app-alerts [appMessage]="messages$ | async" (closed)="cleanMessages()"></app-alerts>
 
-<app-loader *ngIf="!(itemsList$ | async); else dataTable" loader="ball-grid-pulse">{{ '{{' }} langKey + 'loading_items_list' | translate }}</app-loader>
+<app-loader *ngIf="!(itemsPagination$ | async); else dataTable" loader="ball-grid-pulse">{{ '{{' }} langKey + 'loading_items_list' | translate }}</app-loader>
 
 <ng-template #dataTable>
   <div class="table-responsive">
@@ -26,8 +26,8 @@
 
       <tbody>
 
-        <ng-container *ngIf="(itemsList$ | async)?.data.length > 0">
-        <tr *ngFor="let {{ $var = camel_case($gen->entityName()) }} of (itemsList$ | async)?.data" @if($gen->hasSoftDeleteColumn) [ngClass]="{'danger': {{ $var }}.deleted_at }" @endif>
+        <ng-container *ngIf="(itemsPagination$ | async)?.data.length > 0">
+        <tr *ngFor="let {{ $var = camel_case($gen->entityName()) }} of (itemsPagination$ | async)?.data" @if($gen->hasSoftDeleteColumn) [ngClass]="{'danger': {{ $var }}.deleted_at }" @endif>
           <td><input type="checkbox" name="item[]" value="{{ $var }}.id"></td>
 @foreach ($fields as $field)
 @if (!$field->hidden)
@@ -71,7 +71,7 @@
         </tr>
         </ng-container>
 
-        <ng-container *ngIf="(itemsList$ | async)?.data.length == 0">
+        <ng-container *ngIf="(itemsPagination$ | async)?.data.length == 0">
         <tr>
           <td [attr.colspan]="columns.length + 2">
             <div class="alert alert-warning" translate>{{ '{{' }} langKey + 'msg.no_rows_found' }}</div>

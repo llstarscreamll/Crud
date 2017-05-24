@@ -73,11 +73,11 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
       return { ...state, searchQuery: searchQuery };
     }
 
-    case {{ $actions }}.LOAD: {
+    case {{ $actions }}.PAGINATE: {
       return { ...state, loading: true };
     }
 
-    case {{ $actions }}.LOAD_SUCCESS: {
+    case {{ $actions }}.PAGINATE_SUCCESS: {
       return { ...state, {{ $pagination }}: action.payload as {{ $paginationModel }}, loading: false };
     }
     
@@ -131,7 +131,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
 export const getFormModel = (state: State) => state.{{ $formModel }};
 export const getFormData = (state: State) => state.{{ $formData }};
 export const getLoading = (state: State) => state.{{ 'loading' }};
-export const getItemsList = (state: State) => state.{{ $pagination }};
+export const getItemsPagination = (state: State) => state.{{ $pagination }};
 export const getSelectedItem = (state: State) => state.{{ $selected }};
 export const getSearchQuery = (state: State) => state.searchQuery;
 export const getMessages = (state: State) => state.messages;
@@ -154,7 +154,7 @@ export const get{{ $entity }}State = (state: State) => state.{{ camel_case($enti
 export const get{{ $entity }}SearchQuery = createSelector(get{{ $entity }}State, from{{ $entity }}.getSearchQuery);
 export const get{{ studly_case($formModel) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getFormModel);
 export const get{{ studly_case($formData) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getFormData);
-export const get{{ studly_case($pagination) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsList);
+export const get{{ studly_case($pagination) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsPagination);
 export const get{{ studly_case($selected) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getSelectedItem);
 export const get{{ $gen->entityName().studly_case('loading') }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getLoading);
 export const get{{ $gen->entityName().studly_case('messages') }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getMessages);
