@@ -78,9 +78,9 @@ export class {{ $entitySin }}Service extends Service {
   }
 
   /**
-   * Load {{ $gen->entityName(true) }}.
+   * Paginate {{ $gen->entityName(true) }}.
    */
-  public load(query: Object = {}): Observable<{{ $entitySin.'Pagination' }}> {
+  public paginate(query: Object = {}): Observable<{{ $entitySin.'Pagination' }}> {
     this.setAuthorizationHeader();
     let searchParams = this.parseGetParams(query);
 

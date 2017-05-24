@@ -14,7 +14,7 @@ export const GET_FORM_DATA = '[{{ $entitySin }}] Get Form Data';
 export const GET_FORM_DATA_SUCCESS = '[{{ $entitySin }}] Get Form Data Success';
 export const SET_SEARCH_QUERY = '[{{ $entitySin }}] Set Search Query';
 export const PAGINATE = '[{{ $entitySin }}] Paginate';
-export const LOAD_SUCCESS = '[{{ $entitySin }}] Load Success';
+export const PAGINATE_SUCCESS = '[{{ $entitySin }}] Paginate Success';
 export const CREATE = '[{{ $entitySin }}] Create';
 export const GET_BY_ID = '[{{ $entitySin }}] Get';
 export const UPDATE = '[{{ $entitySin }}] Update';
@@ -53,8 +53,8 @@ export class PaginateAction implements Action {
   public constructor(public payload: Object = {}) { }
 }
 
-export class LoadSuccessAction implements Action {
-  readonly type = LOAD_SUCCESS;
+export class PaginateSuccessAction implements Action {
+  readonly type = PAGINATE_SUCCESS;
   public constructor(public payload: {{ $entitySin.'Pagination' }} ) { }
 }
 
@@ -100,7 +100,7 @@ export type Actions
   | GetFormDataSuccessAction
   | SetSearchQueryAction
   | PaginateAction
-  | LoadSuccessAction
+  | PaginateSuccessAction
   | CreateAction
   | GetByIdAction
   | UpdateAction

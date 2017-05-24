@@ -76,13 +76,13 @@ export class {{ $entitySin }}Effects extends Effects {
     .map((searchQuery) => new {{ $actions }}.LoadAction());
 
   @Effect()
-  load$: Observable<Action> = this.actions$
+  paginate$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.LOAD)
     .map((action: Action) => action.payload)
     .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
     .switchMap(([action, state]) => {
-      return this.{{ $service }}.load(state.searchQuery)
-        .map((data: {{ $entitySin.'Pagination' }}) => { return new {{ $actions }}.LoadSuccessAction(data)})
+      return this.{{ $service }}.paginate(state.searchQuery)
+        .map((data: {{ $entitySin.'Pagination' }}) => { return new {{ $actions }}.PaginateSuccessAction(data)})
         .catch((error: AppMessage) => this.handleError(error));
     });
 

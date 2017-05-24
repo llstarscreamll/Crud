@@ -61,7 +61,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   public searchQuery$: Observable<SearchQuery>;
 
   /**
-   * Items list pagination loaded from API.
+   * Items pagination loaded from API.
    * @type Observable<{{ $pagModel }}>
    */
   public itemsPagination$: Observable<{{ $pagModel }}>;
