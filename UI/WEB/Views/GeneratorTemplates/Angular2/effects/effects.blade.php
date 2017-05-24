@@ -24,7 +24,6 @@ import { Effects } from './../../core/effects/abstract.effects';
  */
 @Injectable()
 export class {{ $entitySin }}Effects extends Effects {
-  
   /**
    * {{ $entitySin }}Effects contructor.
    */
@@ -89,104 +88,104 @@ export class {{ $entitySin }}Effects extends Effects {
 
 @if ($gen->hasSoftDeleteColumn)
   @Effect()
-    setSelectedItem$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.SET_SELECTED)
-      .map((action: Action) => action.payload)
-      .switchMap((item: {{ $entitySin }}) => {
-        // if the selected item is trashed, then flash a msg to notify the user
-        if(item && item.deleted_at) {
-          let msg = this.{{ $service }}.getMessage('item_trashed', 'warning');
-          return of(new {{ $actions }}.SetMessagesAction(msg));
-        }
+  setSelectedItem$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.SET_SELECTED)
+    .map((action: Action) => action.payload)
+    .switchMap((item: {{ $entitySin }}) => {
+      // if the selected item is trashed, then flash a msg to notify the user
+      if(item && item.deleted_at) {
+        let msg = this.{{ $service }}.getMessage('item_trashed', 'warning');
+        return of(new {{ $actions }}.SetMessagesAction(msg));
+      }
 
-        return empty();
-      });
+      return empty();
+    });
 @endif
 
-    @Effect()
-    create$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.CREATE)
-      .map((action: Action) => action.payload)
-      .switchMap((payload: { item: {{ $entitySin }}, redirect: boolean}) => {
-        let actions: Array<Action> = [];
+  @Effect()
+  create$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.CREATE)
+    .map((action: Action) => action.payload)
+    .switchMap((payload: { item: {{ $entitySin }}, redirect: boolean}) => {
+      let actions: Array<Action> = [];
 
-        return this.{{ $service }}.create(payload.item)
-          .mergeMap((createdItem: {{ $entitySin }}) => {
-            actions.push(
-              new {{ $actions }}.SetSelectedAction(createdItem),
-              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('create_success'))
-            );
+      return this.{{ $service }}.create(payload.item)
+        .mergeMap((createdItem: {{ $entitySin }}) => {
+          actions.push(
+            new {{ $actions }}.SetSelectedAction(createdItem),
+            new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('create_success'))
+          );
 
-            if (payload.redirect === true) {
-              actions.push(go(['{{ $gen->slugEntityName() }}', createdItem.id, 'details']));
-            }
+          if (payload.redirect === true) {
+            actions.push(go(['{{ $gen->slugEntityName() }}', createdItem.id, 'details']));
+          }
 
-            return actions;
-          })
-          .catch((error: AppMessage) => this.handleError(error));
-      });
+          return actions;
+        })
+        .catch((error: AppMessage) => this.handleError(error));
+    });
 
-    @Effect()
-    getById$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.GET_BY_ID)
-      .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
-      .switchMap(([action, state]) => {
-        // prevent API call if we have the selected item object in the store already
-        if (state.selected{{ $gen->entityName() }} && action.payload == state.selected{{ $gen->entityName() }}.id) {
-          return of(new {{ $actions }}.SetSelectedAction(state.selected{{ $gen->entityName() }}));
-        }
+  @Effect()
+  getById$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.GET_BY_ID)
+    .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
+    .switchMap(([action, state]) => {
+      // prevent API call if we have the selected item object in the store already
+      if (state.selected{{ $gen->entityName() }} && action.payload == state.selected{{ $gen->entityName() }}.id) {
+        return of(new {{ $actions }}.SetSelectedAction(state.selected{{ $gen->entityName() }}));
+      }
 
-        return this.{{ $service }}.getById(action.payload)
-          .mergeMap((item: {{ $entitySin }}) => {
-            return [
-              new {{ $actions }}.SetSelectedAction(item),
-            ];
-          })
-          .catch((error: AppMessage) => this.handleError(error));
-      });
+      return this.{{ $service }}.getById(action.payload)
+        .mergeMap((item: {{ $entitySin }}) => {
+          return [
+            new {{ $actions }}.SetSelectedAction(item),
+          ];
+        })
+        .catch((error: AppMessage) => this.handleError(error));
+    });
 
-    @Effect()
-    update$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.UPDATE)
-      .map((action: Action) => action.payload)
-      .switchMap((payload: { id: string | number, item: {{ $entitySin }}, redirect: boolean}) => {
-        let actions: Array<Action> = [];
+  @Effect()
+  update$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.UPDATE)
+    .map((action: Action) => action.payload)
+    .switchMap((payload: { id: string | number, item: {{ $entitySin }}, redirect: boolean}) => {
+      let actions: Array<Action> = [];
 
-        return this.{{ $service }}.update(payload.id, payload.item)
-          .mergeMap((updatedItem: {{ $entitySin }}) => {
-            actions.push(
-              new {{ $actions }}.SetSelectedAction(updatedItem),
-              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('update_success'))
-            );
+      return this.{{ $service }}.update(payload.id, payload.item)
+        .mergeMap((updatedItem: {{ $entitySin }}) => {
+          actions.push(
+            new {{ $actions }}.SetSelectedAction(updatedItem),
+            new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('update_success'))
+          );
 
-            // make redirection to details page if desired
-            if (payload.redirect === true) {
-              actions.push(go(['{{ $gen->slugEntityName() }}', updatedItem.id, 'details']));
-            }
+          // make redirection to details page if desired
+          if (payload.redirect === true) {
+            actions.push(go(['{{ $gen->slugEntityName() }}', updatedItem.id, 'details']));
+          }
 
-            return actions;
-          })
-          .catch((error: AppMessage) => this.handleError(error));
-      });
+          return actions;
+        })
+        .catch((error: AppMessage) => this.handleError(error));
+    });
 
-    @Effect()
-    delete$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.DELETE)
-      .map((action: Action) => action.payload)
-      .switchMap(action => {
-        return this.{{ $service }}.delete(action.id)
-          .mergeMap(() => {
-            let actions = [
-              new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('delete_success')),
-              go(['{{ $gen->slugEntityName() }}'])
-            ];
+  @Effect()
+  delete$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.DELETE)
+    .map((action: Action) => action.payload)
+    .switchMap(action => {
+      return this.{{ $service }}.delete(action.id)
+        .mergeMap(() => {
+          let actions = [
+            new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('delete_success')),
+            go(['{{ $gen->slugEntityName() }}'])
+          ];
 
-            if(action.reloadListQuery) {
-              actions.push(new {{ $actions }}.LoadAction(action.reloadListQuery));
-            }
+          if(action.reloadListQuery) {
+            actions.push(new {{ $actions }}.LoadAction(action.reloadListQuery));
+          }
 
-            return actions;
-          })
-          .catch((error: AppMessage) => this.handleError(error));
-      });
+          return actions;
+        })
+        .catch((error: AppMessage) => this.handleError(error));
+    });
 }
