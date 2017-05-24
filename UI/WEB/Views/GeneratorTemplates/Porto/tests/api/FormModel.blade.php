@@ -12,6 +12,9 @@ use {{ $gen->entityModelNamespace() }};
  */
 class {{ $gen->entityName() }}FormModelCest
 {
+/**
+     * @var string
+     */
     private $endpoint = 'v1/{{ $gen->slugEntityName(true) }}/form-model';
 
     /**
@@ -30,7 +33,7 @@ class {{ $gen->entityName() }}FormModelCest
     {
     }
 
-    public function tryToGetFormModelConfig{{ $gen->entityName() }}(ApiTester $I)
+    public function formModelConfig{{ $gen->entityName() }}(ApiTester $I)
     {        
         $I->sendGET($this->endpoint);
 

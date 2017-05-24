@@ -12,6 +12,9 @@ use {{ $gen->entityModelNamespace() }};
  */
 class Delete{{ $gen->entityName() }}Cest
 {
+    /**
+     * @var string
+     */
 	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/{id}';
 
     /**
@@ -30,11 +33,18 @@ class Delete{{ $gen->entityName() }}Cest
     {
     }
 
-    public function tryToTestDelete{{ $gen->entityName() }}(ApiTester $I)
+    public function delete{{ $gen->entityName() }}(ApiTester $I)
     {
     	$data = factory({{ $gen->entityName() }}::class)->create();
 
         $I->sendDELETE(str_replace('{id}', $data->getHashedKey(), $this->endpoint));
         $I->seeResponseCodeIs(202);
+
+@if ($gen->hasSoftDeleteColumn)
+        $deletedItem = $I->grabRecord('{{ $gen->tableName }}', ['id' => $data->id]);
+        $I->assertNotNull($deletedItem['deleted_at']);
+@else
+        $I->dontSeeRecord('{{ $gen->tableName }}', ['id' => $data->id]);
+@endif
     }
 }

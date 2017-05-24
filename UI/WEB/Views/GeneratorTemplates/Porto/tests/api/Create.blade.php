@@ -13,6 +13,9 @@ use Vinkla\Hashids\Facades\Hashids;
  */
 class Create{{ $gen->entityName() }}Cest
 {
+    /**
+     * @var string
+     */
     private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/create';
 
     /**
@@ -31,7 +34,7 @@ class Create{{ $gen->entityName() }}Cest
     {
     }
 
-    public function tryToTestCreate{{ $gen->entityName() }}(ApiTester $I)
+    public function create{{ $gen->entityName() }}(ApiTester $I)
     {
         $data = factory({{ $gen->entityName() }}::class)->make();
 @foreach ($fields as $field)

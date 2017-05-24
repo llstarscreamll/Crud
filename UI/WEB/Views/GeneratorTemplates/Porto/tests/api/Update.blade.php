@@ -31,7 +31,7 @@ class Update{{ $gen->entityName() }}Cest
     {
     }
 
-    public function tryToTestUpdate{{ $gen->entityName() }}(ApiTester $I)
+    public function update{{ $gen->entityName() }}(ApiTester $I)
     {
     	$oldData = factory({{ $gen->entityName() }}::class)->create();
     	$newData = factory({{ $gen->entityName() }}::class)->make();
@@ -55,5 +55,8 @@ class Update{{ $gen->entityName() }}Cest
         $I->seeResponseContainsJson(['{{ $field->name }}' => $newData->{{ $field->name }}]);
 @endif
 @endforeach
+        
+        $I->dontSeeRecord('{{ $gen->tableName }}', $oldData->toArray());
+        $I->seeRecord('{{ $gen->tableName }}', $newData->toArray());
     }
 }

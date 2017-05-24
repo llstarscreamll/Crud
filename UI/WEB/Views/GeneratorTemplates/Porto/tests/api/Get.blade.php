@@ -13,6 +13,9 @@ use Vinkla\Hashids\Facades\Hashids;
  */
 class Get{{ $gen->entityName() }}Cest
 {
+    /**
+     * @var string
+     */
 	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/{id}';
 
     /**
@@ -31,7 +34,7 @@ class Get{{ $gen->entityName() }}Cest
     {
     }
 
-    public function tryToTestGet{{ $gen->entityName() }}(ApiTester $I)
+    public function get{{ $gen->entityName() }}(ApiTester $I)
     {
     	$data = factory({{ $gen->entityName() }}::class)->create();
 

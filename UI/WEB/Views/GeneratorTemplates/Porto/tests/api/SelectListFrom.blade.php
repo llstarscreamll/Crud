@@ -12,6 +12,9 @@ use {{ $gen->entityModelNamespace() }};
  */
 class SelectListFrom{{ $gen->entityName() }}Cest
 {
+    /**
+     * @var string
+     */
     private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/form/select-list';
 
     /**
@@ -30,7 +33,7 @@ class SelectListFrom{{ $gen->entityName() }}Cest
     {
     }
 
-    public function getSelectListFrom{{ $gen->entityName() }}(ApiTester $I)
+    public function selectListFrom{{ $gen->entityName() }}(ApiTester $I)
     {
         $data = factory({{ $gen->entityName() }}::class, 5)->create();
         $I->sendGET($this->endpoint);

@@ -12,6 +12,9 @@ use {{ $gen->entityModelNamespace() }};
  */
 class Restore{{ $gen->entityName() }}Cest
 {
+    /**
+     * @var string
+     */
 	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/{id}/restore';
 
     /**
@@ -30,12 +33,16 @@ class Restore{{ $gen->entityName() }}Cest
     {
     }
 
-    public function tryToTestRestore{{ $gen->entityName() }}(ApiTester $I)
+    public function restore{{ $gen->entityName() }}(ApiTester $I)
     {
     	$data = factory({{ $gen->entityName() }}::class)->create();
     	{{ $gen->entityName() }}::destroy($data->id);
 
         $I->sendPOST(str_replace('{id}', $data->getHashedKey(), $this->endpoint));
         $I->seeResponseCodeIs(200);
+
+        $I->seeRecord('{{ $gen->tableName }}', $data->toArray());
+        $restoredItem = $I->grabRecord('{{ $gen->tableName }}', ['id' => $data->id]);
+        $I->assertNull($restoredItem['deleted_at']);
     }
 }

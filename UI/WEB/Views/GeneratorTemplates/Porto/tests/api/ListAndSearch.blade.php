@@ -12,6 +12,9 @@ use {{ $gen->entityModelNamespace() }};
  */
 class ListAndSearch{{ $gen->entityName(true) }}Cest
 {
+    /**
+     * @var string
+     */
 	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}';
 
     /**
@@ -30,7 +33,7 @@ class ListAndSearch{{ $gen->entityName(true) }}Cest
     {
     }
 
-    public function tryToTestList{{ $gen->entityName() }}(ApiTester $I)
+    public function listAndSearch{{ $gen->entityName() }}(ApiTester $I)
     {
     	$data = factory({{ $gen->entityName() }}::class, 10)->create();
 
