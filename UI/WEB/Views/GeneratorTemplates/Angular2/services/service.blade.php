@@ -86,8 +86,14 @@ export class {{ $entitySin }}Service extends Service {
 
     return this.http
       .get(this.apiEndpoint(), { headers: this.headers, search: searchParams })
-      .map(res => { return { data: res.json().data, pagination: res.json().meta.pagination } })
-      .catch(this.handleError);
+      .map(res => {
+        let response = res.json();
+
+        return {
+          data: response.data.map(item => Object.assign(new {{ $entitySin }}, item)),
+          pagination: response.meta.pagination
+        };
+      }).catch(this.handleError);
   }
 
   /**
@@ -98,7 +104,7 @@ export class {{ $entitySin }}Service extends Service {
 
     return this.http
       .post(this.apiEndpoint('create'), item, { headers: this.headers })
-      .map(res => { return res.json().data })
+      .map(res => { return Object.assign(new {{ $entitySin }}, res.json().data); })
       .catch(this.handleError);
   }
 
@@ -112,7 +118,7 @@ export class {{ $entitySin }}Service extends Service {
     urlParams.set('include', '{{ $fields->filter(function ($field) { return !empty($field->namespace); })->transform(function($field) use ($gen) { return $gen->relationNameFromField($field); })->implode(',') }}');
     return this.http
       .get(this.apiEndpoint(id), { headers: this.headers, search: urlParams })
-      .map(res => { return res.json().data })
+      .map(res => { return Object.assign(new {{ $entitySin }}, res.json().data); })
       .catch(this.handleError);
   }
 
@@ -124,7 +130,7 @@ export class {{ $entitySin }}Service extends Service {
 
     return this.http
       .put(this.apiEndpoint(id), item, { headers: this.headers })
-      .map(res => { return res.json().data })
+      .map(res => { return Object.assign(new {{ $entitySin }}, res.json().data); })
       .catch(this.handleError);
   }
 
