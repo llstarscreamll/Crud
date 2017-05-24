@@ -37,10 +37,11 @@ class CreateApiRequestsTask
     public $files = [
         'Create',
         'Delete',
+        'FormModelFrom',
         'Get',
         'ListAndSearch',
-        'SelectListFrom',
         'Restore',
+        'SelectListFrom',
         'Update',
     ];
 

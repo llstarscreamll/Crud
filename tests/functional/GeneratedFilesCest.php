@@ -241,13 +241,14 @@ class GeneratedFilesCest
         // generated entity API form requests
         $apiRequestsDir = $apiDir.'/Requests';
         $I->assertTrue(file_exists($apiRequestsDir), 'API/Requests dir');
-        $I->seeFileFound('ListAndSearchBooksRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('CreateBookRequest.php', $apiRequestsDir."/{$this->entity}");
-        $I->seeFileFound('SelectListFromBookRequest.php', $apiRequestsDir."/{$this->entity}");
-        $I->seeFileFound('GetBookRequest.php', $apiRequestsDir."/{$this->entity}");
-        $I->seeFileFound('UpdateBookRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('DeleteBookRequest.php', $apiRequestsDir."/{$this->entity}");
+        $I->seeFileFound('FormModelFromBookRequest.php', $apiRequestsDir."/{$this->entity}");
+        $I->seeFileFound('GetBookRequest.php', $apiRequestsDir."/{$this->entity}");
+        $I->seeFileFound('ListAndSearchBooksRequest.php', $apiRequestsDir."/{$this->entity}");
+        $I->seeFileFound('SelectListFromBookRequest.php', $apiRequestsDir."/{$this->entity}");
         $I->seeFileFound('RestoreBookRequest.php', $apiRequestsDir."/{$this->entity}");
+        $I->seeFileFound('UpdateBookRequest.php', $apiRequestsDir."/{$this->entity}");
         
         // generated API routes
         $apiRoutesDir = $apiDir.'/Routes';

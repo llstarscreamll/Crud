@@ -2,7 +2,7 @@
 
 namespace App\Containers\{{ $gen->containerName() }}\UI\API\Controllers;
 
-use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('ListAndSearch') }};
+use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('ListAndSearch', true) }};
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Create') }};
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Get') }};
 use App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }}\{{ $gen->actionClass('Update') }};
@@ -65,7 +65,7 @@ class {{ $gen->entityName() }}Controller extends ApiController
 	 */
 	public function listAndSearch{{ str_plural($gen->entityName()) }}({{ $requestClass }} $request)
 	{
-		${{ camel_case(str_plural($gen->entityName())) }} = $this->call({{ $gen->actionClass('ListAndSearch') }}::class, [$request]);
+		${{ camel_case(str_plural($gen->entityName())) }} = $this->call({{ $gen->actionClass('ListAndSearch', true) }}::class, [$request]);
 		return $this->transform(${{ camel_case(str_plural($gen->entityName())) }}, new {{ $gen->entityName() }}Transformer());
 	}
 
