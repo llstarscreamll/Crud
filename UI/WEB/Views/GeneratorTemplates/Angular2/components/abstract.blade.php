@@ -127,7 +127,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   public tableColumns: Array<string> = [
 @foreach ($fields as $field)
 @if (!$field->hidden)
-      '{{ $gen->tableName.'.'.$field->name }}',
+    '{{ $gen->tableName.'.'.$field->name }}',
 @endif
 @endforeach
   ];

@@ -9,12 +9,18 @@ import 'rxjs/add/operator/withLatestFrom';
 
 import * as fromRoot from './../../reducers';
 import * as appMsgActions from './../../core/actions/app-message.actions';
-import { FormModelParserService } from './../../dynamic-form/services/form-model-parser.service';
-import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ $camelEntity = camel_case($entitySin) }}Pagination';
-import { {{ $entitySin }}Service } from './../services/{{ $gen->slugEntityName() }}.service';
 import * as {{ $actions = camel_case($gen->entityName()) }} from './../actions/{{ $gen->slugEntityName() }}.actions';
+@foreach ($fields->unique('namespace') as $field)
+@if($field->namespace)
+import * as {{ camel_case(class_basename($field->namespace)) }} from './../../{{ $gen->slugModuleName() }}/actions/{{ str_slug(class_basename($field->namespace)) }}.actions';
+@endif
+@endforeach
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
+import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ $camelEntity = camel_case($entitySin) }}Pagination';
 import { AppMessage } from './../../core/models/appMessage';
+import { FormModelParserService } from './../../dynamic-form/services/form-model-parser.service';
+import { {{ $entitySin }}Service } from './../services/{{ $gen->slugEntityName() }}.service';
+
 import { Effects } from './../../core/effects/abstract.effects';
 
 /**
@@ -54,20 +60,19 @@ export class {{ $entitySin }}Effects extends Effects {
         .catch((error: AppMessage) => this.handleError(error));
     });
 
-    @Effect()
-    getFormData$: Observable<Action> = this.actions$
-      .ofType({{ $actions }}.GET_FORM_DATA)
-      .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
-      .switchMap(([action, state]) => {
-        // prevent API call if we have the form data already
-        if (state.{{ camel_case($gen->entityName()) }}FormData !== null) {
-          return of(new {{ $actions }}.GetFormDataSuccessAction(state.{{ camel_case($gen->entityName()) }}FormData));
-        }
-
-        return this.{{ $service }}.getFormData()
-          .map((data) => { return new {{ $actions }}.GetFormDataSuccessAction(data)})
-          .catch((error: AppMessage) => this.handleError(error));
-      });
+  @Effect()
+  getFormData$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.GET_FORM_DATA)
+    .map((action: Action) => action.payload)
+    .mergeMap((force: boolean) => {
+      return [
+@foreach ($fields->unique('namespace') as $field)
+@if($field->namespace)
+        new {{ camel_case(class_basename($field->namespace)) }}.ListAction(force),
+@endif
+@endforeach
+      ];
+    });
 
   @Effect()
   setSearchQuery$: Observable<Action> = this.actions$
@@ -78,7 +83,6 @@ export class {{ $entitySin }}Effects extends Effects {
   @Effect()
   paginate$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.PAGINATE)
-    .map((action: Action) => action.payload)
     .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
     .switchMap(([action, state]) => {
       return this.{{ $service }}.paginate(state.searchQuery)
@@ -86,21 +90,20 @@ export class {{ $entitySin }}Effects extends Effects {
         .catch((error: AppMessage) => this.handleError(error));
     });
 
-@if ($gen->hasSoftDeleteColumn)
   @Effect()
-  setSelectedItem$: Observable<Action> = this.actions$
-    .ofType({{ $actions }}.SET_SELECTED)
-    .map((action: Action) => action.payload)
-    .switchMap((item: {{ $entitySin }}) => {
-      // if the selected item is trashed, then flash a msg to notify the user
-      if(item && item.deleted_at) {
-        let msg = this.{{ $service }}.getMessage('item_trashed', 'warning');
-        return of(new {{ $actions }}.SetMessagesAction(msg));
+  list$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.LIST)
+    .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
+    .switchMap(([action, state]) => {
+      // data already exists and force == false?
+      if (state.list && !action.payload) {
+        return empty();
       }
 
-      return empty();
+      return this.{{ $service }}.list()
+        .map((data) => { return new {{ $actions }}.ListSuccessAction(data)})
+        .catch((error: AppMessage) => this.handleError(error));
     });
-@endif
 
   @Effect()
   create$: Observable<Action> = this.actions$
@@ -143,6 +146,22 @@ export class {{ $entitySin }}Effects extends Effects {
         })
         .catch((error: AppMessage) => this.handleError(error));
     });
+
+@if ($gen->hasSoftDeleteColumn)
+  @Effect()
+  setSelectedItem$: Observable<Action> = this.actions$
+    .ofType({{ $actions }}.SET_SELECTED)
+    .map((action: Action) => action.payload)
+    .switchMap((item: {{ $entitySin }}) => {
+      // if the selected item is trashed, then flash a msg to notify the user
+      if(item && item.deleted_at) {
+        let msg = this.{{ $service }}.getMessage('item_trashed', 'warning');
+        return of(new {{ $actions }}.SetMessagesAction(msg));
+      }
+
+      return empty();
+    });
+@endif
 
   @Effect()
   update$: Observable<Action> = this.actions$

@@ -78,6 +78,18 @@ export class {{ $entitySin }}Service extends Service {
   }
 
   /**
+   * List {{ $gen->entityName(true) }}.
+   */
+  public list(): Observable<Array<any>> {
+    this.setAuthorizationHeader();
+
+    return this.http
+      .get(this.apiEndpoint('form/select-list'), { headers: this.headers })
+      .map(res => { return res.json(); })
+      .catch(this.handleError);
+  }
+
+  /**
    * Paginate {{ $gen->entityName(true) }}.
    */
   public paginate(query: Object = {}): Observable<{{ $entitySin.'Pagination' }}> {

@@ -11,17 +11,18 @@ import { AppMessage } from './../../core/models/appMessage';
 export const GET_FORM_MODEL = '[{{ $entitySin }}] Get Form Model';
 export const GET_FORM_MODEL_SUCCESS = '[{{ $entitySin }}] Get Form Model Success';
 export const GET_FORM_DATA = '[{{ $entitySin }}] Get Form Data';
-export const GET_FORM_DATA_SUCCESS = '[{{ $entitySin }}] Get Form Data Success';
 export const SET_SEARCH_QUERY = '[{{ $entitySin }}] Set Search Query';
 export const PAGINATE = '[{{ $entitySin }}] Paginate';
 export const PAGINATE_SUCCESS = '[{{ $entitySin }}] Paginate Success';
+export const LIST = '[{{ $entitySin }}] List';
+export const LIST_SUCCESS = '[{{ $entitySin }}] List Success';
 export const CREATE = '[{{ $entitySin }}] Create';
 export const GET_BY_ID = '[{{ $entitySin }}] Get';
 export const UPDATE = '[{{ $entitySin }}] Update';
 export const DELETE = '[{{ $entitySin }}] Delete';
 export const RESTORE = '[{{ $entitySin }}] Restore';
 export const SET_SELECTED = '[{{ $entitySin }}] Set Selected';
-export const SET_MESSAGES = '[{{ $entitySin }}] Set Errors';
+export const SET_MESSAGES = '[{{ $entitySin }}] Set Messages';
 
 export class GetFormModelAction implements Action {
   readonly type = GET_FORM_MODEL;
@@ -35,12 +36,7 @@ export class GetFormModelSuccessAction implements Action {
 
 export class GetFormDataAction implements Action {
   readonly type = GET_FORM_DATA;
-  public constructor(public payload: null = null) { }
-}
-
-export class GetFormDataSuccessAction implements Action {
-  readonly type = GET_FORM_DATA_SUCCESS;
-  public constructor(public payload: Object) { }
+  public constructor(public payload: boolean = false) { }
 }
 
 export class SetSearchQueryAction implements Action {
@@ -56,6 +52,16 @@ export class PaginateAction implements Action {
 export class PaginateSuccessAction implements Action {
   readonly type = PAGINATE_SUCCESS;
   public constructor(public payload: {{ $entitySin.'Pagination' }} ) { }
+}
+
+export class ListAction implements Action {
+  readonly type = LIST;
+  public constructor(public payload: boolean = false) { }
+}
+
+export class ListSuccessAction implements Action {
+  readonly type = LIST_SUCCESS;
+  public constructor(public payload: Array<any> ) { }
 }
 
 export class GetByIdAction implements Action {
@@ -97,8 +103,9 @@ export type Actions
   = GetFormModelAction
   | GetFormModelSuccessAction
   | GetFormDataAction
-  | GetFormDataSuccessAction
   | SetSearchQueryAction
+  | ListAction
+  | ListSuccessAction
   | PaginateAction
   | PaginateSuccessAction
   | CreateAction
