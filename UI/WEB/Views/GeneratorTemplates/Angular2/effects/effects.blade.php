@@ -73,11 +73,11 @@ export class {{ $entitySin }}Effects extends Effects {
   setSearchQuery$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.SET_SEARCH_QUERY)
     .map((action: Action) => action.payload)
-    .map((searchQuery) => new {{ $actions }}.LoadAction());
+    .map((searchQuery) => new {{ $actions }}.PaginateAction());
 
   @Effect()
   paginate$: Observable<Action> = this.actions$
-    .ofType({{ $actions }}.LOAD)
+    .ofType({{ $actions }}.PAGINATE)
     .map((action: Action) => action.payload)
     .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
     .switchMap(([action, state]) => {
@@ -181,7 +181,7 @@ export class {{ $entitySin }}Effects extends Effects {
           ];
 
           if(action.reloadListQuery) {
-            actions.push(new {{ $actions }}.LoadAction(action.reloadListQuery));
+            actions.push(new {{ $actions }}.PaginateAction(action.reloadListQuery));
           }
 
           return actions;
