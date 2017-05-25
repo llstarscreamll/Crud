@@ -63,13 +63,11 @@ class CreatePortoCriteriasTask
      * @return bool
      */
     public function run()
-    {
-        $this->createEntityCriteriasFolder();
-        
+    {        
         foreach ($this->files as $file) {
             $plural = ($file == "") ? true : false;
 
-            $criteriaFile = $this->criteriasFolder()."/{$this->entityName()}/".$this->criteriaFile($file, $plural);
+            $criteriaFile = $this->criteriasFolder()."/".$this->criteriaFile($file, $plural);
             $template = $this->templatesDir().'.Porto/Data/Criterias/'.$file;
 
             $content = view($template, [
@@ -83,17 +81,5 @@ class CreatePortoCriteriasTask
         }
 
         return true;
-    }
-
-    /**
-     * Create the entity actions folder.
-     *
-     * @return void
-     */
-    private function createEntityCriteriasFolder()
-    {
-        if (!file_exists($this->criteriasFolder().'/'.$this->entityName())) {
-            mkdir($this->criteriasFolder().'/'.$this->entityName());
-        }
     }
 }
