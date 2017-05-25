@@ -4,7 +4,7 @@ This is a [PORTO](https://github.com/Porto-SAP/Documentation) Container for [api
 
 If you don't know apiato already, go to the [apiato DOCS site](http://apiato.io/) and give it a try, it's an amazing project!!
 
->*NOTE:*
+>**NOTE:**
 >This container is tested on [Laravel Homestead](https://laravel.com/docs/5.4/homestead), so I sugest you to use Homestead as your development environment.
 
 ## Install
@@ -63,7 +63,7 @@ If you will use the `SelectListFrom{Entity}` endpoint, add this method on `App\S
 
 ## Usage
 
-Let's suppose that we want to create a container called *Library* that will manage *books* data, so let's create that container folder and the migration file:
+Let's suppose that we want to create a container called **Library** that will manage **books** data, so let's create that container folder and the migration file:
 
 ```bash
 # from the apiato root folder
@@ -77,7 +77,7 @@ Next we add some columns to that migration table and run the migration:
 php artisan migrate
 ```
 
-Since this package use *Codeception* to generate the CRUD app test suit, you *MUST* bootstrap and generate the api suit for your container:
+Since this package use **Codeception** to generate the CRUD app test suit, you **MUST** bootstrap and generate the api suit for your container:
 
 ```bash
 # from the apiato root folder
@@ -102,7 +102,7 @@ ng tests
 
 ## What is Generated?
 
-Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named _Library_ with an migration table called _books_, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the functional tests, in the [CrudExample](https://github.com/llstarscreamll/Crud/tree/3.0/CrudExample) folder you can *check the up to date final generated code for this example*. So with the following setup:
+Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named _Library_ with an migration table called _books_, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the functional tests, **check the up to date final generated code for this example** in the [CrudExample](https://github.com/llstarscreamll/Crud/tree/3.0/CrudExample) folder. So with the following setup:
 
 ![CRUD Setup GUI](https://cloud.githubusercontent.com/assets/2442445/26444536/76dfb20c-4102-11e7-957e-453026ff6ea4.png "CRUD Setup GUI")
 
