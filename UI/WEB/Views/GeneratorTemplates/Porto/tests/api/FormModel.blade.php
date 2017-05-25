@@ -25,7 +25,7 @@ class {{ $gen->entityName() }}FormModelCest
     public function _before(ApiTester $I)
     {
         $this->user = $I->loginAdminUser();
-        $I->initData();
+        $I->init{{ $gen->entityName() }}Data();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 
@@ -33,7 +33,7 @@ class {{ $gen->entityName() }}FormModelCest
     {
     }
 
-    public function formModelConfig{{ $gen->entityName() }}(ApiTester $I)
+    public function formModelConfigFrom{{ $gen->entityName() }}(ApiTester $I)
     {        
         $I->sendGET($this->endpoint);
 

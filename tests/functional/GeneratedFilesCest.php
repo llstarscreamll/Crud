@@ -210,7 +210,7 @@ class GeneratedFilesCest
         $I->assertTrue(file_exists($testDir), 'tests dir');
         $I->assertTrue(file_exists($testDir.'acceptance'), 'acceptance test');
         $I->seeFileFound('acceptance.suite.yml', $testDir);
-        $I->seeFileFound('BookHelper.php', $testDir.'_support/Helper');
+        $I->seeFileFound('LibraryHelper.php', $testDir.'_support/Helper');
         $I->assertTrue(file_exists($testDir.'functional'), 'functional test');
         $I->seeFileFound('functional.suite.yml', $testDir);
         $I->assertTrue(file_exists($testDir.'unit'), 'unit test');

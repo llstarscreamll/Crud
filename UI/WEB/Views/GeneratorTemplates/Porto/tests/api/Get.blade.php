@@ -26,7 +26,7 @@ class Get{{ $gen->entityName() }}Cest
     public function _before(ApiTester $I)
     {
 		$this->user = $I->loginAdminUser();
-        $I->initData();
+        $I->init{{ $gen->entityName() }}Data();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 

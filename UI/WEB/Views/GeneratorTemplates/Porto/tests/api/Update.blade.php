@@ -23,7 +23,7 @@ class Update{{ $gen->entityName() }}Cest
     public function _before(ApiTester $I)
     {
 		$this->user = $I->loginAdminUser();
-        $I->initData();
+        $I->init{{ $gen->entityName() }}Data();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 
@@ -35,24 +35,25 @@ class Update{{ $gen->entityName() }}Cest
     {
     	$oldData = factory({{ $gen->entityName() }}::class)->create();
     	$newData = factory({{ $gen->entityName() }}::class)->make();
+        $newDataArray = $newData->toArray();
 @foreach ($fields as $field)
 @if(strpos($field->validation_rules, 'confirmed') !== false)
-        $newData->{{ $field->name }}_confirmation = $newData->{{ $field->name }};
+        array_set($newDataArray, '{{ $field->name }}_confirmation', $newData->{{ $field->name }});
 @endif
 @if($field->namespace)
-        $newData->{{ $field->name }} = $I->hashKey($newData->getAttributes()['{{ $field->name }}']);
+        array_set($newDataArray, '{{ $field->name }}', $I->hashKey($newData->{{ $field->name }}));
 @endif
 @endforeach
 
-        $I->sendPUT(str_replace('{id}', $oldData->getHashedKey(), $this->endpoint), $newData->getAttributes());
+        $I->sendPUT(str_replace('{id}', $oldData->getHashedKey(), $this->endpoint), $newDataArray);
 
         $I->seeResponseCodeIs(200);
 
 @foreach ($fields as $field)
-@if(!$field->hidden && $field->namespace)
-        $I->seeResponseContainsJson(['{{ $field->name }}' => $newData->getAttributes()['{{ $field->name }}']]);
-@elseif(!$field->hidden && $field->name !== "id" && !in_array($field->type, ['timestamp', 'datetime', 'date']))
-        $I->seeResponseContainsJson(['{{ $field->name }}' => $newData->{{ $field->name }}]);
+@if($field->name == "id")
+        $I->seeResponseContainsJson(['{{ $field->name }}' => $oldData->getHashedKey()]);
+@elseif(!$field->hidden && $field->name !== "id")
+        $I->seeResponseContainsJson(['{{ $field->name }}' => $newDataArray['{{ $field->name }}']]);
 @endif
 @endforeach
         

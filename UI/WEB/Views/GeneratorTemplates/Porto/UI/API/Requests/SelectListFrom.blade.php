@@ -5,11 +5,11 @@ namespace App\Containers\{{ $gen->containerName() }}\UI\API\Requests\{{ $gen->en
 use App\Ship\Parents\Requests\Request;
 
 /**
- * Class {{ str_replace('.php', '', $gen->apiRequestFile('SelectListFrom', $plural = true)) }}.
+ * Class {{ str_replace('.php', '', $gen->apiRequestFile('SelectListFrom')) }}.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ str_replace('.php', '', $gen->apiRequestFile('SelectListFrom', $plural = true)) }} extends Request
+class {{ str_replace('.php', '', $gen->apiRequestFile('SelectListFrom')) }} extends Request
 {
 	/**
      * Define which Roles and/or Permissions has access to this request..

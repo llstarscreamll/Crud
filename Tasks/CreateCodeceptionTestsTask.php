@@ -36,13 +36,13 @@ class CreateCodeceptionTestsTask
      */
     public $files = [
         'Create',
-        'Get',
-        'Update',
         'Delete',
-        'Restore',
-        'ListAndSearch',
         'FormModel',
+        'Get',
+        'ListAndSearch',
+        'Restore',
         'SelectListFrom',
+        'Update',
     ];
 
     /**
@@ -86,7 +86,7 @@ class CreateCodeceptionTestsTask
         $this->configureCodeceptSuite('api', $this->getApiSuiteModules());
         $this->configureCodeceptSuite('functional', $this->getFunctionalSuiteModules());
         $this->copyRootBoostrapFile();
-        $this->generateEntityHelper();
+        $this->generateHelper();
 
         // builds Codeception suites
         exec("cd {$this->containerFolder()} && {$this->codecept} build");
@@ -114,7 +114,7 @@ class CreateCodeceptionTestsTask
      */
     public function createCodeceptApiSuite()
     {
-        if (!file_exists($this->apiTestsFolder())) {
+        if (!file_exists($this->testsFolder().'/api.suite.yml')) {
             exec("cd {$this->containerFolder()} && {$this->codecept} generate:suite api");
         } else {
             session()->push('warning', 'Codeception tests already bootstraped!!');
@@ -150,18 +150,78 @@ class CreateCodeceptionTestsTask
         file_put_contents($this->testsFolder().'/_bootstrap.php', $fileContents);
     }
 
-    public function generateEntityHelper()
+    public function generateHelper()
     {
-        $template = $this->templatesDir().'.Porto.tests._support.Helper.-entity-Helper';
-        $fileName = str_replace('-entity-', $this->entityName(), '-entity-Helper.php');
+        $template = $this->templatesDir().'.Porto.tests._support.Helper.-container-Helper';
+        $fileName = str_replace('-container-', $this->containerName(), '-container-Helper.php');
         $filePath = $this->testsFolder().'/_support/Helper/'.$fileName;
         
         $fileContents = view($template, [
             'gen' => $this,
             'fields' => $this->parsedFields
         ]);
+        
+        $fileContents = $this->addMethodToHelper($fileContents);
+        $fileContents = $this->addUseStatementsToHelperClass($fileContents);
 
         file_put_contents($filePath, $fileContents);
+    }
+
+    /**
+     * Add the entity method to the ContainerHelper class, the generated method
+     * init the required base data to run the tests, like seed the database with
+     * entity permissions seeder and create related models with factories.
+     *
+     * @param string $helperFileContents
+     * @return string
+     */
+    public function addMethodToHelper(string $helperFileContents): string
+    {
+        $search = "\Codeception\Module\n{";
+        $methodTemplate = $this->templatesDir().'.Porto.tests._support.Helper.helperFunction';
+        $helperMethodName = "function init{$this->entityName()}Data";
+        $fullMethod = "\n    ".view($methodTemplate, [
+            'gen' => $this,
+            'fields' => $this->parsedFields
+        ]);
+
+        if (strrpos($helperFileContents, $helperMethodName) === false) {
+            $helperFileContents = str_replace($search, $search.$fullMethod, $helperFileContents);
+        }
+
+        return $helperFileContents;
+    }
+
+    /**
+     * Add use statements to ContainerHelper class for the current gnerating
+     * entity based on namespaces provided. Add the models namespaces and entity
+     * permissions seeder.
+     *
+     * @param string $helperFileContents
+     * @return string
+     */
+    public function addUseStatementsToHelperClass(string $helperFileContents): string
+    {
+        $search = "use Illuminate\Support\Facades\Artisan;";
+        $seederNamespace = "use App\Containers\\".$this->containerName()."\Data\Seeders\\".$this->entityName()."PermissionsSeeder;";
+
+        foreach ($this->parsedFields->unique('namespace') as $field) {
+            if ($field->namespace) {
+                $modelNamespace = "use {$field->namespace};";
+
+                // add model namespace
+                if (strpos($helperFileContents, $modelNamespace) === false) {
+                    $helperFileContents = str_replace($search, $modelNamespace."\n".$search, $helperFileContents);
+                }
+            }
+        }
+
+        // add entity seeder class namespace
+        if (strpos($helperFileContents, $seederNamespace) === false) {
+            $helperFileContents = str_replace($search, $seederNamespace."\n".$search, $helperFileContents);
+        }
+
+        return $helperFileContents;
     }
 
     /**
@@ -172,7 +232,7 @@ class CreateCodeceptionTestsTask
     private function getApiSuiteModules()
     {
         return "\n".
-            "        - \\{$this->containerName()}\Helper\\{$this->entityName()}Helper\n".
+            "        - \\{$this->containerName()}\Helper\\{$this->containerName()}Helper\n".
             "        - \App\Ship\Tests\Codeception\UserHelper\n".
             "        - \App\Ship\Tests\Codeception\HashidsHelper\n".
             "        - Asserts\n".
@@ -193,7 +253,7 @@ class CreateCodeceptionTestsTask
     private function getFunctionalSuiteModules()
     {
         return "\n".
-            "        - \\{$this->containerName()}\Helper\\{$this->entityName()}Helper\n".
+            "        - \\{$this->containerName()}\Helper\\{$this->containerName()}Helper\n".
             "        - \App\Ship\Tests\Codeception\UserHelper\n".
             "        - Asserts\n".
             "        - Laravel5:\n".
