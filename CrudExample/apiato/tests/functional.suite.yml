@@ -1,0 +1,19 @@
+# Codeception Test Suite Configuration
+#
+# Suite for functional (integration) tests
+# Emulate web requests and make application process them
+# Include one of framework modules (Symfony2, Yii2, Laravel5) to use it
+
+class_name: FunctionalTester
+modules:
+    enabled:
+        # add framework module here
+        - \Library\Helper\Functional
+        - \Library\Helper\LibraryHelper
+        - \App\Ship\Tests\Codeception\UserHelper
+        - \App\Ship\Tests\Codeception\HashidsHelper
+        - Asserts
+        - Laravel5:
+            environment_file: .env.testing
+            root: ../../../
+            run_database_migrations: true

@@ -1,0 +1,15 @@
+class_name: ApiTester
+modules:
+    enabled:
+        - \Library\Helper\Api
+        - \Library\Helper\LibraryHelper
+        - \App\Ship\Tests\Codeception\UserHelper
+        - \App\Ship\Tests\Codeception\HashidsHelper
+        - Asserts
+        - REST:
+            depends: Laravel5
+        - Laravel5:
+            root: ../../../
+            environment_file: .env.testing
+            run_database_migrations: true
+            url: "http://slab-api.dev"

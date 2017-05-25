@@ -7,6 +7,11 @@ use Crud\Page\Functional\Generate as Page;
 
 class GeneratedFilesCest
 {
+    /**
+     * @var string
+     */
+    private $angularModuleLocation;
+
     public function _before(FunctionalTester $I)
     {
         // page setup
@@ -14,13 +19,19 @@ class GeneratedFilesCest
         $I->amLoggedAs(Page::$adminUser);
 
         $I->amOnPage(Page::route('?table_name='.Page::$tableName));
+
+        $this->angularModuleLocation = storage_path('app/copyTest/Angular/');
     }
 
     public function _after(FunctionalTester $I)
     {
+        // copy generated code dirs to CrudExample folder
+        $I->copyDir(app_path('Containers/Library'), app_path('Containers/Crud/CrudExample/apiato'));
+        $I->copyDir($this->angularModuleLocation."library", app_path('Containers/Crud/CrudExample/angular'));
+        
         // delete old generated dirs
         $I->deleteDir(storage_path("app/crud/options/books.php"));
-        $I->deleteDir(app_path("Containers/Book"));
+        $I->deleteDir(app_path("Containers/Library"));
         $I->deleteDir(storage_path("app/copyTest/"));
     }
 
@@ -28,10 +39,11 @@ class GeneratedFilesCest
     {
         $I->wantTo('generate PORTO container and Angular Module');
 
+
         $data = Page::$formData;
 
         // copy the generated files to a folder
-        $data['angular_module_location'] = storage_path('app/copyTest/Angular/');
+        $data['angular_module_location'] = $this->angularModuleLocation;
         $data['group_main_apiato_classes'] = true;
 
         $this->package = studly_case(str_singular($data['is_part_of_package']));
@@ -41,6 +53,8 @@ class GeneratedFilesCest
         // angular module
         $data['skip_angular_test_models'] = true;
         
+        $this->setupCodeceptPrebuild($I);
+
         $I->submitForm('form[name=CRUD-form]', $data);
         $I->seeElement('.alert-success');
 
@@ -50,6 +64,19 @@ class GeneratedFilesCest
 
         $this->checkAngular2ModuleGeneration($I);
         $this->checkPortoFilesGeneration($I);
+    }
+
+    private function setupCodeceptPrebuild($I)
+    {
+        // create the Library container dir and copy a prebuild codecept setup
+        // for the container
+        if (!file_exists($dir = app_path("Containers/Library"))) {
+            mkdir($dir);
+        }
+
+        $codeceptBootstrap = __DIR__."/../../CrudExample/codeceptSetup/tests";
+
+        $I->copyDir($codeceptBootstrap, $dir."/tests");
     }
 
     private function checkAngular2ModuleGeneration($I)

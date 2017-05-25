@@ -1,0 +1,22 @@
+<app-sidebar-layout>
+  <app-page-header>
+    <div class="col-xs-12">
+      <h1>
+        {{ 'BOOK.module-name-plural' | translate }}
+        <small> / {{ 'BOOK.'+formType | translate }}</small>
+      </h1>
+    </div>
+  </app-page-header>
+
+  <app-page-content>
+    <app-box>
+      <app-box-body>
+
+        <book-form-component [formType]="formType">
+        </book-form-component>
+
+      </app-box-body>
+    </app-box>
+  </app-page-content>
+
+</app-sidebar-layout>

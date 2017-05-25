@@ -1,0 +1,233 @@
+<app-alerts [appMessage]="messages$ | async" (closed)="cleanMessages()"></app-alerts>
+
+<app-loader *ngIf="!(itemsPagination$ | async); else dataTable" loader="ball-grid-pulse">{{ langKey + 'loading_items_list' | translate }}</app-loader>
+
+<ng-template #dataTable>
+  <div class="table-responsive">
+    <table class="table table-hover actions-btns-3">
+      
+      <thead>
+        <tr>
+          <th style="width: 1em;"><input type="checkbox" name="select_all_items"></th>
+          <th *ngIf="showColumn('books.id')" class="books.id">
+            <span role="button" (click)="onSort('books.id')">
+                {{ langKey + 'fields.'+'books.id' | translate }}
+                <i *ngIf="orderBy == 'books.id'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.reason_id')" class="books.reason_id">
+            <span role="button" (click)="onSort('books.reason_id')">
+                {{ langKey + 'fields.'+'books.reason_id' | translate }}
+                <i *ngIf="orderBy == 'books.reason_id'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.name')" class="books.name">
+            <span role="button" (click)="onSort('books.name')">
+                {{ langKey + 'fields.'+'books.name' | translate }}
+                <i *ngIf="orderBy == 'books.name'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.author')" class="books.author">
+            <span role="button" (click)="onSort('books.author')">
+                {{ langKey + 'fields.'+'books.author' | translate }}
+                <i *ngIf="orderBy == 'books.author'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.genre')" class="books.genre">
+            <span role="button" (click)="onSort('books.genre')">
+                {{ langKey + 'fields.'+'books.genre' | translate }}
+                <i *ngIf="orderBy == 'books.genre'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.stars')" class="books.stars">
+            <span role="button" (click)="onSort('books.stars')">
+                {{ langKey + 'fields.'+'books.stars' | translate }}
+                <i *ngIf="orderBy == 'books.stars'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.published_year')" class="books.published_year">
+            <span role="button" (click)="onSort('books.published_year')">
+                {{ langKey + 'fields.'+'books.published_year' | translate }}
+                <i *ngIf="orderBy == 'books.published_year'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.enabled')" class="books.enabled">
+            <span role="button" (click)="onSort('books.enabled')">
+                {{ langKey + 'fields.'+'books.enabled' | translate }}
+                <i *ngIf="orderBy == 'books.enabled'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.status')" class="books.status">
+            <span role="button" (click)="onSort('books.status')">
+                {{ langKey + 'fields.'+'books.status' | translate }}
+                <i *ngIf="orderBy == 'books.status'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.synopsis')" class="books.synopsis">
+            <span role="button" (click)="onSort('books.synopsis')">
+                {{ langKey + 'fields.'+'books.synopsis' | translate }}
+                <i *ngIf="orderBy == 'books.synopsis'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.approved_at')" class="books.approved_at">
+            <span role="button" (click)="onSort('books.approved_at')">
+                {{ langKey + 'fields.'+'books.approved_at' | translate }}
+                <i *ngIf="orderBy == 'books.approved_at'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.approved_by')" class="books.approved_by">
+            <span role="button" (click)="onSort('books.approved_by')">
+                {{ langKey + 'fields.'+'books.approved_by' | translate }}
+                <i *ngIf="orderBy == 'books.approved_by'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.created_at')" class="books.created_at">
+            <span role="button" (click)="onSort('books.created_at')">
+                {{ langKey + 'fields.'+'books.created_at' | translate }}
+                <i *ngIf="orderBy == 'books.created_at'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.updated_at')" class="books.updated_at">
+            <span role="button" (click)="onSort('books.updated_at')">
+                {{ langKey + 'fields.'+'books.updated_at' | translate }}
+                <i *ngIf="orderBy == 'books.updated_at'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th *ngIf="showColumn('books.deleted_at')" class="books.deleted_at">
+            <span role="button" (click)="onSort('books.deleted_at')">
+                {{ langKey + 'fields.'+'books.deleted_at' | translate }}
+                <i *ngIf="orderBy == 'books.deleted_at'"
+                    [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
+            </span>
+          </th>
+          <th class="actions" translate>{{ langKey + 'actions_table_header' }}</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <ng-container *ngIf="(itemsPagination$ | async)?.data.length > 0">
+        <tr *ngFor="let book of (itemsPagination$ | async)?.data"  [ngClass]="{'danger': book.deleted_at }" >
+          <td><input type="checkbox" name="item[]" value="book.id"></td>
+          <td *ngIf="showColumn('books.id')" class="id">
+            {{ book?.id }}
+          </td>
+          <td *ngIf="showColumn('books.reason_id')" class="reason_id">
+            {{ book?.reason?.data?.name }}
+          </td>
+          <td *ngIf="showColumn('books.name')" class="name">
+            {{ book?.name }}
+          </td>
+          <td *ngIf="showColumn('books.author')" class="author">
+            {{ book?.author }}
+          </td>
+          <td *ngIf="showColumn('books.genre')" class="genre">
+            {{ book?.genre }}
+          </td>
+          <td *ngIf="showColumn('books.stars')" class="stars">
+            {{ book?.stars }}
+          </td>
+          <td *ngIf="showColumn('books.published_year')" class="published_year">
+            {{ book?.published_year }}
+          </td>
+          <td *ngIf="showColumn('books.enabled')" class="enabled">
+            {{ book?.enabled }}
+          </td>
+          <td *ngIf="showColumn('books.status')" class="status">
+            {{ book?.status }}
+          </td>
+          <td *ngIf="showColumn('books.synopsis')" class="synopsis">
+            {{ book?.synopsis }}
+          </td>
+          <td *ngIf="showColumn('books.approved_at')" class="approved_at">
+            {{ book?.approved_at }}
+          </td>
+          <td *ngIf="showColumn('books.approved_by')" class="approved_by">
+            {{ book?.approvedBy?.data?.name }}
+          </td>
+          <td *ngIf="showColumn('books.created_at')" class="created_at">
+            {{ book?.created_at }}
+          </td>
+          <td *ngIf="showColumn('books.updated_at')" class="updated_at">
+            {{ book?.updated_at }}
+          </td>
+          <td *ngIf="showColumn('books.deleted_at')" class="deleted_at">
+            {{ book?.deleted_at }}
+          </td>
+          <td class="actions">
+            <a
+              [routerLink]="[ '/book', book.id, 'details']"
+              tooltip="{{ langKey + 'details' | translate }}"
+              class="btn btn-sm btn-default details-link">
+              <i class="glyphicon glyphicon-eye-open"></i>
+              <span class="sr-only btn-label" translate>{{ langKey + 'details' }}</span>
+            </a>
+
+            <a
+              *ngIf="!book.deleted_at"
+              [routerLink]="[ '/book', book.id, 'edit']"
+              tooltip="{{ langKey + 'edit' | translate }}"
+              class="btn btn-sm btn-default edit-link">
+              <i class="glyphicon glyphicon-pencil"></i>
+              <span class="sr-only btn-label" translate>{{ langKey + 'edit' }}</span>
+            </a>
+            
+            <a
+              *ngIf="!book.deleted_at"
+              class="btn btn-sm btn-default delete-link"
+              role="button"
+              tooltip="{{ langKey + 'delete' | translate }}"
+              (click)="deleteRow(book.id)">
+              <i class="glyphicon glyphicon-trash"></i>
+              <span class="sr-only btn-label" translate>{{ langKey + 'delete' }}</span>
+            </a>
+          </td>
+        </tr>
+        </ng-container>
+
+        <ng-container *ngIf="(itemsPagination$ | async)?.data.length == 0">
+        <tr>
+          <td [attr.colspan]="columns.length + 2">
+            <div class="alert alert-warning" translate>{{ langKey + 'msg.no_rows_found' }}</div>
+          </td>
+        </tr>
+        </ng-container>
+
+      </tbody>
+
+    </table>
+  </div>
+
+  <!-- paginator -->
+  <div class="row">
+    <div class="col-xs-12">
+      <pagination
+        class="pull-right"
+        [(ngModel)]="currentPage"
+        [totalItems]="pagination?.total"
+        [itemsPerPage]="pagination?.per_page"
+        [maxSize]="5"
+        [boundaryLinks]="true"
+        (pageChanged)="pageChanged($event)"
+        [firstText]="langKey + 'paginator.first_text' | translate"
+        [lastText]="langKey + 'paginator.last_text' | translate"
+        [nextText]="langKey + 'paginator.next_text' | translate"
+        [previousText]="langKey + 'paginator.previous_text' | translate"
+        ></pagination>
+    </div>
+  </div>
+</ng-template>
