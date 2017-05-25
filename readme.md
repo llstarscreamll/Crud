@@ -4,10 +4,10 @@ This is a [PORTO](https://github.com/Porto-SAP/Documentation) Container for [api
 
 If you don't know apiato already, go to the [apiato DOCS site](http://apiato.io/) and give it a try, it's an amazing project!!
 
-## Install
-
->*NOTES:*
+>*NOTE:*
 >This container is tested on [Laravel Homestead](https://laravel.com/docs/5.4/homestead), so I sugest you to use Homestead as your development environment.
+
+## Install
 
 From the apiato root folder:
 
@@ -102,9 +102,9 @@ ng tests
 
 ## What is Generated?
 
-Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named _Library_ with an migration table called _books_, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the functional tests, so with the following setup:
+Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named _Library_ with an migration table called _books_, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the functional tests, in the [CrudExample](https://github.com/llstarscreamll/Crud/tree/3.0/CrudExample) folder you can *check the up to date final generated code for this example*. So with the following setup:
 
-![CRUD Setup GUI](https://cloud.githubusercontent.com/assets/2442445/25891986/93ccc538-3538-11e7-8c35-087736c8aa9f.png "CRUD Setup GUI")
+![CRUD Setup GUI](https://cloud.githubusercontent.com/assets/2442445/26444536/76dfb20c-4102-11e7-957e-453026ff6ea4.png "CRUD Setup GUI")
 
 The generated code will be:
 
