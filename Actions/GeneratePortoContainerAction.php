@@ -18,7 +18,6 @@ use App\Containers\Crud\Tasks\CreateRepositoryTask;
 use App\Containers\Crud\Tasks\CreateSeedersTask;
 use App\Containers\Crud\Tasks\CreateTasksTask;
 use App\Containers\Crud\Tasks\CreateTransformerTask;
-use App\Containers\Crud\Tasks\RunPhpCsFixerOnDirTask;
 use Illuminate\Support\Collection;
 
 /**
@@ -93,9 +92,5 @@ class GeneratePortoContainerAction
         // generate Codeception tests files
         $createCodeceptionTestsTask = new CreateCodeceptionTestsTask($request);
         $createCodeceptionTestsTask->run();
-
-        // execute php-cs-fixer on generated folder
-        $runPhpCsFixerOnDirTask = new RunPhpCsFixerOnDirTask($request);
-        $runPhpCsFixerOnDirTask->run();
     }
 }

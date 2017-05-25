@@ -46,13 +46,6 @@ class CreateCodeceptionTestsTask
     ];
 
     /**
-     * Codeception Executable path.
-     *
-     * @var string
-     */
-    private $codecept = "/home/vagrant/.composer/vendor/bin/codecept";
-
-    /**
      * The parsed fields from request.
      *
      * @var Illuminate\Support\Collection
@@ -79,46 +72,14 @@ class CreateCodeceptionTestsTask
      */
     public function run()
     {
-        $this->bootstrapCodeception();
-
-        $this->createCodeceptApiSuite();
-
         $this->configureCodeceptSuite('api', $this->getApiSuiteModules());
         $this->configureCodeceptSuite('functional', $this->getFunctionalSuiteModules());
         $this->copyRootBoostrapFile();
         $this->generateHelper();
 
-        // builds Codeception suites
-        exec("cd {$this->containerFolder()} && {$this->codecept} build");
-
         $this->generateApiTests();
 
         return true;
-    }
-
-    /**
-     * Bootstraps Codeception on container.
-     */
-    public function bootstrapCodeception()
-    {
-        if (!file_exists($this->containerFolder().'/codeception.yml')) {
-            exec("cd {$this->containerFolder()} && {$this->codecept} bootstrap --namespace=".$this->containerName()." 2>&1", $output);
-            // dd($output); // to debug!!
-        } else {
-            session()->push('warning', 'Codeception tests already bootstraped!!');
-        }
-    }
-
-    /**
-     * Create Codeception suite for API tests.
-     */
-    public function createCodeceptApiSuite()
-    {
-        if (!file_exists($this->testsFolder().'/api.suite.yml')) {
-            exec("cd {$this->containerFolder()} && {$this->codecept} generate:suite api");
-        } else {
-            session()->push('warning', 'Codeception tests already bootstraped!!');
-        }
     }
 
     /**
@@ -274,6 +235,7 @@ class CreateCodeceptionTestsTask
         return "\n".
             "        - \\{$this->containerName()}\Helper\\{$this->containerName()}Helper\n".
             "        - \App\Ship\Tests\Codeception\UserHelper\n".
+            "        - \App\Ship\Tests\Codeception\HashidsHelper\n".
             "        - Asserts\n".
             "        - Laravel5:\n".
             "            environment_file: .env.testing\n".
@@ -281,6 +243,9 @@ class CreateCodeceptionTestsTask
             '            run_database_migrations: true';
     }
 
+    /**
+     * Generate API test suit class files.
+     */
     private function generateApiTests()
     {
         $this->createEntityApiTestsFolder();
@@ -309,7 +274,7 @@ class CreateCodeceptionTestsTask
     }
 
     /**
-     * Creates the API entity tests folder.
+     * Creates the API entity tests folder if desired.
      */
     private function createEntityApiTestsFolder()
     {
