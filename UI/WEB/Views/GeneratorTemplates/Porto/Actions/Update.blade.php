@@ -1,8 +1,8 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }};
+namespace App\Containers\{{ $gen->containerName() }}\Actions{{ $gen->solveGroupClasses() }};
 
-use App\Containers\{{ $gen->containerName() }}\Tasks\{{ $gen->entityName() }}\{{ $gen->taskClass('Update') }};
+use App\Containers\{{ $gen->containerName() }}\Tasks{{ $gen->solveGroupClasses() }}\{{ $gen->taskClass('Update') }};
 use App\Ship\Parents\Actions\Action;
 
 /**

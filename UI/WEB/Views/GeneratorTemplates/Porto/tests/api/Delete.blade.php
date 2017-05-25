@@ -1,6 +1,6 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->entityName() }};
+namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
 
 use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
@@ -33,6 +33,11 @@ class Delete{{ $gen->entityName() }}Cest
     {
     }
 
+@if (!$gen->groupMainApiatoClasses)
+    /**
+     * @group {{ $gen->entityName() }}
+     */
+@endif
     public function delete{{ $gen->entityName() }}(ApiTester $I)
     {
     	$data = factory({{ $gen->entityName() }}::class)->create();

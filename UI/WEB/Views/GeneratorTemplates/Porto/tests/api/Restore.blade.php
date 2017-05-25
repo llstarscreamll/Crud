@@ -1,6 +1,6 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->entityName() }};
+namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
 
 use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
@@ -33,16 +33,23 @@ class Restore{{ $gen->entityName() }}Cest
     {
     }
 
+@if (!$gen->groupMainApiatoClasses)
+    /**
+     * @group {{ $gen->entityName() }}
+     */
+@endif
     public function restore{{ $gen->entityName() }}(ApiTester $I)
     {
-    	$data = factory({{ $gen->entityName() }}::class)->create();
-    	{{ $gen->entityName() }}::destroy($data->id);
+    	$item = factory({{ $gen->entityName() }}::class)->create();
+    	{{ $gen->entityName() }}::destroy($item->id);
 
-        $I->sendPOST(str_replace('{id}', $data->getHashedKey(), $this->endpoint));
+        $I->sendPOST(str_replace('{id}', $item->getHashedKey(), $this->endpoint));
         $I->seeResponseCodeIs(200);
 
-        $I->seeRecord('{{ $gen->tableName }}', $data->toArray());
-        $restoredItem = $I->grabRecord('{{ $gen->tableName }}', ['id' => $data->id]);
+        $restoredItem = $I->grabRecord('{{ $gen->tableName }}', ['id' => $item->id]);
         $I->assertNull($restoredItem['deleted_at']);
+
+        $data = array_intersect_key($item->toArray(), array_flip($item->getFillable()));
+        $I->seeRecord('{{ $gen->tableName }}', $data);
     }
 }

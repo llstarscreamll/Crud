@@ -1,10 +1,9 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->entityName() }};
+namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
 
 use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
-use Vinkla\Hashids\Facades\Hashids;
 
 /**
  * Update{{ $gen->entityName() }}Cest Class.
@@ -31,33 +30,41 @@ class Update{{ $gen->entityName() }}Cest
     {
     }
 
+@if (!$gen->groupMainApiatoClasses)
+    /**
+     * @group {{ $gen->entityName() }}
+     */
+@endif
     public function update{{ $gen->entityName() }}(ApiTester $I)
     {
-    	$oldData = factory({{ $gen->entityName() }}::class)->create();
-    	$newData = factory({{ $gen->entityName() }}::class)->make();
-        $newDataArray = $newData->toArray();
+    	$oldItem = factory({{ $gen->entityName() }}::class)->create();
+    	$newItem = factory({{ $gen->entityName() }}::class)->make();
+        $data = $newItem->toArray();
 @foreach ($fields as $field)
 @if(strpos($field->validation_rules, 'confirmed') !== false)
-        array_set($newDataArray, '{{ $field->name }}_confirmation', $newData->{{ $field->name }});
+        array_set($data, '{{ $field->name }}_confirmation', $newItem->{{ $field->name }});
 @endif
 @if($field->namespace)
-        array_set($newDataArray, '{{ $field->name }}', $I->hashKey($newData->{{ $field->name }}));
+        array_set($data, '{{ $field->name }}', $I->hashKey($newItem->{{ $field->name }}));
 @endif
 @endforeach
 
-        $I->sendPUT(str_replace('{id}', $oldData->getHashedKey(), $this->endpoint), $newDataArray);
+        $I->sendPUT(str_replace('{id}', $oldItem->getHashedKey(), $this->endpoint), $data);
 
         $I->seeResponseCodeIs(200);
 
 @foreach ($fields as $field)
 @if($field->name == "id")
-        $I->seeResponseContainsJson(['{{ $field->name }}' => $oldData->getHashedKey()]);
-@elseif(!$field->hidden && $field->name !== "id")
-        $I->seeResponseContainsJson(['{{ $field->name }}' => $newDataArray['{{ $field->name }}']]);
+        $I->seeResponseContainsJson(['{{ $field->name }}' => $oldItem->getHashedKey()]);
+@elseif(!$field->hidden && $field->fillable)
+        $I->seeResponseContainsJson(['{{ $field->name }}' => $data['{{ $field->name }}']]);
+@elseif(!$field->hidden && !$field->fillable)
+        $I->seeResponseJsonMatchesXpath('{{ $field->name }}');
 @endif
 @endforeach
         
-        $I->dontSeeRecord('{{ $gen->tableName }}', $oldData->toArray());
-        $I->seeRecord('{{ $gen->tableName }}', $newData->toArray());
+        $I->dontSeeRecord('{{ $gen->tableName }}', $oldItem->toArray());
+        $data = array_intersect_key($newItem->toArray(), array_flip($newItem->getFillable()));
+        $I->seeRecord('{{ $gen->tableName }}', $data);
     }
 }

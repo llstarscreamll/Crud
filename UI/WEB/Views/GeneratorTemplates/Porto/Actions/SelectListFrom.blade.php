@@ -1,6 +1,6 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\Actions\{{ $gen->entityName() }};
+namespace App\Containers\{{ $gen->containerName() }}\Actions{{ $gen->solveGroupClasses() }};
 
 use App\Containers\{{ $gen->containerName() }}\Data\Repositories\{{ $gen->entityName() }}Repository;
 use App\Ship\Parents\Actions\Action;

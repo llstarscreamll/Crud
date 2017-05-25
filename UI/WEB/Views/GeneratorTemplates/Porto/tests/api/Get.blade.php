@@ -1,10 +1,9 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->entityName() }};
+namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
 
 use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
-use Vinkla\Hashids\Facades\Hashids;
 
 /**
  * Get{{ $gen->entityName() }}Cest Class.
@@ -34,6 +33,11 @@ class Get{{ $gen->entityName() }}Cest
     {
     }
 
+@if (!$gen->groupMainApiatoClasses)
+    /**
+     * @group {{ $gen->entityName() }}
+     */
+@endif
     public function get{{ $gen->entityName() }}(ApiTester $I)
     {
     	$data = factory({{ $gen->entityName() }}::class)->create();

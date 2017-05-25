@@ -30,6 +30,36 @@ trait FolderNamesResolver
     }
 
     /**
+     * Deduce if main apiato classes should be grouped based on the user input
+     * options. If true, then it will return the convinient path/namespace group
+     * string, .e.g. $type == d ? "/Book" : "\Book".
+     * @param  string $type Is path or namespace
+     * @return string
+     */
+    public function solveGroupClasses(string $type = "n")
+    {
+        $str = "";
+
+        if ($this->groupMainApiatoClasses) {
+            switch ($type) {
+                case 'n': // namespace
+                    $str = "\\".$this->entityName();
+                    break;
+
+                case 'd': // dir
+                    $str = "/".$this->entityName();
+                    break;
+                
+                default:
+                    $str = "";
+                    break;
+            }
+        }
+
+        return $str;
+    }
+
+    /**
      * Entity Names
      */
     public function entityName($plural = false)
@@ -75,6 +105,11 @@ trait FolderNamesResolver
         return app_path('Containers');
     }
 
+    /**
+     * Return apiato entity Actions dir.
+     *
+     * @return string
+     */
     public function actionsFolder()
     {
         return $this->containerFolder().'/Actions';

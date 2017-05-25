@@ -35,6 +35,11 @@ trait DataGenerator
     public $hasUpdatedAtColumn = false;
 
     /**
+     * @var boolean
+     */
+    public $groupMainApiatoClasses = false;
+
+    /**
      * @var string
      */
     public $primaryKey = '';
@@ -84,6 +89,8 @@ trait DataGenerator
         $this->hasCreatedAtColumn && $this->hasUpdatedAtColumn
             ? ($this->hasLaravelTimestamps = true)
             : null;
+
+        $this->groupMainApiatoClasses = $this->request->get('group_main_apiato_classes', false);
 
         return collect($fields);
     }

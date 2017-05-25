@@ -1,6 +1,6 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->entityName() }};
+namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
 
 use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
@@ -33,6 +33,11 @@ class {{ $gen->entityName() }}FormModelCest
     {
     }
 
+@if (!$gen->groupMainApiatoClasses)
+    /**
+     * @group {{ $gen->entityName() }}
+     */
+@endif
     public function formModelConfigFrom{{ $gen->entityName() }}(ApiTester $I)
     {        
         $I->sendGET($this->endpoint);

@@ -1,11 +1,11 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\Tasks\{{ $gen->entityName() }};
+namespace App\Containers\{{ $gen->containerName() }}\Tasks{{ $gen->solveGroupClasses() }};
 
 use App\Containers\{{ $gen->containerName() }}\Data\Repositories\{{ $repoClass = $gen->entityName().'Repository' }};
-use App\Containers\{{ $gen->containerName() }}\Data\Criterias\{{ $gen->entityName() }}\{{ $advencedSearchCriteria = str_replace('.php', '', $gen->criteriaFile('Advanced:entity:Search')) }};
-use App\Ship\Parents\Tasks\Task;
+use App\Containers\{{ $gen->containerName() }}\Data\Criterias{{ $gen->solveGroupClasses() }}\{{ $advencedSearchCriteria = str_replace('.php', '', $gen->criteriaFile('Advanced:entity:Search')) }};
 use Prettus\Repository\Criteria\RequestCriteria;
+use App\Ship\Parents\Tasks\Task;
 
 /**
  * {{ $gen->taskClass('ListAndSearch', $plural = true) }} Class.

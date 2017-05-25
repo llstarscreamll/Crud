@@ -1,8 +1,7 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\Data\Criterias\{{ $gen->entityName() }};
+namespace App\Containers\{{ $gen->containerName() }}\Data\Criterias{{ $gen->solveGroupClasses() }};
 
-use App\Containers\{{ $gen->containerName() }}\Data\Criterias\{{ $gen->entityName() }};
 use Prettus\Repository\Contracts\RepositoryInterface as PrettusRepositoryInterface;
 use App\Ship\Parents\Criterias\Criteria;
 

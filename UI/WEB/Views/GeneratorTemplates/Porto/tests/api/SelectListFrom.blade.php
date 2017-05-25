@@ -1,6 +1,6 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->entityName() }};
+namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
 
 use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
@@ -33,6 +33,11 @@ class SelectListFrom{{ $gen->entityName() }}Cest
     {
     }
 
+@if (!$gen->groupMainApiatoClasses)
+    /**
+     * @group {{ $gen->entityName() }}
+     */
+@endif
     public function selectListFrom{{ $gen->entityName() }}(ApiTester $I)
     {
         $data = factory({{ $gen->entityName() }}::class, 5)->create();

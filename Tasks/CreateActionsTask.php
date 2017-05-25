@@ -81,7 +81,7 @@ class CreateActionsTask
             $plural = ($file == "ListAndSearch") ? true : false;
             $atStart = in_array($file, ['FormData']) ? true : false;
 
-            $actionFile = $this->actionsFolder()."/{$this->entityName()}/".$this->actionFile($file, $plural, $atStart);
+            $actionFile = $this->actionsFolder()."{$this->solveGroupClasses('d')}/".$this->actionFile($file, $plural, $atStart);
             $template = $this->templatesDir().'.Porto/Actions/'.$file;
 
             $content = view($template, [
@@ -104,7 +104,7 @@ class CreateActionsTask
      */
     private function createEntityActionsFolder()
     {
-        if (!file_exists($this->actionsFolder().'/'.$this->entityName())) {
+        if (!file_exists($this->actionsFolder().'/'.$this->entityName()) && $this->request->get('group_main_apiato_classes', false)) {
             mkdir($this->actionsFolder().'/'.$this->entityName());
         }
     }

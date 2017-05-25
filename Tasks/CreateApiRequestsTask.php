@@ -82,7 +82,7 @@ class CreateApiRequestsTask
             }
             $plural = ($file == "ListAndSearch") ? true : false;
 
-            $actionFile = $this->apiRequestsFolder()."/{$this->entityName()}/".$this->apiRequestFile($file, $plural);
+            $actionFile = $this->apiRequestsFolder()."{$this->solveGroupClasses('d')}/".$this->apiRequestFile($file, $plural);
             $template = $this->templatesDir().'.Porto/UI/API/Requests/'.$file;
 
             $content = view($template, [
@@ -105,7 +105,7 @@ class CreateApiRequestsTask
      */
     private function createEntityApiRequestsFolder()
     {
-        if (!file_exists($this->apiRequestsFolder().'/'.$this->entityName())) {
+        if (!file_exists($this->apiRequestsFolder().'/'.$this->entityName()) && $this->request->get('group_main_apiato_classes', false)) {
             mkdir($this->apiRequestsFolder().'/'.$this->entityName());
         }
     }

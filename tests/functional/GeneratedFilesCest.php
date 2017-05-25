@@ -32,6 +32,7 @@ class GeneratedFilesCest
 
         // copy the generated files to a folder
         $data['angular_module_location'] = storage_path('app/copyTest/Angular/');
+        $data['group_main_apiato_classes'] = true;
 
         $this->package = studly_case(str_singular($data['is_part_of_package']));
         $this->entity = studly_case(str_singular($data['table_name']));

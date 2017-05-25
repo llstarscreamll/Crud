@@ -80,7 +80,7 @@ class CreateTasksTask
             
             $plural = ($file == "ListAndSearch") ? true : false;
 
-            $taskFile = $this->tasksFolder()."/{$this->entityName()}/".$this->taskFile($file, $plural);
+            $taskFile = $this->tasksFolder()."{$this->solveGroupClasses('d')}/".$this->taskFile($file, $plural);
             $template = $this->templatesDir().'.Porto.Tasks.'.$file;
 
             $content = view($template, [
@@ -103,7 +103,7 @@ class CreateTasksTask
      */
     private function createEntityTasksFolder()
     {
-        if (!file_exists($this->tasksFolder().'/'.$this->entityName())) {
+        if (!file_exists($this->tasksFolder().'/'.$this->entityName()) && $this->request->get('group_main_apiato_classes', false)) {
             mkdir($this->tasksFolder().'/'.$this->entityName());
         }
     }

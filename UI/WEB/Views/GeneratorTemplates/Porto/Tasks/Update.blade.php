@@ -1,10 +1,10 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\Tasks\{{ $gen->entityName() }};
+namespace App\Containers\{{ $gen->containerName() }}\Tasks{{ $gen->solveGroupClasses() }};
 
 use App\Containers\{{ $gen->containerName() }}\Data\Repositories\{{ $repoClass = $gen->entityName().'Repository' }};
-use App\Ship\Parents\Tasks\Task;
 use App\Containers\{{ $gen->containerName() }}\Exceptions\{{ $gen->entityName() }}CreationFailedException;
+use App\Ship\Parents\Tasks\Task;
 
 /**
  * {{ $gen->taskClass('Update') }} Class.

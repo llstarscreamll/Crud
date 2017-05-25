@@ -1,6 +1,6 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->entityName() }};
+namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
 
 use {{ $gen->containerName() }}\ApiTester;
 use {{ $gen->entityModelNamespace() }};
@@ -33,6 +33,11 @@ class ListAndSearch{{ $gen->entityName(true) }}Cest
     {
     }
 
+@if (!$gen->groupMainApiatoClasses)
+    /**
+     * @group {{ $gen->entityName() }}
+     */
+@endif
     public function listAndSearch{{ $gen->entityName() }}(ApiTester $I)
     {
     	$data = factory({{ $gen->entityName() }}::class, 10)->create();

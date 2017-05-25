@@ -1,6 +1,6 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\UI\API\Requests\{{ $gen->entityName() }};
+namespace App\Containers\{{ $gen->containerName() }}\UI\API\Requests{{ $gen->solveGroupClasses() }};
 
 use App\Ship\Parents\Requests\Request;
 

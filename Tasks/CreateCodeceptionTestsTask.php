@@ -294,7 +294,7 @@ class CreateCodeceptionTestsTask
             $plural = ($file == 'ListAndSearch') ? true : false;
             $atStart = in_array($file, ['FormModel']) ? true : false;
 
-            $testFile = $this->apiTestsFolder()."/{$this->entityName()}/".$this->apiTestFile($file, $plural, $atStart);
+            $testFile = $this->apiTestsFolder()."{$this->solveGroupClasses('d')}/".$this->apiTestFile($file, $plural, $atStart);
             $template = $this->templatesDir().'.Porto/tests/api/'.$file;
 
             $content = view($template, [
@@ -313,7 +313,7 @@ class CreateCodeceptionTestsTask
      */
     private function createEntityApiTestsFolder()
     {
-        if (!file_exists($this->apiTestsFolder().'/'.$this->entityName())) {
+        if (!file_exists($this->apiTestsFolder().'/'.$this->entityName()) && $this->request->get('group_main_apiato_classes', false)) {
             mkdir($this->apiTestsFolder().'/'.$this->entityName());
         }
     }
