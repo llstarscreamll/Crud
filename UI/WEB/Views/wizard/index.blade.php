@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="clearfix"></div>
-                @include('crud::wizard.partials.options.app-type')
+                @include('crud::wizard.partials.options.app-type', ['hiddeAngularPathAndGrouping' => true])
 
                 <div class="form-group">
                     <button class="btn btn-primary">Generate</button>
