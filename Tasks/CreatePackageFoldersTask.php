@@ -128,11 +128,11 @@ class CreatePackageFoldersTask
             mkdir($this->apiTransformersFolder());
         }
 
+/*
         // Generate UI/CLI folder
         if (!file_exists($this->cliFolder())) {
             mkdir($this->cliFolder());
         }
-/*
         // Generate UI/WEB folder
         if (!file_exists($this->webFolder())) {
             mkdir($this->webFolder());
