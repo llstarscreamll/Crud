@@ -9,10 +9,6 @@ class GeneratedFilesCest
 {
     public function _before(FunctionalTester $I)
     {
-        // delete old generated dirs
-        $I->deleteDir(storage_path("app/crud/options/books.php"));
-        $I->deleteDir(storage_path("app/copyTest"));
-
         // page setup
         new Page($I);
         $I->amLoggedAs(Page::$adminUser);
@@ -22,6 +18,10 @@ class GeneratedFilesCest
 
     public function _after(FunctionalTester $I)
     {
+        // delete old generated dirs
+        $I->deleteDir(storage_path("app/crud/options/books.php"));
+        $I->deleteDir(app_path("Containers/Book"));
+        $I->deleteDir(storage_path("app/copyTest/"));
     }
 
     public function checkFilesGeneration(FunctionalTester $I)
@@ -31,8 +31,7 @@ class GeneratedFilesCest
         $data = Page::$formData;
 
         // copy the generated files to a folder
-        $data['copy_porto_container_to'] = storage_path('app/copyTest/Porto');
-        $data['copy_angular_module_to'] = storage_path('app/copyTest/Angular');
+        $data['angular_module_location'] = storage_path('app/copyTest/Angular/');
 
         $this->package = studly_case(str_singular($data['is_part_of_package']));
         $this->entity = studly_case(str_singular($data['table_name']));
@@ -44,11 +43,11 @@ class GeneratedFilesCest
         $I->submitForm('form[name=CRUD-form]', $data);
         $I->seeElement('.alert-success');
 
-        $I->assertTrue(file_exists(storage_path('app/crud/code')), 'code output folder');
-        $I->assertTrue(file_exists(storage_path('app/crud/options')), 'options output folders');
+        //$I->assertTrue(file_exists(storage_path('app/crud/code')), 'code output folder');
+        $I->assertTrue(file_exists(storage_path('app/crud/options')), 'options output folder');
         $I->seeFileFound('books.php', storage_path('app/crud/options/'));
 
-        //$this->checkAngular2ModuleGeneration($I);
+        $this->checkAngular2ModuleGeneration($I);
         $this->checkPortoFilesGeneration($I);
     }
 
@@ -57,6 +56,7 @@ class GeneratedFilesCest
         $slugModule = str_slug($this->package, "-");
         $slugEntity = str_slug($this->entity, "-");
 
+        //$copyedModuleDir = storage_path('app/copyTest/Angular/'.$slugModule);
         $copyedModuleDir = storage_path('app/copyTest/Angular/'.$slugModule);
         $I->assertTrue(file_exists($copyedModuleDir), 'Angular copied dir');
 
@@ -147,10 +147,10 @@ class GeneratedFilesCest
     private function checkPortoFilesGeneration(FunctionalTester $I)
     {
         $copyedPortoContainerDir = storage_path('app/copyTest/Porto/'.$this->package);
-        $I->assertTrue(file_exists($copyedPortoContainerDir), 'Porto container copied dir');
+        //$I->assertTrue(file_exists($copyedPortoContainerDir), 'Porto container copied dir');
 
         // los directorios deben estar creados correctamente
-        $containersDir = storage_path('app/crud/code/PortoContainers/');
+        $containersDir = app_path('Containers/');
         $I->assertTrue(file_exists($containersDir), 'Porto Containers dir');
         $I->assertTrue(file_exists($containersDir.$this->package), 'package container dir');
         
@@ -158,7 +158,7 @@ class GeneratedFilesCest
         $actionsDir = $containersDir.$this->package.'/Actions/'.$this->entity;
         $I->assertTrue(file_exists($actionsDir), 'Actions dir');
         $I->seeFileFound('ListAndSearchBooksAction.php', $actionsDir);
-        $I->seeFileFound('BookFormDataAction.php', $actionsDir);
+        $I->seeFileFound('SelectListFromBookAction.php', $actionsDir);
         $I->seeFileFound('CreateBookAction.php', $actionsDir);
         $I->seeFileFound('GetBookAction.php', $actionsDir);
         $I->seeFileFound('UpdateBookAction.php', $actionsDir);
@@ -276,59 +276,9 @@ class GeneratedFilesCest
         */
 
         // CLI folders
-        $I->assertTrue(file_exists($containersDir.$this->package.'/UI/CLI'), 'UI/CLI dir');
+        // $I->assertTrue(file_exists($containersDir.$this->package.'/UI/CLI'), 'UI/CLI dir');
 
         // Other files
         $I->seeFileFound('composer.json', $containersDir.$this->package);
     }
-
-    /**
-     * Standard Laravel app generation.
-     *
-     * @param FunctionalTester $I
-     */
-    /*public function checkLaravelAppFilesGeneration(FunctionalTester $I)
-    {
-        $I->wantTo('crear aplicacion Laravel App CRUD');
-
-        $I->submitForm('form[name=CRUD-form]', Page::$formData);
-
-        // veo los mensajes de operación exitosa
-        $I->see('Los tests se han generado correctamente.', '.alert-success');
-        $I->see('Modelo generado correctamente', '.alert-success');
-        $I->see('Controlador generado correctamente', '.alert-success');
-        // hay muchos otros mensajes
-
-        // compruebo que los archivos de la app hayan sido generados
-        $I->seeFileFound('Book.php', base_path('app/Models'));
-        $I->seeFileFound('BookController.php', base_path('app/Http/Controllers'));
-        $I->seeFileFound('BookService.php', base_path('app/Services'));
-        $I->seeFileFound('BookRepository.php', base_path('app/Repositories/Contracts'));
-        $I->seeFileFound('SearchBookCriteria.php', base_path('app/Repositories/Criterias'));
-        $I->seeFileFound('BookEloquentRepository.php', base_path('app/Repositories'));
-        $I->seeFileFound('book.php', base_path('/resources/lang/es'));
-        // reviso que se hallan añadido las rutas en web.php
-        $I->openFile(base_path('routes/web.php'));
-        $I->seeInThisFile("Route::resource('books', 'BookController');");
-
-        // los tests
-        foreach (config('modules.crud.config.tests') as $test) {
-            if ($test != 'Permissions') {
-                $I->seeFileFound($test.'.php', base_path('tests/_support/Page/Functional/Books'));
-            }
-            $I->seeFileFound($test.'Cest.php', base_path('tests/functional/Books'));
-        }
-
-        // las vistas
-        foreach (config('modules.crud.config.views') as $view) {
-            if (strpos($view, 'partials/') === false) {
-                $I->seeFileFound($view.'.blade.php', base_path('resources/views/books'));
-            } else {
-                $I->seeFileFound(
-                    str_replace('partials/', '', $view).'.blade.php',
-                    base_path('resources/views/books/partials')
-                );
-            }
-        }
-    }*/
 }

@@ -53,7 +53,7 @@ Now go to `apiato.dev/crud` to start using the app.
 
 ## What is Generated?
 
-Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named _Library_ with an migration table called _books_, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the package functional tests, so with the following setup:
+Here are a quick overview of the generated folders/files to give you the big idea of what is generated from a package named _Library_ with an migration table called _books_, off course not a real life example, just have different kind of fields to prove some functionalities, this example is taking from the functional tests, so with the following setup:
 
 ![CRUD Setup GUI](https://cloud.githubusercontent.com/assets/2442445/25891986/93ccc538-3538-11e7-8c35-087736c8aa9f.png "CRUD Setup GUI")
 
@@ -61,7 +61,7 @@ The generated code will be:
 
 ### [apiato 4.0.2](https://github.com/apiato/apiato) Container
 
-The generated container intends to follow the [PORTO](https://github.com/Mahmoudz/Porto) architectural pattern. A small difference with the **apiato** containers is that tests are generated with [Codeception](http://codeception.com/) unless **phpunit**, these tests are [namespaced](http://codeception.com/docs/08-Customization#Namespaces) with the container name. The generated API has some end points useful to work with the generated Angular module forms, e.g. serving a entity "Form Model/Data" to build forms from server without update the Angular module, and serve the form data dependencies like some DB users list options or something else. Obviosly the form builder on the Angular side is providen by the [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) project, the generated Angular module fits very well with this project, but you can use it on your own main Angular project, just make sure to satisfy the dependencies from the generated module.
+The generated container intends to follow the [PORTO](https://github.com/Mahmoudz/Porto) architectural pattern. A small difference with the **apiato** containers is that tests are generated with [Codeception](http://codeception.com/) unless **phpunit**, these tests are [namespaced](http://codeception.com/docs/08-Customization#Namespaces) with the container name. The generated API has some end points useful to work with the generated Angular module forms, e.g. serving a entity "Form Model/Select List" to build forms from server without update the Angular module, and have an entity list array to be used on select dropdowns (like some DB users list or something else). Obviosly the form builder on the Angular side is providen by the [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) project, the generated Angular module fits very well with *Hello-Angular*, but you can use it on your own main Angular project, just make sure to satisfy the dependencies from the generated module.
 
 ```bash
 |─── Library
@@ -226,14 +226,14 @@ codecept run api
 ### Angular Module
 
 > **NOTE:**
-> To generate your Angular module you must have the generated apiato Container placed on the `app/Containers` folder. Why? Because the generator create fake data with the generated container factories on the Angular module tests.
+> To generate your Angular module you must have the respective generated apiato Container first. Why? Because the generator create fake data with the generated container factories on the Angular module tests.
 
-This module is intended to work with this [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) application, the generated module should be copied on the `src/app` folder, then you must declare the module on the main modules array `src/app/modules.ts` file and reducers on the `src/app/reducers.ts` file, the reducers setup is commented on the generated `entity.reducers.ts` file to make things easy, following the _Library/books_ examĺe, looks something like this:
+This module is intended to work with this [Hello-Angular](https://github.com/llstarscreamll/Hello-Angular) application, when the generated module is placed in the *Hello-Angular* app (or your Angular app), then you must declare the module on the main modules array `src/app/modules.ts` file and reducers on the `src/app/reducers.ts` file, the reducers to be copied are commented on the generated `entity.reducers.ts` file to make things easy, following the _Library/books_ exampĺe, said reducers should look something like this:
 
 ```javascript
 /* -----------------------------------------------------------------------------
 Don't forget to import these reducer on the main app reducer!!
---------------------------------------------------------------------------------
+
 import * as fromBook from './library/reducers/book.reducer';
 
 export interface State {
@@ -244,15 +244,27 @@ const reducers = {
   book: fromBook.reducer,
 };
 
-  
 // Book selectors
 export const getBookState = (state: State) => state.book;
-export const getBookFormModel = createSelector(getBookState, fromBook.getBookFormModel);
-export const getBookFormData = createSelector(getBookState, fromBook.getBookFormData);
-export const getBooksPagination = createSelector(getBookState, fromBook.getBooksPagination);
-export const getSelectedBook = createSelector(getBookState, fromBook.getSelectedBook);
+export const getBookSearchQuery = createSelector(getBookState, fromBook.getSearchQuery);
+export const getBookFormModel = createSelector(getBookState, fromBook.getFormModel);
+export const getBookFormData = createSelector(
+  getReasonList,
+  getUserList,
+  (
+    Reasons,
+    Users,
+  ) => ({
+    Reasons,
+    Users,
+  })
+);
+export const getBookList = createSelector(getBookState, fromBook.getItemsList);
+export const getBooksPagination = createSelector(getBookState, fromBook.getItemsPagination);
+export const getSelectedBook = createSelector(getBookState, fromBook.getSelectedItem);
 export const getBookLoading = createSelector(getBookState, fromBook.getLoading);
-export const getBookErrors = createSelector(getBookState, fromBook.getErrors);
+export const getBookMessages = createSelector(getBookState, fromBook.getMessages);
+
 ----------------------------------------------------------------------------- */
 ```
 

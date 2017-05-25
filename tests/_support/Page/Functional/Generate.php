@@ -21,7 +21,7 @@ class Generate
           'use_DateTimePicker_on_form_fields' => '1',
           'use_modal_confirmation_on_delete' => '1',
           'copy_porto_container_to' => NULL,
-          'copy_angular_module_to' => NULL,
+          'angular_module_location' => NULL,
           'plural_entity_name' => 'Libros',
           'single_entity_name' => 'Libro',
           'is_part_of_package' => 'Library',

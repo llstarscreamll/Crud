@@ -77,7 +77,7 @@ class CreateApiRoutesTask
                 continue;
             }
 
-            $plural = ($file == "ListAndSearch") ? true : false;
+            $plural = ($file == "ListAndSearch:entity:") ? true : false;
             $atStart = in_array($file, ['_FormModel', '_FormData',]) ? true : false;
 
             $routeFile = $this->apiRoutesFolder().'/'.$this->apiRouteFile($file, $plural);

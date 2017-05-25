@@ -2,7 +2,6 @@
 
 namespace App\Containers\Crud\UI\WEB\Controllers;
 
-use App\Containers\Crud\Actions\CopyDirsAction;
 use App\Containers\Crud\Actions\GenerateAngular2ModuleAction;
 use App\Containers\Crud\Actions\GenerateConfigFileAction;
 use App\Containers\Crud\Actions\GeneratePortoContainerAction;
@@ -43,13 +42,6 @@ class GeneratorController extends WebController
      * @var App\Containers\Crud\Actions\GenerateConfigFileAction
      */
     private $generateConfigFileAction;
-    
-    /**
-     * Copy Generated Dirs Action.
-     *
-     * @var App\Containers\Crud\Actions\CopyDirsAction
-     */
-    private $copyDirsAction;
 
     /**
      * Create a new controller instance.
@@ -58,14 +50,12 @@ class GeneratorController extends WebController
         GeneratePortoContainerAction $generatePortoContainerAction,
         GenerateStandardLaravelApp $generateStandardLaravelApp,
         GenerateAngular2ModuleAction $generateAngular2ModuleAction,
-        GenerateConfigFileAction $generateConfigFileAction,
-        CopyDirsAction $copyDirsAction
+        GenerateConfigFileAction $generateConfigFileAction
     ) {
         $this->generatePortoContainerAction = $generatePortoContainerAction;
         $this->generateStandardLaravelApp = $generateStandardLaravelApp;
         $this->generateAngular2ModuleAction = $generateAngular2ModuleAction;
         $this->generateConfigFileAction = $generateConfigFileAction;
-        $this->copyDirsAction = $copyDirsAction;
     }
 
     /**
@@ -107,8 +97,6 @@ class GeneratorController extends WebController
             if ($request->get('generate_angular_module', false)) {
                 $this->generateAngular2ModuleAction->run($data);
             }
-
-            $this->copyDirsAction->run($data);
         }
 
         return redirect()->back()->withInput();
@@ -141,15 +129,16 @@ class GeneratorController extends WebController
             $this->generatePortoContainerAction->run($data);
         }
 
-        if ($request->get('generate_angular_module', false)) {
+        if ($request->get('generate_angular_module', false) && !empty($request->get('angular_module_location'))) {
             $this->generateAngular2ModuleAction->run($data);
         }
 
-        if (!$request->get('generate_angular_module', false) && !$request->get('generate_porto_container', false)) {
+        if ((!$request->get('generate_angular_module', false) || empty($request->get('angular_module_location'))) && !$request->get('generate_porto_container', false)) {
             session()->flash('warning', 'Nothing to generate...');
+            empty($request->get('angular_module_location')) && $request->get('generate_angular_module', false)
+                ? session()->flash('error', "Angular module location can't be empty")
+                : null;
         }
-
-        $this->copyDirsAction->run($data);
 
         // go to the CRUD settings page
         return redirect()->route(

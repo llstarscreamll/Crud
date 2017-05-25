@@ -14,14 +14,14 @@ trait FolderNamesResolver
         return config('crudconfig.templates');
     }
 
-    public function outputDir()
-    {
-        return config('crudconfig.output_folder');
-    }
-
     public function codeOutputDir()
     {
         return $this->outputDir().'code/';
+    }
+
+    public function outputDir()
+    {
+        return config('crudconfig.output_folder');
     }
 
     public function optionsOutputDir()
@@ -61,16 +61,18 @@ trait FolderNamesResolver
     /**
      * Container base folders
      */
-    
-    public function portoContainersFolder()
-    {
-        return $this->codeOutputDir().'PortoContainers';
-    }
 
     public function containerFolder()
     {
         $container = $this->containerName();
         return $this->portoContainersFolder().'/'.$container;
+    }
+
+    public function portoContainersFolder()
+    {
+        // return $this->codeOutputDir().'PortoContainers';
+        // let's work over the real apiato containers dir
+        return app_path('Containers');
     }
 
     public function actionsFolder()

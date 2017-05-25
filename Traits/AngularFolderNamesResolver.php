@@ -144,7 +144,8 @@ trait AngularFolderNamesResolver
 
     public function moduleDir()
     {
-        return $this->angularDir().'/'.$this->slugModuleName();
+        // let's work on the real Angular app dir
+        return $this->request->get('angular_module_location').$this->slugModuleName();
     }
 
     public function modelsDir()
