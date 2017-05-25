@@ -152,19 +152,38 @@ class CreateCodeceptionTestsTask
 
     public function generateHelper()
     {
-        $template = $this->templatesDir().'.Porto.tests._support.Helper.-container-Helper';
         $fileName = str_replace('-container-', $this->containerName(), '-container-Helper.php');
         $filePath = $this->testsFolder().'/_support/Helper/'.$fileName;
-        
-        $fileContents = view($template, [
-            'gen' => $this,
-            'fields' => $this->parsedFields
-        ]);
+
+        $fileContents = $this->getHelperClassContents();
         
         $fileContents = $this->addMethodToHelper($fileContents);
         $fileContents = $this->addUseStatementsToHelperClass($fileContents);
 
         file_put_contents($filePath, $fileContents);
+    }
+
+    /**
+     * Returns the ContainerHelper class file contents if exists, or creates a
+     * new one otherwise.
+     *
+     * @return string
+     */
+    public function getHelperClassContents(): string
+    {
+        $fileName = str_replace('-container-', $this->containerName(), '-container-Helper.php');
+        $filePath = $this->testsFolder().'/_support/Helper/'.$fileName;
+
+        if (file_exists($filePath)) {
+            return file_get_contents($filePath);
+        }
+
+        $template = $this->templatesDir().'.Porto.tests._support.Helper.-container-Helper';
+        
+        return (string) view($template, [
+            'gen' => $this,
+            'fields' => $this->parsedFields
+        ]);
     }
 
     /**
