@@ -73,7 +73,7 @@ describe('{{ $cpmClass }}', () => {
   });
 
   it('should have certain html components', fakeAsync(() => {
-    spyOn(service, 'load').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
 
     fixture.detectChanges();
     tick();
@@ -94,7 +94,7 @@ describe('{{ $cpmClass }}', () => {
   }));
 
   it('should navigate on create btn click', fakeAsync(() => {
-    spyOn(service, 'load').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
 
     fixture.detectChanges();
     tick();
@@ -111,7 +111,7 @@ describe('{{ $cpmClass }}', () => {
   }));
 
   it('should show advanced search form on btn click', fakeAsync(() => {
-    spyOn(service, 'load').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
 
     fixture.detectChanges();
     tick();
