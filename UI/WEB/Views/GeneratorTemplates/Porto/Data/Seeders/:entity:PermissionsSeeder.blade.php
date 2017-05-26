@@ -18,33 +18,33 @@ class {{ $gen->entityName() }}PermissionsSeeder extends Seeder
         $permissions = collect([]);
 
         $permissions->push(Permission::create([
-            'name' => '{{ $gen->slugEntityName() }}.list_and_search',
+            'name' => '{{ $gen->slugEntityName(true) }}.list_and_search',
             'display_name' => '{{ trans('crud::templates.list_and_search') }} {{ strtolower($request->get('plural_entity_name')) }}',
         ]));
             
         $permissions->push(Permission::create([
-            'name' => '{{ $gen->slugEntityName() }}.create',
+            'name' => '{{ $gen->slugEntityName(true) }}.create',
             'display_name' => '{{ trans('crud::templates.create') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
             
         $permissions->push(Permission::create([
-            'name' => '{{ $gen->slugEntityName() }}.details',
+            'name' => '{{ $gen->slugEntityName(true) }}.details',
             'display_name' => '{{ trans('crud::templates.details') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
             
         $permissions->push(Permission::create([
-            'name' => '{{ $gen->slugEntityName() }}.update',
+            'name' => '{{ $gen->slugEntityName(true) }}.update',
             'display_name' => '{{ trans('crud::templates.edit') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
         
         $permissions->push(Permission::create([
-            'name' => '{{ $gen->slugEntityName() }}.delete',
+            'name' => '{{ $gen->slugEntityName(true) }}.delete',
             'display_name' => '{{ trans('crud::templates.delete') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
 @if ($gen->hasSoftDeleteColumn)
         
         $permissions->push(Permission::create([
-            'name' => '{{ $gen->slugEntityName() }}.restore',
+            'name' => '{{ $gen->slugEntityName(true) }}.restore',
             'display_name' => '{{ trans('crud::templates.restore') }} {{ strtolower($request->get('single_entity_name')) }}',
         ]));
 @endif

@@ -68,8 +68,8 @@ describe('{{ $cmpClass }}', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should make {{ $gen->entityName() }}Service load call on form submission', fakeAsync(() => {
-    spyOn(service, 'load').and.returnValue(Observable.from([{}]));
+  it('should make {{ $gen->entityName() }}Service paginate call on form submission', fakeAsync(() => {
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{}]));
     fixture.detectChanges();
 
     let searchField = fixture.nativeElement.querySelector('input[name=search]');
@@ -84,7 +84,7 @@ describe('{{ $cmpClass }}', () => {
     fixture.detectChanges();
     tick();
 
-    expect(service.load).toHaveBeenCalled();
+    expect(service.paginate).toHaveBeenCalled();
   }));
 
   it('should emit event on advanced search btn click', () => {    

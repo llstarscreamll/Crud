@@ -3,7 +3,7 @@
 namespace App\Containers\{{ $gen->containerName() }}\Tasks{{ $gen->solveGroupClasses() }};
 
 use App\Containers\{{ $gen->containerName() }}\Data\Repositories\{{ $repoClass = $gen->entityName().'Repository' }};
-use App\Containers\{{ $gen->containerName() }}\Data\Criterias{{ $gen->solveGroupClasses() }}\{{ $advencedSearchCriteria = str_replace('.php', '', $gen->criteriaFile('Advanced:entity:Search')) }};
+use App\Containers\{{ $gen->containerName() }}\Data\Criterias\{{ $advencedSearchCriteria = str_replace('.php', '', $gen->criteriaFile('Advanced:entity:Search')) }};
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Ship\Parents\Tasks\Task;
 

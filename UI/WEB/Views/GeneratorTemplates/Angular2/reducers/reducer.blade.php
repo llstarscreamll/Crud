@@ -155,26 +155,8 @@ const reducers = {
 export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
 export const get{{ $entity }}SearchQuery = createSelector(get{{ $entity }}State, from{{ $entity }}.getSearchQuery);
 export const get{{ studly_case($formModel) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getFormModel);
-export const get{{ $gen->entityName().'FormData' }} = createSelector(
-@foreach ($fields->unique('namespace') as $field)
-@if($field->namespace)
-  get{{ class_basename($field->namespace) }}List,
-@endif
-@endforeach
-  (
-@foreach ($fields->unique('namespace') as $field)
-@if($field->namespace)
-    {{ str_plural(class_basename($field->namespace)) }},
-@endif
-@endforeach
-  ) => ({
-@foreach ($fields->unique('namespace') as $field)
-@if($field->namespace)
-    {{ str_plural(class_basename($field->namespace)) }},
-@endif
-@endforeach
-  })
-);
+{{ !$gen->hasRelations ? '// ' : null }}export const get{{ $gen->entityName().'FormData' }} = createSelector(@foreach (($filteredFields = $fields->filter(function ($field) { return !empty($field->namespace); })->unique('namespace')) as $field){{ $field->namespace ? 'get'.class_basename($field->namespace).'List,' : null }}@endforeach
+(@foreach ($filteredFields as $field){{ $field->namespace ? str_plural(class_basename($field->namespace)).',' : null }}@endforeach) => ({ @foreach ($filteredFields as $field){{ $field->namespace ? str_plural(class_basename($field->namespace)).',' : null }}@endforeach }));
 export const get{{ $gen->entityName().'List' }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsList);
 export const get{{ studly_case($pagination) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsPagination);
 export const get{{ studly_case($selected) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getSelectedItem);

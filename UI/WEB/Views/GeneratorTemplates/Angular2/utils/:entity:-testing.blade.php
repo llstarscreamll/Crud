@@ -27,9 +27,6 @@ import { SERVICES } from './../services';
  * @author [name] <[<email address>]>
  */
 
-export const FORM_MODEL = {!! json_encode($gen->getFormModelConfigArray($fields)) !!};
-export const FORM_DATA = {};
-
 export let translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
 export let tableColumns = [
 @foreach ($fields as $field)
@@ -48,6 +45,13 @@ export let {{ $gen->entityName() }}List: {{ $model }}[] = [
 	{{ $gen->entityName() }}Two,
 ];
 @endif
+
+export const FORM_MODEL = {!! json_encode($gen->getFormModelConfigArray($fields)) !!};
+export const FORM_DATA = {
+@foreach ($fields->filter(function ($field) { return !empty($field->namespace); })->unique('namespace') as $field)
+	{{ str_plural(class_basename($field->namespace)) }}: [{ id: {{ $gen->entityName() }}One.{{ $field->name }}, text: {{ $gen->entityName() }}One.{{ $field->name }} }, { id: {{ $gen->entityName() }}Two.{{ $field->name }}, text: {{ $gen->entityName() }}Two.{{ $field->name }} },]
+@endforeach
+};
 
 // Mockbackend settings
 export function setupMockBackend(mockBackend: MockBackend) {

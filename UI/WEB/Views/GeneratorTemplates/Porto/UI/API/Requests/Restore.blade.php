@@ -19,7 +19,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Restore', $plural = false
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => '{{ $gen->slugEntityName() }}.restore',
+        'permissions' => '{{ $gen->slugEntityName(true) }}.restore',
     ];
 
     /**

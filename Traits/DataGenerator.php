@@ -40,6 +40,11 @@ trait DataGenerator
     public $groupMainApiatoClasses = false;
 
     /**
+     * @var boolean
+     */
+    public $hasRelations = false;
+
+    /**
      * @var string
      */
     public $primaryKey = '';
@@ -77,6 +82,7 @@ trait DataGenerator
             $fields[$field->name] = $field;
 
             // some data checks
+            !empty($field_data['namespace']) ? $this->hasRelations = true : null;
             $field_data['name'] == "created_at" ? ($this->hasCreatedAtColumn = true) : null;
             $field_data['name'] == "updated_at" ? ($this->hasUpdatedAtColumn = true) : null;
             $field_data['name'] == "deleted_at" ? ($this->hasSoftDeleteColumn = true) : null;

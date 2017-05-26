@@ -18,7 +18,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural =
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => '{{ $gen->slugEntityName() }}.list_and_search',
+        'permissions' => '{{ $gen->slugEntityName(true) }}.list_and_search',
     ];
 
     /**

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { Router, ActivatedRoute } from '@angular/router';
 import swal from 'sweetalert2';
+import { forOwn, isNull } from 'lodash';
 
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 import { AppMessage } from './../../../core/models/appMessage';
@@ -38,6 +39,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   // subscriptions
   protected activedRouteSubscription$: Subscription;
   protected formModelSubscription$: Subscription;
+  protected formDataSubscription$: Subscription;
   protected itemsListSubscription$: Subscription;
   protected searchQuerySubscription$: Subscription;
   protected selectedItemSubscription$: Subscription;
@@ -96,10 +98,13 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   protected swalOptions: any;
 
   /**
-   * Flag that tell as if the form is ready to be shown or not.
-   * @type boolean
+   * Flags that tell as if the form is ready to be shown or not.
+   * @type  boolean
    */
   public formReady: boolean = false;
+  public formModelReady: boolean = false;
+  public formDataReady: boolean = false;
+  public selectedItemReady: boolean = false;
 
   /**
    * Language key access.
@@ -142,7 +147,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
    */
   public setupStoreSelects() {
     this.formModel$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormModel' }});
-    this.formData$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
+    {{ !$gen->hasRelations ? '// ' : null }}this.formData$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
     this.searchQuery$ = this.store.select(fromRoot.get{{ $gen->entityName().'SearchQuery' }});
     this.itemsPagination$ = this.store.select(fromRoot.get{{ studly_case($gen->entityName(true)).'Pagination' }});
     this.selectedItem$ = this.store.select(fromRoot.get{{ 'Selected'.$gen->entityName() }});
@@ -150,6 +155,25 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
     this.messages$ = this.store.select(fromRoot.get{{ $gen->entityName().'Messages' }});
 
     this.searchQuerySubscription$ = this.searchQuery$.subscribe(query => this.searchQuery = query);
+  }
+
+  /**
+   * Handle the form data stuff.
+   */
+  public setupFormData() {
+    {{ !$gen->hasRelations ? "/* we have not form data" : '// form data' }}
+    this.formDataSubscription$ = this.formData$
+      .subscribe(data => {
+        if (data) {
+          let ready = false;
+          forOwn(data, (item) => {
+            ready = isNull(item) ? false : true;
+          });
+
+          this.formDataReady = ready;
+        }
+      });{{ !$gen->hasRelations ? '*/' : null }}
+    {{ !$gen->hasRelations ? 'this.formDataReady = true;' : null }}
   }
 
   /**
@@ -218,6 +242,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
     this.cleanMessages();
     this.activedRouteSubscription$ ? this.activedRouteSubscription$.unsubscribe() : null;
     this.formModelSubscription$ ? this.formModelSubscription$.unsubscribe() : null;
+    this.formDataSubscription$ ? this.formDataSubscription$.unsubscribe() : null;
     this.searchQuerySubscription$ ? this.searchQuerySubscription$.unsubscribe() : null;
     this.selectedItemSubscription$ ? this.selectedItemSubscription$.unsubscribe() : null;
   }

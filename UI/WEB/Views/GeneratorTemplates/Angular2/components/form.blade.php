@@ -67,23 +67,31 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
     // if form type is details|update, then download the {{ $gen->entityName() }} data from API by the given id
     this.loadSelectedItem();
     this.initForm();
-    this.setupForm();
+    this.setupFormData();
+    this.setupFormModel();
+  }
+
+  /**
+   * It's all the form stuff ready to be shown?
+   */
+  get ready(): boolean {
+    if (this.form && this.formReady && this.formModelReady && this.formDataReady && this.selectedItemReady) {
+      return true;
+    }
+    
+    return false;
   }
 
   /**
    * Parse the form model to form group.
    */
-  private setupForm() {
+  private setupFormModel() {
     this.formModelSubscription$ = this.formModel$
       .subscribe((model) => {
         if (model) {
           this.form = this.formModelParserService.toFormGroup(model, this.formType);
-
-          if (this.formType == 'details' || this.formType == 'edit') {
-            this.patchForm();
-          } else {
-            this.formReady = true;
-          }
+          this.patchForm();
+          this.formModelReady = true;
         }
       });
   }
@@ -92,13 +100,19 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
    * Patch the form group values with the selected item data.
    */
   private patchForm() {
-    this.selectedItemSubscription$ = this.selectedItem$
-      .subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
-        if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.selectedItemId)) {
-          this.form.patchValue({{ $model }});
-          this.formReady = true;
-        }
-      });
+    if (this.formType == 'details' || this.formType == 'edit') {
+      this.selectedItemSubscription$ = this.selectedItem$
+        .subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
+          if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.selectedItemId)) {
+            this.form.patchValue({{ $model }});
+            this.formReady = true;
+            this.selectedItemReady = true;
+          }
+        });
+      } else {
+        this.formReady = true;
+        this.selectedItemReady = true;
+      }
   }
 
   /**

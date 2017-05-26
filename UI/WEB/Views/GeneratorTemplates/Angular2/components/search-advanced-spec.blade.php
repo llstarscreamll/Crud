@@ -72,6 +72,12 @@ describe('{{ $cmpClass }}', () => {
     fixture.detectChanges();
     tick();
 
+    component.formDataReady = true;
+    component.formData$ = Observable.from([utils.FORM_DATA]);
+
+    fixture.detectChanges();
+    tick();
+
     let html = fixture.nativeElement;
 
     // should have app-alerts element
@@ -101,18 +107,22 @@ describe('{{ $cmpClass }}', () => {
 
   it('should make certains {{ $gen->entityName() }}Service calls on search form init', fakeAsync(() => {
     spyOn(service, 'getFormModel').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'getFormData').and.returnValue(Observable.from([{}]));
 
     fixture.detectChanges();
     tick();
 
     // should make form model/data api service calls
     expect(service.getFormModel).toHaveBeenCalled();
-    expect(service.getFormData).toHaveBeenCalled();
   }));
 
-  it('should make {{ $gen->entityName() }}Service load call on form submission', fakeAsync(() => {
-    spyOn(service, 'load').and.returnValue(Observable.from([{}]));
+  it('should make {{ $gen->entityName() }}Service paginate call on form submission', fakeAsync(() => {
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{}]));
+
+    fixture.detectChanges();
+    tick();
+
+    component.formDataReady = true;
+    component.formData$ = Observable.from([utils.FORM_DATA]);
 
     fixture.detectChanges();
     tick();
@@ -132,6 +142,6 @@ describe('{{ $cmpClass }}', () => {
 
     expect(component.form.get('search').get('id').value).toBe(testModel.id);
     expect(fixture.nativeElement.querySelector('[name=id]').value).toContain(testModel.id);
-    expect(service.load).toHaveBeenCalled();
+    expect(service.paginate).toHaveBeenCalled();
   }));
 });

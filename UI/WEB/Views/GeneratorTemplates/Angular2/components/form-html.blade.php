@@ -1,6 +1,6 @@
 <app-alerts [appMessage]="messages$ | async" (closed)="cleanMessages()"></app-alerts>
 
-<app-loader *ngIf="!(formModel$ | async) || !form || !formReady; else dynamicForm" loader="ball-grid-pulse">{{ '{{' }} langKey + 'loading_form' | translate }}</app-loader>
+<app-loader *ngIf="!ready; else dynamicForm" loader="ball-grid-pulse">{{ '{{' }} langKey + 'loading_form' | translate }}</app-loader>
 
 <ng-template #dynamicForm>
   <form

@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { isEmpty } from 'lodash';
+import { forOwn, isNull, isEmpty } from 'lodash';
 
 import * as fromRoot from './../../../reducers';
 import * as appMessage from './../../../core/reducers/app-message.reducer';
@@ -61,14 +61,15 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} exte
   public ngOnInit() {
     this.setupStoreSelects();
     this.initForm();
-    this.setupForm();
+    this.setupFormData();
+    this.setupFormModel();
   }
 
   /**
    * Parse the default form model to advanced search form model and parse the
    * last one to form group.
    */
-  private setupForm() {
+  private setupFormModel() {
     this.formModelSubscription$ = this.formModel$
       .subscribe((model) => {
         if (model) {
@@ -82,9 +83,17 @@ export class {{ $gen->componentClass('search-advanced', $plural = false) }} exte
           this.form.get('options').patchValue(this.searchQuery);
           this.form.get('search').patchValue(this.searchQuery);
 
-          this.formReady = true;
+          this.formModelReady = true;
         }
       });
+  }
+
+  get ready(): boolean {
+    if (this.form && this.formModelReady && this.formDataReady) {
+      return true;
+    }
+    
+    return false;
   }
 
   /**
