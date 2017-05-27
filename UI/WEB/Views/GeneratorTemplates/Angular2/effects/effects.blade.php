@@ -12,7 +12,7 @@ import * as appMsgActions from './../../core/actions/app-message.actions';
 import * as {{ $actions = camel_case($gen->entityName()) }} from './../actions/{{ $gen->slugEntityName() }}.actions';
 @foreach ($fields->unique('namespace') as $field)
 @if($field->namespace)
-import * as {{ camel_case(class_basename($field->namespace)) }} from './../../{{ $gen->slugModuleName() }}/actions/{{ str_slug(class_basename($field->namespace)) }}.actions';
+import * as {{ camel_case(class_basename($field->namespace)) }} from './../../{{ $gen->ngSlugModuleFromNamespace($field->namespace) }}/actions/{{ str_slug(snake_case(class_basename($field->namespace))) }}.actions';
 @endif
 @endforeach
 import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
