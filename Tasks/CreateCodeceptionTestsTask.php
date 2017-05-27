@@ -173,9 +173,8 @@ class CreateCodeceptionTestsTask
     }
 
     /**
-     * Add use statements to ContainerHelper class for the current gnerating
-     * entity based on namespaces provided. Add the models namespaces and entity
-     * permissions seeder.
+     * Add use statements to ContainerHelper class, mainly entity permissions
+     * seeder.
      *
      * @param string $helperFileContents
      * @return string
@@ -184,17 +183,6 @@ class CreateCodeceptionTestsTask
     {
         $search = "use Illuminate\Support\Facades\Artisan;";
         $seederNamespace = "use App\Containers\\".$this->containerName()."\Data\Seeders\\".$this->entityName()."PermissionsSeeder;";
-
-        foreach ($this->parsedFields->unique('namespace') as $field) {
-            if ($field->namespace) {
-                $modelNamespace = "use {$field->namespace};";
-
-                // add model namespace
-                if (strpos($helperFileContents, $modelNamespace) === false) {
-                    $helperFileContents = str_replace($search, $modelNamespace."\n".$search, $helperFileContents);
-                }
-            }
-        }
 
         // add entity seeder class namespace
         if (strpos($helperFileContents, $seederNamespace) === false) {

@@ -1,11 +1,16 @@
 <?= "<?php\n" ?>
 
+@foreach($fields->unique('namespace') as $field)
+@if ($field->namespace)
+use {{ $field->namespace }};
+@endif
+@endforeach
 use {{ $gen->entityModelNamespace() }};
 
 $factory->define({{ $gen->entityName() }}::class, function (Faker\Generator $faker) {
-@foreach($fields as $field)
+@foreach($fields->unique('namespace') as $field)
 @if ($field->namespace)
-    {{ $gen->variableFromNamespace($field->namespace, $singular = false) }} = {{ $field->namespace }}::all('id')->pluck('id')->toArray();
+    {{ $gen->variableFromNamespace($field->namespace, $singular = false) }} = factory({{ class_basename($field->namespace) }}::class, 2)->create()->pluck('id')->toArray();
 @endif
 @endforeach
 
