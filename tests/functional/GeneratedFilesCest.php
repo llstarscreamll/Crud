@@ -39,12 +39,12 @@ class GeneratedFilesCest
     {
         $I->wantTo('generate PORTO container and Angular Module');
 
-
         $data = Page::$formData;
 
         // copy the generated files to a folder
         $data['angular_module_location'] = $this->angularModuleLocation;
         $data['group_main_apiato_classes'] = true;
+        $data['generate_angular_module'] = true;
 
         $this->package = studly_case(str_singular($data['is_part_of_package']));
         $this->entity = studly_case(str_singular($data['table_name']));
@@ -58,7 +58,6 @@ class GeneratedFilesCest
         $I->submitForm('form[name=CRUD-form]', $data);
         $I->seeElement('.alert-success');
 
-        //$I->assertTrue(file_exists(storage_path('app/crud/code')), 'code output folder');
         $I->assertTrue(file_exists(storage_path('app/crud/options')), 'options output folder');
         $I->seeFileFound('books.php', storage_path('app/crud/options/'));
 
@@ -84,11 +83,10 @@ class GeneratedFilesCest
         $slugModule = str_slug($this->package, "-");
         $slugEntity = str_slug($this->entity, "-");
 
-        //$copyedModuleDir = storage_path('app/copyTest/Angular/'.$slugModule);
-        $copyedModuleDir = storage_path('app/copyTest/Angular/'.$slugModule);
+        $copyedModuleDir = $this->angularModuleLocation.$slugModule;
         $I->assertTrue(file_exists($copyedModuleDir), 'Angular copied dir');
 
-        $moduleDir = storage_path("app/crud/code/Angular2/{$slugModule}/");
+        $moduleDir = $this->angularModuleLocation.$slugModule.'/';
         $I->assertTrue(file_exists($moduleDir), 'NG Module dir');
 
         $I->seeFileFound($slugModule.'.module.ts', $moduleDir);
