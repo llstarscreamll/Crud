@@ -19,7 +19,7 @@ class RestoreBookRequest extends Request
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => 'book.restore',
+        'permissions' => 'books.restore',
     ];
 
     /**

@@ -76,6 +76,12 @@ describe('BookFormComponent', () => {
     fixture.detectChanges();
     tick();
 
+    component.formDataReady = true;
+    component.formData$ = Observable.from([utils.FORM_DATA]);
+
+    fixture.detectChanges();
+    tick();
+
     expect(component.formType).toBe('create');
     expect(fixture.nativeElement.querySelector('form')).not.toBeNull('create form should exists');
 
@@ -100,6 +106,12 @@ describe('BookFormComponent', () => {
 
   it('should have certain elements on details form', fakeAsync(() => {
     component.formType = 'details';
+
+    fixture.detectChanges();
+    tick();
+
+    component.formDataReady = true;
+    component.formData$ = Observable.from([utils.FORM_DATA]);
 
     fixture.detectChanges();
     tick();
@@ -131,6 +143,12 @@ describe('BookFormComponent', () => {
 
   it('should have certain elements on edit form', fakeAsync(() => {
     component.formType = 'edit';
+
+    fixture.detectChanges();
+    tick();
+
+    component.formDataReady = true;
+    component.formData$ = Observable.from([utils.FORM_DATA]);
 
     fixture.detectChanges();
     tick();
@@ -169,7 +187,6 @@ describe('BookFormComponent', () => {
 
   it('should make certains BookService calls on create form init', fakeAsync(() => {
     spyOn(service, 'getFormModel').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'getFormData').and.returnValue(Observable.from([{}]));
     component.formType = 'create';
 
     fixture.detectChanges();
@@ -177,13 +194,11 @@ describe('BookFormComponent', () => {
 
     // should make form model/data api service calls
     expect(service.getFormModel).toHaveBeenCalled();
-    expect(service.getFormData).toHaveBeenCalled();
   }));
 
   it('should make certains BookService calls on details form init', fakeAsync(() => {
     spyOn(service, 'getFormModel').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'getFormData').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'get').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'getById').and.returnValue(Observable.from([{}]));
     component.formType = 'details';
 
     fixture.detectChanges();
@@ -191,14 +206,12 @@ describe('BookFormComponent', () => {
 
     // should make form model/data/item api service calls
     expect(service.getFormModel).toHaveBeenCalled();
-    expect(service.getFormData).toHaveBeenCalled();
     expect(service.getById).toHaveBeenCalled();
   }));
 
   it('should make certains BookService calls on edit form init', fakeAsync(() => {
     spyOn(service, 'getFormModel').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'getFormData').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'get').and.returnValue(Observable.from([{}]));
+    spyOn(service, 'getById').and.returnValue(Observable.from([{}]));
     component.formType = 'edit';
 
     fixture.detectChanges();
@@ -206,7 +219,6 @@ describe('BookFormComponent', () => {
 
     // should make form model/data/item api service calls
     expect(service.getFormModel).toHaveBeenCalled();
-    expect(service.getFormData).toHaveBeenCalled();
     expect(service.getById).toHaveBeenCalled();
   }));
 
@@ -214,6 +226,12 @@ describe('BookFormComponent', () => {
     spyOn(service, 'create').and.returnValue(Observable.from([{}]));
     spyOn(service, 'getMessage');
     component.formType = 'create';
+
+    fixture.detectChanges();
+    tick();
+
+    component.formDataReady = true;
+    component.formData$ = Observable.from([utils.FORM_DATA]);
 
     fixture.detectChanges();
     tick();
@@ -242,6 +260,12 @@ describe('BookFormComponent', () => {
 
     fixture.detectChanges();
     tick();
+
+    component.formDataReady = true;
+    component.formData$ = Observable.from([utils.FORM_DATA]);
+
+    fixture.detectChanges();
+    tick();
     
     expect(component.form.valid).toBe(true);
     fixture.nativeElement.querySelector('form button.edit-row').click();
@@ -258,6 +282,12 @@ describe('BookFormComponent', () => {
     spyOn(service, 'delete').and.returnValue(Observable.from([{}]));
     spyOn(service, 'getMessage');
     component.formType = 'details';
+
+    fixture.detectChanges();
+    tick();
+
+    component.formDataReady = true;
+    component.formData$ = Observable.from([utils.FORM_DATA]);
 
     fixture.detectChanges();
     tick();
@@ -280,6 +310,12 @@ describe('BookFormComponent', () => {
 
   it('should navigate when show all btn clicked', fakeAsync(() => {
     component.formType = 'details';
+
+    fixture.detectChanges();
+    tick();
+
+    component.formDataReady = true;
+    component.formData$ = Observable.from([utils.FORM_DATA]);
 
     fixture.detectChanges();
     tick();

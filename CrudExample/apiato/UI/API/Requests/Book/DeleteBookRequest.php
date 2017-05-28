@@ -19,7 +19,7 @@ class DeleteBookRequest extends Request
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => 'book.delete',
+        'permissions' => 'books.delete',
     ];
 
     /**

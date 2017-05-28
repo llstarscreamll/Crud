@@ -70,20 +70,18 @@ describe('BooksTableComponent', () => {
   });
 
   it('should make certain BookService calls on ngOnInit', fakeAsync(() => {
-    spyOn(service, 'load').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
     spyOn(service, 'getFormModel').and.returnValue(Observable.from([{}]));
-    spyOn(service, 'getFormData').and.returnValue(Observable.from([{}]));
 
     fixture.detectChanges();
     tick();
 
-    expect(service.load).toHaveBeenCalled();
+    expect(service.paginate).toHaveBeenCalled();
     expect(service.getFormModel).not.toHaveBeenCalled();
-    expect(service.getFormData).not.toHaveBeenCalled();
   }));
 
   it('should show alert msg on empty list', fakeAsync(() => {
-    spyOn(service, 'load').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
 
     fixture.detectChanges();
     tick();
@@ -95,7 +93,7 @@ describe('BooksTableComponent', () => {
   }));
 
   it('should have a table', fakeAsync(() => {
-    spyOn(service, 'load').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: [], pagination: {}}])); // empty data
 
     fixture.detectChanges();
     tick();
@@ -127,7 +125,7 @@ describe('BooksTableComponent', () => {
   }));
 
   it('should have body table with action links/buttons', fakeAsync(() => {
-    spyOn(service, 'load').and.returnValue(Observable.from([{data: utils.BookList, pagination: {}}]));
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: utils.BookList, pagination: {}}]));
 
     fixture.detectChanges();
     tick();
@@ -141,7 +139,7 @@ describe('BooksTableComponent', () => {
   }));
 
   it('should emit event/navigate on links click', fakeAsync(() => {
-    spyOn(service, 'load').and.returnValue(Observable.from([{data: utils.BookList, pagination: {}}]));
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: utils.BookList, pagination: {}}]));
     spyOn(router, 'navigateByUrl');
 
     fixture.detectChanges();

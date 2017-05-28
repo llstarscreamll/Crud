@@ -18,7 +18,7 @@ class ListAndSearchBooksRequest extends Request
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => 'book.list_and_search',
+        'permissions' => 'books.list_and_search',
     ];
 
     /**

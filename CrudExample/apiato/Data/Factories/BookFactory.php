@@ -1,10 +1,12 @@
 <?php
 
+use App\Containers\Reason\Models\Reason;
+use App\Containers\User\Models\User;
 use App\Containers\Library\Models\Book;
 
 $factory->define(Book::class, function (Faker\Generator $faker) {
-    $reasons = App\Containers\Reason\Models\Reason::all('id')->pluck('id')->toArray();
-    $users = App\Containers\User\Models\User::all('id')->pluck('id')->toArray();
+    $reasons = factory(Reason::class, 2)->create()->pluck('id')->toArray();
+    $users = factory(User::class, 2)->create()->pluck('id')->toArray();
 
     return [
         'reason_id' => $faker->randomElement($reasons),

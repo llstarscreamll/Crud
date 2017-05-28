@@ -2,8 +2,6 @@
 
 namespace Library\Helper;
 
-use App\Containers\Reason\Models\Reason;
-use App\Containers\User\Models\User;
 use App\Containers\Library\Data\Seeders\BookPermissionsSeeder;
 use Illuminate\Support\Facades\Artisan;
 
@@ -22,8 +20,7 @@ class LibraryHelper extends \Codeception\Module
     public function initBookData()
     {
         Artisan::call('db:seed', ['--class' => BookPermissionsSeeder::class]);
-        factory(Reason::class, 3)->create();
-        factory(User::class, 3)->create();
+        // more stuff here
     }
 
 }

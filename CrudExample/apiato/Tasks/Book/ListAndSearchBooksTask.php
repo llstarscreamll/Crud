@@ -3,7 +3,7 @@
 namespace App\Containers\Library\Tasks\Book;
 
 use App\Containers\Library\Data\Repositories\BookRepository;
-use App\Containers\Library\Data\Criterias\Book\AdvancedBookSearchCriteria;
+use App\Containers\Library\Data\Criterias\AdvancedBookSearchCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Ship\Parents\Tasks\Task;
 

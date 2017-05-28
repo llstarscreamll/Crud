@@ -17,32 +17,32 @@ class BookPermissionsSeeder extends Seeder
         $permissions = collect([]);
 
         $permissions->push(Permission::create([
-            'name' => 'book.list_and_search',
+            'name' => 'books.list_and_search',
             'display_name' => 'List and search libros',
         ]));
             
         $permissions->push(Permission::create([
-            'name' => 'book.create',
+            'name' => 'books.create',
             'display_name' => 'Create libro',
         ]));
             
         $permissions->push(Permission::create([
-            'name' => 'book.details',
+            'name' => 'books.details',
             'display_name' => 'Details libro',
         ]));
             
         $permissions->push(Permission::create([
-            'name' => 'book.update',
+            'name' => 'books.update',
             'display_name' => 'Edit libro',
         ]));
         
         $permissions->push(Permission::create([
-            'name' => 'book.delete',
+            'name' => 'books.delete',
             'display_name' => 'Delete libro',
         ]));
         
         $permissions->push(Permission::create([
-            'name' => 'book.restore',
+            'name' => 'books.restore',
             'display_name' => 'Restore libro',
         ]));
     

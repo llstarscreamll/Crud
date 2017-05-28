@@ -160,17 +160,7 @@ const reducers = {
 export const getBookState = (state: State) => state.book;
 export const getBookSearchQuery = createSelector(getBookState, fromBook.getSearchQuery);
 export const getBookFormModel = createSelector(getBookState, fromBook.getFormModel);
-export const getBookFormData = createSelector(
-  getReasonList,
-  getUserList,
-  (
-    Reasons,
-    Users,
-  ) => ({
-    Reasons,
-    Users,
-  })
-);
+export const getBookFormData = createSelector(getReasonList,getUserList,(Reasons,Users,) => ({ Reasons,Users, }));
 export const getBookList = createSelector(getBookState, fromBook.getItemsList);
 export const getBooksPagination = createSelector(getBookState, fromBook.getItemsPagination);
 export const getSelectedBook = createSelector(getBookState, fromBook.getSelectedItem);

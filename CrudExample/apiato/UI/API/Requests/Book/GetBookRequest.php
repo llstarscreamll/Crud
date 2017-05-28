@@ -18,7 +18,7 @@ class GetBookRequest extends Request
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => 'book.details',
+        'permissions' => 'books.details',
     ];
 
     /**

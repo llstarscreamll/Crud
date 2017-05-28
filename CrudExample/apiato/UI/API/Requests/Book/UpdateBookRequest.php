@@ -18,7 +18,7 @@ class UpdateBookRequest extends Request
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => 'book.update',
+        'permissions' => 'books.update',
     ];
 
     /**
