@@ -49,7 +49,7 @@ export let {{ $gen->entityName() }}List: {{ $model }}[] = [
 export const FORM_MODEL = {!! json_encode($gen->getFormModelConfigArray($fields)) !!};
 export const FORM_DATA = {
 @foreach ($fields->filter(function ($field) { return !empty($field->namespace); })->unique('namespace') as $field)
-	{{ str_plural(class_basename($field->namespace)) }}: [{ id: {{ $gen->entityName() }}One.{{ $field->name }}, text: {{ $gen->entityName() }}One.{{ $field->name }} }, { id: {{ $gen->entityName() }}Two.{{ $field->name }}, text: {{ $gen->entityName() }}Two.{{ $field->name }} },]
+	{{ str_plural(class_basename($field->namespace)) }}: [{ id: {{ $gen->entityName() }}One.{{ $field->name }}, text: {{ $gen->entityName() }}One.{{ $field->name }} }, { id: {{ $gen->entityName() }}Two.{{ $field->name }}, text: {{ $gen->entityName() }}Two.{{ $field->name }} },],
 @endforeach
 };
 
