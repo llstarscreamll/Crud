@@ -50,8 +50,8 @@ export class {{ $entitySin }}Effects extends Effects {
     .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
     .switchMap(([action, state]) => {
       // prevent API call if we have the form model already
-      if (state.{{ camel_case($gen->entityName()) }}FormModel !== null) {
-        return of(new {{ $actions }}.GetFormModelSuccessAction(state.{{ camel_case($gen->entityName()) }}FormModel));
+      if (state.formModel !== null) {
+        return of(new {{ $actions }}.GetFormModelSuccessAction(state.formModel));
       }
 
       return this.{{ $service }}.getFormModel()
@@ -115,6 +115,8 @@ export class {{ $entitySin }}Effects extends Effects {
       return this.{{ $service }}.create(payload.item)
         .mergeMap((createdItem: {{ $entitySin }}) => {
           actions.push(
+            // this will refresh the list if anybody needs it later
+            new {{ $actions }}.ListSuccessAction(null),
             new {{ $actions }}.SetSelectedAction(createdItem),
             new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('create_success'))
           );
@@ -134,8 +136,8 @@ export class {{ $entitySin }}Effects extends Effects {
     .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
     .switchMap(([action, state]) => {
       // prevent API call if we have the selected item object in the store already
-      if (state.selected{{ $gen->entityName() }} && action.payload == state.selected{{ $gen->entityName() }}.id) {
-        return of(new {{ $actions }}.SetSelectedAction(state.selected{{ $gen->entityName() }}));
+      if (state.selected && action.payload == state.selected.id) {
+        return of(new {{ $actions }}.SetSelectedAction(state.selected));
       }
 
       return this.{{ $service }}.getById(action.payload)
@@ -173,6 +175,8 @@ export class {{ $entitySin }}Effects extends Effects {
       return this.{{ $service }}.update(payload.id, payload.item)
         .mergeMap((updatedItem: {{ $entitySin }}) => {
           actions.push(
+            // this will refresh the list if anybody needs it later
+            new {{ $actions }}.ListSuccessAction(null),
             new {{ $actions }}.SetSelectedAction(updatedItem),
             new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('update_success'))
           );
@@ -195,6 +199,8 @@ export class {{ $entitySin }}Effects extends Effects {
       return this.{{ $service }}.delete(action.id)
         .mergeMap(() => {
           let actions = [
+            // this will refresh the list if anybody needs it later
+            new {{ $actions }}.ListSuccessAction(null),
             new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('delete_success')),
             go(['{{ $gen->slugEntityName() }}'])
           ];

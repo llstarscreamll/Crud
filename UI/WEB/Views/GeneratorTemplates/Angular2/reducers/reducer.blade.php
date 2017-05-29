@@ -11,20 +11,20 @@ import { SearchQuery } from './../components/{{ $gen->slugEntityName() }}/{{ str
  * @author [name] <[<email address>]>
  */
 export interface State {
-  {{ $formModel = camel_case($gen->entityName()).'FormModel' }}: Object;
+  formModel: Object;
   list: Array<any>;
-  {{ $pagination = camel_case($gen->entityName(true)).'Pagination' }}: {{ $gen->entityName() }}Pagination | null;
-  {{ $selected = 'selected'.$gen->entityName() }}: {{ $gen->entityName() }} | null;
+  pagination: {{ $gen->entityName() }}Pagination | null;
+  selected: {{ $gen->entityName() }} | null;
   searchQuery: SearchQuery;
   loading: boolean;
   messages: AppMessage;
 }
 
 const initialState: State = {
-  {{ $formModel }}: null,
-  {{ $pagination }}: null,
+  formModel: null,
+  pagination: null,
   list: null,
-  {{ $selected }}: null,
+  selected: null,
   searchQuery: {
     // columns to retrive from API
     filter: [
@@ -59,7 +59,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.GET_FORM_MODEL_SUCCESS: {
-      return { ...state, {{ camel_case($gen->entityName()) }}FormModel: action.payload, loading: false };
+      return { ...state, formModel: action.payload, loading: false };
     }
 
     case {{ $actions }}.SET_SEARCH_QUERY: {
@@ -72,7 +72,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.PAGINATE_SUCCESS: {
-      return { ...state, {{ $pagination }}: action.payload as {{ $paginationModel }}, loading: false };
+      return { ...state, pagination: action.payload as {{ $paginationModel }}, loading: false };
     }
 
     case {{ $actions }}.LIST: {
@@ -104,7 +104,7 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.SET_SELECTED: {
-      return { ...state, selected{{ $gen->entityName() }}: action.payload as {{ $entitySin }}, loading: false };
+      return { ...state, selected: action.payload as {{ $entitySin }}, loading: false };
     }
 
     case {{ $actions }}.SET_MESSAGES: {
@@ -130,11 +130,11 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
   }
  }
 
-export const getFormModel = (state: State) => state.{{ $formModel }};
+export const getFormModel = (state: State) => state.formModel;
 export const getLoading = (state: State) => state.{{ 'loading' }};
 export const getItemsList = (state: State) => state.list;
-export const getItemsPagination = (state: State) => state.{{ $pagination }};
-export const getSelectedItem = (state: State) => state.{{ $selected }};
+export const getItemsPagination = (state: State) => state.pagination;
+export const getSelectedItem = (state: State) => state.selected;
 export const getSearchQuery = (state: State) => state.searchQuery;
 export const getMessages = (state: State) => state.messages;
 
@@ -154,12 +154,12 @@ const reducers = {
 // {{ $gen->entityName() }} selectors
 export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
 export const get{{ $entity }}SearchQuery = createSelector(get{{ $entity }}State, from{{ $entity }}.getSearchQuery);
-export const get{{ studly_case($formModel) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getFormModel);
+export const get{{ $entity }}FormModel = createSelector(get{{ $entity }}State, from{{ $entity }}.getFormModel);
 {{ !$gen->hasRelations ? '// ' : null }}export const get{{ $gen->entityName().'FormData' }} = createSelector(@foreach (($filteredFields = $fields->filter(function ($field) { return !empty($field->namespace); })->unique('namespace')) as $field){{ $field->namespace ? 'get'.class_basename($field->namespace).'List,' : null }}@endforeach
 (@foreach ($filteredFields as $field){{ $field->namespace ? str_plural(class_basename($field->namespace)).',' : null }}@endforeach) => ({ @foreach ($filteredFields as $field){{ $field->namespace ? str_plural(class_basename($field->namespace)).',' : null }}@endforeach }));
-export const get{{ $gen->entityName().'List' }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsList);
-export const get{{ studly_case($pagination) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsPagination);
-export const get{{ studly_case($selected) }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getSelectedItem);
+export const get{{ $entity.'List' }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsList);
+export const get{{ $entity }}Pagination = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsPagination);
+export const get{{ $entity }}Selected = createSelector(get{{ $entity }}State, from{{ $entity }}.getSelectedItem);
 export const get{{ $gen->entityName().'Loading' }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getLoading);
 export const get{{ $gen->entityName().'Messages' }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getMessages);
 
