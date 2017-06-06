@@ -33,7 +33,7 @@
 @if (!$field->hidden)
           <td *ngIf="showColumn('{{ $gen->tableName.'.'.$field->name }}')" class="{{ $field->name }}">
 @if ($field->namespace)
-            {{ '{{' }} {{ $var }}?.{{  $gen->relationNameFromField($field)  }}?.data?.name }}
+            {{ '{{' }} {{ $var }}?.{{  $gen->relationNameFromField($field)  }}?.data.name }}
 @else
             {{ '{{' }} {{ $var }}?.{{ $field->name }} }}
 @endif
@@ -42,6 +42,7 @@
 @endforeach
           <td class="actions">
             <a
+              userCan="{{ $gen->slugEntityName(true) }}.details"
               [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'details']"
               tooltip="{{ '{{' }} langKey + 'details' | translate }}"
               class="btn btn-sm btn-default details-link">
@@ -51,6 +52,7 @@
 
             <a
               {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
+              userCan="{{ $gen->slugEntityName(true) }}.update"
               [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'edit']"
               tooltip="{{ '{{' }} langKey + 'edit' | translate }}"
               class="btn btn-sm btn-default edit-link">
@@ -60,6 +62,7 @@
             
             <a
               {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
+              userCan="{{ $gen->slugEntityName(true) }}.delete"
               class="btn btn-sm btn-default delete-link"
               role="button"
               tooltip="{{ '{{' }} langKey + 'delete' | translate }}"
