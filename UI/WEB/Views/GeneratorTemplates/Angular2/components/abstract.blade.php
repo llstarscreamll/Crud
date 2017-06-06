@@ -165,7 +165,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
     this.formDataSubscription$ = this.formData$
       .subscribe(data => {
         if (data) {
-          let ready = false;
+          let ready = true;
           
           forOwn(data, (item) => {
             if (isNull(item)) {
