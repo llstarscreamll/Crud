@@ -22,6 +22,7 @@
     <div class="form-group">
       <button
         *ngIf="formType == 'create'"
+        userCan="books.create"
         class="btn create-row"
         type="submit"
         [disabled]="!form.valid || (loading$ | async)"
@@ -32,6 +33,7 @@
 
       <button
         *ngIf="(formType == 'edit' || formType == 'details') && !(selectedItem$ | async)?.deleted_at"
+        userCan="books.update"
         class="btn edit-row"
         type="submit"
         [disabled]="!form.valid || (loading$ | async)"
@@ -42,6 +44,7 @@
 
       <button
         *ngIf="(formType == 'edit' || formType == 'details') && !(selectedItem$ | async)?.deleted_at"
+        userCan="books.delete"
         [disabled]="!selectedItemId || (loading$ | async)"
         (click)="deleteRow(selectedItemId)"
         type="button"
@@ -50,7 +53,8 @@
         <span class="btn-label" translate>BOOK.delete</span>
       </button>
 
-      <a  class="btn btn-default show-all-rows" 
+      <a  class="btn btn-default show-all-rows"
+        userCan="books.list_and_search"
         [routerLink]="['/book']">
         <i class="glyphicon glyphicon-th-list"></i>
         <span class="btn-label" translate>BOOK.see_all</span>

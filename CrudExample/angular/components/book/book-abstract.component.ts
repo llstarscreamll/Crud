@@ -176,8 +176,12 @@ export abstract class BookAbstractComponent {
       .subscribe(data => {
         if (data) {
           let ready = false;
+          
           forOwn(data, (item) => {
-            ready = isNull(item) ? false : true;
+            if (isNull(item)) {
+              ready = false;
+              return false;
+            }
           });
 
           this.formDataReady = ready;

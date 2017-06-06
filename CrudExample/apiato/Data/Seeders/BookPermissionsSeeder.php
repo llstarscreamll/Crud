@@ -23,27 +23,27 @@ class BookPermissionsSeeder extends Seeder
             
         $permissions->push(Permission::create([
             'name' => 'books.create',
-            'display_name' => 'Create libro',
+            'display_name' => 'Create libros',
         ]));
             
         $permissions->push(Permission::create([
             'name' => 'books.details',
-            'display_name' => 'Details libro',
+            'display_name' => 'Details libros',
         ]));
             
         $permissions->push(Permission::create([
             'name' => 'books.update',
-            'display_name' => 'Edit libro',
+            'display_name' => 'Edit libros',
         ]));
         
         $permissions->push(Permission::create([
             'name' => 'books.delete',
-            'display_name' => 'Delete libro',
+            'display_name' => 'Delete libros',
         ]));
         
         $permissions->push(Permission::create([
             'name' => 'books.restore',
-            'display_name' => 'Restore libro',
+            'display_name' => 'Restore libros',
         ]));
     
     Role::where('name', 'admin')->first()->givePermissionTo($permissions);

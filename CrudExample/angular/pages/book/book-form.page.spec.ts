@@ -2,7 +2,6 @@
 import { async, ComponentFixture, fakeAsync, TestBed, getTestBed, inject, tick } from '@angular/core/testing';
 import { Location } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Http } from '@angular/http';
 import { Store, StoreModule } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MockBackend, MockConnection } from '@angular/http/testing';
@@ -31,7 +30,6 @@ describe('BookFormPage', () => {
   let router: Router;
   let location: Location;
   let service: BookService;
-  let http: Http;
   let testModel: Book = utils.BookOne;
 
   beforeEach(async(() => {
@@ -51,7 +49,6 @@ describe('BookFormPage', () => {
     store = getTestBed().get(Store);
     router = getTestBed().get(Router);
     location = getTestBed().get(Location);
-    http = getTestBed().get(Http);
     service = getTestBed().get(BookService);
 
     mockBackend = getTestBed().get(MockBackend);

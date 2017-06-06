@@ -127,7 +127,7 @@
             {{ book?.id }}
           </td>
           <td *ngIf="showColumn('books.reason_id')" class="reason_id">
-            {{ book?.reason?.data?.name }}
+            {{ book?.reason?.data.name }}
           </td>
           <td *ngIf="showColumn('books.name')" class="name">
             {{ book?.name }}
@@ -157,7 +157,7 @@
             {{ book?.approved_at }}
           </td>
           <td *ngIf="showColumn('books.approved_by')" class="approved_by">
-            {{ book?.approvedBy?.data?.name }}
+            {{ book?.approvedBy?.data.name }}
           </td>
           <td *ngIf="showColumn('books.created_at')" class="created_at">
             {{ book?.created_at }}
@@ -170,6 +170,7 @@
           </td>
           <td class="actions">
             <a
+              userCan="books.details"
               [routerLink]="[ '/book', book.id, 'details']"
               tooltip="{{ langKey + 'details' | translate }}"
               class="btn btn-sm btn-default details-link">
@@ -179,6 +180,7 @@
 
             <a
               *ngIf="!book.deleted_at"
+              userCan="books.update"
               [routerLink]="[ '/book', book.id, 'edit']"
               tooltip="{{ langKey + 'edit' | translate }}"
               class="btn btn-sm btn-default edit-link">
@@ -188,6 +190,7 @@
             
             <a
               *ngIf="!book.deleted_at"
+              userCan="books.delete"
               class="btn btn-sm btn-default delete-link"
               role="button"
               tooltip="{{ langKey + 'delete' | translate }}"
