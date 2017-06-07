@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { TranslateService } from '@ngx-translate/core';
 
-import { Service } from './../../core/services/abstract.service';
+import { AbstractService } from './../../core/services/abstract.service';
 import { LocalStorageService } from './../../core/services/local-storage.service';
 import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ camel_case($entitySin)."Pagination" }}';
 import { {{ $entitySin }} } from './../models/{{ camel_case($entitySin) }}';
@@ -16,7 +16,7 @@ import { AppMessage } from './../../core/models/appMessage';
  * @author [name] <[<email address>]>
  */
 @Injectable()
-export class {{ $entitySin }}Service extends Service {
+export class {{ $entitySin }}Service extends AbstractService {
 	/**
    * API endpoint.
    * @type string
