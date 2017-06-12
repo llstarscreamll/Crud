@@ -8,7 +8,6 @@ import { forOwn, isNull } from 'lodash';
 
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 import { AppMessage } from './../../../core/models/appMessage';
-import * as appMessage from './../../../core/reducers/app-message.reducer';
 import * as fromRoot from './../../../reducers';
 
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
@@ -149,8 +148,8 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
     this.formModel$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormModel' }});
     {{ !$gen->hasRelations ? '// ' : null }}this.formData$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
     this.searchQuery$ = this.store.select(fromRoot.get{{ $gen->entityName().'SearchQuery' }});
-    this.itemsPagination$ = this.store.select(fromRoot.get{{ studly_case($gen->entityName(true)).'Pagination' }});
-    this.selectedItem$ = this.store.select(fromRoot.get{{ 'Selected'.$gen->entityName() }});
+    this.itemsPagination$ = this.store.select(fromRoot.get{{ studly_case($gen->entityName(false)).'Pagination' }});
+    this.selectedItem$ = this.store.select(fromRoot.get{{ $gen->entityName().'Selected' }});
     this.loading$ = this.store.select(fromRoot.get{{ $gen->entityName().'Loading' }});
     this.messages$ = this.store.select(fromRoot.get{{ $gen->entityName().'Messages' }});
 
