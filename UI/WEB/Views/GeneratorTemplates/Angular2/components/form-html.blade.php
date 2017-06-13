@@ -10,7 +10,7 @@
 
     <dynamic-form-fields
       *ngIf="formReady"
-      class="dynamic-form-fields row"
+      class="row"
       [form]="form"
       [formModel]="formModel$ | async"
       [formData]="formData$ | async"
