@@ -8,7 +8,6 @@ import { empty } from 'rxjs/observable/empty';
 import 'rxjs/add/operator/withLatestFrom';
 
 import * as fromRoot from './../../reducers';
-import * as appMsgActions from './../../core/actions/app-message.actions';
 import * as book from './../actions/book.actions';
 import * as reason from './../../reason/actions/reason.actions';
 import * as user from './../../user/actions/user.actions';
@@ -47,8 +46,8 @@ export class BookEffects extends Effects {
     .withLatestFrom(this.store.select(fromRoot.getBookState))
     .switchMap(([action, state]) => {
       // prevent API call if we have the form model already
-      if (state.bookFormModel !== null) {
-        return of(new book.GetFormModelSuccessAction(state.bookFormModel));
+      if (state.formModel !== null) {
+        return of(new book.GetFormModelSuccessAction(state.formModel));
       }
 
       return this.bookService.getFormModel()
@@ -109,6 +108,8 @@ export class BookEffects extends Effects {
       return this.bookService.create(payload.item)
         .mergeMap((createdItem: Book) => {
           actions.push(
+            // this will refresh the list if anybody needs it later
+            new book.ListSuccessAction(null),
             new book.SetSelectedAction(createdItem),
             new book.SetMessagesAction(this.bookService.getMessage('create_success'))
           );
@@ -128,8 +129,8 @@ export class BookEffects extends Effects {
     .withLatestFrom(this.store.select(fromRoot.getBookState))
     .switchMap(([action, state]) => {
       // prevent API call if we have the selected item object in the store already
-      if (state.selectedBook && action.payload == state.selectedBook.id) {
-        return of(new book.SetSelectedAction(state.selectedBook));
+      if (state.selected && action.payload == state.selected.id) {
+        return of(new book.SetSelectedAction(state.selected));
       }
 
       return this.bookService.getById(action.payload)
@@ -165,6 +166,8 @@ export class BookEffects extends Effects {
       return this.bookService.update(payload.id, payload.item)
         .mergeMap((updatedItem: Book) => {
           actions.push(
+            // this will refresh the list if anybody needs it later
+            new book.ListSuccessAction(null),
             new book.SetSelectedAction(updatedItem),
             new book.SetMessagesAction(this.bookService.getMessage('update_success'))
           );
@@ -187,6 +190,8 @@ export class BookEffects extends Effects {
       return this.bookService.delete(action.id)
         .mergeMap(() => {
           let actions = [
+            // this will refresh the list if anybody needs it later
+            new book.ListSuccessAction(null),
             new book.SetMessagesAction(this.bookService.getMessage('delete_success')),
             go(['book'])
           ];

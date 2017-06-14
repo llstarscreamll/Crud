@@ -6,7 +6,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { go } from '@ngrx/router-store';
 
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
-import * as appMessage from './../../../core/reducers/app-message.reducer';
 import * as fromRoot from './../../../reducers';
 import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
@@ -103,7 +102,7 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
     if (this.formType == 'details' || this.formType == 'edit') {
       this.selectedItemSubscription$ = this.selectedItem$
         .subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
-          if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id.includes(this.selectedItemId)) {
+          if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id == this.selectedItemId) {
             this.form.patchValue({{ $model }});
             this.formReady = true;
             this.selectedItemReady = true;

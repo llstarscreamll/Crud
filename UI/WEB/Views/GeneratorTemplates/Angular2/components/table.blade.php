@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
 import * as fromRoot from './../../../reducers';
-import * as appMessage from './../../../core/reducers/app-message.reducer';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
 

@@ -8,7 +8,6 @@ import { forOwn, isNull } from 'lodash';
 
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 import { AppMessage } from './../../../core/models/appMessage';
-import * as appMessage from './../../../core/reducers/app-message.reducer';
 import * as fromRoot from './../../../reducers';
 
 import * as bookActions from './../../actions/book.actions';
@@ -159,8 +158,8 @@ export abstract class BookAbstractComponent {
     this.formModel$ = this.store.select(fromRoot.getBookFormModel);
     this.formData$ = this.store.select(fromRoot.getBookFormData);
     this.searchQuery$ = this.store.select(fromRoot.getBookSearchQuery);
-    this.itemsPagination$ = this.store.select(fromRoot.getBooksPagination);
-    this.selectedItem$ = this.store.select(fromRoot.getSelectedBook);
+    this.itemsPagination$ = this.store.select(fromRoot.getBookPagination);
+    this.selectedItem$ = this.store.select(fromRoot.getBookSelected);
     this.loading$ = this.store.select(fromRoot.getBookLoading);
     this.messages$ = this.store.select(fromRoot.getBookMessages);
 
@@ -175,9 +174,13 @@ export abstract class BookAbstractComponent {
     this.formDataSubscription$ = this.formData$
       .subscribe(data => {
         if (data) {
-          let ready = false;
+          let ready = true;
+          
           forOwn(data, (item) => {
-            ready = isNull(item) ? false : true;
+            if (isNull(item)) {
+              ready = false;
+              return false;
+            }
           });
 
           this.formDataReady = ready;

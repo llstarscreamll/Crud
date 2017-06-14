@@ -12,7 +12,7 @@
         <div class="row">
           <!-- buttons -->
           <div class="col-sm-6 col-md-8 m-b-md">
-            <a [routerLink]="[ '/book/create' ]" class="btn btn-primary">
+            <a userCan="books.create" [routerLink]="[ '/book/create' ]" class="btn btn-primary">
               <i class="glyphicon glyphicon-plus"></i>
               <span translate>{{ langKey + 'create' }}</span>
             </a>

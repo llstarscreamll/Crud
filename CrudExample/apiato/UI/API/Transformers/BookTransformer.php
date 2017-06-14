@@ -34,7 +34,7 @@ class BookTransformer extends Transformer
      */
     public function transform(Book $book)
     {
-    	return $response = [
+    	$response = [
     		'object' => 'Book',
 			'id' => $book->getHashedKey(),
             'reason_id' => $this->hashKey($book->reason_id),
@@ -56,6 +56,12 @@ class BookTransformer extends Transformer
 			'deleted_at' => $book->deleted_at,
             'deleted_at' => $book->deleted_at ? $book->deleted_at->toDateTimeString() : null,
     	];
+
+        $response = $this->ifAdmin([
+            'real_id' => $book->id,
+        ], $response);
+
+        return $response;
     }
 
     public function includeReason(Book $book)

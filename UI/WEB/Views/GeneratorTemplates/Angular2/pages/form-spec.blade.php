@@ -16,6 +16,7 @@ import { {{ $cpmClass = $gen->containerClass('form', false, true) }} } from './{
 import { {{ $components = $gen->entityName().'Components' }} } from './../../components/{{ $gen->slugEntityName().'' }}';
 import { {{ $pages = $gen->entityName().'Pages' }} } from './../../pages/{{ $gen->slugEntityName().'' }}';
 import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
+import { AUTH_TESTING_COMPONENTS } from "app/auth/utils/auth-testing-utils";
 
 /**
  * {{ $gen->containerClass('form', false, true) }} Tests.
@@ -35,6 +36,7 @@ describe('{{ $cpmClass }}', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        ...AUTH_TESTING_COMPONENTS,
         ...{{ $components }},
         ...{{ $pages }},
       ],

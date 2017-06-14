@@ -16,7 +16,6 @@
           </ng-template>
           <div class="panel-body">
             <dynamic-form-fields
-              class="dynamic-form-fields"
               [form]="form.get('options')"
               [formModel]="formModel.options.controls"
               [formData]="{}"
@@ -34,7 +33,6 @@
           </ng-template>
         	<div class="panel-body">
     	    	<dynamic-form-fields
-    	    		class="dynamic-form-fields"
     	    		[form]="form.get('search')"
               [formModel]="formModel.search.controls"
               [formData]="formData$ | async"

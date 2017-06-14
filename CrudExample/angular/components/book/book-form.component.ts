@@ -6,7 +6,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { go } from '@ngrx/router-store';
 
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
-import * as appMessage from './../../../core/reducers/app-message.reducer';
 import * as fromRoot from './../../../reducers';
 import * as bookReducer from './../../reducers/book.reducer';
 import * as bookActions from './../../actions/book.actions';
@@ -103,7 +102,7 @@ export class BookFormComponent extends BookAbstractComponent implements OnInit, 
     if (this.formType == 'details' || this.formType == 'edit') {
       this.selectedItemSubscription$ = this.selectedItem$
         .subscribe((book) => {
-          if (book != null && book.id && book.id.includes(this.selectedItemId)) {
+          if (book != null && book.id && book.id == this.selectedItemId) {
             this.form.patchValue(book);
             this.formReady = true;
             this.selectedItemReady = true;

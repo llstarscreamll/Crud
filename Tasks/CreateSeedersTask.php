@@ -36,7 +36,7 @@ class CreateSeedersTask
      * @var array
      */
     public $files = [
-        ':entity:PermissionsSeeder',
+        '-entity-PermissionsSeeder',
     ];
 
     /**

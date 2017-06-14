@@ -24,28 +24,28 @@ class {{ $gen->entityName() }}PermissionsSeeder extends Seeder
             
         $permissions->push(Permission::create([
             'name' => '{{ $gen->slugEntityName(true) }}.create',
-            'display_name' => '{{ trans('crud::templates.create') }} {{ strtolower($request->get('single_entity_name')) }}',
+            'display_name' => '{{ trans('crud::templates.create') }} {{ strtolower($request->get('plural_entity_name')) }}',
         ]));
             
         $permissions->push(Permission::create([
             'name' => '{{ $gen->slugEntityName(true) }}.details',
-            'display_name' => '{{ trans('crud::templates.details') }} {{ strtolower($request->get('single_entity_name')) }}',
+            'display_name' => '{{ trans('crud::templates.details') }} {{ strtolower($request->get('plural_entity_name')) }}',
         ]));
             
         $permissions->push(Permission::create([
             'name' => '{{ $gen->slugEntityName(true) }}.update',
-            'display_name' => '{{ trans('crud::templates.edit') }} {{ strtolower($request->get('single_entity_name')) }}',
+            'display_name' => '{{ trans('crud::templates.edit') }} {{ strtolower($request->get('plural_entity_name')) }}',
         ]));
         
         $permissions->push(Permission::create([
             'name' => '{{ $gen->slugEntityName(true) }}.delete',
-            'display_name' => '{{ trans('crud::templates.delete') }} {{ strtolower($request->get('single_entity_name')) }}',
+            'display_name' => '{{ trans('crud::templates.delete') }} {{ strtolower($request->get('plural_entity_name')) }}',
         ]));
 @if ($gen->hasSoftDeleteColumn)
         
         $permissions->push(Permission::create([
             'name' => '{{ $gen->slugEntityName(true) }}.restore',
-            'display_name' => '{{ trans('crud::templates.restore') }} {{ strtolower($request->get('single_entity_name')) }}',
+            'display_name' => '{{ trans('crud::templates.restore') }} {{ strtolower($request->get('plural_entity_name')) }}',
         ]));
 @endif
     

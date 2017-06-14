@@ -228,7 +228,7 @@ trait FolderNamesResolver
             ? str_plural($this->entityName())
             : $this->entityName();
 
-        $baseName = str_replace(':entity:', $entity, $file);
+        $baseName = str_replace('-entity-', $entity, $file);
 
         return $baseName.'.php';
     }
@@ -305,7 +305,7 @@ trait FolderNamesResolver
             ? str_plural($this->entityName())
             : $this->entityName();
 
-        $baseName = str_replace(':entity:', $entity, $route);
+        $baseName = str_replace('-entity-', $entity, $route);
 
         return $baseName.'.v1.private.php';
     }
@@ -379,7 +379,7 @@ trait FolderNamesResolver
             ? str_plural($this->entityName())
             : $this->entityName();
 
-        $baseName = str_replace(':entity:', $this->entityName(), $criteria);
+        $baseName = str_replace('-entity-', $this->entityName(), $criteria);
 
         return $baseName.'Criteria.php';
     }

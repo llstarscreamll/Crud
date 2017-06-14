@@ -11,20 +11,20 @@ import { SearchQuery } from './../components/book/book-abstract.component';
  * @author  [name] <[<email address>]>
  */
 export interface State {
-  bookFormModel: Object;
+  formModel: Object;
   list: Array<any>;
-  booksPagination: BookPagination | null;
-  selectedBook: Book | null;
+  pagination: BookPagination | null;
+  selected: Book | null;
   searchQuery: SearchQuery;
   loading: boolean;
   messages: AppMessage;
 }
 
 const initialState: State = {
-  bookFormModel: null,
-  booksPagination: null,
+  formModel: null,
+  pagination: null,
   list: null,
-  selectedBook: null,
+  selected: null,
   searchQuery: {
     // columns to retrive from API
     filter: [
@@ -64,7 +64,7 @@ export function reducer(state = initialState, action: book.Actions): State {
     }
 
     case book.GET_FORM_MODEL_SUCCESS: {
-      return { ...state, bookFormModel: action.payload, loading: false };
+      return { ...state, formModel: action.payload, loading: false };
     }
 
     case book.SET_SEARCH_QUERY: {
@@ -77,15 +77,15 @@ export function reducer(state = initialState, action: book.Actions): State {
     }
 
     case book.PAGINATE_SUCCESS: {
-      return { ...state, booksPagination: action.payload as BookPagination, loading: false };
+      return { ...state, pagination: action.payload as BookPagination, loading: false };
     }
 
     case book.LIST: {
-      return { ...state, loading: true };
+      return { ...state };
     }
 
     case book.LIST_SUCCESS: {
-      return { ...state, list: action.payload, loading: false };
+      return { ...state, list: action.payload };
     }
 
     case book.CREATE: {
@@ -109,7 +109,7 @@ export function reducer(state = initialState, action: book.Actions): State {
     }
 
     case book.SET_SELECTED: {
-      return { ...state, selectedBook: action.payload as Book, loading: false };
+      return { ...state, selected: action.payload as Book, loading: false };
     }
 
     case book.SET_MESSAGES: {
@@ -135,11 +135,11 @@ export function reducer(state = initialState, action: book.Actions): State {
   }
  }
 
-export const getFormModel = (state: State) => state.bookFormModel;
+export const getFormModel = (state: State) => state.formModel;
 export const getLoading = (state: State) => state.loading;
 export const getItemsList = (state: State) => state.list;
-export const getItemsPagination = (state: State) => state.booksPagination;
-export const getSelectedItem = (state: State) => state.selectedBook;
+export const getItemsPagination = (state: State) => state.pagination;
+export const getSelectedItem = (state: State) => state.selected;
 export const getSearchQuery = (state: State) => state.searchQuery;
 export const getMessages = (state: State) => state.messages;
 
@@ -162,8 +162,8 @@ export const getBookSearchQuery = createSelector(getBookState, fromBook.getSearc
 export const getBookFormModel = createSelector(getBookState, fromBook.getFormModel);
 export const getBookFormData = createSelector(getReasonList,getUserList,(Reasons,Users,) => ({ Reasons,Users, }));
 export const getBookList = createSelector(getBookState, fromBook.getItemsList);
-export const getBooksPagination = createSelector(getBookState, fromBook.getItemsPagination);
-export const getSelectedBook = createSelector(getBookState, fromBook.getSelectedItem);
+export const getBookPagination = createSelector(getBookState, fromBook.getItemsPagination);
+export const getBookSelected = createSelector(getBookState, fromBook.getSelectedItem);
 export const getBookLoading = createSelector(getBookState, fromBook.getLoading);
 export const getBookMessages = createSelector(getBookState, fromBook.getMessages);
 

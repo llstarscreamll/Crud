@@ -4,7 +4,6 @@ import { TranslateService } from '@ngx-translate/core';
 
 import * as bookActions from './../../actions/book.actions';
 import * as fromRoot from './../../../reducers';
-import * as appMessage from './../../../core/reducers/app-message.reducer';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 import * as bookReducer from './../../reducers/book.reducer';
 

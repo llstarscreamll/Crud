@@ -10,7 +10,7 @@
 
     <dynamic-form-fields
       *ngIf="formReady"
-      class="dynamic-form-fields row"
+      class="row"
       [form]="form"
       [formModel]="formModel$ | async"
       [formData]="formData$ | async"
@@ -22,6 +22,7 @@
     <div class="form-group">
       <button
         *ngIf="formType == 'create'"
+        userCan="{{ $gen->slugEntityName(true) }}.create"
         class="btn create-row"
         type="submit"
         [disabled]="!form.valid || (loading$ | async)"
@@ -32,6 +33,7 @@
 
       <button
         *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.('selectedItem$').' | async)?.deleted_at' : null !!}"
+        userCan="{{ $gen->slugEntityName(true) }}.update"
         class="btn edit-row"
         type="submit"
         [disabled]="!form.valid || (loading$ | async)"
@@ -42,6 +44,7 @@
 
       <button
         *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.('selectedItem$').' | async)?.deleted_at' : null !!}"
+        userCan="{{ $gen->slugEntityName(true) }}.delete"
         [disabled]="!selectedItemId || (loading$ | async)"
         (click)="deleteRow(selectedItemId)"
         type="button"
@@ -50,7 +53,8 @@
         <span class="btn-label" translate>{{ $upEntity }}.delete</span>
       </button>
 
-      <a  class="btn btn-default show-all-rows" 
+      <a  class="btn btn-default show-all-rows"
+        userCan="{{ $gen->slugEntityName(true) }}.list_and_search"
         [routerLink]="['/{{ $gen->slugEntityName() }}']">
         <i class="glyphicon glyphicon-th-list"></i>
         <span class="btn-label" translate>{{ $upEntity }}.see_all</span>

@@ -18,6 +18,7 @@ import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->
 import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
 import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
 import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
+import { AUTH_TESTING_COMPONENTS } from "app/auth/utils/auth-testing-utils";
 
 /**
  * {{ $gen->componentClass('table', $plural = true) }} Tests.
@@ -37,7 +38,7 @@ describe('{{ $cmpClass }}', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [{{ $cmpClass }}],
+      declarations: [...AUTH_TESTING_COMPONENTS, {{ $cmpClass }}],
       imports: [
         utils.IMPORTS
       ],

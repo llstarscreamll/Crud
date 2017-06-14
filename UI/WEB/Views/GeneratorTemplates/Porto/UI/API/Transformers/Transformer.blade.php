@@ -40,7 +40,7 @@ class {{ $gen->entityName() }}Transformer extends Transformer
      */
     public function transform({{ $entityClass }} ${{ camel_case($entityClass) }})
     {
-    	return $response = [
+    	$response = [
     		'object' => '{{ $entityClass }}',
 @foreach ($fields as $field)
 @if ($field->name === "id")
@@ -56,6 +56,12 @@ class {{ $gen->entityName() }}Transformer extends Transformer
 @endif
 @endforeach
     	];
+
+        $response = $this->ifAdmin([
+            'real_id' => ${{ camel_case($entityClass) }}->id,
+        ], $response);
+
+        return $response;
     }
 @foreach ($fields as $field)
 @if ($field->namespace)

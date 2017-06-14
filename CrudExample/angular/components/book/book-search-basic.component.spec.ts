@@ -17,6 +17,7 @@ import { ES } from './../../translations/es';
 import { BookService } from './../../services/book.service';
 import { Book } from './../../models/book';
 import * as utils from './../../utils/book-testing.util';
+import { AUTH_TESTING_COMPONENTS } from "app/auth/utils/auth-testing-utils";
 
 /**
  * BookSearchBasicComponent Tests.
@@ -36,7 +37,7 @@ describe('BookSearchBasicComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BookSearchBasicComponent],
+      declarations: [...AUTH_TESTING_COMPONENTS, BookSearchBasicComponent],
       imports: [
         utils.IMPORTS
       ],

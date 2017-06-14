@@ -8,7 +8,6 @@ import { Subscription } from 'rxjs/Subscription';
 import swal from 'sweetalert2';
 
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
-import * as appMessage from './../../../core/reducers/app-message.reducer';
 import * as fromRoot from './../../../reducers';
 
 import * as bookActions from './../../actions/book.actions';

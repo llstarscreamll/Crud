@@ -76,11 +76,11 @@ export function reducer(state = initialState, action: {{ $actions }}.Actions): S
     }
 
     case {{ $actions }}.LIST: {
-      return { ...state, loading: true };
+      return { ...state };
     }
 
     case {{ $actions }}.LIST_SUCCESS: {
-      return { ...state, list: action.payload, loading: false };
+      return { ...state, list: action.payload };
     }
 
     case {{ $actions }}.CREATE: {

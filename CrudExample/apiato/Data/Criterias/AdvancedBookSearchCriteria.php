@@ -6,16 +6,16 @@ use Prettus\Repository\Contracts\RepositoryInterface as PrettusRepositoryInterfa
 use App\Ship\Parents\Criterias\Criteria;
 
 /**
- * AdvancedBookSearchCriteria Class.
+ * Advanced:entity:SearchCriteria Class.
  * 
  * @author  [name] <[<email address>]>
  */
-class AdvancedBookSearchCriteria extends Criteria
+class Advanced:entity:SearchCriteria extends Criteria
 {
 	private $input;
 
     /**
-     * Create new AdvancedBookSearchCriteria instance.
+     * Create new Advanced:entity:SearchCriteria instance.
      *
      * @param    Request $request
      */
