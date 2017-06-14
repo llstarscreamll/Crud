@@ -17,6 +17,7 @@ import { ES } from './../../translations/es';
 import { BookService } from './../../services/book.service';
 import { Book } from './../../models/book';
 import * as utils from './../../utils/book-testing.util';
+import { AUTH_TESTING_COMPONENTS } from "app/auth/utils/auth-testing-utils";
 
 /**
  * BookFormComponent Tests.
@@ -25,7 +26,7 @@ import * as utils from './../../utils/book-testing.util';
  */
 describe('BookFormComponent', () => {
   let fixture: ComponentFixture<BookFormComponent>;
-  let component: BookFormComponent
+  let component: BookFormComponent;
   let formModel;
   let testModel: Book = utils.BookOne;
   let reactiveForm;
@@ -37,7 +38,7 @@ describe('BookFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BookFormComponent],
+      declarations: [...AUTH_TESTING_COMPONENTS, BookFormComponent],
       imports: [
         utils.IMPORTS
       ],
@@ -82,26 +83,28 @@ describe('BookFormComponent', () => {
     fixture.detectChanges();
     tick();
 
-    expect(component.formType).toBe('create');
-    expect(fixture.nativeElement.querySelector('form')).not.toBeNull('create form should exists');
+    let html = fixture.nativeElement;
 
-    expect(fixture.nativeElement.querySelector('[name=reason_id]')).not.toBeNull('reason_id field');
-    expect(fixture.nativeElement.querySelector('[name=name]')).not.toBeNull('name field');
-    expect(fixture.nativeElement.querySelector('[name=author]')).not.toBeNull('author field');
-    expect(fixture.nativeElement.querySelector('[name=genre]')).not.toBeNull('genre field');
-    expect(fixture.nativeElement.querySelector('[name=stars]')).not.toBeNull('stars field');
-    expect(fixture.nativeElement.querySelector('[name=published_year]')).not.toBeNull('published_year field');
-    expect(fixture.nativeElement.querySelector('[name=enabled]')).not.toBeNull('enabled field');
-    expect(fixture.nativeElement.querySelector('[name=status]')).not.toBeNull('status field');
-    expect(fixture.nativeElement.querySelector('[name=unlocking_word]')).not.toBeNull('unlocking_word field');
-    expect(fixture.nativeElement.querySelector('[name=synopsis]')).not.toBeNull('synopsis field');
-    expect(fixture.nativeElement.querySelector('[name=approved_at]')).not.toBeNull('approved_at field');
-    expect(fixture.nativeElement.querySelector('[name=approved_by]')).not.toBeNull('approved_by field');
-    expect(fixture.nativeElement.querySelector('[name=approved_password]')).not.toBeNull('approved_password field');
+    expect(component.formType).toBe('create', 'form type = create');
+    expect(html.querySelector('form')).toBeTruthy('create form should exists');
+
+    expect(html.querySelector('[name=reason_id]')).toBeTruthy('reason_id field exists');
+    expect(html.querySelector('[name=name]')).toBeTruthy('name field exists');
+    expect(html.querySelector('[name=author]')).toBeTruthy('author field exists');
+    expect(html.querySelector('[name=genre]')).toBeTruthy('genre field exists');
+    expect(html.querySelector('[name=stars]')).toBeTruthy('stars field exists');
+    expect(html.querySelector('[name=published_year]')).toBeTruthy('published_year field exists');
+    expect(html.querySelector('[name=enabled]')).toBeTruthy('enabled field exists');
+    expect(html.querySelector('[name=status]')).toBeTruthy('status field exists');
+    expect(html.querySelector('[name=unlocking_word]')).toBeTruthy('unlocking_word field exists');
+    expect(html.querySelector('[name=synopsis]')).toBeTruthy('synopsis field exists');
+    expect(html.querySelector('[name=approved_at]')).toBeTruthy('approved_at field exists');
+    expect(html.querySelector('[name=approved_by]')).toBeTruthy('approved_by field exists');
+    expect(html.querySelector('[name=approved_password]')).toBeTruthy('approved_password field exists');
   
     // form links/buttons
-    expect(fixture.nativeElement.querySelector('form button.btn.create-row')).not.toBeNull('create form btn should exists');
-    expect(fixture.nativeElement.querySelector('form a.btn.show-all-rows')).not.toBeNull('show all form link should exists');
+    expect(html.querySelector('form button.btn.create-row')).toBeTruthy('create form btn should exists');
+    expect(html.querySelector('form a.btn.show-all-rows')).toBeTruthy('show all form link should exists');
   }));
 
   it('should have certain elements on details form', fakeAsync(() => {
@@ -116,29 +119,31 @@ describe('BookFormComponent', () => {
     fixture.detectChanges();
     tick();
 
-    expect(component.formType).toBe('details');
-    expect(fixture.nativeElement.querySelector('form')).not.toBeNull('details form should exists');
+    let html = fixture.nativeElement;
 
-    expect(fixture.nativeElement.querySelector('[name=id]:disabled')).not.toBeNull('id field');
-    expect(fixture.nativeElement.querySelector('[name=reason_id]')).not.toBeNull('reason_id field');
-    expect(fixture.nativeElement.querySelector('[name=name]:disabled')).not.toBeNull('name field');
-    expect(fixture.nativeElement.querySelector('[name=author]:disabled')).not.toBeNull('author field');
-    expect(fixture.nativeElement.querySelector('[name=genre]:disabled')).not.toBeNull('genre field');
-    expect(fixture.nativeElement.querySelector('[name=stars]:disabled')).not.toBeNull('stars field');
-    expect(fixture.nativeElement.querySelector('[name=published_year]:disabled')).not.toBeNull('published_year field');
-    expect(fixture.nativeElement.querySelector('[name=enabled]:disabled')).not.toBeNull('enabled field');
-    expect(fixture.nativeElement.querySelector('[name=status]')).not.toBeNull('status field');
-    expect(fixture.nativeElement.querySelector('[name=synopsis]:disabled')).not.toBeNull('synopsis field');
-    expect(fixture.nativeElement.querySelector('[name=approved_at]:disabled')).not.toBeNull('approved_at field');
-    expect(fixture.nativeElement.querySelector('[name=approved_by]')).not.toBeNull('approved_by field');
-    expect(fixture.nativeElement.querySelector('[name=created_at]:disabled')).not.toBeNull('created_at field');
-    expect(fixture.nativeElement.querySelector('[name=updated_at]:disabled')).not.toBeNull('updated_at field');
-    expect(fixture.nativeElement.querySelector('[name=deleted_at]:disabled')).not.toBeNull('deleted_at field');
+    expect(component.formType).toBe('details', 'form type = details');
+    expect(html.querySelector('form')).toBeTruthy('details form should exists');
+
+    expect(html.querySelector('[name=id]:disabled')).toBeTruthy('id field exists');
+    expect(html.querySelector('[name=reason_id]')).toBeTruthy('reason_id field exists');
+    expect(html.querySelector('[name=name]:disabled')).toBeTruthy('name field exists');
+    expect(html.querySelector('[name=author]:disabled')).toBeTruthy('author field exists');
+    expect(html.querySelector('[name=genre]:disabled')).toBeTruthy('genre field exists');
+    expect(html.querySelector('[name=stars]:disabled')).toBeTruthy('stars field exists');
+    expect(html.querySelector('[name=published_year]:disabled')).toBeTruthy('published_year field exists');
+    expect(html.querySelector('[name=enabled]:disabled')).toBeTruthy('enabled field exists');
+    expect(html.querySelector('[name=status]')).toBeTruthy('status field exists');
+    expect(html.querySelector('[name=synopsis]:disabled')).toBeTruthy('synopsis field exists');
+    expect(html.querySelector('[name=approved_at]:disabled')).toBeTruthy('approved_at field exists');
+    expect(html.querySelector('[name=approved_by]')).toBeTruthy('approved_by field exists');
+    expect(html.querySelector('[name=created_at]:disabled')).toBeTruthy('created_at field exists');
+    expect(html.querySelector('[name=updated_at]:disabled')).toBeTruthy('updated_at field exists');
+    expect(html.querySelector('[name=deleted_at]:disabled')).toBeTruthy('deleted_at field exists');
   
     // form links/buttons
-    expect(fixture.nativeElement.querySelector('form button.btn.edit-row')).not.toBeNull('edit form btn should exists');
-    expect(fixture.nativeElement.querySelector('form button.btn.delete-row')).not.toBeNull('delete form btn should exists');
-    expect(fixture.nativeElement.querySelector('form a.btn.show-all-rows')).not.toBeNull('show all form link should exists');
+    expect(html.querySelector('form button.btn.edit-row')).toBeTruthy('edit form btn exists');
+    expect(html.querySelector('form button.btn.delete-row')).toBeTruthy('delete form btn exists');
+    expect(html.querySelector('form a.btn.show-all-rows')).toBeTruthy('show all form link exists');
   }));
 
   it('should have certain elements on edit form', fakeAsync(() => {
@@ -152,37 +157,50 @@ describe('BookFormComponent', () => {
 
     fixture.detectChanges();
     tick();
-    
-    expect(component.formType).toBe('edit');
-    expect(fixture.nativeElement.querySelector('form')).not.toBeNull('edit form should exists');
 
-    expect(fixture.nativeElement.querySelector('[name=reason_id]')).not.toBeNull('reason_id field should exists');
-    expect(fixture.nativeElement.querySelector('[name=reason_id]').getAttribute('value')).toContain(testModel.reason_id ? testModel.reason_id : '', 'reason_id field value');
-    expect(fixture.nativeElement.querySelector('[name=name]')).not.toBeNull('name field should exists');
-    expect(fixture.nativeElement.querySelector('[name=name]').value).toBe(testModel.name ? testModel.name : '', 'name field value');
-    expect(fixture.nativeElement.querySelector('[name=author]')).not.toBeNull('author field should exists');
-    expect(fixture.nativeElement.querySelector('[name=author]').value).toBe(testModel.author ? testModel.author : '', 'author field value');
-    expect(fixture.nativeElement.querySelector('[name=genre]')).not.toBeNull('genre field should exists');
-    expect(fixture.nativeElement.querySelector('[name=genre]').value).toBe(testModel.genre ? testModel.genre : '', 'genre field value');
-    expect(fixture.nativeElement.querySelector('[name=stars]')).not.toBeNull('stars field should exists');
-    expect(fixture.nativeElement.querySelector('[name=stars]').value).toContain(testModel.stars ? testModel.stars : '', 'stars field value');
-    expect(fixture.nativeElement.querySelector('[name=published_year]')).not.toBeNull('published_year field should exists');
-    expect(fixture.nativeElement.querySelector('[name=published_year]').value).toBe(testModel.published_year ? testModel.published_year : '', 'published_year field value');
-    expect(fixture.nativeElement.querySelector('[name=enabled]')).not.toBeNull('enabled field should exists');
-    expect(fixture.nativeElement.querySelector('[name=enabled]').value).toBe(testModel.enabled ? testModel.enabled : '', 'enabled field value');
-    expect(fixture.nativeElement.querySelector('[name=status]')).not.toBeNull('status field should exists');
-    expect(fixture.nativeElement.querySelector('[name=status]').getAttribute('value')).toBe(testModel.status ? testModel.status : '', 'status field value');
-    expect(fixture.nativeElement.querySelector('[name=synopsis]')).not.toBeNull('synopsis field should exists');
-    expect(fixture.nativeElement.querySelector('[name=synopsis]').value).toBe(testModel.synopsis ? testModel.synopsis : '', 'synopsis field value');
-    expect(fixture.nativeElement.querySelector('[name=approved_at]')).not.toBeNull('approved_at field should exists');
-    expect(fixture.nativeElement.querySelector('[name=approved_at]').value).toBe(testModel.approved_at ? testModel.approved_at : '', 'approved_at field value');
-    expect(fixture.nativeElement.querySelector('[name=approved_by]')).not.toBeNull('approved_by field should exists');
-    expect(fixture.nativeElement.querySelector('[name=approved_by]').getAttribute('value')).toContain(testModel.approved_by ? testModel.approved_by : '', 'approved_by field value');
+    let html = fixture.nativeElement;
+    
+    expect(component.formType).toBe('edit', 'form type = edit');
+    expect(html.querySelector('form')).toBeTruthy('edit form exists');
+
+    expect(html.querySelector('[name=reason_id]')).toBeTruthy('reason_id field exists');
+    expect(html.querySelector('[name=reason_id]').getAttribute('value')).toContain(testModel.reason_id, 'reason_id field value');
+
+    expect(html.querySelector('[name=name]')).toBeTruthy('name field exists');
+    expect(html.querySelector('[name=name]').value).toBe(testModel.name, 'name field value');
+
+    expect(html.querySelector('[name=author]')).toBeTruthy('author field exists');
+    expect(html.querySelector('[name=author]').value).toBe(testModel.author, 'author field value');
+
+    expect(html.querySelector('[name=genre]')).toBeTruthy('genre field exists');
+    expect(html.querySelector('[name=genre]').value).toBe(testModel.genre, 'genre field value');
+
+    expect(html.querySelector('[name=stars]')).toBeTruthy('stars field exists');
+    expect(html.querySelector('[name=stars]').value).toContain(testModel.stars, 'stars field value');
+
+    expect(html.querySelector('[name=published_year]')).toBeTruthy('published_year field exists');
+    expect(html.querySelector('[name=published_year]').value).toBe(testModel.published_year, 'published_year field value');
+
+    expect(html.querySelector('[name=enabled]')).toBeTruthy('enabled field exists');
+    expect(html.querySelector('[name=enabled]').value).toBe(testModel.enabled, 'enabled field value');
+
+    expect(html.querySelector('[name=status]')).toBeTruthy('status field exists');
+    expect(html.querySelector('[name=status]:checked').value).toBe(testModel.status, 'status field value');
+
+    expect(html.querySelector('[name=synopsis]')).toBeTruthy('synopsis field exists');
+    expect(html.querySelector('[name=synopsis]').value).toBe(testModel.synopsis, 'synopsis field value');
+
+    expect(html.querySelector('[name=approved_at]')).toBeTruthy('approved_at field exists');
+    expect(html.querySelector('[name=approved_at]').value).toBe(testModel.approved_at, 'approved_at field value');
+
+    expect(html.querySelector('[name=approved_by]')).toBeTruthy('approved_by field exists');
+    expect(html.querySelector('[name=approved_by]').getAttribute('value')).toContain(testModel.approved_by, 'approved_by field value');
+
     
     // form links/buttons
-    expect(fixture.nativeElement.querySelector('form button.btn.edit-row')).not.toBeNull('edit form btn should exists');
-    expect(fixture.nativeElement.querySelector('form button.btn.delete-row')).not.toBeNull('delete form btn should exists');
-    expect(fixture.nativeElement.querySelector('form a.btn.show-all-rows')).not.toBeNull('show all form link should exists');
+    expect(html.querySelector('form button.btn.edit-row')).toBeTruthy('edit form btn exists');
+    expect(html.querySelector('form button.btn.delete-row')).toBeTruthy('delete form btn exists');
+    expect(html.querySelector('form a.btn.show-all-rows')).toBeTruthy('show all form link exists');
   }));
 
   it('should make certains BookService calls on create form init', fakeAsync(() => {
@@ -236,13 +254,13 @@ describe('BookFormComponent', () => {
     fixture.detectChanges();
     tick();
     
-    expect(component.form.valid).toBe(false);
+    expect(component.form.valid).toBe(false, 'for is invalid');
     expect(fixture.nativeElement.querySelector('form button.create-row').disabled).toBe(true);
     component.form.patchValue(testModel);
 
     fixture.detectChanges();
 
-    expect(component.form.valid).toBe(true);
+    expect(component.form.valid).toBe(true, 'form is now valid');
     fixture.nativeElement.querySelector('form button.create-row').click();
 
     fixture.detectChanges();
@@ -267,7 +285,7 @@ describe('BookFormComponent', () => {
     fixture.detectChanges();
     tick();
     
-    expect(component.form.valid).toBe(true);
+    expect(component.form.valid).toBe(true, 'form is valid');
     fixture.nativeElement.querySelector('form button.edit-row').click();
 
     fixture.detectChanges();
@@ -292,7 +310,7 @@ describe('BookFormComponent', () => {
     fixture.detectChanges();
     tick();
     
-    expect(component.form.valid).toBe(true);
+    expect(component.form.valid).toBe(true, 'form is valid');
     fixture.nativeElement.querySelector('form button.delete-row').click();
 
     fixture.detectChanges();

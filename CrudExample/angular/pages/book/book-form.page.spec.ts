@@ -16,6 +16,7 @@ import { BookFormPage } from './book-form.page';
 import { BookComponents } from './../../components/book';
 import { BookPages } from './../../pages/book';
 import { BookService } from './../../services/book.service';
+import { AUTH_TESTING_COMPONENTS } from "app/auth/utils/auth-testing-utils";
 
 /**
  * BookFormPage Tests.
@@ -35,6 +36,7 @@ describe('BookFormPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
+        ...AUTH_TESTING_COMPONENTS,
         ...BookComponents,
         ...BookPages,
       ],

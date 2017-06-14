@@ -36,14 +36,14 @@ class CreateApiRoutesTask
      * @var array
      */
     public $files = [
-        'Create:entity:',
-        'Delete:entity:',
-        'SelectListFrom:entity:',
-        'FormModelFrom:entity:',
-        'Get:entity:',
-        'ListAndSearch:entity:',
-        'Restore:entity:',
-        'Update:entity:',
+        'Create-entity-',
+        'Delete-entity-',
+        'SelectListFrom-entity-',
+        'FormModelFrom-entity-',
+        'Get-entity-',
+        'ListAndSearch-entity-',
+        'Restore-entity-',
+        'Update-entity-',
     ];
 
     /**
@@ -77,7 +77,7 @@ class CreateApiRoutesTask
                 continue;
             }
 
-            $plural = ($file == "ListAndSearch:entity:") ? true : false;
+            $plural = ($file == "ListAndSearch-entity-") ? true : false;
             $atStart = in_array($file, ['_FormModel', '_FormData',]) ? true : false;
 
             $routeFile = $this->apiRoutesFolder().'/'.$this->apiRouteFile($file, $plural);

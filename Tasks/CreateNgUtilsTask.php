@@ -35,7 +35,7 @@ class CreateNgUtilsTask
      * @var array
      */
     public $files = [
-        ':entity:-testing',
+        '-entity--testing',
     ];
 
     /**

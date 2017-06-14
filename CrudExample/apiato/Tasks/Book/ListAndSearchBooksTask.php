@@ -3,7 +3,7 @@
 namespace App\Containers\Library\Tasks\Book;
 
 use App\Containers\Library\Data\Repositories\BookRepository;
-use App\Containers\Library\Data\Criterias\AdvancedBookSearchCriteria;
+use App\Containers\Library\Data\Criterias\Advanced:entity:SearchCriteria;
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Ship\Parents\Tasks\Task;
 
@@ -20,7 +20,7 @@ class ListAndSearchBooksTask extends Task
 		if ($input->get('advanced_search', false)) {
 			$bookRepository
 				->popCriteria(RequestCriteria::class)
-				->pushCriteria(new AdvancedBookSearchCriteria($input));
+				->pushCriteria(new Advanced:entity:SearchCriteria($input));
 		}
         
         $books = $bookRepository->paginate();

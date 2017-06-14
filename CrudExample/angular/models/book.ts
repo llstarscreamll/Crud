@@ -6,7 +6,7 @@ import { Reason } from './../../reason/models/reason';
  * @author  [name] <[<email address>]>
  */
 export class Book {
-	id: string;
+	id: string | number;
 	reason_id: number;
 	name: string;
 	author: string;

@@ -166,7 +166,7 @@ trait AngularFolderNamesResolver
     public function utilFile(string $file)
     {
         $entity = $this->slugEntityName();
-        $file = str_replace(':entity:', $entity, $file);
+        $file = str_replace('-entity-', $entity, $file);
 
         return $file.'.util.ts';
     }

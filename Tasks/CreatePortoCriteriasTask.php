@@ -36,7 +36,7 @@ class CreatePortoCriteriasTask
      * @var array
      */
     public $files = [
-        'Advanced:entity:Search',
+        'Advanced-entity-Search',
     ];
 
     /**
