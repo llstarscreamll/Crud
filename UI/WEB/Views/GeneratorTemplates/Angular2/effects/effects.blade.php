@@ -8,7 +8,6 @@ import { empty } from 'rxjs/observable/empty';
 import 'rxjs/add/operator/withLatestFrom';
 
 import * as fromRoot from './../../reducers';
-import * as appMsgActions from './../../core/actions/app-message.actions';
 import * as {{ $actions = camel_case($gen->entityName()) }} from './../actions/{{ $gen->slugEntityName() }}.actions';
 @foreach ($fields->unique('namespace') as $field)
 @if($field->namespace)
