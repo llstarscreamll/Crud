@@ -1,10 +1,56 @@
-# CRUD Generator ChangeLog #
+# Release Notes
 
-TODO: update this chage log!!
+## 3.7 (2017-06-14)
 
-## [2.0] 2016-11-11 ##
+### Added
 
-#### Nuevo ####
+- Add example code generated from the functional tests on the **CrudExample** folder.
+
+### Fixed
+
+- Fix conflictive template names, closes [#2](https://github.com/llstarscreamll/Crud/issues/2).
+
+### Changed
+
+- Use own layout, no external layout needed now.
+- Add GUI to regenerate several apps from existing config files with one click.
+- Real paths are now used to generate de Angular and apiato container, nothing to move or copy. This improves the app performance.
+- [Angular]:
+	- use acl directives from Hello-Angular.
+	- more detailed and descriptive tests generated.
+	- add loader component while getting data from API on table list and form components.
+	- API msgs state are now isolated per module instead of the global approeach.
+	- make components more decupled and reusable, not need to recreate the entire store selector stuff for use a simple compenent.
+	- components and pages uses abstract classes to share common logic.
+	- rename many class methods.
+	- other improvements setting up ngrx actions and effects.
+	- add a few more stuff for mockbackend on tests.
+	- rename containers folder to pages.
+	- add dockBlock to generated classes/files, developer should make an IDE search and replace to set the desired values.
+	- many improvements, fixes and clean up on generated module.
+- [API]:
+	- remove action to bootstrap Codeception test suit, the developer **must** do it after generate de container, this improves the app performance.
+	- remove action to format generated code with **php-cs-fixer**, the developer **should** do it manually, this improves the app performance.
+	- add option on GUI to decide if group main container classes like actions, tasks, tests, etc...
+	- append real id attr on transformer if current user is admin.
+	- update permissions names to fit the format **plural.action**, e.g. **books.list_and_seacrch**
+	- improvements on generated factories for testing stuff
+	- use one main container helper class on tests instead of having one per entity.
+	- add db assertions on generated tests.
+	- rename tests class methods.
+	- add classes docBlock whit author tag, developer should make an IDE search and replace to set the desired values.
+- Rename **readme** and **changelog** files.
+
+### Removed
+
+- [Angular]:
+	- remove empty generated files, like the css components files.
+- [API]:
+	- remove empty **UI/CLI** generated folder.
+
+## 2.0 (2016-11-11)
+
+### Nuevo
 
 - Soporte para tema Inspinia.
 - Creación de ModelFactories de entidad generada.
@@ -31,7 +77,7 @@ TODO: update this chage log!!
 	- Y un "search criteria".
 - Mejor organización y reutilización de código en las vistas generadas
 
-#### Actualizado ####
+### Actualizado
 
 - En los controladores se deja activado por defecto el middleware de acceso.
 - Los modelos ya no tienen los dos propiedades "$fillable" y "$guarded" atendiendo a lo recomendado en la documentación de Laravel.
@@ -41,7 +87,3 @@ TODO: update this chage log!!
 - Se redujo el código generado en los fichero de idioma.
 - Actualizado a versión 5.3 de Laravel
 - Refactor de las vistas generadas, se evitó tanto código repetido.
-
-**NOTA:**
-
-Este changelog trata de seguir los estándar [**Keep a CHANGELOG 0.0.3**](http://keepachangelog.com/en/0.3.0/) y [**Semantic Versioning 2.0.0**](http://semver.org/) adoptados por muchos proyectos y desarrolladores a lo largo de todo el mundo. Por favor leer la documentación para entender la estructura y contenido de este archivo.
