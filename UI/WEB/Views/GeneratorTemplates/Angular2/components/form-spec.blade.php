@@ -85,12 +85,12 @@ describe('{{ $cmpClass }}', () => {
 
     let html = fixture.nativeElement;
 
-    expect(component.formType).toBe('create');
+    expect(component.formType).toBe('create', 'form type = create');
     expect(html.querySelector('form')).toBeTruthy('create form should exists');
 
 @foreach ($fields as $field)
 @if ($field->on_create_form)
-    expect(html.querySelector('[name={{ $field->name }}]')).toBeTruthy('{{ $field->name }} field');
+    expect(html.querySelector('[name={{ $field->name }}]')).toBeTruthy('{{ $field->name }} field exists');
 @endif
 @endforeach
   
@@ -113,19 +113,19 @@ describe('{{ $cmpClass }}', () => {
 
     let html = fixture.nativeElement;
 
-    expect(component.formType).toBe('details');
+    expect(component.formType).toBe('details', 'form type = details');
     expect(html.querySelector('form')).toBeTruthy('details form should exists');
 
 @foreach ($fields as $field)
 @if (!$field->hidden)
-    expect(html.querySelector('[name={{ $field->name }}]{{ $field->key == 'MUL' || $field->type == 'enum' ? null : ':disabled' }}')).toBeTruthy('{{ $field->name }} field');
+    expect(html.querySelector('[name={{ $field->name }}]{{ $field->key == 'MUL' || $field->type == 'enum' ? null : ':disabled' }}')).toBeTruthy('{{ $field->name }} field exists');
 @endif
 @endforeach
   
     // form links/buttons
-    expect(html.querySelector('form button.btn.edit-row')).toBeTruthy('edit form btn should exists');
-    expect(html.querySelector('form button.btn.delete-row')).toBeTruthy('delete form btn should exists');
-    expect(html.querySelector('form a.btn.show-all-rows')).toBeTruthy('show all form link should exists');
+    expect(html.querySelector('form button.btn.edit-row')).toBeTruthy('edit form btn exists');
+    expect(html.querySelector('form button.btn.delete-row')).toBeTruthy('delete form btn exists');
+    expect(html.querySelector('form a.btn.show-all-rows')).toBeTruthy('show all form link exists');
   }));
 
   it('should have certain elements on edit form', fakeAsync(() => {
@@ -142,20 +142,20 @@ describe('{{ $cmpClass }}', () => {
 
     let html = fixture.nativeElement;
     
-    expect(component.formType).toBe('edit');
-    expect(html.querySelector('form')).toBeTruthy('edit form should exists');
+    expect(component.formType).toBe('edit', 'form type = edit');
+    expect(html.querySelector('form')).toBeTruthy('edit form exists');
 
 @foreach ($fields as $field)
 @if (!$field->hidden && $field->on_update_form)
-    expect(html.querySelector('[name={{ $field->name }}]')).toBeTruthy('{{ $field->name }} field should exists');
+    expect(html.querySelector('[name={{ $field->name }}]')).toBeTruthy('{{ $field->name }} field exists');
     expect(html.querySelector('[name={{ $field->name }}]{{ $field->type == 'enum' ? ':checked' : null }}').{!! $field->key == 'MUL' ? "getAttribute('value')" : 'value' !!}).to{{ in_array($field->type, ['double', 'int', 'float', 'bigint']) ? 'Contain' : 'Be' }}(testModel.{{ $field->name }}, '{{ $field->name }} field value');
 
 @endif
 @endforeach    
     // form links/buttons
-    expect(html.querySelector('form button.btn.edit-row')).toBeTruthy('edit form btn should exists');
-    expect(html.querySelector('form button.btn.delete-row')).toBeTruthy('delete form btn should exists');
-    expect(html.querySelector('form a.btn.show-all-rows')).toBeTruthy('show all form link should exists');
+    expect(html.querySelector('form button.btn.edit-row')).toBeTruthy('edit form btn exists');
+    expect(html.querySelector('form button.btn.delete-row')).toBeTruthy('delete form btn exists');
+    expect(html.querySelector('form a.btn.show-all-rows')).toBeTruthy('show all form link exists');
   }));
 
   it('should make certains {{ $gen->entityName() }}Service calls on create form init', fakeAsync(() => {
@@ -209,13 +209,13 @@ describe('{{ $cmpClass }}', () => {
     fixture.detectChanges();
     tick();
     
-    expect(component.form.valid).toBe(false);
+    expect(component.form.valid).toBe(false, 'for is invalid');
     expect(fixture.nativeElement.querySelector('form button.create-row').disabled).toBe(true);
     component.form.patchValue(testModel);
 
     fixture.detectChanges();
 
-    expect(component.form.valid).toBe(true);
+    expect(component.form.valid).toBe(true, 'form is now valid');
     fixture.nativeElement.querySelector('form button.create-row').click();
 
     fixture.detectChanges();
@@ -240,7 +240,7 @@ describe('{{ $cmpClass }}', () => {
     fixture.detectChanges();
     tick();
     
-    expect(component.form.valid).toBe(true);
+    expect(component.form.valid).toBe(true, 'form is valid');
     fixture.nativeElement.querySelector('form button.edit-row').click();
 
     fixture.detectChanges();
@@ -265,7 +265,7 @@ describe('{{ $cmpClass }}', () => {
     fixture.detectChanges();
     tick();
     
-    expect(component.form.valid).toBe(true);
+    expect(component.form.valid).toBe(true, 'form is valid');
     fixture.nativeElement.querySelector('form button.delete-row').click();
 
     fixture.detectChanges();
