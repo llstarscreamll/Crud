@@ -25,6 +25,9 @@ class GenerateAngular2ModuleAction
 {
     public function run(Collection $request)
     {
+        // prevent persist data generated from factories
+        \DB::beginTransaction();
+
         // generate the base folders
         $createAngular2DirsTask = new CreateAngular2DirsTask($request);
         $createAngular2DirsTask->run();
@@ -72,5 +75,7 @@ class GenerateAngular2ModuleAction
         // generate utils
         $createNgUtilsTask = new CreateNgUtilsTask($request);
         $createNgUtilsTask->run();
+
+        \DB::rollback();
     }
 }
