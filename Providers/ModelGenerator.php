@@ -45,7 +45,7 @@ class ModelGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.model',
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request,
             ]

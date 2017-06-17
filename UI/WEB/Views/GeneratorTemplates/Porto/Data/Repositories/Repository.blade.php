@@ -1,24 +1,24 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\Data\Repositories;
+namespace App\Containers\{{ $crud->containerName() }}\Data\Repositories;
 
 use Illuminate\Http\Request;
 use App\Ship\Parents\Repositories\Repository;
 use App\Ship\Criterias\Eloquent\TrashedCriteria;
 
 /**
- * {{ $gen->entityName() }}Repository Class.
+ * {{ $crud->entityName() }}Repository Class.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ $gen->entityName() }}Repository extends Repository
+class {{ $crud->entityName() }}Repository extends Repository
 {
 	/**
 	 * Container name reference for set the model.
 	 *
 	 * @var string
 	 */
-	protected $container = '{{ $gen->containerName() }}';
+	protected $container = '{{ $crud->containerName() }}';
 
 	/**
      * @var array
@@ -29,11 +29,11 @@ class {{ $gen->entityName() }}Repository extends Repository
         '{{ $field->name }}' => 'like',
 @endif
 @if ($field->namespace && $field->fillable)
-        '{{ $gen->relationNameFromField($field) }}.name' => 'like',
+        '{{ $crud->relationNameFromField($field) }}.name' => 'like',
 @endif
 @endforeach
     ];
-@if($gen->hasSoftDeleteColumn)
+@if($crud->hasSoftDeleteColumn)
     
     /**
      * Push the parent and Trashed criterias.
@@ -47,7 +47,7 @@ class {{ $gen->entityName() }}Repository extends Repository
     /**
      * Restores a softdeleted row.
      * @param  int $id
-     * @return App\Containers\{{ $gen->containerName() }}\Models\{{ $gen->entityName() }} ${{ camel_case($entityClass = $gen->entityName()) }}
+     * @return App\Containers\{{ $crud->containerName() }}\Models\{{ $crud->entityName() }} ${{ camel_case($entityClass = $crud->entityName()) }}
      */
     public function restore(int $id)
     {

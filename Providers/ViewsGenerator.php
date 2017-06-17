@@ -55,7 +55,7 @@ class ViewsGenerator extends BaseGenerator
             $content = view(
                 $this->templatesDir().'.views.'.$this->request->get('UI_theme').'.'.$view,
                 [
-                'gen' => $this,
+                'crud' => $this,
                 'fields' => $this->advanceFields($this->request),
                 'request' => $this->request,
                 ]

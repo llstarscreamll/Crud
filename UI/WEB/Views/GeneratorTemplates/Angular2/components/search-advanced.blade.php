@@ -7,23 +7,23 @@ import { forOwn, isNull, isEmpty } from 'lodash';
 
 import * as fromRoot from './../../../reducers';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
-import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
-import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
+import * as {{ $reducer = camel_case($crud->entityName()).'Reducer' }} from './../../reducers/{{ $crud->slugEntityName() }}.reducer';
+import * as {{ $actions = camel_case($crud->entityName()).'Actions' }} from './../../actions/{{ $crud->slugEntityName() }}.actions';
 
-import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
-import { {{ $abstractClass = $gen->componentClass('abstract', false, true) }}, SearchQuery } from './{{ str_replace('.ts', '', $gen->componentFile('abstract', false, true)) }}';
+import { {{ $entitySin = $crud->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
+import { {{ $abstractClass = $crud->componentClass('abstract', false, true) }}, SearchQuery } from './{{ str_replace('.ts', '', $crud->componentFile('abstract', false, true)) }}';
 
 /**
- * {{ $gen->componentClass('search-advanced', $plural = false) }} Class.
+ * {{ $crud->componentClass('search-advanced', $plural = false) }} Class.
  *
  * @author [name] <[<email address>]>
  */
 {{ '@' }}Component({
-  selector: '{{ $selector = str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}',
-  templateUrl: './{{ $gen->componentFile('search-advanced-html', false) }}',
+  selector: '{{ $selector = str_replace(['.ts', '.'], ['', '-'], $crud->componentFile('search-advanced', false)) }}',
+  templateUrl: './{{ $crud->componentFile('search-advanced-html', false) }}',
   exportAs: '{{ str_replace('-component', '', $selector) }}',
 })
-export class {{ $gen->componentClass('search-advanced', $plural = false) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
+export class {{ $crud->componentClass('search-advanced', $plural = false) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
   @Input()
   public debug: boolean = false;
 

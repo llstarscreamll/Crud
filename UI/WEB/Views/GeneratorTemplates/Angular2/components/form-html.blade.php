@@ -4,7 +4,7 @@
 
 <ng-template #dynamicForm>
   <form
-    id="{{ $gen->slugEntityName() }}-form"
+    id="{{ $crud->slugEntityName() }}-form"
     [formGroup]="form"
     (ngSubmit)="submitForm()">
 
@@ -22,18 +22,18 @@
     <div class="form-group">
       <button
         *ngIf="formType == 'create'"
-        userCan="{{ $gen->slugEntityName(true) }}.create"
+        userCan="{{ $crud->slugEntityName(true) }}.create"
         class="btn create-row"
         type="submit"
         [disabled]="!form.valid || (loading$ | async)"
         [ngClass]="{'btn-primary': form.valid, 'btn-default': !form.valid}">
         <i class="glyphicon glyphicon-floppy-disk"></i>
-        <span class="btn-label" translate>{{ $upEntity = $gen->entityNameSnakeCase() }}.create</span>
+        <span class="btn-label" translate>{{ $upEntity = $crud->entityNameSnakeCase() }}.create</span>
       </button>
 
       <button
-        *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.('selectedItem$').' | async)?.deleted_at' : null !!}"
-        userCan="{{ $gen->slugEntityName(true) }}.update"
+        *ngIf="(formType == 'edit' || formType == 'details'){!! $crud->hasSoftDeleteColumn ? ' && !('.('selectedItem$').' | async)?.deleted_at' : null !!}"
+        userCan="{{ $crud->slugEntityName(true) }}.update"
         class="btn edit-row"
         type="submit"
         [disabled]="!form.valid || (loading$ | async)"
@@ -43,8 +43,8 @@
       </button>
 
       <button
-        *ngIf="(formType == 'edit' || formType == 'details'){!! $gen->hasSoftDeleteColumn ? ' && !('.('selectedItem$').' | async)?.deleted_at' : null !!}"
-        userCan="{{ $gen->slugEntityName(true) }}.delete"
+        *ngIf="(formType == 'edit' || formType == 'details'){!! $crud->hasSoftDeleteColumn ? ' && !('.('selectedItem$').' | async)?.deleted_at' : null !!}"
+        userCan="{{ $crud->slugEntityName(true) }}.delete"
         [disabled]="!selectedItemId || (loading$ | async)"
         (click)="deleteRow(selectedItemId)"
         type="button"
@@ -54,8 +54,8 @@
       </button>
 
       <a  class="btn btn-default show-all-rows"
-        userCan="{{ $gen->slugEntityName(true) }}.list_and_search"
-        [routerLink]="['/{{ $gen->slugEntityName() }}']">
+        userCan="{{ $crud->slugEntityName(true) }}.list_and_search"
+        [routerLink]="['/{{ $crud->slugEntityName() }}']">
         <i class="glyphicon glyphicon-th-list"></i>
         <span class="btn-label" translate>{{ $upEntity }}.see_all</span>
       </a>

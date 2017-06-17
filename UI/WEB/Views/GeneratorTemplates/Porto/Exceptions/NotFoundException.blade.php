@@ -1,17 +1,17 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\Exceptions;
+namespace App\Containers\{{ $crud->containerName() }}\Exceptions;
 
 use App\Ship\Parents\Exceptions\Exception;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * {{ $gen->entityName() }}NotFoundException Class.
+ * {{ $crud->entityName() }}NotFoundException Class.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ $gen->entityName() }}NotFoundException extends Exception
+class {{ $crud->entityName() }}NotFoundException extends Exception
 {
 	public $httpStatusCode = Response::HTTP_BAD_REQUEST;
-    public $message = 'Could not find the {{ $gen->entityName() }} in our database.';
+    public $message = 'Could not find the {{ $crud->entityName() }} in our database.';
 }

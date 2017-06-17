@@ -63,7 +63,7 @@ class CreateApiControllerTask
         $template = $this->templatesDir().'.Porto/UI/API/Controllers/'.$file;
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
             ]);
 

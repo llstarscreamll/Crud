@@ -1,28 +1,28 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
 namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
-use <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository;
-use <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>;
-use <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Criterias\<?= $gen->getRepositoryCriteriaName() ?>;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $crud->modelClassName() ?>Repository;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $crud->modelClassName() ?>;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Criterias\<?= $crud->getRepositoryCriteriaName() ?>;
 use Illuminate\Support\Collection;
 
 /**
- * Class <?= $gen->modelClassName()."EloquentRepository\n" ?>
+ * Class <?= $crud->modelClassName()."EloquentRepository\n" ?>
  *
  * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
  */
-class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository implements <?= $gen->modelClassName() ?>Repository
+class <?= $crud->modelClassName() ?>EloquentRepository extends BaseRepository implements <?= $crud->modelClassName() ?>Repository
 {
     /**
      * Los atributos por los que se puede realizar búsquedas.
@@ -40,11 +40,11 @@ class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository imp
     /**
      * Especifíca el modelo Eloquent a usar.
      *
-     * @return <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName()."\n" ?>
+     * @return <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $crud->modelClassName()."\n" ?>
      */
     public function model()
     {
-        return <?= $gen->modelClassName() ?>::class;
+        return <?= $crud->modelClassName() ?>::class;
     }
 
     /**
@@ -58,7 +58,7 @@ class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository imp
      */
     public function getRequested(Collection $request, array $columns = ['*'], int $rows = 15)
     {
-        return $this->pushCriteria(new <?= $gen->getRepositoryCriteriaName() ?>($request))
+        return $this->pushCriteria(new <?= $crud->getRepositoryCriteriaName() ?>($request))
         ->paginate($rows, $columns);
     }
 
@@ -100,12 +100,12 @@ class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository imp
     {
         return collect($this->getEnumValuesArray($column))
             ->map(function ($item, $key) {
-                return $item = trans('<?= $gen->modelVariableName() ?>.form-labels.status_values.'.$item);
+                return $item = trans('<?= $crud->modelVariableName() ?>.form-labels.status_values.'.$item);
             })->all();
     }
 
     /**
-     * <?= $gen->getDestroyBtnTxt() ?> uno o varios registros.
+     * <?= $crud->getDestroyBtnTxt() ?> uno o varios registros.
      *
      * @param  array|int $ids Array de ids o un único id.
      *
@@ -115,7 +115,7 @@ class <?= $gen->modelClassName() ?>EloquentRepository extends BaseRepository imp
     {
         return $this->model->destroy($ids);
     }
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
 
     /**
      * Restaura de papelera uno o varios registros.

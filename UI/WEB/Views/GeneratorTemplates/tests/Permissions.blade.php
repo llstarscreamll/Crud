@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -7,19 +7,19 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
-namespace <?= $gen->studlyCasePlural() ?>;
+namespace <?= $crud->studlyCasePlural() ?>;
 
 use FunctionalTester;
-use <?= $modelNamespace = config('modules.crud.config.parent-app-namespace')."\Models\\".$gen->modelClassName() ?>;
+use <?= $modelNamespace = config('modules.crud.config.parent-app-namespace')."\Models\\".$crud->modelClassName() ?>;
 use <?= config('modules.crud.config.role-model-namespace') ?>;
 use <?= config('modules.crud.config.permission-model-namespace') ?>;
-use Page\Functional\<?= $gen->studlyCasePlural() ?>\Index as Page;
-use Page\Functional\<?= $gen->studlyCasePlural() ?>\Destroy as DestroyPage;
-use Page\Functional\<?= $gen->studlyCasePlural() ?>\Create as CreatePage;
-use Page\Functional\<?= $gen->studlyCasePlural() ?>\Edit as EditPage;
+use Page\Functional\<?= $crud->studlyCasePlural() ?>\Index as Page;
+use Page\Functional\<?= $crud->studlyCasePlural() ?>\Destroy as DestroyPage;
+use Page\Functional\<?= $crud->studlyCasePlural() ?>\Create as CreatePage;
+use Page\Functional\<?= $crud->studlyCasePlural() ?>\Edit as EditPage;
 
 class <?= $test ?>Cest
 {
@@ -28,7 +28,7 @@ class <?= $test ?>Cest
      *
      * @var int
      */
-    protected $<?= $gen->modelVariableName() ?>Id;
+    protected $<?= $crud->modelVariableName() ?>Id;
 
     /**
      * Las acciones a realizar antes de cada test.
@@ -41,11 +41,11 @@ class <?= $test ?>Cest
         $I->amLoggedAs(Page::$adminUser);
 
         $permissions = [
-            '<?= $gen->route() ?>.create',
-            '<?= $gen->route() ?>.edit',
-            '<?= $gen->route() ?>.destroy',
-<?php if($gen->hasDeletedAtColumn($fields)) { ?>
-            '<?= $gen->route() ?>.restore',
+            '<?= $crud->route() ?>.create',
+            '<?= $crud->route() ?>.edit',
+            '<?= $crud->route() ?>.destroy',
+<?php if($crud->hasDeletedAtColumn($fields)) { ?>
+            '<?= $crud->route() ?>.restore',
 <?php } ?>
         ];
 
@@ -60,7 +60,7 @@ class <?= $test ?>Cest
         });
 
         // creamos registro de prueba
-        $this-><?= $gen->modelVariableName() ?>Id = Page::have<?= $gen->modelClassName() ?>($I);
+        $this-><?= $crud->modelVariableName() ?>Id = Page::have<?= $crud->modelClassName() ?>($I);
     }
 
     /**
@@ -109,18 +109,18 @@ class <?= $test ?>Cest
 
         // el la página de detalles del registro no debo ver el link a página de
         // edición
-        $I->amOnPage(Page::route("/$this-><?= $gen->modelVariableName() ?>Id"));
+        $I->amOnPage(Page::route("/$this-><?= $crud->modelVariableName() ?>Id"));
         $I->dontSee(EditPage::$linkToEdit, '.form-group '.EditPage::$linkToEditElem);
 
         // si intento acceder a la página de edición de un registro soy
         // redirigido al home de la app
-        $I->amOnPage(Page::route("/$this-><?= $gen->modelVariableName() ?>Id/edit"));
+        $I->amOnPage(Page::route("/$this-><?= $crud->modelVariableName() ?>Id/edit"));
         $I->seeCurrentUrlEquals(Page::$homeUrl);
         $I->see(Page::$badPermissionsMsg, Page::$badPermissionsMsgElem);
     }
 
     /**
-     * Prueba que las restricciones con los permisos de <?= strtolower($gen->getDestroyBtnTxt()) ?>
+     * Prueba que las restricciones con los permisos de <?= strtolower($crud->getDestroyBtnTxt()) ?>
      * funcionen correctamente.
      *
      * @param  FunctionalTester $I
@@ -130,20 +130,20 @@ class <?= $test ?>Cest
 <?php } else { ?>
      */
 <?php } ?>
-    public function <?= $gen->getDestroyVariableName() ?>Permissions(FunctionalTester $I)
+    public function <?= $crud->getDestroyVariableName() ?>Permissions(FunctionalTester $I)
     {
-        $I->wantTo('probar permisos de <?= strtolower($gen->getDestroyBtnTxt()) ?> en módulo '.Page::$moduleName);
+        $I->wantTo('probar permisos de <?= strtolower($crud->getDestroyBtnTxt()) ?> en módulo '.Page::$moduleName);
 
         // no debo ver link de acceso a página de edición en Index
         $I->amOnPage(Page::$moduleURL);
-        $I->dontSee(DestroyPage::$<?= $gen->getDestroyVariableName() ?>Btn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>BtnElem);
-        $I->dontSee(DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtnElem);
+        $I->dontSee(DestroyPage::$<?= $crud->getDestroyVariableName() ?>Btn, DestroyPage::$<?= $crud->getDestroyVariableName() ?>BtnElem);
+        $I->dontSee(DestroyPage::$<?= $crud->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $crud->getDestroyVariableName() ?>ManyBtnElem);
         // en página de detalles del registro no debo ver botón "Mover a Papelera"
-        $I->amOnPage(Page::route("/$this-><?= $gen->modelVariableName() ?>Id"));
-        $I->dontSee(DestroyPage::$<?= $gen->getDestroyVariableName() ?>Btn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>BtnElem);
+        $I->amOnPage(Page::route("/$this-><?= $crud->modelVariableName() ?>Id"));
+        $I->dontSee(DestroyPage::$<?= $crud->getDestroyVariableName() ?>Btn, DestroyPage::$<?= $crud->getDestroyVariableName() ?>BtnElem);
     }
 
-<?php if($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if($crud->hasDeletedAtColumn($fields)) { ?>
     /**
      * Prueba que las restricciones con los permisos de restauración de
      * registros en papelera funcionen correctamente.
@@ -160,12 +160,12 @@ class <?= $test ?>Cest
         $I->wantTo('probar permisos de restauración en módulo '.Page::$moduleName);
 
         // eliminamos el registro de prueba
-        <?= $gen->modelClassName() ?>::destroy($this-><?= $gen->modelVariableName() ?>Id);
+        <?= $crud->modelClassName() ?>::destroy($this-><?= $crud->modelVariableName() ?>Id);
 
         // no debo ver link de acceso a página de edición en Index
         $I->amOnPage(
             route(
-                '<?= $gen->modelPluralVariableName() ?>.index',
+                '<?= $crud->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
             )
         );

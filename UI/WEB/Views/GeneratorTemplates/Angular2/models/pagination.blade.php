@@ -1,12 +1,12 @@
 import { Pagination } from './../../core/models/pagination';
-import { {{ $gen->entityName() }} } from './{{ camel_case($gen->entityName()) }}';
+import { {{ $crud->entityName() }} } from './{{ camel_case($crud->entityName()) }}';
 
 /**
- * {{ $gen->entityName() }}Pagination Class.
+ * {{ $crud->entityName() }}Pagination Class.
  *
  * @author [name] <[<email address>]>
  */
-export class {{ $gen->entityName() }}Pagination {
-	public data: {{ $gen->entityName() }}[];
+export class {{ $crud->entityName() }}Pagination {
+	public data: {{ $crud->entityName() }}[];
 	public pagination: Pagination;
 }

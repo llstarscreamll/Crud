@@ -8,17 +8,17 @@ import { empty } from 'rxjs/observable/empty';
 import 'rxjs/add/operator/withLatestFrom';
 
 import * as fromRoot from './../../reducers';
-import * as {{ $actions = camel_case($gen->entityName()) }} from './../actions/{{ $gen->slugEntityName() }}.actions';
+import * as {{ $actions = camel_case($crud->entityName()) }} from './../actions/{{ $crud->slugEntityName() }}.actions';
 @foreach ($fields->unique('namespace') as $field)
 @if($field->namespace)
-import * as {{ camel_case(class_basename($field->namespace)) }} from './../../{{ $gen->ngSlugModuleFromNamespace($field->namespace) }}/actions/{{ str_slug(snake_case(class_basename($field->namespace))) }}.actions';
+import * as {{ camel_case(class_basename($field->namespace)) }} from './../../{{ $crud->ngSlugModuleFromNamespace($field->namespace) }}/actions/{{ str_slug(snake_case(class_basename($field->namespace))) }}.actions';
 @endif
 @endforeach
-import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
-import { {{ ($entitySin = $gen->entityName()).'Pagination' }} } from './../models/{{ $camelEntity = camel_case($entitySin) }}Pagination';
+import { {{ $entitySin = $crud->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
+import { {{ ($entitySin = $crud->entityName()).'Pagination' }} } from './../models/{{ $camelEntity = camel_case($entitySin) }}Pagination';
 import { AppMessage } from './../../core/models/appMessage';
 import { FormModelParserService } from './../../dynamic-form/services/form-model-parser.service';
-import { {{ $entitySin }}Service } from './../services/{{ $gen->slugEntityName() }}.service';
+import { {{ $entitySin }}Service } from './../services/{{ $crud->slugEntityName() }}.service';
 
 import { Effects } from './../../core/effects/abstract.effects';
 
@@ -46,7 +46,7 @@ export class {{ $entitySin }}Effects extends Effects {
   @Effect()
   getFormModel$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.GET_FORM_MODEL)
-    .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
+    .withLatestFrom(this.store.select(fromRoot.get{{ $crud->entityName() }}State))
     .switchMap(([action, state]) => {
       // prevent API call if we have the form model already
       if (state.formModel !== null) {
@@ -82,7 +82,7 @@ export class {{ $entitySin }}Effects extends Effects {
   @Effect()
   paginate$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.PAGINATE)
-    .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
+    .withLatestFrom(this.store.select(fromRoot.get{{ $crud->entityName() }}State))
     .switchMap(([action, state]) => {
       return this.{{ $service }}.paginate(state.searchQuery)
         .map((data: {{ $entitySin.'Pagination' }}) => { return new {{ $actions }}.PaginateSuccessAction(data)})
@@ -92,7 +92,7 @@ export class {{ $entitySin }}Effects extends Effects {
   @Effect()
   list$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.LIST)
-    .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
+    .withLatestFrom(this.store.select(fromRoot.get{{ $crud->entityName() }}State))
     .switchMap(([action, state]) => {
       // data already exists and force == false?
       if (state.list && !action.payload) {
@@ -121,7 +121,7 @@ export class {{ $entitySin }}Effects extends Effects {
           );
 
           if (payload.redirect === true) {
-            actions.push(go(['{{ $gen->slugEntityName() }}', createdItem.id, 'details']));
+            actions.push(go(['{{ $crud->slugEntityName() }}', createdItem.id, 'details']));
           }
 
           return actions;
@@ -132,7 +132,7 @@ export class {{ $entitySin }}Effects extends Effects {
   @Effect()
   getById$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.GET_BY_ID)
-    .withLatestFrom(this.store.select(fromRoot.get{{ $gen->entityName() }}State))
+    .withLatestFrom(this.store.select(fromRoot.get{{ $crud->entityName() }}State))
     .switchMap(([action, state]) => {
       // prevent API call if we have the selected item object in the store already
       if (state.selected && action.payload == state.selected.id) {
@@ -148,7 +148,7 @@ export class {{ $entitySin }}Effects extends Effects {
         .catch((error: AppMessage) => this.handleError(error));
     });
 
-@if ($gen->hasSoftDeleteColumn)
+@if ($crud->hasSoftDeleteColumn)
   @Effect()
   setSelectedItem$: Observable<Action> = this.actions$
     .ofType({{ $actions }}.SET_SELECTED)
@@ -182,7 +182,7 @@ export class {{ $entitySin }}Effects extends Effects {
 
           // make redirection to details page if desired
           if (payload.redirect === true) {
-            actions.push(go(['{{ $gen->slugEntityName() }}', updatedItem.id, 'details']));
+            actions.push(go(['{{ $crud->slugEntityName() }}', updatedItem.id, 'details']));
           }
 
           return actions;
@@ -201,7 +201,7 @@ export class {{ $entitySin }}Effects extends Effects {
             // this will refresh the list if anybody needs it later
             new {{ $actions }}.ListSuccessAction(null),
             new {{ $actions }}.SetMessagesAction(this.{{ $service }}.getMessage('delete_success')),
-            go(['{{ $gen->slugEntityName() }}'])
+            go(['{{ $crud->slugEntityName() }}'])
           ];
 
           if(action.reloadListQuery) {

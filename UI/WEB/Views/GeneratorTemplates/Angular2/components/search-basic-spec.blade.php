@@ -12,26 +12,26 @@ import * as fromRoot from './../../../reducers';
 import { DynamicFormModule } from './../../../dynamic-form/dynamic-form.module';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 
-import { {{ $cmpClass = $gen->componentClass('search-basic', $plural = false) }} } from './{{ str_replace('.ts', '', $gen->componentFile('search-basic', false)) }}';
-import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
-import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
-import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
-import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
+import { {{ $cmpClass = $crud->componentClass('search-basic', $plural = false) }} } from './{{ str_replace('.ts', '', $crud->componentFile('search-basic', false)) }}';
+import { {{ $crud->getLanguageKey(true) }} } from './../../translations/{{ $crud->getLanguageKey() }}';
+import { {{ $service = $crud->entityName().'Service' }} } from './../../services/{{ $crud->slugEntityName() }}.service';
+import { {{ $model = $crud->entityName() }} } from './../../models/{{ camel_case($crud->entityName()) }}';
+import * as utils from './../../utils/{{ $crud->slugEntityName() }}-testing.util';
 import { AUTH_TESTING_COMPONENTS } from "app/auth/utils/auth-testing-utils";
 
 /**
- * {{ $gen->componentClass('search-basic', $plural = false) }} Tests.
+ * {{ $crud->componentClass('search-basic', $plural = false) }} Tests.
  *
  * @author [name] <[<email address>]>
  */
 describe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }};
-  let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
+  let testModel: {{ $crud->entityName() }} = utils.{{ $crud->entityName() }}One;
   let reactiveForm;
   let mockBackend: MockBackend;
   let store: Store<fromRoot.State>;
-  let service: {{ $gen->entityName() }}Service;
+  let service: {{ $crud->entityName() }}Service;
   let http: Http;
   let router: Router;
 
@@ -49,7 +49,7 @@ describe('{{ $cmpClass }}', () => {
     store = getTestBed().get(Store);
     router = getTestBed().get(Router);
     http = getTestBed().get(Http);
-    service = getTestBed().get({{ $gen->entityName() }}Service);
+    service = getTestBed().get({{ $crud->entityName() }}Service);
 
     mockBackend = getTestBed().get(MockBackend);
     utils.setupMockBackend(mockBackend);
@@ -69,7 +69,7 @@ describe('{{ $cmpClass }}', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should make {{ $gen->entityName() }}Service paginate call on form submission', fakeAsync(() => {
+  it('should make {{ $crud->entityName() }}Service paginate call on form submission', fakeAsync(() => {
     spyOn(service, 'paginate').and.returnValue(Observable.from([{}]));
     fixture.detectChanges();
 

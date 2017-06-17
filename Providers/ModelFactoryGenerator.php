@@ -45,7 +45,7 @@ class ModelFactoryGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.model-factory',
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request,
             ]

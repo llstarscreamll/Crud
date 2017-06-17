@@ -1,36 +1,36 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
 namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Models;
 
 use Illuminate\Database\Eloquent\Model;
-<?php if (($hasSoftDelete = $gen->hasDeletedAtColumn($fields))) { ?>
+<?php if (($hasSoftDelete = $crud->hasDeletedAtColumn($fields))) { ?>
 use Illuminate\Database\Eloquent\SoftDeletes;
 <?php } ?>
 use Illuminate\Support\Collection;
-<?php if ($gen->areEnumFields($fields)) { ?>
+<?php if ($crud->areEnumFields($fields)) { ?>
 use llstarscreamll\Core\Traits\EnumValues;
 <?php } ?>
 
 /**
- * Clase <?= $gen->modelClassName()."\n" ?>
+ * Clase <?= $crud->modelClassName()."\n" ?>
  *
  * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
  */
-class <?= $gen->modelClassName() ?> extends Model
+class <?= $crud->modelClassName() ?> extends Model
 {
 <?php if ($hasSoftDelete) { ?>
     use SoftDeletes;
 <?php } ?>
-<?php if ($gen->areEnumFields($fields)) { ?>
+<?php if ($crud->areEnumFields($fields)) { ?>
     use EnumValues;
 <?php } ?>
 
@@ -46,14 +46,14 @@ class <?= $gen->modelClassName() ?> extends Model
      *
      * @var string
      */
-    protected $table = '<?= $gen->table_name ?>';
+    protected $table = '<?= $crud->table_name ?>';
 
     /**
      * La llave primaria del modelo.
      *
      * @var string
      */
-    protected $primaryKey = '<?= $gen->getPrimaryKey($fields) ?>';
+    protected $primaryKey = '<?= $crud->getPrimaryKey($fields) ?>';
 
     /**
      * Los atributos asignables (mass assignable).
@@ -86,7 +86,7 @@ class <?= $gen->modelClassName() ?> extends Model
      *
      * @var bool
      */
-    public $timestamps = <?= $gen->hasLaravelTimestamps($fields) ? 'true' : 'false' ?>;
+    public $timestamps = <?= $crud->hasLaravelTimestamps($fields) ? 'true' : 'false' ?>;
     
     /**
      * Los atributos que deben ser convertidos a fechas (Carbon).
@@ -123,7 +123,7 @@ class <?= $gen->modelClassName() ?> extends Model
     public $casts = [
 <?php foreach ($fields as $field) { ?>
 <?php if (!in_array($field->type, ['datetime', 'timestamp', 'date'])) { ?>
-        '<?= $field->name ?>' => '<?= $gen->getFieldTypeCast($field) ?>',
+        '<?= $field->name ?>' => '<?= $crud->getFieldTypeCast($field) ?>',
 <?php } ?>
 <?php } ?>
     ];
@@ -137,7 +137,7 @@ class <?= $gen->modelClassName() ?> extends Model
      *
      * @var string
      */
-    protected static $<?= $field->name ?>ColumnEnumValues = "<?=$gen->getMysqlTableColumnEnumValues($field->name)?>";
+    protected static $<?= $field->name ?>ColumnEnumValues = "<?=$crud->getMysqlTableColumnEnumValues($field->name)?>";
 <?php } ?>
 <?php } ?>
 
@@ -146,7 +146,7 @@ class <?= $gen->modelClassName() ?> extends Model
     /**
      * La relación con <?= $field->namespace.".\n" ?>
      */
-    public function <?=  $gen->getFunctionNameRelationFromField($field)  ?>()
+    public function <?=  $crud->getFunctionNameRelationFromField($field)  ?>()
     {
         return $this-><?= $field->relation ?>('<?= $field->namespace ?>', '<?= $field->name ?>');
     }

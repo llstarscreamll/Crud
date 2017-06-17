@@ -8,7 +8,7 @@ const routes: Routes = [
 ];
 
 /**
- * {{ $gen->moduleClass('routing') }} Class.
+ * {{ $crud->moduleClass('routing') }} Class.
  *
  * @author [name] <[<email address>]>
  */
@@ -17,4 +17,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: []
 })
-export class {{ $gen->moduleClass('routing') }} { }
+export class {{ $crud->moduleClass('routing') }} { }

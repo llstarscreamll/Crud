@@ -12,15 +12,15 @@ import * as fromRoot from './../../../reducers';
 import { DynamicFormModule } from './../../../dynamic-form/dynamic-form.module';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 
-import { {{ $cmpClass = $gen->componentClass('form', $plural = false) }} } from './{{ str_replace('.ts', '', $gen->componentFile('form', false)) }}';
-import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
-import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
-import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
-import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
+import { {{ $cmpClass = $crud->componentClass('form', $plural = false) }} } from './{{ str_replace('.ts', '', $crud->componentFile('form', false)) }}';
+import { {{ $crud->getLanguageKey(true) }} } from './../../translations/{{ $crud->getLanguageKey() }}';
+import { {{ $service = $crud->entityName().'Service' }} } from './../../services/{{ $crud->slugEntityName() }}.service';
+import { {{ $model = $crud->entityName() }} } from './../../models/{{ camel_case($crud->entityName()) }}';
+import * as utils from './../../utils/{{ $crud->slugEntityName() }}-testing.util';
 import { AUTH_TESTING_COMPONENTS } from "app/auth/utils/auth-testing-utils";
 
 /**
- * {{ $gen->componentClass('form', $plural = false) }} Tests.
+ * {{ $crud->componentClass('form', $plural = false) }} Tests.
  *
  * @author [name] <[<email address>]>
  */
@@ -28,11 +28,11 @@ describe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }};
   let formModel;
-  let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
+  let testModel: {{ $crud->entityName() }} = utils.{{ $crud->entityName() }}One;
   let reactiveForm;
   let mockBackend: MockBackend;
   let store: Store<fromRoot.State>;
-  let service: {{ $gen->entityName() }}Service;
+  let service: {{ $crud->entityName() }}Service;
   let http: Http;
   let router: Router;
 
@@ -50,7 +50,7 @@ describe('{{ $cmpClass }}', () => {
     store = getTestBed().get(Store);
     router = getTestBed().get(Router);
     http = getTestBed().get(Http);
-    service = getTestBed().get({{ $gen->entityName() }}Service);
+    service = getTestBed().get({{ $crud->entityName() }}Service);
 
     mockBackend = getTestBed().get(MockBackend);
     utils.setupMockBackend(mockBackend);
@@ -158,7 +158,7 @@ describe('{{ $cmpClass }}', () => {
     expect(html.querySelector('form a.btn.show-all-rows')).toBeTruthy('show all form link exists');
   }));
 
-  it('should make certains {{ $gen->entityName() }}Service calls on create form init', fakeAsync(() => {
+  it('should make certains {{ $crud->entityName() }}Service calls on create form init', fakeAsync(() => {
     spyOn(service, 'getFormModel').and.returnValue(Observable.from([{}]));
     component.formType = 'create';
 
@@ -169,7 +169,7 @@ describe('{{ $cmpClass }}', () => {
     expect(service.getFormModel).toHaveBeenCalled();
   }));
 
-  it('should make certains {{ $gen->entityName() }}Service calls on details form init', fakeAsync(() => {
+  it('should make certains {{ $crud->entityName() }}Service calls on details form init', fakeAsync(() => {
     spyOn(service, 'getFormModel').and.returnValue(Observable.from([{}]));
     spyOn(service, 'getById').and.returnValue(Observable.from([{}]));
     component.formType = 'details';
@@ -182,7 +182,7 @@ describe('{{ $cmpClass }}', () => {
     expect(service.getById).toHaveBeenCalled();
   }));
 
-  it('should make certains {{ $gen->entityName() }}Service calls on edit form init', fakeAsync(() => {
+  it('should make certains {{ $crud->entityName() }}Service calls on edit form init', fakeAsync(() => {
     spyOn(service, 'getFormModel').and.returnValue(Observable.from([{}]));
     spyOn(service, 'getById').and.returnValue(Observable.from([{}]));
     component.formType = 'edit';
@@ -299,7 +299,7 @@ describe('{{ $cmpClass }}', () => {
     fixture.detectChanges();
 
     expect(router.navigateByUrl).toHaveBeenCalledWith(
-      jasmine.stringMatching('/{{ $gen->slugEntityName() }}'),
+      jasmine.stringMatching('/{{ $crud->slugEntityName() }}'),
       { skipLocationChange: false, replaceUrl: false }
     );
   }));

@@ -1,21 +1,21 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
+namespace {{ $crud->containerName() }}{{ $crud->solveGroupClasses() }};
 
-use {{ $gen->containerName() }}\ApiTester;
-use {{ $gen->entityModelNamespace() }};
+use {{ $crud->containerName() }}\ApiTester;
+use {{ $crud->entityModelNamespace() }};
 
 /**
- * Delete{{ $gen->entityName() }}Cest Class.
+ * Delete{{ $crud->entityName() }}Cest Class.
  * 
  * @author [name] <[<email address>]>
  */
-class Delete{{ $gen->entityName() }}Cest
+class Delete{{ $crud->entityName() }}Cest
 {
     /**
      * @var string
      */
-	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/{id}';
+	private $endpoint = 'v1/{{ str_slug($crud->tableName, $separator = "-") }}/{id}';
 
     /**
      * @var App\Containers\User\Models\User
@@ -25,7 +25,7 @@ class Delete{{ $gen->entityName() }}Cest
     public function _before(ApiTester $I)
     {
     	$this->user = $I->loginAdminUser();
-        $I->init{{ $gen->entityName() }}Data();
+        $I->init{{ $crud->entityName() }}Data();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 
@@ -33,23 +33,23 @@ class Delete{{ $gen->entityName() }}Cest
     {
     }
 
-@if (!$gen->groupMainApiatoClasses)
+@if (!$crud->groupMainApiatoClasses)
     /**
-     * @group {{ $gen->entityName() }}
+     * @group {{ $crud->entityName() }}
      */
 @endif
-    public function delete{{ $gen->entityName() }}(ApiTester $I)
+    public function delete{{ $crud->entityName() }}(ApiTester $I)
     {
-    	$data = factory({{ $gen->entityName() }}::class)->create();
+    	$data = factory({{ $crud->entityName() }}::class)->create();
 
         $I->sendDELETE(str_replace('{id}', $data->getHashedKey(), $this->endpoint));
         $I->seeResponseCodeIs(202);
 
-@if ($gen->hasSoftDeleteColumn)
-        $deletedItem = $I->grabRecord('{{ $gen->tableName }}', ['id' => $data->id]);
+@if ($crud->hasSoftDeleteColumn)
+        $deletedItem = $I->grabRecord('{{ $crud->tableName }}', ['id' => $data->id]);
         $I->assertNotNull($deletedItem['deleted_at']);
 @else
-        $I->dontSeeRecord('{{ $gen->tableName }}', ['id' => $data->id]);
+        $I->dontSeeRecord('{{ $crud->tableName }}', ['id' => $data->id]);
 @endif
     }
 }

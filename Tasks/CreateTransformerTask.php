@@ -61,7 +61,7 @@ class CreateTransformerTask
         $template = $this->templatesDir().'.Porto/UI/API/Transformers/'.$file;
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
             ]);
 

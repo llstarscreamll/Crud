@@ -38,7 +38,7 @@ class ControllerGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.controller',
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'foreign_keys' => $this->getForeignKeys($this->table_name),
             'request' => $this->request,

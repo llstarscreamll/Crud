@@ -1,7 +1,7 @@
 <?= "<?php\n" ?>
 
-$router->get('{{ str_slug($gen->tableName, $separator = "-") }}/{id}', [
-    'uses'  => '{{ $gen->entityName() }}Controller@get{{ $gen->entityName() }}',
+$router->get('{{ str_slug($crud->tableName, $separator = "-") }}/{id}', [
+    'uses'  => '{{ $crud->entityName() }}Controller@get{{ $crud->entityName() }}',
     'middleware' => [
       'auth:api',
     ],

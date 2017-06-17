@@ -1,3 +1,3 @@
 <?= "<?php\n" ?>
 
-return {!! var_export($gen->getFormModelConfigArray($fields)) !!};
+return {!! var_export($crud->getFormModelConfigArray($fields)) !!};

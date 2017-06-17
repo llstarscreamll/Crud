@@ -5,23 +5,23 @@ import { TranslateService } from '@ngx-translate/core';
 
 import * as fromRoot from './../../../reducers';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
-import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
+import * as {{ $actions = camel_case($crud->entityName()).'Actions' }} from './../../actions/{{ $crud->slugEntityName() }}.actions';
 
-import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
+import { {{ $entitySin = $crud->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 
-import { {{ $abstractClass = $gen->componentClass('abstract', false, true) }}, SearchQuery } from './{{ str_replace('.ts', '', $gen->componentFile('abstract', false, true)) }}';
+import { {{ $abstractClass = $crud->componentClass('abstract', false, true) }}, SearchQuery } from './{{ str_replace('.ts', '', $crud->componentFile('abstract', false, true)) }}';
 
 /**
- * {{ $gen->componentClass('search-basic', $plural = false) }} Class.
+ * {{ $crud->componentClass('search-basic', $plural = false) }} Class.
  *
  * @author [name] <[<email address>]>
  */
 {{ '@' }}Component({
-  selector: '{{ $selector = str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}',
-  templateUrl: './{{ $gen->componentFile('search-basic-html', false) }}',
+  selector: '{{ $selector = str_replace(['.ts', '.'], ['', '-'], $crud->componentFile('search-basic', false)) }}',
+  templateUrl: './{{ $crud->componentFile('search-basic-html', false) }}',
   exportAs: '{{ str_replace('-component', '', $selector) }}',
 })
-export class {{ $gen->componentClass('search-basic', $plural = false) }} extends {{ $abstractClass }} implements OnInit {
+export class {{ $crud->componentClass('search-basic', $plural = false) }} extends {{ $abstractClass }} implements OnInit {
   @Output()
   public advancedSearchBtnClick = new EventEmitter<null>();
   

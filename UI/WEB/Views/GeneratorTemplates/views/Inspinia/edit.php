@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -10,7 +10,7 @@
     Muestra la vista de edición de registros.
     ****************************************************************************
 
-    <?= $gen->getViewCopyRightDocBlock() ?>
+    <?= $crud->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}
@@ -18,7 +18,7 @@
 @extends('<?=config('modules.crud.config.layout')?>')
 
 {{-- page title --}}
-@section('title') {{trans('<?= $gen->solveSharedResourcesNamespace() ?>.views.edit').trans('<?=$gen->getLangAccess()?>.module.name-singular')}} @endsection
+@section('title') {{trans('<?= $crud->solveSharedResourcesNamespace() ?>.views.edit').trans('<?=$crud->getLangAccess()?>.module.name-singular')}} @endsection
 {{-- /page title --}}
 
 {{-- view styles --}}
@@ -30,7 +30,7 @@
 @section('content')
 
 {{-- heading --}}
-@include('<?=$gen->viewsDirName()?>.partials.heading', ['small_title' => trans('<?= $gen->solveSharedResourcesNamespace() ?>.views.edit')])
+@include('<?=$crud->viewsDirName()?>.partials.heading', ['small_title' => trans('<?= $crud->solveSharedResourcesNamespace() ?>.views.edit')])
     
 {{-- content --}}
 <div class="wrapper wrapper-content">
@@ -44,24 +44,24 @@
                 @include ('<?=config('modules.crud.config.layout-namespace')?>partials.notifications')
 
                 {!! Form::model(
-                    $<?=$gen->modelVariableName()?>,
+                    $<?=$crud->modelVariableName()?>,
                     [
-                        'route' => ['<?=$gen->route()?>.update', $<?=$gen->modelVariableName()?>->id],
+                        'route' => ['<?=$crud->route()?>.update', $<?=$crud->modelVariableName()?>->id],
                         'method' => 'PUT',
-                        'name' => 'edit-<?=$gen->getDashedModelName()?>-form'
+                        'name' => 'edit-<?=$crud->getDashedModelName()?>-form'
                     ]
                 ) !!}
 
-                    @include('<?=$gen->viewsDirName()?>.partials.form-fields')
+                    @include('<?=$crud->viewsDirName()?>.partials.form-fields')
 
                     <div class="clearfix"></div>
 
                     <div class="form-group col-sm-6">
                         <button type="submit" class="btn btn-warning">
                             <span class="glyphicon glyphicon-pencil"></span>
-                            <span class="">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.edit-btn')}}</span> 
+                            <span class="">{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.edit-btn')}}</span> 
                         </button>
-                        <span id="helpBlock" class="help-block">{!!trans('<?= $gen->solveSharedResourcesNamespace() ?>.inputs-required-msg')!!}</span>
+                        <span id="helpBlock" class="help-block">{!!trans('<?= $crud->solveSharedResourcesNamespace() ?>.inputs-required-msg')!!}</span>
                     </div>
 
                     <div class="clearfix"></div>
@@ -82,7 +82,7 @@
 {{-- view scripts--}}
 @section('scripts')
 <?php if ($request->get('include_assets', false)) { ?>
-@include('<?=$gen->viewsDirName()?>.partials.form-assets')
+@include('<?=$crud->viewsDirName()?>.partials.form-assets')
 <?php } ?>
-@include('<?=$gen->viewsDirName()?>.partials.form-scripts')
+@include('<?=$crud->viewsDirName()?>.partials.form-scripts')
 @endsection()

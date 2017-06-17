@@ -1,7 +1,7 @@
 <?= "<?php\n" ?>
 
-$router->delete('{{ str_slug($gen->tableName, $separator = "-") }}/{id}', [
-    'uses'  => '{{ $gen->entityName() }}Controller@delete{{ $gen->entityName() }}',
+$router->delete('{{ str_slug($crud->tableName, $separator = "-") }}/{id}', [
+    'uses'  => '{{ $crud->entityName() }}Controller@delete{{ $crud->entityName() }}',
     'middleware' => [
       'auth:api',
     ],

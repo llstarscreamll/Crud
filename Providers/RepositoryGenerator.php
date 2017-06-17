@@ -74,7 +74,7 @@ class RepositoryGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.repositoryInterface',
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request,
             ]
@@ -101,7 +101,7 @@ class RepositoryGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.repositoryEloquentImplementation',
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request,
             ]
@@ -128,7 +128,7 @@ class RepositoryGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.repositoryCriteria',
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request,
             ]

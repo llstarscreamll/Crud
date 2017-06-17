@@ -1,15 +1,15 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\UI\API\Requests{{ $gen->solveGroupClasses() }};
+namespace App\Containers\{{ $crud->containerName() }}\UI\API\Requests{{ $crud->solveGroupClasses() }};
 
 use App\Ship\Parents\Requests\Request;
 
 /**
- * Class {{ str_replace('.php', '', $gen->apiRequestFile('Restore', $plural = false)) }}.
+ * Class {{ str_replace('.php', '', $crud->apiRequestFile('Restore', $plural = false)) }}.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ str_replace('.php', '', $gen->apiRequestFile('Restore', $plural = false)) }} extends Request
+class {{ str_replace('.php', '', $crud->apiRequestFile('Restore', $plural = false)) }} extends Request
 {
 
     /**
@@ -19,7 +19,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Restore', $plural = false
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => '{{ $gen->slugEntityName(true) }}.restore',
+        'permissions' => '{{ $crud->slugEntityName(true) }}.restore',
     ];
 
     /**
@@ -47,7 +47,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Restore', $plural = false
     public function rules()
     {
         return [
-            'id' => 'required|exists:{{ $gen->tableName }},id',
+            'id' => 'required|exists:{{ $crud->tableName }},id',
         ];
     }
 

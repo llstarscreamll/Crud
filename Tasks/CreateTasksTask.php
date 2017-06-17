@@ -84,7 +84,7 @@ class CreateTasksTask
             $template = $this->templatesDir().'.Porto.Tasks.'.$file;
 
             $content = view($template, [
-                'gen' => $this,
+                'crud' => $this,
                 'fields' => $this->parsedFields
             ]);
 

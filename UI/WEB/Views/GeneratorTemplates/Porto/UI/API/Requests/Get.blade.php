@@ -1,15 +1,15 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\UI\API\Requests{{ $gen->solveGroupClasses() }};
+namespace App\Containers\{{ $crud->containerName() }}\UI\API\Requests{{ $crud->solveGroupClasses() }};
 
 use App\Ship\Parents\Requests\Request;
 
 /**
- * {{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }} Class.
+ * {{ str_replace('.php', '', $crud->apiRequestFile('Get', $plural = false)) }} Class.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }} extends Request
+class {{ str_replace('.php', '', $crud->apiRequestFile('Get', $plural = false)) }} extends Request
 {
 	/**
      * Define which Roles and/or Permissions has access to this request.
@@ -18,7 +18,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => '{{ $gen->slugEntityName(true) }}.details',
+        'permissions' => '{{ $crud->slugEntityName(true) }}.details',
     ];
 
     /**
@@ -46,7 +46,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('Get', $plural = false)) }
     public function rules()
     {
         return [
-            'id' => 'required|exists:{{ $gen->tableName }},id'
+            'id' => 'required|exists:{{ $crud->tableName }},id'
         ];
     }
 

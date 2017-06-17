@@ -1,6 +1,6 @@
 import { EffectsModule } from '@ngrx/effects';
-import { {{ $gen->entityName().'Effects' }} } from './{{ $gen->slugEntityName().'.effects' }}';
+import { {{ $crud->entityName().'Effects' }} } from './{{ $crud->slugEntityName().'.effects' }}';
 
 export const EFFECTS = [
-  EffectsModule.run({{ $gen->entityName().'Effects' }}),
+  EffectsModule.run({{ $crud->entityName().'Effects' }}),
 ];

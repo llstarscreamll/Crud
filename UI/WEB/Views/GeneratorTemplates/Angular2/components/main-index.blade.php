@@ -1,5 +1,5 @@
-import { {{ $gen->entityName().'Components' }} } from './{{ $gen->slugEntityName().'' }}';
+import { {{ $crud->entityName().'Components' }} } from './{{ $crud->slugEntityName().'' }}';
 
 export const COMPONENTS = [
-	{{ $gen->entityName().'Components' }},
+	{{ $crud->entityName().'Components' }},
 ];

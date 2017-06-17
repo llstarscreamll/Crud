@@ -1,21 +1,21 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
+namespace {{ $crud->containerName() }}{{ $crud->solveGroupClasses() }};
 
-use {{ $gen->containerName() }}\ApiTester;
-use {{ $gen->entityModelNamespace() }};
+use {{ $crud->containerName() }}\ApiTester;
+use {{ $crud->entityModelNamespace() }};
 
 /**
- * ListAndSearch{{ $gen->entityName() }}Cest Class.
+ * ListAndSearch{{ $crud->entityName() }}Cest Class.
  * 
  * @author [name] <[<email address>]>
  */
-class ListAndSearch{{ $gen->entityName(true) }}Cest
+class ListAndSearch{{ $crud->entityName(true) }}Cest
 {
     /**
      * @var string
      */
-	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}';
+	private $endpoint = 'v1/{{ str_slug($crud->tableName, $separator = "-") }}';
 
     /**
      * @var App\Containers\User\Models\User
@@ -25,7 +25,7 @@ class ListAndSearch{{ $gen->entityName(true) }}Cest
     public function _before(ApiTester $I)
     {
     	$this->user = $I->loginAdminUser();
-        $I->init{{ $gen->entityName() }}Data();
+        $I->init{{ $crud->entityName() }}Data();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 
@@ -33,14 +33,14 @@ class ListAndSearch{{ $gen->entityName(true) }}Cest
     {
     }
 
-@if (!$gen->groupMainApiatoClasses)
+@if (!$crud->groupMainApiatoClasses)
     /**
-     * @group {{ $gen->entityName() }}
+     * @group {{ $crud->entityName() }}
      */
 @endif
-    public function listAndSearch{{ $gen->entityName() }}(ApiTester $I)
+    public function listAndSearch{{ $crud->entityName() }}(ApiTester $I)
     {
-    	$data = factory({{ $gen->entityName() }}::class, 10)->create();
+    	$data = factory({{ $crud->entityName() }}::class, 10)->create();
 
         $I->sendGET($this->endpoint);
 

@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\FormRequestGenerator */
+/* @var $crud App\Containers\Crud\Providers\FormRequestGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -7,29 +7,29 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
 namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests;
 
 use Illuminate\Http\Response;
 use Illuminate\Foundation\Http\FormRequest;
-use <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $crud->modelClassName() ?>;
 <?php if ($request->get('use_x_editable', false)) { ?>
-<?php if ($gen->areWeUsingCoreModule()) { ?>
+<?php if ($crud->areWeUsingCoreModule()) { ?>
 use llstarscreamll\Core\Traits\FormRequestXEditableSetup;
 <?php } else { ?>
 use <?= config('modules.crud.config.parent-app-namespace') ?>\Traits\FormRequestXEditableSetup;<?= config('modules.crud.config.parent-app-namespace') ?>\Traits\FormRequestXEditableSetup;
 <?php } ?>
 <?php } else { ?>
-<?php if ($gen->areWeUsingCoreModule()) { ?>
+<?php if ($crud->areWeUsingCoreModule()) { ?>
 use llstarscreamll\Core\Traits\FormRequestBasicSetup;
 <?php } else { ?>
 use <?= config('modules.crud.config.parent-app-namespace') ?>\Traits\FormRequestBasicSetup;
 <?php } ?>
 <?php } ?>
 
-class <?= $gen->modelClassName()."Request" ?> extends FormRequest
+class <?= $crud->modelClassName()."Request" ?> extends FormRequest
 {
 <?php if ($request->get('use_x_editable', false)) { ?>
     use FormRequestXEditableSetup;
@@ -38,10 +38,10 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
 <?php } ?>
 
     /**
-     * @var <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>
+     * @var <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $crud->modelClassName() ?>
 
      */
-    private $<?= $gen->modelVariableName() ?>;
+    private $<?= $crud->modelVariableName() ?>;
 
     /**
      * El prefijo para los campos de búsqueda.
@@ -54,8 +54,8 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
      * @var array
      */
     private $routesAuthMap = [
-        '<?= $gen->route() ?>.store' => '<?= $gen->route() ?>.create',
-        '<?= $gen->route() ?>.update' => '<?= $gen->route() ?>.edit',
+        '<?= $crud->route() ?>.store' => '<?= $crud->route() ?>.create',
+        '<?= $crud->route() ?>.update' => '<?= $crud->route() ?>.edit',
     ];
 
     /**
@@ -63,14 +63,14 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
      *
      * @var string
      */
-    private $messagesLangPath = '<?= $gen->getLangAccess() ?>.messages';
+    private $messagesLangPath = '<?= $crud->getLangAccess() ?>.messages';
 
     /**
      * Ruta de acceso a ficheros de lengaje de nombres de atributos de validación.
      *
      * @var string
      */
-    private $attributesLangPath = '<?= $gen->getLangAccess() ?>.attributes';
+    private $attributesLangPath = '<?= $crud->getLangAccess() ?>.attributes';
 
     /**
      * Determine if the user is authorized to make this request.
@@ -95,10 +95,10 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
      */
     public function rules()
     {
-<?php if ($gen->areEnumFields($fields)) { ?>
-        $this-><?= $gen->modelVariableName() ?> = new <?= $gen->modelClassName() ?>;
+<?php if ($crud->areEnumFields($fields)) { ?>
+        $this-><?= $crud->modelVariableName() ?> = new <?= $crud->modelClassName() ?>;
 <?php } ?>
-        $this->prefix = <?= $gen->getSearchFieldsPrefixConfigString() ?>;
+        $this->prefix = <?= $crud->getSearchFieldsPrefixConfigString() ?>;
         
         list($controller, $method) = explode("@", $this->route()->getActionName());
         $method = $method.'Rules';
@@ -116,19 +116,19 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
         return [
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime') { ?>
-            $this->prefix.'.<?= $field->name ?>.from' => <?= $gen->getValidationRules($field, 'index') ?>,
-            $this->prefix.'.<?= $field->name ?>.to' => <?= $gen->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>.from' => <?= $crud->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>.to' => <?= $crud->getValidationRules($field, 'index') ?>,
 <?php } elseif ($field->type == "enum") { ?>
-            $this->prefix.'.<?= $field->name ?>.*' => <?= $gen->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>.*' => <?= $crud->getValidationRules($field, 'index') ?>,
 <?php } elseif ($field->type == "tinyint") { ?>
-            $this->prefix.'.<?= $field->name ?>_true' => <?= $gen->getValidationRules($field, 'index') ?>,
-            $this->prefix.'.<?= $field->name ?>_false' => <?= $gen->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>_true' => <?= $crud->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>_false' => <?= $crud->getValidationRules($field, 'index') ?>,
 <?php } else { ?>
-            $this->prefix.'.<?= $field->name ?>' => <?= $gen->getValidationRules($field, 'index') ?>,
+            $this->prefix.'.<?= $field->name ?>' => <?= $crud->getValidationRules($field, 'index') ?>,
 <?php } ?>
 <?php } ?>
             $this->prefix.'.sort' => ['string'],
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
             $this->prefix.'.trashed_records' => ['in:onlyTrashed,withTrashed'],
 <?php } ?>
         ];
@@ -143,7 +143,7 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
     {
         return [
 <?php foreach ($fields as $field) { ?>
-            '<?= $field->name ?>' => <?= $gen->getValidationRules($field, 'store') ?>,
+            '<?= $field->name ?>' => <?= $crud->getValidationRules($field, 'store') ?>,
 <?php } ?>
         ];
     }
@@ -157,7 +157,7 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
     {
         $rules = [
 <?php foreach ($fields as $field) { ?>
-            '<?= $field->name ?>' => <?= $gen->getValidationRules($field, 'update') ?>,
+            '<?= $field->name ?>' => <?= $crud->getValidationRules($field, 'update') ?>,
 <?php } ?>
         ];
 
@@ -180,7 +180,7 @@ class <?= $gen->modelClassName()."Request" ?> extends FormRequest
             'id.*' => ['numeric'],
         ];
     }
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
 
     /**
      * Las reglas de validación para el método restore.

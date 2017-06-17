@@ -1,5 +1,5 @@
-import { {{ $gen->entityName().'Pages' }} } from './{{ $gen->slugEntityName().'' }}';
+import { {{ $crud->entityName().'Pages' }} } from './{{ $crud->slugEntityName().'' }}';
 
 export const PAGES = [
-	{{ $gen->entityName().'Pages' }},
+	{{ $crud->entityName().'Pages' }},
 ];

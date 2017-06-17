@@ -438,7 +438,7 @@ trait DataGenerator
         }
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parseFields($this->request)
         ]);
 

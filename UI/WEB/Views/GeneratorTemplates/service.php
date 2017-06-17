@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 /* @var $foreign_keys [] */
@@ -7,41 +7,41 @@
 <?= '<?php'?>
 
 
-<?=  $gen->getClassCopyRightDocBlock() ?>
+<?=  $crud->getClassCopyRightDocBlock() ?>
 
 
 namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Services;
 
-use <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>;
-use <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository;
-use <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName() ?>;
-<?php $gen->namespacesAdded = []; ?>
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $crud->modelClassName()."Request" ?>;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $crud->modelClassName() ?>Repository;
+use <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $crud->modelClassName() ?>;
+<?php $crud->namespacesAdded = []; ?>
 <?php foreach ($foreign_keys as $foreign) { ?>
-<?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
-use <?= $gen->getModelRepositoryNamespace($class) ?>;
+<?php if (($class = $crud->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
+use <?= $crud->getModelRepositoryNamespace($class) ?>;
 <?php } ?>
 <?php } ?>
 use Illuminate\Support\Collection;
 
 /**
- * Clase <?= $gen->modelClassName()."Service\n" ?>
+ * Clase <?= $crud->modelClassName()."Service\n" ?>
  *
  * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
  */
-class <?= $gen->modelClassName() ?>Service
+class <?= $crud->modelClassName() ?>Service
 {
     /**
-     * @var <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository
+     * @var <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $crud->modelClassName() ?>Repository
      */
-    private $<?= $gen->modelVariableName() ?>Repository;
-<?php $gen->namespacesAdded = []; ?>
+    private $<?= $crud->modelVariableName() ?>Repository;
+<?php $crud->namespacesAdded = []; ?>
 <?php foreach ($foreign_keys as $foreign) { ?>
-<?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
+<?php if (($class = $crud->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
     
     /**
-     * @var <?= $gen->getModelRepositoryNamespace($class)."\n" ?>
+     * @var <?= $crud->getModelRepositoryNamespace($class)."\n" ?>
      */
-    private <?= $gen->modelVariableNameFromClass($class)."Repository;\n" ?>
+    private <?= $crud->modelVariableNameFromClass($class)."Repository;\n" ?>
 <?php } ?>
 <?php } ?>
 
@@ -66,7 +66,7 @@ class <?= $gen->modelClassName() ?>Service
      */
     private $forceQueryColumns = [
         'id',
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
         'deleted_at'
 <?php } ?>
     ];
@@ -74,25 +74,25 @@ class <?= $gen->modelClassName() ?>Service
     /**
      * Crea nueva instancia del servicio.
      *
-     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $gen->modelClassName() ?>Repository $<?= $gen->modelVariableName() ?>Repository
-<?php $gen->namespacesAdded = []; ?>
+     * @param <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts\<?= $crud->modelClassName() ?>Repository $<?= $crud->modelVariableName() ?>Repository
+<?php $crud->namespacesAdded = []; ?>
 <?php foreach ($foreign_keys as $foreign) { ?>
-<?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
-     * @param <?= ($class = $gen->getModelRepositoryNamespace($class))." ".$gen->modelVariableNameFromClass($class)."\n" ?>
+<?php if (($class = $crud->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
+     * @param <?= ($class = $crud->getModelRepositoryNamespace($class))." ".$crud->modelVariableNameFromClass($class)."\n" ?>
 <?php } ?>
 <?php } ?>
      */
-    public function __construct(<?= $gen->modelClassName() ?>Repository $<?= $gen->modelVariableName() ?>Repository<?php $gen->namespacesAdded = []; ?><?php foreach ($foreign_keys as $foreign) { ?>
-<?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
-, <?= class_basename($class = $gen->getModelRepositoryNamespace($class))." ".$gen->modelVariableNameFromClass($class) ?>
+    public function __construct(<?= $crud->modelClassName() ?>Repository $<?= $crud->modelVariableName() ?>Repository<?php $crud->namespacesAdded = []; ?><?php foreach ($foreign_keys as $foreign) { ?>
+<?php if (($class = $crud->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
+, <?= class_basename($class = $crud->getModelRepositoryNamespace($class))." ".$crud->modelVariableNameFromClass($class) ?>
 <?php } ?>
 <?php } ?>)
     {
-        $this-><?= $gen->modelVariableName() ?>Repository = $<?= $gen->modelVariableName() ?>Repository;
-<?php $gen->namespacesAdded = []; ?>
+        $this-><?= $crud->modelVariableName() ?>Repository = $<?= $crud->modelVariableName() ?>Repository;
+<?php $crud->namespacesAdded = []; ?>
 <?php foreach ($foreign_keys as $foreign) { ?>
-<?php if (($class = $gen->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
-        <?= str_replace('$', '$this->', $gen->modelVariableNameFromClass($class)).'Repository = '.$gen->modelVariableNameFromClass($class)."Repository;\n" ?>
+<?php if (($class = $crud->getForeignKeyModelNamespace($foreign, $fields)) !== false) { ?>
+        <?= str_replace('$', '$this->', $crud->modelVariableNameFromClass($class)).'Repository = '.$crud->modelVariableNameFromClass($class)."Repository;\n" ?>
 <?php } ?>
 <?php } ?>
     }
@@ -101,14 +101,14 @@ class <?= $gen->modelClassName() ?>Service
      * Obtiene datos de consulta predeterminada o lo que indique el usuario de
      * la entidad para la vista Index.
      *
-     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $crud->modelClassName()."Request" ?>  $request
      *
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
-    public function indexSearch(<?= $gen->modelClassName()."Request" ?> $request)
+    public function indexSearch(<?= $crud->modelClassName()."Request" ?> $request)
     {
         $search = collect($request->get('search'));
-        return $this-><?= $gen->modelVariableName() ?>Repository
+        return $this-><?= $crud->modelVariableName() ?>Repository
             ->getRequested($search, $this->getQueryColumns($search));
     }
 
@@ -131,11 +131,11 @@ class <?= $gen->modelClassName() ?>Service
     /**
      * Obtiene los datos para la vista Index.
      *
-     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $crud->modelClassName()."Request" ?>  $request
      *
      * @return array
      */
-    public function getIndexTableData(<?= $gen->modelClassName()."Request" ?> $request)
+    public function getIndexTableData(<?= $crud->modelClassName()."Request" ?> $request)
     {
         $search = collect($request->get('search'));
 
@@ -146,10 +146,10 @@ class <?= $gen->modelClassName() ?>Service
             $this->defaultSelectedtableColumns
         );
 <?php if ($request->get('use_x_editable', false)) { ?>
-<?php if ($gen->areEnumFields($fields)) { ?>
+<?php if ($crud->areEnumFields($fields)) { ?>
 
         // obtenemos datos Json para plugin x-editable
-        $<?= $gen->modelVariableName() ?> = new <?= $gen->modelClassName() ?>;
+        $<?= $crud->modelVariableName() ?> = new <?= $crud->modelClassName() ?>;
 <?php } ?>
 <?php foreach ($foreign_keys as $foreign) { ?>
 <?php if (($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references))) { ?>
@@ -163,7 +163,7 @@ class <?= $gen->modelClassName() ?>Service
 <?php if ($field->type == 'enum') { ?>
         $data['<?= $field->name ?>_list_json'] = collect($data['<?= $field->name ?>_list'])
             ->map(function ($item, $key) {
-                return [$key => trans('<?= $gen->modelVariableName() ?>.form-labels.<?= $field->name ?>.'.$item)];
+                return [$key => trans('<?= $crud->modelVariableName() ?>.form-labels.<?= $field->name ?>.'.$item)];
             })->values()->toJson();
 <?php } ?>
 <?php } ?>
@@ -187,7 +187,7 @@ class <?= $gen->modelClassName() ?>Service
 <?php } ?>
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->type == 'enum') { ?>
-        $data['<?= $field->name ?>_list'] = $this-><?= $gen->modelVariableName() ?>Repository->getEnumFieldSelectList('<?= $field->name ?>');
+        $data['<?= $field->name ?>_list'] = $this-><?= $crud->modelVariableName() ?>Repository->getEnumFieldSelectList('<?= $field->name ?>');
 <?php } ?>
 <?php } ?>
     
@@ -204,20 +204,20 @@ class <?= $gen->modelClassName() ?>Service
     public function getShowFormData(int $id)
     {
         $data = array();
-        $<?= $gen->modelVariableName() ?> = $this-><?= $gen->modelVariableName() ?>Repository->find($id);
-        $data['<?= $gen->modelVariableName() ?>'] = <?= '$'.$gen->modelVariableName() ?>;
+        $<?= $crud->modelVariableName() ?> = $this-><?= $crud->modelVariableName() ?>Repository->find($id);
+        $data['<?= $crud->modelVariableName() ?>'] = <?= '$'.$crud->modelVariableName() ?>;
 <?php foreach ($foreign_keys as $foreign) { ?>
 <?php if (($child_table = explode(".", $foreign->foreign_key)) && ($parent_table = explode(".", $foreign->references))) { ?>
         $data['<?= $child_table[1] ?>_list'] = $this-><?= camel_case(str_singular($parent_table[0])) ?>Repository->getSelectList(
             'id',
             'name',
-            (array) $<?= $gen->modelVariableName() ?>-><?= $child_table[1]."\n" ?>
+            (array) $<?= $crud->modelVariableName() ?>-><?= $child_table[1]."\n" ?>
         );
 <?php } ?>
 <?php } ?>
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->type == 'enum') { ?>
-        $data['<?= $field->name ?>_list'] = $<?= $gen->modelVariableName() ?>->getEnumValuesArray('<?= $field->name ?>');
+        $data['<?= $field->name ?>_list'] = $<?= $crud->modelVariableName() ?>->getEnumValuesArray('<?= $field->name ?>');
 <?php } ?>
 <?php } ?>
     
@@ -234,7 +234,7 @@ class <?= $gen->modelClassName() ?>Service
     public function getEditFormData(int $id)
     {
         $data = array();
-        $data['<?= $gen->modelVariableName() ?>'] = $this-><?= $gen->modelVariableName() ?>Repository->find($id);
+        $data['<?= $crud->modelVariableName() ?>'] = $this-><?= $crud->modelVariableName() ?>Repository->find($id);
         $data += $this->getCreateFormData();
         
         return $data;
@@ -243,79 +243,79 @@ class <?= $gen->modelClassName() ?>Service
     /**
      * Guarda en base de datos nuevo registro de <?= $request->get('single_entity_name') ?>.
      *
-     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $crud->modelClassName()."Request" ?>  $request
      *
-     * @return <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName()."\n" ?>
+     * @return <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $crud->modelClassName()."\n" ?>
      */
-    public function store(<?= $gen->modelClassName()."Request" ?> $request)
+    public function store(<?= $crud->modelClassName()."Request" ?> $request)
     {
         $input = null_empty_fields($request->all());
-        $<?= $gen->modelVariableName() ?> = $this-><?= $gen->modelVariableName() ?>Repository->create($input);
-        session()->flash('success', trans('<?= $gen->getLangAccess() ?>.store_<?= $gen->snakeCaseSingular() ?>_success'));
+        $<?= $crud->modelVariableName() ?> = $this-><?= $crud->modelVariableName() ?>Repository->create($input);
+        session()->flash('success', trans('<?= $crud->getLangAccess() ?>.store_<?= $crud->snakeCaseSingular() ?>_success'));
 
-        return $<?= $gen->modelVariableName() ?>;
+        return $<?= $crud->modelVariableName() ?>;
     }
 
     /**
      * Realiza actualización de <?= $request->get('single_entity_name') ?>.
      *
      * @param  int  $id
-     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $crud->modelClassName()."Request" ?>  $request
      *
-     * @return  <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $gen->modelClassName()."\n" ?>
+     * @return  <?= config('modules.crud.config.parent-app-namespace') ?>\Models\<?= $crud->modelClassName()."\n" ?>
      */
-    public function update(int $id, <?= $gen->modelClassName()."Request" ?> $request)
+    public function update(int $id, <?= $crud->modelClassName()."Request" ?> $request)
     {
 <?php if ($request->get('use_x_editable', false)) { ?>
         if ($request->isXmlHttpRequest()) {
             $data = [$request->name  => $request->value];
-            $<?= $gen->modelVariableName() ?> = $this-><?= $gen->modelVariableName() ?>Repository->update($data, $id);
-            return $<?= $gen->modelVariableName() ?>;
+            $<?= $crud->modelVariableName() ?> = $this-><?= $crud->modelVariableName() ?>Repository->update($data, $id);
+            return $<?= $crud->modelVariableName() ?>;
         }
 
 <?php } ?>
         $input = null_empty_fields($request->all());
-        $<?= $gen->modelVariableName() ?> = $this-><?= $gen->modelVariableName() ?>Repository->update($input, $id);
+        $<?= $crud->modelVariableName() ?> = $this-><?= $crud->modelVariableName() ?>Repository->update($input, $id);
         session()->flash(
             'success',
-            trans('<?= $gen->getLangAccess() ?>.update_<?= $gen->snakeCaseSingular() ?>_success')
+            trans('<?= $crud->getLangAccess() ?>.update_<?= $crud->snakeCaseSingular() ?>_success')
         );
 
-        return $<?= $gen->modelVariableName() ?>;
+        return $<?= $crud->modelVariableName() ?>;
     }
 
     /**
-     * Realiza acción de <?= strtolower($gen->getDestroyBtnTxt()) ?> registro de <?= $request->get('single_entity_name') ?>.
+     * Realiza acción de <?= strtolower($crud->getDestroyBtnTxt()) ?> registro de <?= $request->get('single_entity_name') ?>.
      *
      * @param  int  $id
-     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $crud->modelClassName()."Request" ?>  $request
      */
-    public function destroy(int $id, <?= $gen->modelClassName()."Request" ?> $request)
+    public function destroy(int $id, <?= $crud->modelClassName()."Request" ?> $request)
     {
         $id = $request->has('id') ? $request->get('id') : $id;
 
-        $this-><?= $gen->modelVariableName() ?>Repository->destroy($id);
+        $this-><?= $crud->modelVariableName() ?>Repository->destroy($id);
         session()->flash(
             'success',
-            trans_choice('<?= $gen->getLangAccess() ?>.destroy_<?= $gen->snakeCaseSingular() ?>_success', count($id))
+            trans_choice('<?= $crud->getLangAccess() ?>.destroy_<?= $crud->snakeCaseSingular() ?>_success', count($id))
         );
     }
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
 
     /**
      * Realiza restauración de <?= $request->get('single_entity_name') ?>.
      *
      * @param  int  $id
-     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $gen->modelClassName()."Request" ?>  $request
+     * @param  <?= config('modules.crud.config.parent-app-namespace') ?>\Http\Requests\<?= $crud->modelClassName()."Request" ?>  $request
      */
-    public function restore(int $id, <?= $gen->modelClassName()."Request" ?> $request)
+    public function restore(int $id, <?= $crud->modelClassName()."Request" ?> $request)
     {
         $id = $request->has('id') ? $request->get('id') : $id;
 
-        $this-><?= $gen->modelVariableName() ?>Repository->restore($id);
+        $this-><?= $crud->modelVariableName() ?>Repository->restore($id);
         session()->flash(
             'success',
-            trans_choice('<?= $gen->getLangAccess() ?>.restore_<?= $gen->snakeCaseSingular() ?>_success', count($id))
+            trans_choice('<?= $crud->getLangAccess() ?>.restore_<?= $crud->snakeCaseSingular() ?>_success', count($id))
         );
     }
 <?php } ?>

@@ -68,7 +68,7 @@ class CreateNgUtilsTask
             $template = $this->templatesDir().'.Angular2.utils.'.$file;
 
             $content = view($template, [
-                'gen' => $this,
+                'crud' => $this,
                 'request' => $this->request,
                 'fields' => $this->parsedFields
             ]);

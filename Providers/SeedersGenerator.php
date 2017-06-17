@@ -67,7 +67,7 @@ class SeedersGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.seeders.module-permissions-seeder',
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request,
             ]
@@ -88,7 +88,7 @@ class SeedersGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.seeders.module-fake-data-seeder',
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request,
             ]

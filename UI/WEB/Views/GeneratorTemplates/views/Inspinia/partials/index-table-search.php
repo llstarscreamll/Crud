@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -16,7 +16,7 @@
     $hide_actions_column = true
     ****************************************************************************
 
-    <?= $gen->getViewCopyRightDocBlock() ?>
+    <?= $crud->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}
@@ -31,7 +31,7 @@
 <?php if (!$field->hidden) { ?>
     @if(in_array('<?= $field->name ?>', $selectedTableColumns))
     <td class="<?= $field->name ?>">
-        <?=$gen->getSearchUISetup($field, $gen->table_name)?>
+        <?=$crud->getSearchUISetup($field, $crud->table_name)?>
     </td>
     @endif
 <?php } ?>
@@ -45,23 +45,23 @@
         <div class="dropdown display-inline-table"
              data-toggle="tooltip"
              data-placement="top"
-             title="{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-btn') }}">
+             title="{{ trans('<?= $crud->solveSharedResourcesNamespace() ?>.more-filters-btn') }}">
             
             <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <span class="sr-only">{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-btn') }}</span>
+                <span class="sr-only">{{ trans('<?= $crud->solveSharedResourcesNamespace() ?>.more-filters-btn') }}</span>
                 <span class="glyphicon glyphicon-filter"></span>
             </button>
 
             <ul class="dropdown-menu dropdown-menu-right prevent-hide" arialedby="dropdownMenu1">
-                <li class="dropdown-header">{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-btn') }}</li>
+                <li class="dropdown-header">{{ trans('<?= $crud->solveSharedResourcesNamespace() ?>.more-filters-btn') }}</li>
                 <li role="separator" class="divider"></li>
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
                 {{-- Con registros en papelera --}}
                 <li>
                     <div class="checkbox">
                         <label>
                             {!! UISearch::searchField('radio', 'trashed_records', 'withTrashed', [], []) !!}
-                            {{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.filter-with-trashed') }}
+                            {{ trans('<?= $crud->solveSharedResourcesNamespace() ?>.filter-with-trashed') }}
                         </label>
                     </div>
                 </li>
@@ -70,7 +70,7 @@
                     <div class="checkbox">
                         <label>
                             {!! UISearch::searchField('radio', 'trashed_records', 'onlyTrashed', [], []) !!}
-                            {{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.filter-only-trashed') }}
+                            {{ trans('<?= $crud->solveSharedResourcesNamespace() ?>.filter-only-trashed') }}
                         </label>
                     </div>
                 </li>
@@ -78,11 +78,11 @@
 
                 {{-- Las columnas de la tabla a mostrar u ocultar --}}
                 <li role="separator" class="divider"></li>
-                <li class="dropdown-header">{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.more-filters-table-columns') }}</li>
+                <li class="dropdown-header">{{ trans('<?= $crud->solveSharedResourcesNamespace() ?>.more-filters-table-columns') }}</li>
                 
                 {!! UISearch::makeCheckboxesArray(
                     'table_columns[]',
-                    trans('<?= $gen->getLangAccess() ?>.table-columns'),
+                    trans('<?= $crud->getLangAccess() ?>.table-columns'),
                     $selectedTableColumns
                 ) !!}
 
@@ -95,20 +95,20 @@
                 class="btn btn-primary btn-sm"
                 data-toggle="tooltip"
                 data-placement="top"
-                title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.search-btn')}}">
+                title="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.search-btn')}}">
             <span class="fa fa-search"></span>
-            <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.search-btn')}}</span>
+            <span class="sr-only">{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.search-btn')}}</span>
         </button>
 
         {{-- Recarga la página restableciendo los campos de búsqueda --}}
-        <a  href="{{route('<?=$gen->route()?>.index')}}"
+        <a  href="{{route('<?=$crud->route()?>.index')}}"
             class="btn btn-danger btn-sm"
             role="button"
             data-toggle="tooltip"
             data-placement="top"
-            title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.clean-filters-btn')}}">
+            title="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.clean-filters-btn')}}">
             <span class="glyphicon glyphicon-remove"></span>
-            <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.clean-filters-btn')}}</span>
+            <span class="sr-only">{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.clean-filters-btn')}}</span>
         </a>
 
     </td>

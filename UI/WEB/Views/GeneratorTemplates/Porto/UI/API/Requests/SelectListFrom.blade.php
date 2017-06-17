@@ -1,15 +1,15 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\UI\API\Requests{{ $gen->solveGroupClasses() }};
+namespace App\Containers\{{ $crud->containerName() }}\UI\API\Requests{{ $crud->solveGroupClasses() }};
 
 use App\Ship\Parents\Requests\Request;
 
 /**
- * Class {{ str_replace('.php', '', $gen->apiRequestFile('SelectListFrom')) }}.
+ * Class {{ str_replace('.php', '', $crud->apiRequestFile('SelectListFrom')) }}.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ str_replace('.php', '', $gen->apiRequestFile('SelectListFrom')) }} extends Request
+class {{ str_replace('.php', '', $crud->apiRequestFile('SelectListFrom')) }} extends Request
 {
 	/**
      * Define which Roles and/or Permissions has access to this request..

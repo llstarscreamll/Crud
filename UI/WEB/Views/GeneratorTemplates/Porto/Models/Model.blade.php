@@ -1,20 +1,20 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\Models;
+namespace App\Containers\{{ $crud->containerName() }}\Models;
 
 use App\Ship\Parents\Models\Model;
-@if($gen->hasSoftDeleteColumn)
+@if($crud->hasSoftDeleteColumn)
 use Illuminate\Database\Eloquent\SoftDeletes;
 @endif
 
 /**
- * {{ $gen->entityName() }} Class.
+ * {{ $crud->entityName() }} Class.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ $gen->entityName() }} extends Model
+class {{ $crud->entityName() }} extends Model
 {
-@if($gen->hasSoftDeleteColumn)
+@if($crud->hasSoftDeleteColumn)
 	use SoftDeletes;
 @endif
 
@@ -30,14 +30,14 @@ class {{ $gen->entityName() }} extends Model
      *
      * @var string
      */
-    protected $table = '{{ $gen->tableName }}';
+    protected $table = '{{ $crud->tableName }}';
 
     /**
      * Primary key.
      *
      * @var string
      */
-    protected $primaryKey = '{{ $gen->primaryKey }}';
+    protected $primaryKey = '{{ $crud->primaryKey }}';
 
     /**
      * Mass assignable attributes.
@@ -70,7 +70,7 @@ class {{ $gen->entityName() }} extends Model
      *
      * @var bool
      */
-    public $timestamps = {{ $gen->hasLaravelTimestamps ? 'true' : 'false' }};
+    public $timestamps = {{ $crud->hasLaravelTimestamps ? 'true' : 'false' }};
 
     /**
      * Attributes casted to Carbon dates.
@@ -100,7 +100,7 @@ class {{ $gen->entityName() }} extends Model
     protected $casts = [
 @foreach ($fields as $field)
 @if(!in_array($field->type, ['datetime', 'timestamp', 'date']))
-        '{{ $field->name }}' => '{{ $gen->getFieldTypeCast($field) }}',
+        '{{ $field->name }}' => '{{ $crud->getFieldTypeCast($field) }}',
 @endif
 @endforeach
     ];
@@ -110,7 +110,7 @@ class {{ $gen->entityName() }} extends Model
     /**
      * Relation with {{ $field->namespace.".\n" }}
      */
-    public function {{  $gen->relationNameFromField($field)  }}()
+    public function {{  $crud->relationNameFromField($field)  }}()
     {
         return $this->{{ $field->relation }}('{{ $field->namespace }}', '{{ $field->name }}');
     }

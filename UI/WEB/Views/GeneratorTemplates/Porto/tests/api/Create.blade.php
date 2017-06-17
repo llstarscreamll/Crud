@@ -1,21 +1,21 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
+namespace {{ $crud->containerName() }}{{ $crud->solveGroupClasses() }};
 
-use {{ $gen->containerName() }}\ApiTester;
-use {{ $gen->entityModelNamespace() }};
+use {{ $crud->containerName() }}\ApiTester;
+use {{ $crud->entityModelNamespace() }};
 
 /**
- * Create{{ $gen->entityName() }}Cest Class.
+ * Create{{ $crud->entityName() }}Cest Class.
  * 
  * @author [name] <[<email address>]>
  */
-class Create{{ $gen->entityName() }}Cest
+class Create{{ $crud->entityName() }}Cest
 {
     /**
      * @var string
      */
-    private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/create';
+    private $endpoint = 'v1/{{ str_slug($crud->tableName, $separator = "-") }}/create';
 
     /**
      * @var App\Containers\User\Models\User
@@ -25,7 +25,7 @@ class Create{{ $gen->entityName() }}Cest
     public function _before(ApiTester $I)
     {
         $this->user = $I->loginAdminUser();
-        $I->init{{ $gen->entityName() }}Data();
+        $I->init{{ $crud->entityName() }}Data();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 
@@ -33,14 +33,14 @@ class Create{{ $gen->entityName() }}Cest
     {
     }
 
-@if (!$gen->groupMainApiatoClasses)
+@if (!$crud->groupMainApiatoClasses)
     /**
-     * @group {{ $gen->entityName() }}
+     * @group {{ $crud->entityName() }}
      */
 @endif
-    public function create{{ $gen->entityName() }}(ApiTester $I)
+    public function create{{ $crud->entityName() }}(ApiTester $I)
     {
-        $newItem = factory({{ $gen->entityName() }}::class)->make();
+        $newItem = factory({{ $crud->entityName() }}::class)->make();
         $data = $newItem->toArray();
 @foreach ($fields as $field)
 @if(strpos($field->validation_rules, 'confirmed') !== false)
@@ -64,6 +64,6 @@ class Create{{ $gen->entityName() }}Cest
 @endforeach
 
         $data = array_intersect_key($newItem->toArray(), array_flip($newItem->getFillable()));
-        $I->seeRecord('{{ $gen->tableName }}', $data);
+        $I->seeRecord('{{ $crud->tableName }}', $data);
     }
 }

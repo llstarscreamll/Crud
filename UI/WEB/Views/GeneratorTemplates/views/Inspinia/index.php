@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -13,7 +13,7 @@
     partials.index-buttons).
     ****************************************************************************
 
-    <?= $gen->getViewCopyRightDocBlock() ?>
+    <?= $crud->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}
@@ -21,7 +21,7 @@
 @extends('<?=config('modules.crud.config.layout')?>')
 
 {{-- page title --}}
-@section('title') {{trans('<?=$gen->getLangAccess()?>.module.name')}} @endsection
+@section('title') {{trans('<?=$crud->getLangAccess()?>.module.name')}} @endsection
 {{-- /page title --}}
 
 {{-- view styles --}}
@@ -33,7 +33,7 @@
 @section('content')
 
 {{-- heading --}}
-@include('<?=$gen->viewsDirName()?>.partials.heading')
+@include('<?=$crud->viewsDirName()?>.partials.heading')
 
 {{-- content --}}
 <div class="wrapper wrapper-content">
@@ -45,13 +45,13 @@
             <div class="ibox-content">
                 
                 {{-- botonera --}}
-                @include('<?=$gen->viewsDirName()?>.partials.index-buttons')
+                @include('<?=$crud->viewsDirName()?>.partials.index-buttons')
                 
                 {{-- notificaciones --}}
                 @include('<?=config('modules.crud.config.layout-namespace')?>partials.notifications')
                 
                 {{-- tabla de datos --}}
-                @include('<?=$gen->viewsDirName()?>.partials.index-table')
+                @include('<?=$crud->viewsDirName()?>.partials.index-table')
 
             </div>
             {{-- /box content --}}
@@ -76,10 +76,10 @@
 {{-- view scripts--}}
 @section('scripts')
 <?php if ($request->get('include_assets', false)) { ?>
-@include('<?=$gen->viewsDirName()?>.partials.index-assets')
-@include('<?=$gen->viewsDirName()?>.partials.form-assets')
+@include('<?=$crud->viewsDirName()?>.partials.index-assets')
+@include('<?=$crud->viewsDirName()?>.partials.form-assets')
 <?php } ?>
-@include('<?=$gen->viewsDirName()?>.partials.form-scripts')
+@include('<?=$crud->viewsDirName()?>.partials.form-scripts')
 <script>
 <?php
 /////////////////////////////////////////////////////////////////////////////////////
@@ -94,7 +94,7 @@
         initiCheckPlugin();
         {{-- Previene que se esconda el dropdown al hacer clic en sus elementos hijos --}}
         preventDropDownHide();
-<?php if ($gen->hasTinyintTypeField($fields)) { ?>
+<?php if ($crud->hasTinyintTypeField($fields)) { ?>
         {{-- Inicializa el componente BootstrapSwitch --}}
         $(".bootstrap_switch").bootstrapSwitch();
 <?php } ?>
@@ -106,12 +106,12 @@
 // DateRangePicker si es que hay campos de fecha                                                          //
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ?>
-<?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
+<?php if ($crud->hasDateFields($fields) || $crud->hasDateTimeFields($fields)) { ?>
     {{-- Configuración regional para Bootstrap DateRangePicker --}}
-    dateRangePickerLocaleSettings = @include('<?= $gen->solveSharedResourcesNamespace() ?>.dateRangePickerLocales')
+    dateRangePickerLocaleSettings = @include('<?= $crud->solveSharedResourcesNamespace() ?>.dateRangePickerLocales')
 
     {{-- Algunos rangos de fecha predeterminados para Bootstrap DateRangePicker --}}
-    dateRangePickerRangesSettings = @include('<?= $gen->solveSharedResourcesNamespace() ?>.dateRangePickerRanges')
+    dateRangePickerRangesSettings = @include('<?= $crud->solveSharedResourcesNamespace() ?>.dateRangePickerRanges')
 
     let dateRangeFields = [
         {
@@ -153,6 +153,6 @@
 ?>
 <?php if ($request->get('use_x_editable', false)) { ?>
 {{-- Inicializa y configura x-editable --}}
-@include('<?= $gen->solveSharedResourcesNamespace() ?>.x-editable')
+@include('<?= $crud->solveSharedResourcesNamespace() ?>.x-editable')
 <?php } ?>
 @endsection

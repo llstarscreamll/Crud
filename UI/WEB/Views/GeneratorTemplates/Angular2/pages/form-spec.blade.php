@@ -9,17 +9,17 @@ import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from './../../../reducers';
 
-import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
-import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
-import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
-import { {{ $cpmClass = $gen->containerClass('form', false, true) }} } from './{{ str_replace('.ts', '', $gen->containerFile('form', false, true)) }}';
-import { {{ $components = $gen->entityName().'Components' }} } from './../../components/{{ $gen->slugEntityName().'' }}';
-import { {{ $pages = $gen->entityName().'Pages' }} } from './../../pages/{{ $gen->slugEntityName().'' }}';
-import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
+import * as utils from './../../utils/{{ $crud->slugEntityName() }}-testing.util';
+import { {{ $model = $crud->entityName() }} } from './../../models/{{ camel_case($crud->entityName()) }}';
+import { {{ $crud->getLanguageKey(true) }} } from './../../translations/{{ $crud->getLanguageKey() }}';
+import { {{ $cpmClass = $crud->containerClass('form', false, true) }} } from './{{ str_replace('.ts', '', $crud->containerFile('form', false, true)) }}';
+import { {{ $components = $crud->entityName().'Components' }} } from './../../components/{{ $crud->slugEntityName().'' }}';
+import { {{ $pages = $crud->entityName().'Pages' }} } from './../../pages/{{ $crud->slugEntityName().'' }}';
+import { {{ $service = $crud->entityName().'Service' }} } from './../../services/{{ $crud->slugEntityName() }}.service';
 import { AUTH_TESTING_COMPONENTS } from "app/auth/utils/auth-testing-utils";
 
 /**
- * {{ $gen->containerClass('form', false, true) }} Tests.
+ * {{ $crud->containerClass('form', false, true) }} Tests.
  *
  * @author [name] <[<email address>]>
  */
@@ -31,7 +31,7 @@ describe('{{ $cpmClass }}', () => {
   let router: Router;
   let location: Location;
   let service: {{ $service }};
-  let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
+  let testModel: {{ $crud->entityName() }} = utils.{{ $crud->entityName() }}One;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -88,7 +88,7 @@ describe('{{ $cpmClass }}', () => {
     expect(html.querySelector('app-box app-box-body')).not.toBeNull();
 
     // should have form component inside app-box-body
-    expect(html.querySelector('app-box-body {{ $gen->slugEntityName() }}-form-component')).not.toBeNull();
+    expect(html.querySelector('app-box-body {{ $crud->slugEntityName() }}-form-component')).not.toBeNull();
   });
 
   it('should have default form type = create', () => {
@@ -97,21 +97,21 @@ describe('{{ $cpmClass }}', () => {
   });
 
   it('should set form type = create based on current url', () => {
-    spyOn(location, 'path').and.returnValue('{{ $gen->slugEntityName() }}/create');
+    spyOn(location, 'path').and.returnValue('{{ $crud->slugEntityName() }}/create');
     fixture.detectChanges();
 
     expect(component.formType).toBe('create');
   });
 
   it('should set form type = details based on current url', () => {
-    spyOn(location, 'path').and.returnValue('{{ $gen->slugEntityName() }}/a1/details');
+    spyOn(location, 'path').and.returnValue('{{ $crud->slugEntityName() }}/a1/details');
     fixture.detectChanges();
 
     expect(component.formType).toBe('details');
   });
 
   it('should set form type = edit based on current url', () => {
-    spyOn(location, 'path').and.returnValue('{{ $gen->slugEntityName() }}/a1/edit');
+    spyOn(location, 'path').and.returnValue('{{ $crud->slugEntityName() }}/a1/edit');
     fixture.detectChanges();
 
     expect(component.formType).toBe('edit');

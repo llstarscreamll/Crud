@@ -104,7 +104,7 @@ class CreateCodeceptionTestsTask
     public function copyRootBoostrapFile()
     {
         $fileContents = view($this->templatesDir().'.Porto.tests._bootstrap', [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
         ]);
 
@@ -142,7 +142,7 @@ class CreateCodeceptionTestsTask
         $template = $this->templatesDir().'.Porto.tests._support.Helper.-container-Helper';
         
         return (string) view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
         ]);
     }
@@ -161,7 +161,7 @@ class CreateCodeceptionTestsTask
         $methodTemplate = $this->templatesDir().'.Porto.tests._support.Helper.helperFunction';
         $helperMethodName = "function init{$this->entityName()}Data";
         $fullMethod = "\n    ".view($methodTemplate, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
         ]);
 
@@ -251,7 +251,7 @@ class CreateCodeceptionTestsTask
             $template = $this->templatesDir().'.Porto/tests/api/'.$file;
 
             $content = view($template, [
-                'gen' => $this,
+                'crud' => $this,
                 'fields' => $this->parsedFields
             ]);
 

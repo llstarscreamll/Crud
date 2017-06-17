@@ -61,7 +61,7 @@ class CreateModelTask
         $template = $this->templatesDir().'.Porto/Models/'.$file;
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
             ]);
 

@@ -4,18 +4,18 @@ import { Title } from '@angular/platform-browser';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { {{ $abstractClass = $gen->containerClass('abstract', false, true) }} } from './{{ str_replace('.ts', '', $gen->containerFile('abstract', false, true)) }}';
+import { {{ $abstractClass = $crud->containerClass('abstract', false, true) }} } from './{{ str_replace('.ts', '', $crud->containerFile('abstract', false, true)) }}';
 
 /**
- * {{ $gen->containerClass('form', false, true) }} Class.
+ * {{ $crud->containerClass('form', false, true) }} Class.
  *
  * @author [name] <[<email address>]>
  */
 {{ '@' }}Component({
-  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('form', false, true)) }}',
-  templateUrl: './{{ $gen->containerFile('form-html', false, true) }}'
+  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $crud->containerFile('form', false, true)) }}',
+  templateUrl: './{{ $crud->containerFile('form-html', false, true) }}'
 })
-export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
+export class {{ $crud->containerClass('form', false, true) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
   /**
    * Page title language key.
    * @type string
@@ -23,7 +23,7 @@ export class {{ $gen->containerClass('form', false, true) }} extends {{ $abstrac
   protected title: string = 'form-page';
 
   /**
-   * {{ $gen->containerClass('form', false, true) }} constructor.
+   * {{ $crud->containerClass('form', false, true) }} constructor.
    */
   public constructor(
     protected titleService: Title,

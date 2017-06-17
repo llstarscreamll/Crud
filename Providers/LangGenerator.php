@@ -72,7 +72,7 @@ class LangGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.lang',
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request,
             ]

@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -7,13 +7,13 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
-namespace <?= $gen->studlyCasePlural() ?>;
+namespace <?= $crud->studlyCasePlural() ?>;
 
 use FunctionalTester;
-use Page\Functional\<?= $gen->studlyCasePlural() ?>\<?= $test ?> as Page;
+use Page\Functional\<?= $crud->studlyCasePlural() ?>\<?= $test ?> as Page;
 
 class <?= $test ?>Cest
 {
@@ -65,6 +65,6 @@ class <?= $test ?>Cest
         // veo mensaje de éxito en la operación
         $I->see(Page::$msgSuccess, Page::$msgSuccessElem);
         $formData = Page::unsetConfirmationFields($formData);
-        $I->seeRecord('<?= $gen->table_name ?>', null_empty_fields($formData));
+        $I->seeRecord('<?= $crud->table_name ?>', null_empty_fields($formData));
     }
 }

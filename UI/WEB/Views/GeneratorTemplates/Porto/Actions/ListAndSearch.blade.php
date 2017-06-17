@@ -1,20 +1,20 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\Actions{{ $gen->solveGroupClasses() }};
+namespace App\Containers\{{ $crud->containerName() }}\Actions{{ $crud->solveGroupClasses() }};
 
-use App\Containers\{{ $gen->containerName() }}\Tasks{{ $gen->solveGroupClasses() }}\{{ $gen->taskClass('ListAndSearch', $plural = true) }};
+use App\Containers\{{ $crud->containerName() }}\Tasks{{ $crud->solveGroupClasses() }}\{{ $crud->taskClass('ListAndSearch', $plural = true) }};
 use App\Ship\Parents\Actions\Action;
 
 /**
- * {{ $gen->actionClass('ListAndSearch', $plural = true) }} Class.
+ * {{ $crud->actionClass('ListAndSearch', $plural = true) }} Class.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ $gen->actionClass('ListAndSearch', $plural = true) }} extends Action
+class {{ $crud->actionClass('ListAndSearch', $plural = true) }} extends Action
 {
 	public function run($input)
 	{
-		${{ $camelEntity = camel_case($gen->entityName()) }} = $this->call({{ $gen->taskClass('ListAndSearch', $plural = true) }}::class, [$input]);
+		${{ $camelEntity = camel_case($crud->entityName()) }} = $this->call({{ $crud->taskClass('ListAndSearch', $plural = true) }}::class, [$input]);
 
 		return ${{ $camelEntity }};
 	}

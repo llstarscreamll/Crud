@@ -4,18 +4,18 @@ import { TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { {{ $abstractClass = $gen->containerClass('abstract', false, true) }}, SearchQuery } from './{{ str_replace('.ts', '', $gen->containerFile('abstract', false, true)) }}';
+import { {{ $abstractClass = $crud->containerClass('abstract', false, true) }}, SearchQuery } from './{{ str_replace('.ts', '', $crud->containerFile('abstract', false, true)) }}';
 
 /**
- * {{ $gen->containerClass('list-and-search', $plural = true) }} Class.
+ * {{ $crud->containerClass('list-and-search', $plural = true) }} Class.
  *
  * @author [name] <[<email address>]>
  */
 {{ '@' }}Component({
-  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $gen->containerFile('list-and-search', true)) }}',
-  templateUrl: './{{ $gen->containerFile('list-and-search-html', true) }}',
+  selector: '{{ str_replace(['.ts', '.'], ['', '-'], $crud->containerFile('list-and-search', true)) }}',
+  templateUrl: './{{ $crud->containerFile('list-and-search-html', true) }}',
 })
-export class {{ $gen->containerClass('list-and-search', $plural = true) }} extends {{ $abstractClass }} implements OnInit {
+export class {{ $crud->containerClass('list-and-search', $plural = true) }} extends {{ $abstractClass }} implements OnInit {
   /**
    * Page title.
    * @type string
@@ -29,7 +29,7 @@ export class {{ $gen->containerClass('list-and-search', $plural = true) }} exten
   public showAdvancedSearchForm: boolean = false;
   
   /**
-   * {{ $gen->containerClass('list-and-search', $plural = true) }} constructor.
+   * {{ $crud->containerClass('list-and-search', $plural = true) }} constructor.
    */
   public constructor(
     protected location: Location,

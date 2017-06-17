@@ -10,8 +10,8 @@ import swal from 'sweetalert2';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 import * as fromRoot from './../../../reducers';
 
-import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
-import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
+import * as {{ $actions = camel_case($crud->entityName()).'Actions' }} from './../../actions/{{ $crud->slugEntityName() }}.actions';
+import { {{ $entitySin = $crud->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 import { {{ $pagModel = $entitySin.'Pagination' }} } from './../../models/{{ camel_case($entitySin) }}Pagination';
 
 export interface SearchQuery {
@@ -23,11 +23,11 @@ export interface SearchQuery {
 }
 
 /**
- * {{ $gen->containerClass('abstract', false, true) }} Abstract Class.
+ * {{ $crud->containerClass('abstract', false, true) }} Abstract Class.
  *
  * @author [name] <[<email address>]>
  */
-export abstract class {{ $gen->containerClass('abstract', false, true) }} {
+export abstract class {{ $crud->containerClass('abstract', false, true) }} {
   /**
    * Dependencies.
    */
@@ -57,10 +57,10 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
    * Language key access.
    * @type string
    */
-  public langKey: string = '{{ $gen->entityNameSnakeCase() }}.';
+  public langKey: string = '{{ $crud->entityNameSnakeCase() }}.';
 
   /**
-   * {{ $gen->containerClass('abstract', false, true) }} constructor.
+   * {{ $crud->containerClass('abstract', false, true) }} constructor.
    */
   public constructor() { }
 
@@ -79,13 +79,13 @@ export abstract class {{ $gen->containerClass('abstract', false, true) }} {
   protected setFormType() {
     let url: string = this.location.path();
     
-    if (url.search(/{{ $gen->slugEntityName() }}\/+[a-z0-9]+\/details+$/i) > -1)
+    if (url.search(/{{ $crud->slugEntityName() }}\/+[a-z0-9]+\/details+$/i) > -1)
       this.formType = "details";
     
-    if (url.search(/{{ $gen->slugEntityName() }}\/+[a-z0-9]+\/edit+$/i) > -1)
+    if (url.search(/{{ $crud->slugEntityName() }}\/+[a-z0-9]+\/edit+$/i) > -1)
       this.formType = "edit";
     
-    if (url.search(/{{ $gen->slugEntityName() }}\/create$/i) > -1)
+    if (url.search(/{{ $crud->slugEntityName() }}\/create$/i) > -1)
       this.formType = "create";
   }
 }

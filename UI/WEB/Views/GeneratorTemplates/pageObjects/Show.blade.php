@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -7,10 +7,10 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
-namespace Page\Functional\<?= $gen->studlyCasePlural() ?>;
+namespace Page\Functional\<?= $crud->studlyCasePlural() ?>;
 
 use FunctionalTester;
 
@@ -28,7 +28,7 @@ class <?= $test ?> extends Index
      *
      * @var string
      */
-    public static $form = 'form[name=show-<?= $gen->getDashedModelName() ?>-form]';
+    public static $form = 'form[name=show-<?= $crud->getDashedModelName() ?>-form]';
 
     public function __construct(FunctionalTester $I)
     {

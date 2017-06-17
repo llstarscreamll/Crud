@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -19,14 +19,14 @@
     $hide_actions_column = true
     ****************************************************************************
 
-    <?= $gen->getViewCopyRightDocBlock() ?>
+    <?= $crud->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}
 
 @forelse ( $records as $record )
     @if(!isset($hide_checkboxes_column))
-    <tr class="item-{{ $record->id }} <?= $gen->hasDeletedAtColumn($fields) ? '{{ $record->trashed() ? \'danger\' : null }}': null ?> ">
+    <tr class="item-{{ $record->id }} <?= $crud->hasDeletedAtColumn($fields) ? '{{ $record->trashed() ? \'danger\' : null }}': null ?> ">
     @endif
     <td class="checkbox-column">
         {!! Form::checkbox('id[]', $record->id, null, ['id' => 'record-'.$record->id, 'class' => 'checkbox-table-item']) !!}
@@ -35,7 +35,7 @@
 <?php if (!$field->hidden) { ?>
         @if(in_array('<?= $field->name ?>', $selectedTableColumns))
         <td class="<?= $field->name ?>">
-<?php if (! $gen->isGuarded($field->name)) { ?>
+<?php if (! $crud->isGuarded($field->name)) { ?>
 <?php
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // importante dejar el span de del componenten x-editable de la forma en que está <span ...>$record</span> //
@@ -44,21 +44,21 @@
 ?>
 <?php if ($request->get('use_x_editable', false)) { ?>
             @if($record->trashed())
-                {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
+                {{ <?=$crud->getRecordFieldData($field, '$record')?> }}
             @else
                 {!! UISearch::xEditableSpan(
-                    '<?=$gen->getInputType($field)?>',
+                    '<?=$crud->getInputType($field)?>',
                     '<?=$field->name?>',
                     (string) $record-><?=$field->name?>,
-                    (string) <?=$gen->getRecordFieldData($field, '$record')?>,
-                    ['data-url' => '/<?=$gen->route()?>/'.$record->{$record->getKeyName()}<?php if ($enum_source = $gen->getSourceForEnum($field)) { ?> <?= ', \'data-source\' => '.$enum_source ?><?php } ?>]
+                    (string) <?=$crud->getRecordFieldData($field, '$record')?>,
+                    ['data-url' => '/<?=$crud->route()?>/'.$record->{$record->getKeyName()}<?php if ($enum_source = $crud->getSourceForEnum($field)) { ?> <?= ', \'data-source\' => '.$enum_source ?><?php } ?>]
                 ) !!}
             @endif
 <?php } else { ?>
-            {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
+            {{ <?=$crud->getRecordFieldData($field, '$record')?> }}
 <?php } ?>
 <?php } else { ?>
-            {{ <?=$gen->getRecordFieldData($field, '$record')?> }}
+            {{ <?=$crud->getRecordFieldData($field, '$record')?> }}
 <?php } // end if ?>
         </td>
         @endif
@@ -68,11 +68,11 @@
         @if(!isset($hide_actions_column))
         {{-- Los botones de acción para cada registro --}}
         <td class="actions-column">
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
-        @if ($record->trashed() && auth()->user()->can('<?=$gen->route()?>.restore'))
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
+        @if ($record->trashed() && auth()->user()->can('<?=$crud->route()?>.restore'))
 
             {{-- Formulario para restablecer el registro --}}
-            {!! Form::open(['route' => ['<?=$gen->route()?>.restore', $record->id], 'method' => 'PUT', 'class' => 'form-inline display-inline']) !!}
+            {!! Form::open(['route' => ['<?=$crud->route()?>.restore', $record->id], 'method' => 'PUT', 'class' => 'form-inline display-inline']) !!}
                 {!! Form::hidden('id[]', $record->id) !!}
                 
                 {{-- Botón que muestra ventana modal de confirmación para el envío del formulario de restablecer el registro --}}
@@ -83,16 +83,16 @@
                         data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                         {{-- Setup de ventana modal de confirmación --}}
-                        data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-title')}}"
-                        data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-message', ['item' => $record->name])}}"
-                        data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-restore-btn-confirm')}}"
+                        data-modalTitle="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.modal-restore-title')}}"
+                        data-modalMessage="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.modal-restore-message', ['item' => $record->name])}}"
+                        data-btnLabel="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.modal-restore-btn-confirm')}}"
                         data-btnClassName="btn-success"
 <?php } else { ?>
-                        onclick="return confirm('{{trans('<?=$gen->getLangAccess()?>.index.restore-confirm-message')}}')"
+                        onclick="return confirm('{{trans('<?=$crud->getLangAccess()?>.index.restore-confirm-message')}}')"
 <?php } ?>
-                        title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.restore-btn')}}">
+                        title="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.restore-btn')}}">
                     <span class="fa fa-mail-reply"></span>
-                    <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.restore-btn')}}</span>
+                    <span class="sr-only">{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.restore-btn')}}</span>
                 </button>
             
             {!! Form::close() !!}
@@ -100,31 +100,31 @@
         @else
 <?php } ?>
             {{-- Botón para ir a los detalles del registro --}}
-            <a  href="{{route('<?=$gen->route()?>.show', $record->id)}}"
+            <a  href="{{route('<?=$crud->route()?>.show', $record->id)}}"
                 class="btn btn-primary btn-xs"
                 role="button"
                 data-toggle="tooltip"
                 data-placement="top"
-                title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.show-btn')}}">
+                title="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.show-btn')}}">
                 <span class="fa fa-eye"></span>
-                <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.show-btn')}}</span>
+                <span class="sr-only">{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.show-btn')}}</span>
             </a>
 
-            @if(auth()->user()->can('<?=$gen->route()?>.edit'))
+            @if(auth()->user()->can('<?=$crud->route()?>.edit'))
                 {{-- Botón para ir a formulario de actualización del registro --}}
-                <a  href="{{route('<?=$gen->route()?>.edit', $record->id)}}"
+                <a  href="{{route('<?=$crud->route()?>.edit', $record->id)}}"
                     class="btn btn-warning btn-xs" role="button"
                     data-toggle="tooltip"
                     data-placement="top"
-                    title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.edit-btn')}}">
+                    title="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.edit-btn')}}">
                     <span class="glyphicon glyphicon-pencil"></span>
-                    <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.edit-btn')}}</span>
+                    <span class="sr-only">{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.edit-btn')}}</span>
                 </a>
             @endif
 
-            @if(auth()->user()->can('<?=$gen->route()?>.destroy'))
-                {{-- Formulario para <?= strtolower($gen->getDestroyBtnTxt()) ?> registro --}}
-                {!! Form::open(['route' => ['<?=$gen->route()?>.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
+            @if(auth()->user()->can('<?=$crud->route()?>.destroy'))
+                {{-- Formulario para <?= strtolower($crud->getDestroyBtnTxt()) ?> registro --}}
+                {!! Form::open(['route' => ['<?=$crud->route()?>.destroy', $record->id], 'method' => 'DELETE', 'class' => 'form-inline display-inline']) !!}
                     
                     {{-- Botón muestra ventana modal de confirmación para el envío de formulario de eliminar el registro --}}
                     <button type="<?= $request->has('use_modal_confirmation_on_delete') ? 'button' : 'submit' ?>"
@@ -134,21 +134,21 @@
                             data-placement="top"
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
                             {{-- Setup de ventana modal de confirmación --}}
-                            data-modalMessage="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-<?= $gen->getDestroyVariableName() ?>-message', ['item' => $record->name])}}"
-                            data-modalTitle="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-<?= $gen->getDestroyVariableName() ?>-title')}}"
-                            data-btnLabel="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-<?= $gen->getDestroyVariableName() ?>-btn-confirm')}}"
+                            data-modalMessage="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.modal-<?= $crud->getDestroyVariableName() ?>-message', ['item' => $record->name])}}"
+                            data-modalTitle="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.modal-<?= $crud->getDestroyVariableName() ?>-title')}}"
+                            data-btnLabel="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.modal-<?= $crud->getDestroyVariableName() ?>-btn-confirm')}}"
                             data-btnClassName="btn-danger"
 <?php } else { ?>
-                            onclick="return confirm('{{ trans('<?=$gen->getLangAccess()?>.index.<?= $gen->getDestroyVariableName() ?>-confirm-message') }}')"
+                            onclick="return confirm('{{ trans('<?=$crud->getLangAccess()?>.index.<?= $crud->getDestroyVariableName() ?>-confirm-message') }}')"
 <?php } ?>
-                            title="{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.<?= $gen->getDestroyVariableName() ?>-btn')}}">
-                        <span class="fa fa-<?= $gen->getDestroyVariableName() == 'trash' ? 'trash' : 'minus-circle' ?>"></span>
-                        <span class="sr-only">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.<?= $gen->getDestroyVariableName() ?>-btn')}}</span>
+                            title="{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.<?= $crud->getDestroyVariableName() ?>-btn')}}">
+                        <span class="fa fa-<?= $crud->getDestroyVariableName() == 'trash' ? 'trash' : 'minus-circle' ?>"></span>
+                        <span class="sr-only">{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.<?= $crud->getDestroyVariableName() ?>-btn')}}</span>
                     </button>
                 
                 {!! Form::close() !!}
             @endif
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
         @endif
 <?php } ?>
         </td>
@@ -160,7 +160,7 @@
     <tr>
         <td class="empty-table" colspan="<?=count($fields)+2?>">
             <div  class="alert alert-warning">
-                {{trans('<?=$gen->solveSharedResourcesNamespace()?>.no-records-found')}}
+                {{trans('<?=$crud->solveSharedResourcesNamespace()?>.no-records-found')}}
             </div>
         </td>
     </tr>

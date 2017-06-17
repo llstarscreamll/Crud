@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -14,19 +14,19 @@
     quiera visualizar los datos sin riesgo a que se hagan cambios.
     ****************************************************************************
 
-    <?= $gen->getViewCopyRightDocBlock() ?>
+    <?= $crud->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}
 <?php $i = 0; ?>
 <?php foreach ($fields as $key => $field) { ?>
-<?php if ($str = $gen->getFormInputMarkup($field, $gen->table_name)) { ?>
+<?php if ($str = $crud->getFormInputMarkup($field, $crud->table_name)) { ?>
 <?=$str?>
 <?php if ($i % 2 == 1) {
 ?><?="\n<div class=\"clearfix\"></div>\n"?><?php
 } ?>
 <?php if (strpos($field->validation_rules, 'confirmed') !== false) { $i++; ?>
-<?=$gen->getFormInputConfirmationMarkup($field)?>
+<?=$crud->getFormInputConfirmationMarkup($field)?>
 <?php } ?>
 <?php $i++;
 } ?>

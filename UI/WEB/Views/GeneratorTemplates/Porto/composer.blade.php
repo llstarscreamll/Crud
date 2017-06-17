@@ -1,6 +1,6 @@
 {
-  "name": "porto-sap/{{ $gen->containerName() }}",
-  "description": "Porto-SAP {{ $gen->containerName() }} Container.",
+  "name": "porto-sap/{{ $crud->containerName() }}",
+  "description": "Porto-SAP {{ $crud->containerName() }} Container.",
   "require": {
 
   }
