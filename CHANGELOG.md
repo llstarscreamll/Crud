@@ -1,6 +1,6 @@
 # Release Notes
 
-## 3.7.1 (DATE HERE!!)
+## 3.7.1 (2017-06-18)
 
 ### Fixed
 
