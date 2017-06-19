@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
-import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
+import { {{ $entitySin = $crud->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
 import { {{ $entitySin.'Pagination' }} } from './../models/{{ camel_case($entitySin)."Pagination" }}';
 import { AppMessage } from './../../core/models/appMessage';
 
 /**
- * {{ $gen->entityName() }} Actions.
+ * {{ $crud->entityName() }} Actions.
  *
  * @author [name] <[<email address>]>
  */

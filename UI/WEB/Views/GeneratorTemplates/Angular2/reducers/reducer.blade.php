@@ -1,20 +1,20 @@
-import * as {{ $actions = camel_case($gen->entityName()) }} from '../actions/{{ $gen->slugEntityName() }}.actions';
-import { {{ $entitySin = $gen->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
-import { {{ $paginationModel = $gen->entityName().'Pagination' }} } from './../models/{{ camel_case($entitySin) }}Pagination';
+import * as {{ $actions = camel_case($crud->entityName()) }} from '../actions/{{ $crud->slugEntityName() }}.actions';
+import { {{ $entitySin = $crud->entityName() }} } from './../models/{{ camel_case($entitySin) }}';
+import { {{ $paginationModel = $crud->entityName().'Pagination' }} } from './../models/{{ camel_case($entitySin) }}Pagination';
 
 import { AppMessage } from './../../core/models/appMessage';
-import { SearchQuery } from './../components/{{ $gen->slugEntityName() }}/{{ str_replace('.ts', '', $gen->componentFile('abstract', false, true)) }}';
+import { SearchQuery } from './../components/{{ $crud->slugEntityName() }}/{{ str_replace('.ts', '', $crud->componentFile('abstract', false, true)) }}';
 
 /**
- * {{ $gen->entityName() }} Reducer.
+ * {{ $crud->entityName() }} Reducer.
  *
  * @author [name] <[<email address>]>
  */
 export interface State {
   formModel: Object;
   list: Array<any>;
-  pagination: {{ $gen->entityName() }}Pagination | null;
-  selected: {{ $gen->entityName() }} | null;
+  pagination: {{ $crud->entityName() }}Pagination | null;
+  selected: {{ $crud->entityName() }} | null;
   searchQuery: SearchQuery;
   loading: boolean;
   messages: AppMessage;
@@ -30,9 +30,9 @@ const initialState: State = {
     filter: [
 @foreach ($fields as $field)
 @if ($field->on_index_table && !$field->hidden)
-      '{{ $gen->tableName.'.'.$field->name }}',
+      '{{ $crud->tableName.'.'.$field->name }}',
 @elseif(!$field->on_index_table && !$field->hidden)
-      // '{{ $gen->tableName.'.'.$field->name }}',
+      // '{{ $crud->tableName.'.'.$field->name }}',
 @endif
 @endforeach
     ],
@@ -40,11 +40,11 @@ const initialState: State = {
     include: {
 @foreach ($fields as $field)
 @if ($field->namespace && !$field->hidden)
-      '{{ $gen->tableName.'.'.$field->name }}': '{{  $gen->relationNameFromField($field)  }}',
+      '{{ $crud->tableName.'.'.$field->name }}': '{{  $crud->relationNameFromField($field)  }}',
 @endif
 @endforeach
     },
-    orderBy: "{{ $gen->hasLaravelTimestamps ? $gen->tableName.'.created_at' : $gen->tableName.'.id' }}",
+    orderBy: "{{ $crud->hasLaravelTimestamps ? $crud->tableName.'.created_at' : $crud->tableName.'.id' }}",
     sortedBy: "desc",
     page: 1
   },
@@ -141,7 +141,7 @@ export const getMessages = (state: State) => state.messages;
 /* -----------------------------------------------------------------------------
 Don't forget to import these reducer on the main app reducer!!
 
-import * as from{{ $entity = $gen->entityName() }} from './{{ $gen->slugModuleName() }}/reducers/{{ $gen->slugEntityName().'.reducer' }}';
+import * as from{{ $entity = $crud->entityName() }} from './{{ $crud->slugModuleName() }}/reducers/{{ $crud->slugEntityName().'.reducer' }}';
 
 export interface State {
   {{ camel_case($entity) }}: from{{ $entity }}.State;
@@ -151,16 +151,16 @@ const reducers = {
   {{ camel_case($entity) }}: from{{ $entity }}.reducer,
 };
 
-// {{ $gen->entityName() }} selectors
+// {{ $crud->entityName() }} selectors
 export const get{{ $entity }}State = (state: State) => state.{{ camel_case($entity) }};
 export const get{{ $entity }}SearchQuery = createSelector(get{{ $entity }}State, from{{ $entity }}.getSearchQuery);
 export const get{{ $entity }}FormModel = createSelector(get{{ $entity }}State, from{{ $entity }}.getFormModel);
-{{ !$gen->hasRelations ? '// ' : null }}export const get{{ $gen->entityName().'FormData' }} = createSelector(@foreach (($filteredFields = $fields->filter(function ($field) { return !empty($field->namespace); })->unique('namespace')) as $field){{ $field->namespace ? 'get'.class_basename($field->namespace).'List,' : null }}@endforeach
+{{ !$crud->hasRelations ? '// ' : null }}export const get{{ $crud->entityName().'FormData' }} = createSelector(@foreach (($filteredFields = $fields->filter(function ($field) { return !empty($field->namespace); })->unique('namespace')) as $field){{ $field->namespace ? 'get'.class_basename($field->namespace).'List,' : null }}@endforeach
 (@foreach ($filteredFields as $field){{ $field->namespace ? str_plural(class_basename($field->namespace)).',' : null }}@endforeach) => ({ @foreach ($filteredFields as $field){{ $field->namespace ? str_plural(class_basename($field->namespace)).',' : null }}@endforeach }));
 export const get{{ $entity.'List' }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsList);
 export const get{{ $entity }}Pagination = createSelector(get{{ $entity }}State, from{{ $entity }}.getItemsPagination);
 export const get{{ $entity }}Selected = createSelector(get{{ $entity }}State, from{{ $entity }}.getSelectedItem);
-export const get{{ $gen->entityName().'Loading' }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getLoading);
-export const get{{ $gen->entityName().'Messages' }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getMessages);
+export const get{{ $crud->entityName().'Loading' }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getLoading);
+export const get{{ $crud->entityName().'Messages' }} = createSelector(get{{ $entity }}State, from{{ $entity }}.getMessages);
 
 ----------------------------------------------------------------------------- */

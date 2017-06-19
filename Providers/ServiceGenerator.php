@@ -45,7 +45,7 @@ class ServiceGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.service',
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request,
             'foreign_keys' => $this->getForeignKeys($this->table_name),

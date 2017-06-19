@@ -1,20 +1,20 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\Actions{{ $gen->solveGroupClasses() }};
+namespace App\Containers\{{ $crud->containerName() }}\Actions{{ $crud->solveGroupClasses() }};
 
-use App\Containers\{{ $gen->containerName() }}\Tasks{{ $gen->solveGroupClasses() }}\{{ $gen->taskClass('Create') }};
+use App\Containers\{{ $crud->containerName() }}\Tasks{{ $crud->solveGroupClasses() }}\{{ $crud->taskClass('Create') }};
 use App\Ship\Parents\Actions\Action;
 
 /**
- * {{ $gen->actionClass('Create') }} Class.
+ * {{ $crud->actionClass('Create') }} Class.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ $gen->actionClass('Create') }} extends Action
+class {{ $crud->actionClass('Create') }} extends Action
 {
 	public function run(array $input)
 	{
-		${{ $camelEntity = camel_case($gen->entityName()) }} = $this->call({{ $gen->taskClass('Create') }}::class, [$input]);
+		${{ $camelEntity = camel_case($crud->entityName()) }} = $this->call({{ $crud->taskClass('Create') }}::class, [$input]);
 
 		return ${{ $camelEntity }};
 	}

@@ -7,24 +7,24 @@ import { go } from '@ngrx/router-store';
 
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 import * as fromRoot from './../../../reducers';
-import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
-import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
-import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
-import { {{ $abstractClass = $gen->componentClass('abstract', false, true) }} } from './{{ str_replace('.ts', '', $gen->componentFile('abstract', false, true)) }}';
+import * as {{ $reducer = camel_case($crud->entityName()).'Reducer' }} from './../../reducers/{{ $crud->slugEntityName() }}.reducer';
+import * as {{ $actions = camel_case($crud->entityName()).'Actions' }} from './../../actions/{{ $crud->slugEntityName() }}.actions';
+import { {{ $entitySin = $crud->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
+import { {{ $abstractClass = $crud->componentClass('abstract', false, true) }} } from './{{ str_replace('.ts', '', $crud->componentFile('abstract', false, true)) }}';
 
 /**
- * {{ $gen->componentClass('form', $plural = false) }} Class.
+ * {{ $crud->componentClass('form', $plural = false) }} Class.
  *
  * @author [name] <[<email address>]>
  */
 {{ '@' }}Component({
-  selector: '{{ $selector = str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('form', false)) }}',
-  templateUrl: './{{ $gen->componentFile('form-html', false) }}',
+  selector: '{{ $selector = str_replace(['.ts', '.'], ['', '-'], $crud->componentFile('form', false)) }}',
+  templateUrl: './{{ $crud->componentFile('form-html', false) }}',
   exportAs: '{{ str_replace('-component', '', $selector) }}',
 })
-export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
+export class {{ $crud->componentClass('form', $plural = false) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
   /**
-   * {{ ucfirst(str_replace('_', ' ', $gen->tableName)) }} form group.
+   * {{ ucfirst(str_replace('_', ' ', $crud->tableName)) }} form group.
    * @type FormGroup
    */
   public form: FormGroup;
@@ -47,7 +47,7 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
   public redirect: boolean = true;
 
   /**
-   * {{ $gen->componentClass('form', $plural = false) }} constructor.
+   * {{ $crud->componentClass('form', $plural = false) }} constructor.
    */
   public constructor(
     protected store: Store<fromRoot.State>,
@@ -63,7 +63,7 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
    */
   public ngOnInit() {
     this.setupStoreSelects();
-    // if form type is details|update, then download the {{ $gen->entityName() }} data from API by the given id
+    // if form type is details|update, then download the {{ $crud->entityName() }} data from API by the given id
     this.loadSelectedItem();
     this.initForm();
     this.setupFormData();
@@ -101,7 +101,7 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
   private patchForm() {
     if (this.formType == 'details' || this.formType == 'edit') {
       this.selectedItemSubscription$ = this.selectedItem$
-        .subscribe(({{ $model = camel_case($gen->entityName()) }}) => {
+        .subscribe(({{ $model = camel_case($crud->entityName()) }}) => {
           if ({{ $model }} != null && {{ $model }}.id && {{ $model }}.id == this.selectedItemId) {
             this.form.patchValue({{ $model }});
             this.formReady = true;
@@ -129,7 +129,7 @@ export class {{ $gen->componentClass('form', $plural = false) }} extends {{ $abs
     }
 
     if (this.formType == 'details') {
-      this.store.dispatch(go(['{{ $gen->slugEntityName() }}', this.selectedItemId, 'edit']));
+      this.store.dispatch(go(['{{ $crud->slugEntityName() }}', this.selectedItemId, 'edit']));
       return;
     }
 

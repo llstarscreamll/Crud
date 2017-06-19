@@ -85,7 +85,7 @@ class CreateActionsTask
             $template = $this->templatesDir().'.Porto/Actions/'.$file;
 
             $content = view($template, [
-                'gen' => $this,
+                'crud' => $this,
                 'fields' => $this->parsedFields
             ]);
 

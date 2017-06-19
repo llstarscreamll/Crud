@@ -1,5 +1,5 @@
-import { {{ $gen->entityNameSnakeCase() }} } from './{{ $gen->slugEntityName() }}';
+import { {{ $crud->entityNameSnakeCase() }} } from './{{ $crud->slugEntityName() }}';
 
-export const {{ $gen->getLanguageKey(true) }} = {
-  ...{{ $gen->entityNameSnakeCase() }},
+export const {{ $crud->getLanguageKey(true) }} = {
+  ...{{ $crud->entityNameSnakeCase() }},
 };

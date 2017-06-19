@@ -59,7 +59,7 @@ class CreateNgReducerTask
         $template = $this->templatesDir().'.Angular2/reducers/reducer';
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
         ]);
 

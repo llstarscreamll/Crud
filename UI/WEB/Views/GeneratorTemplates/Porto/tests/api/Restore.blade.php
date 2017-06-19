@@ -1,21 +1,21 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
+namespace {{ $crud->containerName() }}{{ $crud->solveGroupClasses() }};
 
-use {{ $gen->containerName() }}\ApiTester;
-use {{ $gen->entityModelNamespace() }};
+use {{ $crud->containerName() }}\ApiTester;
+use {{ $crud->entityModelNamespace() }};
 
 /**
- * Restore{{ $gen->entityName() }}Cest Class.
+ * Restore{{ $crud->entityName() }}Cest Class.
  * 
  * @author [name] <[<email address>]>
  */
-class Restore{{ $gen->entityName() }}Cest
+class Restore{{ $crud->entityName() }}Cest
 {
     /**
      * @var string
      */
-	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/{id}/restore';
+	private $endpoint = 'v1/{{ str_slug($crud->tableName, $separator = "-") }}/{id}/restore';
 
     /**
      * @var App\Containers\User\Models\User
@@ -25,7 +25,7 @@ class Restore{{ $gen->entityName() }}Cest
     public function _before(ApiTester $I)
     {
     	$this->user = $I->loginAdminUser();
-        $I->init{{ $gen->entityName() }}Data();
+        $I->init{{ $crud->entityName() }}Data();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 
@@ -33,23 +33,23 @@ class Restore{{ $gen->entityName() }}Cest
     {
     }
 
-@if (!$gen->groupMainApiatoClasses)
+@if (!$crud->groupMainApiatoClasses)
     /**
-     * @group {{ $gen->entityName() }}
+     * @group {{ $crud->entityName() }}
      */
 @endif
-    public function restore{{ $gen->entityName() }}(ApiTester $I)
+    public function restore{{ $crud->entityName() }}(ApiTester $I)
     {
-    	$item = factory({{ $gen->entityName() }}::class)->create();
-    	{{ $gen->entityName() }}::destroy($item->id);
+    	$item = factory({{ $crud->entityName() }}::class)->create();
+    	{{ $crud->entityName() }}::destroy($item->id);
 
         $I->sendPOST(str_replace('{id}', $item->getHashedKey(), $this->endpoint));
         $I->seeResponseCodeIs(200);
 
-        $restoredItem = $I->grabRecord('{{ $gen->tableName }}', ['id' => $item->id]);
+        $restoredItem = $I->grabRecord('{{ $crud->tableName }}', ['id' => $item->id]);
         $I->assertNull($restoredItem['deleted_at']);
 
         $data = array_intersect_key($item->toArray(), array_flip($item->getFillable()));
-        $I->seeRecord('{{ $gen->tableName }}', $data);
+        $I->seeRecord('{{ $crud->tableName }}', $data);
     }
 }

@@ -2,28 +2,28 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
 
-import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
+import * as {{ $actions = camel_case($crud->entityName()).'Actions' }} from './../../actions/{{ $crud->slugEntityName() }}.actions';
 import * as fromRoot from './../../../reducers';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
-import * as {{ $reducer = camel_case($gen->entityName()).'Reducer' }} from './../../reducers/{{ $gen->slugEntityName() }}.reducer';
+import * as {{ $reducer = camel_case($crud->entityName()).'Reducer' }} from './../../reducers/{{ $crud->slugEntityName() }}.reducer';
 
-import { {{ $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
-import { {{ $gen->entityName() }}Pagination } from './../../models/{{ camel_case($gen->entityName()) }}Pagination';
+import { {{ $crud->entityName() }} } from './../../models/{{ camel_case($crud->entityName()) }}';
+import { {{ $crud->entityName() }}Pagination } from './../../models/{{ camel_case($crud->entityName()) }}Pagination';
 import { Pagination } from './../../../core/models/pagination';
 
-import { {{ $abstractClass = $gen->componentClass('abstract', false, true) }}, SearchQuery } from './{{ str_replace('.ts', '', $gen->componentFile('abstract', false, true)) }}';
+import { {{ $abstractClass = $crud->componentClass('abstract', false, true) }}, SearchQuery } from './{{ str_replace('.ts', '', $crud->componentFile('abstract', false, true)) }}';
 
 /**
- * {{ $gen->componentClass('table', $plural = true) }} Class.
+ * {{ $crud->componentClass('table', $plural = true) }} Class.
  *
  * @author [name] <[<email address>]>
  */
 {{ '@' }}Component({
-  selector: '{{ $selector = str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}',
-  templateUrl: './{{ $gen->componentFile('table-html', $plural = true) }}',
+  selector: '{{ $selector = str_replace(['.ts', '.'], ['', '-'], $crud->componentFile('table', $plural = true)) }}',
+  templateUrl: './{{ $crud->componentFile('table-html', $plural = true) }}',
   exportAs: '{{ str_replace('-component', '', $selector) }}',
 })
-export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
+export class {{ $crud->componentClass('table', $plural = true) }} extends {{ $abstractClass }} implements OnInit, OnDestroy {
   /**
    * Pagination info.
    */
@@ -40,7 +40,7 @@ export class {{ $gen->componentClass('table', $plural = true) }} extends {{ $abs
     this.onSearch();
 
     this.itemsListSubscription$ = this.itemsPagination$
-      .subscribe((itemsList: {{ $gen->entityName() }}Pagination) => {
+      .subscribe((itemsList: {{ $crud->entityName() }}Pagination) => {
         if (itemsList) {
           this.pagination = itemsList.pagination;
         }

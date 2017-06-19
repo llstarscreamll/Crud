@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -7,10 +7,10 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
-namespace Page\Functional\<?= $gen->studlyCasePlural() ?>;
+namespace Page\Functional\<?= $crud->studlyCasePlural() ?>;
 
 use FunctionalTester;
 use <?= config('modules.crud.config.user-model-namespace') ?>;
@@ -27,7 +27,7 @@ class <?= $test ?>
      *
      * @var string
      */
-    public static $moduleURL = '/<?= $gen->route() ?>';
+    public static $moduleURL = '/<?= $crud->route() ?>';
 
     /**
      * La url del home de la app, para cuando el usuario es redirigido cuando
@@ -69,7 +69,7 @@ class <?= $test ?>
     public static $badPermissionsMsg = '<?= config('modules.crud.config.permissions-middleware-msg') ?>';
     public static $badPermissionsMsgElem = '.alert.alert-warning';
 
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
     /**
      * El botón de restaurar varios registros.
      *
@@ -100,7 +100,7 @@ class <?= $test ?>
      *
      * @var array
      */
-    public static $<?= $gen->modelVariableName() ?>Data = array();
+    public static $<?= $crud->modelVariableName() ?>Data = array();
 
     /**
      * Las columnas por defecto a mostrar en la tabla del Index.
@@ -186,21 +186,21 @@ class <?= $test ?>
     public function __construct(FunctionalTester $I)
     {
         $this->functionalTester = $I;
-        static::$searchFieldsPrefix = <?= $gen->getSearchFieldsPrefixConfigString() ?>;
+        static::$searchFieldsPrefix = <?= $crud->getSearchFieldsPrefixConfigString() ?>;
 
         // creamos permisos de acceso
-        \Artisan::call('db:seed', ['--class' => '<?= $gen->modelClassName() ?>PermissionsSeeder']);
+        \Artisan::call('db:seed', ['--class' => '<?= $crud->modelClassName() ?>PermissionsSeeder']);
         \Artisan::call('db:seed', ['--class' => '<?= config('modules.crud.config.test-roles-seeder-class') ?>']);
         // creamos usuario admin de prueba
         \Artisan::call('db:seed', ['--class' => '<?= config('modules.crud.config.test-users-seeder-class') ?>']);
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->namespace) { ?>
-        \Artisan::call('db:seed', ['--class' => '<?= $gen->getTableSeederClassName($field) ?>']);
+        \Artisan::call('db:seed', ['--class' => '<?= $crud->getTableSeederClassName($field) ?>']);
 <?php } ?>
 <?php } ?>
 
         // damos valores a los atributos para crear un registro
-        static::$<?= $gen->modelVariableName() ?>Data = [
+        static::$<?= $crud->modelVariableName() ?>Data = [
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->type == 'tinyint') { ?>
 <?php if ($field->testData == 'false' || $field->testData == '0') { ?>
@@ -236,9 +236,9 @@ class <?= $test ?>
      *
      * @return int El id del modelo generado
      */
-    public static function have<?= $gen->modelClassName() ?>(FunctionalTester $I)
+    public static function have<?= $crud->modelClassName() ?>(FunctionalTester $I)
     {
-        return $I->haveRecord('<?= $gen->table_name ?>', static::$<?= $gen->modelVariableName() ?>Data);
+        return $I->haveRecord('<?= $crud->table_name ?>', static::$<?= $crud->modelVariableName() ?>Data);
     }
 
     /**
@@ -250,7 +250,7 @@ class <?= $test ?>
     {
         $data = array();
 
-        foreach (static::$<?= $gen->modelVariableName() ?>Data as $key => $value) {
+        foreach (static::$<?= $crud->modelVariableName() ?>Data as $key => $value) {
             if (in_array($key, static::$createFormFields)) {
                 $data[$key] = $value;
             }
@@ -272,7 +272,7 @@ class <?= $test ?>
      */
     public static function getIndexTableData()
     {
-        $data = static::$<?= $gen->modelVariableName() ?>Data;
+        $data = static::$<?= $crud->modelVariableName() ?>Data;
 
         // los datos de las llaves foráneas
 <?php foreach ($fields as $field) { ?>
@@ -298,7 +298,7 @@ class <?= $test ?>
      */
     public static function unsetHiddenFields(array $data)
     {
-        $data = !empty($data) ? $data : static::$<?= $gen->modelVariableName() ?>Data;
+        $data = !empty($data) ? $data : static::$<?= $crud->modelVariableName() ?>Data;
 
         // quitamos del array los elementos de static::$hiddenFields
         foreach (static::$hiddenFields as $key => $value) {
@@ -318,7 +318,7 @@ class <?= $test ?>
      */
     public static function unsetConfirmationFields(array $data = [])
     {
-        $data = !empty($data) ? $data : static::$<?= $gen->modelVariableName() ?>Data;
+        $data = !empty($data) ? $data : static::$<?= $crud->modelVariableName() ?>Data;
         $confirmedFields = static::$fieldsThatRequieresConfirmation;
         $requiredField = '';
 

@@ -1,7 +1,7 @@
 <?= "<?php\n" ?>
 
-$router->post('{{ str_slug($gen->tableName, $separator = "-") }}/{id}/restore', [
-    'uses'  => '{{ $gen->entityName() }}Controller@restore{{ $gen->entityName() }}',
+$router->post('{{ str_slug($crud->tableName, $separator = "-") }}/{id}/restore', [
+    'uses'  => '{{ $crud->entityName() }}Controller@restore{{ $crud->entityName() }}',
     'middleware' => [
       'auth:api',
     ],

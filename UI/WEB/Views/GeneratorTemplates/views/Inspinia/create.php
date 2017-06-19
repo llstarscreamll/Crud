@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -10,7 +10,7 @@
     Muestra la vista de creación de registros.
     ****************************************************************************
 
-    <?= $gen->getViewCopyRightDocBlock() ?>
+    <?= $crud->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}
@@ -18,7 +18,7 @@
 @extends('<?=config('modules.crud.config.layout')?>')
 
 {{-- page title --}}
-@section('title') {{ trans('<?=$gen->getLangAccess()?>.index-create-btn') }} @endsection
+@section('title') {{ trans('<?=$crud->getLangAccess()?>.index-create-btn') }} @endsection
 {{-- /page title --}}
 
 {{-- view styles --}}
@@ -30,7 +30,7 @@
 @section('content')
 
 {{-- heading --}}
-@include('<?=$gen->viewsDirName()?>.partials.heading', ['small_title' => trans('<?= $gen->solveSharedResourcesNamespace() ?>.views.create')])
+@include('<?=$crud->viewsDirName()?>.partials.heading', ['small_title' => trans('<?= $crud->solveSharedResourcesNamespace() ?>.views.create')])
     
 {{-- content --}}
 <div class="wrapper wrapper-content">
@@ -44,22 +44,22 @@
                 @include ('<?=config('modules.crud.config.layout-namespace')?>partials.notifications')
                 
                 {!! Form::open([
-                    'route' => '<?=$gen->route()?>.store',
+                    'route' => '<?=$crud->route()?>.store',
                     'method' => 'POST',
-                    'name' => 'create-<?=$gen->getDashedModelName()?>-form'
+                    'name' => 'create-<?=$crud->getDashedModelName()?>-form'
                 ]) !!}
 
-                    @include('<?=$gen->viewsDirName()?>.partials.form-fields')
+                    @include('<?=$crud->viewsDirName()?>.partials.form-fields')
 
                     <div class="clearfix"></div>
                     
                     <div class="form-group col-sm-6">
                         <button type="submit" class="btn btn-primary">
                             <span class="glyphicon glyphicon-floppy-disk"></span>
-                            <span class="">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.create-btn')}}</span>
+                            <span class="">{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.create-btn')}}</span>
                         </button>
                         <span id="helpBlock" class="help-block">
-                            {!!trans('<?= $gen->solveSharedResourcesNamespace() ?>.inputs-required-msg')!!}
+                            {!!trans('<?= $crud->solveSharedResourcesNamespace() ?>.inputs-required-msg')!!}
                         </span>
                     </div>
 
@@ -81,8 +81,8 @@
 {{-- view scripts--}}
 @section('scripts')
 <?php if ($request->get('include_assets', false)) { ?>
-@include('<?=$gen->viewsDirName()?>.partials.form-assets')
+@include('<?=$crud->viewsDirName()?>.partials.form-assets')
 <?php } ?>
 <?php ?>
-@include('<?=$gen->viewsDirName()?>.partials.form-scripts')
+@include('<?=$crud->viewsDirName()?>.partials.form-scripts')
 @endsection()

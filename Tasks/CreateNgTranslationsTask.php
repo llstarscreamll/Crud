@@ -85,7 +85,7 @@ class CreateNgTranslationsTask
             $template = $this->templatesDir().'.Angular2.translations.'.$file;
 
             $content = view($template, [
-                'gen' => $this,
+                'crud' => $this,
                 'fields' => $this->parsedFields
             ]);
 

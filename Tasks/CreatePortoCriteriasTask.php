@@ -71,7 +71,7 @@ class CreatePortoCriteriasTask
             $template = $this->templatesDir().'.Porto/Data/Criterias/'.$file;
 
             $content = view($template, [
-                'gen' => $this,
+                'crud' => $this,
                 'fields' => $this->parsedFields
             ]);
 

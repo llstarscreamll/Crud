@@ -1,21 +1,21 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
+namespace {{ $crud->containerName() }}{{ $crud->solveGroupClasses() }};
 
-use {{ $gen->containerName() }}\ApiTester;
-use {{ $gen->entityModelNamespace() }};
+use {{ $crud->containerName() }}\ApiTester;
+use {{ $crud->entityModelNamespace() }};
 
 /**
- * SelectListFrom{{ $gen->entityName() }}Cest Class.
+ * SelectListFrom{{ $crud->entityName() }}Cest Class.
  * 
  * @author [name] <[<email address>]>
  */
-class SelectListFrom{{ $gen->entityName() }}Cest
+class SelectListFrom{{ $crud->entityName() }}Cest
 {
     /**
      * @var string
      */
-    private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/form/select-list';
+    private $endpoint = 'v1/{{ str_slug($crud->tableName, $separator = "-") }}/form/select-list';
 
     /**
      * @var App\Containers\User\Models\User
@@ -25,7 +25,7 @@ class SelectListFrom{{ $gen->entityName() }}Cest
     public function _before(ApiTester $I)
     {
         $this->user = $I->loginAdminUser();
-        $I->init{{ $gen->entityName() }}Data();
+        $I->init{{ $crud->entityName() }}Data();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 
@@ -33,14 +33,14 @@ class SelectListFrom{{ $gen->entityName() }}Cest
     {
     }
 
-@if (!$gen->groupMainApiatoClasses)
+@if (!$crud->groupMainApiatoClasses)
     /**
-     * @group {{ $gen->entityName() }}
+     * @group {{ $crud->entityName() }}
      */
 @endif
-    public function selectListFrom{{ $gen->entityName() }}(ApiTester $I)
+    public function selectListFrom{{ $crud->entityName() }}(ApiTester $I)
     {
-        $data = factory({{ $gen->entityName() }}::class, 5)->create();
+        $data = factory({{ $crud->entityName() }}::class, 5)->create();
         $I->sendGET($this->endpoint);
 
         $I->seeResponseCodeIs(200);

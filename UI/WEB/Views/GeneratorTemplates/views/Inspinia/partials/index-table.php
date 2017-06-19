@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -22,27 +22,27 @@
     datos mostrados en la tabla.
     ****************************************************************************
 
-    <?= $gen->getViewCopyRightDocBlock() ?>
+    <?= $crud->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}
 
-{!! Form::open(['route' => '<?=$gen->route()?>.index', 'method' => 'GET', 'id' => 'searchForm']) !!}
+{!! Form::open(['route' => '<?=$crud->route()?>.index', 'method' => 'GET', 'id' => 'searchForm']) !!}
 {!! Form::close() !!}
 
 <div class="table-responsive">
     <table class="table table-hover">
         <thead>
             {{-- header de la tabla --}}
-            @include('<?=$gen->viewsDirName()?>.partials.index-table-header')
+            @include('<?=$crud->viewsDirName()?>.partials.index-table-header')
 
             {{-- formulario de búsqueda --}}
-            @include('<?=$gen->viewsDirName()?>.partials.index-table-search')
+            @include('<?=$crud->viewsDirName()?>.partials.index-table-search')
         </thead>
 
         <tbody>
             {{-- body de tabla --}}
-            @include('<?=$gen->viewsDirName()?>.partials.index-table-body')
+            @include('<?=$crud->viewsDirName()?>.partials.index-table-body')
         </tbody>
     </table>
 </div>
@@ -52,7 +52,7 @@
 <div class="table-notes">
     <strong>Notas:</strong>
     <ul>
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
         <li>Los registros que están "Eliminados", se muestran con <span class="bg-danger">Fondo Rojo</span>.</li>
 <?php } ?>
     </ul>

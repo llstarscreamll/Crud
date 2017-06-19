@@ -5,13 +5,13 @@
     Contiene el código javascript usado en el formulario.
     ****************************************************************************
 
-    <?= $gen->getViewCopyRightDocBlock() ?>
+    <?= $crud->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}
 
 <script type="text/javascript">
-<?php if ($gen->hasDateFields($fields) || $gen->hasDateTimeFields($fields)) { ?>
+<?php if ($crud->hasDateFields($fields) || $crud->hasDateTimeFields($fields)) { ?>
 
     {{-- Configuración de Bootstrap DateTimePicker --}}
 <?php foreach ($fields as $key => $field) { ?>
@@ -29,7 +29,7 @@
 <?php } // end foreach ?>
 <?php } // end if ?>
     
-<?php if ($gen->hasTinyintTypeField($fields)) { ?>
+<?php if ($crud->hasTinyintTypeField($fields)) { ?>
     {{-- Inicializa el componente SwitchBootstrap --}}
     $(".bootstrap_switch").bootstrapSwitch();
     
@@ -37,10 +37,10 @@
 <?php if ($request->has('use_modal_confirmation_on_delete')) { ?>
     {{-- Inicialización y configuración de Bootbox --}}
     initBootBoxComponent(
-        '{{ trans('<?=$gen->getLangAccess()?>.index.modal-default-title') }}',
-        '{{ trans('<?=$gen->getLangAccess()?>.index.modal-default-btn-confirmation') }}',
+        '{{ trans('<?=$crud->getLangAccess()?>.index.modal-default-title') }}',
+        '{{ trans('<?=$crud->getLangAccess()?>.index.modal-default-btn-confirmation') }}',
         'btn-primary',
-        '{{ trans('<?= $gen->solveSharedResourcesNamespace() ?>.modal-default-btn-cancel') }}',
+        '{{ trans('<?= $crud->solveSharedResourcesNamespace() ?>.modal-default-btn-cancel') }}',
         'btn-default'
     );
 <?php } ?>

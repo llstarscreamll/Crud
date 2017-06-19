@@ -45,7 +45,7 @@ class FormRequestGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.formRequests.create-form-request',
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'request' => $this->request,
             ]

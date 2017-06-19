@@ -8,11 +8,11 @@ import { PAGES } from './pages';
 import { COMPONENTS } from './components';
 import { EFFECTS } from './effects';
 import { SERVICES } from './services';
-import { {{ $gen->getLanguageKey(true) }} } from './translations/{{ $gen->getLanguageKey() }}';
-import { {{ $gen->moduleClass('routing') }} } from './{{ str_replace('.ts', '', $gen->moduleFile('routing')) }}';
+import { {{ $crud->getLanguageKey(true) }} } from './translations/{{ $crud->getLanguageKey() }}';
+import { {{ $crud->moduleClass('routing') }} } from './{{ str_replace('.ts', '', $crud->moduleFile('routing')) }}';
 
 /**
- * {{ $gen->studlyModuleName() }}Module Class.
+ * {{ $crud->studlyModuleName() }}Module Class.
  *
  * @author [name] <[<email address>]>
  */
@@ -20,7 +20,7 @@ import { {{ $gen->moduleClass('routing') }} } from './{{ str_replace('.ts', '', 
   imports: [
     environment.theme,
     CoreSharedModule,
-    {{ $gen->moduleClass('routing') }},
+    {{ $crud->moduleClass('routing') }},
     ...EFFECTS,
   ],
   declarations: [
@@ -31,10 +31,10 @@ import { {{ $gen->moduleClass('routing') }} } from './{{ str_replace('.ts', '', 
     ...SERVICES,
   ]
 })
-export class {{ $gen->studlyModuleName() }}Module {
+export class {{ $crud->studlyModuleName() }}Module {
   
   public constructor(translate: TranslateService) {
-    translate.setTranslation('{{ $gen->getLanguageKey(false) }}', {{ $gen->getLanguageKey(true) }}, true);
+    translate.setTranslation('{{ $crud->getLanguageKey(false) }}', {{ $crud->getLanguageKey(true) }}, true);
   }
 
 }

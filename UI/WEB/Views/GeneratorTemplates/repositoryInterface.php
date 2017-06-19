@@ -1,12 +1,12 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
 namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Contracts;
@@ -15,11 +15,11 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Illuminate\Support\Collection;
 
 /**
- * Interfaz <?= $gen->modelClassName()."Repository\n" ?>
+ * Interfaz <?= $crud->modelClassName()."Repository\n" ?>
  *
  * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
  */
-interface <?= $gen->modelClassName() ?>Repository extends RepositoryInterface
+interface <?= $crud->modelClassName() ?>Repository extends RepositoryInterface
 {
     public function getRequested(Collection $request, array $columns = ['*'], int $rows = 15);
 
@@ -30,7 +30,7 @@ interface <?= $gen->modelClassName() ?>Repository extends RepositoryInterface
     public function getEnumFieldSelectList(string $column);
     
     public function destroy($ids);
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
     
     public function restore($ids);
 <?php } ?>

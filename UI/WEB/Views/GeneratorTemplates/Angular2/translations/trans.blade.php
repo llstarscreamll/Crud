@@ -1,14 +1,14 @@
 /**
- * {{ $gen->entityName() }} {{ $gen->getLanguageKey(true) }} Translations.
+ * {{ $crud->entityName() }} {{ $crud->getLanguageKey(true) }} Translations.
  *
  * @author [name] <[<email address>]>
  */
-export const {{ $gen->entityNameSnakeCase() }} = {
-  '{{ $gen->entityNameSnakeCase() }}': {
-    'module-name-plural': '{{ $gen->request->get('plural_entity_name') }}',
-    'module-name-singular': '{{ $entity = $gen->request->get('single_entity_name') }}',
+export const {{ $crud->entityNameSnakeCase() }} = {
+  '{{ $crud->entityNameSnakeCase() }}': {
+    'module-name-plural': '{{ $crud->request->get('plural_entity_name') }}',
+    'module-name-singular': '{{ $entity = $crud->request->get('single_entity_name') }}',
 
-    'form-page': '{{ trans('crud::templates.form_of', ['item' => $gen->request->get('single_entity_name')]) }}',
+    'form-page': '{{ trans('crud::templates.form_of', ['item' => $crud->request->get('single_entity_name')]) }}',
 
     'create': '{{ trans('crud::templates.create') }}',
     'details': '{{ trans('crud::templates.details') }}',
@@ -19,8 +19,8 @@ export const {{ $gen->entityNameSnakeCase() }} = {
     'search_btn': '{{ trans('crud::templates.search_btn') }}',
     'cancel_modal_btn': '{{ trans('crud::templates.cancel_modal_btn') }}',
     'actions_table_header': '{{ trans('crud::templates.actions_table_header') }}',
-    'loading_items_list': '{{ trans('crud::templates.loading_items_list', ['entity' => strtolower($gen->request->get('plural_entity_name'))]) }}',
-    'loading_form': '{{ trans('crud::templates.loading_form', ['entity' => strtolower($gen->request->get('plural_entity_name'))]) }}',
+    'loading_items_list': '{{ trans('crud::templates.loading_items_list', ['entity' => strtolower($crud->request->get('plural_entity_name'))]) }}',
+    'loading_form': '{{ trans('crud::templates.loading_form', ['entity' => strtolower($crud->request->get('plural_entity_name'))]) }}',
 
     'advanced_search': {
       'title': '{{ trans('crud::templates.advanced_search') }}',
@@ -30,13 +30,13 @@ export const {{ $gen->entityNameSnakeCase() }} = {
     },
 
     'msg': {
-      'create_success': '{{ trans('crud::templates.create_success', ['item' => $gen->request->get('single_entity_name')]) }}',
-      'update_success': '{{ trans('crud::templates.update_success', ['item' => $gen->request->get('single_entity_name')]) }}',
-      'delete_success': '{{ trans('crud::templates.delete_success', ['item' => $gen->request->get('single_entity_name')]) }}',
-      'restore_success': '{{ trans('crud::templates.restore_success', ['item' => $gen->request->get('single_entity_name')]) }}',
+      'create_success': '{{ trans('crud::templates.create_success', ['item' => $crud->request->get('single_entity_name')]) }}',
+      'update_success': '{{ trans('crud::templates.update_success', ['item' => $crud->request->get('single_entity_name')]) }}',
+      'delete_success': '{{ trans('crud::templates.delete_success', ['item' => $crud->request->get('single_entity_name')]) }}',
+      'restore_success': '{{ trans('crud::templates.restore_success', ['item' => $crud->request->get('single_entity_name')]) }}',
       'no_rows_found': '{{ trans('crud::templates.no_rows_found') }}',
-@if($gen->hasSoftDeleteColumn)
-      'item_trashed': '{{ trans('crud::templates.item_trashed', ['entity' => strtolower($gen->request->get('single_entity_name'))]) }}',
+@if($crud->hasSoftDeleteColumn)
+      'item_trashed': '{{ trans('crud::templates.item_trashed', ['entity' => strtolower($crud->request->get('single_entity_name'))]) }}',
       'softdeleted_rows_info': '{{ trans('crud::templates.softdeleted_rows_info') }}',
 @endif
     },
@@ -51,13 +51,13 @@ export const {{ $gen->entityNameSnakeCase() }} = {
     // form fields
     'fields': {
 @foreach ($fields as $field)
-      '{{ $gen->tableName.'.'.$field->name }}': '{{ $field->label }}',
+      '{{ $crud->tableName.'.'.$field->name }}': '{{ $field->label }}',
 @if (strrpos($field->validation_rules, 'confirmed'))
-      '{{ $gen->tableName.'.'.$field->name.'_confirmation' }}': '{{ trans('crud::templates.confirm_field_prefix').' '.strtolower($field->label) }}',
+      '{{ $crud->tableName.'.'.$field->name.'_confirmation' }}': '{{ trans('crud::templates.confirm_field_prefix').' '.strtolower($field->label) }}',
 @endif
 @if ($field->type == "enum")
-      '{{ $gen->tableName.'.'.$field->name }}-options': {
-@foreach ($gen->getEnumValuesArray($field->name) as $option)
+      '{{ $crud->tableName.'.'.$field->name }}-options': {
+@foreach ($crud->getEnumValuesArray($field->name) as $option)
         '{{ $option }}': '{{ $option }}',
 @endforeach
       },

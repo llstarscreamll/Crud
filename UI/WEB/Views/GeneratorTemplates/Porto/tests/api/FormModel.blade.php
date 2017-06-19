@@ -1,21 +1,21 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
+namespace {{ $crud->containerName() }}{{ $crud->solveGroupClasses() }};
 
-use {{ $gen->containerName() }}\ApiTester;
-use {{ $gen->entityModelNamespace() }};
+use {{ $crud->containerName() }}\ApiTester;
+use {{ $crud->entityModelNamespace() }};
 
 /**
- * {{ $gen->entityName() }}FormModelCest Class.
+ * {{ $crud->entityName() }}FormModelCest Class.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ $gen->entityName() }}FormModelCest
+class {{ $crud->entityName() }}FormModelCest
 {
 /**
      * @var string
      */
-    private $endpoint = 'v1/{{ $gen->slugEntityName(true) }}/form-model';
+    private $endpoint = 'v1/{{ $crud->slugEntityName(true) }}/form-model';
 
     /**
      * @var App\Containers\User\Models\User
@@ -25,7 +25,7 @@ class {{ $gen->entityName() }}FormModelCest
     public function _before(ApiTester $I)
     {
         $this->user = $I->loginAdminUser();
-        $I->init{{ $gen->entityName() }}Data();
+        $I->init{{ $crud->entityName() }}Data();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 
@@ -33,12 +33,12 @@ class {{ $gen->entityName() }}FormModelCest
     {
     }
 
-@if (!$gen->groupMainApiatoClasses)
+@if (!$crud->groupMainApiatoClasses)
     /**
-     * @group {{ $gen->entityName() }}
+     * @group {{ $crud->entityName() }}
      */
 @endif
-    public function formModelConfigFrom{{ $gen->entityName() }}(ApiTester $I)
+    public function formModelConfigFrom{{ $crud->entityName() }}(ApiTester $I)
     {        
         $I->sendGET($this->endpoint);
 

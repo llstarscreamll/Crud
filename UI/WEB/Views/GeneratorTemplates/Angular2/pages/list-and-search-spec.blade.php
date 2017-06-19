@@ -10,17 +10,17 @@ import { Observable } from 'rxjs/Observable';
 
 import * as fromRoot from './../../../reducers';
 
-import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
-import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
-import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
-import { {{ $cpmClass = $gen->containerClass('list-and-search', true) }} } from './{{ str_replace('.ts', '', $gen->containerFile('list-and-search', true)) }}';
-import { {{ $components = $gen->entityName().'Components' }} } from './../../components/{{ $gen->slugEntityName().'' }}';
-import { {{ $pages = $gen->entityName().'Pages' }} } from './../../pages/{{ $gen->slugEntityName().'' }}';
-import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
+import * as utils from './../../utils/{{ $crud->slugEntityName() }}-testing.util';
+import { {{ $model = $crud->entityName() }} } from './../../models/{{ camel_case($crud->entityName()) }}';
+import { {{ $crud->getLanguageKey(true) }} } from './../../translations/{{ $crud->getLanguageKey() }}';
+import { {{ $cpmClass = $crud->containerClass('list-and-search', true) }} } from './{{ str_replace('.ts', '', $crud->containerFile('list-and-search', true)) }}';
+import { {{ $components = $crud->entityName().'Components' }} } from './../../components/{{ $crud->slugEntityName().'' }}';
+import { {{ $pages = $crud->entityName().'Pages' }} } from './../../pages/{{ $crud->slugEntityName().'' }}';
+import { {{ $service = $crud->entityName().'Service' }} } from './../../services/{{ $crud->slugEntityName() }}.service';
 import { AUTH_TESTING_COMPONENTS } from "app/auth/utils/auth-testing-utils";
 
 /**
- * {{ $gen->containerClass('list-and-search', $plural = true) }} Tests.
+ * {{ $crud->containerClass('list-and-search', $plural = true) }} Tests.
  *
  * @author [name] <[<email address>]>
  */
@@ -33,7 +33,7 @@ describe('{{ $cpmClass }}', () => {
   let location: Location;
   let service: {{ $service }};
   let http: Http;
-  let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
+  let testModel: {{ $crud->entityName() }} = utils.{{ $crud->entityName() }}One;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -82,17 +82,17 @@ describe('{{ $cpmClass }}', () => {
 
     let html = fixture.nativeElement;
 
-    expect(html.querySelector('{{ $gen->slugEntityName() }}-search-basic-component')).not.toBeNull('basic search component');
-    expect(html.querySelector('{{ $gen->slugEntityName(true) }}-table-component')).not.toBeNull('table list component');
-    expect(html.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).toBeNull('advanced search component');
+    expect(html.querySelector('{{ $crud->slugEntityName() }}-search-basic-component')).not.toBeNull('basic search component');
+    expect(html.querySelector('{{ $crud->slugEntityName(true) }}-table-component')).not.toBeNull('table list component');
+    expect(html.querySelector('{{ $crud->slugEntityName() }}-search-advanced-component')).toBeNull('advanced search component');
 
     // click btn to display advanced search form
-    html.querySelector('{{ $gen->slugEntityName() }}-search-basic-component form button.advanced-search-btn').click();
+    html.querySelector('{{ $crud->slugEntityName() }}-search-basic-component form button.advanced-search-btn').click();
 
     fixture.detectChanges();
     tick(500);
 
-    expect(html.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).not.toBeNull('advanced search component');
+    expect(html.querySelector('{{ $crud->slugEntityName() }}-search-advanced-component')).not.toBeNull('advanced search component');
   }));
 
   it('should navigate on create btn click', fakeAsync(() => {
@@ -107,7 +107,7 @@ describe('{{ $cpmClass }}', () => {
     fixture.detectChanges();
 
     expect(router.navigateByUrl).toHaveBeenCalledWith(
-      jasmine.stringMatching('/{{ $gen->slugEntityName() }}/create'),
+      jasmine.stringMatching('/{{ $crud->slugEntityName() }}/create'),
       { skipLocationChange: false, replaceUrl: false }
     );
   }));
@@ -119,14 +119,14 @@ describe('{{ $cpmClass }}', () => {
     tick();
 
     expect(component.showAdvancedSearchForm).toBe(false);
-    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).toBeNull('advanced search component');
+    expect(fixture.nativeElement.querySelector('{{ $crud->slugEntityName() }}-search-advanced-component')).toBeNull('advanced search component');
 
-    fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-basic-component form button.advanced-search-btn').click();
+    fixture.nativeElement.querySelector('{{ $crud->slugEntityName() }}-search-basic-component form button.advanced-search-btn').click();
 
     fixture.detectChanges();
     tick(500);
 
     expect(component.showAdvancedSearchForm).toBe(true);
-    expect(fixture.nativeElement.querySelector('{{ $gen->slugEntityName() }}-search-advanced-component')).not.toBeNull('advanced search component');
+    expect(fixture.nativeElement.querySelector('{{ $crud->slugEntityName() }}-search-advanced-component')).not.toBeNull('advanced search component');
   }));
 });

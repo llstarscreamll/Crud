@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request [] */
@@ -7,7 +7,7 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
 return [
@@ -30,12 +30,12 @@ return [
     // nombres de los elementos del formulario
     'form-labels' => [
 <?php foreach ($fields as $field) { ?>
-        '<?= $field->name?>' => '<?= $gen->getFormFieldName($field->label).($gen->isTheFieldRequired($field) ? ' *' : '') ?>',
+        '<?= $field->name?>' => '<?= $crud->getFormFieldName($field->label).($crud->isTheFieldRequired($field) ? ' *' : '') ?>',
 <?php if (strpos($field->validation_rules, 'confirmed')) { ?>
-        '<?= $field->name?>_confirmation' => '<?= $gen->getFormFieldName("Confirmar ".$field->label).($gen->isTheFieldRequired($field) ? ' *' : '') ?>',
+        '<?= $field->name?>_confirmation' => '<?= $crud->getFormFieldName("Confirmar ".$field->label).($crud->isTheFieldRequired($field) ? ' *' : '') ?>',
 <?php } ?>
 <?php if ($field->type == "enum") { ?>
-        '<?= $field->name?>_values' => <?= $gen->getEnumValuesArrayFormField($field) ?>,
+        '<?= $field->name?>_values' => <?= $crud->getEnumValuesArrayFormField($field) ?>,
 <?php } ?>
 <?php } ?>
     ],
@@ -44,7 +44,7 @@ return [
     'table-columns' => [
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
-        '<?= $field->name?>' => '<?= $gen->getFormFieldName($field->label) ?>',
+        '<?= $field->name?>' => '<?= $crud->getFormFieldName($field->label) ?>',
 <?php } ?>
 <?php } ?>
     ],
@@ -52,15 +52,15 @@ return [
     // Los nombres de los atributos de validación en Form Requests.
     'attributes' => [
 <?php foreach ($fields as $field) { ?>
-        '<?= $field->name ?>' => '<?= $gen->getFormFieldName($field->label) ?>',
+        '<?= $field->name ?>' => '<?= $crud->getFormFieldName($field->label) ?>',
 <?php if (strpos($field->validation_rules, 'confirmed')) { ?>
-        '<?= $field->name?>_confirmation' => 'Confirmar <?= $gen->getFormFieldName($field->label) ?>',
+        '<?= $field->name?>_confirmation' => 'Confirmar <?= $crud->getFormFieldName($field->label) ?>',
 <?php } elseif ($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime') { ?>
-        '<?= $field->name ?>[from]' => '<?= $gen->getFormFieldName($field->label) ?> inicial',
-        '<?= $field->name ?>[to]' => '<?= $gen->getFormFieldName($field->label) ?> final',
+        '<?= $field->name ?>[from]' => '<?= $crud->getFormFieldName($field->label) ?> inicial',
+        '<?= $field->name ?>[to]' => '<?= $crud->getFormFieldName($field->label) ?> final',
 <?php } elseif ($field->type == "tinyint") { ?>
-        '<?= $field->name ?>_true' => '<?= $gen->getFormFieldName($field->label) ?> si',
-        '<?= $field->name ?>_false' => '<?= $gen->getFormFieldName($field->label) ?> no',
+        '<?= $field->name ?>_true' => '<?= $crud->getFormFieldName($field->label) ?> si',
+        '<?= $field->name ?>_false' => '<?= $crud->getFormFieldName($field->label) ?> no',
 <?php } ?>
 <?php } ?>
     ],
@@ -71,11 +71,11 @@ return [
     ],
 
     // mensajes de transacciones
-    'store_<?= $gen->snakeCaseSingular()?>_success' => '<?=  $gen->getStoreSuccessMsg() ?>',
-    'update_<?= $gen->snakeCaseSingular()?>_success' => '<?=  $gen->getUpdateSuccessMsg() ?>',
-    'destroy_<?= $gen->snakeCaseSingular()?>_success' => '<?=  $gen->getDestroySuccessMsgSingle() ?>|<?=  $gen->getDestroySuccessMsgPlural() ?>',
-<?php if (($hasSoftDelete = $gen->hasDeletedAtColumn($fields))) { ?>
-    'restore_<?= $gen->snakeCaseSingular()?>_success' => '<?=  $gen->getRestoreSuccessMsgSingle() ?>|<?=  $gen->getRestoreSuccessMsgPlural() ?>',
+    'store_<?= $crud->snakeCaseSingular()?>_success' => '<?=  $crud->getStoreSuccessMsg() ?>',
+    'update_<?= $crud->snakeCaseSingular()?>_success' => '<?=  $crud->getUpdateSuccessMsg() ?>',
+    'destroy_<?= $crud->snakeCaseSingular()?>_success' => '<?=  $crud->getDestroySuccessMsgSingle() ?>|<?=  $crud->getDestroySuccessMsgPlural() ?>',
+<?php if (($hasSoftDelete = $crud->hasDeletedAtColumn($fields))) { ?>
+    'restore_<?= $crud->snakeCaseSingular()?>_success' => '<?=  $crud->getRestoreSuccessMsgSingle() ?>|<?=  $crud->getRestoreSuccessMsgPlural() ?>',
 
 <?php } ?>
 ];

@@ -77,7 +77,7 @@ class CreateNgEffectsTask
         $template = $this->templatesDir().'.Angular2/effects/effects';
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
         ]);
 

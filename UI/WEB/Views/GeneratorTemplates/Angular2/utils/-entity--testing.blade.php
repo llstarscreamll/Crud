@@ -17,39 +17,39 @@ import * as fromRoot from './../../reducers';
 import { AuthGuard } from './../../auth/guards/auth.guard';
 import { AuthService } from './../../auth/services/auth.service';
 
-import { {{ $model = $gen->entityName() }} } from './../models/{{ camel_case($gen->entityName()) }}';
+import { {{ $model = $crud->entityName() }} } from './../models/{{ camel_case($crud->entityName()) }}';
 import { EFFECTS } from './../effects/';
 import { SERVICES } from './../services';
 
 /**
- * {{ $gen->entityName() }} Test Utils.
+ * {{ $crud->entityName() }} Test Utils.
  *
  * @author [name] <[<email address>]>
  */
 
-export let translateKey: string = '{{ $gen->entityNameSnakeCase() }}.';
+export let translateKey: string = '{{ $crud->entityNameSnakeCase() }}.';
 export let tableColumns = [
 @foreach ($fields as $field)
 @if (!$field->hidden)
-  '{{ $gen->tableName.'.'.$field->name }}',
+  '{{ $crud->tableName.'.'.$field->name }}',
 @endif
 @endforeach
 ];
 
 // Testing Models
 @if($request->get('skip_angular_test_models', false) === false)
-export let {{ $gen->entityName() }}One: {{ $model }} = {!! json_encode(['id' => 'a1'] + factory('App\Containers\\'.$gen->containerName().'\\Models\\'.$gen->entityName())->make()->toArray()+ $gen->getRelatedModelDataFromfields($fields)) !!};
-export let {{ $gen->entityName() }}Two: {{ $model }} = {!! json_encode(['id' => 'b2'] + factory('App\Containers\\'.$gen->containerName().'\\Models\\'.$gen->entityName())->make()->toArray() + $gen->getRelatedModelDataFromfields($fields)) !!};
-export let {{ $gen->entityName() }}List: {{ $model }}[] = [
-	{{ $gen->entityName() }}One,
-	{{ $gen->entityName() }}Two,
+export let {{ $crud->entityName() }}One: {{ $model }} = {!! json_encode(['id' => 'a1'] + factory('App\Containers\\'.$crud->containerName().'\\Models\\'.$crud->entityName())->make()->toArray()+ $crud->getRelatedModelDataFromfields($fields)) !!};
+export let {{ $crud->entityName() }}Two: {{ $model }} = {!! json_encode(['id' => 'b2'] + factory('App\Containers\\'.$crud->containerName().'\\Models\\'.$crud->entityName())->make()->toArray() + $crud->getRelatedModelDataFromfields($fields)) !!};
+export let {{ $crud->entityName() }}List: {{ $model }}[] = [
+	{{ $crud->entityName() }}One,
+	{{ $crud->entityName() }}Two,
 ];
 @endif
 
-export const FORM_MODEL = {!! json_encode($gen->getFormModelConfigArray($fields)) !!};
+export const FORM_MODEL = {!! json_encode($crud->getFormModelConfigArray($fields)) !!};
 export const FORM_DATA = {
 @foreach ($fields->filter(function ($field) { return !empty($field->namespace); })->unique('namespace') as $field)
-	{{ str_plural(class_basename($field->namespace)) }}: [{ id: {{ $gen->entityName() }}One.{{ $field->name }}, text: {{ $gen->entityName() }}One.{{ $field->name }} }, { id: {{ $gen->entityName() }}Two.{{ $field->name }}, text: {{ $gen->entityName() }}Two.{{ $field->name }} },],
+	{{ str_plural(class_basename($field->namespace)) }}: [{ id: {{ $crud->entityName() }}One.{{ $field->name }}, text: {{ $crud->entityName() }}One.{{ $field->name }} }, { id: {{ $crud->entityName() }}Two.{{ $field->name }}, text: {{ $crud->entityName() }}Two.{{ $field->name }} },],
 @endforeach
 };
 
@@ -57,7 +57,7 @@ export const FORM_DATA = {
 export function setupMockBackend(mockBackend: MockBackend) {
 	mockBackend.connections.subscribe((connection: MockConnection) => {
 		// POST create item request
-		if (connection.request.method === 1 && connection.request.url.search(/{{ $gen->slugEntityName(true) }}/i) > -1) {
+		if (connection.request.method === 1 && connection.request.url.search(/{{ $crud->slugEntityName(true) }}/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
 	      body: JSON.stringify({ data: JSON.parse(connection.request.getBody()) }),
 	      status: 200,
@@ -66,10 +66,10 @@ export function setupMockBackend(mockBackend: MockBackend) {
 	    return;
 	  }
 
-	  // POST update 'a1' ({{ $gen->entityName() }}One) item request
-		if (connection.request.method === 1 && connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/a1/i) > -1) {
+	  // POST update 'a1' ({{ $crud->entityName() }}One) item request
+		if (connection.request.method === 1 && connection.request.url.search(/{{ $crud->slugEntityName(true) }}\/a1/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
-	      body: JSON.stringify({ data: {{ $gen->entityName() }}One }),
+	      body: JSON.stringify({ data: {{ $crud->entityName() }}One }),
 	      status: 200,
 	      statusText: "OK",
 	    })));
@@ -77,7 +77,7 @@ export function setupMockBackend(mockBackend: MockBackend) {
 	  }
 
 		// GET form model request
-	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/form-model/i) > -1) {
+	  if (connection.request.url.search(/{{ $crud->slugEntityName(true) }}\/form-model/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
 	      body: JSON.stringify(FORM_MODEL),
 	      status: 200,
@@ -87,7 +87,7 @@ export function setupMockBackend(mockBackend: MockBackend) {
 	  }
 
 	  // GET form data request
-	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/form-data/i) > -1) {
+	  if (connection.request.url.search(/{{ $crud->slugEntityName(true) }}\/form-data/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
 	      body: JSON.stringify(FORM_DATA),
 	      status: 200,
@@ -96,20 +96,20 @@ export function setupMockBackend(mockBackend: MockBackend) {
 	    return;
 	  }
 
-	  // GET 'a1' ({{ $gen->entityName() }}One) item data request
-	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/a1/i) > -1) {
+	  // GET 'a1' ({{ $crud->entityName() }}One) item data request
+	  if (connection.request.url.search(/{{ $crud->slugEntityName(true) }}\/a1/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
-	      body: JSON.stringify({data: {{ $gen->entityName() }}One}),
+	      body: JSON.stringify({data: {{ $crud->entityName() }}One}),
 	      status: 200,
 	      statusText: "OK",
 	    })));
 	    return;
 	  }
 
-	  // GET 'b2' ({{ $gen->entityName() }}Two) item data request
-	  if (connection.request.url.search(/{{ $gen->slugEntityName(true) }}\/b2/i) > -1) {
+	  // GET 'b2' ({{ $crud->entityName() }}Two) item data request
+	  if (connection.request.url.search(/{{ $crud->slugEntityName(true) }}\/b2/i) > -1) {
 	    connection.mockRespond(new Response(new ResponseOptions({
-	      body: JSON.stringify({data: {{ $gen->entityName() }}Two}),
+	      body: JSON.stringify({data: {{ $crud->entityName() }}Two}),
 	      status: 200,
 	      statusText: "OK",
 	    })));
@@ -142,6 +142,6 @@ export const PROVIDERS = [
     useFactory: (backend, defaultOptions) => new Http(backend, defaultOptions),
     deps: [MockBackend, BaseRequestOptions]
   },
-  { provide: ActivatedRoute, useValue: { 'params': Observable.from([{ 'id': {{ $gen->entityName() }}One.id }]) } },
+  { provide: ActivatedRoute, useValue: { 'params': Observable.from([{ 'id': {{ $crud->entityName() }}One.id }]) } },
   ...SERVICES,
 ];

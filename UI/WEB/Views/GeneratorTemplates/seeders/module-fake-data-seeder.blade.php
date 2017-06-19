@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request [] */
@@ -7,7 +7,7 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
 use Carbon\Carbon;
@@ -15,11 +15,11 @@ use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
 /**
- * Clase <?= $gen->studlyCasePlural() ?>TableSeeder
+ * Clase <?= $crud->studlyCasePlural() ?>TableSeeder
  *
  * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
  */
-class <?= $gen->studlyCasePlural() ?>TableSeeder extends Seeder
+class <?= $crud->studlyCasePlural() ?>TableSeeder extends Seeder
 {
     public function run()
     {
@@ -29,7 +29,7 @@ class <?= $gen->studlyCasePlural() ?>TableSeeder extends Seeder
 
 <?php foreach ($fields as $field) { ?>
 <?php if ($field->namespace) { ?>
-        <?= $gen->modelVariableNameFromClass($field->namespace, 'plural') ?> = <?= $field->namespace ?>::all('id')->pluck('id')->toArray();
+        <?= $crud->modelVariableNameFromClass($field->namespace, 'plural') ?> = <?= $field->namespace ?>::all('id')->pluck('id')->toArray();
 <?php } ?>
 <?php } ?>
 
@@ -37,12 +37,12 @@ class <?= $gen->studlyCasePlural() ?>TableSeeder extends Seeder
             $data[] = [
 <?php foreach ($fields as $key => $field) { ?>
 <?php if ($field->key !== 'PRI') { ?>
-                '<?= $field->name ?>' => <?= $gen->getFakeDataGenerator($field) ?>,
+                '<?= $field->name ?>' => <?= $crud->getFakeDataGenerator($field) ?>,
 <?php } ?>
 <?php } ?>
             ];
         }
 
-        \DB::table('<?= $gen->table_name ?>')->insert($data);
+        \DB::table('<?= $crud->table_name ?>')->insert($data);
     }
 }

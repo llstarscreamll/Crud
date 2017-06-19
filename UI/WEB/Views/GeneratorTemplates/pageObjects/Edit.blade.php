@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -7,10 +7,10 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
-namespace Page\Functional\<?= $gen->studlyCasePlural() ?>;
+namespace Page\Functional\<?= $crud->studlyCasePlural() ?>;
 
 use FunctionalTester;
 <?php foreach ($fields as $field) { ?>
@@ -41,14 +41,14 @@ class <?= $test ?> extends Index
      *
      * @var string
      */
-    public static $form = 'form[name=edit-<?= $gen->getDashedModelName() ?>-form]';
+    public static $form = 'form[name=edit-<?= $crud->getDashedModelName() ?>-form]';
 
     /**
      * Mensaje de éxito al actualizar un registro.
      *
      * @var array
      */
-    public static $msgSuccess = '<?=  $gen->getUpdateSuccessMsg()  ?>';
+    public static $msgSuccess = '<?=  $crud->getUpdateSuccessMsg()  ?>';
     public static $msgSuccessElem = '<?=  config('modules.crud.uimap.alert-success-selector')  ?>';
 
     public function __construct(FunctionalTester $I)
@@ -66,7 +66,7 @@ class <?= $test ?> extends Index
     {
         $data = array();
 
-        foreach (static::$<?= $gen->modelVariableName() ?>Data as $key => $value) {
+        foreach (static::$<?= $crud->modelVariableName() ?>Data as $key => $value) {
             if (in_array($key, static::$editFormFields)) {
                 $data[$key] = $value;
             }

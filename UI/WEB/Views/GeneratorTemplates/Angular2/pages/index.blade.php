@@ -1,7 +1,7 @@
-import { {{ $gen->containerClass('list-and-search', true) }} } from './{{ str_replace('.ts', '', $gen->containerFile('list-and-search', true)) }}';
-import { {{ $gen->containerClass('form', false, true) }} } from './{{ str_replace('.ts', '', $gen->containerFile('form', false, true)) }}';
+import { {{ $crud->containerClass('list-and-search', true) }} } from './{{ str_replace('.ts', '', $crud->containerFile('list-and-search', true)) }}';
+import { {{ $crud->containerClass('form', false, true) }} } from './{{ str_replace('.ts', '', $crud->containerFile('form', false, true)) }}';
 
-export const {{ $gen->entityName() }}Pages = [
-	{{ $gen->containerClass('list-and-search', true) }},
-	{{ $gen->containerClass('form', false, true) }},
+export const {{ $crud->entityName() }}Pages = [
+	{{ $crud->containerClass('list-and-search', true) }},
+	{{ $crud->containerClass('form', false, true) }},
 ];

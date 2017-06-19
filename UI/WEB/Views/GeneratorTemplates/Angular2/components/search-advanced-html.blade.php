@@ -12,7 +12,7 @@
         <tab>
           <ng-template tabHeading>
             <i class="fa fa-columns" aria-hidden="true"></i>
-            <span translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.options_tab_title</span>
+            <span translate>{{ $crud->entityNameSnakeCase() }}.advanced_search.options_tab_title</span>
           </ng-template>
           <div class="panel-body">
             <dynamic-form-fields
@@ -29,7 +29,7 @@
         <tab>
         	<ng-template tabHeading>
             <i class="fa fa-search-plus" aria-hidden="true"></i>
-            <span translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.search_tab_title</span>
+            <span translate>{{ $crud->entityNameSnakeCase() }}.advanced_search.search_tab_title</span>
           </ng-template>
         	<div class="panel-body">
     	    	<dynamic-form-fields
@@ -61,7 +61,7 @@
         </tab>
       </tabset>
       
-      <button type="submit" class="btn btn-lg btn-primary btn-block m-t-xs" translate>{{ $gen->entityNameSnakeCase() }}.advanced_search.apply_btn</button>
+      <button type="submit" class="btn btn-lg btn-primary btn-block m-t-xs" translate>{{ $crud->entityNameSnakeCase() }}.advanced_search.apply_btn</button>
 
     </form>
   </div>

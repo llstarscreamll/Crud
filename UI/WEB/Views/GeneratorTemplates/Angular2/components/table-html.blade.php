@@ -11,10 +11,10 @@
           <th style="width: 1em;"><input type="checkbox" name="select_all_items"></th>
 @foreach ($fields as $field)
 @if (!$field->hidden)
-          <th *ngIf="showColumn('{{ $gen->tableName.'.'.$field->name }}')" class="{{ $gen->tableName.'.'.$field->name }}">
-            <span role="button" (click)="onSort('{{ $gen->tableName.'.'.$field->name }}')">
-                {{ '{{' }} langKey + 'fields.'+'{{ $gen->tableName.'.'.$field->name }}' | translate }}
-                <i *ngIf="orderBy == '{{ $gen->tableName.'.'.$field->name }}'"
+          <th *ngIf="showColumn('{{ $crud->tableName.'.'.$field->name }}')" class="{{ $crud->tableName.'.'.$field->name }}">
+            <span role="button" (click)="onSort('{{ $crud->tableName.'.'.$field->name }}')">
+                {{ '{{' }} langKey + 'fields.'+'{{ $crud->tableName.'.'.$field->name }}' | translate }}
+                <i *ngIf="orderBy == '{{ $crud->tableName.'.'.$field->name }}'"
                     [ngClass]="{'glyphicon': true, 'glyphicon-triangle-bottom': sortedBy == 'desc', 'glyphicon-triangle-top': sortedBy == 'asc'}"></i>
             </span>
           </th>
@@ -27,13 +27,13 @@
       <tbody>
 
         <ng-container *ngIf="(itemsPagination$ | async)?.data.length > 0">
-        <tr *ngFor="let {{ $var = camel_case($gen->entityName()) }} of (itemsPagination$ | async)?.data" @if($gen->hasSoftDeleteColumn) [ngClass]="{'danger': {{ $var }}.deleted_at }" @endif>
+        <tr *ngFor="let {{ $var = camel_case($crud->entityName()) }} of (itemsPagination$ | async)?.data" @if($crud->hasSoftDeleteColumn) [ngClass]="{'danger': {{ $var }}.deleted_at }" @endif>
           <td><input type="checkbox" name="item[]" value="{{ $var }}.id"></td>
 @foreach ($fields as $field)
 @if (!$field->hidden)
-          <td *ngIf="showColumn('{{ $gen->tableName.'.'.$field->name }}')" class="{{ $field->name }}">
+          <td *ngIf="showColumn('{{ $crud->tableName.'.'.$field->name }}')" class="{{ $field->name }}">
 @if ($field->namespace)
-            {{ '{{' }} {{ $var }}?.{{  $gen->relationNameFromField($field)  }}?.data.name }}
+            {{ '{{' }} {{ $var }}?.{{  $crud->relationNameFromField($field)  }}?.data.name }}
 @else
             {{ '{{' }} {{ $var }}?.{{ $field->name }} }}
 @endif
@@ -42,8 +42,8 @@
 @endforeach
           <td class="actions">
             <a
-              userCan="{{ $gen->slugEntityName(true) }}.details"
-              [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'details']"
+              userCan="{{ $crud->slugEntityName(true) }}.details"
+              [routerLink]="[ '/{{ $crud->slugEntityName() }}', {{ $var }}.id, 'details']"
               tooltip="{{ '{{' }} langKey + 'details' | translate }}"
               class="btn btn-sm btn-default details-link">
               <i class="glyphicon glyphicon-eye-open"></i>
@@ -51,9 +51,9 @@
             </a>
 
             <a
-              {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
-              userCan="{{ $gen->slugEntityName(true) }}.update"
-              [routerLink]="[ '/{{ $gen->slugEntityName() }}', {{ $var }}.id, 'edit']"
+              {!! $crud->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
+              userCan="{{ $crud->slugEntityName(true) }}.update"
+              [routerLink]="[ '/{{ $crud->slugEntityName() }}', {{ $var }}.id, 'edit']"
               tooltip="{{ '{{' }} langKey + 'edit' | translate }}"
               class="btn btn-sm btn-default edit-link">
               <i class="glyphicon glyphicon-pencil"></i>
@@ -61,8 +61,8 @@
             </a>
             
             <a
-              {!! $gen->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
-              userCan="{{ $gen->slugEntityName(true) }}.delete"
+              {!! $crud->hasSoftDeleteColumn ? '*ngIf="!'.$var.'.deleted_at"' : null !!}
+              userCan="{{ $crud->slugEntityName(true) }}.delete"
               class="btn btn-sm btn-default delete-link"
               role="button"
               tooltip="{{ '{{' }} langKey + 'delete' | translate }}"

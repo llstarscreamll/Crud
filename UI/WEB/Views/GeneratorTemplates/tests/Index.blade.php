@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -7,15 +7,15 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
-namespace <?= $gen->studlyCasePlural() ?>;
+namespace <?= $crud->studlyCasePlural() ?>;
 
-use <?= $modelNamespace = config('modules.crud.config.parent-app-namespace')."\Models\\".$gen->modelClassName() ?>;
+use <?= $modelNamespace = config('modules.crud.config.parent-app-namespace')."\Models\\".$crud->modelClassName() ?>;
 use FunctionalTester;
-use Page\Functional\<?= $gen->studlyCasePlural() ?>\<?= $test ?> as Page;
-use Page\Functional\<?= $gen->studlyCasePlural() ?>\Destroy as DestroyPage;
+use Page\Functional\<?= $crud->studlyCasePlural() ?>\<?= $test ?> as Page;
+use Page\Functional\<?= $crud->studlyCasePlural() ?>\Destroy as DestroyPage;
 
 class <?= $test ?>Cest
 {
@@ -31,7 +31,7 @@ class <?= $test ?>Cest
     }
 
     /**
-     * Crear 10, luego <?= strtolower($gen->getDestroyBtnTxt()) ?> 2 registros de prueba en la base de
+     * Crear 10, luego <?= strtolower($crud->getDestroyBtnTxt()) ?> 2 registros de prueba en la base de
      * datos.
      *
      * @return Illuminate\Database\Eloquent\Collection
@@ -44,9 +44,9 @@ class <?= $test ?>Cest
     private function createAndSoftDeleteSomeRecords()
     {
         // creo registros de prueba
-        factory(<?= $gen->modelClassName() ?>::class, 10)->create();
+        factory(<?= $crud->modelClassName() ?>::class, 10)->create();
 
-        return <?= $gen->modelClassName() ?>::all(['id'])->take(2)
+        return <?= $crud->modelClassName() ?>::all(['id'])->take(2)
             ->each(function ($item, $key) {
                 $item->delete();
             });
@@ -67,7 +67,7 @@ class <?= $test ?>Cest
         $I->wantTo('probar vista index de módulo '.Page::$moduleName);
         
         // creo el registro de prueba
-        Page::have<?= $gen->modelClassName() ?>($I);
+        Page::have<?= $crud->modelClassName() ?>($I);
 
         $I->amOnPage(Page::$moduleURL);
         $I->see(Page::$moduleName, Page::$titleElem);
@@ -80,7 +80,7 @@ class <?= $test ?>Cest
         }
     }
 
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
     /**
      * Prueba que sean mostrados los registros en papelera en la tabla del Index
      * según le convenga al usuario, sólo los registros en papelea o registros
@@ -98,14 +98,14 @@ class <?= $test ?>Cest
         $I->wantTo('ver registros en papelera en index, módulo '.Page::$moduleName);
         
         // creo registros de prueba y elimino algunos
-        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed = $this->createAndSoftDeleteSomeRecords();
+        <?= $crud->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed = $this->createAndSoftDeleteSomeRecords();
 
-        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?> = <?= $gen->modelClassName() ?>::all();
+        <?= $crud->modelVariableNameFromClass($modelNamespace, 'plural') ?> = <?= $crud->modelClassName() ?>::all();
 
         // con registros en papelera
         $I->amOnPage(
             route(
-                '<?= $gen->modelPluralVariableName() ?>.index',
+                '<?= $crud->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
             )
         );
@@ -113,26 +113,26 @@ class <?= $test ?>Cest
         // las filas de los registros que están en papelera deben aparecer con
         // la clase danger, es decir con un fondo rojo, las filas que no están
         // eliminadas no tienen la clase danger
-        foreach (<?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed as $item) {
+        foreach (<?= $crud->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed as $item) {
             $I->see($item->id, 'tbody tr.danger td.id');
         }
-        foreach (<?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?> as $item) {
+        foreach (<?= $crud->modelVariableNameFromClass($modelNamespace, 'plural') ?> as $item) {
             $I->see($item->id, 'tbody tr td.id');
         }
 
         // sólo registros en papelera
         $I->amOnPage(
             route(
-                '<?= $gen->modelPluralVariableName() ?>.index',
+                '<?= $crud->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
             )
         );
 
-        foreach (<?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed as $item) {
+        foreach (<?= $crud->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed as $item) {
             $I->see($item->id, 'tbody tr.danger td.id');
         }
 
-        foreach (<?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?> as $item) {
+        foreach (<?= $crud->modelVariableNameFromClass($modelNamespace, 'plural') ?> as $item) {
             $I->dontSee($item->id, 'tbody tr td.id');
         }
     }
@@ -153,7 +153,7 @@ class <?= $test ?>Cest
         $I->wantTo('ver botón restablecer según filtros en Index, módulo '.Page::$moduleName);
 
         // creo registros de prueba y elimino algunos
-        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed = $this->createAndSoftDeleteSomeRecords();
+        <?= $crud->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed = $this->createAndSoftDeleteSomeRecords();
 
         // si el usuario no desea mostrar los registros en papelera, el botón no
         // debe ser mostrado
@@ -164,14 +164,14 @@ class <?= $test ?>Cest
         // mostrado
         $I->amOnPage(
             route(
-                '<?= $gen->modelPluralVariableName() ?>.index',
+                '<?= $crud->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
             )
         );
         $I->see(Page::$restoreManyBtn, Page::$restoreManyBtnElem);
         $I->amOnPage(
             route(
-                '<?= $gen->modelPluralVariableName() ?>.index',
+                '<?= $crud->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
             )
         );
@@ -195,29 +195,29 @@ class <?= $test ?>Cest
 <?php } ?>
     public function dontSeeTrashButtonIfShownOnlyTrashedData(FunctionalTester $I)
     {
-        $I->wantTo('ocultar botón <?= $gen->getDestroyBtnTxt() ?> según filtros en Index, módulo '.Page::$moduleName);
+        $I->wantTo('ocultar botón <?= $crud->getDestroyBtnTxt() ?> según filtros en Index, módulo '.Page::$moduleName);
 
         // creo registros de prueba y elimino algunos
-        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed = $this->createAndSoftDeleteSomeRecords();
+        <?= $crud->modelVariableNameFromClass($modelNamespace, 'plural') ?>Trashed = $this->createAndSoftDeleteSomeRecords();
 
         // sólo se oculta el botón si lo unico que se desea consultar son los
         // registros en papelera
         $I->amOnPage(
             route(
-                '<?= $gen->modelPluralVariableName() ?>.index',
+                '<?= $crud->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'onlyTrashed']]
             )
         );
-        $I->dontSee(DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtnElem);
+        $I->dontSee(DestroyPage::$<?= $crud->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $crud->getDestroyVariableName() ?>ManyBtnElem);
         $I->amOnPage(Page::$moduleURL);
-        $I->see(DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtnElem);
+        $I->see(DestroyPage::$<?= $crud->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $crud->getDestroyVariableName() ?>ManyBtnElem);
         $I->amOnPage(
             route(
-                '<?= $gen->modelPluralVariableName() ?>.index',
+                '<?= $crud->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
             )
         );
-        $I->see(DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $gen->getDestroyVariableName() ?>ManyBtnElem);
+        $I->see(DestroyPage::$<?= $crud->getDestroyVariableName() ?>ManyBtn, DestroyPage::$<?= $crud->getDestroyVariableName() ?>ManyBtnElem);
     }
 
     /**
@@ -236,8 +236,8 @@ class <?= $test ?>Cest
         $I->wantTo('restaurar varios registros en papelera, módulo '.Page::$moduleName);
 
         // creo y muevo a papelera algunos registros
-        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?> = factory(<?= $gen->modelClassName() ?>::class, 10)->create();
-        <?= $gen->modelVariableNameFromClass($modelNamespace, 'plural') ?>->each(function ($item) {
+        <?= $crud->modelVariableNameFromClass($modelNamespace, 'plural') ?> = factory(<?= $crud->modelClassName() ?>::class, 10)->create();
+        <?= $crud->modelVariableNameFromClass($modelNamespace, 'plural') ?>->each(function ($item) {
             return $item->delete();
         });
 
@@ -248,7 +248,7 @@ class <?= $test ?>Cest
         // envío parámetros a Index para que cargue los registros en papelera
         $I->amOnPage(
             route(
-                '<?= $gen->modelPluralVariableName() ?>.index',
+                '<?= $crud->modelPluralVariableName() ?>.index',
                 [Page::$searchFieldsPrefix => ['trashed_records' => 'withTrashed']]
             )
         );
@@ -262,7 +262,7 @@ class <?= $test ?>Cest
         
         // envío formulario de restauración todos los registros en papelera
         $I->submitForm('#restoremanyForm', [
-            'id' => $<?= str_plural($gen->modelVariableName()) ?>->pluck('id')->toArray()
+            'id' => $<?= str_plural($crud->modelVariableName()) ?>->pluck('id')->toArray()
         ]);
         $I->dontSeeFormErrors();
         

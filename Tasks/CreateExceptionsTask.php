@@ -61,7 +61,7 @@ class CreateExceptionsTask
             $exceptionFile = $this->exceptionsFolder()."/{$this->entityName()}{$file}.php";
             $template = $this->templatesDir().'.Porto/Exceptions/'.$file;
 
-            $content = view($template, ['gen' => $this]);
+            $content = view($template, ['crud' => $this]);
 
             file_put_contents($exceptionFile, $content) === false
                 ? session()->push('error', "Error creating $file task file")

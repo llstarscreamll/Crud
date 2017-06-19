@@ -61,7 +61,7 @@ class CreateRepositoryTask
         $template = $this->templatesDir().'.Porto/Data/Repositories/'.$file;
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
             ]);
 

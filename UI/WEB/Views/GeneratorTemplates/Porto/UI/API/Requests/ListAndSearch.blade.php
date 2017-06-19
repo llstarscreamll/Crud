@@ -1,15 +1,15 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\UI\API\Requests{{ $gen->solveGroupClasses() }};
+namespace App\Containers\{{ $crud->containerName() }}\UI\API\Requests{{ $crud->solveGroupClasses() }};
 
 use App\Ship\Parents\Requests\Request;
 
 /**
- * Class {{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural = true)) }}.
+ * Class {{ str_replace('.php', '', $crud->apiRequestFile('ListAndSearch', $plural = true)) }}.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural = true)) }} extends Request
+class {{ str_replace('.php', '', $crud->apiRequestFile('ListAndSearch', $plural = true)) }} extends Request
 {
 	/**
      * Define which Roles and/or Permissions has access to this request..
@@ -18,7 +18,7 @@ class {{ str_replace('.php', '', $gen->apiRequestFile('ListAndSearch', $plural =
      */
     protected $access = [
         'roles' => 'admin',
-        'permissions' => '{{ $gen->slugEntityName(true) }}.list_and_search',
+        'permissions' => '{{ $crud->slugEntityName(true) }}.list_and_search',
     ];
 
     /**

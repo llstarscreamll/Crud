@@ -59,7 +59,7 @@ class CreateNgActionsTask
         $template = $this->templatesDir().'.Angular2/actions/actions';
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
         ]);
 

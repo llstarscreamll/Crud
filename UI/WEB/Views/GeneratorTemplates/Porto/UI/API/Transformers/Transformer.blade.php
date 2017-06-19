@@ -1,6 +1,6 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\UI\API\Transformers;
+namespace App\Containers\{{ $crud->containerName() }}\UI\API\Transformers;
 
 use App\Ship\Parents\Transformers\Transformer;
 @foreach ($fields->unique('namespace') as $field)
@@ -8,14 +8,14 @@ use App\Ship\Parents\Transformers\Transformer;
 use {{ str_replace('Models', 'UI\API\Transformers', $field->namespace) }}Transformer;
 @endif
 @endforeach
-use App\Containers\{{ $gen->containerName() }}\Models\{{ $gen->entityName() }};
+use App\Containers\{{ $crud->containerName() }}\Models\{{ $crud->entityName() }};
 
 /**
- * {{ $gen->entityName() }}Transformer Class.
+ * {{ $crud->entityName() }}Transformer Class.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ $gen->entityName() }}Transformer extends Transformer
+class {{ $crud->entityName() }}Transformer extends Transformer
 {
 	/**
 	 * @var array
@@ -23,7 +23,7 @@ class {{ $gen->entityName() }}Transformer extends Transformer
 	protected $availableIncludes = [
 @foreach ($fields as $field)
 @if($field->namespace)
-        '{{ $gen->relationNameFromField($field) }}',
+        '{{ $crud->relationNameFromField($field) }}',
 @endif
 @endforeach
     ];
@@ -34,7 +34,7 @@ class {{ $gen->entityName() }}Transformer extends Transformer
     protected $defaultIncludes = [];
 
     /**
-     * @param App\Containers\{{ $gen->containerName() }}\Models\{{ $gen->entityName() }} ${{ camel_case($entityClass = $gen->entityName()) }}
+     * @param App\Containers\{{ $crud->containerName() }}\Models\{{ $crud->entityName() }} ${{ camel_case($entityClass = $crud->entityName()) }}
      *
      * @return array
      */
@@ -66,10 +66,10 @@ class {{ $gen->entityName() }}Transformer extends Transformer
 @foreach ($fields as $field)
 @if ($field->namespace)
 
-    public function include{{ studly_case($gen->relationNameFromField($field))  }}({{ $entityClass }} ${{ camel_case($entityClass) }})
+    public function include{{ studly_case($crud->relationNameFromField($field))  }}({{ $entityClass }} ${{ camel_case($entityClass) }})
     {
-        return ${{ camel_case($entityClass) }}->{{  $gen->relationNameFromField($field)  }}
-            ? $this->{{ in_array($field->relation, ['belongsTo', 'hasOne']) ? 'item' : 'collection' }}(${{ camel_case($entityClass) }}->{{  $gen->relationNameFromField($field)  }}, new {{ class_basename($field->namespace) }}Transformer())
+        return ${{ camel_case($entityClass) }}->{{  $crud->relationNameFromField($field)  }}
+            ? $this->{{ in_array($field->relation, ['belongsTo', 'hasOne']) ? 'item' : 'collection' }}(${{ camel_case($entityClass) }}->{{  $crud->relationNameFromField($field)  }}, new {{ class_basename($field->namespace) }}Transformer())
             : null;
     }
 @endif

@@ -10,8 +10,8 @@ import { FormModelParserService } from './../../../dynamic-form/services/form-mo
 import { AppMessage } from './../../../core/models/appMessage';
 import * as fromRoot from './../../../reducers';
 
-import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
-import { {{ $entitySin = $gen->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
+import * as {{ $actions = camel_case($crud->entityName()).'Actions' }} from './../../actions/{{ $crud->slugEntityName() }}.actions';
+import { {{ $entitySin = $crud->entityName() }} } from './../../models/{{ camel_case($entitySin) }}';
 import { {{ $pagModel = $entitySin.'Pagination' }} } from './../../models/{{ camel_case($entitySin) }}Pagination';
 
 export interface SearchQuery {
@@ -23,11 +23,11 @@ export interface SearchQuery {
 }
 
 /**
- * {{ $gen->componentClass('abstract', false, true) }} Abstract Class.
+ * {{ $crud->componentClass('abstract', false, true) }} Abstract Class.
  *
  * @author [name] <[<email address>]>
  */
-export abstract class {{ $gen->componentClass('abstract', false, true) }} {
+export abstract class {{ $crud->componentClass('abstract', false, true) }} {
 
   // Dependencies.
   protected abstract store: Store<fromRoot.State>;
@@ -69,9 +69,9 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
 
   /**
    * Selected item loaded from API.
-   * @type Observable<{{ $gen->entityName() }} | null>
+   * @type Observable<{{ $crud->entityName() }} | null>
    */
-  public selectedItem$: Observable<{{ $gen->entityName() }} | null>;
+  public selectedItem$: Observable<{{ $crud->entityName() }} | null>;
 
   /**
    * Loading state.
@@ -109,7 +109,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
    * Language key access.
    * @type string
    */
-  public langKey: string = '{{ $gen->entityNameSnakeCase() }}.';
+  public langKey: string = '{{ $crud->entityNameSnakeCase() }}.';
 
   /**
    * Form type (create|details|update). Used as an @Input() param on components.
@@ -131,13 +131,13 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   public tableColumns: Array<string> = [
 @foreach ($fields as $field)
 @if (!$field->hidden)
-    '{{ $gen->tableName.'.'.$field->name }}',
+    '{{ $crud->tableName.'.'.$field->name }}',
 @endif
 @endforeach
   ];
 
   /**
-   * {{ $gen->componentClass('abstract', false, true) }} constructor.
+   * {{ $crud->componentClass('abstract', false, true) }} constructor.
    */
   public constructor() { }
 
@@ -145,13 +145,13 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
    * Init the store selects.
    */
   public setupStoreSelects() {
-    this.formModel$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormModel' }});
-    {{ !$gen->hasRelations ? '// ' : null }}this.formData$ = this.store.select(fromRoot.get{{ $gen->entityName().'FormData' }});
-    this.searchQuery$ = this.store.select(fromRoot.get{{ $gen->entityName().'SearchQuery' }});
-    this.itemsPagination$ = this.store.select(fromRoot.get{{ studly_case($gen->entityName(false)).'Pagination' }});
-    this.selectedItem$ = this.store.select(fromRoot.get{{ $gen->entityName().'Selected' }});
-    this.loading$ = this.store.select(fromRoot.get{{ $gen->entityName().'Loading' }});
-    this.messages$ = this.store.select(fromRoot.get{{ $gen->entityName().'Messages' }});
+    this.formModel$ = this.store.select(fromRoot.get{{ $crud->entityName().'FormModel' }});
+    {{ !$crud->hasRelations ? '// ' : null }}this.formData$ = this.store.select(fromRoot.get{{ $crud->entityName().'FormData' }});
+    this.searchQuery$ = this.store.select(fromRoot.get{{ $crud->entityName().'SearchQuery' }});
+    this.itemsPagination$ = this.store.select(fromRoot.get{{ studly_case($crud->entityName(false)).'Pagination' }});
+    this.selectedItem$ = this.store.select(fromRoot.get{{ $crud->entityName().'Selected' }});
+    this.loading$ = this.store.select(fromRoot.get{{ $crud->entityName().'Loading' }});
+    this.messages$ = this.store.select(fromRoot.get{{ $crud->entityName().'Messages' }});
 
     this.searchQuerySubscription$ = this.searchQuery$.subscribe(query => this.searchQuery = query);
   }
@@ -160,7 +160,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
    * Handle the form data stuff.
    */
   public setupFormData() {
-    {{ !$gen->hasRelations ? "/* we have not form data" : '// form data' }}
+    {{ !$crud->hasRelations ? "/* we have not form data" : '// form data' }}
     this.formDataSubscription$ = this.formData$
       .subscribe(data => {
         if (data) {
@@ -175,8 +175,8 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
 
           this.formDataReady = ready;
         }
-      });{{ !$gen->hasRelations ? '*/' : null }}
-    {{ !$gen->hasRelations ? 'this.formDataReady = true;' : null }}
+      });{{ !$crud->hasRelations ? '*/' : null }}
+    {{ !$crud->hasRelations ? 'this.formDataReady = true;' : null }}
   }
 
   /**
@@ -196,7 +196,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
   }
 
   /**
-   * Load {{ str_replace('_', ' ', $gen->tableName) }} by the given id on url, if any.
+   * Load {{ str_replace('_', ' ', $crud->tableName) }} by the given id on url, if any.
    */
   public loadSelectedItem() {
     if ((this.formType == 'details' || this.formType == 'edit')) {
@@ -223,7 +223,7 @@ export abstract class {{ $gen->componentClass('abstract', false, true) }} {
       confirmButtonText: this.swalOptions.confirm_btn_text,
       cancelButtonText: this.swalOptions.cancel_btn_text,
       confirmButtonColor: '#ed5565',
-      target: 'form#{{ $gen->slugEntityName() }}-form'
+      target: 'form#{{ $crud->slugEntityName() }}-form'
     }).then(() => {
       this.store.dispatch(new {{ $actions }}.DeleteAction({ id: id, reloadListQuery: this.searchQuery }));
     }).catch(swal.noop);

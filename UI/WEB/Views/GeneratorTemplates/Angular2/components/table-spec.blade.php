@@ -12,27 +12,27 @@ import * as fromRoot from './../../../reducers';
 import { DynamicFormModule } from './../../../dynamic-form/dynamic-form.module';
 import { FormModelParserService } from './../../../dynamic-form/services/form-model-parser.service';
 
-import { {{ $cmpClass = $gen->componentClass('table', $plural = true) }} } from './{{ str_replace('.ts', '', $gen->componentFile('table', true)) }}';
-import * as {{ $actions = camel_case($gen->entityName()).'Actions' }} from './../../actions/{{ $gen->slugEntityName() }}.actions';
-import { {{ $gen->getLanguageKey(true) }} } from './../../translations/{{ $gen->getLanguageKey() }}';
-import { {{ $service = $gen->entityName().'Service' }} } from './../../services/{{ $gen->slugEntityName() }}.service';
-import { {{ $model = $gen->entityName() }} } from './../../models/{{ camel_case($gen->entityName()) }}';
-import * as utils from './../../utils/{{ $gen->slugEntityName() }}-testing.util';
+import { {{ $cmpClass = $crud->componentClass('table', $plural = true) }} } from './{{ str_replace('.ts', '', $crud->componentFile('table', true)) }}';
+import * as {{ $actions = camel_case($crud->entityName()).'Actions' }} from './../../actions/{{ $crud->slugEntityName() }}.actions';
+import { {{ $crud->getLanguageKey(true) }} } from './../../translations/{{ $crud->getLanguageKey() }}';
+import { {{ $service = $crud->entityName().'Service' }} } from './../../services/{{ $crud->slugEntityName() }}.service';
+import { {{ $model = $crud->entityName() }} } from './../../models/{{ camel_case($crud->entityName()) }}';
+import * as utils from './../../utils/{{ $crud->slugEntityName() }}-testing.util';
 import { AUTH_TESTING_COMPONENTS } from "app/auth/utils/auth-testing-utils";
 
 /**
- * {{ $gen->componentClass('table', $plural = true) }} Tests.
+ * {{ $crud->componentClass('table', $plural = true) }} Tests.
  *
  * @author [name] <[<email address>]>
  */
 describe('{{ $cmpClass }}', () => {
   let fixture: ComponentFixture<{{ $cmpClass }}>;
   let component: {{ $cmpClass }};
-  let testModel: {{ $gen->entityName() }} = utils.{{ $gen->entityName() }}One;
+  let testModel: {{ $crud->entityName() }} = utils.{{ $crud->entityName() }}One;
   let reactiveForm;
   let mockBackend: MockBackend;
   let store: Store<fromRoot.State>;
-  let service: {{ $gen->entityName() }}Service;
+  let service: {{ $crud->entityName() }}Service;
   let http: Http;
   let router: Router;
 
@@ -50,7 +50,7 @@ describe('{{ $cmpClass }}', () => {
     store = getTestBed().get(Store);
     router = getTestBed().get(Router);
     http = getTestBed().get(Http);
-    service = getTestBed().get({{ $gen->entityName() }}Service);
+    service = getTestBed().get({{ $crud->entityName() }}Service);
 
     mockBackend = getTestBed().get(MockBackend);
     utils.setupMockBackend(mockBackend);
@@ -116,7 +116,7 @@ describe('{{ $cmpClass }}', () => {
   }));
 
   it('should have body table with action links/buttons', fakeAsync(() => {
-    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: utils.{{ $gen->entityName(false) }}List, pagination: {}}]));
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: utils.{{ $crud->entityName(false) }}List, pagination: {}}]));
 
     fixture.detectChanges();
     tick();
@@ -130,7 +130,7 @@ describe('{{ $cmpClass }}', () => {
   }));
 
   it('should emit event/navigate on links click', fakeAsync(() => {
-    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: utils.{{ $gen->entityName(false) }}List, pagination: {}}]));
+    spyOn(service, 'paginate').and.returnValue(Observable.from([{data: utils.{{ $crud->entityName(false) }}List, pagination: {}}]));
     spyOn(router, 'navigateByUrl');
 
     fixture.detectChanges();
@@ -141,13 +141,13 @@ describe('{{ $cmpClass }}', () => {
     spyOn(store, 'dispatch');
 
     // table heading links
-    table.querySelector('thead tr:first-child th.{{ $gen->tableName }}\\.' + field + ' span').click();
+    table.querySelector('thead tr:first-child th.{{ $crud->tableName }}\\.' + field + ' span').click();
 
     fixture.detectChanges();
     tick();
     
     expect(store.dispatch).toHaveBeenCalledWith(new {{ $actions }}.SetSearchQueryAction({
-      'orderBy': '{{ $gen->tableName }}.' + field,
+      'orderBy': '{{ $crud->tableName }}.' + field,
       'sortedBy': 'asc'
     }));
 
@@ -156,7 +156,7 @@ describe('{{ $cmpClass }}', () => {
     fixture.detectChanges();
     
     expect(router.navigateByUrl).toHaveBeenCalledWith(
-      jasmine.stringMatching('/{{ $gen->slugEntityName() }}/' + utils.{{ $gen->entityName(false) }}List[0].id + '/details'),
+      jasmine.stringMatching('/{{ $crud->slugEntityName() }}/' + utils.{{ $crud->entityName(false) }}List[0].id + '/details'),
       { skipLocationChange: false, replaceUrl: false }
     );
 
@@ -165,7 +165,7 @@ describe('{{ $cmpClass }}', () => {
     fixture.detectChanges();
     
     expect(router.navigateByUrl).toHaveBeenCalledWith(
-      jasmine.stringMatching('/{{ $gen->slugEntityName() }}/' + utils.{{ $gen->entityName(false) }}List[0].id  + '/edit'),
+      jasmine.stringMatching('/{{ $crud->slugEntityName() }}/' + utils.{{ $crud->entityName(false) }}List[0].id  + '/edit'),
       { skipLocationChange: false, replaceUrl: false }
     );
 
@@ -174,7 +174,7 @@ describe('{{ $cmpClass }}', () => {
     table.querySelector('tbody tr:first-child td a.delete-link').click();
     fixture.detectChanges();
     
-    // the component.deleteRow method has full test on {{ $gen->componentClass('form', $plural = false) }}
-    expect(component.deleteRow).toHaveBeenCalledWith(utils.{{ $gen->entityName(false) }}List[0].id);
+    // the component.deleteRow method has full test on {{ $crud->componentClass('form', $plural = false) }}
+    expect(component.deleteRow).toHaveBeenCalledWith(utils.{{ $crud->entityName(false) }}List[0].id);
   }));
 });

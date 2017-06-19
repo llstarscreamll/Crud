@@ -12,7 +12,7 @@
         <div class="row">
           <!-- buttons -->
           <div class="col-sm-6 col-md-8 m-b-md">
-            <a userCan="{{ $gen->slugEntityName(true) }}.create" [routerLink]="[ '/{{ $gen->slugEntityName() }}/create' ]" class="btn btn-primary">
+            <a userCan="{{ $crud->slugEntityName(true) }}.create" [routerLink]="[ '/{{ $crud->slugEntityName() }}/create' ]" class="btn btn-primary">
               <i class="glyphicon glyphicon-plus"></i>
               <span translate>{{ '{{' }} langKey + 'create' }}</span>
             </a>
@@ -20,9 +20,9 @@
 
           <!-- basic search -->
           <div class="col-sm-6 col-md-4 m-b-md">
-            <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}
+            <{{ str_replace(['.ts', '.'], ['', '-'], $crud->componentFile('search-basic', false)) }}
               (advancedSearchBtnClick)="showAdvancedSearchForm = !showAdvancedSearchForm">
-              </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-basic', false)) }}>
+              </{{ str_replace(['.ts', '.'], ['', '-'], $crud->componentFile('search-basic', false)) }}>
           </div>
 
           <!-- search options modal -->
@@ -46,11 +46,11 @@
                 </div>
                 
                 <div class="modal-body">
-                  <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}
+                  <{{ str_replace(['.ts', '.'], ['', '-'], $crud->componentFile('search-advanced', false)) }}
                     class="advanced-search-form"
                     (search)="staticModal.hide()"
                     [debug]="false">
-                  </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('search-advanced', false)) }}>
+                  </{{ str_replace(['.ts', '.'], ['', '-'], $crud->componentFile('search-advanced', false)) }}>
                 </div>
 
               </div>
@@ -58,8 +58,8 @@
           </div>
         </div>
 
-        <{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}>
-        </{{ str_replace(['.ts', '.'], ['', '-'], $gen->componentFile('table', $plural = true)) }}>
+        <{{ str_replace(['.ts', '.'], ['', '-'], $crud->componentFile('table', $plural = true)) }}>
+        </{{ str_replace(['.ts', '.'], ['', '-'], $crud->componentFile('table', $plural = true)) }}>
       </app-box-body>
     </app-box>
   </app-page-content>

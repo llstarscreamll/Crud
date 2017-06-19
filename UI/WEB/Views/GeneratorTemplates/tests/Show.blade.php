@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -7,13 +7,13 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
-namespace <?= $gen->studlyCasePlural() ?>;
+namespace <?= $crud->studlyCasePlural() ?>;
 
 use FunctionalTester;
-use Page\Functional\<?= $gen->studlyCasePlural() ?>\<?= $test ?> as Page;
+use Page\Functional\<?= $crud->studlyCasePlural() ?>\<?= $test ?> as Page;
 
 class <?= $test ?>Cest
 {
@@ -39,16 +39,16 @@ class <?= $test ?>Cest
         $I->wantTo('ver detalles de registro en módulo '.Page::$moduleName);
 
         // creo el registro de prueba
-        Page::have<?= $gen->modelClassName() ?>($I);
+        Page::have<?= $crud->modelClassName() ?>($I);
 
         // voy a la página de detalles del registro
-        $I->amOnPage(Page::route('/'.Page::$<?= $gen->modelVariableName() ?>Data['id']));
+        $I->amOnPage(Page::route('/'.Page::$<?= $crud->modelVariableName() ?>Data['id']));
         // veo el título de la página
         $I->see(Page::$moduleName, Page::$titleElem);
         $I->see(Page::$title, Page::$titleSmallElem);
 
         // los datos del formulario
-        $formData = Page::$<?= $gen->modelVariableName() ?>Data;
+        $formData = Page::$<?= $crud->modelVariableName() ?>Data;
         $formData = Page::unsetHiddenFields($formData);
 
         // veo los campos correspondientes en el formulario

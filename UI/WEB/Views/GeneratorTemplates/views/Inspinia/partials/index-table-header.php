@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
@@ -19,7 +19,7 @@
     $hide_actions_column = true
     ****************************************************************************
 
-    <?= $gen->getViewCopyRightDocBlock() ?>
+    <?= $crud->getViewCopyRightDocBlock() ?>
     
     ****************************************************************************
 --}}
@@ -32,12 +32,12 @@
 <?php if (!$field->hidden) { ?>
     @if(in_array('<?= $field->name ?>', $selectedTableColumns))
     <th class="<?= $field->name ?>">
-        {!! UISearch::sortLink('<?=$gen->route()?>.index', trans('<?=$gen->getLangAccess()?>.table-columns.<?=$field->name?>'), '<?=$field->name?>') !!}
+        {!! UISearch::sortLink('<?=$crud->route()?>.index', trans('<?=$crud->getLangAccess()?>.table-columns.<?=$field->name?>'), '<?=$field->name?>') !!}
     </th>
     @endif
 <?php } ?>
 <?php } ?>
     @if(!isset($hide_actions_column))
-        <th class="actions-column">{{trans('<?= $gen->solveSharedResourcesNamespace() ?>.table-actions-column')}}</th>
+        <th class="actions-column">{{trans('<?= $crud->solveSharedResourcesNamespace() ?>.table-actions-column')}}</th>
     @endif
 </tr>

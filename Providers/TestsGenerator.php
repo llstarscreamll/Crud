@@ -112,7 +112,7 @@ class TestsGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.pageObjects.'.$test,
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'test' => $test,
             'request' => $this->request,
@@ -134,7 +134,7 @@ class TestsGenerator extends BaseGenerator
         $content = view(
             $this->templatesDir().'.tests.'.$test,
             [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->advanceFields($this->request),
             'test' => $test,
             'request' => $this->request,

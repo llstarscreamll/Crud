@@ -83,7 +83,7 @@ class CreateApiRoutesTask
             $routeFile = $this->apiRoutesFolder().'/'.$this->apiRouteFile($file, $plural);
             $template = $this->templatesDir().'.Porto/UI/API/Routes/'.$file;
 
-            $content = view($template, ['gen' => $this]);
+            $content = view($template, ['crud' => $this]);
 
             file_put_contents($routeFile, $content) === false
                 ? session()->push('error', "Error creating $file task file")

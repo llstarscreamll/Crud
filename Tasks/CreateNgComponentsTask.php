@@ -96,7 +96,7 @@ class CreateNgComponentsTask
             $template = $this->templatesDir().'.Angular2.components.'.$file;
 
             $content = view($template, [
-                'gen' => $this,
+                'crud' => $this,
                 'fields' => $this->parsedFields
             ]);
 

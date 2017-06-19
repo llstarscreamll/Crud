@@ -32,7 +32,7 @@ class CreateComposerFileTask
         $composerFile = $this->containerFolder().'/composer.json';
         $template = $this->templatesDir().'.Porto/composer';
 
-        $content = view($template, ['gen' => $this]);
+        $content = view($template, ['crud' => $this]);
 
         file_put_contents($composerFile, $content) === false
             ? session()->push('error', 'Error creating composer file')

@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -7,13 +7,13 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
-namespace <?= $gen->studlyCasePlural() ?>;
+namespace <?= $crud->studlyCasePlural() ?>;
 
 use FunctionalTester;
-use Page\Functional\<?= $gen->studlyCasePlural() ?>\<?= $test ?> as Page;
+use Page\Functional\<?= $crud->studlyCasePlural() ?>\<?= $test ?> as Page;
 
 class <?= $test ?>Cest
 {
@@ -43,15 +43,15 @@ class <?= $test ?>Cest
         $I->wantTo('editar un registro en modulo '.Page::$moduleName);
 
         // creo el registro de prueba
-        Page::have<?= $gen->modelClassName() ?>($I);
+        Page::have<?= $crud->modelClassName() ?>($I);
 
         // voy a la página de detalles del registro
-        $I->amOnPage(Page::route('/'.Page::$<?= $gen->modelVariableName() ?>Data['id']));
+        $I->amOnPage(Page::route('/'.Page::$<?= $crud->modelVariableName() ?>Data['id']));
         // doy clic al enlace para ir al formulario de edición
         $I->click(Page::$linkToEdit, Page::$linkToEditElem);
 
         // estoy en la página de edición
-        $I->seeCurrentUrlEquals(Page::route('/'.Page::$<?= $gen->modelVariableName() ?>Data['id'].'/edit'));
+        $I->seeCurrentUrlEquals(Page::route('/'.Page::$<?= $crud->modelVariableName() ?>Data['id'].'/edit'));
         $I->see(Page::$moduleName, Page::$titleElem);
         $I->see(Page::$title, Page::$titleSmallElem);
 
@@ -77,11 +77,11 @@ class <?= $test ?>Cest
         $I->see(Page::$msgSuccess, Page::$msgSuccessElem);
         
         // voy a la página de detalles del registro
-        $I->amOnPage(Page::route('/'.Page::$<?= $gen->modelVariableName() ?>Data['id']));
+        $I->amOnPage(Page::route('/'.Page::$<?= $crud->modelVariableName() ?>Data['id']));
         
         // veo los datos actualizados en el formulario de sólo lectura
         $updateData = Page::unsetConfirmationFields($updateData);
         $I->seeInFormFields('form', $updateData);
-        $I->seeRecord('<?= $gen->table_name ?>', null_empty_fields($updateData));
+        $I->seeRecord('<?= $crud->table_name ?>', null_empty_fields($updateData));
     }
 }

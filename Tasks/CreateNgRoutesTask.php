@@ -77,7 +77,7 @@ class CreateNgRoutesTask
         $template = $this->templatesDir().'.Angular2.routes.routes';
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
         ]);
 

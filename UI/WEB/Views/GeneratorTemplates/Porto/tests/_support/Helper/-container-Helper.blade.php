@@ -1,14 +1,14 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->containerName() }}\Helper;
+namespace {{ $crud->containerName() }}\Helper;
 
 use Illuminate\Support\Facades\Artisan;
 
 /**
- * {{ $gen->containerName() }}Helper Class.
+ * {{ $crud->containerName() }}Helper Class.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ $gen->containerName() }}Helper extends \Codeception\Module
+class {{ $crud->containerName() }}Helper extends \Codeception\Module
 {
 }

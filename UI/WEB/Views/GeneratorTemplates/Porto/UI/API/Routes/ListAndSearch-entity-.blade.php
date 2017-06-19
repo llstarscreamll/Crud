@@ -1,7 +1,7 @@
 <?= "<?php\n" ?>
 
-$router->get('{{ str_slug($gen->tableName, $separator = "-") }}', [
-    'uses'  => '{{ $gen->entityName() }}Controller@listAndSearch{{ str_plural($gen->entityName()) }}',
+$router->get('{{ str_slug($crud->tableName, $separator = "-") }}', [
+    'uses'  => '{{ $crud->entityName() }}Controller@listAndSearch{{ str_plural($crud->entityName()) }}',
     'middleware' => [
       'auth:api',
     ],

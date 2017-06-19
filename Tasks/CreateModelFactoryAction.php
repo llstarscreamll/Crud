@@ -63,7 +63,7 @@ class CreateModelFactoryAction
         $template = $this->templatesDir().'.Porto/Data/Factories/'.$file;
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
             ]);
 

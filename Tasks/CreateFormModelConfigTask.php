@@ -61,7 +61,7 @@ class CreateFormModelConfigTask
         $template = $this->templatesDir().'.Porto.Configs.form-model';
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
         ]);
 

@@ -1,5 +1,17 @@
 # Release Notes
 
+## 3.7.1 (2017-06-18)
+
+### Fixed
+
+- Prevent persist data when Angular module test utils are generated from Laravel models factories.
+
+### Changed
+
+- Rename templates variable `$gen` to `$crud`.
+- Rename changelog, lisence and readme files.
+- Rename test folder to Tests.
+
 ## 3.7 (2017-06-14)
 
 ### Added

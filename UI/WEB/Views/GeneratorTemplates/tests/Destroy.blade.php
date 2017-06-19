@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -7,14 +7,14 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
-namespace <?= $gen->studlyCasePlural() ?>;
+namespace <?= $crud->studlyCasePlural() ?>;
 
-use <?= $modelNamespace = config('modules.crud.config.parent-app-namespace')."\Models\\".$gen->modelClassName() ?>;
+use <?= $modelNamespace = config('modules.crud.config.parent-app-namespace')."\Models\\".$crud->modelClassName() ?>;
 use FunctionalTester;
-use Page\Functional\<?= $gen->studlyCasePlural() ?>\<?= $test ?> as Page;
+use Page\Functional\<?= $crud->studlyCasePlural() ?>\<?= $test ?> as Page;
 
 class <?= $test ?>Cest
 {
@@ -30,7 +30,7 @@ class <?= $test ?>Cest
     }
 
     /**
-     * Prueba la funcionalidad de <?= strtolower($gen->getDestroyBtnTxt()) ?> un registro.
+     * Prueba la funcionalidad de <?= strtolower($crud->getDestroyBtnTxt()) ?> un registro.
      *
      * @param  FunctionalTester $I
 <?php if (!empty($request->get('is_part_of_package'))) { ?>
@@ -39,17 +39,17 @@ class <?= $test ?>Cest
 <?php } else { ?>
      */
 <?php } ?>
-    public function <?= $gen->getDestroyVariableName() ?>(FunctionalTester $I)
+    public function <?= $crud->getDestroyVariableName() ?>(FunctionalTester $I)
     {
-        $I->wantTo('<?= strtolower($gen->getDestroyBtnTxt()) ?> registro en módulo '.Page::$moduleName);
+        $I->wantTo('<?= strtolower($crud->getDestroyBtnTxt()) ?> registro en módulo '.Page::$moduleName);
 
         // creo registro de prueba
-        Page::have<?= $gen->modelClassName() ?>($I);
+        Page::have<?= $crud->modelClassName() ?>($I);
 
         // voy a la página de detalles del registro y doy clic al botón
-        // "<?= $gen->getDestroyBtnTxt() ?>"
-        $I->amOnPage(Page::route('/'.Page::$<?= $gen->modelVariableName() ?>Data['id']));
-        $I->click(Page::$<?= $gen->getDestroyVariableName() ?>Btn, Page::$<?= $gen->getDestroyVariableName() ?>BtnElem);
+        // "<?= $crud->getDestroyBtnTxt() ?>"
+        $I->amOnPage(Page::route('/'.Page::$<?= $crud->modelVariableName() ?>Data['id']));
+        $I->click(Page::$<?= $crud->getDestroyVariableName() ?>Btn, Page::$<?= $crud->getDestroyVariableName() ?>BtnElem);
 
         // soy redirigido al Index y debo ver mensaje de éxito en la operación
         $I->seeCurrentUrlEquals(Page::$moduleURL);
@@ -59,7 +59,7 @@ class <?= $test ?>Cest
     }
 
     /**
-     * Prueba la funcionalidad de <?= strtolower($gen->getDestroyBtnTxt()) ?> varios registros a la vez.
+     * Prueba la funcionalidad de <?= strtolower($crud->getDestroyBtnTxt()) ?> varios registros a la vez.
      *
      * @param  FunctionalTester $I
 <?php if (!empty($request->get('is_part_of_package'))) { ?>
@@ -68,21 +68,21 @@ class <?= $test ?>Cest
 <?php } else { ?>
      */
 <?php } ?>
-    public function <?= $gen->getDestroyVariableName() ?>Many(FunctionalTester $I)
+    public function <?= $crud->getDestroyVariableName() ?>Many(FunctionalTester $I)
     {
-        $I->wantTo('<?= strtolower($gen->getDestroyBtnTxt()) ?> varios registros a la vez en módulo '.Page::$moduleName);
+        $I->wantTo('<?= strtolower($crud->getDestroyBtnTxt()) ?> varios registros a la vez en módulo '.Page::$moduleName);
 
         // creo registros de prueba
-        $<?= str_plural($gen->modelVariableName()) ?> = factory(<?= $gen->modelClassName() ?>::class, 10)->create();
+        $<?= str_plural($crud->modelVariableName()) ?> = factory(<?= $crud->modelClassName() ?>::class, 10)->create();
 
-        // cuando cargo el Index el botón "<?= $gen->getDestroyBtnTxt() ?>" debe
+        // cuando cargo el Index el botón "<?= $crud->getDestroyBtnTxt() ?>" debe
         // ser mostrado
         $I->amOnPage(Page::$moduleURL);
-        $I->see(Page::$<?= $gen->getDestroyVariableName() ?>ManyBtn, Page::$<?= $gen->getDestroyVariableName() ?>ManyBtnElem);
+        $I->see(Page::$<?= $crud->getDestroyVariableName() ?>ManyBtn, Page::$<?= $crud->getDestroyVariableName() ?>ManyBtnElem);
         
-        // cargo la ruta que "<?= $gen->getDestroyBtnTxt() ?>" los registros
+        // cargo la ruta que "<?= $crud->getDestroyBtnTxt() ?>" los registros
         $I->submitForm('#deletemanyForm', [
-            'id' => $<?= str_plural($gen->modelVariableName()) ?>->pluck('id')->toArray()
+            'id' => $<?= str_plural($crud->modelVariableName()) ?>->pluck('id')->toArray()
         ]);
         $I->dontSeeFormErrors();
         

@@ -64,7 +64,7 @@ class CreateNgModelTask
         $template = $this->templatesDir().'.Angular2/models/'.$template;
 
         $content = view($template, [
-            'gen' => $this,
+            'crud' => $this,
             'fields' => $this->parsedFields
         ]);
 

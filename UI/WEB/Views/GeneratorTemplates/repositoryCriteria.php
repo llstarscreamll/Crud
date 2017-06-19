@@ -1,12 +1,12 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $request Request */
 ?>
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
 namespace <?= config('modules.crud.config.parent-app-namespace') ?>\Repositories\Criterias;
@@ -16,11 +16,11 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 use Illuminate\Support\Collection;
 
 /**
- * Class <?= $gen->getRepositoryCriteriaName()."\n" ?>
+ * Class <?= $crud->getRepositoryCriteriaName()."\n" ?>
  *
  * @author <?= config('modules.crud.config.author') ?> <<?= config('modules.crud.config.author_email') ?>>
  */
-class <?= $gen->getRepositoryCriteriaName() ?> implements CriteriaInterface
+class <?= $crud->getRepositoryCriteriaName() ?> implements CriteriaInterface
 {
     /**
      * @var Illuminate\Support\Collection
@@ -28,7 +28,7 @@ class <?= $gen->getRepositoryCriteriaName() ?> implements CriteriaInterface
     private $input;
 
     /**
-     * Crea nueva instancia de <?= $gen->getRepositoryCriteriaName() ?>.
+     * Crea nueva instancia de <?= $crud->getRepositoryCriteriaName() ?>.
      *
      * @param  Request $request
      */
@@ -40,7 +40,7 @@ class <?= $gen->getRepositoryCriteriaName() ?> implements CriteriaInterface
     /**
      * Apply criteria in query repository
      *
-     * @param <?= $gen->modelClassName() ?> $model
+     * @param <?= $crud->modelClassName() ?> $model
      * @param RepositoryInterface $repository
      *
      * @return Illuminate\Database\Eloquent\Builder
@@ -53,13 +53,13 @@ class <?= $gen->getRepositoryCriteriaName() ?> implements CriteriaInterface
 <?php foreach ($fields as $field) { ?>
 <?php if (!$field->hidden) { ?>
 <?php if ($field->type == 'tinyint') { ?>
-        $this->input->get('<?= $field->name ?>_true') && $model->where(<?= $gen->getConditionStr($field, 'true') ?>);
-        ($this->input->get('<?= $field->name ?>_false') && !$this->input->has('<?= $field->name ?>_true')) && $model->where(<?= $gen->getConditionStr($field, 'false') ?>);
-        ($this->input->get('<?= $field->name ?>_false') && $this->input->has('<?= $field->name ?>_true')) && $model->orWhere(<?= $gen->getConditionStr($field, 'false') ?>);
+        $this->input->get('<?= $field->name ?>_true') && $model->where(<?= $crud->getConditionStr($field, 'true') ?>);
+        ($this->input->get('<?= $field->name ?>_false') && !$this->input->has('<?= $field->name ?>_true')) && $model->where(<?= $crud->getConditionStr($field, 'false') ?>);
+        ($this->input->get('<?= $field->name ?>_false') && $this->input->has('<?= $field->name ?>_true')) && $model->orWhere(<?= $crud->getConditionStr($field, 'false') ?>);
 
 <?php } elseif ($field->type == 'enum' || $field->key == 'MUL' || $field->key == 'PRI') { ?>
 <?php $name = $field->name == 'id' ? 'ids' : $field->name ?>
-        $this->input->get('<?= $name ?>') && $model->whereIn(<?= $gen->getConditionStr($field) ?>);
+        $this->input->get('<?= $name ?>') && $model->whereIn(<?= $crud->getConditionStr($field) ?>);
 
 <?php } elseif ($field->type == 'date' || $field->type == 'timestamp' || $field->type == 'datetime') { ?>
         $this->input->get('<?= $field->name ?>')['informative'] && $model->whereBetween('<?= $field->name ?>', [
@@ -68,17 +68,17 @@ class <?= $gen->getRepositoryCriteriaName() ?> implements CriteriaInterface
         ]);
 
 <?php } else { ?>
-        $this->input->get('<?= $field->name ?>') && $model->where(<?= $gen->getConditionStr($field) ?>);
+        $this->input->get('<?= $field->name ?>') && $model->where(<?= $crud->getConditionStr($field) ?>);
 
 <?php } ?>
 <?php } ?>
 <?php } ?>
-<?php if ($gen->hasDeletedAtColumn($fields)) { ?>
+<?php if ($crud->hasDeletedAtColumn($fields)) { ?>
         // registros en papelera
         $this->input->has('trashed_records') && $model->{$this->input->get('trashed_records')}();
 <?php } ?>
         // ordenamos los resultados
-        $model->orderBy($this->input->get('sort', '<?= $gen->hasLaravelTimestamps($fields) ? 'created_at' : 'name' ?>'), $this->input->get('sortType', 'desc'));
+        $model->orderBy($this->input->get('sort', '<?= $crud->hasLaravelTimestamps($fields) ? 'created_at' : 'name' ?>'), $this->input->get('sortType', 'desc'));
 
         return $model;
     }

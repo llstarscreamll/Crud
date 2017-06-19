@@ -1,18 +1,18 @@
 <?= "<?php\n" ?>
 
-namespace App\Containers\{{ $gen->containerName() }}\Tasks{{ $gen->solveGroupClasses() }};
+namespace App\Containers\{{ $crud->containerName() }}\Tasks{{ $crud->solveGroupClasses() }};
 
-use App\Containers\{{ $gen->containerName() }}\Data\Repositories\{{ $repoClass = $gen->entityName().'Repository' }};
-use App\Containers\{{ $gen->containerName() }}\Data\Criterias\{{ $advencedSearchCriteria = str_replace('.php', '', $gen->criteriaFile('Advanced:entity:Search')) }};
+use App\Containers\{{ $crud->containerName() }}\Data\Repositories\{{ $repoClass = $crud->entityName().'Repository' }};
+use App\Containers\{{ $crud->containerName() }}\Data\Criterias\{{ $advencedSearchCriteria = str_replace('.php', '', $crud->criteriaFile('Advanced:entity:Search')) }};
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Ship\Parents\Tasks\Task;
 
 /**
- * {{ $gen->taskClass('ListAndSearch', $plural = true) }} Class.
+ * {{ $crud->taskClass('ListAndSearch', $plural = true) }} Class.
  * 
  * @author [name] <[<email address>]>
  */
-class {{ $gen->taskClass('ListAndSearch', $plural = true) }} extends Task
+class {{ $crud->taskClass('ListAndSearch', $plural = true) }} extends Task
 {
 	public function run($input) {
 		{!! $repo = '$'.camel_case($repoClass) !!} = app({{ $repoClass }}::class);
@@ -23,7 +23,7 @@ class {{ $gen->taskClass('ListAndSearch', $plural = true) }} extends Task
 				->pushCriteria(new {{ $advencedSearchCriteria }}($input));
 		}
         
-        ${{ $camelEntity = camel_case($gen->entityName(true)) }} = {{ $repo }}->paginate();
+        ${{ $camelEntity = camel_case($crud->entityName(true)) }} = {{ $repo }}->paginate();
         
         return ${{ $camelEntity }};
 	}

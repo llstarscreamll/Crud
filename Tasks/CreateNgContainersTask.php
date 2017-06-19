@@ -96,7 +96,7 @@ class CreateNgContainersTask
             $template = $this->templatesDir().'.Angular2.pages.'.$file;
 
             $content = view($template, [
-                'gen' => $this,
+                'crud' => $this,
                 'fields' => $this->parsedFields
             ]);
 

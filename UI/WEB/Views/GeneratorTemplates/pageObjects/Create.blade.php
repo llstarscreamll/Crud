@@ -1,5 +1,5 @@
 <?php
-/* @var $gen App\Containers\Crud\Providers\TestsGenerator */
+/* @var $crud App\Containers\Crud\Providers\TestsGenerator */
 /* @var $fields [] */
 /* @var $test [] */
 /* @var $request Request */
@@ -7,10 +7,10 @@
 <?='<?php'?>
 
 
-<?= $gen->getClassCopyRightDocBlock() ?>
+<?= $crud->getClassCopyRightDocBlock() ?>
 
 
-namespace Page\Functional\<?= $gen->studlyCasePlural() ?>;
+namespace Page\Functional\<?= $crud->studlyCasePlural() ?>;
 
 use FunctionalTester;
 
@@ -21,7 +21,7 @@ class <?= $test ?> extends Index
      *
      * @var string
      */
-    public static $URL = '/<?= $gen->route() ?>/create';
+    public static $URL = '/<?= $crud->route() ?>/create';
 
     /**
      * El título de la página.
@@ -44,7 +44,7 @@ class <?= $test ?> extends Index
      *
      * @var string
      */
-    public static $form = 'form[name=create-<?= $gen->getDashedModelName() ?>-form]';
+    public static $form = 'form[name=create-<?= $crud->getDashedModelName() ?>-form]';
 
     /**
      * El botón submit del formulario.
@@ -58,7 +58,7 @@ class <?= $test ?> extends Index
      *
      * @var array
      */
-    public static $msgSuccess = '<?= $gen->getStoreSuccessMsg() ?>';
+    public static $msgSuccess = '<?= $crud->getStoreSuccessMsg() ?>';
     public static $msgSuccessElem = '<?= config('modules.crud.uimap.alert-success-selector') ?>';
 
     public function __construct(FunctionalTester $I)

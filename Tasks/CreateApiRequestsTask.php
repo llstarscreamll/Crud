@@ -86,7 +86,7 @@ class CreateApiRequestsTask
             $template = $this->templatesDir().'.Porto/UI/API/Requests/'.$file;
 
             $content = view($template, [
-                'gen' => $this,
+                'crud' => $this,
                 'fields' => $this->parsedFields
             ]);
 

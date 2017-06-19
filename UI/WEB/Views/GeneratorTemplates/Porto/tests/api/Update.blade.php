@@ -1,18 +1,18 @@
 <?= "<?php\n" ?>
 
-namespace {{ $gen->containerName() }}{{ $gen->solveGroupClasses() }};
+namespace {{ $crud->containerName() }}{{ $crud->solveGroupClasses() }};
 
-use {{ $gen->containerName() }}\ApiTester;
-use {{ $gen->entityModelNamespace() }};
+use {{ $crud->containerName() }}\ApiTester;
+use {{ $crud->entityModelNamespace() }};
 
 /**
- * Update{{ $gen->entityName() }}Cest Class.
+ * Update{{ $crud->entityName() }}Cest Class.
  * 
  * @author [name] <[<email address>]>
  */
-class Update{{ $gen->entityName() }}Cest
+class Update{{ $crud->entityName() }}Cest
 {
-	private $endpoint = 'v1/{{ str_slug($gen->tableName, $separator = "-") }}/{id}';
+	private $endpoint = 'v1/{{ str_slug($crud->tableName, $separator = "-") }}/{id}';
 
     /**
      * @var App\Containers\User\Models\User
@@ -22,7 +22,7 @@ class Update{{ $gen->entityName() }}Cest
     public function _before(ApiTester $I)
     {
 		$this->user = $I->loginAdminUser();
-        $I->init{{ $gen->entityName() }}Data();
+        $I->init{{ $crud->entityName() }}Data();
         $I->haveHttpHeader('Accept', 'application/json');
     }
 
@@ -30,15 +30,15 @@ class Update{{ $gen->entityName() }}Cest
     {
     }
 
-@if (!$gen->groupMainApiatoClasses)
+@if (!$crud->groupMainApiatoClasses)
     /**
-     * @group {{ $gen->entityName() }}
+     * @group {{ $crud->entityName() }}
      */
 @endif
-    public function update{{ $gen->entityName() }}(ApiTester $I)
+    public function update{{ $crud->entityName() }}(ApiTester $I)
     {
-    	$oldItem = factory({{ $gen->entityName() }}::class)->create();
-    	$newItem = factory({{ $gen->entityName() }}::class)->make();
+    	$oldItem = factory({{ $crud->entityName() }}::class)->create();
+    	$newItem = factory({{ $crud->entityName() }}::class)->make();
         $data = $newItem->toArray();
 @foreach ($fields as $field)
 @if(strpos($field->validation_rules, 'confirmed') !== false)
@@ -63,8 +63,8 @@ class Update{{ $gen->entityName() }}Cest
 @endif
 @endforeach
         
-        $I->dontSeeRecord('{{ $gen->tableName }}', $oldItem->toArray());
+        $I->dontSeeRecord('{{ $crud->tableName }}', $oldItem->toArray());
         $data = array_intersect_key($newItem->toArray(), array_flip($newItem->getFillable()));
-        $I->seeRecord('{{ $gen->tableName }}', $data);
+        $I->seeRecord('{{ $crud->tableName }}', $data);
     }
 }

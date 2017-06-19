@@ -1,10 +1,10 @@
     /**
-     * Init the {{ $gen->entityName() }} data dependencies.
+     * Init the {{ $crud->entityName() }} data dependencies.
      *
      * @return void
      */
-    public function init{{ $gen->entityName() }}Data()
+    public function init{{ $crud->entityName() }}Data()
     {
-        Artisan::call('db:seed', ['--class' => {{ $gen->entityName() }}PermissionsSeeder::class]);
+        Artisan::call('db:seed', ['--class' => {{ $crud->entityName() }}PermissionsSeeder::class]);
         // more stuff here
     }
