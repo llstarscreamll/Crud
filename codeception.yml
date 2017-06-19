@@ -1,11 +1,11 @@
 namespace: Crud
 actor: Tester
 paths:
-    tests: tests
-    log: tests/_output
-    data: tests/_data
-    support: tests/_support
-    envs: tests/_envs
+    tests: Tests
+    log: Tests/_output
+    data: Tests/_data
+    support: Tests/_support
+    envs: Tests/_envs
 settings:
     bootstrap: _bootstrap.php
     colors: true
@@ -19,4 +19,4 @@ modules:
             dsn: ''
             user: ''
             password: ''
-            dump: tests/_data/dump.sql
+            dump: Tests/_data/dump.sql
