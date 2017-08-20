@@ -29,19 +29,6 @@ import { Effects } from './../../core/effects/abstract.effects';
  */
 @Injectable()
 export class {{ $entitySin }}Effects extends Effects {
-  /**
-   * {{ $entitySin }}Effects contructor.
-   */
-  public constructor(
-    private actions$: Actions,
-    private {{ $service = camel_case($entitySin).'Service' }}: {{ $entitySin }}Service,
-    private FormModelParserService: FormModelParserService,
-    private store: Store<fromRoot.State>
-  ) { super(); }
-
-  protected setMessages(message: AppMessage): Action {
-    return new {{ $actions }}.SetMessagesAction(message);
-  }
 
   @Effect()
   getFormModel$: Observable<Action> = this.actions$
@@ -212,4 +199,19 @@ export class {{ $entitySin }}Effects extends Effects {
         })
         .catch((error: AppMessage) => this.handleError(error));
     });
+
+  /**
+   * {{ $entitySin }}Effects contructor.
+   */
+  public constructor(
+    private actions$: Actions,
+    private {{ $service = camel_case($entitySin).'Service' }}: {{ $entitySin }}Service,
+    private FormModelParserService: FormModelParserService,
+    private store: Store<fromRoot.State>
+  ) { super(); }
+
+  protected setMessages(message: AppMessage): Action {
+    return new {{ $actions }}.SetMessagesAction(message);
+  }
+
 }
