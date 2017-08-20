@@ -35,7 +35,7 @@ class CreateNgConfigsTask
      * @var array
      */
     public $files = [
-        'trans',
+        'form-model',
     ];
 
     /**
@@ -65,21 +65,16 @@ class CreateNgConfigsTask
     {
         $this->createConfigDir();
 
-        $indexFilePath = $this->translationsDir().'/index.ts';
-        $template = $this->templatesDir().'.Angular2.config.form-model';
-        $className = $this->entityNameSnakeCase();
-        $fileName = './'.$this->slugEntityName();
-
         foreach ($this->files as $file) {
-            $transFile = $this->configDir()."{$this->slugEntityName()}-form-model.ts";
-            $template = $this->templatesDir().'.Angular2.config.form-model';
+            $configFile = $this->configDir()."{$this->slugEntityName()}-{$file}.ts";
+            $template = $this->templatesDir().".Angular2.config.{$file}";
 
             $content = view($template, [
                 'crud' => $this,
                 'fields' => $this->parsedFields
             ]);
 
-            file_put_contents($transFile, $content) === false
+            file_put_contents($configFile, $content) === false
                 ? session()->push('error', "Error creating $file config file")
                 : session()->push('success', "$file config creation success");
         }
