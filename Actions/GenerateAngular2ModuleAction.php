@@ -15,6 +15,7 @@ use App\Containers\Crud\Tasks\CreateNgEffectsTask;
 use App\Containers\Crud\Tasks\CreateNgServiceTask;
 use App\Containers\Crud\Tasks\CreateNgRoutesTask;
 use App\Containers\Crud\Tasks\CreateNgUtilsTask;
+use App\Containers\Crud\Tasks\CreateNgConfigsTask;
 
 /**
  * GenerateAngular2ModuleAction Class.
@@ -75,6 +76,10 @@ class GenerateAngular2ModuleAction
         // generate utils
         $createNgUtilsTask = new CreateNgUtilsTask($request);
         $createNgUtilsTask->run();
+
+        // generate configs
+        $createNgConfigsTask = new CreateNgConfigsTask($request);
+        $createNgConfigsTask->run();
 
         \DB::rollback();
     }
