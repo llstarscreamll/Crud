@@ -147,7 +147,13 @@
                             ]) !!}
                         </td>
                         <td>
-                            {!! Form::text("field[$field][label]", (($trans = trans('validation.attributes.'.$field)) != "validation.attributes.$field") ? ucfirst($trans) : null, ['class' => 'form-control input-xs', 'required', 'placeholder' => $field.' label']) !!}
+                            {!! Form::text(
+                                "field[$field][label]",
+                                (($trans = trans('validation.attributes.'.$field)) != "validation.attributes.$field")
+                                    ? ucfirst($trans)
+                                    : null,
+                                ['class' => 'form-control input-xs', 'required', 'placeholder' => $field.' label']
+                            ) !!}
                         </td>
                         <td>
                             {!! Form::text("field[$field][validation_rules]", in_array($fieldData->type, ['timestamp', 'datetime']) ? 'date:Y-m-d H:i:s' : null, ['class' => 'form-control input-xs', 'placeholder' => $field.' rules']) !!}
