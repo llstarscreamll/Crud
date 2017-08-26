@@ -47,7 +47,7 @@ export abstract class {{ $crud->componentClass('abstract', false, true) }} {
    * Form model.
    * @type Observable<Object>
    */
-  public formModel$: Observable<Object>;
+  public formModel$: Observable<any[]>;
 
   /**
    * Form data loaded from API.

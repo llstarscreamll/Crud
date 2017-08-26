@@ -56,7 +56,7 @@ export class {{ $entitySin }}Service extends AbstractService {
   /**
    * Get the {{ $crud->entityName() }} form model.
    */
-  public getFormModel(): Observable<Object> {
+  public getFormModel(): Observable<any[]> {
     this.setAuthorizationHeader();
 
     return this.http

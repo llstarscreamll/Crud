@@ -3,7 +3,7 @@
 namespace App\Containers\{{ $crud->containerName() }}\Tasks{{ $crud->solveGroupClasses() }};
 
 use App\Containers\{{ $crud->containerName() }}\Data\Repositories\{{ $repoClass = $crud->entityName().'Repository' }};
-use App\Containers\{{ $crud->containerName() }}\Data\Criterias\{{ $advencedSearchCriteria = str_replace('.php', '', $crud->criteriaFile('Advanced:entity:Search')) }};
+use App\Containers\{{ $crud->containerName() }}\Data\Criterias\{{ $advencedSearchCriteria = str_replace('.php', '', $crud->criteriaFile('Advanced-entity-Search')) }};
 use Prettus\Repository\Criteria\RequestCriteria;
 use App\Ship\Parents\Tasks\Task;
 

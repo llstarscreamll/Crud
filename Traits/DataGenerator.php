@@ -151,10 +151,8 @@ trait DataGenerator
                 $fieldConfig['validation'] = explode('|', $field->validation_rules);
             }
 
-            $config[$field->name] = $fieldConfig;
+            $config[] = $fieldConfig;
         }
-
-        $config['_options_'] = ['model' => $this->slugEntityName()];
 
         return $config;
     }

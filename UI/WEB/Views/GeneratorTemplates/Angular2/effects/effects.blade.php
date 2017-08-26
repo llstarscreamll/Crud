@@ -40,7 +40,7 @@ export class {{ $entitySin }}Effects extends Effects {
         return of(new {{ $actions }}.GetFormModelSuccessAction(state.formModel));
       }
 
-      return this.{{ $service }}.getFormModel()
+      return this.{{ $service = camel_case($entitySin).'Service' }}.getFormModel()
         .map((data) => this.FormModelParserService.parse(data, this.{{ $service }}.fieldsLangKey))
         .map((data) => { return new {{ $actions }}.GetFormModelSuccessAction(data)})
         .catch((error: AppMessage) => this.handleError(error));
@@ -205,7 +205,7 @@ export class {{ $entitySin }}Effects extends Effects {
    */
   public constructor(
     private actions$: Actions,
-    private {{ $service = camel_case($entitySin).'Service' }}: {{ $entitySin }}Service,
+    private {{ $service }}: {{ $entitySin }}Service,
     private FormModelParserService: FormModelParserService,
     private store: Store<fromRoot.State>
   ) { super(); }

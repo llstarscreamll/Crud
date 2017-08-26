@@ -6,7 +6,7 @@ use Prettus\Repository\Contracts\RepositoryInterface as PrettusRepositoryInterfa
 use App\Ship\Parents\Criterias\Criteria;
 
 /**
- * {{ $criteria = str_replace('.php', '', $crud->criteriaFile('Advanced:entity:Search')) }} Class.
+ * {{ $criteria = str_replace('.php', '', $crud->criteriaFile('Advanced-entity-Search')) }} Class.
  * 
  * @author [name] <[<email address>]>
  */

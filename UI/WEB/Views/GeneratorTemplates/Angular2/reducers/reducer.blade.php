@@ -11,7 +11,7 @@ import { SearchQuery } from './../components/{{ $crud->slugEntityName() }}/{{ st
  * @author [name] <[<email address>]>
  */
 export interface State {
-  formModel: Object;
+  formModel: any[];
   list: Array<any>;
   pagination: {{ $crud->entityName() }}Pagination | null;
   selected: {{ $crud->entityName() }} | null;

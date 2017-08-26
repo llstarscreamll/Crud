@@ -42,7 +42,7 @@ export class {{ $crud->componentClass('search-advanced', $plural = false) }} ext
    * the object config fields to show on advanced search form.
    * @type Object
    */
-  public formModel: {search: any, options: any};
+  public formModel: any[];
 
   /**
    * Advanced search form group.
