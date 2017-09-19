@@ -1,5 +1,19 @@
 # Release Notes
 
+## 3.7.2 (2017-09-19)
+
+### Fixed
+
+- API:
+	- fix form model tests assertions
+
+### Changed
+
+- Angular:
+	- move constructor to end of effect class, attrs first (to satisfy tslint)
+	- move constructor to end of effect class, attrs first (to satisfy tslint)
+	- many code cleanings
+
 ## 3.7.1 (2017-06-18)
 
 ### Fixed
