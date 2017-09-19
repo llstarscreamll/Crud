@@ -226,6 +226,11 @@ trait AngularFolderNamesResolver
         return $this->moduleDir().'/translations/'.$this->getLanguageKey();
     }
 
+    public function configDir()
+    {
+        return $this->moduleDir().'/config/';
+    }
+
     public function containerFile($file, $plural = false, bool $atStart = false)
     {
         if ($file == "index") {

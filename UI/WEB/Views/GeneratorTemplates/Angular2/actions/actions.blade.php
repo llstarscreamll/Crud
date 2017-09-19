@@ -31,7 +31,7 @@ export class GetFormModelAction implements Action {
 
 export class GetFormModelSuccessAction implements Action {
   readonly type = GET_FORM_MODEL_SUCCESS;
-  public constructor(public payload: Object) { }
+  public constructor(public payload: any[]) { }
 }
 
 export class GetFormDataAction implements Action {

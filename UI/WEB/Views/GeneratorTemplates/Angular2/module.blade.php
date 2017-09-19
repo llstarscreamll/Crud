@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
 
 import { CoreSharedModule } from './../core/core.shared.module';
-import { environment } from './../../environments/environment';
+import { THEME } from './../themes';
 
 import { PAGES } from './pages';
 import { COMPONENTS } from './components';
@@ -18,7 +19,8 @@ import { {{ $crud->moduleClass('routing') }} } from './{{ str_replace('.ts', '',
  */
 @NgModule({
   imports: [
-    environment.theme,
+    FormsModule,
+    THEME.default,
     CoreSharedModule,
     {{ $crud->moduleClass('routing') }},
     ...EFFECTS,
